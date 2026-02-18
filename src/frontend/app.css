@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+/* ── JIG Design System v3 ──────────────────────────────── */
+
+@theme {
+  /* Primary */
+  --color-jig-black: #0A0A0A;
+  --color-jig-white: #FAFAFA;
+  --color-jig-purple: #7C3AED;
+  --color-jig-purple-light: #A855F7;
+
+  /* Secondary */
+  --color-jig-green: #15803D;
+  --color-jig-amber: #D97706;
+  --color-jig-slate: #1E1E1E;
+
+  /* Neutrals */
+  --color-jig-gray-900: #111111;
+  --color-jig-gray-700: #374151;
+  --color-jig-gray-500: #6B7280;
+  --color-jig-gray-300: #D1D5DB;
+
+  /* Fonts */
+  --font-display: 'Anton', Impact, sans-serif;
+  --font-heading: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+}
+
+/* ── Gradient Utilities ─────────────────────────────────── */
+
+@utility bg-jig-gradient {
+  background: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+}
+
+@utility text-jig-gradient {
+  background: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility bg-jig-dark-gradient {
+  background: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+}
+
+@utility shadow-jig-glow {
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.2);
+}
+
+@utility shadow-jig-amber {
+  box-shadow: 0 8px 32px rgba(217, 119, 6, 0.15);
+}
+
+@utility border-jig-subtle {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+@utility border-jig-hover {
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+/* ── Base Styles ─────────────────────────────────────────── */
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* Focus states */
+*:focus-visible {
+  outline: 2px solid #7C3AED;
+  outline-offset: 2px;
+}
+
+/* ── Churn Risk Badges (dark theme) ─────────────────────── */
+
+@utility badge-low {
+  background-color: rgba(21, 128, 61, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(21, 128, 61, 0.3);
+}
+
+@utility badge-medium {
+  background-color: rgba(217, 119, 6, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+@utility badge-high {
+  background-color: rgba(234, 88, 12, 0.15);
+  color: #f97316;
+  border: 1px solid rgba(234, 88, 12, 0.3);
+}
+
+@utility badge-critical {
+  background-color: rgba(220, 38, 38, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+/* ── Tier Badges (dark theme) ───────────────────────────── */
+
+@utility tier-standard {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #9ca3af;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+@utility tier-silver {
+  background-color: rgba(156, 163, 175, 0.12);
+  color: #d1d5db;
+  border: 1px solid rgba(156, 163, 175, 0.35);
+}
+
+@utility tier-gold {
+  background-color: rgba(217, 119, 6, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(217, 119, 6, 0.35);
+}
+
+@utility tier-platinum {
+  background-color: rgba(124, 58, 237, 0.12);
+  color: #a78bfa;
+  border: 1px solid rgba(124, 58, 237, 0.35);
+}
+
+/* ── Status Badges (dark theme) ─────────────────────────── */
+
+@utility status-active {
+  background-color: rgba(21, 128, 61, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(21, 128, 61, 0.3);
+}
+
+@utility status-pending {
+  background-color: rgba(217, 119, 6, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+@utility status-suspended {
+  background-color: rgba(220, 38, 38, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+/* ── Scrollbar (dark) ────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6B7280;
+}
+
+/* ── Print Styles (Invoice) ──────────────────────────────── */
+
+@media print {
+  /* Hide the entire app shell */
+  aside, nav,
+  .md\:hidden,          /* mobile top bar */
+  .fixed.z-40,          /* mobile top bar */
+  .fixed.z-50 {         /* mobile overlay */
+    display: none !important;
+  }
+
+  /* Make main content fill the page */
+  body, html {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .flex.min-h-screen {
+    display: block !important;
+    min-height: auto !important;
+    background: white !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+
+  @page {
+    margin: 10mm;
+    size: A4;
+  }
+}
