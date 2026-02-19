@@ -1,5 +1,5 @@
 // JIG Dispatch App Service Worker
-const CACHE_NAME = 'dbc-dispatch-v1';
+const CACHE_NAME = 'jig-dispatch-v1';
 const OFFLINE_URL = '/dispatch-offline.html';
 
 const ASSETS_TO_CACHE = [

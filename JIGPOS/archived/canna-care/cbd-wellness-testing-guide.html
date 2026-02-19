@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basotho Medical Herbs - Testing Environment Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo {
+            max-width: 350px;
+            width: 100%;
+            margin: 0 auto 30px;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+        }
+
+        .header-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .header-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: #b0b0b0;
+            font-weight: 400;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        /* Status Banner */
+        .status-banner {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #ffffff;
+            padding: 20px 25px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .status-banner h2 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-icon {
+            font-size: 1.8rem;
+        }
+
+        /* Section Styling */
+        .section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .section-count {
+            background: #ffffff;
+            color: #000000;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-left: auto;
+        }
+
+        /* User Cards */
+        .user-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .user-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .user-role {
+            font-size: 0.85rem;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .user-email {
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            word-break: break-all;
+        }
+
+        .user-password {
+            color: #999999;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Product Cards */
+        .product-category {
+            margin-bottom: 25px;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid #ffffff;
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .product-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .product-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #ffffff;
+            transform: translateX(5px);
+        }
+
+        .product-name {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .product-type {
+            color: #999999;
+            font-size: 0.85rem;
+        }
+
+        /* Instructions */
+        .instruction-block {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .instruction-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instruction-steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .instruction-steps li {
+            counter-increment: step-counter;
+            margin-bottom: 12px;
+            padding-left: 40px;
+            position: relative;
+            color: #e0e0e0;
+        }
+
+        .instruction-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #ffffff;
+            color: #000000;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-family: 'Courier New', monospace;
+            color: #ffffff;
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .action-button {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .action-button.primary {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+        }
+
+        .action-button.primary:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Copy Button */
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .copy-btn.copied {
+            background: #ffffff;
+            border-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            color: #666666;
+        }
+
+        .footer-links {
+            margin-top: 15px;
+        }
+
+        .footer-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #cccccc;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .logo {
+                max-width: 250px;
+            }
+
+            .user-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .section {
+                page-break-inside: avoid;
+                border: 1px solid #000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <img src="https://basothomedicalherbs.ls/img/logo.png" alt="BMH Wellness Logo" class="logo">
+            <h1 class="header-title">Testing Environment Setup Complete</h1>
+            <p class="header-subtitle">Comprehensive Platform Testing Guide</p>
+            <div class="date-badge">Delivered: November 4, 2025</div>
+        </header>
+
+        <!-- Status Banner -->
+        <div class="status-banner">
+            <h2><span class="status-icon"></span> Environment Ready for Testing</h2>
+            <p>Your Basotho Medical Herbs platform has been fully configured with test data, user accounts, and sample products. The system is ready for comprehensive testing across all user roles and functionality.</p>
+        </div>
+
+        <!-- Test Users Section -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon"></span>
+                <h2 class="section-title">Test User Accounts</h2>
+                <span class="section-count">6 Users</span>
+            </div>
+            <p style="color: #b0b0b0; margin-bottom: 20px;">All test users follow the password format: <strong style="color: #ffffff;">[Role]123!</strong></p>
+            
+            <div class="user-grid">
+                <div class="user-card" onclick="copyCredentials('admin@basothomedicalherbs.ls', 'Admin123!')">
+                    <div class="user-role">Admin</div>
+                    <div class="user-email">admin@basothomedicalherbs.ls</div>
+                    <div class="user-password">Password: Admin123!</div>
+                </div>
+
+                <div class="user-card" onclick="copyCredentials('manager@basothomedicalherbs.ls', 'Manager123!')">
+                    <div class="user-role">Store Manager</div>
+                    <div class="user-email">manager@basothomedicalherbs.ls</div>
+                    <div class="user-password">Password: Manager123!</div>
+                </div>
+
+                <div class="user-card" onclick="copyCredentials('cashier@basothomedicalherbs.ls', 'Cashier123!')">
+                    <div class="user-role">Budtender</div>
+                    <div class="user-email">cashier@basothomedicalherbs.ls</div>
+                    <div class="user-password">Password: Cashier123!</div>
+                </div>
+
+                <div class="user-card" onclick="copyCredentials('user@basothomedicalherbs.ls', 'User123!')">
+                    <div class="user-role">Regular User</div>
+                    <div class="user-email">user@basothomedicalherbs.ls</div>
+                    <div class="user-password">Password: User123!</div>
+                </div>
+
+                <div class="user-card" onclick="copyCredentials('pending@basothomedicalherbs.ls', 'Pending123!')">
+                    <div class="user-role">Pending Section 21</div>
+                    <div class="user-email">pending@basothomedicalherbs.ls</div>
+                    <div class="user-password">Password: Pending123!</div>
+                </div>
+
+                <div class="user-card" onclick="copyCredentials('patient@basothomedicalherbs.ls', 'Patient123!')">
+                    <div class="user-role">Patient (Approved)</div>
+                    <div class="user-email">patient@basothomedicalherbs.ls</div>
+                    <div class="user-password">Password: Patient123!</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Test Products Section -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon"></span>
+                <h2 class="section-title">Test Product Catalog</h2>
+                <span class="section-count">17 Products</span>
+            </div>
+
+            <div class="product-category">
+                <h3 class="category-title">Lifestyle Cannabis Products (9 items)</h3>
+                <div class="product-list">
+                    <div class="product-item">
+                        <div class="product-name">Sativa Flower</div>
+                        <div class="product-type">Cannabis Flower</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Indica Flower</div>
+                        <div class="product-type">Cannabis Flower</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Hybrid Flower</div>
+                        <div class="product-type">Cannabis Flower</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Sativa Pre-Rolls (5-pack)</div>
+                        <div class="product-type">Pre-Rolled</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Indica Pre-Rolls (5-pack)</div>
+                        <div class="product-type">Pre-Rolled</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Hybrid Pre-Rolls (5-pack)</div>
+                        <div class="product-type">Pre-Rolled</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Sativa Vape Cartridge</div>
+                        <div class="product-type">Vape</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Indica Vape Cartridge</div>
+                        <div class="product-type">Vape</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">CBD Vape Cartridge</div>
+                        <div class="product-type">Vape</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-category">
+                <h3 class="category-title">Medical Cannabis Products (8 items)</h3>
+                <div class="product-list">
+                    <div class="product-item">
+                        <div class="product-name">High THC Medical Flower</div>
+                        <div class="product-type">Medical Flower</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">1:1 THC:CBD Medical Flower</div>
+                        <div class="product-type">Medical Flower</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">High CBD Medical Flower</div>
+                        <div class="product-type">Medical Flower</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">THC Medical Oil</div>
+                        <div class="product-type">Medical Oil</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Balanced Medical Oil</div>
+                        <div class="product-type">Medical Oil</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">CBD Medical Oil</div>
+                        <div class="product-type">Medical Oil</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">THC Medical Capsules</div>
+                        <div class="product-type">Medical Capsules</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Balanced Medical Capsules</div>
+                        <div class="product-type">Medical Capsules</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testing Instructions -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon"></span>
+                <h2 class="section-title">Testing Scenarios</h2>
+            </div>
+
+            <div class="instruction-block">
+                <div class="instruction-title">User Dashboard (Lifestyle Products)</div>
+                <ol class="instruction-steps">
+                    <li>Navigate to: <span class="code-block">https://portal.basothomedicalherbs.ls/login.html</span></li>
+                    <li>Login as: <strong>user@basothomedicalherbs.ls</strong> / <strong>User123!</strong></li>
+                    <li>Click <strong>"Lifestyle Cannabis"</strong> tab</li>
+                    <li>Browse all 9 lifestyle products</li>
+                    <li>Add products to cart and test checkout flow</li>
+                </ol>
+            </div>
+
+            <div class="instruction-block">
+                <div class="instruction-title">Patient Dashboard (Section 21 Medical)</div>
+                <ol class="instruction-steps">
+                    <li>Navigate to: <span class="code-block">https://portal.basothomedicalherbs.ls/login.html</span></li>
+                    <li>Login as: <strong>patient@basothomedicalherbs.ls</strong> / <strong>Patient123!</strong></li>
+                    <li>Click <strong>"Medical Cannabis"</strong> tab</li>
+                    <li>View Section 21 status (Approved - expires Dec 1, 2024)</li>
+                    <li>Browse 8 medical products with medical information</li>
+                    <li>Test adding to cart with prescription requirements</li>
+                </ol>
+            </div>
+
+            <div class="instruction-block">
+                <div class="instruction-title">Store Manager (POS System)</div>
+                <ol class="instruction-steps">
+                    <li>Navigate to: <span class="code-block">https://portal.basothomedicalherbs.ls/login.html</span></li>
+                    <li>Login as: <strong>manager@basothomedicalherbs.ls</strong> / <strong>Manager123!</strong></li>
+                    <li>Access inventory management system</li>
+                    <li>Test POS functionality and cash register</li>
+                    <li>View sales reports and analytics</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon"></span>
+                <h2 class="section-title">Quick Actions</h2>
+            </div>
+
+            <div class="quick-actions">
+                <a href="https://portal.basothomedicalherbs.ls/login.html" class="action-button primary" target="_blank">
+                    Launch Platform
+                </a>
+                <button class="action-button" onclick="copyAllCredentials()">
+                    Copy All Credentials
+                </button>
+                <button class="action-button" onclick="window.print()">
+                    Print Guide
+                </button>
+                <a href="mailto:support@basothomedicalherbs.ls" class="action-button">
+                    Contact Support
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p><strong>Basotho Medical Herbs</strong> | Testing Environment</p>
+            <p style="margin-top: 10px;">© 2025 BMH Wellness. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://basothomedicalherbs.ls" target="_blank">Website</a>
+                <a href="mailto:support@basothomedicalherbs.ls">Support</a>
+                <a href="#" onclick="alert('Documentation coming soon!')">Documentation</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Copy credentials function
+        function copyCredentials(email, password) {
+            const text = `Email: ${email}\nPassword: ${password}`;
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Credentials copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        // Copy all credentials
+        function copyAllCredentials() {
+            const credentials = `CBD WELLNESS 24 - TEST CREDENTIALS
+========================================
+
+Admin Account:
+Email: admin@basothomedicalherbs.ls
+Password: Admin123!
+
+Store Manager:
+Email: manager@basothomedicalherbs.ls
+Password: Manager123!
+
+Budtender:
+Email: cashier@basothomedicalherbs.ls
+Password: Cashier123!
+
+Regular User:
+Email: user@basothomedicalherbs.ls
+Password: User123!
+
+Pending Section 21:
+Email: pending@basothomedicalherbs.ls
+Password: Pending123!
+
+Patient (Approved):
+Email: patient@basothomedicalherbs.ls
+Password: Patient123!
+
+========================================
+Platform URL: https://portal.basothomedicalherbs.ls/login.html`;
+
+            navigator.clipboard.writeText(credentials).then(() => {
+                showNotification('All credentials copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ffffff;
+                color: #000000;
+                padding: 15px 25px;
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 10000;
+                animation: slideInRight 0.3s ease-out;
+                box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Add slide animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Console logging
+        console.log('%cBasotho Medical Herbs', 'color: #ffffff; font-size: 20px; font-weight: bold;');
+        console.log('%cTesting Environment Ready', 'color: #ffffff; font-size: 14px;');
+        console.log('%cClick any user card to copy credentials', 'color: #999999; font-size: 12px;');
+    </script>
+    <!-- UAT Bug Reporter -->
+    <script src="/frontend/bug-reporter.js"></script>
+</body>
+</html>

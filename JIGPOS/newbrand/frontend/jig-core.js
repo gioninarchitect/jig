@@ -130,7 +130,7 @@ function _jigShowConfirm(message, onConfirm, options) {
             '<div style="margin-bottom:16px;">' +
                 '<i class="fas ' + icon + '" style="font-size:2.5rem;color:' + colors.accent + ';"></i>' +
             '</div>' +
-            '<h3 style="margin:0 0 8px;color:' + B.navy + ';font-family:\'Playfair Display\',serif;' +
+            '<h3 style="margin:0 0 8px;color:' + B.navy + ';font-family:\'Oswald\',sans-serif;' +
             'font-size:1.25rem;font-weight:700;">' + title + '</h3>' +
             '<p style="margin:0 0 24px;color:' + B.darkGreen + ';font-size:0.95rem;line-height:1.5;">' +
             message + '</p>' +
@@ -202,7 +202,7 @@ function _jigShowPrompt(message, onSubmit, options) {
             '<div style="margin-bottom:16px;">' +
                 '<i class="fas ' + icon + '" style="font-size:2.5rem;color:' + B.gold + ';"></i>' +
             '</div>' +
-            '<h3 style="margin:0 0 8px;color:' + B.navy + ';font-family:\'Playfair Display\',serif;' +
+            '<h3 style="margin:0 0 8px;color:' + B.navy + ';font-family:\'Oswald\',sans-serif;' +
             'font-size:1.25rem;font-weight:700;">' + title + '</h3>' +
             '<p style="margin:0 0 16px;color:' + B.darkGreen + ';font-size:0.95rem;line-height:1.5;">' +
             message + '</p>' +

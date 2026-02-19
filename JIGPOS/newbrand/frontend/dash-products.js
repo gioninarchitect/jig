@@ -183,7 +183,7 @@ async function addLifestyleProductToCart(productId) {
                     name: product.name,
                     price: product.price,
                     quantity: 1,
-                    image: product.images && product.images.length > 0 ? product.images[0].url : '/images/DeBudChef-rLogo.png'
+                    image: product.images && product.images.length > 0 ? product.images[0].url : '/images/jig-logo-nobg.png'
                 });
             }
 

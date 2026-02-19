@@ -595,7 +595,7 @@
                     name: item.name,
                     price: item.price,
                     quantity: item.quantity || item.qty || 1,
-                    image: item.image || '/images/DeBudChef-rLogo.png'
+                    image: item.image || '/images/jig-logo-nobg.png'
                 }));
             }
             displayCart();
@@ -624,7 +624,7 @@
                     <div class="cart-items">
                         ${cartItems.map((item, index) => `
                             <div class="cart-item">
-                                <img src="${item.image || '/images/DeBudChef-rLogo.png'}" alt="${item.name}" class="item-image" onerror="this.src='/images/DeBudChef-rLogo.png'">
+                                <img src="${item.image || '/images/jig-logo-nobg.png'}" alt="${item.name}" class="item-image" onerror="this.src='/images/jig-logo-nobg.png'">
                                 <div class="item-details">
                                     <h3>${item.name}</h3>
                                     ${item.size ? `<p>Size: ${item.size}</p>` : ''}

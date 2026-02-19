@@ -64,7 +64,7 @@ function showToast(arg1, arg2, arg3) {
     }
 
     // Remove any existing toasts to prevent stacking
-    document.querySelectorAll('.dbc-shared-toast').forEach(t => t.remove());
+    document.querySelectorAll('.jig-shared-toast').forEach(t => t.remove());
 
     const icons = {
         success: 'fa-check-circle',
@@ -74,16 +74,16 @@ function showToast(arg1, arg2, arg3) {
     };
 
     const colors = {
-        success: { bg: DBC_CONFIG.BRAND.green, border: DBC_CONFIG.BRAND.gold },
-        error: { bg: DBC_CONFIG.BRAND.darkRed, border: DBC_CONFIG.BRAND.red },
-        warning: { bg: '#7A6520', border: DBC_CONFIG.BRAND.gold },
-        info: { bg: DBC_CONFIG.BRAND.darkGreen, border: DBC_CONFIG.BRAND.green }
+        success: { bg: JIG_CONFIG.BRAND.green, border: JIG_CONFIG.BRAND.gold },
+        error: { bg: JIG_CONFIG.BRAND.darkRed, border: JIG_CONFIG.BRAND.red },
+        warning: { bg: '#7A6520', border: JIG_CONFIG.BRAND.gold },
+        info: { bg: JIG_CONFIG.BRAND.darkGreen, border: JIG_CONFIG.BRAND.green }
     };
 
     const c = colors[type] || colors.info;
 
     const toast = document.createElement('div');
-    toast.className = 'dbc-shared-toast';
+    toast.className = 'jig-shared-toast';
 
     // Build inner HTML — include title row only if title was provided
     const titleHtml = title ? `<div style="font-weight:700;font-size:1rem;margin-bottom:2px;">${title}</div>` : '';
@@ -95,13 +95,13 @@ function showToast(arg1, arg2, arg3) {
                 ${titleHtml}
                 <div style="font-size:0.9rem;white-space:pre-line;">${message}</div>
             </div>
-            <button onclick="this.closest('.dbc-shared-toast').remove()" style="background:none;border:none;color:inherit;font-size:1.25rem;cursor:pointer;padding:4px;line-height:1;flex-shrink:0;">&times;</button>
+            <button onclick="this.closest('.jig-shared-toast').remove()" style="background:none;border:none;color:inherit;font-size:1.25rem;cursor:pointer;padding:4px;line-height:1;flex-shrink:0;">&times;</button>
         </div>
     `;
 
     toast.style.cssText = `
         position:fixed;top:20px;right:20px;
-        background:${c.bg};color:${DBC_CONFIG.BRAND.cream};
+        background:${c.bg};color:${JIG_CONFIG.BRAND.cream};
         border-left:4px solid ${c.border};
         padding:14px 18px;border-radius:10px;
         box-shadow:0 8px 32px rgba(0,0,0,0.3);
@@ -111,9 +111,9 @@ function showToast(arg1, arg2, arg3) {
     `;
 
     // Inject keyframes if not already present
-    if (!document.getElementById('dbc-toast-keyframes')) {
+    if (!document.getElementById('jig-toast-keyframes')) {
         const style = document.createElement('style');
-        style.id = 'dbc-toast-keyframes';
+        style.id = 'jig-toast-keyframes';
         style.textContent = `
             @keyframes dbcToastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
             @keyframes dbcToastOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
@@ -142,7 +142,7 @@ window.showNotification = function(message, type) {
 // formatCurrency
 // ============================================
 function formatCurrency(amount) {
-    return `${DBC_CONFIG.CURRENCY.symbol}${(Number(amount) || 0).toFixed(2)}`;
+    return `${JIG_CONFIG.CURRENCY.symbol}${(Number(amount) || 0).toFixed(2)}`;
 }
 
 
@@ -169,7 +169,7 @@ async function apiCall(endpoint, method, data) {
     if (method === undefined) method = 'GET';
     if (data === undefined) data = null;
 
-    const url = endpoint.startsWith('http') ? endpoint : `${DBC_CONFIG.API_URL}${endpoint}`;
+    const url = endpoint.startsWith('http') ? endpoint : `${JIG_CONFIG.API_URL}${endpoint}`;
     const token = getToken();
 
     const options = {

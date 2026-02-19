@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retail Store Queue Management - Basotho Medical Herbs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4A7C59;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Queue Grid */
+        .queue-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* Order Card */
+        .order-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .order-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(74, 124, 89, 0.2);
+            border-color: rgba(74, 124, 89, 0.3);
+        }
+
+        .order-card.priority {
+            border: 2px solid #C9A961;
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.15), rgba(201, 169, 97, 0.08));
+        }
+
+        .order-card.section21-order {
+            border-left: 4px solid #f44336;
+        }
+
+        .section21-badge {
+            display: inline-block;
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 10px;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .section21-badge i {
+            margin-right: 4px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .order-id {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge.in-queue {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .status-badge.preparing {
+            background: rgba(33, 150, 243, 0.2);
+            color: #2196F3;
+            border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+
+        .status-badge.ready {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .status-badge.arrived {
+            background: rgba(156, 39, 176, 0.2);
+            color: #9C27B0;
+            border: 1px solid rgba(156, 39, 176, 0.3);
+        }
+
+        .order-details {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .detail-label {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        .detail-value.distance-arriving {
+            color: #9C27B0;
+            font-weight: 700;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .detail-value.distance-near {
+            color: #FFC107;
+            font-weight: 700;
+        }
+
+        .detail-value.distance-far {
+            color: #2196F3;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes flashBorder {
+            0%, 100% {
+                border-color: rgba(255, 255, 255, 0.1);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+            50% {
+                border-color: #C9A961;
+                box-shadow: 0 8px 40px rgba(201, 169, 97, 0.5);
+            }
+        }
+
+        .products-list {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 0.9rem;
+        }
+
+        .section21-warning {
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f44336;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4A7C59, #2D5016);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 124, 89, 0.4);
+        }
+
+        .btn-warning {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .btn-success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-danger {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .verification-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px 24px;
+            z-index: 2000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+        }
+
+        .toast.success {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .toast.error {
+            border-left: 4px solid #f44336;
+        }
+
+        .toast.info {
+            border-left: 4px solid #2196F3;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 24px 24px 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+        }
+
+        .modal-body {
+            padding: 24px;
+            max-height: 60vh;
+            overflow-y: auto;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-footer button {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #4A7C59;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #3d6749;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .header-stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .modal-content {
+                padding: 24px;
+            }
+        }
+    </style>
+
+    <!-- Socket.IO Client Library -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1><i class="fas fa-car"></i> Retail Store Queue Management</h1>
+        <div class="header-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="totalOrders">0</div>
+                <div class="stat-label">Active Orders</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="avgWaitTime">0</div>
+                <div class="stat-label">Avg Wait (min)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live GPS Map -->
+    <div id="mapContainer" style="height: 400px; width: 100%; margin: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- EFT Approvals Section (Admin/Store Manager Only) -->
+        <div id="eftApprovalsSection" style="display: none; margin-bottom: 40px;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+                <i class="fas fa-check-circle" style="color: #C9A961;"></i>
+                EFT Payment Approvals
+                <span id="pendingCount" style="background: rgba(244, 67, 54, 0.2); color: #f44336; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;"></span>
+            </h2>
+            <div class="queue-grid" id="eftApprovalsGrid">
+                <div class="empty-state">
+                    <i class="fas fa-check-double"></i>
+                    <h2>No Pending EFT Approvals</h2>
+                    <p>All EFT payments have been processed</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Queue -->
+        <h2 style="font-size: 1.5rem; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+            <i class="fas fa-car" style="color: #4A7C59;"></i>
+            Active Queue
+        </h2>
+        <div class="queue-grid" id="queueGrid">
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <h2>No Active Orders</h2>
+                <p>Drive-through queue is empty</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 21 Verification Modal -->
+    <div class="modal" id="section21Modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-shield-alt"></i> Section 21 Verification</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div class="order-details" id="modalOrderDetails">
+                <!-- Order details will be inserted here -->
+            </div>
+
+            <div class="verification-section">
+                <h3 style="margin-bottom: 16px;">Compliance Checklist</h3>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="prescriptionCheck">
+                    <label for="prescriptionCheck">
+                        <strong>Section 21 Prescription Verified</strong><br>
+                        <small style="opacity: 0.7;">Valid prescription document checked and confirmed</small>
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="idCheck">
+                    <label for="idCheck">
+                        <strong>ID Document Scanned</strong><br>
+                        <small style="opacity: 0.7;">Customer ID matches prescription name</small>
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="quantityCheck">
+                    <label for="quantityCheck">
+                        <strong>Quantity Within Limits</strong><br>
+                        <small style="opacity: 0.7;">Order quantity complies with prescription limits</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-danger" onclick="closeModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-primary" onclick="completeOrder()" id="completeBtn" disabled>
+                    <i class="fas fa-check"></i> Complete Handover
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Environment-aware API URL
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3001/api/v1'
+            : `${window.location.protocol}//${window.location.host}/api/v1`;
+
+        let currentOrderId = null;
+        let currentOrder = null;
+        let previousOrderCount = 0;
+        let previousOrderStates = {};
+        let audioContext = null;
+        let map = null;
+        let markers = {};
+        let storeMarker = null;
+
+        // Store location (Fourways, Johannesburg)
+        const STORE_LOCATION = {
+            lat: -26.0287,
+            lng: 28.0022
+        };
+
+        // Initialize Leaflet map
+        function initMap() {
+            if (!map) {
+                map = L.map('mapContainer').setView([STORE_LOCATION.lat, STORE_LOCATION.lng], 13);
+
+                // Add OpenStreetMap tiles
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    maxZoom: 19
+                }).addTo(map);
+
+                // Add store marker
+                const storeIcon = L.divIcon({
+                    className: 'store-marker',
+                    html: '<div style="background: #4A7C59; color: white; padding: 8px 12px; border-radius: 20px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.3); white-space: nowrap;"><i class="fas fa-store"></i> Basotho Medical Herbs</div>',
+                    iconSize: [150, 40],
+                    iconAnchor: [75, 40]
+                });
+
+                storeMarker = L.marker([STORE_LOCATION.lat, STORE_LOCATION.lng], { icon: storeIcon })
+                    .addTo(map)
+                    .bindPopup('<b>Basotho Medical Herbs</b><br>Retail Store Pickup Location');
+            }
+        }
+
+        // Update customer markers on map
+        function updateMapMarkers(orders) {
+            if (!map) initMap();
+
+            // Clear old markers
+            Object.values(markers).forEach(marker => marker.remove());
+            markers = {};
+
+            // Add markers for orders with GPS data
+            orders.forEach(order => {
+                if (order.gps && order.gps.latitude && order.gps.longitude) {
+                    const lat = order.gps.latitude;
+                    const lng = order.gps.longitude;
+
+                    // Calculate distance to store
+                    const distance = calculateDistance(lat, lng, STORE_LOCATION.lat, STORE_LOCATION.lng);
+                    const eta = Math.ceil((distance / 40) * 60); // 40 km/h avg speed
+
+                    // Create custom marker icon with order status color
+                    let markerColor = '#2196F3'; // blue for in-queue
+                    if (order.status === 'preparing') markerColor = '#FF9800'; // orange
+                    if (order.status === 'ready') markerColor = '#4CAF50'; // green
+                    if (order.status === 'arrived') markerColor = '#9C27B0'; // purple
+
+                    const customerIcon = L.divIcon({
+                        className: 'customer-marker',
+                        html: `<div style="background: ${markerColor}; color: white; padding: 6px 10px; border-radius: 16px; font-weight: 500; box-shadow: 0 3px 10px rgba(0,0,0,0.3); font-size: 0.85rem; white-space: nowrap;">
+                            <i class="fas fa-car"></i> ${order.customerName || 'Customer'} (${distance.toFixed(1)}km)
+                        </div>`,
+                        iconSize: [200, 32],
+                        iconAnchor: [100, 32]
+                    });
+
+                    const marker = L.marker([lat, lng], { icon: customerIcon }).addTo(map);
+
+                    // Popup with order details
+                    const popupContent = `
+                        <div style="min-width: 200px;">
+                            <h4 style="margin: 0 0 8px 0;">${order.customerName || 'Customer'}</h4>
+                            <p style="margin: 4px 0;"><strong>Order:</strong> ${order.orderId.substring(0, 8)}</p>
+                            <p style="margin: 4px 0;"><strong>Status:</strong> ${order.status}</p>
+                            <p style="margin: 4px 0;"><strong>Distance:</strong> ${distance.toFixed(2)} km</p>
+                            <p style="margin: 4px 0;"><strong>ETA:</strong> ~${eta} min</p>
+                            ${order.customerInfo?.vehicle ? `<p style="margin: 4px 0;"><strong>Vehicle:</strong> ${order.customerInfo.vehicle.color} ${order.customerInfo.vehicle.model}</p>` : ''}
+                            ${order.customerInfo?.vehicle?.licensePlate ? `<p style="margin: 4px 0;"><strong>Plate:</strong> ${order.customerInfo.vehicle.licensePlate}</p>` : ''}
+                            ${order.requiresSection21 ? '<p style="margin: 8px 0; color: #f44336; font-weight: bold;"><i class="fas fa-shield-alt"></i> Section 21 Required</p>' : ''}
+                        </div>
+                    `;
+
+                    marker.bindPopup(popupContent);
+                    markers[order.orderId] = marker;
+
+                    // Auto-open popup for arrived customers
+                    if (order.status === 'arrived') {
+                        marker.openPopup();
+                    }
+                }
+            });
+
+            // Fit map bounds to show all markers if there are any
+            if (Object.keys(markers).length > 0) {
+                const bounds = L.latLngBounds([STORE_LOCATION.lat, STORE_LOCATION.lng]);
+                Object.values(markers).forEach(marker => {
+                    bounds.extend(marker.getLatLng());
+                });
+                map.fitBounds(bounds, { padding: [50, 50], maxZoom: 15 });
+            }
+        }
+
+        // Calculate distance between two coordinates (Haversine formula)
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Earth's radius in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        // Initialize audio for notifications
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Play notification sound for new order
+        function playNewOrderSound() {
+            initAudio();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+
+            // Second beep
+            setTimeout(() => {
+                const osc2 = audioContext.createOscillator();
+                const gain2 = audioContext.createGain();
+                osc2.connect(gain2);
+                gain2.connect(audioContext.destination);
+                osc2.frequency.value = 1000;
+                osc2.type = 'sine';
+                gain2.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                osc2.start(audioContext.currentTime);
+                osc2.stop(audioContext.currentTime + 0.5);
+            }, 200);
+        }
+
+        // Play arrival alert sound (triple beep with urgency)
+        function playArrivalSound() {
+            initAudio();
+
+            const frequencies = [1200, 1400, 1600];
+            frequencies.forEach((freq, index) => {
+                setTimeout(() => {
+                    const osc = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioContext.destination);
+                    osc.frequency.value = freq;
+                    osc.type = 'sine';
+                    gain.gain.setValueAtTime(0.4, audioContext.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+                    osc.start(audioContext.currentTime);
+                    osc.stop(audioContext.currentTime + 0.4);
+                }, index * 150);
+            });
+        }
+
+        // Load queue on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            loadQueue();
+            loadEFTApprovals();
+            checkUserRole();
+            // Refresh queue every 5 seconds for real-time updates
+            setInterval(loadQueue, 5000);
+            setInterval(loadEFTApprovals, 10000); // Check approvals every 10 seconds
+        });
+
+        // Check if user is admin or store manager
+        async function checkUserRole() {
+            const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+            if (!token) return;
+
+            try {
+                // Decode JWT to get role (simple base64 decode - for display purposes only)
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                if (payload.role === 'admin' || payload.role === 'staff_manager') {
+                    document.getElementById('eftApprovalsSection').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Failed to check user role:', error);
+            }
+        }
+
+        // Load pending EFT approvals
+        async function loadEFTApprovals() {
+            try {
+                const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+                if (!token) return;
+
+                const response = await fetch(`${API_URL}/retail store/approvals/pending`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 403) return; // User not authorized - that's fine
+                    throw new Error('Failed to load approvals');
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    renderEFTApprovals(data.approvals || []);
+                    updatePendingCount(data.pendingCount || 0);
+                }
+            } catch (error) {
+                console.error('Failed to load EFT approvals:', error);
+            }
+        }
+
+        // Update pending count badge
+        function updatePendingCount(count) {
+            const badge = document.getElementById('pendingCount');
+            if (count > 0) {
+                badge.textContent = `${count} pending`;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // Render EFT approvals grid
+        function renderEFTApprovals(approvals) {
+            const grid = document.getElementById('eftApprovalsGrid');
+
+            if (approvals.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-check-double"></i>
+                        <h2>No Pending EFT Approvals</h2>
+                        <p>All EFT payments have been processed</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = approvals.map(approval => `
+                <div class="order-card priority">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-id">EFT Approval: #${approval.orderId.substring(0, 8)}</div>
+                            <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 4px;">
+                                ${approval.customer.name} • ${approval.customer.phone || approval.customer.email}
+                            </p>
+                        </div>
+                        <div class="status-badge" style="background: rgba(255, 193, 7, 0.2); color: #FFC107; border: 1px solid rgba(255, 193, 7, 0.3);">
+                            PENDING APPROVAL
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 16px 0;">
+                        <div>
+                            <p style="font-size: 0.85rem; opacity: 0.6; margin-bottom: 4px;">Total Amount</p>
+                            <p style="font-size: 1.3rem; font-weight: 600;">R${approval.totalAmount.toFixed(2)}</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.85rem; opacity: 0.6; margin-bottom: 4px;">Products</p>
+                            <p style="font-size: 1.3rem; font-weight: 600;">${approval.products}</p>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 8px; margin: 12px 0;">
+                        <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 6px;">Payment Reference</p>
+                        <p style="font-family: 'Courier New', monospace; font-size: 0.95rem;">${approval.payment.reference}</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;">
+                        <button onclick="approveEFT('${approval.orderId}')"
+                                style="background: linear-gradient(135deg, #4CAF50, #45a049); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                            <i class="fas fa-check"></i> Approve
+                        </button>
+                        <button onclick="rejectEFT('${approval.orderId}')"
+                                style="background: linear-gradient(135deg, #f44336, #d32f2f); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
+                    </div>
+
+                    <p style="font-size: 0.75rem; opacity: 0.5; margin-top: 12px; text-align: center;">
+                        Submitted ${new Date(approval.createdAt).toLocaleString()}
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        // Approve EFT payment
+        async function approveEFT(orderId) {
+            if (!confirm('Approve this EFT payment? Order will be added to the queue.')) return;
+
+            try {
+                const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+
+                const response = await fetch(`${API_URL}/retail store/approvals/${orderId}/approve`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('EFT Payment Approved - Order Added to Queue', 'success');
+                    loadEFTApprovals();
+                    loadQueue();
+                } else {
+                    showToast(data.error || 'Failed to approve payment', 'error');
+                }
+            } catch (error) {
+                console.error('Approve EFT error:', error);
+                showToast('Failed to approve payment', 'error');
+            }
+        }
+
+        // Reject EFT payment
+        async function rejectEFT(orderId) {
+            const reason = prompt('Reason for rejection:');
+            if (!reason) return;
+
+            try {
+                const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+
+                const response = await fetch(`${API_URL}/retail store/approvals/${orderId}/reject`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ reason })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('EFT Payment Rejected - Order Cancelled', 'info');
+                    loadEFTApprovals();
+                    loadQueue();
+                } else {
+                    showToast(data.error || 'Failed to reject payment', 'error');
+                }
+            } catch (error) {
+                console.error('Reject EFT error:', error);
+                showToast('Failed to reject payment', 'error');
+            }
+        }
+
+        // Load active queue
+        async function loadQueue() {
+            try {
+                const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+
+                const response = await fetch(`${API_URL}/retail store/queue`, {
+                    headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const newOrderCount = (data.queue || []).length;
+
+                    // Play sound if new order arrived
+                    if (newOrderCount > previousOrderCount && previousOrderCount > 0) {
+                        playNewOrderSound();
+                        showToast('New Order Arrived!', 'success');
+                    }
+
+                    // Check for customer arrivals
+                    (data.queue || []).forEach(order => {
+                        const previousState = previousOrderStates[order.orderId];
+
+                        if (previousState && previousState !== 'arrived' && order.status === 'arrived') {
+                            playArrivalSound();
+                            showToast(`Customer Arrived! Order #${order.orderId.substring(0, 8)}`, 'info');
+
+                            // Add visual flash to the order card
+                            setTimeout(() => {
+                                const orderCard = document.querySelector(`[onclick*="${order.orderId}"]`);
+                                if (orderCard) {
+                                    orderCard.style.animation = 'flashBorder 1s ease-in-out 3';
+                                }
+                            }, 100);
+                        }
+
+                        // Update state tracking
+                        previousOrderStates[order.orderId] = order.status;
+                    });
+
+                    // Clean up old order states
+                    const currentOrderIds = (data.queue || []).map(o => o.orderId);
+                    Object.keys(previousOrderStates).forEach(orderId => {
+                        if (!currentOrderIds.includes(orderId)) {
+                            delete previousOrderStates[orderId];
+                        }
+                    });
+
+                    previousOrderCount = newOrderCount;
+
+                    renderQueue(data.queue || []);
+                    updateStats(data.totalOrders || 0, data.estimatedWait || 0);
+                    updateMapMarkers(data.queue || []);
+                }
+            } catch (error) {
+                console.error('Failed to load queue:', error);
+                showToast('Failed to load queue', 'error');
+            }
+        }
+
+        // Calculate distance between two GPS coordinates (Haversine formula)
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Earth's radius in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // distance in km
+        }
+
+        // Get distance badge HTML
+        function getDistanceBadge(order) {
+            if (!order.gps || !order.gps.latitude || !order.gps.longitude) {
+                return '';
+            }
+
+            // Store location (Fourways, JHB)
+            const storeLocation = { lat: -26.0287, lng: 28.0022 };
+            const distance = calculateDistance(
+                order.gps.latitude,
+                order.gps.longitude,
+                storeLocation.lat,
+                storeLocation.lng
+            );
+
+            let badgeClass = 'distance-far';
+            let distanceText = `${distance.toFixed(1)}km away`;
+
+            if (distance < 0.5) {
+                badgeClass = 'distance-arriving';
+                distanceText = 'Arriving Now!';
+            } else if (distance < 2) {
+                badgeClass = 'distance-near';
+                distanceText = `${distance.toFixed(1)}km away`;
+            }
+
+            return `
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-map-marker-alt"></i> Distance</span>
+                    <span class="detail-value ${badgeClass}">${distanceText}</span>
+                </div>
+            `;
+        }
+
+        // Render queue
+        function renderQueue(orders) {
+            const grid = document.getElementById('queueGrid');
+
+            if (orders.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h2>No Active Orders</h2>
+                        <p>Drive-through queue is empty</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = orders.map(order => `
+                <div class="order-card ${order.status === 'arrived' ? 'priority' : ''} ${order.requiresSection21 ? 'section21-order' : ''}" onclick="viewOrder('${order.orderId}')">
+                    <div class="order-header">
+                        <div class="order-id">
+                            <i class="fas fa-hashtag"></i> ${order.orderId.substring(0, 8)}
+                            ${order.requiresSection21 ? '<span class="section21-badge"><i class="fas fa-prescription"></i> Rx</span>' : ''}
+                        </div>
+                        <span class="status-badge ${order.status}">${order.status.replace('-', ' ')}</span>
+                    </div>
+
+                    <div class="order-details">
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-user"></i> Customer</span>
+                            <span class="detail-value">${order.customerName || 'Unknown'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-clock"></i> Queue Position</span>
+                            <span class="detail-value">#${order.queuePosition}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-timer"></i> ETA</span>
+                            <span class="detail-value">${new Date(order.estimatedPickupTime).toLocaleTimeString()}</span>
+                        </div>
+                        ${getDistanceBadge(order)}
+                    </div>
+
+                    ${order.requiresSection21 ? `
+                        <div class="section21-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span><strong>Section 21 Required:</strong> Verify prescription and ID before handover</span>
+                        </div>
+                    ` : ''}
+
+                    <div class="action-buttons">
+                        ${order.status === 'in-queue' ? `
+                            <button class="btn btn-warning" onclick="event.stopPropagation(); updateStatus('${order.orderId}', 'preparing')">
+                                <i class="fas fa-box"></i> Start Preparing
+                            </button>
+                        ` : ''}
+
+                        ${order.status === 'preparing' ? `
+                            <button class="btn btn-success" onclick="event.stopPropagation(); updateStatus('${order.orderId}', 'ready')">
+                                <i class="fas fa-check"></i> Mark Ready
+                            </button>
+                        ` : ''}
+
+                        ${order.status === 'ready' || order.status === 'arrived' ? `
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); openVerificationModal('${order.orderId}')">
+                                <i class="fas fa-hand-holding"></i> Complete Pickup
+                            </button>
+                        ` : ''}
+
+                        <button class="btn btn-danger" onclick="event.stopPropagation(); cancelOrder('${order.orderId}')">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update stats
+        function updateStats(total, avgWait) {
+            document.getElementById('totalOrders').textContent = total;
+            document.getElementById('avgWaitTime').textContent = avgWait;
+        }
+
+        // View order details
+        async function viewOrder(orderId) {
+            try {
+                const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+
+                const response = await fetch(`${API_URL}/retail store/orders/${orderId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showOrderDetails(data.order);
+                }
+            } catch (error) {
+                console.error('Failed to load order:', error);
+                showToast('Failed to load order details', 'error');
+            }
+        }
+
+        // Show order details
+        function showOrderDetails(order) {
+            const details = `
+                <div style="text-align: left;">
+                    <p><strong>Order ID:</strong> ${order.orderId}</p>
+                    <p><strong>Status:</strong> ${order.status}</p>
+                    <p><strong>Total:</strong> R${order.totalAmount.toFixed(2)}</p>
+                    <p><strong>Products:</strong> ${order.products.length} items</p>
+                    <p><strong>Section 21 Required:</strong> ${order.requiresSection21 ? 'Yes' : 'No'}</p>
+                    ${order.customerInfo?.vehicle ? `
+                        <p><strong>Vehicle:</strong> ${order.customerInfo.vehicle.color} ${order.customerInfo.vehicle.model}</p>
+                        <p><strong>License Plate:</strong> ${order.customerInfo.vehicle.licensePlate}</p>
+                    ` : ''}
+                </div>
+            `;
+            showModal('Order Details', details);
+        }
+
+        // Update order status
+        async function updateStatus(orderId, newStatus) {
+            try {
+                const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+
+                const response = await fetch(`${API_URL}/retail store/status/${orderId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast(`Order ${orderId.substring(0, 8)} updated to: ${newStatus}`, 'success');
+                    await loadQueue();
+                } else {
+                    showToast(data.error || 'Failed to update status', 'error');
+                }
+            } catch (error) {
+                console.error('Failed to update status:', error);
+                showToast('Failed to update order status', 'error');
+            }
+        }
+
+        // Open Section 21 verification modal
+        async function openVerificationModal(orderId) {
+            try {
+                const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+
+                const response = await fetch(`${API_URL}/retail store/orders/${orderId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentOrder = data.order;
+                    currentOrderId = orderId;
+
+                    const modalDetails = document.getElementById('modalOrderDetails');
+                    modalDetails.innerHTML = `
+                        <div class="detail-row">
+                            <span class="detail-label">Order ID</span>
+                            <span class="detail-value">${currentOrder.orderId}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Total Amount</span>
+                            <span class="detail-value">R${currentOrder.totalAmount.toFixed(2)}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payment Status</span>
+                            <span class="detail-value">${currentOrder.payment.status}</span>
+                        </div>
+                        ${currentOrder.requiresSection21 ? `
+                            <div class="section21-warning">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>This order contains Section 21 products and requires compliance verification</span>
+                            </div>
+                        ` : ''}
+                        <div class="products-list">
+                            <strong>Products:</strong>
+                            ${currentOrder.products.map(p => `
+                                <div class="product-item">
+                                    <span>${p.name || 'Product'} × ${p.quantity}</span>
+                                    <span>R${(p.price * p.quantity).toFixed(2)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+
+                    // If Section 21 not required, enable complete button immediately
+                    if (!currentOrder.requiresSection21) {
+                        document.getElementById('prescriptionCheck').checked = true;
+                        document.getElementById('idCheck').checked = true;
+                        document.getElementById('quantityCheck').checked = true;
+                        updateCompleteButton();
+                    }
+
+                    document.getElementById('section21Modal').classList.add('active');
+                }
+            } catch (error) {
+                console.error('Failed to load order:', error);
+                showToast('Failed to load order details', 'error');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('section21Modal').classList.remove('active');
+            currentOrderId = null;
+            currentOrder = null;
+
+            // Reset checkboxes
+            document.getElementById('prescriptionCheck').checked = false;
+            document.getElementById('idCheck').checked = false;
+            document.getElementById('quantityCheck').checked = false;
+        }
+
+        // Enable/disable complete button based on checkboxes
+        document.querySelectorAll('#section21Modal input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateCompleteButton);
+        });
+
+        function updateCompleteButton() {
+            const allChecked = document.getElementById('prescriptionCheck').checked &&
+                             document.getElementById('idCheck').checked &&
+                             document.getElementById('quantityCheck').checked;
+
+            document.getElementById('completeBtn').disabled = !allChecked;
+        }
+
+        // Complete order
+        async function completeOrder() {
+            if (!currentOrderId) return;
+
+            try {
+                const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+
+                const response = await fetch(`${API_URL}/retail store/complete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        orderId: currentOrderId,
+                        section21Verified: currentOrder.requiresSection21,
+                        idDocumentScanned: document.getElementById('idCheck').checked
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('Order completed successfully', 'success');
+                    closeModal();
+                    await loadQueue();
+                } else {
+                    showToast(data.error || 'Failed to complete order', 'error');
+                }
+            } catch (error) {
+                console.error('Failed to complete order:', error);
+                showToast('Failed to complete order', 'error');
+            }
+        }
+
+        // Cancel order
+        async function cancelOrder(orderId) {
+            showConfirmModal(
+                'Cancel Order',
+                'Are you sure you want to cancel this order?',
+                async () => {
+                    await performCancelOrder(orderId);
+                }
+            );
+        }
+
+        // Perform cancel order
+        async function performCancelOrder(orderId) {
+            try {
+                const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+
+                const response = await fetch(`${API_URL}/retail store/cancel`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        orderId,
+                        reason: 'Cancelled by staff'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('Order cancelled', 'success');
+                    await loadQueue();
+                } else {
+                    showToast(data.error || 'Failed to cancel order', 'error');
+                }
+            } catch (error) {
+                console.error('Failed to cancel order:', error);
+                showToast('Failed to cancel order', 'error');
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        // Show modal dialog
+        function showModal(title, content) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>${title}</h3>
+                        <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ${content}
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-secondary" onclick="this.closest('.modal-overlay').remove()">Close</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Close on overlay click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+
+        // Show confirmation modal
+        function showConfirmModal(title, message, onConfirm) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>${title}</h3>
+                        <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>${message}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                        <button class="btn-primary" id="confirmBtn">Confirm</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle confirm button
+            const confirmBtn = modal.querySelector('#confirmBtn');
+            confirmBtn.addEventListener('click', () => {
+                modal.remove();
+                if (onConfirm) onConfirm();
+            });
+
+            // Close on overlay click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+    </script>
+
+    <!-- WebSocket Client for Real-Time Notifications -->
+    <script src="/frontend/websocket-client.js"></script>
+
+    <!-- UAT Bug Reporter -->
+    <script src="/frontend/bug-reporter.js"></script>
+</body>
+</html>

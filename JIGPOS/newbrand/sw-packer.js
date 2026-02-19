@@ -1,5 +1,5 @@
 // JIG Packer App Service Worker
-const CACHE_NAME = 'dbc-packer-v1';
+const CACHE_NAME = 'jig-packer-v1';
 const OFFLINE_URL = '/packer-offline.html';
 
 const ASSETS_TO_CACHE = [

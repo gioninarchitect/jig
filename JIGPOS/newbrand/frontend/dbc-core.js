@@ -1,7 +1,7 @@
 /**
  * DBC Core Library — Unified namespace for all shared functionality
  * Requires (in order):
- *   1. frontend/config.js      (DBC_CONFIG, API_URL, DEV_MODE)
+ *   1. frontend/config.js      (JIG_CONFIG, API_URL, DEV_MODE)
  *   2. frontend/dbc-utils.js   (showToast, getToken, apiCall, logout, formatCurrency)
  *   3. frontend/dbc-auth.js    (OTP helpers, token setters, isAuthenticated)
  *
@@ -104,7 +104,7 @@ function _dbcShowConfirm(message, onConfirm, options) {
     var icon = options.icon || 'fa-question-circle';
     var type = options.type || 'warning';
 
-    var B = DBC_CONFIG.BRAND;
+    var B = JIG_CONFIG.BRAND;
 
     var typeColors = {
         warning: { accent: B.gold, btn: B.gold },
@@ -115,11 +115,11 @@ function _dbcShowConfirm(message, onConfirm, options) {
     var colors = typeColors[type] || typeColors.warning;
 
     // Remove any existing confirm overlay
-    var existing = document.getElementById('dbc-confirm-overlay');
+    var existing = document.getElementById('jig-confirm-overlay');
     if (existing) existing.remove();
 
     var overlay = document.createElement('div');
-    overlay.id = 'dbc-confirm-overlay';
+    overlay.id = 'jig-confirm-overlay';
     overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;' +
         'background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;' +
         'z-index:300000;font-family:"Inter",sans-serif;animation:dbcConfirmIn 0.2s ease-out;';
@@ -130,24 +130,24 @@ function _dbcShowConfirm(message, onConfirm, options) {
             '<div style="margin-bottom:16px;">' +
                 '<i class="fas ' + icon + '" style="font-size:2.5rem;color:' + colors.accent + ';"></i>' +
             '</div>' +
-            '<h3 style="margin:0 0 8px;color:' + B.navy + ';font-family:\'Playfair Display\',serif;' +
+            '<h3 style="margin:0 0 8px;color:' + B.navy + ';font-family:\'Oswald\',sans-serif;' +
             'font-size:1.25rem;font-weight:700;">' + title + '</h3>' +
             '<p style="margin:0 0 24px;color:' + B.darkGreen + ';font-size:0.95rem;line-height:1.5;">' +
             message + '</p>' +
             '<div style="display:flex;gap:12px;justify-content:center;">' +
-                '<button id="dbc-confirm-cancel" style="padding:10px 24px;border:1px solid #ccc;' +
+                '<button id="jig-confirm-cancel" style="padding:10px 24px;border:1px solid #ccc;' +
                 'background:transparent;border-radius:8px;cursor:pointer;font-size:0.9rem;' +
                 'color:' + B.darkGreen + ';font-family:\'Inter\',sans-serif;">' + cancelText + '</button>' +
-                '<button id="dbc-confirm-ok" style="padding:10px 24px;border:none;' +
+                '<button id="jig-confirm-ok" style="padding:10px 24px;border:none;' +
                 'background:' + colors.btn + ';color:#fff;border-radius:8px;cursor:pointer;' +
                 'font-size:0.9rem;font-weight:600;font-family:\'Inter\',sans-serif;">' + confirmText + '</button>' +
             '</div>' +
         '</div>';
 
     // Inject keyframes if not present
-    if (!document.getElementById('dbc-confirm-keyframes')) {
+    if (!document.getElementById('jig-confirm-keyframes')) {
         var style = document.createElement('style');
-        style.id = 'dbc-confirm-keyframes';
+        style.id = 'jig-confirm-keyframes';
         style.textContent =
             '@keyframes dbcConfirmIn { from { opacity: 0; } to { opacity: 1; } }';
         document.head.appendChild(style);
@@ -156,10 +156,10 @@ function _dbcShowConfirm(message, onConfirm, options) {
     document.body.appendChild(overlay);
 
     // Wire buttons
-    document.getElementById('dbc-confirm-cancel').addEventListener('click', function() {
+    document.getElementById('jig-confirm-cancel').addEventListener('click', function() {
         overlay.remove();
     });
-    document.getElementById('dbc-confirm-ok').addEventListener('click', function() {
+    document.getElementById('jig-confirm-ok').addEventListener('click', function() {
         overlay.remove();
         if (typeof onConfirm === 'function') onConfirm();
     });
@@ -185,13 +185,13 @@ function _dbcShowPrompt(message, onSubmit, options) {
     var placeholder = options.placeholder || '';
     var required = options.required !== false;
 
-    var B = DBC_CONFIG.BRAND;
+    var B = JIG_CONFIG.BRAND;
 
-    var existing = document.getElementById('dbc-prompt-overlay');
+    var existing = document.getElementById('jig-prompt-overlay');
     if (existing) existing.remove();
 
     var overlay = document.createElement('div');
-    overlay.id = 'dbc-prompt-overlay';
+    overlay.id = 'jig-prompt-overlay';
     overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;' +
         'background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;' +
         'z-index:300000;font-family:"Inter",sans-serif;animation:dbcConfirmIn 0.2s ease-out;';
@@ -202,19 +202,19 @@ function _dbcShowPrompt(message, onSubmit, options) {
             '<div style="margin-bottom:16px;">' +
                 '<i class="fas ' + icon + '" style="font-size:2.5rem;color:' + B.gold + ';"></i>' +
             '</div>' +
-            '<h3 style="margin:0 0 8px;color:' + B.navy + ';font-family:\'Playfair Display\',serif;' +
+            '<h3 style="margin:0 0 8px;color:' + B.navy + ';font-family:\'Oswald\',sans-serif;' +
             'font-size:1.25rem;font-weight:700;">' + title + '</h3>' +
             '<p style="margin:0 0 16px;color:' + B.darkGreen + ';font-size:0.95rem;line-height:1.5;">' +
             message + '</p>' +
-            '<textarea id="dbc-prompt-input" rows="3" placeholder="' + placeholder + '" ' +
+            '<textarea id="jig-prompt-input" rows="3" placeholder="' + placeholder + '" ' +
             'style="width:100%;padding:10px;border:2px solid #2A2A2A;border-radius:8px;' +
             'font-family:\'Inter\',sans-serif;font-size:0.9rem;resize:vertical;box-sizing:border-box;' +
             'margin-bottom:16px;"></textarea>' +
             '<div style="display:flex;gap:12px;justify-content:center;">' +
-                '<button id="dbc-prompt-cancel" style="padding:10px 24px;border:1px solid #ccc;' +
+                '<button id="jig-prompt-cancel" style="padding:10px 24px;border:1px solid #ccc;' +
                 'background:transparent;border-radius:8px;cursor:pointer;font-size:0.9rem;' +
                 'color:' + B.darkGreen + ';font-family:\'Inter\',sans-serif;">' + cancelText + '</button>' +
-                '<button id="dbc-prompt-ok" style="padding:10px 24px;border:none;' +
+                '<button id="jig-prompt-ok" style="padding:10px 24px;border:none;' +
                 'background:' + B.green + ';color:#fff;border-radius:8px;cursor:pointer;' +
                 'font-size:0.9rem;font-weight:600;font-family:\'Inter\',sans-serif;">' + submitText + '</button>' +
             '</div>' +
@@ -222,13 +222,13 @@ function _dbcShowPrompt(message, onSubmit, options) {
 
     document.body.appendChild(overlay);
 
-    var inputEl = document.getElementById('dbc-prompt-input');
+    var inputEl = document.getElementById('jig-prompt-input');
     inputEl.focus();
 
-    document.getElementById('dbc-prompt-cancel').addEventListener('click', function() {
+    document.getElementById('jig-prompt-cancel').addEventListener('click', function() {
         overlay.remove();
     });
-    document.getElementById('dbc-prompt-ok').addEventListener('click', function() {
+    document.getElementById('jig-prompt-ok').addEventListener('click', function() {
         var val = inputEl.value.trim();
         if (required && !val) {
             inputEl.style.borderColor = B.red;
@@ -252,9 +252,9 @@ function _dbcShowLoading(message) {
     // Remove existing to prevent duplicates
     _dbcHideLoading();
 
-    var B = DBC_CONFIG.BRAND;
+    var B = JIG_CONFIG.BRAND;
     var overlay = document.createElement('div');
-    overlay.id = 'dbc-loading-overlay';
+    overlay.id = 'jig-loading-overlay';
     overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;' +
         'background:rgba(0,0,0,0.5);display:flex;flex-direction:column;' +
         'align-items:center;justify-content:center;z-index:300000;' +
@@ -275,7 +275,7 @@ function _dbcShowLoading(message) {
  * Remove the loading overlay.
  */
 function _dbcHideLoading() {
-    var el = document.getElementById('dbc-loading-overlay');
+    var el = document.getElementById('jig-loading-overlay');
     if (el) el.remove();
 }
 
@@ -302,7 +302,7 @@ function _dbcFormatPercentage(n) {
 // ============================================
 
 var DBC = {
-    config: DBC_CONFIG,
+    config: JIG_CONFIG,
 
     api: {
         get: function(endpoint) { return apiCall(endpoint, 'GET'); },
@@ -337,7 +337,7 @@ var DBC = {
         percentage: _dbcFormatPercentage
     },
 
-    brand: DBC_CONFIG.BRAND
+    brand: JIG_CONFIG.BRAND
 };
 
 // Expose globally

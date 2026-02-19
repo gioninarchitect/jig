@@ -335,7 +335,7 @@ async function generateSection21Audit() {
                         </tbody>
                     </table>
                 </div>
-            ` : '<div class="alert alert-dbc"><i class="fas fa-check-circle"></i> No documents expiring in the next 30 days.</div>'}
+            ` : '<div class="alert alert-jig"><i class="fas fa-check-circle"></i> No documents expiring in the next 30 days.</div>'}
         `;
 
         showReportModal('Section 21 Compliance Audit', content);

@@ -350,7 +350,7 @@
             }
 
             grid.innerHTML = posFilteredProducts.map(product => {
-                const imageUrl = product.images && product.images.length > 0 ? product.images[0].url : '/images/DeBudChef-rLogo.png';
+                const imageUrl = product.images && product.images.length > 0 ? product.images[0].url : '/images/jig-logo-nobg.png';
                 const isMedical = product.name.toLowerCase().includes('medical');
                 const inStock = (product.inventory?.quantity || 0) > 0;
                 const userRole = sessionStorage.getItem('userRole') || 'user';
@@ -364,7 +364,7 @@
                          onmouseover="if(${canPurchase}) this.style.borderColor='var(--gold)'"
                          onmouseout="if(${canPurchase}) this.style.borderColor='var(--green)'">
                         <div style="width: 100%; height: 100px; background: rgba(124, 58, 237,0.05); border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
-                            <img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain; ${showGrayedOut ? 'filter: grayscale(100%)' : ''}" onerror="this.src='/images/DeBudChef-rLogo.png'">
+                            <img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain; ${showGrayedOut ? 'filter: grayscale(100%)' : ''}" onerror="this.src='/images/jig-logo-nobg.png'">
                         </div>
                         <div style="font-size: 0.9rem; font-weight: bold; margin-bottom: 4px; color: ${showGrayedOut ? 'var(--red)' : 'var(--green-deep)'}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${product.name}">
                             ${product.name}
@@ -742,7 +742,7 @@
         function showPaymentMethodModal(total, customerPhone, couponCode, discount, subtotal) {
             const modal = document.getElementById('paymentMethodModal');
             if (!modal) {
-                // Create modal dynamically with DBC branding
+                // Create modal dynamically with JIG branding
                 const modalHTML = `
                     <div id="paymentMethodModal" class="modal" style="display: flex;">
                         <div class="modal-content" style="max-width: 500px; background: #0A0A0A !important; border: 2px solid #D97706 !important;">

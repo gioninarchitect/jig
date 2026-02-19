@@ -1169,11 +1169,11 @@
                 });
             });
 
-            localStorage.setItem('dbc_onboarding_checklist', JSON.stringify(data));
+            localStorage.setItem('jig_onboarding_checklist', JSON.stringify(data));
         }
 
         function loadProgress() {
-            const saved = localStorage.getItem('dbc_onboarding_checklist');
+            const saved = localStorage.getItem('jig_onboarding_checklist');
             if (saved) {
                 const data = JSON.parse(saved);
 

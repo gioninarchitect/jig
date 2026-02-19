@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Manager - Hive Mind Digital</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header h1 { font-size: 2rem; margin-bottom: 10px; color: #333; }
+        .header p { color: #666; }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section-title { font-size: 1.3rem; margin-bottom: 20px; color: #333; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            background: #333;
+            color: white;
+        }
+        .btn:hover { background: #555; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Brand Manager</h1>
+            <p>Hive Mind Digital - White Label Module Marketplace</p>
+        </div>
+
+        <div class="card">
+            <div class="section-title">Brand: Canna Care</div>
+            <div class="form-group">
+                <label>Logo Uploaded: CannCare.jpeg ✓</label>
+            </div>
+            <div class="form-group">
+                <label>Primary Color: #6B7F47 (from logo)</label>
+            </div>
+            <div class="form-group">
+                <label>Port: 3002</label>
+            </div>
+            <div class="form-group">
+                <label>Database: cannacare</label>
+            </div>
+            <button class="btn" onclick="alert('Brand files will be generated!')">Generate Brand Files</button>
+        </div>
+    </div>
+
+    <!-- UAT Bug Reporter -->
+    <script src="/frontend/bug-reporter.js"></script>
+</body>
+</html>

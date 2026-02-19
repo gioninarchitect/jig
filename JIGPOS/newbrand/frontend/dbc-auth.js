@@ -18,7 +18,7 @@
  */
 async function requestOTPCode(email, purpose) {
     if (!purpose) purpose = 'login';
-    const res = await fetch(`${DBC_CONFIG.API_URL}/auth/otp/request`, {
+    const res = await fetch(`${JIG_CONFIG.API_URL}/auth/otp/request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, purpose: purpose })
@@ -34,7 +34,7 @@ async function requestOTPCode(email, purpose) {
  */
 async function resendOTPCode(email, purpose) {
     if (!purpose) purpose = 'login';
-    const res = await fetch(`${DBC_CONFIG.API_URL}/auth/otp/resend`, {
+    const res = await fetch(`${JIG_CONFIG.API_URL}/auth/otp/resend`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, purpose: purpose })
@@ -49,7 +49,7 @@ async function resendOTPCode(email, purpose) {
  * @returns {Promise<{success: boolean, token?: string, user?: object, message?: string}>}
  */
 async function verifyOTPCode(email, otpCode) {
-    const res = await fetch(`${DBC_CONFIG.API_URL}/auth/otp/verify`, {
+    const res = await fetch(`${JIG_CONFIG.API_URL}/auth/otp/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, otpCode: otpCode })
@@ -68,12 +68,12 @@ async function fetchCurrentUser(token) {
     if (!token) return { success: false, message: 'No token' };
 
     try {
-        let res = await fetch(`${DBC_CONFIG.API_URL}/auth/otp/me`, {
+        let res = await fetch(`${JIG_CONFIG.API_URL}/auth/otp/me`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (!res.ok) {
-            res = await fetch(`${DBC_CONFIG.API_URL}/auth/otp/me`, {
+            res = await fetch(`${JIG_CONFIG.API_URL}/auth/otp/me`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
         }
@@ -92,7 +92,7 @@ async function fetchCurrentUser(token) {
  */
 async function updateUserProfile(profileData, token) {
     if (!token) token = getToken();
-    const res = await fetch(`${DBC_CONFIG.API_URL}/auth/otp/update-profile`, {
+    const res = await fetch(`${JIG_CONFIG.API_URL}/auth/otp/update-profile`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

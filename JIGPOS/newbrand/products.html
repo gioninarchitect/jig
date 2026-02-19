@@ -933,7 +933,7 @@
                             const typeInfo = PRODUCT_TYPE_INFO[pType];
                             html += `
                                 <div style="grid-column: 1/-1; margin: 0.75rem 0 0.25rem; padding-left: 1.5rem;">
-                                    <h5 style="font-family: 'Playfair Display', serif; font-size: 1rem; color: ${typeInfo.color};
+                                    <h5 style="font-family: 'Oswald', sans-serif; font-size: 1rem; color: ${typeInfo.color};
                                         display: flex; align-items: center; gap: 0.4rem; font-weight: 600;">
                                         <i class="fas ${typeInfo.icon}" style="font-size: 0.85rem;"></i> ${typeInfo.name}
                                         <span style="font-size: 0.8rem; color: var(--gray-500); font-weight: normal;">(${byType[pType].length})</span>
@@ -972,7 +972,7 @@
         function renderProductCard(product) {
             const imageUrl = product.images && product.images.length > 0 && product.images[0].url
                 ? product.images[0].url
-                : '/images/DeBudChef-rLogo.png';
+                : '/images/jig-logo-nobg.png';
             const stock = product.inventory?.quantity || product.stock || 0;
             const strainBadge = product.subcategory ? `<span style="position:absolute;top:10px;left:10px;background:var(--green);color:var(--cream);padding:2px 8px;border-radius:4px;font-size:0.7rem;text-transform:uppercase;">${product.subcategory}</span>` : '';
 
@@ -982,7 +982,7 @@
                 <img src="${imageUrl}"
                      alt="${product.name}"
                      class="product-image"
-                     onerror="this.src='/images/DeBudChef-rLogo.png'">
+                     onerror="this.src='/images/jig-logo-nobg.png'">
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
                     <p class="product-price">R${product.price.toFixed(2)}</p>
@@ -1191,7 +1191,7 @@
                 return `
                     <div class="cart-item">
                         <div class="cart-item-image">
-                            <img src="${item.image}" alt="${item.name}" onerror="this.src='/images/DeBudChef-rLogo.png'">
+                            <img src="${item.image}" alt="${item.name}" onerror="this.src='/images/jig-logo-nobg.png'">
                         </div>
                         <div class="cart-item-details">
                             <div class="cart-item-name">${item.name}</div>

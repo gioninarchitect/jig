@@ -1,0 +1,69 @@
+# Deployment Exclusion List
+# Files/folders that should NOT be deployed to production
+
+# Documentation
+*.md
+README.md
+CLAUDE.md
+CONTRIBUTING.md
+
+# Development files
+node_modules/
+.git/
+.gitignore
+.env.local
+.DS_Store
+
+# Test files
+tests/
+playwright-report/
+test-results/
+*.spec.js
+*.test.js
+
+# Old/backup files
+*-old.html
+*-backup.html
+dashboard-old.html
+login-old.html
+index-old-backup.html
+
+# Development tools (keep bug tools - deploy these!)
+# bug-dashboard.html - DEPLOY THIS
+# bug-kanban.html - DEPLOY THIS
+uat-testing.html
+cbd-wellness-testing-guide.html
+test-guide.html
+
+# Uploads (user data stays on server)
+uploads/*
+
+# Frontend test files
+frontend/test-login.html
+frontend/admin-login.html
+frontend/payment-pending.html
+frontend/admin-till-modals.html
+
+# Scripts (don't deploy seed scripts)
+reset-admin-password.js
+seed-stock.js
+backend/scripts/seed-test-users.js
+backend/test-*.js
+backend/verify-*.js
+backend/*-this-session-*.txt
+
+# Coverage and reports
+coverage/
+*.log
+npm-debug.log*
+playwright/.cache/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Images directory index
+images/index.html

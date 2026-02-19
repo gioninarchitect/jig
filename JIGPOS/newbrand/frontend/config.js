@@ -32,6 +32,6 @@ const JIG_CONFIG = {
 };
 
 // Backward-compatible aliases
-const DBC_CONFIG = JIG_CONFIG;
+const JIG_CONFIG = JIG_CONFIG;
 var API_URL = JIG_CONFIG.API_URL;
 var DEV_MODE = JIG_CONFIG.DEV_MODE;

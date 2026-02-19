@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locations - Basotho Medical Herbs Retail Store Points</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bmh-teal: #0B8C7A;
+            --bmh-teal-hover: #097563;
+            --bmh-teal-light: #0EBAAA;
+            --bmh-navy: #1E3A5F;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: #000000;
+            color: #FFFFFF;
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Light Mode */
+        body.light-mode {
+            background: #FFFFFF;
+            color: #000000;
+        }
+
+        body.light-mode nav {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode .logo {
+            color: #000000;
+        }
+
+        body.light-mode .nav-links a {
+            color: #000000;
+        }
+
+        body.light-mode .hero {
+            background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(245,245,245,1) 100%);
+        }
+
+        body.light-mode .hero p {
+            color: #666;
+        }
+
+        body.light-mode .search-container input {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.2);
+            color: #000000;
+        }
+
+        body.light-mode .location-card {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode .location-card:hover {
+            border-color: var(--bmh-teal);
+        }
+
+        body.light-mode .info-row {
+            color: #444;
+        }
+
+        body.light-mode .info-row i {
+            color: var(--bmh-teal);
+        }
+
+        body.light-mode .location-hours {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        body.light-mode .hours-list {
+            color: #666;
+        }
+
+        body.light-mode .btn-secondary {
+            border-color: rgba(0, 0, 0, 0.3);
+            color: #000000;
+        }
+
+        body.light-mode footer {
+            background: #f5f5f5;
+            border-top-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode footer p {
+            color: #666;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: linear-gradient(135deg, #FFFFFF, #e5e5e5);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle i {
+            font-size: 18px;
+            color: #000000;
+        }
+
+        body.light-mode .theme-toggle {
+            background: linear-gradient(135deg, #1a1a1a, #333);
+        }
+
+        body.light-mode .theme-toggle i {
+            color: #FFFFFF;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #FFFFFF;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 5% 60px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(20,20,20,1) 100%);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #999;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-size: 16px;
+        }
+
+        .search-container i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        /* Locations Grid */
+        .locations-section {
+            padding: 60px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .location-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .location-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+        }
+
+        .location-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .location-type {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .location-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4CAF50;
+            animation: pulse 2s infinite;
+        }
+
+        .status-closed {
+            background: #999;
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .location-info {
+            margin-bottom: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: #CCC;
+            font-size: 14px;
+        }
+
+        .info-row i {
+            color: #FFFFFF;
+            width: 18px;
+            flex-shrink: 0;
+        }
+
+        .location-hours {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .location-hours h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .hours-list {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .hours-list div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .location-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #FFFFFF;
+            color: #000000;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 5%;
+            background: rgba(0, 0, 0, 0.95);
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .locations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Basotho Medical Herbs</div>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="locations.html">Locations</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="products.html">Shop</a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                <i class="fas fa-sun" id="themeIcon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Our Retail Store Locations</h1>
+        <p>Find a Basotho Medical Herbs retail store near you. Convenient access to premium wellness products, anytime.</p>
+        <div class="search-container">
+            <input type="text" id="locationSearch" placeholder="Search by city, area, or suburb..." onkeyup="filterLocations()">
+            <i class="fas fa-search"></i>
+        </div>
+    </div>
+
+    <!-- Locations Grid -->
+    <div class="locations-section">
+        <div class="locations-grid" id="locationsGrid">
+            <!-- Head Office - Fourways -->
+            <div class="location-card" data-name="Fourways Head Office" data-area="Fourways">
+                <div class="location-header">
+                    <div>
+                        <div class="location-name">Fourways Head Office</div>
+                        <span class="location-type">Head Office</span>
+                    </div>
+                    <div class="location-status">
+                        <span class="status-dot"></span>
+                        <span>Open Now</span>
+                    </div>
+                </div>
+                <div class="location-info">
+                    <div class="info-row">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Witkoppen Road, Fourways, Johannesburg, 2191</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-phone"></i>
+                        <span>+27 11 000 0000</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-envelope"></i>
+                        <span>hello@basothomedicalherbs.ls</span>
+                    </div>
+                </div>
+                <div class="location-hours">
+                    <h4><i class="fas fa-clock"></i> Opening Hours</h4>
+                    <div class="hours-list">
+                        <div><span>Monday - Friday</span><span>8:00 AM - 5:00 PM</span></div>
+                        <div><span>Saturday</span><span>9:00 AM - 1:00 PM</span></div>
+                        <div><span>Sunday</span><span>Closed</span></div>
+                    </div>
+                </div>
+                <div class="location-actions">
+                    <a href="https://maps.google.com/?q=Witkoppen+Road+Fourways+Johannesburg" target="_blank" class="btn btn-primary">Get Directions</a>
+                    <a href="tel:+27110000000" class="btn btn-secondary">Call Now</a>
+                </div>
+            </div>
+
+            <!-- Ormonde Dispensary -->
+            <div class="location-card" data-name="Ormonde Dispensary" data-area="Ormonde Johannesburg" style="border: 2px solid var(--bmh-teal);">
+                <div class="location-header">
+                    <div>
+                        <div class="location-name">Ormonde Dispensary</div>
+                        <span class="location-type" style="background: var(--bmh-teal);">Flagship Dispensary</span>
+                    </div>
+                    <div class="location-status">
+                        <span class="status-dot"></span>
+                        <span>Open Now</span>
+                    </div>
+                </div>
+                <div class="location-info">
+                    <div class="info-row">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Ormonde, Johannesburg South, 2191</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-phone"></i>
+                        <span>+27 11 000 0001</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-envelope"></i>
+                        <span>ormonde@basothomedicalherbs.ls</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-cannabis"></i>
+                        <span>Full cannabis dispensary with Section 21 products</span>
+                    </div>
+                </div>
+                <div class="location-hours">
+                    <h4><i class="fas fa-clock"></i> Opening Hours</h4>
+                    <div class="hours-list">
+                        <div><span>Monday - Friday</span><span>8:00 AM - 6:00 PM</span></div>
+                        <div><span>Saturday</span><span>9:00 AM - 4:00 PM</span></div>
+                        <div><span>Sunday</span><span>10:00 AM - 2:00 PM</span></div>
+                    </div>
+                </div>
+                <div class="location-actions">
+                    <a href="ormonde.html" class="btn btn-primary" style="background: var(--bmh-teal); border-color: var(--bmh-teal);">
+                        <i class="fas fa-sign-in-alt"></i> Enter Dispensary
+                    </a>
+                    <a href="https://maps.google.com/?q=Ormonde+Johannesburg+South" target="_blank" class="btn btn-secondary">Get Directions</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Become a Driver / Franchise CTA -->
+        <div style="margin-top: 60px; text-align: center;">
+            <h2 style="font-size: 32px; margin-bottom: 20px;">Expand With Us</h2>
+            <p style="color: #999; max-width: 600px; margin: 0 auto 30px; font-size: 16px;">
+                Interested in becoming a Basotho Medical Herbs driver or opening a franchise location? Join our growing network.
+            </p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="contact.html?interest=driver" class="btn btn-primary" style="padding: 15px 40px; font-size: 16px;">
+                    <i class="fas fa-truck"></i> Become a Driver
+                </a>
+                <a href="contact.html?interest=franchise" class="btn btn-secondary" style="padding: 15px 40px; font-size: 16px;">
+                    <i class="fas fa-store"></i> Franchise Enquiry
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Basotho Medical Herbs. All rights reserved. | Cultivating Excellence</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            body.classList.toggle('light-mode');
+
+            if (body.classList.contains('light-mode')) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('themeIcon');
+
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        function filterLocations() {
+            const searchInput = document.getElementById('locationSearch').value.toLowerCase();
+            const locationCards = document.querySelectorAll('.location-card');
+
+            locationCards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const area = card.getAttribute('data-area').toLowerCase();
+
+                if (name.includes(searchInput) || area.includes(searchInput)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+    <!-- UAT Bug Reporter -->
+    <script src="/frontend/bug-reporter.js"></script>
+</body>
+</html>

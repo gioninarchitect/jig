@@ -1,5 +1,5 @@
 // Stock Take PWA Service Worker
-const CACHE_NAME = 'dbc-stocktake-v1';
+const CACHE_NAME = 'jig-stocktake-v1';
 const OFFLINE_URL = '/stocktake-app.html';
 
 const ASSETS_TO_CACHE = [
@@ -110,7 +110,7 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification(data.title || 'DBC Stock Take', options)
+    self.registration.showNotification(data.title || 'JIG Stock Take', options)
   );
 });
 

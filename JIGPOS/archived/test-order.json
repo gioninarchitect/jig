@@ -1,0 +1,29 @@
+{
+  "orderNumber": "TEST-ORDER-003",
+  "customer": {
+    "firstName": "Test",
+    "lastName": "Customer",
+    "email": "testcustomer@test.com",
+    "phone": "+27821234567"
+  },
+  "items": [
+    {
+      "product": "690973a93702ad5c8f183959",
+      "name": "Medical CBD Capsules",
+      "price": 580,
+      "quantity": 1,
+      "subtotal": 580
+    }
+  ],
+  "subtotal": 580,
+  "shipping": {
+    "method": "standard",
+    "cost": 50
+  },
+  "total": 630,
+  "payment": {
+    "method": "eft",
+    "status": "pending"
+  },
+  "status": "pending"
+}

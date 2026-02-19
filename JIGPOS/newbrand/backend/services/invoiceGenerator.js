@@ -114,7 +114,7 @@ class InvoiceGenerator {
     if (fs.existsSync(logoPath)) {
       doc.image(logoPath, 50, 30, { width: 90 });
     } else {
-      // Fallback text logo - DBC branding
+      // Fallback text logo - JIG branding
       doc.fontSize(24)
          .fillColor(this.colors.primary)
          .font('Helvetica-Bold')
@@ -348,7 +348,7 @@ class InvoiceGenerator {
        .lineWidth(1)
        .stroke();
 
-    // Footer text with proper spacing - DBC branding
+    // Footer text with proper spacing - JIG branding
     doc.fontSize(8)
        .fillColor(this.colors.primary)
        .font('Helvetica-Bold')

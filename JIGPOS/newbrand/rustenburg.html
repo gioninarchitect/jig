@@ -357,10 +357,10 @@
             const email = document.getElementById('notifyEmail').value;
 
             // Store in localStorage for now (can be sent to backend later)
-            let waitlist = JSON.parse(localStorage.getItem('dbc_waitlist') || '[]');
+            let waitlist = JSON.parse(localStorage.getItem('jig_waitlist') || '[]');
             if (!waitlist.find(w => w.email === email && w.branch === 'rustenburg')) {
                 waitlist.push({ email, branch: 'rustenburg', date: new Date().toISOString() });
-                localStorage.setItem('dbc_waitlist', JSON.stringify(waitlist));
+                localStorage.setItem('jig_waitlist', JSON.stringify(waitlist));
             }
 
             showToast("You're on the list! We'll notify you when Rustenburg opens.");

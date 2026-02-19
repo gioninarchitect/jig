@@ -17,7 +17,7 @@
     <div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%); z-index: 9999; justify-content: center; align-items: center;">
         <div style="background: #0A0A0A; padding: 40px; border-radius: 16px; max-width: 400px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
             <div style="text-align: center; margin-bottom: 30px;">
-                <img src="images/DeBudChef-rLogo.png" alt="JIG Craft Cannabis" style="height: 100px; margin-bottom: 15px;">
+                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="height: 100px; margin-bottom: 15px;">
                 <h2 style="font-family: 'Oswald', sans-serif; color: var(--green-dark); margin: 10px 0 5px; font-size: 28px;">JIG CRAFT CANNABIS</h2>
                 <p style="color: var(--gold); font-style: italic; margin: 0 0 10px;">"Craft Cannabis"</p>
                 <p style="color: #666; margin: 0; font-size: 14px;">Inventory Hub - Sign in with your email</p>
@@ -77,7 +77,7 @@
             <i class="fas fa-chevron-left" id="collapseIcon"></i>
         </button>
         <div class="logo">
-            <img src="images/DeBudChef-rLogo.png" alt="JIG Craft Cannabis">
+            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
             <h3><i class="fas fa-cubes"></i> Inventory Hub</h3>
             <p>JIG Craft Cannabis MDC</p>
         </div>
@@ -355,7 +355,7 @@
                 </button>
             </div>
 
-            <div class="alert alert-dbc mb-4">
+            <div class="alert alert-jig mb-4">
                 <i class="fas fa-info-circle"></i>
                 Manage batch/lot tracking with cannabinoid profiles and QA approval workflow.
             </div>
@@ -457,7 +457,7 @@
                 </button>
             </div>
 
-            <div class="alert alert-dbc mb-4">
+            <div class="alert alert-jig mb-4">
                 <i class="fas fa-info-circle"></i>
                 Manage purchase orders from suppliers with approval workflow and goods receiving.
             </div>
@@ -561,7 +561,7 @@
                 </button>
             </div>
 
-            <div class="alert alert-dbc mb-4">
+            <div class="alert alert-jig mb-4">
                 <i class="fas fa-info-circle"></i>
                 Manage supplier relationships, compliance documents, and performance tracking.
             </div>
@@ -609,9 +609,9 @@
         <!-- Stock Section -->
         <div id="stock-section" class="content-section">
             <h4 style="color: var(--green-dark);">Stock Level Monitoring</h4>
-            <div class="alert alert-dbc">
+            <div class="alert alert-jig">
                 <i class="fas fa-info-circle"></i>
-                Stock level monitoring with low stock alerts and reorder points for all 8 DBC branches.
+                Stock level monitoring with low stock alerts and reorder points for all 8 JIG branches.
             </div>
             <div class="row mt-4" id="stockLevelsGrid">
                 <!-- Stock levels loaded from API -->
@@ -643,7 +643,7 @@
             <input type="hidden" id="stReviewBranchFilter" value="">
 
             <!-- Pending Count Alert -->
-            <div id="stPendingAlert" class="alert alert-dbc mb-4" style="display: none; background: rgba(245, 158, 11, 0.15); border-left: 4px solid var(--gold);">
+            <div id="stPendingAlert" class="alert alert-jig mb-4" style="display: none; background: rgba(245, 158, 11, 0.15); border-left: 4px solid var(--gold);">
                 <i class="fas fa-exclamation-triangle" style="color: var(--gold);"></i>
                 <strong id="stPendingAlertText">0 stocktakes awaiting your review</strong>
             </div>
@@ -746,7 +746,7 @@
                 </button>
             </div>
 
-            <div class="alert alert-dbc mb-4">
+            <div class="alert alert-jig mb-4">
                 <i class="fas fa-info-circle"></i>
                 <strong>How it works:</strong> When a product's stock falls below the <strong>Reorder Point</strong>, the system automatically creates a Purchase Order for the <strong>Reorder Quantity</strong> from the preferred supplier.
             </div>
@@ -805,7 +805,7 @@
         <!-- Reports Section -->
         <div id="reports-section" class="content-section">
             <h4 style="color: var(--green-dark);"><i class="fas fa-file-alt me-2"></i>Inventory Reports</h4>
-            <div class="alert alert-dbc">
+            <div class="alert alert-jig">
                 <i class="fas fa-file-alt"></i>
                 Generate compliance reports for Section 21/Lifestyle tracking, sales, orders, and staff performance.
             </div>
@@ -877,7 +877,7 @@
         <!-- MDC Control Panel Section -->
         <div id="mdc-control-section" class="content-section">
             <h4 style="color: var(--green-dark);">Master Digital Catalogue (MDC) Pipeline</h4>
-            <div class="alert alert-dbc">
+            <div class="alert alert-jig">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <strong>Inventory Manager is the MDC Custodian</strong> - Control the 4-stage product lifecycle: Pending &rarr; QA &rarr; Approved &rarr; Live. Allocate stock per-branch before going live.
             </div>
@@ -1083,7 +1083,7 @@
         <!-- Settings Section -->
         <div id="settings-section" class="content-section">
             <h4 style="color: var(--green-dark);">System Settings</h4>
-            <div class="alert alert-dbc">
+            <div class="alert alert-jig">
                 <i class="fas fa-cog"></i>
                 Configure inventory thresholds, track defaults, and user permissions.
             </div>
@@ -1179,7 +1179,7 @@
     <!-- Bootstrap JS (required for modals) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- DBC Shared Libraries -->
+    <!-- JIG Shared Libraries -->
     <script src="/frontend/config.js"></script>
     <script src="/frontend/jig-utils.js"></script>
     <script src="/frontend/jig-auth.js"></script>

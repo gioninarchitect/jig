@@ -160,7 +160,7 @@ function updateCartDisplay() {
         total += itemTotal;
         return `
             <div class="cart-item">
-                <img src="${item.image || '/images/DeBudChef-rLogo.png'}" alt="${item.name}" class="cart-item-image" onerror="this.src='/images/DeBudChef-rLogo.png'">
+                <img src="${item.image || '/images/jig-logo-nobg.png'}" alt="${item.name}" class="cart-item-image" onerror="this.src='/images/jig-logo-nobg.png'">
                 <div class="cart-item-details">
                     <div class="cart-item-name">${item.name}</div>
                     <div class="cart-item-price">R${item.price.toFixed(2)}</div>

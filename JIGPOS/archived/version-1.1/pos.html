@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>POS - Basotho Medical Herbs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --cbd-forest-green: #2D5016;
+            --cbd-sage-green: #4A7C59;
+            --cbd-mint: #6B9080;
+            --cbd-cream: #F4F1DE;
+            --cbd-earth: #8B7355;
+            --cbd-charcoal: #2F2F2F;
+            --cbd-gold: #C9A961;
+            --success: #4CAF50;
+            --danger: #F44336;
+            --warning: #FF9800;
+            --info: #2196F3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--cbd-cream);
+            color: var(--cbd-charcoal);
+            overflow: hidden;
+            height: 100vh;
+            touch-action: pan-y;
+        }
+
+        /* Header */
+        .pos-header {
+            background: var(--cbd-forest-green);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header-branch {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-user {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.95);
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Main Layout */
+        .pos-container {
+            display: flex;
+            height: calc(100vh - 64px);
+        }
+
+        /* Left Panel - Products */
+        .products-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--cbd-cream);
+        }
+
+        /* Track Selector */
+        .track-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .track-btn {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid var(--cbd-forest-green);
+            background: white;
+            color: var(--cbd-forest-green);
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .track-btn.active {
+            background: var(--cbd-forest-green);
+            color: white;
+        }
+
+        .track-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .category-tabs::-webkit-scrollbar-thumb {
+            background: var(--cbd-sage-green);
+            border-radius: 4px;
+        }
+
+        .category-tab {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .category-tab.active {
+            background: var(--cbd-mint);
+            color: white;
+            border-color: var(--cbd-sage-green);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--cbd-forest-green);
+            box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 1.2rem;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        /* Tablet Optimization */
+        @media (min-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        .product-card {
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+            border-color: var(--cbd-forest-green);
+        }
+
+        .product-icon {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--cbd-charcoal);
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--cbd-forest-green);
+            margin-top: auto;
+        }
+
+        .stock-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .stock-in {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .stock-low {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .stock-out {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        /* Right Panel - Cart */
+        .cart-panel {
+            width: 420px;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Mobile: Full Width Cart */
+        @media (max-width: 767px) {
+            .pos-container {
+                flex-direction: column;
+            }
+
+            .products-panel {
+                height: 60vh;
+            }
+
+            .cart-panel {
+                width: 100%;
+                height: 40vh;
+                border-top: 3px solid var(--cbd-forest-green);
+            }
+        }
+
+        .cart-header {
+            background: var(--cbd-sage-green);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .item-count {
+            background: rgba(255,255,255,0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Cart Items */
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: var(--cbd-charcoal);
+        }
+
+        .item-price {
+            color: var(--cbd-forest-green);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--cbd-sage-green);
+            background: white;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--cbd-sage-green);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:active {
+            transform: scale(0.9);
+            background: var(--cbd-sage-green);
+            color: white;
+        }
+
+        .qty-input {
+            width: 50px;
+            height: 36px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .remove-btn {
+            width: 36px;
+            height: 36px;
+            background: #FFEBEE;
+            border: 2px solid #EF5350;
+            border-radius: 8px;
+            color: #C62828;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .remove-btn:active {
+            background: #EF5350;
+            color: white;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            padding: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .summary-row.total {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--cbd-forest-green);
+            padding-top: 12px;
+            border-top: 2px solid #eee;
+        }
+
+        /* Action Buttons */
+        .cart-actions {
+            padding: 15px 20px;
+            background: #f9f9f9;
+            border-top: 2px solid #eee;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            padding: 18px;
+            background: var(--cbd-forest-green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+            background: var(--cbd-sage-green);
+        }
+
+        .btn-secondary {
+            padding: 14px;
+            background: white;
+            color: var(--cbd-charcoal);
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.98);
+            background: #f5f5f5;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            background: var(--cbd-forest-green);
+            color: white;
+            padding: 25px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--cbd-forest-green);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: white;
+            color: var(--cbd-charcoal);
+            padding: 16px 24px;
+            border-radius: 8px;
+            border-left: 4px solid var(--cbd-forest-green);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            max-width: 400px;
+            animation: slideIn 0.3s ease-out;
+            z-index: 10000;
+        }
+
+        .toast.success { border-left-color: #10b981; }
+        .toast.error { border-left-color: #ef4444; }
+        .toast.info { border-left-color: #3b82f6; }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: #666;
+            white-space: pre-line;
+        }
+
+        /* Till Status Indicator */
+        .till-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .till-status:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .till-status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .till-status.open .till-status-indicator {
+            background: #4CAF50;
+        }
+
+        .till-status.closed .till-status-indicator {
+            background: #F44336;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Denomination Counter */
+        .denomination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .denomination-item {
+            background: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .denomination-label {
+            font-weight: 600;
+            color: var(--cbd-charcoal);
+            font-size: 1rem;
+        }
+
+        .denomination-input {
+            width: 70px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .denomination-total {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .cash-summary {
+            background: #E8F5E9;
+            border: 2px solid var(--success);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .cash-summary.warning {
+            background: #FFF3E0;
+            border-color: var(--warning);
+        }
+
+        .cash-summary.error {
+            background: #FFEBEE;
+            border-color: var(--danger);
+        }
+
+        .cash-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .cash-summary-row.large {
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding-top: 10px;
+            border-top: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .variance-positive {
+            color: var(--success);
+        }
+
+        .variance-negative {
+            color: var(--danger);
+        }
+
+        /* Modal responsiveness for mobile */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .denomination-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .denomination-input {
+                width: 60px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .till-status {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            .header-logo {
+                font-size: 1.1rem;
+            }
+
+            .denomination-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="pos-header">
+        <div class="header-left">
+            <div class="header-logo">CBD WELLNESS 24</div>
+            <div class="header-branch">
+                <i class="fas fa-store"></i>
+                <span id="branchName">Loading...</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="till-status closed" id="tillStatus" onclick="manageTillSession()" title="Click to manage shift">
+                <div class="till-status-indicator"></div>
+                <span id="tillStatusText">Shift Closed</span>
+            </div>
+            <div class="header-user">
+                <i class="fas fa-user-circle"></i>
+                <span id="userName">Cashier</span>
+            </div>
+            <button class="icon-btn" onclick="logout()" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main POS Container -->
+    <div class="pos-container">
+        <!-- Left Panel: Products -->
+        <div class="products-panel">
+            <!-- Track Selector -->
+            <div class="track-selector">
+                <button class="track-btn active" data-track="lifestyle" onclick="selectTrack('lifestyle')">
+                    <i class="fas fa-shopping-bag"></i>
+                    Lifestyle Track
+                </button>
+                <button class="track-btn" data-track="medical" onclick="selectTrack('medical')">
+                    <i class="fas fa-prescription-bottle-medical"></i>
+                    Medical Track
+                </button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" class="search-input" id="productSearch" placeholder="Search products..." onkeyup="searchProducts()">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs" id="categoryTabs">
+                <button class="category-tab active" onclick="filterCategory('all')">All</button>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="product-grid" id="productGrid">
+                <div class="loading active">
+                    <div class="spinner"></div>
+                    <p>Loading products...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Cart -->
+        <div class="cart-panel">
+            <div class="cart-header">
+                <div class="cart-title">Current Order</div>
+                <div class="item-count"><span id="cartCount">0</span> items</div>
+            </div>
+
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Cart is empty</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Tap products to add</p>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">R 0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>VAT (15%):</span>
+                    <span id="vat">R 0.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>TOTAL:</span>
+                    <span id="total">R 0.00</span>
+                </div>
+            </div>
+
+            <div class="cart-actions">
+                <button class="btn-primary" id="checkoutBtn" onclick="openPaymentModal()" disabled>
+                    <i class="fas fa-credit-card"></i>
+                    CHECKOUT
+                </button>
+                <button class="btn-secondary" onclick="clearCart()">
+                    <i class="fas fa-trash-alt"></i>
+                    Clear Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-detect API URL based on hostname
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3001/api/v1'
+            : `${window.location.protocol}//${window.location.host}/api/v1`;
+        let currentTrack = 'lifestyle';
+        let currentCategory = 'all';
+        let allProducts = [];
+        let cart = [];
+
+        // Toast notification system
+        function showToast(title, message, type = 'info') {
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                info: 'fa-info-circle'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="toast-icon"><i class="fas ${icons[type]}"></i></div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+            `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(400px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            loadProducts();
+        });
+
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+            if (!token || !user.id) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            document.getElementById('userName').textContent = user.firstName || 'Cashier';
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login.html';
+        }
+
+        // Track Selection
+        function selectTrack(track) {
+            currentTrack = track;
+            document.querySelectorAll('.track-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.track === track);
+            });
+            loadProducts();
+        }
+
+        // Load Products
+        async function loadProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '<div class="loading active"><div class="spinner"></div><p>Loading products...</p></div>';
+
+            try {
+                // Load both products and menu items
+                const [productsRes, menuRes] = await Promise.all([
+                    fetch(`${API_URL}/products`),
+                    fetch(`${API_URL}/menu`)
+                ]);
+
+                const productsData = await productsRes.json();
+                const menuData = await menuRes.json();
+
+                // Combine products and menu items
+                const products = productsData.success ? productsData.products : [];
+                const menuItems = menuData.success ? menuData.menuItems.map(item => ({
+                    ...item,
+                    _id: item._id,
+                    name: item.name,
+                    price: item.price,
+                    category: item.venue === 'la-brewha' ? 'la-brewha' : 'bean-bud',
+                    image: item.image || '/images/menu/default.jpg',
+                    isMenuItem: true,
+                    quantity: 999 // Menu items don't track stock
+                })) : [];
+
+                allProducts = [...products, ...menuItems];
+                displayProducts(allProducts);
+                loadCategories();
+
+                if (allProducts.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">No products found</p>';
+                }
+            } catch (error) {
+                console.error('Load products error:', error);
+                grid.innerHTML = '<p style="text-align: center; color: #F44336; padding: 40px;">Error loading products</p>';
+            }
+        }
+
+        function loadCategories() {
+            // Get unique categories from all products dynamically
+            const uniqueCategories = ['all', ...new Set(allProducts.map(p => p.category).filter(Boolean))];
+
+            // Category display names
+            const categoryNames = {
+                'all': 'All Products',
+                'accessories': 'Accessories',
+                'glassware': 'Glassware',
+                'vaporizers': 'Vaporizers',
+                'lifestyle-cbd': 'BMH Wellness',
+                'coffee': 'Coffee',
+                'merchandise': 'Merchandise',
+                'bundles': 'Bundles',
+                'la-brewha': 'La Brewha Café',
+                'bean-bud': 'Bean & Bud'
+            };
+
+            const tabsContainer = document.getElementById('categoryTabs');
+            tabsContainer.innerHTML = uniqueCategories.map(cat => {
+                const displayName = categoryNames[cat] || cat.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                return `<button class="category-tab ${cat === 'all' ? 'active' : ''}" onclick="filterCategory('${cat}')">${displayName}</button>`;
+            }).join('');
+        }
+
+        function displayProducts(products) {
+            const grid = document.getElementById('productGrid');
+
+            if (products.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">No products found</p>';
+                return;
+            }
+
+            grid.innerHTML = products.map(product => {
+                const stock = product.quantity || 0;
+                const stockClass = stock > 10 ? 'stock-in' : stock > 0 ? 'stock-low' : 'stock-out';
+                const stockText = stock > 10 ? 'In Stock' : stock > 0 ? 'Low Stock' : 'Out of Stock';
+
+                return `
+                    <div class="product-card" onclick='addToCart(${JSON.stringify(product)})'>
+                        <span class="stock-badge ${stockClass}">${stockText}</span>
+                        <div class="product-icon">${getProductIcon(product.category)}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">R ${product.price.toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getProductIcon(category) {
+            const icons = {
+                'accessories': '<i class="fas fa-cannabis"></i>',
+                'glassware': '<i class="fas fa-wine-glass"></i>',
+                'vaporizers': '<i class="fas fa-smoking"></i>',
+                'lifestyle-cbd': '<i class="fas fa-leaf"></i>',
+                'coffee': '<i class="fas fa-coffee"></i>',
+                'merchandise': '<i class="fas fa-tshirt"></i>',
+                'bundles': '<i class="fas fa-gift"></i>'
+            };
+            return icons[category] || '<i class="fas fa-box"></i>';
+        }
+
+        function searchProducts() {
+            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
+            const filtered = allProducts.filter(p =>
+                p.name.toLowerCase().includes(searchTerm) ||
+                p.category.toLowerCase().includes(searchTerm)
+            );
+            displayProducts(filtered);
+        }
+
+        function filterCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
+            displayProducts(filtered);
+        }
+
+        // Cart Functions
+        function addToCart(product) {
+            // Check inventory.quantity (correct field from Product model)
+            const stock = product.inventory?.quantity || product.quantity || 0;
+            if (stock <= 0) {
+                showToast('Out of Stock', `${product.name} is currently out of stock`, 'error');
+                return;
+            }
+
+            const existingItem = cart.find(item => item._id === product._id);
+
+            if (existingItem) {
+                if (existingItem.quantity >= stock) {
+                    showToast('Stock Limit', `Only ${stock} units available`, 'warning');
+                    return;
+                }
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+
+            showToast('Added to Cart', `${product.name} added successfully`, 'success');
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Cart is empty</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Tap products to add</p>
+                    </div>
+                `;
+                cartCount.textContent = '0';
+                checkoutBtn.disabled = true;
+            } else {
+                cartItems.innerHTML = cart.map((item, index) => `
+                    <div class="cart-item">
+                        <div class="item-info">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-price">R ${item.price.toFixed(2)} each</div>
+                        </div>
+                        <div class="item-controls">
+                            <button class="qty-btn" onclick="decrementQty(${index})">-</button>
+                            <input class="qty-input" type="number" value="${item.quantity}" min="1" onchange="updateQty(${index}, this.value)">
+                            <button class="qty-btn" onclick="incrementQty(${index})">+</button>
+                            <button class="remove-btn" onclick="removeFromCart(${index})">×</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+                checkoutBtn.disabled = false;
+            }
+
+            updateTotals();
+        }
+
+        function incrementQty(index) {
+            cart[index].quantity++;
+            updateCart();
+        }
+
+        function decrementQty(index) {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity--;
+            } else {
+                removeFromCart(index);
+            }
+            updateCart();
+        }
+
+        function updateQty(index, value) {
+            const qty = parseInt(value);
+            if (qty > 0) {
+                cart[index].quantity = qty;
+            } else {
+                removeFromCart(index);
+            }
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function clearCart() {
+            if (confirm('Clear all items from cart?')) {
+                cart = [];
+                updateCart();
+            }
+        }
+
+        function updateTotals() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const vat = subtotal * 0.15;
+            const total = subtotal + vat;
+
+            document.getElementById('subtotal').textContent = `R ${subtotal.toFixed(2)}`;
+            document.getElementById('vat').textContent = `R ${vat.toFixed(2)}`;
+            document.getElementById('total').textContent = `R ${total.toFixed(2)}`;
+        }
+
+        function openPaymentModal() {
+            document.getElementById('paymentModal').classList.add('active');
+            updatePaymentTotal();
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+        }
+
+        function updatePaymentTotal() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * 1.15;
+            document.getElementById('paymentTotal').textContent = `R ${total.toFixed(2)}`;
+        }
+
+        function selectPaymentMethod(method) {
+            document.querySelectorAll('.payment-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.payment-content').forEach(content => content.style.display = 'none');
+            document.getElementById(`${method}Payment`).style.display = 'block';
+        }
+
+        async function processInstaPay() {
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            // Simulate InstaPay processing
+            setTimeout(() => {
+                document.getElementById('instaPayStatus').classList.add('active');
+                document.getElementById('instaPayStatus').innerHTML = `
+                    <div style="text-align: center; padding: 30px;">
+                        <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--success); margin-bottom: 20px;"></i>
+                        <h3 style="color: var(--success); margin-bottom: 10px;">Payment Successful!</h3>
+                        <p style="color: #666;">Transaction ID: IP-${Date.now()}</p>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    completeSale('instapay', `IP-${Date.now()}`);
+                }, 2000);
+            }, 3000);
+        }
+
+        function copyBankDetails() {
+            const details = `Bank: Standard Bank
+Account: Basotho Medical Herbs
+Number: 123456789
+Branch: 051001
+Reference: SALE-${Date.now()}`;
+
+            navigator.clipboard.writeText(details).then(() => {
+                showToast('Copied!', 'Bank details copied to clipboard', 'success');
+            });
+        }
+
+        async function uploadProof() {
+            const fileInput = document.getElementById('proofFile');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                showToast('No File Selected', 'Please select a proof of payment file', 'error');
+                return;
+            }
+
+            // In production, upload to server
+            showToast('Proof Uploaded', 'Payment pending admin approval', 'success');
+            closePaymentModal();
+            cart = [];
+            updateCart();
+        }
+
+        async function completeSale(paymentMethod, reference) {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const vat = subtotal * 0.15;
+            const total = subtotal + vat;
+
+            const saleData = {
+                branchId: '507f1f77bcf86cd799439011', // TODO: Get from user session
+                track: currentTrack,
+                items: cart.map(item => ({
+                    productId: item._id,
+                    name: item.name,
+                    sku: item.sku || '',
+                    quantity: item.quantity,
+                    unitPrice: item.price
+                })),
+                orderType: 'walk-in',
+                paymentMethod,
+                paymentReference: reference,
+                proofOfPayment: null // TODO: Handle proof upload for EFT
+            };
+
+            // Call POS API to create sale
+            fetch('/api/v1/pos/sale', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('adminToken') || ''}`
+                },
+                body: JSON.stringify(saleData)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    closePaymentModal();
+
+                    showToast(
+                        'Sale Completed!',
+                        `Sale ${data.sale.saleNumber}\nTotal: R${data.sale.totalAmount.toFixed(2)}\n\nReceipt will download automatically`,
+                        'success'
+                    );
+
+                    // Auto-download receipt
+                    downloadReceipt(data.sale._id);
+
+                    cart = [];
+                    updateCart();
+                } else {
+                    showToast('Sale Error', data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Sale error:', error);
+                showToast('Error', 'Error completing sale. Please try again.', 'error');
+            });
+        }
+
+        function downloadReceipt(saleId) {
+            const token = sessionStorage.getItem('adminToken') || '';
+            window.open(`/api/v1/pos/sale/${saleId}/receipt?download=true`, '_blank');
+        }
+
+        function downloadInvoice(saleId) {
+            const token = sessionStorage.getItem('adminToken') || '';
+            window.open(`/api/v1/pos/sale/${saleId}/invoice?download=true`, '_blank');
+        }
+    </script>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Process Payment</div>
+                <button class="modal-close" onclick="closePaymentModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div style="font-size: 0.9rem; color: #666; margin-bottom: 8px;">Amount Due</div>
+                    <div id="paymentTotal" style="font-size: 2.5rem; font-weight: 700; color: var(--cbd-forest-green);">R 0.00</div>
+                </div>
+
+                <!-- Payment Method Tabs -->
+                <div style="display: flex; gap: 10px; margin-bottom: 30px;">
+                    <button class="payment-tab active" onclick="selectPaymentMethod('instaPay')">
+                        <i class="fas fa-credit-card"></i> InstaPay
+                    </button>
+                    <button class="payment-tab" onclick="selectPaymentMethod('cash')">
+                        <i class="fas fa-money-bill-wave"></i> Cash
+                    </button>
+                    <button class="payment-tab" onclick="selectPaymentMethod('eft')">
+                        <i class="fas fa-university"></i> Manual EFT
+                    </button>
+                </div>
+
+                <!-- InstaPay Content -->
+                <div class="payment-content" id="instaPayPayment">
+                    <div style="background: #f9f9f9; padding: 30px; border-radius: 15px; text-align: center;">
+                        <i class="fas fa-mobile-alt" style="font-size: 3rem; color: var(--cbd-forest-green); margin-bottom: 20px;"></i>
+                        <h3 style="margin-bottom: 15px; color: var(--cbd-charcoal);">InstaPay - Instant Payment</h3>
+                        <p style="color: #666; margin-bottom: 25px;">Fast, secure card & instant EFT payments</p>
+                        <button class="btn-primary" onclick="processInstaPay()">
+                            <i class="fas fa-lock"></i> PROCESS PAYMENT
+                        </button>
+                    </div>
+                    <div class="loading" id="instaPayStatus"></div>
+                </div>
+
+                <!-- Cash Content -->
+                <div class="payment-content" id="cashPayment" style="display: none;">
+                    <div style="background: #f9f9f9; padding: 30px; border-radius: 15px;">
+                        <h3 style="margin-bottom: 20px;">Cash Payment</h3>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Amount Received</label>
+                            <input type="number" class="search-input" placeholder="Enter amount" id="cashReceived" style="margin-bottom: 0;">
+                        </div>
+                        <div style="background: #E8F5E9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span>Change Due:</span>
+                                <span style="font-size: 1.5rem; font-weight: 700; color: var(--success);" id="changeDue">R 0.00</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="completeSale('cash', 'CASH-' + Date.now())">
+                            <i class="fas fa-check"></i> COMPLETE SALE
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Manual EFT Content -->
+                <div class="payment-content" id="eftPayment" style="display: none;">
+                    <div style="background: #f9f9f9; padding: 25px; border-radius: 15px; margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 15px;">Bank Transfer Details</h3>
+                        <div style="background: white; padding: 20px; border-radius: 10px; border: 2px dashed #ddd;">
+                            <div style="margin-bottom: 12px;"><strong>Bank:</strong> Standard Bank</div>
+                            <div style="margin-bottom: 12px;"><strong>Account Name:</strong> Basotho Medical Herbs</div>
+                            <div style="margin-bottom: 12px;"><strong>Account Number:</strong> 123456789</div>
+                            <div style="margin-bottom: 12px;"><strong>Branch Code:</strong> 051001</div>
+                            <div style="margin-bottom: 12px;"><strong>Reference:</strong> <span style="color: var(--cbd-forest-green); font-weight: 700;">SALE-${Date.now()}</span></div>
+                        </div>
+                        <button class="btn-secondary" onclick="copyBankDetails()" style="width: 100%; margin-top: 15px;">
+                            <i class="fas fa-copy"></i> Copy Bank Details
+                        </button>
+                    </div>
+
+                    <div style="background: #FFF3E0; padding: 20px; border-radius: 10px; border-left: 4px solid var(--warning); margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i>
+                            <strong>Upload Proof of Payment</strong>
+                        </div>
+                        <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">Payment requires admin approval</p>
+                        <input type="file" id="proofFile" accept="image/*,.pdf" style="margin-bottom: 15px; width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px;">
+                        <button class="btn-primary" onclick="uploadProof()">
+                            <i class="fas fa-upload"></i> UPLOAD & SUBMIT
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .payment-tab {
+            flex: 1;
+            padding: 14px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .payment-tab.active {
+            background: var(--cbd-forest-green);
+            color: white;
+            border-color: var(--cbd-forest-green);
+        }
+
+        .payment-tab:active {
+            transform: scale(0.98);
+        }
+
+        .payment-content {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+    <!-- Till Management Modals -->
+
+    <!-- Open Shift Modal -->
+    <div class="modal" id="openShiftModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Open Shift</div>
+                <button class="modal-close" onclick="closeModal('openShiftModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <i class="fas fa-cash-register" style="font-size: 3rem; color: var(--cbd-forest-green); margin-bottom: 15px;"></i>
+                    <h3 style="color: var(--cbd-charcoal); margin-bottom: 10px;">Start Your Shift</h3>
+                    <p style="color: #666;">Enter your opening float to begin</p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Opening Float (R)</label>
+                    <input type="number" class="search-input" id="openingFloat" value="500" step="50" min="0"
+                           style="margin-bottom: 0; font-size: 1.2rem; font-weight: 700; text-align: center;">
+                    <p style="font-size: 0.85rem; color: #666; margin-top: 8px;">Recommended: R500</p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Till Number</label>
+                    <input type="text" class="search-input" id="tillNumber" value="TILL-01"
+                           style="margin-bottom: 0;">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Opening Notes (Optional)</label>
+                    <textarea class="search-input" id="openingNotes" rows="3"
+                              placeholder="Any notes about the opening cash..." style="margin-bottom: 0; resize: vertical;"></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="openTillSession()" style="width: 100%;">
+                    <i class="fas fa-unlock"></i> OPEN SHIFT
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Close Shift Modal -->
+    <div class="modal" id="closeShiftModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <div class="modal-title">Close Shift & Count Cash</div>
+                <button class="modal-close" onclick="closeModal('closeShiftModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <i class="fas fa-coins" style="font-size: 2.5rem; color: var(--cbd-forest-green); margin-bottom: 10px;"></i>
+                    <h3 style="color: var(--cbd-charcoal); margin-bottom: 10px;">Cash Reconciliation</h3>
+                    <p style="color: #666;">Count your physical cash and enter denominations below</p>
+                </div>
+
+                <div class="cash-summary" id="closingSummaryPreview" style="margin-bottom: 20px;">
+                    <div class="cash-summary-row">
+                        <span>Shift Start:</span>
+                        <span id="shiftStartTime">--:--</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Transactions:</span>
+                        <span id="shiftTransactions">0</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Total Sales:</span>
+                        <span id="shiftTotalSales">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Cash Sales:</span>
+                        <span id="shiftCashSales">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Expected Cash:</span>
+                        <span id="expectedCashAmount" style="font-weight: 700;">R 0.00</span>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 15px; color: var(--cbd-charcoal);">Count Physical Cash</h4>
+                <div class="denomination-grid">
+                    <!-- Notes -->
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 200</div>
+                            <div class="denomination-total" id="total_r200">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r200" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 100</div>
+                            <div class="denomination-total" id="total_r100">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r100" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 50</div>
+                            <div class="denomination-total" id="total_r50">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r50" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 20</div>
+                            <div class="denomination-total" id="total_r20">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r20" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 10</div>
+                            <div class="denomination-total" id="total_r10">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r10" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 5</div>
+                            <div class="denomination-total" id="total_r5">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r5" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <!-- Coins -->
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 2</div>
+                            <div class="denomination-total" id="total_r2">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r2" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 1</div>
+                            <div class="denomination-total" id="total_r1">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r1" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">50c</div>
+                            <div class="denomination-total" id="total_c50">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_c50" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">20c</div>
+                            <div class="denomination-total" id="total_c20">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_c20" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">10c</div>
+                            <div class="denomination-total" id="total_c10">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_c10" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">5c</div>
+                            <div class="denomination-total" id="total_c5">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_c5" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                </div>
+
+                <div class="cash-summary" id="varianceSummary">
+                    <div class="cash-summary-row">
+                        <span>Actual Cash Counted:</span>
+                        <span id="actualCashTotal" style="font-weight: 700;">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Expected Cash:</span>
+                        <span id="expectedCashTotal" style="font-weight: 700;">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row large">
+                        <span>Variance:</span>
+                        <span id="varianceAmount">R 0.00</span>
+                    </div>
+                    <div id="varianceWarning" style="display: none; margin-top: 10px; padding: 10px; background: #FFF3E0; border-radius: 6px; font-size: 0.9rem;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i>
+                        Variance exceeds R50 - Manager approval required
+                    </div>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Closing Notes (Optional)</label>
+                    <textarea class="search-input" id="closingNotes" rows="2"
+                              placeholder="Any discrepancies or notes..." style="margin-bottom: 0; resize: vertical;"></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="closeTillSession()" style="width: 100%;">
+                    <i class="fas fa-lock"></i> CLOSE SHIFT
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cash In/Out Modal -->
+    <div class="modal" id="cashOperationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="cashOperationTitle">Cash Operation</div>
+                <button class="modal-close" onclick="closeModal('cashOperationModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <i class="fas" id="cashOperationIcon" style="font-size: 2.5rem; color: var(--cbd-forest-green); margin-bottom: 10px;"></i>
+                    <p style="color: #666;" id="cashOperationDesc"></p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Amount (R)</label>
+                    <input type="number" class="search-input" id="cashOperationAmount" step="10" min="0"
+                           style="margin-bottom: 0; font-size: 1.2rem; font-weight: 700; text-align: center;">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Reason</label>
+                    <textarea class="search-input" id="cashOperationReason" rows="2"
+                              placeholder="Why are you adding/removing cash?" style="margin-bottom: 0; resize: vertical;" required></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="submitCashOperation()" style="width: 100%;">
+                    <i class="fas fa-check"></i> CONFIRM
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UAT Bug Reporter -->
+    <script src="/frontend/bug-reporter.js"></script>
+</body>
+</html>

@@ -73,7 +73,7 @@ class PurchaseOrderGenerator {
     if (fs.existsSync(logoPath)) {
       doc.image(logoPath, 50, 25, { width: 90 });
     } else {
-      // Fallback text logo - DBC branding
+      // Fallback text logo - JIG branding
       doc.fontSize(24)
          .fillColor(this.colors.primary)
          .font('Helvetica-Bold')
@@ -380,7 +380,7 @@ class PurchaseOrderGenerator {
        .text('Authorized By: ____________________________', 50, footerY)
        .text('Date: ______________', 300, footerY);
 
-    // Footer text - DBC branding
+    // Footer text - JIG branding
     doc.fontSize(9)
        .fillColor(this.colors.gold)
        .font('Helvetica-Bold')

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locations - Basotho Medical Herbs Drive-Thru Points</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: #000000;
+            color: #FFFFFF;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #FFFFFF;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 5% 60px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(20,20,20,1) 100%);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #999;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-size: 16px;
+        }
+
+        .search-container i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        /* Locations Grid */
+        .locations-section {
+            padding: 60px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .location-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .location-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+        }
+
+        .location-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .location-type {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .location-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4CAF50;
+            animation: pulse 2s infinite;
+        }
+
+        .status-closed {
+            background: #999;
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .location-info {
+            margin-bottom: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: #CCC;
+            font-size: 14px;
+        }
+
+        .info-row i {
+            color: #FFFFFF;
+            width: 18px;
+            flex-shrink: 0;
+        }
+
+        .location-hours {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .location-hours h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .hours-list {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .hours-list div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .location-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #FFFFFF;
+            color: #000000;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 5%;
+            background: rgba(0, 0, 0, 0.95);
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .locations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Basotho Medical Herbs</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="locations.html">Locations</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="products.html">Shop</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Our Drive-Thru Locations</h1>
+        <p>Find a Basotho Medical Herbs drive-thru near you. Convenient access to premium wellness products, anytime.</p>
+        <div class="search-container">
+            <input type="text" id="locationSearch" placeholder="Search by city, area, or suburb..." onkeyup="filterLocations()">
+            <i class="fas fa-search"></i>
+        </div>
+    </div>
+
+    <!-- Locations Grid -->
+    <div class="locations-section">
+        <div class="locations-grid" id="locationsGrid">
+            <!-- Location 1 -->
+            <div class="location-card" data-name="Johannesburg CBD" data-area="Johannesburg">
+                <div class="location-header">
+                    <div>
+                        <div class="location-name">Johannesburg CBD</div>
+                        <span class="location-type">Drive-Thru</span>
+                    </div>
+                    <div class="location-status">
+                        <span class="status-dot"></span>
+                        <span>Open Now</span>
+                    </div>
+                </div>
+                <div class="location-info">
+                    <div class="info-row">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Main Road, Johannesburg CBD, 2001</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-phone"></i>
+                        <span>+27 11 123 4567</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-envelope"></i>
+                        <span>jhb-cbd@basothomedicalherbs.ls</span>
+                    </div>
+                </div>
+                <div class="location-hours">
+                    <h4><i class="fas fa-clock"></i> Opening Hours</h4>
+                    <div class="hours-list">
+                        <div><span>Monday - Friday</span><span>8:00 AM - 8:00 PM</span></div>
+                        <div><span>Saturday</span><span>9:00 AM - 6:00 PM</span></div>
+                        <div><span>Sunday</span><span>10:00 AM - 4:00 PM</span></div>
+                    </div>
+                </div>
+                <div class="location-actions">
+                    <a href="#" class="btn btn-primary">Get Directions</a>
+                    <a href="#" class="btn btn-secondary">Call Now</a>
+                </div>
+            </div>
+
+            <!-- Location 2 -->
+            <div class="location-card" data-name="Sandton City" data-area="Sandton">
+                <div class="location-header">
+                    <div>
+                        <div class="location-name">Sandton City</div>
+                        <span class="location-type">Drive-Thru</span>
+                    </div>
+                    <div class="location-status">
+                        <span class="status-dot"></span>
+                        <span>Open Now</span>
+                    </div>
+                </div>
+                <div class="location-info">
+                    <div class="info-row">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>456 Rivonia Road, Sandton, 2196</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-phone"></i>
+                        <span>+27 11 234 5678</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-envelope"></i>
+                        <span>sandton@basothomedicalherbs.ls</span>
+                    </div>
+                </div>
+                <div class="location-hours">
+                    <h4><i class="fas fa-clock"></i> Opening Hours</h4>
+                    <div class="hours-list">
+                        <div><span>Monday - Friday</span><span>8:00 AM - 9:00 PM</span></div>
+                        <div><span>Saturday</span><span>9:00 AM - 7:00 PM</span></div>
+                        <div><span>Sunday</span><span>10:00 AM - 5:00 PM</span></div>
+                    </div>
+                </div>
+                <div class="location-actions">
+                    <a href="#" class="btn btn-primary">Get Directions</a>
+                    <a href="#" class="btn btn-secondary">Call Now</a>
+                </div>
+            </div>
+
+            <!-- Location 3 -->
+            <div class="location-card" data-name="Cape Town V&A Waterfront" data-area="Cape Town">
+                <div class="location-header">
+                    <div>
+                        <div class="location-name">V&A Waterfront</div>
+                        <span class="location-type">Drive-Thru</span>
+                    </div>
+                    <div class="location-status">
+                        <span class="status-dot status-closed"></span>
+                        <span>Closed (Opens 8AM)</span>
+                    </div>
+                </div>
+                <div class="location-info">
+                    <div class="info-row">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>789 Waterfront Drive, Cape Town, 8001</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-phone"></i>
+                        <span>+27 21 345 6789</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-envelope"></i>
+                        <span>capetown@basothomedicalherbs.ls</span>
+                    </div>
+                </div>
+                <div class="location-hours">
+                    <h4><i class="fas fa-clock"></i> Opening Hours</h4>
+                    <div class="hours-list">
+                        <div><span>Monday - Friday</span><span>8:00 AM - 8:00 PM</span></div>
+                        <div><span>Saturday</span><span>9:00 AM - 6:00 PM</span></div>
+                        <div><span>Sunday</span><span>10:00 AM - 4:00 PM</span></div>
+                    </div>
+                </div>
+                <div class="location-actions">
+                    <a href="#" class="btn btn-primary">Get Directions</a>
+                    <a href="#" class="btn btn-secondary">Call Now</a>
+                </div>
+            </div>
+
+            <!-- Location 4 -->
+            <div class="location-card" data-name="Pretoria Hatfield" data-area="Pretoria">
+                <div class="location-header">
+                    <div>
+                        <div class="location-name">Pretoria Hatfield</div>
+                        <span class="location-type">Drive-Thru</span>
+                    </div>
+                    <div class="location-status">
+                        <span class="status-dot"></span>
+                        <span>Open Now</span>
+                    </div>
+                </div>
+                <div class="location-info">
+                    <div class="info-row">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>321 Burnett Street, Hatfield, Pretoria, 0028</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-phone"></i>
+                        <span>+27 12 456 7890</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-envelope"></i>
+                        <span>pretoria@basothomedicalherbs.ls</span>
+                    </div>
+                </div>
+                <div class="location-hours">
+                    <h4><i class="fas fa-clock"></i> Opening Hours</h4>
+                    <div class="hours-list">
+                        <div><span>Monday - Friday</span><span>8:00 AM - 8:00 PM</span></div>
+                        <div><span>Saturday</span><span>9:00 AM - 6:00 PM</span></div>
+                        <div><span>Sunday</span><span>Closed</span></div>
+                    </div>
+                </div>
+                <div class="location-actions">
+                    <a href="#" class="btn btn-primary">Get Directions</a>
+                    <a href="#" class="btn btn-secondary">Call Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Basotho Medical Herbs. All rights reserved. | Cultivating Excellence</p>
+    </footer>
+
+    <script>
+        function filterLocations() {
+            const searchInput = document.getElementById('locationSearch').value.toLowerCase();
+            const locationCards = document.querySelectorAll('.location-card');
+
+            locationCards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const area = card.getAttribute('data-area').toLowerCase();
+
+                if (name.includes(searchInput) || area.includes(searchInput)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

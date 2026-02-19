@@ -1,0 +1,9 @@
+NOTE: Replace this file with the actual bug icon image provided by the user.
+The icon should be saved as: /Users/florisolivier/CBD_Wellness_24/images/bug-icon.png
+
+The icon from the user shows a magnifying glass examining a bug/insect.
+For now, the bug reporter will work with a text placeholder, but the actual icon should be:
+- PNG format
+- Transparent background
+- White or light colored (will be inverted for dark button background)
+- Approximately 512x512px or similar

@@ -40,9 +40,9 @@
                 html += `
                     <tr>
                         <td>
-                            <img src="${product.image || '/images/DeBudChef-rLogo.png'}"
+                            <img src="${product.image || '/images/jig-logo-nobg.png'}"
                                  style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; border: 1px solid var(--green);"
-                                 onerror="this.src='/images/DeBudChef-rLogo.png'">
+                                 onerror="this.src='/images/jig-logo-nobg.png'">
                         </td>
                         <td>${product.name}</td>
                         <td>${product.sku || 'N/A'}</td>
@@ -178,7 +178,7 @@
                 category: formData.get('category'),
                 price: parseFloat(formData.get('price')),
                 stock: parseInt(formData.get('stock')),
-                image: formData.get('image') || '/images/DeBudChef-rLogo.png',
+                image: formData.get('image') || '/images/jig-logo-nobg.png',
                 featured: formData.get('featured') === 'on'
             };
 

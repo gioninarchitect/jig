@@ -415,12 +415,12 @@ function displayMedicalProducts(products) {
     products.forEach(product => {
         const imageUrl = product.images && product.images.length > 0
             ? product.images[0].url
-            : '/images/DeBudChef-rLogo.png';
+            : '/images/jig-logo-nobg.png';
 
         html += `
             <div style="flex: 0 0 280px; background: var(--bg-tertiary); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.3s;" onclick="viewMedicalProduct('${product._id}')">
                 <div style="width: 100%; height: 150px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
-                    <img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;" onerror="this.src='/images/DeBudChef-rLogo.png'">
+                    <img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;" onerror="this.src='/images/jig-logo-nobg.png'">
                 </div>
                 <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">${product.name}</h3>
                 <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem; line-height: 1.4;">

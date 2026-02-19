@@ -468,7 +468,7 @@ async function printBatchLabel(batchId) {
             </head>
             <body>
                 <div class="label">
-                    <h2>DBC - BATCH LABEL</h2>
+                    <h2>JIG - BATCH LABEL</h2>
                     <div class="row"><span>Batch ID:</span><strong>${batch.batchId || batch._id?.slice(-8)}</strong></div>
                     <div class="row"><span>Product:</span><strong>${batch.product?.name || 'Unknown'}</strong></div>
                     <div class="row"><span>THC/CBD:</span><strong>${batch.cannabinoids?.thc || 0}% / ${batch.cannabinoids?.cbd || 0}%</strong></div>

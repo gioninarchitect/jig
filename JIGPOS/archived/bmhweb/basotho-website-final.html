@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basotho Medical Herbs | Cannabis Training & Education in Lesotho</title>
+    <meta name="description" content="Licensed cannabis training facility in Lesotho offering internationally accredited courses, skills programmes, and professional development in cannabis sector management.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --transition-speed: 0.3s;
+        }
+
+        /* Light Theme (Default) */
+        body {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #6c757d;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --accent-primary: #0B8C7A;
+            --accent-secondary: #1E3A5F;
+            --accent-hover: #097563;
+            --shadow-sm: rgba(11, 140, 122, 0.1);
+            --shadow-md: rgba(11, 140, 122, 0.15);
+            --shadow-lg: rgba(11, 140, 122, 0.2);
+        }
+
+        /* Dark Theme */
+        body.dark-mode {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-primary: #0B8C7A;
+            --accent-secondary: #1E3A5F;
+            --accent-hover: #0EBAAA;
+            --shadow-sm: rgba(11, 140, 122, 0.1);
+            --shadow-md: rgba(11, 140, 122, 0.2);
+            --shadow-lg: rgba(11, 140, 122, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 4px 20px var(--shadow-md);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color var(--transition-speed) ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-primary);
+            transition: width var(--transition-speed) ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle-btn {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            width: 60px;
+            height: 32px;
+            position: relative;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .theme-toggle-btn .toggle-circle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 22px;
+            height: 22px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        body.dark-mode .theme-toggle-btn .toggle-circle {
+            transform: translateX(28px);
+        }
+
+        .btn-donate {
+            padding: 0.7rem 1.5rem;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-donate:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 71px;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem 5%;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 10px 30px var(--shadow-md);
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+        }
+
+        .mobile-menu ul li {
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-menu ul li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu ul li a:hover {
+            color: var(--accent-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 140px 5% 80px;
+            background: var(--bg-primary);
+            overflow: hidden;
+        }
+
+        .hero-bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        body.dark-mode .hero-bg-overlay {
+            opacity: 0.2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .hero-text h1 .company-name {
+            color: var(--text-primary);
+            display: block;
+            font-size: clamp(3rem, 7vw, 6rem);
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 5rem 5%;
+            background: var(--bg-secondary);
+        }
+
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-primary);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px var(--shadow-md);
+            border-color: var(--accent-primary);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .feature-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        /* Offerings Section */
+        .offerings {
+            padding: 5rem 5%;
+        }
+
+        .section-header {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .offerings-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .offering-card {
+            background: var(--bg-secondary);
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .offering-card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-tertiary);
+        }
+
+        .offering-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .offering-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .offering-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 5rem 5%;
+            background: var(--bg-secondary);
+        }
+
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: var(--bg-primary);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .service-tag {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        .service-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--accent-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-links h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 0.7rem;
+        }
+
+        .footer-links ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .hero {
+                padding: 120px 5% 50px;
+            }
+
+            .features-grid,
+            .offerings-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 110px 5% 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="images/logo.png" alt="Basotho Medical Herbs" class="logo-img" onerror="this.src='https://via.placeholder.com/50/0B8C7A/ffffff?text=BMH'">
+            </a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#courses">Courses</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+                    <div class="toggle-circle">🌙</div>
+                </button>
+                <a href="#donate" class="btn-donate">Donate</a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#donate">Donate</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>
+                    Welcome to<br>
+                    <span class="company-name">Basotho Medical Herbs</span>
+                </h1>
+                <p>A duly incorporated Lesotho Private company that is licensed to fully operate with Cannabis and other medicinal Plants that are not prohibited by Drugs of Abuse Act 2008 of Lesotho.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="about">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="images/training-icon.png" alt="Cannabis Training" onerror="this.src='https://via.placeholder.com/80/0B8C7A/ffffff?text=🎓'">
+                </div>
+                <h3>Cannabis Training</h3>
+                <p>Our vision is to develop a globally competitive Skilled Professionals And 'State of Art' Cannabis Training Facility in Africa</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="images/law-icon.png" alt="Cannabis Law" onerror="this.src='https://via.placeholder.com/80/0B8C7A/ffffff?text=⚖️'">
+                </div>
+                <h3>Cannabis Law</h3>
+                <p>Use Lesotho's Natural & Human Resources and enabling laws to generate exponential growth</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="images/market-icon.png" alt="Cannabis Market" onerror="this.src='https://via.placeholder.com/80/0B8C7A/ffffff?text=📈'">
+                </div>
+                <h3>Cannabis Market</h3>
+                <p>To Address Market Demand as the Strategic Imperative</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="images/standard-icon.png" alt="International Standard" onerror="this.src='https://via.placeholder.com/80/0B8C7A/ffffff?text=🌍'">
+                </div>
+                <h3>International Standard</h3>
+                <p>Compete Globally on Quality and Volume. To offer International Cannabis Standard Courses</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="images/care-icon.png" alt="Love & Care" onerror="this.src='https://via.placeholder.com/80/0B8C7A/ffffff?text=❤️'">
+                </div>
+                <h3>Love & Care</h3>
+                <p>To Benefit Local Communities with Sustainable and Non-disruptive infrastructure, skills and capabilities</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="images/facility-icon.png" alt="Our Facility" onerror="this.src='https://via.placeholder.com/80/0B8C7A/ffffff?text=🏭'">
+                </div>
+                <h3>Our Facility</h3>
+                <p>30,000 Square-Metres Facility for Manufacturing, research, learning, development, internship and accredited certification</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">1</span>
+                <span class="stat-label">Volunteers</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">0</span>
+                <span class="stat-label">Donations</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1</span>
+                <span class="stat-label">Projects</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">2</span>
+                <span class="stat-label">Missions</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Offer -->
+    <section class="offerings">
+        <div class="section-header">
+            <h2>What We Offer</h2>
+        </div>
+        <div class="offerings-grid">
+            <div class="offering-card">
+                <div class="offering-icon">
+                    <img src="images/internship.png" alt="Internship" onerror="this.src='https://via.placeholder.com/70/0B8C7A/ffffff?text=💼'">
+                </div>
+                <h3>Access to Internship</h3>
+            </div>
+
+            <div class="offering-card">
+                <div class="offering-icon">
+                    <img src="images/skills.png" alt="Skills" onerror="this.src='https://via.placeholder.com/70/0B8C7A/ffffff?text=🎯'">
+                </div>
+                <h3>Developing Skills for Cannabis Sector</h3>
+            </div>
+
+            <div class="offering-card">
+                <div class="offering-icon">
+                    <img src="images/networking.png" alt="Networking" onerror="this.src='https://via.placeholder.com/70/0B8C7A/ffffff?text=🤝'">
+                </div>
+                <h3>Networking with Employers</h3>
+            </div>
+
+            <div class="offering-card">
+                <div class="offering-icon">
+                    <img src="images/career.png" alt="Career" onerror="this.src='https://via.placeholder.com/70/0B8C7A/ffffff?text=📚'">
+                </div>
+                <h3>Career Information and Resources</h3>
+            </div>
+
+            <div class="offering-card">
+                <div class="offering-icon">
+                    <img src="images/funding.png" alt="Funding" onerror="this.src='https://via.placeholder.com/70/0B8C7A/ffffff?text=💰'">
+                </div>
+                <h3>Funding Through Strategic Partners</h3>
+            </div>
+
+            <div class="offering-card">
+                <div class="offering-icon">
+                    <img src="images/legal.png" alt="Legal" onerror="this.src='https://via.placeholder.com/70/0B8C7A/ffffff?text=⚖️'">
+                </div>
+                <h3>Legal Framework of Cannabis Industry</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="courses">
+        <div class="section-header">
+            <h2>Our Services</h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <span class="service-tag">Short Courses</span>
+                <h3>SHORT COURSES</h3>
+                <p>Ideal for learners who wish to upgrade their skills or refresh their knowledge, or to those who wish to expand into new areas of interest. These intensive courses are designed on various levels to suit beginners, intermediate and advanced candidates.</p>
+            </div>
+
+            <div class="service-card">
+                <span class="service-tag">Skills Programmes</span>
+                <h3>SKILLS PROGRAMMES</h3>
+                <p>Occupationally based and when completed will carry credits towards a qualification registered in terms of the National Qualifications Framework.</p>
+                <p>Our courses provide prospective students with an opportunity to gain attitudes, skills and knowledge in the Cannabis Sector Management, Business Administration and Horticulture domains.</p>
+            </div>
+        </div>
+
+        <div style="max-width: 1200px; margin: 3rem auto 0; background: var(--bg-primary); padding: 3rem; border-radius: 16px; border: 1px solid var(--border-color);">
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                Our Careers Service empowers students to take ownership of and make informed decisions about their futures through a broad range of advisory services and networking opportunities. Our Curriculum covers the skills, knowledge and best practices for succeeding in the cannabis industry, including a strong focus on regulatory compliance.
+            </p>
+            <p style="color: var(--text-secondary); line-height: 1.8;">
+                Gain the specialized skills and knowledge to work in the growing cannabis sector with our Cannabis Education courses. As the industry is predicted to reach a peak by 2023, trained professionals are in high demand. Our courses are taught by practicing industry specialists through their experiences, research and Grow Journals. These courses provide the flexibility to work while building skills and knowledge to further your career.
+            </p>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="cta-content">
+            <h2>Ready to Start Your Journey?</h2>
+            <p>Join Lesotho's premier cannabis education institution and position yourself for success in the global cannabis industry.</p>
+            <a href="#" class="btn btn-primary">Contact Us Today</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Basotho Medical Herbs</h3>
+                <p>Basotho Medical Herbs Pty (Ltd) is a duly incorporated Lesotho Private company that is licensed to fully operate with Cannabis and other medicinal Plants that are not prohibited by Drugs of Abuse Act 2008 of Lesotho.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">📘</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h4>Important Links</h4>
+                <ul>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                    <li><a href="#cookies">Cookies Policy</a></li>
+                    <li><a href="#terms">Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Useful Links</h4>
+                <ul>
+                    <li><a href="#intro">Introduction</a></li>
+                    <li><a href="#partners">Our Partners</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#journeys">Our Journeys</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="/cdn-cgi/l/email-protection#4f262129200f2d2e3c203b2720222a2b262c2e23272a3d2d3c61233c">Email Us</a></li>
+                    <li><a href="#">Lesotho, Southern Africa</a></li>
+                    <li><a href="#">+266 [Contact]</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>Copyright © 2025 - Website Developed By <a href="https://fig3.online/" target="_blank">fig3.online</a></p>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenuBtn.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+        }
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-menu a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                mobileMenuBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Theme Toggle Function
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const circle = document.querySelector('.toggle-circle');
+        
+        themeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+            
+            // Update icon
+            if (body.classList.contains('dark-mode')) {
+                circle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                circle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Load saved theme on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                circle.textContent = '☀️';
+            } else {
+                circle.textContent = '🌙';
+            }
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.feature-card, .offering-card, .service-card').forEach(function(el) {
+            el.style.opacity = '0';
+            el.style.tran

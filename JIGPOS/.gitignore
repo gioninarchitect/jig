@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Credentials (CRITICAL - Never commit these)
+admin-login.json
+**/admin-login.json
+credentials.json
+**/credentials.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# macOS artifacts
+.DS_Store
+._*
+**/.DS_Store
+**/._*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Test files
+test-*.js
+**/test-*.js
+
+# Build outputs
+dist/
+build/
+
+# Database exports
+db-exports/
+*.tar.gz
+
+# Temporary files
+tmp/
+temp/
+*.tmp
