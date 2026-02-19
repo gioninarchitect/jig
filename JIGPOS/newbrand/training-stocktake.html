@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Take App - Training &amp; UAT | JIG Craft Cannabis</title>
+    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--charcoal);
+            line-height: 1.7;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── HEADER ─── */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, var(--primary-deep) 100%);
+            color: var(--white);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .header-logo {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 0.75rem;
+            filter: brightness(1.1);
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-subtitle {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .header-meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            opacity: 0.75;
+        }
+
+        .header-meta-item i {
+            color: var(--gold);
+            font-size: 0.75rem;
+        }
+
+        /* ─── SECTION NAV ─── */
+        .section-nav {
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .section-nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .section-nav-inner::-webkit-scrollbar {
+            display: none;
+        }
+
+        .section-nav-btn {
+            flex: 1;
+            min-width: 0;
+            padding: 14px 16px;
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.25s ease;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .section-nav-btn:hover {
+            color: var(--primary);
+            background: rgba(124, 58, 237, 0.04);
+        }
+
+        .section-nav-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--gold);
+        }
+
+        .section-nav-btn i {
+            font-size: 0.85rem;
+        }
+
+        /* ─── MAIN ─── */
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* ─── CONTENT SECTIONS ─── */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-intro {
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-intro h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-intro h2 i {
+            color: var(--gold);
+        }
+
+        .section-intro p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ─── ACCORDION ─── */
+        .accordion {
+            margin-bottom: 0.75rem;
+        }
+
+        .accordion-trigger {
+            width: 100%;
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            transition: all 0.25s ease;
+            box-shadow: var(--shadow-sm);
+            text-align: left;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .accordion-trigger:hover {
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-md);
+        }
+
+        .accordion.open .accordion-trigger {
+            border-color: var(--gold);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+        }
+
+        .accordion.open .accordion-trigger .acc-icon {
+            background: rgba(255,255,255,0.15);
+            color: var(--gold-light);
+        }
+
+        .accordion.open .accordion-trigger .acc-title {
+            color: var(--white);
+        }
+
+        .accordion.open .accordion-trigger .acc-subtitle {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .accordion.open .accordion-trigger .acc-chevron {
+            color: var(--gold-light);
+        }
+
+        .acc-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(124, 58, 237, 0.08);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--primary);
+            font-size: 1rem;
+            transition: all 0.25s ease;
+        }
+
+        .acc-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .acc-title {
+            font-weight: 600;
+            font-size: 0.925rem;
+            color: var(--charcoal);
+            transition: color 0.25s ease;
+        }
+
+        .acc-subtitle {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            transition: color 0.25s ease;
+        }
+
+        .acc-chevron {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: transform 0.3s ease, color 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .accordion.open .acc-chevron {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .accordion.open .accordion-body {
+            max-height: 3000px;
+        }
+
+        .accordion-content {
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            border-top: none;
+            border-bottom-left-radius: var(--radius);
+            border-bottom-right-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        /* ─── CONTENT ELEMENTS ─── */
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 0.625rem 0;
+            border-bottom: 1px solid var(--cream-dark);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .checklist li i {
+            margin-top: 3px;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+        }
+
+        .checklist li i.fa-square {
+            color: var(--border-light);
+        }
+
+        .checklist li i.fa-circle-check {
+            color: var(--success);
+        }
+
+        .checklist li i.fa-circle-dot {
+            color: var(--primary);
+        }
+
+        .checklist li i.fa-triangle-exclamation {
+            color: var(--warning);
+        }
+
+        .checklist li i.fa-camera {
+            color: var(--info);
+        }
+
+        .checklist li i.fa-shield-halved {
+            color: var(--gold);
+        }
+
+        .checklist li i.fa-lightbulb {
+            color: var(--gold);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 0.72rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .highlight-box {
+            background: rgba(124, 58, 237, 0.06);
+            border-left: 3px solid var(--primary);
+            padding: 0.875rem 1rem;
+            border-radius: 0 6px 6px 0;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+        }
+
+        .highlight-box.warning {
+            background: rgba(245, 158, 11, 0.08);
+            border-left-color: var(--warning);
+        }
+
+        .highlight-box.gold {
+            background: rgba(217, 119, 6, 0.08);
+            border-left-color: var(--gold);
+        }
+
+        .highlight-box strong {
+            color: var(--primary-dark);
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .role-badge.owner {
+            background: rgba(217, 119, 6, 0.15);
+            color: var(--gold-dark);
+        }
+
+        .role-badge.manager {
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--info);
+        }
+
+        .role-badge.staff {
+            background: rgba(124, 58, 237, 0.12);
+            color: var(--primary);
+        }
+
+        /* ─── SIGN-OFF FORM ─── */
+        .signoff-section {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .signoff-section h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .signoff-section h3 i {
+            color: var(--gold);
+        }
+
+        .signoff-checklist {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.25rem;
+        }
+
+        .signoff-checklist li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--cream-dark);
+            font-size: 0.875rem;
+        }
+
+        .signoff-checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .signoff-checklist label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .signoff-checklist input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .signoff-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .signoff-field label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.375rem;
+        }
+
+        .signoff-field input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            background: var(--black);
+            transition: border-color 0.2s;
+        }
+
+        .signoff-field input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        /* ─── ROLLOUT TABLE ─── */
+        .rollout-table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 1rem;
+        }
+
+        .rollout-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 640px;
+        }
+
+        .rollout-table thead th {
+            background: var(--primary);
+            color: var(--white);
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .rollout-table thead th:first-child {
+            border-top-left-radius: 6px;
+        }
+
+        .rollout-table thead th:last-child {
+            border-top-right-radius: 6px;
+        }
+
+        .rollout-table tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--cream-dark);
+            vertical-align: middle;
+        }
+
+        .rollout-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rollout-table tbody tr:hover {
+            background: rgba(124, 58, 237, 0.03);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .status-pill.active {
+            background: rgba(34, 197, 94, 0.12);
+            color: #22C55E;
+        }
+
+        .status-pill.pending {
+            background: rgba(108, 117, 125, 0.12);
+            color: #6C757D;
+        }
+
+        .status-pill.scheduled {
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--info);
+        }
+
+        .placeholder-text {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 0.82rem;
+        }
+
+        /* ─── PRINT STYLES ─── */
+        @media print {
+            .section-nav {
+                display: none;
+            }
+
+            .content-section {
+                display: block !important;
+            }
+
+            .accordion-body {
+                max-height: none !important;
+            }
+
+            .accordion-trigger {
+                background: var(--black) !important;
+                color: var(--charcoal) !important;
+                border-color: var(--border-light) !important;
+            }
+
+            body {
+                font-size: 11pt;
+            }
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.5rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.35rem;
+            }
+
+            .header-meta {
+                gap: 0.75rem;
+            }
+
+            .main {
+                padding: 1rem;
+            }
+
+            .section-nav-btn {
+                padding: 12px 10px;
+                font-size: 0.72rem;
+            }
+
+            .section-nav-btn span {
+                display: none;
+            }
+
+            .section-nav-btn i {
+                font-size: 1rem;
+            }
+
+            .accordion-trigger {
+                padding: 0.875rem 1rem;
+            }
+
+            .acc-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+            }
+
+            .acc-title {
+                font-size: 0.85rem;
+            }
+
+            .accordion-content {
+                padding: 1.25rem 1rem;
+            }
+
+            .signoff-fields {
+                grid-template-columns: 1fr;
+            }
+
+            .header-meta-item {
+                font-size: 0.72rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.2rem;
+            }
+
+            .header-subtitle {
+                font-size: 0.82rem;
+            }
+
+            .section-intro {
+                padding: 1rem;
+            }
+
+            .section-intro h2 {
+                font-size: 1.1rem;
+            }
+
+            .accordion-trigger {
+                gap: 0.625rem;
+            }
+
+            .acc-subtitle {
+                display: none;
+            }
+
+            .rollout-table {
+                font-size: 0.78rem;
+            }
+        }
+
+        /* ─── BACK LINK ─── */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            border-top: 1px solid var(--border-light);
+            margin-top: 2rem;
+        }
+
+        .footer strong {
+            color: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <img src="/images/jig-logo-nobg.png" alt="JIG Craft Cannabis" class="header-logo">
+        <h1>Stock Take App</h1>
+        <p class="header-subtitle">Training &amp; UAT Documentation</p>
+        <div class="header-meta">
+            <span class="header-meta-item"><i class="fa-solid fa-code-branch"></i> Version 1.0</span>
+            <span class="header-meta-item"><i class="fa-solid fa-location-dot"></i> Ormonde Launch</span>
+            <span class="header-meta-item"><i class="fa-solid fa-file-lines"></i> Internal Document</span>
+        </div>
+    </header>
+
+    <!-- SECTION NAV -->
+    <nav class="section-nav">
+        <div class="section-nav-inner">
+            <button class="section-nav-btn active" data-section="uat" onclick="switchSection('uat')">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>UAT Checklist</span>
+            </button>
+            <button class="section-nav-btn" data-section="training" onclick="switchSection('training')">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Training Guide</span>
+            </button>
+            <button class="section-nav-btn" data-section="rollout" onclick="switchSection('rollout')">
+                <i class="fa-solid fa-rocket"></i>
+                <span>Branch Rollout</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- ════════════════════════════════════════════════════════ -->
+        <!-- SECTION 1: UAT CHECKLIST                                -->
+        <!-- ════════════════════════════════════════════════════════ -->
+        <div id="section-uat" class="content-section active">
+
+            <a href="training-hub.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Training Hub</a>
+
+            <div class="section-intro">
+                <h2><i class="fa-solid fa-clipboard-check"></i> Ormonde Go-Live &mdash; UAT Checklist</h2>
+                <p>User Acceptance Testing for the Stock Take App. Complete all items before going live at Ormonde branch. Each role must be tested independently to confirm correct access levels.</p>
+            </div>
+
+            <!-- 1. Pre-Launch Checks -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-list-check"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Pre-Launch Checks</div>
+                        <div class="acc-subtitle">System readiness and connectivity verification</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li><i class="fa-regular fa-square"></i> All staff PINs created and tested</li>
+                            <li><i class="fa-regular fa-square"></i> Tablet bookmarked to <strong>stocktake-app.html</strong></li>
+                            <li><i class="fa-solid fa-triangle-exclamation"></i> <strong>Current physical stock sheet collected from branch</strong> &mdash; this is the first step before going digital. The physical count becomes the baseline.</li>
+                            <li><i class="fa-regular fa-square"></i> WiFi connectivity confirmed at branch location</li>
+                            <li><i class="fa-regular fa-square"></i> Test login with each staff PIN to verify access</li>
+                        </ul>
+                        <div class="highlight-box warning">
+                            <strong>Important:</strong> Do not proceed with digital stock take until the physical stock sheet has been collected and recorded. This is the baseline reference for all variance calculations.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. UAT: Owner/Admin Role -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">UAT: Owner / Admin Role</div>
+                        <div class="acc-subtitle">Full access &mdash; create sessions, count, export, submit, receive</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <div style="margin-bottom: 0.75rem;">
+                            <span class="role-badge owner"><i class="fa-solid fa-crown"></i> Owner</span>
+                        </div>
+                        <ul class="checklist">
+                            <li><i class="fa-regular fa-square"></i> Login with owner PIN</li>
+                            <li><i class="fa-regular fa-square"></i> Create new stock take session (Full Count)</li>
+                            <li><i class="fa-regular fa-square"></i> View all product categories: Flower, Edibles, Concentrates, Vapes, Accessories</li>
+                            <li><i class="fa-regular fa-square"></i> Filter by grow method (Indoor / Greendoor) and type (Pre Rolls / Pre Packs / Loose)</li>
+                            <li><i class="fa-regular fa-square"></i> Count items: enter weight, take scale photo</li>
+                            <li><i class="fa-regular fa-square"></i> Verify variance displays correctly against expected quantity</li>
+                            <li><i class="fa-regular fa-square"></i> Export stock take to CSV</li>
+                            <li><i class="fa-regular fa-square"></i> Submit stock take for review</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>Receive Stock workflow</strong> &mdash; tested from the same page, no logout required.
+                        </div>
+                        <ul class="checklist" style="margin-top: 0.75rem;">
+                            <li><i class="fa-regular fa-square"></i> Switch to <strong>Receive Stock</strong> tab (same page, no logout)</li>
+                            <li><i class="fa-regular fa-square"></i> Search and add products to receive</li>
+                            <li><i class="fa-regular fa-square"></i> Enter quantities and complete receiving</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. UAT: Staff Manager Role -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-user-tie"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">UAT: Staff Manager Role</div>
+                        <div class="acc-subtitle">Session management, counting, export, submit, receive</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <div style="margin-bottom: 0.75rem;">
+                            <span class="role-badge manager"><i class="fa-solid fa-user-tie"></i> Staff Manager</span>
+                        </div>
+                        <ul class="checklist">
+                            <li><i class="fa-regular fa-square"></i> Login with staff manager PIN</li>
+                            <li><i class="fa-regular fa-square"></i> Create or resume a stock take session</li>
+                            <li><i class="fa-regular fa-square"></i> Full counting workflow &mdash; search, filter, enter weight, photo, save</li>
+                            <li><i class="fa-regular fa-square"></i> Export stock take to CSV</li>
+                            <li><i class="fa-regular fa-square"></i> Submit completed stock take</li>
+                            <li><i class="fa-regular fa-square"></i> Switch to Receive Stock tab</li>
+                            <li><i class="fa-regular fa-square"></i> Search, add products, enter quantities, complete receiving</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. UAT: Staff Role -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-user"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">UAT: Staff Role</div>
+                        <div class="acc-subtitle">Count and photograph only &mdash; cannot submit</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <div style="margin-bottom: 0.75rem;">
+                            <span class="role-badge staff"><i class="fa-solid fa-user"></i> Staff</span>
+                        </div>
+                        <ul class="checklist">
+                            <li><i class="fa-regular fa-square"></i> Login with staff PIN</li>
+                            <li><i class="fa-regular fa-square"></i> Resume an existing stock take session</li>
+                            <li><i class="fa-regular fa-square"></i> Count assigned items &mdash; enter weight values</li>
+                            <li><i class="fa-regular fa-square"></i> Take photos of scale readings</li>
+                            <li><i class="fa-solid fa-shield-halved"></i> <strong>Confirm:</strong> Submit button is disabled or hidden (manager approval required)</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>Access control verification:</strong> Staff members should be able to count and record data, but must not have the ability to submit or finalise a stock take. This requires manager or owner approval.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Sign-Off -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-file-signature"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Sign-Off</div>
+                        <div class="acc-subtitle">Formal UAT completion and approval</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <div class="signoff-section" style="border: none; padding: 0;">
+                            <h3><i class="fa-solid fa-clipboard-check"></i> UAT Completion Checklist</h3>
+                            <ul class="signoff-checklist">
+                                <li>
+                                    <label><input type="checkbox"> All Pre-Launch checks completed</label>
+                                </li>
+                                <li>
+                                    <label><input type="checkbox"> Owner/Admin role tested &mdash; all functions verified</label>
+                                </li>
+                                <li>
+                                    <label><input type="checkbox"> Staff Manager role tested &mdash; all functions verified</label>
+                                </li>
+                                <li>
+                                    <label><input type="checkbox"> Staff role tested &mdash; access restrictions confirmed</label>
+                                </li>
+                                <li>
+                                    <label><input type="checkbox"> Variance calculations are accurate</label>
+                                </li>
+                                <li>
+                                    <label><input type="checkbox"> CSV export produces valid data</label>
+                                </li>
+                                <li>
+                                    <label><input type="checkbox"> Stock receiving workflow completed successfully</label>
+                                </li>
+                                <li>
+                                    <label><input type="checkbox"> Photo capture working on tablet camera</label>
+                                </li>
+                            </ul>
+
+                            <div class="signoff-fields">
+                                <div class="signoff-field">
+                                    <label for="signoff-name">Signed Off By</label>
+                                    <input type="text" id="signoff-name" placeholder="Full name">
+                                </div>
+                                <div class="signoff-field">
+                                    <label for="signoff-date">Date</label>
+                                    <input type="date" id="signoff-date">
+                                </div>
+                                <div class="signoff-field">
+                                    <label for="signoff-role">Role</label>
+                                    <input type="text" id="signoff-role" placeholder="e.g. Branch Manager">
+                                </div>
+                                <div class="signoff-field">
+                                    <label for="signoff-branch">Branch</label>
+                                    <input type="text" id="signoff-branch" placeholder="e.g. Ormonde">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ════════════════════════════════════════════════════════ -->
+        <!-- SECTION 2: TRAINING GUIDE                               -->
+        <!-- ════════════════════════════════════════════════════════ -->
+        <div id="section-training" class="content-section">
+
+            <a href="training-hub.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Training Hub</a>
+
+            <div class="section-intro">
+                <h2><i class="fa-solid fa-graduation-cap"></i> Training Guide</h2>
+                <p>Step-by-step instructions for using the Stock Take App. This guide covers login, counting, receiving stock, and best practices for accurate inventory management.</p>
+            </div>
+
+            <!-- 1. Getting Started -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-power-off"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Getting Started</div>
+                        <div class="acc-subtitle">Login and access the Stock Take App</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li><span class="step-number">1</span> Open the app on the tablet browser: <strong>app.jig.cleva-ai.co.za/stocktake-app.html</strong></li>
+                            <li><span class="step-number">2</span> Enter your email address</li>
+                            <li><span class="step-number">3</span> Enter your 6-digit PIN</li>
+                            <li><span class="step-number">4</span> Tap <strong>"Login with PIN"</strong></li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>Tip:</strong> Bookmark the app URL on the tablet home screen for quick access. Your PIN is set up by the branch manager or owner &mdash; contact them if you have trouble logging in.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Stock Take Process -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Stock Take Process</div>
+                        <div class="acc-subtitle">Counting, weighing, and recording inventory</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li><span class="step-number">1</span> Select or create a stock take session</li>
+                            <li><span class="step-number">2</span> Use the search bar or category filters to find products</li>
+                            <li><span class="step-number">3</span> Tap a product to expand it</li>
+                            <li><span class="step-number">4</span> <strong>Take a photo of the scale reading</strong> (required)</li>
+                            <li><span class="step-number">5</span> Enter the weight shown on the scale</li>
+                            <li><span class="step-number">6</span> Variance auto-calculates against the expected quantity</li>
+                            <li><span class="step-number">7</span> Add notes if needed (e.g. damaged packaging, spillage)</li>
+                            <li><span class="step-number">8</span> Save the item</li>
+                            <li><span class="step-number">9</span> Repeat for all products in the session</li>
+                            <li><span class="step-number">10</span> When complete, tap <strong>Submit</strong></li>
+                        </ul>
+                        <div class="highlight-box warning">
+                            <strong>Scale photo is mandatory.</strong> Every weight entry must be accompanied by a photograph of the scale display. This provides an auditable record and protects both staff and the business.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Receiving Stock -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Receiving Stock</div>
+                        <div class="acc-subtitle">Recording incoming inventory from suppliers</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li><span class="step-number">1</span> Tap the <strong>"Receive Stock"</strong> tab at the top of the page</li>
+                            <li><span class="step-number">2</span> Search for products being received</li>
+                            <li><span class="step-number">3</span> Tap <strong>+</strong> to add each product to the receiving list</li>
+                            <li><span class="step-number">4</span> Enter the quantity received (in grams)</li>
+                            <li><span class="step-number">5</span> Tap <strong>"Complete"</strong> when all items have been entered</li>
+                            <li><span class="step-number">6</span> Tap the <strong>"Stock Take"</strong> tab to return to counting</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>No logout required.</strong> The Stock Take and Receive Stock tabs are on the same page. Switch between them freely during your session.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Tips -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Tips and Best Practices</div>
+                        <div class="acc-subtitle">Get the most accurate results from every count</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li><i class="fa-solid fa-camera"></i> <strong>Always photograph the scale before entering weight.</strong> This is your proof of accuracy and protects you during audits.</li>
+                            <li><i class="fa-solid fa-triangle-exclamation"></i> <strong>Check variance after each entry.</strong> Large variances will be flagged for management review. If you spot an error, re-weigh and update before saving.</li>
+                            <li><i class="fa-solid fa-lightbulb"></i> <strong>Work through products systematically.</strong> Use category filters (Flower, Edibles, Concentrates, Vapes, Accessories) to count one section at a time.</li>
+                            <li><i class="fa-solid fa-lightbulb"></i> <strong>Export to CSV at any time.</strong> Use this as a backup or to share partial results with management before submitting.</li>
+                            <li><i class="fa-solid fa-lightbulb"></i> <strong>Use the grow method filter</strong> (Indoor / Greendoor) and type filter (Pre Rolls / Pre Packs / Loose) to narrow down large product lists.</li>
+                            <li><i class="fa-solid fa-lightbulb"></i> <strong>Add notes for anything unusual.</strong> Damaged packaging, partial containers, or products nearing expiry should all be documented in the notes field.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ════════════════════════════════════════════════════════ -->
+        <!-- SECTION 3: BRANCH ROLLOUT PLAN                          -->
+        <!-- ════════════════════════════════════════════════════════ -->
+        <div id="section-rollout" class="content-section">
+
+            <a href="training-hub.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Training Hub</a>
+
+            <div class="section-intro">
+                <h2><i class="fa-solid fa-rocket"></i> Branch Rollout Plan</h2>
+                <p>Standardised process for rolling out the Stock Take App to each branch. Ormonde is the pilot location. Follow these steps in order for each subsequent branch.</p>
+            </div>
+
+            <!-- Step 1: Collect Stock Sheet -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Step 1: Collect Current Stock Sheet</div>
+                        <div class="acc-subtitle">Establish the physical baseline before digital transition</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li><i class="fa-solid fa-circle-dot"></i> Get the physical stock count from each branch <strong>first</strong></li>
+                            <li><i class="fa-solid fa-circle-dot"></i> This becomes the baseline for the digital system</li>
+                            <li><i class="fa-solid fa-circle-dot"></i> Record format: product name, current quantity, unit (grams)</li>
+                        </ul>
+                        <div class="highlight-box gold">
+                            <strong>This is non-negotiable.</strong> Every branch must provide their current physical stock sheet before the app is introduced. Without a verified baseline, variance calculations are meaningless.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Staff PIN Setup -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-key"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Step 2: Staff PIN Setup</div>
+                        <div class="acc-subtitle">Verify existing credentials and access</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li><i class="fa-solid fa-circle-check"></i> All staff already have PINs &mdash; no email setup needed</li>
+                            <li><i class="fa-solid fa-circle-check"></i> Tablets are already in store</li>
+                            <li><i class="fa-solid fa-circle-dot"></i> Bookmark <strong>app.jig.cleva-ai.co.za/stocktake-app.html</strong> on each tablet</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>Verify each PIN works</strong> by having every staff member log in during setup. This avoids delays on the day of the first count.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Tablet Setup -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-tablet-screen-button"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Step 3: Tablet Setup</div>
+                        <div class="acc-subtitle">Configure the in-store tablet for daily use</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li><span class="step-number">1</span> Open <strong>Chrome</strong> on the tablet</li>
+                            <li><span class="step-number">2</span> Navigate to <strong>app.jig.cleva-ai.co.za/stocktake-app.html</strong></li>
+                            <li><span class="step-number">3</span> Add to Home Screen (optional, for quick access)</li>
+                            <li><span class="step-number">4</span> Test login with one staff PIN to confirm connectivity</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>Adding to Home Screen:</strong> In Chrome, tap the three-dot menu, then select "Add to Home screen". This creates an app-like icon on the tablet for faster access.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Supervised First Count -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Step 4: Supervised First Count</div>
+                        <div class="acc-subtitle">Manager-supervised validation of the digital process</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li><span class="step-number">1</span> Manager or owner must be present for the first stock take</li>
+                            <li><span class="step-number">2</span> Staff completes a full count using the digital app</li>
+                            <li><span class="step-number">3</span> Compare results against the physical stock sheet baseline</li>
+                            <li><span class="step-number">4</span> Resolve any major variances &mdash; re-weigh if necessary</li>
+                            <li><span class="step-number">5</span> This validates that the system is producing accurate results</li>
+                        </ul>
+                        <div class="highlight-box warning">
+                            <strong>Do not skip the supervised count.</strong> The first digital count must be verified against the physical baseline. Only proceed to independent counts once accuracy is confirmed.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Go Live -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-circle-play"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Step 5: Go Live</div>
+                        <div class="acc-subtitle">Transition to fully digital stock management</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li><i class="fa-solid fa-circle-check"></i> Staff performs daily/weekly counts independently using the app</li>
+                            <li><i class="fa-solid fa-circle-check"></i> Manager reviews and approves all submissions</li>
+                            <li><i class="fa-solid fa-circle-check"></i> Stock receiving is done through the app (Receive Stock tab)</li>
+                            <li><i class="fa-solid fa-circle-check"></i> Physical stock sheets are retired</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong>Support:</strong> If any issues arise after going live, contact the branch manager or system administrator. The app URL remains <strong>app.jig.cleva-ai.co.za/stocktake-app.html</strong>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6: Branch Rollout Schedule -->
+            <div class="accordion">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <div class="acc-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div class="acc-text">
+                        <div class="acc-title">Branch Rollout Schedule</div>
+                        <div class="acc-subtitle">Tracking deployment progress across all locations</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down acc-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <div class="rollout-table-wrapper">
+                            <table class="rollout-table">
+                                <thead>
+                                    <tr>
+                                        <th>Branch</th>
+                                        <th>Stock Sheet</th>
+                                        <th>PINs Tested</th>
+                                        <th>First Count</th>
+                                        <th>Go-Live</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Ormonde</strong></td>
+                                        <td><i class="fa-solid fa-circle-check" style="color: var(--success);"></i> Collected</td>
+                                        <td><i class="fa-solid fa-circle-check" style="color: var(--success);"></i> Verified</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td><span class="status-pill active"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Spruitview</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td><span class="status-pill pending"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mayfair</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td><span class="status-pill pending"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Klerksdorp</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td><span class="status-pill pending"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ladybrand</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td><span class="status-pill pending"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ficksburg</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td><span class="status-pill pending"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rustenburg</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td><span class="status-pill pending"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Wonderboom</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">Pending</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td class="placeholder-text">TBC</td>
+                                        <td><span class="status-pill pending"><i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Pending</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="highlight-box" style="margin-top: 1.25rem;">
+                            <strong>Rollout order:</strong> Ormonde serves as the pilot. Remaining branches will be scheduled after the pilot is validated and any process refinements are incorporated.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <strong>JIG Craft Cannabis</strong> &mdash; Stock Take App Training &amp; UAT<br>
+        Internal document. Not for distribution.
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        /**
+         * Section navigation
+         */
+        function switchSection(sectionId) {
+            // Update nav buttons
+            document.querySelectorAll('.section-nav-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            document.querySelector('[data-section="' + sectionId + '"]').classList.add('active');
+
+            // Update content sections
+            document.querySelectorAll('.content-section').forEach(function(section) {
+                section.classList.remove('active');
+            });
+            document.getElementById('section-' + sectionId).classList.add('active');
+
+            // Scroll to top of content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /**
+         * Accordion toggle
+         */
+        function toggleAccordion(trigger) {
+            var accordion = trigger.parentElement;
+            accordion.classList.toggle('open');
+        }
+
+        /**
+         * Set today's date in sign-off field
+         */
+        (function() {
+            var dateField = document.getElementById('signoff-date');
+            if (dateField) {
+                var today = new Date();
+                var yyyy = today.getFullYear();
+                var mm = String(today.getMonth() + 1).padStart(2, '0');
+                var dd = String(today.getDate()).padStart(2, '0');
+                dateField.value = yyyy + '-' + mm + '-' + dd;
+            }
+        })();
+    </script>
+
+</body>
+</html>

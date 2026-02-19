@@ -1,0 +1,21 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/gioninarchitect/dbc1.1.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[http]
+	postBuffer = 524288000
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+[branch "dbc_v1.1"]
+	remote = origin
+	merge = refs/heads/dbc_v1.1
+[branch "Vanillabranch"]
+	remote = origin
+	merge = refs/heads/Vanillabranch

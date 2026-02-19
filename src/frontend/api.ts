@@ -577,3 +577,131 @@ export const leads = {
     );
   },
 };
+
+// ── Verification (Client Docs) ───────────────────────────────
+
+export interface ClientDocumentData {
+  id: string;
+  clientId: string;
+  docType: string;
+  fileName: string;
+  filePath: string;
+  fileSize: number;
+  mimeType: string;
+  status: string;
+  adminNotes?: string;
+  reviewedBy?: string;
+  reviewedAt?: number;
+  uploadedAt: number;
+  clientName?: string;
+  clientEmail?: string;
+}
+
+export const verification = {
+  status: () =>
+    request<{ documents: ClientDocumentData[]; allRequiredUploaded: boolean; allApproved: boolean }>(
+      '/verification/status',
+    ),
+
+  documents: () =>
+    request<{ documents: ClientDocumentData[] }>('/verification/documents'),
+
+  upload: (file: File, docType: string) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('docType', docType);
+    return requestFormData<{ document: ClientDocumentData }>('/verification/documents', fd);
+  },
+
+  pending: () =>
+    request<{ documents: ClientDocumentData[]; count: number }>('/verification/admin/pending'),
+
+  review: (docId: string, status: string, adminNotes?: string) =>
+    request<{ document: ClientDocumentData }>(`/verification/admin/${docId}/review`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status, adminNotes }),
+    }),
+
+  clientDocs: (clientId: string) =>
+    request<{ documents: ClientDocumentData[]; allRequiredUploaded: boolean; allApproved: boolean }>(
+      `/verification/admin/client/${clientId}`,
+    ),
+};
+
+// ── Chat Bot (Admin) ─────────────────────────────────────────
+
+export interface ChatSettings {
+  configured: boolean;
+  bot: { username?: string; name?: string };
+  webhook: { url?: string; pendingUpdates?: number };
+  stats: { totalLinks: number; linkedUsers: number; totalMessages: number };
+}
+
+export interface ChatLinkedUser {
+  id: string;
+  platform: string;
+  platformUserId: string;
+  platformUsername: string | null;
+  platformDisplayName: string | null;
+  linkState: string;
+  clientId: string | null;
+  clientName?: string;
+  clientEmail?: string;
+  messageCount: number;
+  lastMessageAt: number | null;
+  createdAt: number;
+}
+
+export const chat = {
+  settings: () => request<ChatSettings>('/chat/settings'),
+
+  linkedUsers: () =>
+    request<{ users: ChatLinkedUser[]; count: number }>('/chat/linked-users'),
+
+  unlinkUser: (id: string) =>
+    request<{ message: string }>(`/chat/linked-users/${id}`, {
+      method: 'DELETE',
+    }),
+
+  setupWebhook: (url?: string) =>
+    request<{ ok: boolean; description?: string; webhookUrl: string }>(
+      '/chat/setup-webhook',
+      {
+        method: 'POST',
+        body: JSON.stringify(url ? { url } : {}),
+      },
+    ),
+};
+
+// ── n8n Integration (Admin) ─────────────────────────────────
+
+export interface N8nConfigData {
+  enabled: boolean;
+  webhookUrl: string;
+  apiKey: string;
+  apiKeySet: boolean;
+  workflows: {
+    orderLifecycle: boolean;
+    onboarding: boolean;
+    paymentChase: boolean;
+    restockReminders: boolean;
+    newProducts: boolean;
+    churnPrevention: boolean;
+    adminDigest: boolean;
+  };
+}
+
+export const n8n = {
+  config: () => request<N8nConfigData>('/n8n/config'),
+
+  updateConfig: (data: Partial<{
+    enabled: boolean;
+    webhookUrl: string;
+    apiKey: string;
+    workflows: Partial<N8nConfigData['workflows']>;
+  }>) =>
+    request<N8nConfigData>('/n8n/config', {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+};

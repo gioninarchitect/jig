@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Training Guide | JIG Craft Cannabis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --brand-forest: #2D5A3D;
+            --brand-forest-dark: #1E3D2A;
+            --brand-forest-light: #3D7A52;
+            --brand-cream: #F5F1E8;
+            --brand-gold: #C4A962;
+            --brand-charcoal: #2C2C2C;
+            --brand-white: #FFFFFF;
+            --brand-success: #22C55E;
+            --brand-warning: #FFC107;
+            --brand-danger: #DC2626;
+            --brand-info: #17A2B8;
+            --role-assistant: #6366F1;
+            --role-manager: #EC4899;
+            --role-owner: #F59E0B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--brand-cream);
+            color: var(--brand-charcoal);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--brand-forest) 0%, var(--brand-forest-dark) 100%);
+            color: var(--brand-white);
+            padding: 32px;
+            text-align: center;
+        }
+
+        .logo-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .logo-row i {
+            font-size: 2rem;
+            color: var(--brand-gold);
+        }
+
+        .logo-row span {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            background: var(--brand-white);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+
+        .nav-tabs-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            padding: 16px 32px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .nav-tab:hover {
+            background: rgba(124, 58, 237, 0.05);
+        }
+
+        .nav-tab.active {
+            border-bottom-color: var(--brand-forest);
+            color: var(--brand-forest);
+            font-weight: 600;
+        }
+
+        .nav-tab i {
+            font-size: 1.1rem;
+        }
+
+        .nav-tab.assistant i { color: var(--role-assistant); }
+        .nav-tab.manager i { color: var(--role-manager); }
+        .nav-tab.owner i { color: var(--role-owner); }
+
+        /* Main Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Role Header */
+        .role-header {
+            background: var(--brand-white);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .role-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--brand-white);
+            flex-shrink: 0;
+        }
+
+        .role-icon.assistant { background: var(--role-assistant); }
+        .role-icon.manager { background: var(--role-manager); }
+        .role-icon.owner { background: var(--role-owner); }
+
+        .role-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            color: var(--brand-forest);
+            margin-bottom: 8px;
+        }
+
+        .role-info p {
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .role-permissions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .permission-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--brand-forest);
+        }
+
+        .permission-badge i {
+            font-size: 0.7rem;
+        }
+
+        /* Training Section */
+        .training-section {
+            background: var(--brand-white);
+            border-radius: 16px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .section-header {
+            background: var(--brand-forest);
+            color: var(--brand-white);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .section-header i {
+            font-size: 1.25rem;
+            color: var(--brand-gold);
+        }
+
+        .section-body {
+            padding: 24px;
+        }
+
+        /* Steps List */
+        .steps-list {
+            counter-reset: step;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .step-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .step-item:first-child {
+            padding-top: 0;
+        }
+
+        .step-number {
+            counter-increment: step;
+            width: 40px;
+            height: 40px;
+            background: var(--brand-forest);
+            color: var(--brand-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-number::before {
+            content: counter(step);
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--brand-forest-dark);
+            margin-bottom: 8px;
+        }
+
+        .step-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        /* Tips Box */
+        .tip-box {
+            background: rgba(196, 169, 98, 0.15);
+            border-left: 4px solid var(--brand-gold);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .tip-box i {
+            color: var(--brand-gold);
+            margin-right: 8px;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid var(--brand-danger);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .warning-box i {
+            color: var(--brand-danger);
+            margin-right: 8px;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(23, 162, 184, 0.1);
+            border-left: 4px solid var(--brand-info);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .info-box i {
+            color: var(--brand-info);
+            margin-right: 8px;
+        }
+
+        /* Shortcut Keys */
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .shortcut-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--brand-cream);
+            border-radius: 8px;
+        }
+
+        .shortcut-key {
+            background: var(--brand-charcoal);
+            color: var(--brand-white);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .shortcut-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .payment-card {
+            background: var(--brand-cream);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--brand-forest);
+        }
+
+        .payment-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--brand-forest-dark);
+        }
+
+        .payment-card h4 i {
+            color: var(--brand-forest);
+        }
+
+        .payment-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .payment-card li {
+            padding: 6px 0;
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .payment-card li i {
+            color: var(--brand-success);
+            margin-top: 4px;
+        }
+
+        /* Quick Reference Table */
+        .quick-ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .quick-ref-table th,
+        .quick-ref-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .quick-ref-table th {
+            background: var(--brand-forest);
+            color: var(--brand-white);
+            font-weight: 600;
+        }
+
+        .quick-ref-table tr:nth-child(even) {
+            background: rgba(124, 58, 237, 0.03);
+        }
+
+        .quick-ref-table tr:hover {
+            background: rgba(124, 58, 237, 0.08);
+        }
+
+        /* Scenario Cards */
+        .scenario-card {
+            background: var(--brand-cream);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .scenario-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .scenario-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--brand-forest);
+            color: var(--brand-white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scenario-title {
+            font-weight: 600;
+            color: var(--brand-forest-dark);
+        }
+
+        .scenario-steps {
+            padding-left: 52px;
+        }
+
+        .scenario-steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .scenario-steps li {
+            padding: 4px 0;
+            color: #666;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px;
+            color: #888;
+        }
+
+        /* Print Styles */
+        @media print {
+            .nav-tabs { display: none; }
+            .tab-content { display: block !important; }
+            .training-section { break-inside: avoid; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.75rem; }
+            .nav-tabs-inner { overflow-x: auto; justify-content: flex-start; }
+            .nav-tab { padding: 12px 20px; white-space: nowrap; }
+            .role-header { flex-direction: column; text-align: center; }
+            .role-permissions { justify-content: center; }
+            .payment-methods { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-row">
+            <i class="fas fa-cannabis"></i>
+            <span>JIG Craft Cannabis</span>
+        </div>
+        <h1>POS Training Guide</h1>
+        <p>Complete training manual for all staff roles</p>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <div class="nav-tabs-inner">
+            <div class="nav-tab assistant active" onclick="showTab('assistant')">
+                <i class="fas fa-user"></i>
+                <span>Assistant</span>
+            </div>
+            <div class="nav-tab manager" onclick="showTab('manager')">
+                <i class="fas fa-user-tie"></i>
+                <span>Manager</span>
+            </div>
+            <div class="nav-tab owner" onclick="showTab('owner')">
+                <i class="fas fa-crown"></i>
+                <span>Owner/Admin</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- ========== ASSISTANT TAB ========== -->
+        <div id="assistant-content" class="tab-content active">
+
+            <!-- Role Header -->
+            <div class="role-header">
+                <div class="role-icon assistant">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="role-info">
+                    <h2>Sales Assistant</h2>
+                    <p>Front-line staff responsible for processing customer transactions, managing their till, and providing excellent customer service.</p>
+                    <div class="role-permissions">
+                        <span class="permission-badge"><i class="fas fa-check"></i> Process Sales</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> Open/Close Till</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> View Products</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> Stock Take Count</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Starting Your Shift -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-door-open"></i>
+                    <h3>Starting Your Shift</h3>
+                </div>
+                <div class="section-body">
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Log In to the System</div>
+                                <div class="step-description">
+                                    Go to the branch login page. Enter your staff email (e.g., ormonde.assistant@jig.cleva-ai.co.za) and click "Send Login Code". You'll receive a 6-digit OTP code.
+                                </div>
+                                <div class="tip-box">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <strong>Tip:</strong> Keep your phone nearby - OTP codes expire after 5 minutes.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Enter OTP Code</div>
+                                <div class="step-description">
+                                    Enter the 6-digit code in the verification boxes. The system will automatically verify when all 6 digits are entered.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Select Your Till</div>
+                                <div class="step-description">
+                                    Choose the till terminal assigned to you (Till 1, Till 2, etc.). Only one person can operate a till at a time.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Open Your Till</div>
+                                <div class="step-description">
+                                    Count the cash float in the drawer. The standard float is R500. Enter the counted amount and click "OPEN TILL" to begin.
+                                </div>
+                                <div class="warning-box">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>Important:</strong> If the float doesn't match R500, report to your manager BEFORE opening the till.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Processing Sales -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-cash-register"></i>
+                    <h3>Processing Sales</h3>
+                </div>
+                <div class="section-body">
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Adding Products to Cart</div>
+                                <div class="step-description">
+                                    Browse products on the right side of the screen. Click a product to add it to the cart (on the left). Use the + and - buttons to adjust quantities.
+                                </div>
+                                <div class="info-box">
+                                    <i class="fas fa-info-circle"></i>
+                                    <strong>Layout:</strong> Cart is always on the LEFT, Products on the RIGHT (JIG STYLE).
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Review the Cart</div>
+                                <div class="step-description">
+                                    Verify all items and quantities. The total updates automatically. Remove items by clicking the trash icon.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Select Payment Method</div>
+                                <div class="step-description">
+                                    Choose how the customer wants to pay:
+                                </div>
+                                <div class="payment-methods">
+                                    <div class="payment-card">
+                                        <h4><i class="fas fa-money-bill-wave"></i> Cash</h4>
+                                        <ul>
+                                            <li><i class="fas fa-check"></i> Enter amount received</li>
+                                            <li><i class="fas fa-check"></i> System calculates change</li>
+                                            <li><i class="fas fa-check"></i> Count change back to customer</li>
+                                            <li><i class="fas fa-check"></i> Drawer opens automatically</li>
+                                        </ul>
+                                    </div>
+                                    <div class="payment-card">
+                                        <h4><i class="fas fa-credit-card"></i> Card (Speedpoint)</h4>
+                                        <ul>
+                                            <li><i class="fas fa-check"></i> Enter amount on Speedpoint device</li>
+                                            <li><i class="fas fa-check"></i> Customer taps/inserts card</li>
+                                            <li><i class="fas fa-check"></i> Wait for "APPROVED"</li>
+                                            <li><i class="fas fa-check"></i> Enter reference in POS</li>
+                                        </ul>
+                                    </div>
+                                    <div class="payment-card">
+                                        <h4><i class="fas fa-building-columns"></i> EFT</h4>
+                                        <ul>
+                                            <li><i class="fas fa-check"></i> Show banking details</li>
+                                            <li><i class="fas fa-check"></i> Customer does transfer</li>
+                                            <li><i class="fas fa-check"></i> Verify Proof of Payment</li>
+                                            <li><i class="fas fa-check"></i> Enter EFT reference</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Complete the Sale</div>
+                                <div class="step-description">
+                                    Click the appropriate "COMPLETE SALE" button. Receipt prints automatically. Hand receipt to customer.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Card Payment (Speedpoint) -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-credit-card"></i>
+                    <h3>Card Payment - Speedpoint Process</h3>
+                </div>
+                <div class="section-body">
+                    <div class="warning-box" style="margin-bottom: 20px;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Important:</strong> Card machines are NOT integrated. You must manually process on Speedpoint AND enter the reference in POS.
+                    </div>
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Process on Speedpoint Device</div>
+                                <div class="step-description">
+                                    Enter the exact sale amount on the Speedpoint terminal. Customer presents their card (tap, insert, or swipe).
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Wait for Bank Approval</div>
+                                <div class="step-description">
+                                    Screen shows "PROCESSING..." then "APPROVED" or "DECLINED". If declined, ask customer for alternative payment.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Get the Reference Number</div>
+                                <div class="step-description">
+                                    Speedpoint prints a receipt with a reference number (e.g., SP-20260204-12345). This is CRITICAL for reconciliation.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Enter Reference in POS</div>
+                                <div class="step-description">
+                                    In the POS Card payment section, enter the Speedpoint reference number. Add notes if needed (e.g., "Visa Credit", customer name).
+                                </div>
+                                <div class="tip-box">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <strong>Tip:</strong> Double-check the reference before completing. This links the POS sale to the bank transaction.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Complete Card Sale</div>
+                                <div class="step-description">
+                                    Click "COMPLETE CARD SALE". Give customer both receipts (Speedpoint + POS).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Closing Your Till -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-door-closed"></i>
+                    <h3>Closing Your Till</h3>
+                </div>
+                <div class="section-body">
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Complete All Sales</div>
+                                <div class="step-description">
+                                    Ensure there are no pending sales. Process or void any transactions in progress.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Click "Close Till"</div>
+                                <div class="step-description">
+                                    Navigate to the till menu and select "CLOSE TILL".
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Count All Cash</div>
+                                <div class="step-description">
+                                    Count all cash in the drawer by denomination. Be thorough and accurate.
+                                </div>
+                                <table class="quick-ref-table">
+                                    <tr>
+                                        <th>Denomination</th>
+                                        <th>Count</th>
+                                        <th>Total</th>
+                                    </tr>
+                                    <tr>
+                                        <td>R200 Notes</td>
+                                        <td>___</td>
+                                        <td>R ___</td>
+                                    </tr>
+                                    <tr>
+                                        <td>R100 Notes</td>
+                                        <td>___</td>
+                                        <td>R ___</td>
+                                    </tr>
+                                    <tr>
+                                        <td>R50 Notes</td>
+                                        <td>___</td>
+                                        <td>R ___</td>
+                                    </tr>
+                                    <tr>
+                                        <td>R20 Notes</td>
+                                        <td>___</td>
+                                        <td>R ___</td>
+                                    </tr>
+                                    <tr>
+                                        <td>R10 Notes</td>
+                                        <td>___</td>
+                                        <td>R ___</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Coins</td>
+                                        <td>-</td>
+                                        <td>R ___</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Enter Counted Amount</div>
+                                <div class="step-description">
+                                    Enter your total counted cash. System compares to expected amount and shows variance.
+                                </div>
+                                <div class="warning-box">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Variances over R50 require manager approval and written explanation.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Submit Till Close</div>
+                                <div class="step-description">
+                                    Click "SUBMIT" to close the till. Print Z-report if requested by manager.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Common Scenarios -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-question-circle"></i>
+                    <h3>Common Scenarios</h3>
+                </div>
+                <div class="section-body">
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <div class="scenario-icon"><i class="fas fa-undo"></i></div>
+                            <div class="scenario-title">Customer Wants to Return an Item</div>
+                        </div>
+                        <div class="scenario-steps">
+                            <ol>
+                                <li>Ask for receipt and verify purchase date (within 7 days)</li>
+                                <li>Call manager for refund authorization</li>
+                                <li>Manager processes refund from their dashboard</li>
+                                <li>Assistants cannot process refunds directly</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <div class="scenario-icon"><i class="fas fa-times-circle"></i></div>
+                            <div class="scenario-title">Card Payment Declined</div>
+                        </div>
+                        <div class="scenario-steps">
+                            <ol>
+                                <li>Politely inform customer the card was declined</li>
+                                <li>Offer to try again or ask for alternative payment</li>
+                                <li>Never discuss potential reasons in front of other customers</li>
+                                <li>If customer leaves, void the POS transaction</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <div class="scenario-icon"><i class="fas fa-box-open"></i></div>
+                            <div class="scenario-title">Product Out of Stock</div>
+                        </div>
+                        <div class="scenario-steps">
+                            <ol>
+                                <li>Check with manager if more stock is in back room</li>
+                                <li>Offer similar alternative products</li>
+                                <li>If customer wants to wait, take their contact for restock notification</li>
+                                <li>Never sell display items without manager approval</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ========== MANAGER TAB ========== -->
+        <div id="manager-content" class="tab-content">
+
+            <!-- Role Header -->
+            <div class="role-header">
+                <div class="role-icon manager">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="role-info">
+                    <h2>Branch Manager</h2>
+                    <p>Responsible for daily operations, staff supervision, cashups, stock management, and ensuring compliance with all procedures.</p>
+                    <div class="role-permissions">
+                        <span class="permission-badge"><i class="fas fa-check"></i> All Assistant Permissions</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> Process Refunds</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> Daily Cashup</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> Approve Stock Takes</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> Manage Staff</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> View Reports</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Daily Cashup -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Daily Cashup Process</h3>
+                </div>
+                <div class="section-body">
+                    <div class="info-box" style="margin-bottom: 20px;">
+                        <i class="fas fa-info-circle"></i>
+                        Daily cashup can only begin after ALL tills have been closed by their operators.
+                    </div>
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Verify All Tills Closed</div>
+                                <div class="step-description">
+                                    Check the dashboard to ensure all tills show "Closed" status. Contact any operator with an open till.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Access Cashup Module</div>
+                                <div class="step-description">
+                                    Go to Manager Dashboard > End of Day > Start Cashup.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Review Till Summaries</div>
+                                <div class="step-description">
+                                    System shows aggregated totals from all tills: Cash, Card, EFT breakdowns.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Physical Cash Count</div>
+                                <div class="step-description">
+                                    Combine cash from all tills. Count total. Separate R500 float for next day.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Reconcile Speedpoint</div>
+                                <div class="step-description">
+                                    Run end-of-day batch on Speedpoint device. Compare batch total to POS card total.
+                                </div>
+                                <div class="tip-box">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <strong>Tip:</strong> Keep Speedpoint batch slip for records - required for variance investigation.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Enter All Counted Amounts</div>
+                                <div class="step-description">
+                                    Enter actual counted/verified amounts for each payment method.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Document Variances</div>
+                                <div class="step-description">
+                                    Add notes explaining any discrepancies. All variances must be documented.
+                                </div>
+                                <div class="warning-box">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Variances over R100 may trigger owner review before approval.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Submit for Owner Approval</div>
+                                <div class="step-description">
+                                    Click "SUBMIT CASHUP" to send to owner/HQ for final approval.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Stock Take Management -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Stock Take Management</h3>
+                </div>
+                <div class="section-body">
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Schedule Stock Take</div>
+                                <div class="step-description">
+                                    Create a stock take session from Manager Dashboard > Stock Take > New Session. Choose Full, Cycle, or Spot check.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Assign Staff</div>
+                                <div class="step-description">
+                                    Assign assistants to count specific categories or areas. They use the Stock Take app.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Monitor Progress</div>
+                                <div class="step-description">
+                                    Track completion in real-time. See which items are counted, pending, or flagged.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Review Variances</div>
+                                <div class="step-description">
+                                    When staff submit, review all items with >5% variance. Check photos match counts.
+                                </div>
+                                <div class="warning-box">
+                                    <i class="fas fa-camera"></i>
+                                    <strong>SA GMP Compliance:</strong> Every count MUST have a photo. Reject any items without photos.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Approve or Request Recount</div>
+                                <div class="step-description">
+                                    Approve valid counts. Request recount for suspicious variances. Add notes.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Finalize Session</div>
+                                <div class="step-description">
+                                    Once approved, inventory updates to match counted quantities. SAHPRA report generates automatically.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Processing Refunds -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-undo-alt"></i>
+                    <h3>Processing Refunds</h3>
+                </div>
+                <div class="section-body">
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Verify Original Sale</div>
+                                <div class="step-description">
+                                    Look up the original transaction by sale number or date. Verify items being returned.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Check Return Policy</div>
+                                <div class="step-description">
+                                    Returns must be within 7 days with receipt. Products must be unopened/unused.
+                                </div>
+                                <div class="warning-box">
+                                    <i class="fas fa-cannabis"></i>
+                                    <strong>Cannabis Products:</strong> Cannot be returned once sealed packaging is opened.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Process Refund</div>
+                                <div class="step-description">
+                                    Select refund items and choose refund method (same as original payment preferred).
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Add Refund Reason</div>
+                                <div class="step-description">
+                                    Document the reason for refund. This is required for all refunds.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Complete Refund</div>
+                                <div class="step-description">
+                                    Process refund. Cash refunds from till. Card refunds processed on Speedpoint.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ========== OWNER TAB ========== -->
+        <div id="owner-content" class="tab-content">
+
+            <!-- Role Header -->
+            <div class="role-header">
+                <div class="role-icon owner">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="role-info">
+                    <h2>Owner / Admin</h2>
+                    <p>Full system access including approvals, financial oversight, multi-branch management, and system configuration.</p>
+                    <div class="role-permissions">
+                        <span class="permission-badge"><i class="fas fa-check"></i> All Manager Permissions</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> Approve Cashups</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> Multi-Branch View</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> Financial Reports</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> User Management</span>
+                        <span class="permission-badge"><i class="fas fa-check"></i> System Settings</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Approving Cashups -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-check-double"></i>
+                    <h3>Approving Daily Cashups</h3>
+                </div>
+                <div class="section-body">
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">View Pending Cashups</div>
+                                <div class="step-description">
+                                    Go to Admin Dashboard > Approvals > Cashups. See all submitted cashups awaiting approval.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Review Details</div>
+                                <div class="step-description">
+                                    Click on a cashup to see full breakdown: sales totals, payment methods, variances, manager notes.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Verify Totals</div>
+                                <div class="step-description">
+                                    Compare system totals vs counted totals. Check variance explanations are reasonable.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Approve or Reject</div>
+                                <div class="step-description">
+                                    Approve to close the day and confirm banking amount. Reject with notes to send back to manager.
+                                </div>
+                                <div class="tip-box">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <strong>Tip:</strong> Small variances (<R20) are common with cash rounding. Focus on patterns of larger variances.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Financial Reports -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Financial Reports</h3>
+                </div>
+                <div class="section-body">
+                    <div class="payment-methods">
+                        <div class="payment-card">
+                            <h4><i class="fas fa-calendar-day"></i> Daily Report</h4>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Total sales by payment method</li>
+                                <li><i class="fas fa-check"></i> Number of transactions</li>
+                                <li><i class="fas fa-check"></i> Average transaction value</li>
+                                <li><i class="fas fa-check"></i> Variance summary</li>
+                            </ul>
+                        </div>
+                        <div class="payment-card">
+                            <h4><i class="fas fa-calendar-week"></i> Weekly Report</h4>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Week-over-week comparison</li>
+                                <li><i class="fas fa-check"></i> Busiest days analysis</li>
+                                <li><i class="fas fa-check"></i> Top selling products</li>
+                                <li><i class="fas fa-check"></i> Staff performance</li>
+                            </ul>
+                        </div>
+                        <div class="payment-card">
+                            <h4><i class="fas fa-calendar-alt"></i> Monthly Report</h4>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Revenue trends</li>
+                                <li><i class="fas fa-check"></i> Inventory turnover</li>
+                                <li><i class="fas fa-check"></i> Variance patterns</li>
+                                <li><i class="fas fa-check"></i> SAHPRA compliance status</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Multi-Branch Management -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-store-alt"></i>
+                    <h3>Multi-Branch Overview</h3>
+                </div>
+                <div class="section-body">
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Branch Dashboard</div>
+                                <div class="step-description">
+                                    View all branches at a glance: today's sales, open tills, pending approvals, stock alerts.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Switch Branch Context</div>
+                                <div class="step-description">
+                                    Use the branch selector to drill down into specific branch data and operations.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Cross-Branch Reports</div>
+                                <div class="step-description">
+                                    Compare performance across branches: sales, inventory levels, compliance rates.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: User Management -->
+            <div class="training-section">
+                <div class="section-header">
+                    <i class="fas fa-users-cog"></i>
+                    <h3>User Management</h3>
+                </div>
+                <div class="section-body">
+                    <div class="steps-list">
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Creating New Users</div>
+                                <div class="step-description">
+                                    Go to Admin > Users > Add New. Enter email, assign role (Assistant/Manager), assign to branch.
+                                </div>
+                                <div class="info-box">
+                                    <i class="fas fa-info-circle"></i>
+                                    Users login via OTP sent to their email - no passwords needed.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Modifying Permissions</div>
+                                <div class="step-description">
+                                    Edit user to change role or branch assignment. Changes take effect on next login.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number"></div>
+                            <div class="step-content">
+                                <div class="step-title">Deactivating Users</div>
+                                <div class="step-description">
+                                    Deactivate (don't delete) users who leave. Maintains audit trail while blocking access.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><strong>JIG Craft Cannabis</strong> | POS Training Guide | Version 1.0</p>
+        <p style="margin-top: 8px;">For support: training@jig.cleva-ai.co.za</p>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName + '-content').classList.add('active');
+
+            // Activate selected nav tab
+            document.querySelector('.nav-tab.' + tabName).classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>

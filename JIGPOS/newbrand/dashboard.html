@@ -1,0 +1,2153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard - JIG Craft Cannabis</title>
+    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <!-- Google Fonts for JIG Craft Cannabis -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--black);
+            color: var(--gray-900);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* JIG Craft Cannabis Dashboard Theme */
+
+        /* Mobile-first responsive navigation */
+        .dashboard-nav {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--white);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .user-info:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--white);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Container and Grid System */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .dashboard-content {
+            padding: 2rem 0;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-cols-1 { grid-template-columns: 1fr; }
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+        /* Card System */
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid var(--gray-200);
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 8px 25px rgba(217, 119, 6,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .card-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--purple);
+            text-transform: uppercase;
+        }
+
+        .card-subtitle {
+            color: var(--green-light);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid var(--gray-200);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--gold-dark));
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .stat-value {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--purple);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-change {
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .stat-change.negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+            color: var(--gray-900);
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 20px rgba(217, 119, 6,0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--purple);
+            border: 2px solid var(--green);
+        }
+
+        .btn-secondary:hover {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+
+        .btn-outline:hover {
+            background: var(--gold);
+            color: var(--gray-900);
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .table th {
+            background: var(--black);
+            font-weight: 600;
+            color: var(--purple);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(124, 58, 237,0.08);
+        }
+
+        /* Status Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .badge-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .badge-primary {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--primary-color);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        /* Progress Bars */
+        .progress {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--gold-dark));
+            transition: width 0.3s ease;
+        }
+
+        /* Responsive Grid Adjustments */
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+            .sm\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+            .md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+            .lg\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+            .lg\:grid-cols-5 { grid-template-columns: repeat(5, 1fr); }
+        }
+
+        /* Tab Navigation */
+        .dashboard-tabs {
+            background: var(--white);
+            border-bottom: 2px solid var(--gray-200);
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 78px;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .tabs-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-button:hover {
+            color: var(--purple);
+            background: rgba(124, 58, 237,0.08);
+        }
+
+        .tab-button.active {
+            color: var(--purple);
+            border-bottom-color: var(--purple);
+            background: rgba(124, 58, 237,0.06);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-icon {
+            font-size: 1.2rem;
+        }
+
+        .tab-badge {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            font-size: 0.7rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .locked-overlay {
+            position: relative;
+            filter: blur(2px);
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .unlock-prompt {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-secondary);
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            max-width: 500px;
+            z-index: 10;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 0.75rem;
+            }
+            
+            .dashboard-content {
+                padding: 1rem 0;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+            
+            .nav-content {
+                padding: 0 0.75rem;
+            }
+            
+            .nav-logo {
+                font-size: 1.25rem;
+            }
+            
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .user-menu {
+                display: none;
+            }
+            
+            .user-menu.mobile-open {
+                display: flex;
+                position: absolute;
+                top: 100%;
+                right: 1rem;
+                background: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 1rem;
+                flex-direction: column;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .bottom-nav {
+                display: block !important;
+            }
+
+            .dashboard-content {
+                padding-bottom: 5rem;
+            }
+
+            .tabs-container {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .btn {
+                width: 100%;
+                padding: 1rem;
+            }
+            
+            .table th,
+            .table td {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Extra Small Phones (360px) */
+        @media (max-width: 360px) {
+            .dashboard-nav { padding: 0.5rem; }
+            .nav-logo { font-size: 0.9rem; }
+            .nav-logo img { width: 28px !important; height: 28px !important; }
+            .main-content { padding: 0.5rem; }
+            .section-title { font-size: 1.2rem; }
+            .stat-card { padding: 0.75rem; }
+            .stat-value { font-size: 1.3rem; }
+            .btn { padding: 0.75rem; font-size: 0.9rem; }
+            .mobile-menu-btn { top: 0.5rem; right: 0.5rem; padding: 0.5rem 0.75rem; }
+            .card { padding: 0.75rem; }
+            .order-item { padding: 0.75rem; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gray-200);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--green);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--green-dark);
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--cream);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .welcome-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+        }
+
+        .membership-level {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .tracking-timeline {
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .tracking-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .tracking-step::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .tracking-step:last-child::before {
+            display: none;
+        }
+
+        .tracking-step.completed .step-icon {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .tracking-step.completed::before {
+            background: var(--success-color);
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-date {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Shopping Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100vh;
+            background: #FAF8F3;
+            border-left: 1px solid var(--gray-200);
+            z-index: 2500;
+            transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 30px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 16px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .cart-item:hover {
+            border-color: var(--purple);
+            box-shadow: 0 2px 8px rgba(124, 58, 237,0.08);
+        }
+
+        .cart-item-image {
+            width: 64px;
+            height: 64px;
+            background: var(--green-100);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--purple);
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-remove {
+            background: rgba(220, 38, 38, 0.1);
+            border: none;
+            color: var(--red);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cart-item-remove:hover {
+            background: rgba(220, 38, 38, 0.2);
+        }
+
+        .cart-footer {
+            padding: 30px;
+            border-top: 1px solid var(--gray-200);
+            background: var(--white);
+        }
+
+        .cart-total {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--gold);
+            border: 2px solid var(--cream);
+            color: var(--white);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .cart-icon-wrapper:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Bottom Nav */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--green-dark);
+            border-top: 2px solid var(--gold);
+            z-index: 1000;
+            padding: 0.4rem 0;
+            padding-bottom: calc(0.4rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        .bottom-nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.15rem;
+            text-decoration: none;
+            color: rgba(244, 240, 230, 0.6);
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            transition: color 0.2s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .bottom-nav-item.active,
+        .bottom-nav-item:hover {
+            color: var(--gold);
+        }
+
+        .bottom-nav-item i {
+            font-size: 1.1rem;
+        }
+
+        /* Product Cards */
+        .product-card {
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card-image {
+            width: 100%;
+            height: 180px;
+            background: var(--green-100, #DCE9E1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-card-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-card-image .placeholder-icon {
+            color: var(--purple);
+            opacity: 0.4;
+            font-size: 48px;
+        }
+
+        .product-card-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .product-card-category {
+            display: inline-block;
+            background: var(--green-100, #DCE9E1);
+            color: var(--green-700, #2D5040);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 0.5rem;
+            width: fit-content;
+        }
+
+        .product-card-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #0A0A0A;
+            margin-bottom: 0.375rem;
+            line-height: 1.3;
+        }
+
+        .product-card-desc {
+            font-size: 0.875rem;
+            color: #404040;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .product-card-price {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #0A0A0A;
+            margin-bottom: 0.75rem;
+        }
+
+        .product-card-btn {
+            width: 100%;
+            height: 44px;
+            background: #7C3AED;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .product-card-btn:hover {
+            background: #6D28D9;
+        }
+
+        /* Category Filter Pills */
+        .category-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .category-pill {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--gray-200);
+            background: var(--white);
+            color: #404040;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .category-pill:hover {
+            border-color: #7C3AED;
+            color: #7C3AED;
+        }
+
+        .category-pill.active {
+            background: #7C3AED;
+            color: #FFFFFF;
+            border-color: #7C3AED;
+        }
+    </style>
+    <!-- Tablet Optimizations -->
+    <link rel="stylesheet" href="css/tablet-optimizations.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+        <div class="nav-content">
+            <a href="index.html" class="nav-logo">
+                <img src="images/DeBudChef-rLogo.png" alt="JIG Craft Cannabis">
+            </a>
+            
+            <div class="user-menu" id="userMenu">
+                <div class="cart-icon-wrapper" onclick="toggleCart()" style="position: relative;" title="View Cart">
+                    <i data-lucide="shopping-cart" style="width: 18px; height: 18px;"></i>
+                    <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+                </div>
+                <div class="user-info" onclick="toggleUserMenu()">
+                    <div class="user-avatar" id="userAvatar">M</div>
+                    <div>
+                        <div id="userName">Member</div>
+                        <div style="font-size: 0.75rem; color: var(--gold-light);" id="userEmail">member@example.com</div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+            
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard Content -->
+    <main class="dashboard-content">
+        <div class="container">
+            <!-- Welcome Section - REMOVED for better canvas space management -->
+
+            <!-- Tab Navigation -->
+            <div class="dashboard-tabs">
+                <div class="tabs-container">
+                    <button class="tab-button active" onclick="switchTab('overview')">
+                        <span class="tab-icon"><i data-lucide="bar-chart-3" style="width: 20px; height: 20px;"></i></span>
+                        <span>Overview</span>
+                    </button>
+                    <button class="tab-button" onclick="switchTab('lifestyle')">
+                        <span class="tab-icon"><i data-lucide="leaf" style="width: 20px; height: 20px;"></i></span>
+                        <span>Shop</span>
+                    </button>
+                    <button class="tab-button" onclick="switchTab('medical')" id="medicalTab">
+                        <span class="tab-icon"><i data-lucide="heart-pulse" style="width: 20px; height: 20px;"></i></span>
+                        <span>Medical Cannabis</span>
+                        <span class="tab-badge" id="medicalBadge" style="display:none; background: var(--warning-color);"><i data-lucide="lock" style="width: 14px; height: 14px;"></i></span>
+                    </button>
+                    <button class="tab-button" onclick="switchTab('health')">
+                        <span class="tab-icon"><i data-lucide="pills" style="width: 20px; height: 20px;"></i></span>
+                        <span>My Health</span>
+                    </button>
+                    <button class="tab-button" onclick="switchTab('points')">
+                        <span class="tab-icon"><i data-lucide="award" style="width: 20px; height: 20px;"></i></span>
+                        <span>Wellness Points</span>
+                    </button>
+                    <button class="tab-button" onclick="switchTab('orders')">
+                        <span class="tab-icon"><i data-lucide="package-2" style="width: 20px; height: 20px;"></i></span>
+                        <span>My Orders</span>
+                    </button>
+                    <button class="tab-button" onclick="switchTab('account')">
+                        <span class="tab-icon"><i data-lucide="settings" style="width: 20px; height: 20px;"></i></span>
+                        <span>Account</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Content: Overview -->
+            <div id="tab-overview" class="tab-content active">
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="stat-card">
+                    <div class="stat-icon"><i data-lucide="shopping-bag" style="width: 32px; height: 32px;"></i></div>
+                    <div class="stat-value" id="totalOrders">0</div>
+                    <div class="stat-label">Total Orders</div>
+                    <div class="stat-change positive">+2 this month</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon"><i data-lucide="wallet" style="width: 32px; height: 32px;"></i></div>
+                    <div class="stat-value" id="totalSpent">R0</div>
+                    <div class="stat-label">Total Spent</div>
+                    <div class="stat-change positive">+R500 this month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon"><i data-lucide="award" style="width: 32px; height: 32px;"></i></div>
+                    <div class="stat-value" id="loyaltyPoints">100</div>
+                    <div class="stat-label">Wellness Points</div>
+                    <div class="stat-change positive">+25 earned</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon"><i data-lucide="star" style="width: 32px; height: 32px;"></i></div>
+                    <div class="stat-value" id="memberLevel">Bronze</div>
+                    <div class="stat-label">Member Level</div>
+                    <div class="progress" style="margin-top: 0.5rem;">
+                        <div class="progress-bar" style="width: 30%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase Limits Widget (Configurable - Only shown if enabled) -->
+            <div id="purchaseLimitsWidget" class="card" style="display: none; background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); border: 2px solid var(--gold); margin-top: 1.5rem;">
+                <div class="card-header" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <div>
+                        <h2 class="card-title" style="color: var(--cream);"><i data-lucide="gauge" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"></i> Purchase Limits</h2>
+                        <p class="card-subtitle" style="color: rgba(244,240,230,0.7);">Your controlled substance purchase tracking</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span id="limitResetTime" style="color: var(--gold); font-size: 0.85rem;">Resets in: --:--</span>
+                    </div>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <!-- Daily Limit -->
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="color: rgba(244,240,230,0.8); font-size: 0.9rem;">Daily Limit</span>
+                                <span style="color: var(--gold); font-weight: 600;" id="dailyLimitText">0g / 150g</span>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.2); border-radius: 8px; height: 12px; overflow: hidden;">
+                                <div id="dailyLimitBar" style="height: 100%; background: linear-gradient(90deg, #22C55E, #22C55E); width: 0%; transition: width 0.5s ease, background 0.5s ease; border-radius: 8px;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span style="color: rgba(244,240,230,0.6); font-size: 0.75rem;" id="dailyRemaining">150g remaining</span>
+                                <span style="color: rgba(244,240,230,0.6); font-size: 0.75rem;" id="dailyPercent">0%</span>
+                            </div>
+                        </div>
+                        <!-- Monthly Limit -->
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="color: rgba(244,240,230,0.8); font-size: 0.9rem;">Monthly Limit</span>
+                                <span style="color: var(--gold); font-weight: 600;" id="monthlyLimitText">0g / 600g</span>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.2); border-radius: 8px; height: 12px; overflow: hidden;">
+                                <div id="monthlyLimitBar" style="height: 100%; background: linear-gradient(90deg, #22C55E, #22C55E); width: 0%; transition: width 0.5s ease, background 0.5s ease; border-radius: 8px;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span style="color: rgba(244,240,230,0.6); font-size: 0.75rem;" id="monthlyRemaining">600g remaining</span>
+                                <span style="color: rgba(244,240,230,0.6); font-size: 0.75rem;" id="monthlyPercent">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Warning Message (shown when approaching limit) -->
+                    <div id="limitWarningBanner" style="display: none; background: rgba(217, 119, 6, 0.2); border: 1px solid var(--gold); border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; color: var(--gold);">
+                            <i data-lucide="alert-triangle" style="width: 20px; height: 20px;"></i>
+                            <span id="limitWarningMessage">You are approaching your daily purchase limit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 21 Medical Access (Third-Party Integration - White Label) -->
+            <div class="card" id="section21Card" style="background: var(--white); border: 2px solid var(--gold);">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Medical Cannabis Access (Section 21)</h2>
+                        <p class="card-subtitle">Get your prescription approved by a licensed healthcare provider</p>
+                    </div>
+                </div>
+
+                <div id="section21Status">
+                    <!-- Medical Services Portal Embed (White-Label) -->
+                    <div id="section21IframeContainer" style="min-height: 400px; background: var(--bg-tertiary); border-radius: 8px; overflow: hidden;">
+                        <!--
+                            CONFIGURATION: Medical Services Provider Integration
+                            Set MEDICAL_PORTAL_URL in config to enable iframe
+                            White-label integration - no third-party branding shown
+                        -->
+                        <div id="section21Placeholder" style="text-align: center; padding: 3rem;">
+                            <i class="fas fa-prescription-bottle-medical" style="font-size: 3rem; color: var(--gold); margin-bottom: 1rem; display: block;"></i>
+                            <h3 style="margin-bottom: 0.5rem; color: var(--text-primary);">Get Your Section 21 Prescription</h3>
+                            <p style="color: var(--text-muted); margin-bottom: 1rem;">Access medical cannabis legally with a SAHPRA-approved prescription</p>
+
+                            <!-- Pricing -->
+                            <div style="background: var(--green); color: var(--cream); padding: 1.5rem; border-radius: 12px; margin: 1.5rem auto; max-width: 400px;">
+                                <p style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; font-family: 'Oswald', sans-serif;">R750</p>
+                                <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Complete Section 21 Application</p>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2);">
+                                    <span>Doctor Consultation</span>
+                                    <span>R300</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-top: 0.5rem;">
+                                    <span>SAHPRA Letter Issuing</span>
+                                    <span>R450</span>
+                                </div>
+                            </div>
+
+                            <div style="background: rgba(217, 119, 6, 0.1); border-left: 4px solid var(--gold); padding: 1rem; text-align: left; border-radius: 0 8px 8px 0; margin: 0 auto; max-width: 500px;">
+                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>How it works:</strong></p>
+                                <ol style="color: var(--text-muted); margin-left: 1.25rem; font-size: 0.875rem;">
+                                    <li style="margin-bottom: 0.5rem;">Quick registration (3 fields)</li>
+                                    <li style="margin-bottom: 0.5rem;">Online consultation with licensed doctor</li>
+                                    <li style="margin-bottom: 0.5rem;">Doctor issues prescription + SAHPRA application</li>
+                                    <li>Once approved, access medical cannabis products</li>
+                                </ol>
+                            </div>
+                            <button onclick="openMedicalServicesPortal()" class="btn btn-primary" style="margin-top: 1.5rem; background: var(--gold); color: var(--white); border: none; padding: 1rem 2rem; font-size: 1rem;">
+                                <i class="fas fa-user-md"></i> Start Application
+                            </button>
+                        </div>
+                        <!-- White-Label Iframe - loaded when portal is opened -->
+                        <iframe id="section21Iframe" style="width: 100%; height: 700px; border: none; display: none;" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical Products Section (Greyed Out - Requires Section 21) -->
+            <div class="card" id="medicalProductsCard" style="position: relative; cursor: pointer;" onclick="openSection21Modal()">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Medical Cannabis Products</h2>
+                        <p class="card-subtitle">Prescription-only products available to verified patients</p>
+                    </div>
+                    <span style="background: var(--green-dark); color: var(--cream); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">
+                        <i class="fas fa-lock"></i> Section 21 Required
+                    </span>
+                </div>
+
+                <!-- Greyed out product preview -->
+                <div style="position: relative; overflow: hidden;">
+                    <div id="medicalProductsCarousel" style="display: flex; gap: 1.5rem; overflow-x: auto; padding: 1rem 0; filter: grayscale(100%) brightness(0.7); pointer-events: none;">
+                        <!-- Placeholder product cards (greyed out) -->
+                        <div style="flex: 0 0 200px; background: var(--gray-200); border-radius: 12px; padding: 1rem; text-align: center;">
+                            <div style="width: 100%; height: 120px; background: var(--gray-500); border-radius: 8px; margin-bottom: 0.75rem;"></div>
+                            <div style="height: 16px; background: var(--gray-500); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+                            <div style="height: 12px; background: var(--gray-200); border-radius: 4px; width: 60%;"></div>
+                        </div>
+                        <div style="flex: 0 0 200px; background: var(--gray-200); border-radius: 12px; padding: 1rem; text-align: center;">
+                            <div style="width: 100%; height: 120px; background: var(--gray-500); border-radius: 8px; margin-bottom: 0.75rem;"></div>
+                            <div style="height: 16px; background: var(--gray-500); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+                            <div style="height: 12px; background: var(--gray-200); border-radius: 4px; width: 60%;"></div>
+                        </div>
+                        <div style="flex: 0 0 200px; background: var(--gray-200); border-radius: 12px; padding: 1rem; text-align: center;">
+                            <div style="width: 100%; height: 120px; background: var(--gray-500); border-radius: 8px; margin-bottom: 0.75rem;"></div>
+                            <div style="height: 16px; background: var(--gray-500); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+                            <div style="height: 12px; background: var(--gray-200); border-radius: 4px; width: 60%;"></div>
+                        </div>
+                        <div style="flex: 0 0 200px; background: var(--gray-200); border-radius: 12px; padding: 1rem; text-align: center;">
+                            <div style="width: 100%; height: 120px; background: var(--gray-500); border-radius: 8px; margin-bottom: 0.75rem;"></div>
+                            <div style="height: 16px; background: var(--gray-500); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+                            <div style="height: 12px; background: var(--gray-200); border-radius: 4px; width: 60%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Overlay with call to action -->
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0,0.85); border-radius: 8px;">
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-file-medical" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 1rem; display: block;"></i>
+                            <p style="color: var(--cream); font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">Requires Section 21 Verification</p>
+                            <p style="color: var(--gray-200); font-size: 0.875rem;">Click to learn more about accessing medical cannabis products</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 21 Modal -->
+            <div id="section21Modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0,0.9); z-index: 9999; align-items: center; justify-content: center;">
+                <div style="background: var(--black); border: 2px solid var(--gold); border-radius: 16px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative;">
+                    <button onclick="closeSection21Modal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--gray-500); font-size: 1.5rem; cursor: pointer; padding: 0.5rem;">
+                        <i class="fas fa-times"></i>
+                    </button>
+
+                    <div style="padding: 2.5rem;">
+                        <div style="text-align: center; margin-bottom: 2rem;">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                                <i class="fas fa-prescription-bottle-medical" style="font-size: 2rem; color: var(--gold);"></i>
+                            </div>
+                            <h2 style="font-family: 'Oswald', sans-serif; color: var(--purple); margin-bottom: 0.5rem; font-size: 1.5rem; text-transform: uppercase;">Medical Cannabis Access</h2>
+                            <p style="color: var(--gray-500);">Section 21 Verification Required</p>
+                        </div>
+
+                        <div style="background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                            <h3 style="color: var(--purple); font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-info-circle" style="color: var(--purple);"></i> What is Section 21?
+                            </h3>
+                            <p style="color: var(--gray-700); font-size: 0.9rem; line-height: 1.6;">
+                                Section 21 of the Medicines Act allows patients to access medical cannabis through a licensed healthcare provider. You'll need an authorisation letter from your doctor to purchase prescription cannabis products.
+                            </p>
+                        </div>
+
+                        <div style="background: rgba(217, 119, 6,0.1); border: 1px solid rgba(217, 119, 6,0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                            <h3 style="color: var(--gold-dark); font-size: 1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-clock"></i> Integration Coming Soon
+                            </h3>
+                            <p style="color: var(--gray-700); font-size: 0.9rem; line-height: 1.6;">
+                                Our third-party verification portal is being integrated. Once available, you'll be able to upload your Section 21 documents directly here.
+                            </p>
+                        </div>
+
+                        <div style="border-top: 1px solid var(--gray-200); padding-top: 1.5rem;">
+                            <p style="color: var(--gray-500); font-size: 0.85rem; text-align: center; margin-bottom: 1rem;">In the meantime, please contact us for manual verification:</p>
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <a href="mailto:hello@jig.cleva-ai.co.za" style="flex: 1; min-width: 200px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem; background: var(--green); border: none; border-radius: 8px; color: var(--cream); text-decoration: none; transition: all 0.3s;">
+                                    <i class="fas fa-envelope"></i> Email Us
+                                </a>
+                                <a href="https://wa.me/27000000000" target="_blank" style="flex: 1; min-width: 200px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem; background: #25D366; border: none; border-radius: 8px; color: #fff; text-decoration: none; transition: all 0.3s;">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Quick Actions</h2>
+                        <p class="card-subtitle">Manage your account and place new orders</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+                    <button class="btn btn-primary" onclick="switchTab('lifestyle')">
+                        <i data-lucide="shopping-cart" style="width: 18px; height: 18px; margin-right: 8px;"></i> Shop Now
+                    </button>
+                    <button class="btn btn-secondary" onclick="viewProfile()">
+                        <i data-lucide="user" style="width: 18px; height: 18px; margin-right: 8px;"></i> View Profile
+                    </button>
+                    <button class="btn btn-secondary" onclick="trackOrder()">
+                        <i data-lucide="package" style="width: 18px; height: 18px; margin-right: 8px;"></i> Track Orders
+                    </button>
+                    <!-- Affiliate program disabled for v1
+                    <a href="affiliate.html" class="btn btn-outline">
+                        <i data-lucide="coins" style="width: 18px; height: 18px; margin-right: 8px;"></i> Join Affiliate Program
+                    </a>
+                    -->
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="grid grid-cols-1 lg:grid-cols-3">
+                <div class="lg:col-span-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">Recent Orders</h2>
+                                <p class="card-subtitle">Track your latest purchases</p>
+                            </div>
+                            <button class="btn btn-secondary" onclick="loadOrders()">Refresh</button>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Date</th>
+                                        <th>Items</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTable">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                                            No orders found. <a href="#" onclick="switchTab('lifestyle'); return false;" style="color: var(--primary-color);">Start shopping!</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member Benefits -->
+                <div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">Member Benefits</h2>
+                                <p class="card-subtitle">Your exclusive perks</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid gap-3">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: 8px;">
+                                <div style="color: var(--success-color);"><i data-lucide="check-circle" style="width: 20px; height: 20px;"></i></div>
+                                <div>
+                                    <div style="font-weight: 500;">Free Shipping</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);">On orders over R1,000</div>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: 8px;">
+                                <div style="color: var(--success-color);"><i data-lucide="check-circle" style="width: 20px; height: 20px;"></i></div>
+                                <div>
+                                    <div style="font-weight: 500;">Exclusive Drops</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);">Early access to new gear</div>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: 8px;">
+                                <div style="color: var(--success-color);"><i data-lucide="check-circle" style="width: 20px; height: 20px;"></i></div>
+                                <div>
+                                    <div style="font-weight: 500;">Wellness Points</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);">Earn rewards on every purchase</div>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: 8px;">
+                                <div style="color: var(--success-color);"><i data-lucide="check-circle" style="width: 20px; height: 20px;"></i></div>
+                                <div>
+                                    <div style="font-weight: 500;">Priority Support</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);">24/7 dedicated assistance</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;" onclick="upgradeAccount()">
+                            <i data-lucide="arrow-up-circle" style="width: 18px; height: 18px; margin-right: 6px;"></i> Upgrade Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Activity -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Account Activity</h2>
+                        <p class="card-subtitle">Recent account actions and notifications</p>
+                    </div>
+                </div>
+                
+                <div class="grid gap-3" id="activityFeed">
+                    <div style="display: flex; align-items: start; gap: 1rem; padding: 1rem; background: var(--bg-tertiary); border-radius: 8px;">
+                        <div style="width: 8px; height: 8px; background: var(--success-color); border-radius: 50%; margin-top: 0.5rem;"></div>
+                        <div>
+                            <div style="font-weight: 500;">Welcome to JIG Craft Cannabis!</div>
+                            <div style="font-size: 0.875rem; color: var(--text-muted);">Your membership is now active</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Just now</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <!-- End Tab Content: Overview -->
+
+            <!-- Tab Content: Shop -->
+            <div id="tab-lifestyle" class="tab-content">
+                <div id="categoryFilterBar" style="display: none; margin-bottom: 1.25rem; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;"></div>
+                <div id="lifestyleProductsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem;">
+                    <div style="text-align: center; padding: 2rem; grid-column: 1 / -1;">
+                        <div class="spinner" style="margin: 0 auto;"></div>
+                        <p style="margin-top: 1rem; color: var(--text-muted);">Loading products...</p>
+                    </div>
+                </div>
+            </div>
+            <!-- End Tab Content: Shop -->
+
+            <!-- Tab Content: Medical Cannabis -->
+            <div id="tab-medical" class="tab-content">
+                <!-- This will be populated with Section 21 status and medical products -->
+                <div id="medicalTabContent"></div>
+            </div>
+            <!-- End Tab Content: Medical -->
+
+            <!-- Tab Content: My Health -->
+            <div id="tab-health" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title"><i data-lucide="heart-pulse" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"></i> My Health Portal</h2>
+                            <p class="card-subtitle">Access medical appointments, prescriptions, and Section 21 services</p>
+                        </div>
+                    </div>
+
+                    <div style="padding: 2rem;">
+                        <div style="background: var(--white); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                            <h3 style="margin-bottom: 1rem; color: var(--purple); font-family: 'Oswald', sans-serif; text-transform: uppercase;">
+                                <i data-lucide="hospital" style="width: 22px; height: 22px; margin-right: 8px; vertical-align: middle;"></i> Section 21 Medical Services
+                            </h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                                Access our partner medical cannabis service for appointments, prescriptions, and Section 21 authorization.
+                                All medical services are managed through our certified healthcare provider.
+                            </p>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                <!-- Book Appointment -->
+                                <div style="background: var(--black); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.5rem; text-align: center;">
+                                    <div style="margin-bottom: 0.5rem;"><i data-lucide="calendar" style="width: 48px; height: 48px; color: var(--gold);"></i></div>
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--purple);">Book Appointment</h4>
+                                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">
+                                        Schedule a consultation with a certified cannabis doctor
+                                    </p>
+                                    <button class="btn btn-primary" onclick="openMedicalPortal('appointments')" style="width: 100%;">
+                                        Book Now
+                                    </button>
+                                </div>
+
+                                <!-- Manage Prescriptions -->
+                                <div style="background: var(--black); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.5rem; text-align: center;">
+                                    <div style="margin-bottom: 0.5rem;"><i data-lucide="clipboard-list" style="width: 48px; height: 48px; color: var(--gold);"></i></div>
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--purple);">My Prescriptions</h4>
+                                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">
+                                        View and manage your active prescriptions
+                                    </p>
+                                    <button class="btn btn-secondary" onclick="openMedicalPortal('prescriptions')" style="width: 100%;">
+                                        View Prescriptions
+                                    </button>
+                                </div>
+
+                                <!-- Upload Section 21 -->
+                                <div style="background: var(--black); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.5rem; text-align: center;">
+                                    <div style="margin-bottom: 0.5rem;"><i data-lucide="file-text" style="width: 48px; height: 48px; color: var(--gold);"></i></div>
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--purple);">Section 21 Letter</h4>
+                                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">
+                                        Upload authorization to unlock medical products
+                                    </p>
+                                    <button class="btn btn-outline" onclick="switchTab('medical')" style="width: 100%;">
+                                        Upload Document
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Information Section -->
+                        <div style="background: rgba(124, 58, 237, 0.08); border-left: 4px solid var(--gold); padding: 1.5rem; border-radius: 8px;">
+                            <h4 style="margin-bottom: 0.75rem; color: var(--purple);"><i data-lucide="info" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;"></i> How It Works</h4>
+                            <ol style="margin-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+                                <li><strong>Book an Appointment</strong> - Schedule a consultation with a certified doctor</li>
+                                <li><strong>Get Your Prescription</strong> - Receive your medical cannabis prescription</li>
+                                <li><strong>Upload Section 21</strong> - Submit your authorization letter for verification</li>
+                                <li><strong>Shop Medical Products</strong> - Access pharmaceutical-grade cannabis products</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Tab Content: Health -->
+
+            <!-- Tab Content: Wellness Points -->
+            <div id="tab-points" class="tab-content">
+                <!-- LOYALTY POINTS MODULE - R199/MONTH - COMMENTED OUT UNTIL SUBSCRIBED
+                <!-- Points Balance & Tier -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4" style="margin-bottom: 2rem;">
+                    <!-- Current Balance Card -->
+                    <div class="card" style="background: linear-gradient(135deg, var(--cbd-forest-green) 0%, var(--cbd-sage-green) 100%); color: white;">
+                        <div style="padding: 2rem; text-align: center;">
+                            <div style="opacity: 0.9; font-size: 0.875rem; margin-bottom: 0.5rem;">Your Wellness Points</div>
+                            <div style="font-size: 3rem; font-weight: 700; margin-bottom: 0.5rem;" id="pointsBalance">0</div>
+                            <div style="opacity: 0.9; font-size: 0.875rem;">Points Available</div>
+                            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.875rem; opacity: 0.9;">
+                                    <span>Points Value:</span>
+                                    <span style="font-weight: 600;" id="pointsValue">R0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Current Tier Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title" style="font-size: 1rem;"><i data-lucide="seedling" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;"></i> Current Tier</h3>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--cbd-forest-green); text-transform: capitalize;" id="currentTier">Seedling</div>
+                                <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;" id="tierDescription">New to the garden - just starting your wellness journey</p>
+                            </div>
+                            <div style="background: var(--bg-tertiary); padding: 1rem; border-radius: 8px;">
+                                <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">Progress to Next Tier</div>
+                                <div class="progress" style="margin-bottom: 0.5rem;">
+                                    <div class="progress-fill" id="tierProgress" style="width: 0%;"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+                                    <span id="currentSpend">R0</span>
+                                    <span id="nextTierSpend">R1,000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tier Benefits Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title" style="font-size: 1rem;"><i data-lucide="gift" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;"></i> Your Benefits</h3>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <div id="tierBenefitsList" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <div style="display: flex; align-items: start; gap: 0.5rem;">
+                                    <i data-lucide="check-circle" style="width: 16px; height: 16px; color: var(--success-color); flex-shrink: 0; margin-top: 2px;"></i>
+                                    <span style="font-size: 0.875rem;">Early access to new products</span>
+                                </div>
+                                <div style="display: flex; align-items: start; gap: 0.5rem;">
+                                    <i data-lucide="check-circle" style="width: 16px; height: 16px; color: var(--success-color); flex-shrink: 0; margin-top: 2px;"></i>
+                                    <span style="font-size: 0.875rem;">Birthday bonus points</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 0.875rem; color: var(--text-muted);">Points Multiplier:</span>
+                                    <span style="font-weight: 600; color: var(--cbd-forest-green);" id="pointsMultiplier">1.0x</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 0.875rem; color: var(--text-muted);">Tier Discount:</span>
+                                    <span style="font-weight: 600; color: var(--cbd-forest-green);" id="tierDiscount">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Points History & Redemption -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <!-- Points History -->
+                    <div class="lg:col-span-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <h2 class="card-title"><i data-lucide="history" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"></i> Points History</h2>
+                                    <p class="card-subtitle">Track your wellness points transactions</p>
+                                </div>
+                                <button class="btn btn-secondary" onclick="loadPointsHistory()">
+                                    <i data-lucide="refresh-cw" style="width: 16px; height: 16px; margin-right: 8px;"></i> Refresh
+                                </button>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <div id="pointsHistoryContainer">
+                                    <div style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                                        <i data-lucide="activity" style="width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.3;"></i>
+                                        <p>No points transactions yet. Start shopping to earn wellness points!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Redemption Options -->
+                    <div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title" style="font-size: 1rem;"><i data-lucide="sparkles" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;"></i> Redeem Points</h3>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <div style="background: var(--bg-tertiary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">Redemption Rate</div>
+                                    <div style="font-size: 1.25rem; font-weight: 600;">10 Points = R1</div>
+                                </div>
+
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Points to Redeem</label>
+                                    <input type="number" id="redeemPointsInput" min="100" step="10" placeholder="Min 100 points" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-primary); color: var(--text-primary);" oninput="calculateRedemptionValue()">
+                                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+                                        Minimum: 100 points
+                                    </div>
+                                </div>
+
+                                <div style="background: var(--success-color-light); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;" id="redemptionValueDisplay" style="display: none;">
+                                    <div style="font-size: 0.75rem; color: var(--success-color); margin-bottom: 0.25rem;">Discount Value</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--success-color);" id="redemptionValue">R0</div>
+                                </div>
+
+                                <button class="btn btn-primary" style="width: 100%;" onclick="redeemPoints()" id="redeemBtn" disabled>
+                                    <i data-lucide="gift" style="width: 16px; height: 16px; margin-right: 8px;"></i> Redeem Points
+                                </button>
+
+                                <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-tertiary); border-radius: 8px; font-size: 0.75rem; color: var(--text-muted);">
+                                    <i data-lucide="info" style="width: 14px; height: 14px; margin-right: 4px; vertical-align: middle;"></i>
+                                    Points can be redeemed as discount on your next purchase (max 50% of order total)
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earn More Points -->
+                        <div class="card" style="margin-top: 1rem;">
+                            <div class="card-header">
+                                <h3 class="card-title" style="font-size: 1rem;"><i data-lucide="trending-up" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;"></i> Earn More</h3>
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                    <div style="display: flex; align-items: start; gap: 0.75rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: 8px;">
+                                        <i data-lucide="shopping-bag" style="width: 20px; height: 20px; color: var(--cbd-forest-green); flex-shrink: 0;"></i>
+                                        <div>
+                                            <div style="font-weight: 500; font-size: 0.875rem;">Shop</div>
+                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Earn 1 point per R1 spent</div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; align-items: start; gap: 0.75rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: 8px;">
+                                        <i data-lucide="users" style="width: 20px; height: 20px; color: var(--cbd-forest-green); flex-shrink: 0;"></i>
+                                        <div>
+                                            <div style="font-weight: 500; font-size: 0.875rem;">Refer Friends</div>
+                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Get 100 bonus points</div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; align-items: start; gap: 0.75rem; padding: 0.75rem; background: var(--bg-tertiary); border-radius: 8px;">
+                                        <i data-lucide="cake" style="width: 20px; height: 20px; color: var(--cbd-forest-green); flex-shrink: 0;"></i>
+                                        <div>
+                                            <div style="font-weight: 500; font-size: 0.875rem;">Birthday</div>
+                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Special bonus points</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Tiers Overview -->
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title"><i data-lucide="layers" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"></i> Loyalty Tiers</h2>
+                            <p class="card-subtitle">Your journey to wellness rewards</p>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <!-- Seedling Tier -->
+                            <div class="card" style="border: 2px solid var(--border-color);">
+                                <div style="padding: 1.5rem; text-align: center;">
+                                    <div style="width: 60px; height: 60px; background: var(--bg-tertiary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                        <i data-lucide="seedling" style="width: 32px; height: 32px; color: var(--cbd-earth);"></i>
+                                    </div>
+                                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Seedling</h3>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">R0+ spent</p>
+                                    <div style="font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>1.0x</strong> points</div>
+                                    <div style="font-size: 0.875rem; color: var(--success-color);"><strong>0%</strong> discount</div>
+                                </div>
+                            </div>
+
+                            <!-- Vegetative Tier -->
+                            <div class="card" style="border: 2px solid var(--cbd-mint);">
+                                <div style="padding: 1.5rem; text-align: center;">
+                                    <div style="width: 60px; height: 60px; background: rgba(107, 144, 128, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                        <i data-lucide="sprout" style="width: 32px; height: 32px; color: var(--cbd-mint);"></i>
+                                    </div>
+                                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Vegetative</h3>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">R1,000+ spent</p>
+                                    <div style="font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>1.25x</strong> points</div>
+                                    <div style="font-size: 0.875rem; color: var(--success-color);"><strong>5%</strong> discount</div>
+                                </div>
+                            </div>
+
+                            <!-- Flowering Tier -->
+                            <div class="card" style="border: 2px solid var(--cbd-sage-green);">
+                                <div style="padding: 1.5rem; text-align: center;">
+                                    <div style="width: 60px; height: 60px; background: rgba(74, 124, 89, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                        <i data-lucide="flower" style="width: 32px; height: 32px; color: var(--cbd-sage-green);"></i>
+                                    </div>
+                                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Flowering</h3>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">R5,000+ spent</p>
+                                    <div style="font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>1.5x</strong> points</div>
+                                    <div style="font-size: 0.875rem; color: var(--success-color);"><strong>10%</strong> discount</div>
+                                </div>
+                            </div>
+
+                            <!-- Harvest Tier -->
+                            <div class="card" style="border: 2px solid var(--cbd-gold);">
+                                <div style="padding: 1.5rem; text-align: center;">
+                                    <div style="width: 60px; height: 60px; background: rgba(201, 169, 97, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                        <i data-lucide="trophy" style="width: 32px; height: 32px; color: var(--cbd-gold);"></i>
+                                    </div>
+                                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Harvest</h3>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">R15,000+ spent</p>
+                                    <div style="font-size: 0.875rem; margin-bottom: 0.5rem;"><strong>2.0x</strong> points</div>
+                                    <div style="font-size: 0.875rem; color: var(--success-color);"><strong>15%</strong> discount</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                END LOYALTY POINTS MODULE -->
+
+                <div style="text-align: center; padding: 4rem 2rem;">
+                    <i data-lucide="lock" style="width: 64px; height: 64px; opacity: 0.3; margin-bottom: 1rem;"></i>
+                    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Loyalty Points Module</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Upgrade your account to unlock our wellness rewards program</p>
+                    <button class="btn btn-primary" onclick="window.location.href='modules.html'">
+                        <i data-lucide="sparkles" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                        Upgrade Now - R199/month
+                    </button>
+                </div>
+            </div>
+            <!-- End Tab Content: Wellness Points -->
+
+            <!-- Tab Content: Orders -->
+            <div id="tab-orders" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title"><i data-lucide="package" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"></i> My Orders</h2>
+                            <p class="card-subtitle">Track all your purchases and order history</p>
+                        </div>
+                        <button class="btn btn-secondary" onclick="loadOrdersForTab()">Refresh</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Date</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTabTable">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                                        Loading orders...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- End Tab Content: Orders -->
+
+            <!-- Tab Content: Account -->
+            <div id="tab-account" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title"><i data-lucide="settings" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"></i> Account Settings</h2>
+                            <p class="card-subtitle">Manage your profile, preferences, and wellness rewards</p>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <div class="grid gap-4">
+                            <div>
+                                <h3 style="margin-bottom: 0.5rem;">Profile Information</h3>
+                                <div class="grid gap-2">
+                                    <div><strong>Email:</strong> <span id="accountEmail">Loading...</span></div>
+                                    <div><strong>Name:</strong> <span id="accountName">Loading...</span></div>
+                                    <div><strong>Member Since:</strong> <span id="accountCreated">Loading...</span></div>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 style="margin-bottom: 0.5rem;">Membership</h3>
+                                <div class="grid gap-2">
+                                    <div><strong>Level:</strong> <span id="accountMembershipLevel">Bronze</span></div>
+                                    <div><strong>Wellness Points:</strong> <span id="accountPoints">100</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Tab Content: Account -->
+
+        </div>
+    </main>
+
+    <!-- Order Details Modal -->
+    <div id="orderDetailsModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0,0.9); z-index: 2000; padding: 1rem;">
+        <div style="max-width: 600px; margin: 2rem auto; background: var(--black); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--purple); text-transform: uppercase;">Order Details</h3>
+                <button onclick="closeOrderModal()" style="background: none; border: none; color: var(--gray-500); font-size: 1.5rem; cursor: pointer;">×</button>
+            </div>
+            
+            <div id="orderDetailsContent">
+                <div style="text-align: center; padding: 2rem;">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">Loading order details...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Tracking Modal -->
+    <div id="trackingModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0,0.9); z-index: 2000; padding: 1rem;">
+        <div style="max-width: 500px; margin: 2rem auto; background: var(--black); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--purple); text-transform: uppercase;">Track Order</h3>
+                <button onclick="closeTrackingModal()" style="background: none; border: none; color: var(--gray-500); font-size: 1.5rem; cursor: pointer;">×</button>
+            </div>
+            
+            <form id="trackingForm" onsubmit="submitTracking(event)">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--purple);">Order Number</label>
+                    <input type="text" id="trackingNumber" placeholder="Enter order number (e.g., LD1234567890)" required
+                           style="width: 100%; padding: 0.75rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Track Order</button>
+            </form>
+            
+            <div id="trackingResult" style="margin-top: 2rem; display: none;">
+                <!-- Tracking results will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0,0.9); z-index: 2000; padding: 1rem;">
+        <div style="max-width: 500px; margin: 2rem auto; background: var(--black); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--purple); text-transform: uppercase;">Profile Settings</h3>
+                <button onclick="closeProfileModal()" style="background: none; border: none; color: var(--gray-500); font-size: 1.5rem; cursor: pointer;">×</button>
+            </div>
+            
+            <form id="profileForm">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--purple);">Full Name</label>
+                    <input type="text" id="profileName" style="width: 100%; padding: 0.75rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--purple);">Email</label>
+                    <input type="email" id="profileEmail" style="width: 100%; padding: 0.75rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--purple);">Phone</label>
+                    <input type="tel" id="profilePhone" style="width: 100%; padding: 0.75rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeProfileModal()" style="flex: 1;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal (DBC Brand) -->
+    <div id="confirmModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0,0.9); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: #0A0A0A; border: 2px solid #D97706; border-radius: 12px; padding: 2rem; max-width: 400px; width: 90%; text-align: center;">
+            <div id="confirmIcon" style="font-size: 3rem; margin-bottom: 1rem; color: #D97706;">
+                <i class="fas fa-question-circle"></i>
+            </div>
+            <h3 id="confirmTitle" style="color: #0A0A0A; margin-bottom: 1rem;">Confirm Action</h3>
+            <p id="confirmMessage" style="color: #7C3AED; margin-bottom: 2rem;">Are you sure you want to proceed?</p>
+            <div id="confirmButtons" style="display: flex; gap: 1rem;">
+                <button id="cancelBtn" onclick="closeConfirmModal()" style="flex: 1; padding: 0.75rem 1.5rem; background: #7C3AED; color: #0A0A0A; border: 1px solid #6D28D9; border-radius: 8px; cursor: pointer; font-weight: bold;">Cancel</button>
+                <button id="confirmBtn" onclick="confirmAction()" style="flex: 1; padding: 0.75rem 1.5rem; background: #D97706; color: #0A0A0A; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DBC Shared Libraries -->
+    <script src="/frontend/config.js"></script>
+    <script src="/frontend/jig-utils.js"></script>
+    <script src="/frontend/jig-auth.js"></script>
+
+
+    <!-- Dashboard modules — core first, then rest in any order -->
+    <script src="/frontend/dash-core.js"></script>
+    <script src="/frontend/dash-user.js"></script>
+    <script src="/frontend/dash-orders.js"></script>
+    <script src="/frontend/dash-products.js"></script>
+    <script src="/frontend/dash-section21.js"></script>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2 style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--white);"><i class="fas fa-shopping-cart" style="color: var(--purple); margin-right: 8px;"></i>Shopping Cart</h2>
+            <button onclick="toggleCart()" style="position: static; margin: 0; background: var(--gray-200); border: none; color: var(--white); width: 36px; height: 36px; border-radius: 50%; font-size: 20px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <p style="text-align: center; color: var(--text-muted); padding: 40px;">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">R0.00</span>
+            </div>
+            <button style="width: 100%; padding: 16px; font-size: 16px; border: none; background: var(--green); color: var(--white); border-radius: 8px; cursor: pointer; font-weight: 600; letter-spacing: 0.5px; transition: background 0.2s;" onmouseover="this.style.background='var(--green-dark)'" onmouseout="this.style.background='var(--green)'" onclick="proceedToCheckout()">
+                <i class="fas fa-credit-card"></i> Proceed to Checkout
+            </button>
+            <button style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid var(--gray-200); background: transparent; color: var(--text-secondary); border-radius: 8px; cursor: pointer; margin-top: 10px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--gray-200)';this.style.color='var(--text-secondary)'" onclick="clearCart()">
+                <i class="fas fa-trash-alt"></i> Clear Cart
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart & Points modules -->
+    <script src="/frontend/dash-cart.js"></script>
+    <script src="/frontend/dash-points.js"></script>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="bottom-nav" id="bottomNav">
+        <div class="bottom-nav-items">
+            <button class="bottom-nav-item" data-tab="lifestyle" onclick="dashMobileNavTo('lifestyle')">
+                <i class="fas fa-leaf"></i>
+                <span>Shop</span>
+            </button>
+            <button class="bottom-nav-item" data-tab="medical" onclick="dashMobileNavTo('medical')">
+                <i class="fas fa-heartbeat"></i>
+                <span>Medical</span>
+            </button>
+            <button class="bottom-nav-item" data-tab="orders" onclick="dashMobileNavTo('orders')">
+                <i class="fas fa-receipt"></i>
+                <span>Orders</span>
+            </button>
+            <button class="bottom-nav-item" data-tab="account" onclick="dashMobileNavTo('account')">
+                <i class="fas fa-user-cog"></i>
+                <span>Account</span>
+            </button>
+            <button class="bottom-nav-item" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+                <span>More</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // Mobile bottom nav — switch tab and update active state
+        function dashMobileNavTo(tabName) {
+            if (typeof switchTab === 'function') {
+                switchTab(tabName);
+            }
+            // Update bottom nav active state
+            document.querySelectorAll('.bottom-nav-item').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`.bottom-nav-item[data-tab="${tabName}"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+    </script>
+
+    <!-- UAT Bug Reporter -->
+</body>
+</html>

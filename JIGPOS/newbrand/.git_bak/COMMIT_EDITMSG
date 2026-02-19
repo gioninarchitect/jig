@@ -1,0 +1,15 @@
+Reliability audit: fix 11 API route mismatches, add missing assets, add stub functions
+
+- Fix /auth/me fallback to /auth/otp/me in dbc-auth, st-auth, branch-receiving
+- Fix /patients/:id/limits to /purchase-limits/patients/:id/limits in pos-cart
+- Fix /pos/sale/:id/email-invoice to /email in admin-pos
+- Fix /admin/affiliates to /affiliate/admin/all in admin-viral-management
+- Fix /viral/scores to /viral/trending in admin-viral-management
+- Fix /orders?type=b2b to /orders/all in admin-core
+- Fix /transfers to /stock-transfers in branch-receiving
+- Fix /section21/check to /section21/check-access/:userId in pos.html
+- Fix ?role=staff (invalid) to fetch all users in owner-reports
+- Add 7 points management stubs, openCreateMenuBoardModal, resendVoucher
+- Replace 5 alert() calls with showAdminToast() in admin-core
+- Create missing favicon.png, favicon.ico, icon-192/512.png, placeholder.png
+- Create css/globals.css and css/main.css to prevent 404s

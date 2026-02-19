@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Login/Registration</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #1a1a1a; 
+            color: white; 
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .info { color: #3b82f6; }
+        pre { 
+            background: #333; 
+            padding: 10px; 
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Loose Draw - Authentication Test Page</h1>
+    
+    <div class="test-section">
+        <h2>Quick Actions</h2>
+        <button onclick="testLogin()" style="background: #10b981;">1. Test Login</button>
+        <button onclick="testRegister()" style="background: #3b82f6;">2. Test Registration</button>
+        <button onclick="checkSession()" style="background: #f59e0b;">3. Check Session</button>
+        <button onclick="window.location.href='dashboard.html'" style="background: #8b5cf6;">4. Go to Dashboard</button>
+        <hr style="margin: 20px 0; border-color: #444;">
+        <button onclick="clearSession()" style="background: #ef4444;">⚠️ Clear Session (Logs you out!)</button>
+        <button onclick="window.location.href='login.html'">Go to Login Page</button>
+    </div>
+    
+    <div class="test-section" style="background: #1f3a28; border: 2px solid #10b981;">
+        <h2>✅ Correct Test Flow:</h2>
+        <ol>
+            <li>Click "Test Login" OR "Test Registration"</li>
+            <li>Click "Check Session" to verify</li>
+            <li>Click "Go to Dashboard" - should work!</li>
+        </ol>
+        <p style="color: #ef4444;">⚠️ Only click "Clear Session" to start over!</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Session Storage</h2>
+        <pre id="session"></pre>
+    </div>
+
+    <script>
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3002/api/v1'
+            : `${window.location.protocol}//${window.location.host}/api/v1`;
+        
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            results.appendChild(div);
+            updateSessionDisplay();
+        }
+
+        function updateSessionDisplay() {
+            const session = document.getElementById('session');
+            const data = {
+                user: sessionStorage.getItem('user'),
+                token: sessionStorage.getItem('token'),
+                adminUser: sessionStorage.getItem('adminUser')
+            };
+            session.textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function testLogin() {
+            log('Testing login...');
+            
+            // Test with demo credentials
+            const testEmail = 'test@example.com';
+            const testPassword = 'password123';
+            
+            try {
+                // Try API first
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email: testEmail, 
+                        password: testPassword 
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    sessionStorage.setItem('token', data.token);
+                    sessionStorage.setItem('user', JSON.stringify({
+                        ...data.user,
+                        loggedIn: true
+                    }));
+                    log('✅ API Login successful!', 'success');
+                } else {
+                    throw new Error('API login failed');
+                }
+            } catch (error) {
+                log('⚠️ API failed, using demo mode', 'error');
+                // Fallback to demo mode
+                sessionStorage.setItem('token', 'demo-token');
+                sessionStorage.setItem('user', JSON.stringify({
+                    email: testEmail,
+                    loggedIn: true,
+                    isLifestyleMember: true,
+                    name: 'Test User'
+                }));
+                log('✅ Demo login successful!', 'success');
+            }
+            
+            updateSessionDisplay();
+        }
+
+        async function testRegister() {
+            log('Testing registration...');
+            
+            const timestamp = Date.now();
+            const testData = {
+                email: `test${timestamp}@example.com`,
+                username: `user${timestamp}`,
+                password: 'password123',
+                firstName: 'Test',
+                lastName: 'User',
+                phone: '+27123456789'
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Registration successful! Token: ${data.token?.substring(0, 20)}...`, 'success');
+                    
+                    // Auto-login after registration
+                    sessionStorage.setItem('token', data.token);
+                    sessionStorage.setItem('user', JSON.stringify({
+                        ...data.user,
+                        loggedIn: true
+                    }));
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Registration failed');
+                }
+            } catch (error) {
+                log(`❌ Registration error: ${error.message}`, 'error');
+                
+                // Fallback to localStorage
+                log('Using localStorage fallback...', 'info');
+                const users = JSON.parse(localStorage.getItem('loosedraw_users') || '[]');
+                users.push(testData);
+                localStorage.setItem('loosedraw_users', JSON.stringify(users));
+                
+                sessionStorage.setItem('token', 'demo-token');
+                sessionStorage.setItem('user', JSON.stringify({
+                    email: testData.email,
+                    loggedIn: true,
+                    isLifestyleMember: false
+                }));
+                log('✅ Fallback registration successful!', 'success');
+            }
+            
+            updateSessionDisplay();
+        }
+
+        function clearSession() {
+            sessionStorage.clear();
+            localStorage.removeItem('loosedraw_users');
+            log('✅ Session cleared', 'success');
+            updateSessionDisplay();
+        }
+
+        function checkSession() {
+            const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+            const token = sessionStorage.getItem('token');
+            
+            if (user.loggedIn && token) {
+                log(`✅ Logged in as: ${user.email}`, 'success');
+                log(`Token: ${token?.substring(0, 20)}...`, 'info');
+                log(`Is Lifestyle Member: ${user.isLifestyleMember}`, 'info');
+            } else {
+                log('❌ Not logged in', 'error');
+            }
+        }
+
+        // Check on load
+        window.addEventListener('load', () => {
+            log('Test page loaded');
+            updateSessionDisplay();
+            checkSession();
+        });
+    </script>
+</body>
+</html>

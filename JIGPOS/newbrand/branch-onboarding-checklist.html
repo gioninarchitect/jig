@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branch Onboarding Checklist - JIG Craft Cannabis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-100);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--green-deep), var(--green-dark));
+            color: var(--cream);
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 36px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        .branch-info {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 2px solid var(--gray-300);
+        }
+
+        .branch-info h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .branch-info .field {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .branch-info label {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .branch-info input {
+            padding: 10px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        /* Accordion Styles */
+        .accordion {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 24px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .accordion-header:hover {
+            background: var(--gray-100);
+        }
+
+        .accordion.open .accordion-header {
+            border-bottom-color: var(--gray-100);
+        }
+
+        .section-number {
+            width: 36px;
+            height: 36px;
+            background: var(--green);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 22px;
+            color: var(--white);
+            letter-spacing: 1px;
+            flex: 1;
+        }
+
+        .accordion-icon {
+            font-size: 18px;
+            color: var(--gray-600);
+            transition: transform 0.3s;
+        }
+
+        .accordion.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-progress {
+            font-size: 12px;
+            color: var(--gray-600);
+            background: var(--gray-100);
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-right: 10px;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion.open .accordion-content {
+            max-height: 2000px;
+        }
+
+        .accordion-body {
+            padding: 0 24px 24px;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: var(--purple);
+            flex-shrink: 0;
+        }
+
+        .checklist .item-content {
+            flex: 1;
+        }
+
+        .checklist .item-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .checklist .item-desc {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        .checklist .item-command {
+            background: var(--green-deep);
+            color: var(--gold);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 8px;
+            overflow-x: auto;
+            word-break: break-all;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 8px;
+        }
+
+        .status-required {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .status-optional {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-auto {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid var(--gray-300);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .timeline-item:hover {
+            border-color: var(--gold);
+        }
+
+        .timeline-item.active {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, var(--green-deep), var(--green-dark));
+            color: var(--cream);
+        }
+
+        .timeline-item h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+
+        .timeline-item p {
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+        }
+
+        .signoff {
+            background: var(--black);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid var(--gold);
+        }
+
+        .signoff h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .signoff-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .signoff-field label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-600);
+            margin-bottom: 8px;
+        }
+
+        .signoff-field .line {
+            border-bottom: 2px solid var(--green);
+            height: 40px;
+        }
+
+        .action-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            background: var(--green);
+            color: var(--white);
+            border: none;
+            padding: 16px 24px;
+            border-radius: 30px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm;
+            }
+
+            body {
+                background: #0A0A0A !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .container {
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .action-buttons {
+                display: none !important;
+            }
+
+            .header {
+                background: var(--green-deep) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                margin-bottom: 20px;
+                padding: 30px;
+            }
+
+            .branch-info {
+                page-break-inside: avoid;
+            }
+
+            .timeline {
+                margin-bottom: 20px;
+            }
+
+            .timeline-item {
+                padding: 15px;
+            }
+
+            /* Force all accordions open for print */
+            .accordion-content {
+                max-height: none !important;
+                overflow: visible !important;
+            }
+
+            .accordion {
+                page-break-inside: avoid;
+                margin-bottom: 15px;
+                box-shadow: none;
+                border: 1px solid var(--gray-300);
+            }
+
+            .accordion-header {
+                padding: 15px 20px;
+            }
+
+            .accordion-icon {
+                display: none;
+            }
+
+            .accordion-progress {
+                display: none;
+            }
+
+            .accordion-body {
+                padding: 0 20px 20px;
+            }
+
+            .section-number {
+                background: var(--green) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .status-badge {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .checklist li {
+                padding: 8px 0;
+            }
+
+            .checklist input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+            }
+
+            .item-command {
+                background: #f0f0f0 !important;
+                color: #333 !important;
+                border: 1px solid #ccc;
+            }
+
+            .signoff {
+                page-break-inside: avoid;
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .branch-info .field {
+                grid-template-columns: 1fr;
+            }
+            .timeline {
+                grid-template-columns: 1fr;
+            }
+            .signoff-grid {
+                grid-template-columns: 1fr;
+            }
+            .action-buttons {
+                flex-direction: column;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BRANCH ONBOARDING CHECKLIST</h1>
+            <p>JIG Craft Cannabis - Collection Point Setup Guide</p>
+        </div>
+
+        <!-- Branch Information -->
+        <div class="branch-info">
+            <h2>Branch Information</h2>
+            <div class="field">
+                <label>Branch Name:</label>
+                <input type="text" placeholder="e.g., Spruitview" id="branchName">
+            </div>
+            <div class="field">
+                <label>Branch Code:</label>
+                <input type="text" placeholder="e.g., SPR-001" id="branchCode">
+            </div>
+            <div class="field">
+                <label>Address:</label>
+                <input type="text" placeholder="Full street address" id="branchAddress">
+            </div>
+            <div class="field">
+                <label>Target Launch:</label>
+                <input type="date" id="launchDate">
+            </div>
+            <div class="field">
+                <label>Branch Manager:</label>
+                <input type="text" placeholder="Name and contact" id="branchManager">
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline">
+            <div class="timeline-item" onclick="scrollToPhase(1)">
+                <h3>Phase 1</h3>
+                <p>Pre-Launch</p>
+            </div>
+            <div class="timeline-item" onclick="scrollToPhase(2)">
+                <h3>Phase 2</h3>
+                <p>Setup Day</p>
+            </div>
+            <div class="timeline-item" onclick="scrollToPhase(3)">
+                <h3>Phase 3</h3>
+                <p>Go Live</p>
+            </div>
+        </div>
+
+        <!-- Section 1: Pre-Launch Requirements -->
+        <div class="accordion open" data-section="1" data-phase="1">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="section-number">1</div>
+                <h2 class="section-title">PRE-LAUNCH REQUIREMENTS</h2>
+                <span class="accordion-progress">0/6</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <ul class="checklist">
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Premises Ready <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Physical location secured, lease signed, security measures in place</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Internet Connection <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Stable WiFi or 4G/LTE connection (minimum 10Mbps recommended)</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Section 21 License <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Valid Section 21 exemption certificate for location</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Branch Manager Identified <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Named person responsible for branch operations and compliance</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Staff Recruited <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Minimum 2 staff members trained on products and compliance</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Cash Float Prepared <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Opening float for cash transactions (recommended R2,000)</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Hardware Setup -->
+        <div class="accordion" data-section="2" data-phase="2">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="section-number">2</div>
+                <h2 class="section-title">HARDWARE SETUP</h2>
+                <span class="accordion-progress">0/7</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <ul class="checklist">
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Tablet Received <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Android tablet or iPad shipped from HQ with case and charger</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Tablet Charged & Connected to WiFi <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Full charge, connected to store WiFi network</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">POS Bookmark Added <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Add to home screen for quick access</div>
+                                <div class="item-command">https://jig.cleva-ai.co.za/pos.html?branch=BRANCH_CODE</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Card Machine Setup <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Yoco/iKhokha device paired and tested with test transaction</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Receipt Printer (Bluetooth) <span class="status-badge status-optional">Optional</span></div>
+                                <div class="item-desc">58mm thermal printer paired to tablet (can use email receipts instead)</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Cash Drawer <span class="status-badge status-optional">Optional</span></div>
+                                <div class="item-desc">Lockable cash drawer for float and daily takings</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Backup Power <span class="status-badge status-optional">Optional</span></div>
+                                <div class="item-desc">UPS or power bank for load shedding resilience</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: System Configuration -->
+        <div class="accordion" data-section="3" data-phase="2">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="section-number">3</div>
+                <h2 class="section-title">SYSTEM CONFIGURATION (HQ)</h2>
+                <span class="accordion-progress">0/5</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <ul class="checklist">
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Branch Created in Database <span class="status-badge status-auto">HQ Action</span></div>
+                                <div class="item-desc">Branch document created with address, hours, contact info</div>
+                                <div class="item-command">node scripts/seed-branches.js</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Staff Accounts Created <span class="status-badge status-auto">HQ Action</span></div>
+                                <div class="item-desc">Create user accounts for branch manager and staff</div>
+                                <div class="item-command">node scripts/create-branch-staff.js SPR-001 0831234567 John Smith</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Inventory Allocated <span class="status-badge status-auto">HQ Action</span></div>
+                                <div class="item-desc">Transfer initial stock from HQ to branch inventory</div>
+                                <div class="item-command">node scripts/allocate-stock.js SPR-001 50</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Branch Activated <span class="status-badge status-auto">HQ Action</span></div>
+                                <div class="item-desc">Activate branch and switch landing page to live store</div>
+                                <div class="item-command">node scripts/activate-branch.js SPR-001</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Payment Methods Enabled <span class="status-badge status-auto">HQ Action</span></div>
+                                <div class="item-desc">Enable cash, card, EFT for branch in system settings</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Inventory -->
+        <div class="accordion" data-section="4" data-phase="2">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="section-number">4</div>
+                <h2 class="section-title">INVENTORY SETUP</h2>
+                <span class="accordion-progress">0/5</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <ul class="checklist">
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Stock Shipment Received <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Initial product shipment from HQ with packing list</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Physical Count Completed <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Count all received items against packing list, note discrepancies</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Stock Verified in System <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Confirm system inventory matches physical count</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Products Displayed <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Merchandise arranged on shelves/display cases with pricing</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Section 21 Products Secured <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Medical cannabis products in locked storage, access controlled</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Staff Training -->
+        <div class="accordion" data-section="5" data-phase="2">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="section-number">5</div>
+                <h2 class="section-title">STAFF TRAINING</h2>
+                <span class="accordion-progress">0/6</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <ul class="checklist">
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">POS System Training <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Login, find products, add to cart, process payment, issue receipt</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Customer Registration <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Register new customers, verify age, collect phone number</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Section 21 Protocol <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Verifying prescriptions, checking patient limits, compliance</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Cash Handling <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Float management, end-of-day cash up, discrepancy reporting</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Product Knowledge <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Product categories, THC/CBD content, recommendations</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Refund/Exchange Policy <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">When refunds are allowed, manager approval requirements</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Testing -->
+        <div class="accordion" data-section="6" data-phase="2">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="section-number">6</div>
+                <h2 class="section-title">PRE-LAUNCH TESTING</h2>
+                <span class="accordion-progress">0/7</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <ul class="checklist">
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Staff Login Test <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">All staff can login to POS with their credentials</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Product Search Test <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Can find products by name and category</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Cash Sale Test <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Complete test cash transaction, verify receipt</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Card Sale Test <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Process test card payment, verify in system</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Inventory Deduction Test <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">After test sale, verify stock quantity reduced</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Customer Registration Test <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Register test customer, verify they appear in system</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">End-of-Day Report Test <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Run daily report, verify totals match</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Go Live -->
+        <div class="accordion" data-section="7" data-phase="3">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="section-number">7</div>
+                <h2 class="section-title">GO LIVE DAY</h2>
+                <span class="accordion-progress">0/7</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <ul class="checklist">
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">HQ Notified of Launch <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Confirm with HQ that branch is ready</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Staff On-Site <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Branch manager + minimum 1 staff member present</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Cash Float in Drawer <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Opening float counted and recorded</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Card Machine On & Connected <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Device powered, paired, and ready</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">POS Logged In <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Tablet on, POS loaded, staff logged in</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">First Real Sale Completed <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Successfully processed first customer transaction</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">HQ Confirmation <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Report to HQ that branch is live</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Post-Launch -->
+        <div class="accordion" data-section="8" data-phase="3">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="section-number">8</div>
+                <h2 class="section-title">POST-LAUNCH (FIRST WEEK)</h2>
+                <span class="accordion-progress">0/5</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <ul class="checklist">
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Daily Sales Reports Submitted <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">End-of-day reports sent to HQ for first 7 days</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Cash Reconciliation Accurate <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">No unexplained discrepancies</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Inventory Spot Check <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Random product counts match system</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Staff Feedback Collected <span class="status-badge status-optional">Optional</span></div>
+                                <div class="item-desc">Any issues, questions, or suggestions</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" onchange="updateProgress(this)">
+                            <div class="item-content">
+                                <div class="item-title">Reorder Needs Identified <span class="status-badge status-required">Required</span></div>
+                                <div class="item-desc">Flag products running low for HQ replenishment</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Contacts -->
+        <div class="accordion" data-section="emergency">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="section-number">!</div>
+                <h2 class="section-title">EMERGENCY CONTACTS</h2>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <ul class="checklist">
+                        <li>
+                            <input type="checkbox" checked disabled>
+                            <div class="item-content">
+                                <div class="item-title">HQ Operations</div>
+                                <div class="item-desc">For system issues, stock requests, general queries</div>
+                                <div class="item-command">Phone: _______________ | WhatsApp: _______________</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" checked disabled>
+                            <div class="item-content">
+                                <div class="item-title">Technical Support</div>
+                                <div class="item-desc">For POS issues, tablet problems, payment failures</div>
+                                <div class="item-command">Phone: _______________ | WhatsApp: _______________</div>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="checkbox" checked disabled>
+                            <div class="item-content">
+                                <div class="item-title">Compliance Officer</div>
+                                <div class="item-desc">For Section 21 questions, prescription issues</div>
+                                <div class="item-command">Phone: _______________ | WhatsApp: _______________</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sign-off -->
+        <div class="signoff">
+            <h2>LAUNCH SIGN-OFF</h2>
+            <div class="signoff-grid">
+                <div class="signoff-field">
+                    <label>Branch Manager Signature</label>
+                    <div class="line"></div>
+                </div>
+                <div class="signoff-field">
+                    <label>Date</label>
+                    <div class="line"></div>
+                </div>
+                <div class="signoff-field">
+                    <label>HQ Representative Signature</label>
+                    <div class="line"></div>
+                </div>
+                <div class="signoff-field">
+                    <label>Date</label>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="action-buttons">
+        <button class="action-btn secondary" onclick="expandAll()">
+            <i class="fas fa-expand"></i> Expand All
+        </button>
+        <button class="action-btn" onclick="window.print()">
+            <i class="fas fa-print"></i> Print
+        </button>
+    </div>
+
+    <script>
+        function toggleAccordion(header) {
+            const accordion = header.parentElement;
+            accordion.classList.toggle('open');
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.accordion').forEach(acc => {
+                acc.classList.add('open');
+            });
+        }
+
+        function updateProgress(checkbox) {
+            const accordion = checkbox.closest('.accordion');
+            const checkboxes = accordion.querySelectorAll('input[type="checkbox"]:not([disabled])');
+            const checked = accordion.querySelectorAll('input[type="checkbox"]:checked:not([disabled])').length;
+            const progressEl = accordion.querySelector('.accordion-progress');
+            if (progressEl) {
+                progressEl.textContent = `${checked}/${checkboxes.length}`;
+                if (checked === checkboxes.length) {
+                    progressEl.style.background = '#D1FAE5';
+                    progressEl.style.color = '#065F46';
+                } else {
+                    progressEl.style.background = '';
+                    progressEl.style.color = '';
+                }
+            }
+            saveProgress();
+        }
+
+        function scrollToPhase(phase) {
+            const firstSection = document.querySelector(`.accordion[data-phase="${phase}"]`);
+            if (firstSection) {
+                firstSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                firstSection.classList.add('open');
+            }
+        }
+
+        function saveProgress() {
+            const data = {
+                branchName: document.getElementById('branchName')?.value || '',
+                branchCode: document.getElementById('branchCode')?.value || '',
+                branchAddress: document.getElementById('branchAddress')?.value || '',
+                launchDate: document.getElementById('launchDate')?.value || '',
+                branchManager: document.getElementById('branchManager')?.value || '',
+                checkboxes: []
+            };
+
+            document.querySelectorAll('.accordion').forEach((acc, accIndex) => {
+                acc.querySelectorAll('input[type="checkbox"]:not([disabled])').forEach((cb, cbIndex) => {
+                    if (cb.checked) {
+                        data.checkboxes.push(`${accIndex}-${cbIndex}`);
+                    }
+                });
+            });
+
+            localStorage.setItem('dbc_onboarding_checklist', JSON.stringify(data));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('dbc_onboarding_checklist');
+            if (saved) {
+                const data = JSON.parse(saved);
+
+                if (data.branchName) document.getElementById('branchName').value = data.branchName;
+                if (data.branchCode) document.getElementById('branchCode').value = data.branchCode;
+                if (data.branchAddress) document.getElementById('branchAddress').value = data.branchAddress;
+                if (data.launchDate) document.getElementById('launchDate').value = data.launchDate;
+                if (data.branchManager) document.getElementById('branchManager').value = data.branchManager;
+
+                data.checkboxes.forEach(key => {
+                    const [accIndex, cbIndex] = key.split('-').map(Number);
+                    const accordion = document.querySelectorAll('.accordion')[accIndex];
+                    if (accordion) {
+                        const checkbox = accordion.querySelectorAll('input[type="checkbox"]:not([disabled])')[cbIndex];
+                        if (checkbox) checkbox.checked = true;
+                    }
+                });
+
+                // Update all progress indicators
+                document.querySelectorAll('.accordion').forEach(acc => {
+                    const checkboxes = acc.querySelectorAll('input[type="checkbox"]:not([disabled])');
+                    const checked = acc.querySelectorAll('input[type="checkbox"]:checked:not([disabled])').length;
+                    const progressEl = acc.querySelector('.accordion-progress');
+                    if (progressEl && checkboxes.length > 0) {
+                        progressEl.textContent = `${checked}/${checkboxes.length}`;
+                        if (checked === checkboxes.length) {
+                            progressEl.style.background = '#D1FAE5';
+                            progressEl.style.color = '#065F46';
+                        }
+                    }
+                });
+            }
+        }
+
+        // Save on input change
+        document.querySelectorAll('.branch-info input').forEach(input => {
+            input.addEventListener('change', saveProgress);
+        });
+
+        // Load saved progress on page load
+        document.addEventListener('DOMContentLoaded', loadProgress);
+    </script>
+</body>
+</html>

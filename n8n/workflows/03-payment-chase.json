@@ -1,0 +1,333 @@
+{
+  "name": "JIG - Payment Chase (Daily)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "id": "cron-daily-9am",
+      "name": "Daily 9am Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://jig.cleva-ai.co.za/api/v1/n8n/data/orders/unpaid",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "={{$env.N8N_API_KEY}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch-unpaid",
+      "name": "Fetch Unpaid Orders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "calc-days",
+              "name": "daysSinceConfirmed",
+              "value": "={{ Math.floor((Date.now() - new Date($json.confirmedAt).getTime()) / (1000 * 60 * 60 * 24)) }}",
+              "type": "number"
+            },
+            {
+              "id": "keep-order-id",
+              "name": "orderId",
+              "value": "={{ $json.orderId }}",
+              "type": "string"
+            },
+            {
+              "id": "keep-client-name",
+              "name": "clientName",
+              "value": "={{ $json.clientName }}",
+              "type": "string"
+            },
+            {
+              "id": "keep-total",
+              "name": "totalAmount",
+              "value": "={{ $json.totalAmount }}",
+              "type": "number"
+            },
+            {
+              "id": "keep-confirmed",
+              "name": "confirmedAt",
+              "value": "={{ $json.confirmedAt }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "calc-days-since",
+      "name": "Calculate Days Since Confirmed",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-14-days",
+              "leftValue": "={{ $json.daysSinceConfirmed }}",
+              "rightValue": 14,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-14-days",
+      "name": "14+ Days Overdue?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$env.TELEGRAM_CHAT_ID}}",
+        "text": "=**CRITICAL - 14 Days Overdue**\n\nOrder #{{ $json.orderId }}\nClient: {{ $json.clientName }}\nAmount: R{{ $json.totalAmount }}\nConfirmed: {{ $json.confirmedAt }}\nDays Overdue: {{ $json.daysSinceConfirmed }}\n\nAdmin action required. Consider suspending this client's account.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-admin-14",
+      "name": "Notify Admin (14 days)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1120, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIALS_ID",
+          "name": "JIG Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-7-days",
+              "leftValue": "={{ $json.daysSinceConfirmed }}",
+              "rightValue": 7,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-7-days",
+      "name": "7+ Days Overdue?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1120, 400]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$env.TELEGRAM_CHAT_ID}}",
+        "text": "=**OVERDUE - Order #{{ $json.orderId }}**\n\nClient: {{ $json.clientName }}\nAmount: R{{ $json.totalAmount }}\nDays Overdue: {{ $json.daysSinceConfirmed }}\n\nThis order is now overdue. Escalation may be needed.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-overdue-7",
+      "name": "Send Overdue (7 days)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1340, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIALS_ID",
+          "name": "JIG Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-3-days",
+              "leftValue": "={{ $json.daysSinceConfirmed }}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-3-days",
+      "name": "3+ Days Unpaid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1340, 500]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$env.TELEGRAM_CHAT_ID}}",
+        "text": "=**Payment Reminder - Order #{{ $json.orderId }}**\n\nClient: {{ $json.clientName }}\nAmount: R{{ $json.totalAmount }}\nDays Since Confirmed: {{ $json.daysSinceConfirmed }}\n\nFriendly reminder to follow up on payment.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-reminder-3",
+      "name": "Send Reminder (3 days)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1560, 400],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIALS_ID",
+          "name": "JIG Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 9am Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Unpaid Orders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Unpaid Orders": {
+      "main": [
+        [
+          {
+            "node": "Calculate Days Since Confirmed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Days Since Confirmed": {
+      "main": [
+        [
+          {
+            "node": "14+ Days Overdue?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "14+ Days Overdue?": {
+      "main": [
+        [
+          {
+            "node": "Notify Admin (14 days)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "7+ Days Overdue?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "7+ Days Overdue?": {
+      "main": [
+        [
+          {
+            "node": "Send Overdue (7 days)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "3+ Days Unpaid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3+ Days Unpaid?": {
+      "main": [
+        [
+          {
+            "node": "Send Reminder (3 days)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "JIG"
+    },
+    {
+      "name": "Payments"
+    }
+  ],
+  "triggerCount": 1,
+  "versionId": "1"
+}

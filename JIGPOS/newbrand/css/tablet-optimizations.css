@@ -1,0 +1,346 @@
+/**
+ * DE BUD CHEF - Tablet Optimizations
+ * Shared CSS for all dashboards and POS
+ * Include this file AFTER main styles to apply tablet improvements
+ *
+ * Touch target minimum: 44px (Apple HIG) / 48px (Material Design)
+ * Optimized for: iPad, Samsung Galaxy Tab, Android tablets 768px-1366px
+ */
+
+/* ========================================
+   TABLET BASE OPTIMIZATIONS (768px - 1024px)
+   ======================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Larger touch targets for all buttons */
+    button,
+    .btn,
+    .btn-primary,
+    .btn-secondary,
+    .action-btn,
+    .nav-btn,
+    .tab-btn,
+    [role="button"] {
+        min-height: 48px;
+        padding: 12px 20px;
+    }
+
+    /* Icon buttons need larger hit area */
+    .icon-btn,
+    .btn-icon,
+    button[class*="icon"] {
+        min-width: 48px;
+        min-height: 48px;
+    }
+
+    /* Form inputs - easier to tap */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="search"],
+    input[type="date"],
+    select,
+    textarea {
+        min-height: 48px;
+        padding: 12px 16px;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+
+    /* Checkboxes and radios */
+    input[type="checkbox"],
+    input[type="radio"] {
+        min-width: 24px;
+        min-height: 24px;
+    }
+
+    /* Table cells - more padding for touch */
+    td, th {
+        padding: 14px 12px;
+    }
+
+    /* Card components */
+    .card,
+    .stat-card,
+    .info-card,
+    .dashboard-card {
+        padding: 20px;
+    }
+
+    /* List items that are clickable */
+    .list-item,
+    .menu-item,
+    .nav-item a,
+    .dropdown-item {
+        min-height: 48px;
+        padding: 14px 16px;
+    }
+
+    /* Modal improvements */
+    .modal-content {
+        max-width: 90vw;
+        max-height: 85vh;
+    }
+
+    /* Sidebar adjustments */
+    .sidebar {
+        width: 280px;
+    }
+
+    /* Grid layouts - 2 columns on tablet */
+    .stats-grid,
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+/* ========================================
+   TABLET LANDSCAPE (1024px - 1366px)
+   ======================================== */
+@media (min-width: 1024px) and (max-width: 1366px) {
+    /* Slightly smaller touch targets OK on larger tablets */
+    button,
+    .btn {
+        min-height: 44px;
+    }
+
+    /* 3 column grid on larger tablets */
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Wider sidebar */
+    .sidebar {
+        width: 300px;
+    }
+}
+
+/* ========================================
+   TOUCH FEEDBACK IMPROVEMENTS
+   ======================================== */
+@media (hover: none) and (pointer: coarse) {
+    /* Touch devices - better active states */
+    button:active,
+    .btn:active,
+    .card:active,
+    a:active {
+        transform: scale(0.98);
+        opacity: 0.9;
+    }
+
+    /* Remove hover effects that don't work on touch */
+    button:hover,
+    .btn:hover {
+        transform: none;
+    }
+
+    /* Add active state instead */
+    button:active,
+    .btn:active {
+        transform: scale(0.98);
+    }
+
+    /* Disable text selection on interactive elements */
+    button,
+    .btn,
+    .nav-item,
+    .tab-btn {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+}
+
+/* ========================================
+   SCROLLING IMPROVEMENTS
+   ======================================== */
+@media (max-width: 1024px) {
+    /* Smooth momentum scrolling on iOS */
+    .scrollable,
+    .table-container,
+    .list-container,
+    .modal-body,
+    .sidebar,
+    .content-area {
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+    }
+
+    /* Hide scrollbars on touch devices (content still scrollable) */
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+/* ========================================
+   NAVIGATION TABLET ADJUSTMENTS
+   ======================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Tab navigation */
+    .tabs,
+    .tab-nav {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+    }
+
+    .tab-btn,
+    .nav-tab {
+        flex-shrink: 0;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    /* Bottom navigation for tablet */
+    .bottom-nav {
+        padding: 12px 20px;
+    }
+
+    .bottom-nav .nav-item {
+        min-width: 80px;
+    }
+}
+
+/* ========================================
+   FORM LAYOUT TABLET ADJUSTMENTS
+   ======================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Form groups - 2 column on tablet */
+    .form-row,
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    /* Full width for important inputs */
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    /* Action buttons at bottom */
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        padding-top: 20px;
+    }
+
+    .form-actions button {
+        min-width: 140px;
+    }
+}
+
+/* ========================================
+   DATA TABLE TABLET ADJUSTMENTS
+   ======================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Horizontally scrollable tables */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Larger tap targets in tables */
+    table button,
+    table .btn,
+    table .action-btn {
+        min-width: 40px;
+        min-height: 40px;
+        padding: 8px 12px;
+    }
+
+    /* Row actions */
+    .row-actions {
+        display: flex;
+        gap: 8px;
+    }
+}
+
+/* ========================================
+   MODAL TABLET ADJUSTMENTS
+   ======================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .modal {
+        padding: 20px;
+    }
+
+    .modal-content {
+        border-radius: 16px;
+        max-height: 80vh;
+    }
+
+    .modal-header {
+        padding: 20px 24px;
+    }
+
+    .modal-body {
+        padding: 24px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-footer {
+        padding: 16px 24px;
+        gap: 12px;
+    }
+
+    .modal-footer button {
+        min-width: 120px;
+    }
+}
+
+/* ========================================
+   DASHBOARD SPECIFIC TABLET STYLES
+   ======================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Stat cards */
+    .stat-card,
+    .metric-card {
+        padding: 20px;
+    }
+
+    .stat-value,
+    .metric-value {
+        font-size: 2rem;
+    }
+
+    .stat-label,
+    .metric-label {
+        font-size: 0.9rem;
+    }
+
+    /* Quick action buttons */
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .quick-action-btn {
+        min-height: 60px;
+        font-size: 1rem;
+    }
+
+    /* Activity feed / lists */
+    .activity-item,
+    .feed-item {
+        padding: 16px;
+    }
+}
+
+/* ========================================
+   PRINT STYLES (for receipts etc)
+   ======================================== */
+@media print {
+    /* Hide tablet-specific UI elements when printing */
+    .tablet-only,
+    .touch-only {
+        display: none !important;
+    }
+}

@@ -94,6 +94,47 @@ export function requireAdmin(
 }
 
 // ─────────────────────────────────────────────────────────────
+// CHAT WEBHOOK RATE LIMITER (in-memory)
+// ─────────────────────────────────────────────────────────────
+
+const chatAttempts = new Map<string, { count: number; resetAt: number }>();
+
+const CHAT_RATE_LIMIT = {
+  maxRequests: 300,
+  windowMs: 60_000, // 1 minute
+};
+
+export function chatWebhookLimiter(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+  const now = Date.now();
+  const entry = chatAttempts.get(ip);
+
+  if (entry && entry.resetAt > now) {
+    if (entry.count >= CHAT_RATE_LIMIT.maxRequests) {
+      res.status(429).json({ error: 'Too many requests' });
+      return;
+    }
+    entry.count++;
+  } else {
+    chatAttempts.set(ip, { count: 1, resetAt: now + CHAT_RATE_LIMIT.windowMs });
+  }
+
+  next();
+}
+
+// Clean up stale chat rate limit entries every 5 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, val] of chatAttempts) {
+    if (val.resetAt <= now) chatAttempts.delete(key);
+  }
+}, 5 * 60 * 1000).unref();
+
+// ─────────────────────────────────────────────────────────────
 // OTP RATE LIMITER (in-memory, simple)
 // ─────────────────────────────────────────────────────────────
 

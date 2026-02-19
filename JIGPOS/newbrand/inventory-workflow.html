@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBC Inventory Management System | JIG Craft Cannabis</title>
+    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-deep) 100%);
+            color: var(--cream);
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23D4AF37" stroke-width="0.5" opacity="0.1"/></svg>') repeat;
+            background-size: 100px;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            color: var(--gold);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Section */
+        .section {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--gold);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--cream);
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.4rem;
+        }
+
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Flow Diagram */
+        .flow-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            color: var(--cream);
+            padding: 20px 25px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 140px;
+            position: relative;
+        }
+
+        .flow-step i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--gold);
+        }
+
+        .flow-step h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+
+        /* System Cards */
+        .systems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .system-card {
+            background: var(--black);
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .system-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        .system-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .system-card-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--green);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        .system-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            color: var(--purple);
+            text-transform: uppercase;
+        }
+
+        .system-card p {
+            color: var(--white);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .system-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .system-card li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .system-card li:last-child {
+            border-bottom: none;
+        }
+
+        .system-card li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+
+        /* Data Flow Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th {
+            background: var(--green);
+            color: var(--cream);
+            padding: 15px;
+            text-align: left;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--cream);
+            font-size: 0.95rem;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: rgba(244, 240, 230, 0.5);
+        }
+
+        .data-table .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-read {
+            background: rgba(59, 130, 246, 0.15);
+            color: #2563eb;
+        }
+
+        .badge-write {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22C55E;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.15) 0%, rgba(217, 119, 6, 0.05) 100%);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            color: var(--gold-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .highlight-box p {
+            font-size: 0.95rem;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: var(--gold);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            font-weight: 600;
+            color: var(--purple);
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--green-deep);
+            color: var(--cream);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .flow-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+
+        @media print {
+            .section {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" class="logo">
+            <h1>Inventory Management System</h1>
+            <p>Complete Stock Control for Ormonde Branch</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-sitemap"></i>
+                </div>
+                <h2 class="section-title">System Overview</h2>
+            </div>
+
+            <p style="font-size: 1.05rem; margin-bottom: 20px;">
+                The DBC Inventory Management System connects four integrated applications to provide
+                complete stock control, from product creation to point of sale.
+            </p>
+
+            <div class="flow-container">
+                <div class="flow-step">
+                    <i class="fas fa-cog"></i>
+                    <h4>Admin Panel</h4>
+                </div>
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="flow-step">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h4>Stock Take</h4>
+                </div>
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="flow-step">
+                    <i class="fas fa-database"></i>
+                    <h4>Inventory</h4>
+                </div>
+                <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="flow-step">
+                    <i class="fas fa-cash-register"></i>
+                    <h4>POS</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- Systems Section -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h2 class="section-title">Connected Systems</h2>
+            </div>
+
+            <div class="systems-grid">
+                <div class="system-card">
+                    <div class="system-card-header">
+                        <div class="system-card-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3>Admin Dashboard</h3>
+                    </div>
+                    <p>Central management hub for products, users, and settings.</p>
+                    <ul>
+                        <li>Create & edit products</li>
+                        <li>Assign tags (Indoor/Greendoor)</li>
+                        <li>Set pricing & categories</li>
+                        <li>Manage staff accounts</li>
+                    </ul>
+                </div>
+
+                <div class="system-card">
+                    <div class="system-card-header">
+                        <div class="system-card-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3>Stock Take App</h3>
+                    </div>
+                    <p>Mobile-first stock counting with photo verification.</p>
+                    <ul>
+                        <li>Count actual stock quantities</li>
+                        <li>Photo verification required</li>
+                        <li>Variance tracking & reports</li>
+                        <li>Manager approval workflow</li>
+                    </ul>
+                </div>
+
+                <div class="system-card">
+                    <div class="system-card-header">
+                        <div class="system-card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Owner Dashboard</h3>
+                    </div>
+                    <p>Real-time visibility into branch performance.</p>
+                    <ul>
+                        <li>View stock levels</li>
+                        <li>Sales analytics</li>
+                        <li>Variance reports</li>
+                        <li>Multi-branch overview</li>
+                    </ul>
+                </div>
+
+                <div class="system-card">
+                    <div class="system-card-header">
+                        <div class="system-card-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3>Point of Sale</h3>
+                    </div>
+                    <p>Fast, intuitive sales interface for staff.</p>
+                    <ul>
+                        <li>Category filtering (Indoor/Greendoor)</li>
+                        <li>Auto-hide out of stock items</li>
+                        <li>Multiple payment methods</li>
+                        <li>Receipt & invoice generation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stock Take Flow -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h2 class="section-title">Stock Take to POS Flow</h2>
+            </div>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Create Stock Take Session</h4>
+                        <p>Manager creates a new session for the branch. Products are loaded with current expected quantities.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Staff Counts Stock</h4>
+                        <p>Staff physically counts each product and enters actual quantities. Photos are required for verification.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Submit for Review</h4>
+                        <p>Once all items are counted, the session is submitted. System calculates variances automatically.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Manager Approval</h4>
+                        <p>Manager reviews variances and approves the stock take. Large variances may require investigation.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Inventory Updates</h4>
+                        <p>Upon approval, branch inventory is automatically updated to match actual counted quantities.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h4>POS Reflects Changes</h4>
+                        <p>POS immediately shows updated stock levels. Out-of-stock items are automatically hidden.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4><i class="fas fa-bolt"></i> Instant Synchronization</h4>
+                <p>When a stock take is approved, inventory updates happen <strong>immediately</strong>.
+                The POS system reads from the same database, so staff will see accurate stock levels
+                within seconds of approval.</p>
+            </div>
+        </section>
+
+        <!-- Data Flow -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h2 class="section-title">Data Flow Matrix</h2>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>System</th>
+                        <th>Products</th>
+                        <th>Branch Inventory</th>
+                        <th>Stock Takes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Admin Dashboard</strong></td>
+                        <td><span class="badge badge-write">Read/Write</span></td>
+                        <td><span class="badge badge-read">Read</span></td>
+                        <td><span class="badge badge-read">Read</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stock Take App</strong></td>
+                        <td><span class="badge badge-read">Read</span></td>
+                        <td><span class="badge badge-write">Write (on approve)</span></td>
+                        <td><span class="badge badge-write">Read/Write</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>POS</strong></td>
+                        <td><span class="badge badge-read">Read</span></td>
+                        <td><span class="badge badge-write">Write (on sale)</span></td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Owner Dashboard</strong></td>
+                        <td><span class="badge badge-read">Read</span></td>
+                        <td><span class="badge badge-read">Read</span></td>
+                        <td><span class="badge badge-read">Read</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Category Hierarchy -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-cannabis"></i>
+                </div>
+                <h2 class="section-title">Flower Category Hierarchy</h2>
+            </div>
+
+            <p style="margin-bottom: 20px;">
+                Flower products are organized in a 3-level hierarchy for easy filtering across all systems:
+            </p>
+
+            <div style="background: var(--black); border-radius: 12px; padding: 25px; font-family: monospace;">
+                <div style="color: var(--purple); font-weight: bold; font-size: 1.1rem;">
+                    <i class="fas fa-cannabis" style="color: var(--gold);"></i> FLOWER
+                </div>
+                <div style="margin-left: 30px; margin-top: 15px;">
+                    <div style="color: var(--green-dark); font-weight: 600;">
+                        <i class="fas fa-warehouse" style="color: var(--gold);"></i> Indoor
+                    </div>
+                    <div style="margin-left: 30px; color: #666; margin-top: 8px;">
+                        <div><i class="fas fa-joint" style="color: var(--gold-dark);"></i> Pre Rolls</div>
+                        <div><i class="fas fa-box" style="color: var(--gold-dark);"></i> Pre Packs (3g/5g bags)</div>
+                        <div><i class="fas fa-leaf" style="color: var(--gold-dark);"></i> Loose Flower</div>
+                    </div>
+                </div>
+                <div style="margin-left: 30px; margin-top: 15px;">
+                    <div style="color: var(--green-dark); font-weight: 600;">
+                        <i class="fas fa-door-open" style="color: var(--gold);"></i> Greendoor
+                    </div>
+                    <div style="margin-left: 30px; color: #666; margin-top: 8px;">
+                        <div><i class="fas fa-joint" style="color: var(--gold-dark);"></i> Pre Rolls</div>
+                        <div><i class="fas fa-box" style="color: var(--gold-dark);"></i> Pre Packs (3g/5g bags)</div>
+                        <div><i class="fas fa-leaf" style="color: var(--gold-dark);"></i> Loose Flower</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Benefits -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h2 class="section-title">Key Benefits</h2>
+            </div>
+
+            <div class="systems-grid">
+                <div class="system-card">
+                    <div class="system-card-header">
+                        <div class="system-card-icon" style="background: var(--gold);">
+                            <i class="fas fa-shield-alt" style="color: var(--white);"></i>
+                        </div>
+                        <h3>Accuracy</h3>
+                    </div>
+                    <p>Photo verification and manager approval ensure stock counts are accurate before updating inventory.</p>
+                </div>
+
+                <div class="system-card">
+                    <div class="system-card-header">
+                        <div class="system-card-icon" style="background: var(--gold);">
+                            <i class="fas fa-clock" style="color: var(--white);"></i>
+                        </div>
+                        <h3>Real-Time</h3>
+                    </div>
+                    <p>Changes sync instantly across all systems. No delays between stock take approval and POS updates.</p>
+                </div>
+
+                <div class="system-card">
+                    <div class="system-card-header">
+                        <div class="system-card-icon" style="background: var(--gold);">
+                            <i class="fas fa-chart-pie" style="color: var(--white);"></i>
+                        </div>
+                        <h3>Visibility</h3>
+                    </div>
+                    <p>Owners can view stock levels, variances, and performance across all branches from anywhere.</p>
+                </div>
+
+                <div class="system-card">
+                    <div class="system-card-header">
+                        <div class="system-card-icon" style="background: var(--gold);">
+                            <i class="fas fa-ban" style="color: var(--white);"></i>
+                        </div>
+                        <h3>No Overselling</h3>
+                    </div>
+                    <p>Out-of-stock items are automatically hidden from POS, preventing sales of unavailable products.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">JIG Craft Cannabis</div>
+        <p>Craft Cannabis | Ormonde Branch</p>
+        <p style="margin-top: 10px; font-size: 0.8rem;">app.jig.cleva-ai.co.za</p>
+    </footer>
+</body>
+</html>

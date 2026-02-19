@@ -284,6 +284,49 @@ export interface PopUpload {
   uploadedAt: number;
 }
 
+/** SA cannabis B2B compliance document types */
+export type DocumentType = 'cipc_registration' | 'tax_clearance' | 'cannabis_license'
+  | 'id_document' | 'proof_of_address' | 'bank_confirmation' | 'bee_certificate';
+
+/** Review status for a client verification document */
+export type DocumentStatus = 'pending' | 'approved' | 'rejected';
+
+/** A compliance document uploaded by a client for verification */
+export interface ClientDocument {
+  id: string;
+  clientId: string;
+  docType: DocumentType;
+  fileName: string;
+  filePath: string;
+  fileSize: number;
+  mimeType: string;
+  status: DocumentStatus;
+  adminNotes?: string;
+  reviewedBy?: string;
+  reviewedAt?: number;
+  uploadedAt: number;
+}
+
+/** The 5 required document types for client activation */
+export const REQUIRED_DOCUMENT_TYPES: DocumentType[] = [
+  'cipc_registration',
+  'tax_clearance',
+  'id_document',
+  'proof_of_address',
+  'bank_confirmation',
+];
+
+/** All valid document types */
+export const ALL_DOCUMENT_TYPES: DocumentType[] = [
+  'cipc_registration',
+  'tax_clearance',
+  'id_document',
+  'proof_of_address',
+  'bank_confirmation',
+  'cannabis_license',
+  'bee_certificate',
+];
+
 // ─────────────────────────────────────────────────────────────
 // 4. INTELLIGENCE TYPES
 // ─────────────────────────────────────────────────────────────

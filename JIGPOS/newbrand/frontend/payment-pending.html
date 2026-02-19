@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Pending - JIG Craft Cannabis</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .pending-container {
+            max-width: 600px;
+            background: var(--black);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 3px solid var(--gold);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+        }
+
+        .pending-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pending-icon i {
+            font-size: 80px;
+            color: var(--gold);
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--purple);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .info-box {
+            background: #0A0A0A;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .info-box h2 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--purple);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .info-box p {
+            line-height: 1.6;
+            color: var(--green-dark);
+            margin-bottom: 10px;
+        }
+
+        .steps {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #0A0A0A;
+            border-radius: 10px;
+            transition: all 0.3s;
+            border: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .step:hover {
+            border-color: var(--gold);
+            transform: translateX(10px);
+        }
+
+        .step-number {
+            background: var(--green-light);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .step-text {
+            flex: 1;
+            color: var(--white);
+        }
+
+        .step.completed .step-number {
+            background: var(--green);
+        }
+
+        .step.pending .step-number {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-refresh {
+            background: var(--green);
+            color: var(--cream);
+        }
+
+        .btn-refresh:hover {
+            background: var(--green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-logout {
+            background: var(--red);
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #8B2920;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .auto-check {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 10px;
+            border: 1px solid var(--green);
+        }
+
+        .auto-check p {
+            color: var(--purple);
+            font-size: 0.9rem;
+        }
+
+        .countdown {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--gold-dark);
+            margin-top: 10px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid rgba(124, 58, 237, 0.3);
+            border-top-color: var(--purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loader-active .loading-spinner {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="pending-container">
+        <div class="pending-icon">
+            <i class="fas fa-spinner"></i>
+        </div>
+
+        <h1>Payment Verification Pending</h1>
+        <div class="status-badge">AWAITING ADMIN APPROVAL</div>
+
+        <div class="info-box">
+            <h2>Thank You for Your Payment!</h2>
+            <p>Your proof of payment has been successfully uploaded and is now being reviewed by our admin team.</p>
+            <p><strong>Order ID:</strong> <span id="orderId">ORD-2024-0001</span></p>
+            <p><strong>Amount:</strong> R<span id="amount">1,199.00</span></p>
+        </div>
+
+        <div class="steps">
+            <div class="step completed">
+                <div class="step-number"><i class="fas fa-check"></i></div>
+                <div class="step-text">Order placed successfully</div>
+            </div>
+            <div class="step completed">
+                <div class="step-number"><i class="fas fa-check"></i></div>
+                <div class="step-text">Payment proof uploaded</div>
+            </div>
+            <div class="step pending">
+                <div class="step-number">3</div>
+                <div class="step-text">Admin verification in progress</div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-text">Membership activated</div>
+            </div>
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-text">Access to dashboard granted</div>
+            </div>
+        </div>
+
+        <div class="auto-check">
+            <p><i class="fas fa-sync-alt"></i> Auto-checking payment status every 30 seconds</p>
+            <div class="countdown">Next check in: <span id="countdown">30</span> seconds</div>
+        </div>
+
+        <div class="loading-spinner"></div>
+
+        <div class="actions">
+            <button class="btn btn-refresh" onclick="checkPaymentStatus()">
+                <i class="fas fa-refresh"></i> Check Status Now
+            </button>
+            <button class="btn btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- DBC Shared Libraries -->
+    <script src="/frontend/config.js"></script>
+    <script src="/frontend/jig-utils.js"></script>
+    <script src="/frontend/jig-auth.js"></script>
+
+    <script>
+        // API_URL provided by /frontend/config.js
+        let checkInterval;
+        let countdownInterval;
+        let countdown = 30;
+
+        // Get user and order info from session
+        const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+        const pendingOrder = JSON.parse(sessionStorage.getItem('pendingOrder') || '{}');
+
+        // Display order info
+        if (pendingOrder.orderId) {
+            document.getElementById('orderId').textContent = pendingOrder.orderId;
+        }
+        if (pendingOrder.amount) {
+            document.getElementById('amount').textContent = pendingOrder.amount.toFixed(2);
+        }
+
+        // Check payment status
+        async function checkPaymentStatus() {
+            const container = document.querySelector('.pending-container');
+            container.classList.add('loader-active');
+
+            try {
+                const token = sessionStorage.getItem('token');
+                const response = await fetch(`${API_URL}/orders/check-payment-status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        orderId: pendingOrder.orderId || 'ORD-2024-0001',
+                        email: user.email
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.approved) {
+                    // Payment approved! Update user status
+                    user.isLifestyleMember = true;
+                    user.membershipActivated = new Date().toISOString();
+                    sessionStorage.setItem('user', JSON.stringify(user));
+
+                    // Clear pending order
+                    sessionStorage.removeItem('pendingOrder');
+
+                    // Show success and redirect
+                    showSuccess();
+                } else if (data.rejected) {
+                    // Payment rejected
+                    showRejected(data.reason);
+                }
+            } catch (error) {
+                console.log('Error checking status:', error);
+                // For demo purposes, simulate random approval after a few checks
+                const checks = parseInt(sessionStorage.getItem('statusChecks') || '0');
+                sessionStorage.setItem('statusChecks', (checks + 1).toString());
+
+                if (checks > 2 && Math.random() > 0.7) {
+                    // Simulate approval
+                    user.isLifestyleMember = true;
+                    sessionStorage.setItem('user', JSON.stringify(user));
+                    sessionStorage.removeItem('pendingOrder');
+                    showSuccess();
+                }
+            } finally {
+                container.classList.remove('loader-active');
+                resetCountdown();
+            }
+        }
+
+        function showSuccess() {
+            clearInterval(checkInterval);
+            clearInterval(countdownInterval);
+
+            document.querySelector('.pending-container').innerHTML = `
+                <div style="font-size: 100px; margin-bottom: 30px; color: var(--purple);"><i class="fas fa-check-circle"></i></div>
+                <h1 style="color: var(--purple);">Payment Approved!</h1>
+                <div class="status-badge" style="background: var(--green); color: var(--cream);">MEMBERSHIP ACTIVE</div>
+                <div class="info-box">
+                    <h2>Welcome to JIG Craft Cannabis!</h2>
+                    <p>Your payment has been verified and your membership is now active.</p>
+                    <p>You now have access to all exclusive features and benefits.</p>
+                </div>
+                <button class="btn btn-refresh" onclick="window.location.href='dashboard.html'" style="margin-top: 30px;">
+                    <i class="fas fa-arrow-right"></i> Go to Dashboard
+                </button>
+            `;
+        }
+
+        function showRejected(reason) {
+            clearInterval(checkInterval);
+            clearInterval(countdownInterval);
+
+            document.querySelector('.pending-container').innerHTML = `
+                <div style="font-size: 100px; margin-bottom: 30px; color: var(--red);"><i class="fas fa-times-circle"></i></div>
+                <h1 style="color: var(--red);">Payment Rejected</h1>
+                <div class="status-badge" style="background: var(--red); color: white;">REQUIRES ACTION</div>
+                <div class="info-box">
+                    <h2>Payment Verification Failed</h2>
+                    <p>${reason || 'Your payment could not be verified. Please contact support.'}</p>
+                    <p>Email: support@jig.cleva-ai.co.za</p>
+                    <p>WhatsApp: +27 123 456 789</p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-refresh" onclick="window.location.href='products.html'">
+                        <i class="fas fa-redo"></i> Try Again
+                    </button>
+                    <button class="btn btn-logout" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            `;
+        }
+
+        function resetCountdown() {
+            countdown = 30;
+            document.getElementById('countdown').textContent = countdown;
+        }
+
+        function updateCountdown() {
+            countdown--;
+            if (countdown <= 0) {
+                checkPaymentStatus();
+            } else {
+                document.getElementById('countdown').textContent = countdown;
+            }
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        // Auto-check every 30 seconds
+        checkInterval = setInterval(checkPaymentStatus, 30000);
+        countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Check on page load
+        window.addEventListener('load', () => {
+            // If no pending order, redirect to products
+            if (!pendingOrder.orderId && !user.email) {
+                window.location.href = 'products.html';
+            }
+        });
+    </script>
+</body>
+</html>

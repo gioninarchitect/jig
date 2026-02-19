@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Guide - Inventory Manager | JIG Craft Cannabis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        /* Hero Header */
+        .training-hero {
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 60%, var(--green-light) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .training-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(217, 119, 6,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .training-hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .training-hero .subtitle {
+            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .training-hero .role-badge {
+            display: inline-block;
+            background: rgba(217, 119, 6,0.2);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* Progress Bar */
+        .progress-tracker {
+            background: #0A0A0A;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .progress-bar-custom {
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green) 0%, var(--gold) 100%);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Navigation */
+        .training-nav {
+            background: #0A0A0A;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-pill {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid #ddd;
+            background: #0A0A0A;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-pill:hover, .nav-pill.active {
+            background: var(--green);
+            color: white;
+            border-color: var(--purple);
+        }
+
+        .nav-pill.completed {
+            background: #e8f5eb;
+            color: var(--purple);
+            border-color: var(--green-light);
+        }
+
+        .nav-pill.completed::before {
+            content: '\2713 ';
+        }
+
+        /* Main Content */
+        .training-content {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* Section Block */
+        .training-section {
+            background: #0A0A0A;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            border: 1px solid rgba(124, 58, 237,0.08);
+            overflow: hidden;
+        }
+
+        /* Accordion Header */
+        .accordion-header {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: background 0.2s;
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            background: rgba(124, 58, 237,0.03);
+        }
+
+        .accordion-header .section-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--green);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .accordion-header .section-number.completed {
+            background: var(--gold);
+            color: var(--green-dark);
+        }
+
+        .accordion-header .section-title {
+            flex: 1;
+        }
+
+        .accordion-header .section-title h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            color: var(--green-dark);
+        }
+
+        .accordion-header .section-title p {
+            margin: 2px 0 0;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .accordion-header .section-icon {
+            font-size: 1.3rem;
+            color: var(--gold);
+        }
+
+        .accordion-header .chevron {
+            font-size: 0.9rem;
+            color: #ccc;
+            transition: transform 0.3s;
+        }
+
+        .accordion-header .chevron.open {
+            transform: rotate(180deg);
+        }
+
+        /* Accordion Body */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .accordion-body.open {
+            max-height: 5000px;
+        }
+
+        .accordion-body-inner {
+            padding: 0 1.5rem 1.5rem;
+            border-top: 1px solid #f0ede5;
+        }
+
+        /* Content Styling */
+        .topic-block {
+            margin-top: 1.25rem;
+        }
+
+        .topic-block h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .topic-block h4 i {
+            color: var(--gold);
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            counter-reset: step;
+        }
+
+        .step-list li {
+            counter-increment: step;
+            padding: 0.75rem 0.75rem 0.75rem 3rem;
+            position: relative;
+            border-left: 2px solid #e9ecef;
+            margin-left: 12px;
+        }
+
+        .step-list li:last-child {
+            border-left-color: transparent;
+        }
+
+        .step-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: -13px;
+            top: 0.75rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--green);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-list li strong {
+            color: var(--green-dark);
+        }
+
+        .info-box {
+            background: rgba(124, 58, 237,0.06);
+            border-left: 4px solid var(--green);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .info-box.warning {
+            background: rgba(220, 38, 38,0.06);
+            border-left-color: var(--red);
+        }
+
+        .info-box.tip {
+            background: rgba(217, 119, 6,0.08);
+            border-left-color: var(--gold);
+        }
+
+        .info-box-label {
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .info-box.warning .info-box-label { color: var(--red); }
+        .info-box.tip .info-box-label { color: var(--gold-dark); }
+        .info-box .info-box-label { color: var(--purple); }
+
+        /* Key-Value Table */
+        .kv-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0;
+            font-size: 0.9rem;
+        }
+
+        .kv-table th {
+            background: var(--black);
+            color: var(--green-dark);
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--green);
+            font-size: 0.8rem;
+        }
+
+        .kv-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f0ede5;
+        }
+
+        .kv-table tr:hover td {
+            background: rgba(124, 58, 237,0.02);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.green { background: #e8f5eb; color: var(--purple); }
+        .status-badge.gold { background: #fdf5e1; color: var(--gold-dark); }
+        .status-badge.red { background: #fef2f2; color: var(--red); }
+        .status-badge.blue { background: #eef2ff; color: #4f46e5; }
+
+        /* Quiz Block */
+        .quiz-block {
+            background: var(--black);
+            border: 2px solid rgba(124, 58, 237,0.15);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        .quiz-block h5 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .quiz-option {
+            display: block;
+            padding: 0.6rem 1rem;
+            margin-bottom: 0.4rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            background: #0A0A0A;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--purple);
+            background: rgba(124, 58, 237,0.03);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--purple);
+            background: #e8f5eb;
+            color: var(--green-dark);
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--red);
+            background: #fef2f2;
+            color: var(--red);
+        }
+
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .quiz-feedback {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct { background: #e8f5eb; color: var(--green-dark); }
+        .quiz-feedback.incorrect { background: #fef2f2; color: var(--red); }
+
+        /* Mark Complete Button */
+        .mark-complete-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            background: #0A0A0A;
+            border: 2px solid var(--green);
+            color: var(--purple);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .mark-complete-btn:hover {
+            background: var(--green);
+            color: white;
+        }
+
+        .mark-complete-btn.done {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--green-dark);
+            pointer-events: none;
+        }
+
+        /* Footer */
+        .training-footer {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .training-hero h1 { font-size: 2rem; }
+            .training-content { padding: 1rem 0.75rem 3rem; }
+            .accordion-header { padding: 1rem; }
+            .accordion-body-inner { padding: 0 1rem 1rem; }
+            .training-nav { padding: 0.75rem; gap: 6px; }
+            .nav-pill { font-size: 0.7rem; padding: 5px 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .training-hero { padding: 2rem 1rem; }
+            .training-hero h1 { font-size: 1.6rem; }
+            .accordion-header .section-title h3 { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <div class="training-hero">
+        <img src="images/DeBudChef-rLogo.png" alt="JIG Craft Cannabis" style="height: 80px; margin-bottom: 1rem;" onerror="this.style.display='none'">
+        <h1>Inventory Manager Training</h1>
+        <p class="subtitle">Complete guide to the Inventory Hub Dashboard</p>
+        <div class="role-badge"><i class="bi bi-person-badge"></i> Role: inventory_manager</div>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="progress-tracker">
+        <div class="progress-bar-custom">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text">
+            <span id="progressLabel">0 of 10 sections completed</span>
+            <span id="progressPercent">0%</span>
+        </div>
+    </div>
+
+    <!-- Section Nav -->
+    <div class="training-nav" id="sectionNav">
+        <a class="nav-pill" href="#s1" onclick="scrollToSection(1)">Overview</a>
+        <a class="nav-pill" href="#s2" onclick="scrollToSection(2)">Inventory</a>
+        <a class="nav-pill" href="#s3" onclick="scrollToSection(3)">Batches</a>
+        <a class="nav-pill" href="#s4" onclick="scrollToSection(4)">Purchase Orders</a>
+        <a class="nav-pill" href="#s5" onclick="scrollToSection(5)">Suppliers</a>
+        <a class="nav-pill" href="#s6" onclick="scrollToSection(6)">Stock Levels</a>
+        <a class="nav-pill" href="#s7" onclick="scrollToSection(7)">Auto Reorder</a>
+        <a class="nav-pill" href="#s8" onclick="scrollToSection(8)">Stock Take</a>
+        <a class="nav-pill" href="#s9" onclick="scrollToSection(9)">MDC Pipeline</a>
+        <a class="nav-pill" href="#s10" onclick="scrollToSection(10)">Reports & Compliance</a>
+    </div>
+
+    <!-- Training Content -->
+    <div class="training-content">
+
+        <!-- SECTION 1: Overview -->
+        <div class="training-section" id="s1">
+            <div class="accordion-header" onclick="toggleAccordion(1)">
+                <div class="section-number" id="num1">1</div>
+                <div class="section-title">
+                    <h3>Dashboard Overview & Navigation</h3>
+                    <p>Understanding the Inventory Hub layout, login, and sidebar menu</p>
+                </div>
+                <i class="bi bi-grid-3x3 section-icon"></i>
+                <i class="bi bi-chevron-down chevron" id="chev1"></i>
+            </div>
+            <div class="accordion-body" id="body1">
+                <div class="accordion-body-inner">
+                    <div class="topic-block">
+                        <h4><i class="bi bi-door-open"></i> Logging In</h4>
+                        <p>The Inventory Manager dashboard uses OTP (One-Time Password) authentication. You can also use your 6-digit PIN for faster login.</p>
+                        <ol class="step-list">
+                            <li>Navigate to <strong>inventory-manager-dashboard.html</strong> from the admin sidebar or direct URL</li>
+                            <li>Enter your email address (e.g., <strong>inventory@jig.cleva-ai.co.za</strong>)</li>
+                            <li>Click <strong>"Send Login Code"</strong> to receive your OTP via email</li>
+                            <li>Enter the 6-digit code in the OTP fields</li>
+                            <li><strong>Alternative:</strong> Use your PIN login below the OTP form for quick access</li>
+                        </ol>
+                        <div class="info-box tip">
+                            <div class="info-box-label">Quick Tip</div>
+                            Your PIN is a permanent 6-digit code assigned by your admin. It's faster than OTP for daily use. Click the <i class="bi bi-eye"></i> eye icon to reveal your PIN while typing.
+                        </div>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-layout-sidebar"></i> Sidebar Navigation</h4>
+                        <p>The left sidebar contains all sections of your dashboard. Click any item to switch views.</p>
+                        <table class="kv-table">
+                            <thead>
+                                <tr><th>Menu Item</th><th>Icon</th><th>Purpose</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Inventory Management</strong></td><td><i class="bi bi-grid-3x3"></i></td><td>Product listing, search, stock levels</td></tr>
+                                <tr><td><strong>Batch Management</strong></td><td><i class="bi bi-box-seam"></i></td><td>Batch/lot tracking, QA workflow</td></tr>
+                                <tr><td><strong>Purchase Orders</strong></td><td><i class="bi bi-cart-plus"></i></td><td>Create and manage POs from suppliers</td></tr>
+                                <tr><td><strong>Suppliers</strong></td><td><i class="bi bi-building"></i></td><td>Supplier management and compliance</td></tr>
+                                <tr><td><strong>Stock Levels</strong></td><td><i class="bi bi-bar-chart"></i></td><td>Branch-level stock monitoring</td></tr>
+                                <tr><td><strong>Auto Reorder</strong></td><td><i class="bi bi-arrow-repeat"></i></td><td>Automatic PO rules when stock is low</td></tr>
+                                <tr><td><strong>Stock Take (PWA)</strong></td><td><i class="bi bi-camera"></i></td><td>Mobile stock counting with photo AI</td></tr>
+                                <tr><td><strong>Reports</strong></td><td><i class="bi bi-file-earmark-text"></i></td><td>Inventory, sales, and audit reports</td></tr>
+                                <tr><td><strong>MDC Control Panel</strong></td><td><i class="bi bi-cloud"></i></td><td>Product lifecycle pipeline management</td></tr>
+                                <tr><td><strong>Section 21 Compliance</strong></td><td><i class="bi bi-shield-check"></i></td><td>Medical cannabis authorization tracking</td></tr>
+                                <tr><td><strong>Settings</strong></td><td><i class="bi bi-gear"></i></td><td>Thresholds, notification preferences</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-speedometer2"></i> KPI Panel</h4>
+                        <p>Click the <strong>"Inventory KPIs"</strong> button at the top to expand the Key Performance Indicators panel. It shows real-time stats:</p>
+                        <table class="kv-table">
+                            <thead><tr><th>KPI</th><th>What It Means</th><th>Action Required</th></tr></thead>
+                            <tbody>
+                                <tr><td><span class="status-badge red">Below Reorder</span></td><td>Products below reorder point threshold</td><td>Create PO or trigger auto-reorder</td></tr>
+                                <tr><td><span class="status-badge gold">Pending Batch QA</span></td><td>Batches waiting for quality approval</td><td>Review in Batch Management</td></tr>
+                                <tr><td><span class="status-badge green">POs Pending</span></td><td>Purchase orders awaiting approval</td><td>Review and approve/reject</td></tr>
+                                <tr><td><span class="status-badge blue">POs Approved</span></td><td>Approved POs ready to send to suppliers</td><td>Send to supplier or mark ordered</td></tr>
+                                <tr><td><span class="status-badge gold">Expiring (30d)</span></td><td>Products expiring within 30 days</td><td>Plan clearance or disposal</td></tr>
+                                <tr><td><span class="status-badge blue">Sold Today</span></td><td>Units sold across all branches today</td><td>Monitor demand patterns</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="quiz-block">
+                        <h5><i class="bi bi-question-circle"></i> Knowledge Check</h5>
+                        <p style="font-size: 0.85rem; margin-bottom: 0.75rem;">Where do you find the "Below Reorder" count?</p>
+                        <div class="quiz-option" onclick="checkQuiz(this, 1, false)">A. In the sidebar menu</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 1, true)">B. In the KPI panel (click "Inventory KPIs" button)</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 1, false)">C. In the Settings page</div>
+                        <div class="quiz-feedback" id="quiz1-feedback"></div>
+                    </div>
+
+                    <button class="mark-complete-btn" onclick="markComplete(1)" id="btn1">
+                        <i class="bi bi-check-circle"></i> Mark Section Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Inventory Management -->
+        <div class="training-section" id="s2">
+            <div class="accordion-header" onclick="toggleAccordion(2)">
+                <div class="section-number" id="num2">2</div>
+                <div class="section-title">
+                    <h3>Inventory Management</h3>
+                    <p>Viewing products, searching, filtering, and understanding stock status</p>
+                </div>
+                <i class="bi bi-boxes section-icon"></i>
+                <i class="bi bi-chevron-down chevron" id="chev2"></i>
+            </div>
+            <div class="accordion-body" id="body2">
+                <div class="accordion-body-inner">
+                    <div class="topic-block">
+                        <h4><i class="bi bi-bar-chart-fill"></i> Quick Stats Cards</h4>
+                        <p>At the top of the inventory section, four stat cards give you an instant overview:</p>
+                        <table class="kv-table">
+                            <thead><tr><th>Card</th><th>Color</th><th>Shows</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Total Products</strong></td><td><span class="status-badge green">Green</span></td><td>Total product count in the master catalogue</td></tr>
+                                <tr><td><strong>Total Units</strong></td><td><span class="status-badge gold">Gold</span></td><td>Sum of all inventory quantities across branches</td></tr>
+                                <tr><td><strong>Low Stock</strong></td><td><span class="status-badge red">Red</span></td><td>Products with stock at or below 10 units</td></tr>
+                                <tr><td><strong>Categories</strong></td><td><span class="status-badge blue">Blue</span></td><td>Number of active product categories</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-search"></i> Search & Filters</h4>
+                        <p>Use the search and filter bar to quickly find products:</p>
+                        <ol class="step-list">
+                            <li><strong>Search:</strong> Type a product name or SKU in the search field. Results filter instantly as you type</li>
+                            <li><strong>Supplier filter:</strong> Select "Indoor" or "Greendoor" to show only that supplier's products</li>
+                            <li><strong>Type filter:</strong> Filter by Pre Rolls, Pre Packs, or Loose flower</li>
+                            <li><strong>Category filter:</strong> Filter by Flower, Edibles, Concentrates, Vapes, or Accessories</li>
+                            <li><strong>Combine filters:</strong> All filters stack - you can search for "cheese" + "Greendoor" + "Loose" simultaneously</li>
+                        </ol>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-table"></i> Product Inventory Table</h4>
+                        <p>The main table shows all products with these columns:</p>
+                        <table class="kv-table">
+                            <thead><tr><th>Column</th><th>Description</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Product</strong></td><td>Product name and SKU code</td></tr>
+                                <tr><td><strong>Category</strong></td><td>Product category (flower, edibles, vapes, etc.)</td></tr>
+                                <tr><td><strong>Stock</strong></td><td>Current inventory quantity. Red = low/out of stock</td></tr>
+                                <tr><td><strong>Status</strong></td><td>Active, inactive, or discontinued</td></tr>
+                                <tr><td><strong>Actions</strong></td><td>Edit product, adjust stock, view history</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-download"></i> Exporting Data</h4>
+                        <p>Click the <strong>"Export"</strong> button next to the Stock Take button to download the current inventory view as a CSV file. The export respects your active filters - so you can export just "Flower" products or just "Low Stock" items.</p>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-label">Dual Track System</div>
+                        Products are classified into two tracks: <strong style="color: var(--red);">Section 21 (Medical)</strong> requiring prescription authorization, and <strong style="color: var(--purple);">Lifestyle (Public)</strong> for general sale. Some products are tagged <strong style="color: var(--gold);">Both</strong>. The track badges appear in the dashboard header.
+                    </div>
+
+                    <div class="quiz-block">
+                        <h5><i class="bi bi-question-circle"></i> Knowledge Check</h5>
+                        <p style="font-size: 0.85rem; margin-bottom: 0.75rem;">A product shows a red stock number. What does this mean?</p>
+                        <div class="quiz-option" onclick="checkQuiz(this, 2, false)">A. The product has been discontinued</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 2, true)">B. The product is low or out of stock (at or below 10 units)</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 2, false)">C. The product is a Section 21 medical item</div>
+                        <div class="quiz-feedback" id="quiz2-feedback"></div>
+                    </div>
+
+                    <button class="mark-complete-btn" onclick="markComplete(2)" id="btn2">
+                        <i class="bi bi-check-circle"></i> Mark Section Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Batch Management -->
+        <div class="training-section" id="s3">
+            <div class="accordion-header" onclick="toggleAccordion(3)">
+                <div class="section-number" id="num3">3</div>
+                <div class="section-title">
+                    <h3>Batch Management</h3>
+                    <p>Batch/lot tracking, cannabinoid profiles, QA approval workflow</p>
+                </div>
+                <i class="bi bi-box-seam section-icon"></i>
+                <i class="bi bi-chevron-down chevron" id="chev3"></i>
+            </div>
+            <div class="accordion-body" id="body3">
+                <div class="accordion-body-inner">
+                    <div class="topic-block">
+                        <h4><i class="bi bi-info-circle"></i> What is a Batch?</h4>
+                        <p>A batch (or lot) is a specific production run of a product from a supplier. Each batch has:</p>
+                        <ul>
+                            <li><strong>Batch ID:</strong> Unique identifier for traceability</li>
+                            <li><strong>Product:</strong> Which product this batch belongs to</li>
+                            <li><strong>Supplier:</strong> Who supplied this batch</li>
+                            <li><strong>THC/CBD Profile:</strong> Cannabinoid percentages (for flower/concentrates)</li>
+                            <li><strong>Quantity:</strong> Number of units in this batch</li>
+                            <li><strong>Expiry Date:</strong> When the batch expires</li>
+                        </ul>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-arrow-right-circle"></i> QA Workflow</h4>
+                        <p>Every batch goes through a 4-stage quality assurance process:</p>
+                        <ol class="step-list">
+                            <li><strong>Pending QA:</strong> Batch has been received but not yet inspected. Appears in the <span class="status-badge gold">Pending QA</span> stat card</li>
+                            <li><strong>QA Review:</strong> Inventory manager inspects the batch - checks weight, quality, cannabinoid profile, packaging integrity</li>
+                            <li><strong>Approved:</strong> Batch passes QA. Stock becomes available for sale at branches. <span class="status-badge green">Approved</span></li>
+                            <li><strong>Rejected:</strong> Batch fails QA. Flagged for return to supplier or disposal. <span class="status-badge red">Rejected</span></li>
+                        </ol>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-plus-circle"></i> Creating a New Batch</h4>
+                        <ol class="step-list">
+                            <li>Click <strong>"Create Batch"</strong> button in the top right</li>
+                            <li>Select the <strong>product</strong> from the dropdown</li>
+                            <li>Select the <strong>supplier</strong> who provided this batch</li>
+                            <li>Enter the <strong>THC and CBD percentages</strong> from the lab report</li>
+                            <li>Enter the <strong>quantity</strong> received</li>
+                            <li>Set the <strong>expiry date</strong></li>
+                            <li>Click <strong>Save</strong> - batch enters "Pending QA" status</li>
+                        </ol>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-funnel"></i> Filtering Batches</h4>
+                        <p>Use the filter bar to find specific batches:</p>
+                        <ul>
+                            <li><strong>Status:</strong> Pending QA, Approved, Rejected, or Expired</li>
+                            <li><strong>Supplier:</strong> Filter by supplier name</li>
+                            <li><strong>Search:</strong> Type batch ID or product name</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box warning">
+                        <div class="info-box-label">Important</div>
+                        Expired batches are flagged automatically. Products from expired batches must NOT be sold. The system blocks POS sales of expired batch items.
+                    </div>
+
+                    <div class="quiz-block">
+                        <h5><i class="bi bi-question-circle"></i> Knowledge Check</h5>
+                        <p style="font-size: 0.85rem; margin-bottom: 0.75rem;">A new batch arrives from a supplier. What status does it start with?</p>
+                        <div class="quiz-option" onclick="checkQuiz(this, 3, true)">A. Pending QA</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 3, false)">B. Approved</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 3, false)">C. Live</div>
+                        <div class="quiz-feedback" id="quiz3-feedback"></div>
+                    </div>
+
+                    <button class="mark-complete-btn" onclick="markComplete(3)" id="btn3">
+                        <i class="bi bi-check-circle"></i> Mark Section Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: Purchase Orders -->
+        <div class="training-section" id="s4">
+            <div class="accordion-header" onclick="toggleAccordion(4)">
+                <div class="section-number" id="num4">4</div>
+                <div class="section-title">
+                    <h3>Purchase Orders</h3>
+                    <p>Creating, approving, and tracking purchase orders from suppliers</p>
+                </div>
+                <i class="bi bi-cart-plus section-icon"></i>
+                <i class="bi bi-chevron-down chevron" id="chev4"></i>
+            </div>
+            <div class="accordion-body" id="body4">
+                <div class="accordion-body-inner">
+                    <div class="topic-block">
+                        <h4><i class="bi bi-diagram-3"></i> PO Lifecycle</h4>
+                        <p>Purchase orders follow this status flow:</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 1rem 0;">
+                            <span class="status-badge" style="background:#f0f0f0;color:#666;">Draft</span>
+                            <i class="bi bi-arrow-right" style="color:#ccc;"></i>
+                            <span class="status-badge gold">Submitted</span>
+                            <i class="bi bi-arrow-right" style="color:#ccc;"></i>
+                            <span class="status-badge green">Approved</span>
+                            <i class="bi bi-arrow-right" style="color:#ccc;"></i>
+                            <span class="status-badge blue">Ordered</span>
+                            <i class="bi bi-arrow-right" style="color:#ccc;"></i>
+                            <span class="status-badge gold">Partially Received</span>
+                            <i class="bi bi-arrow-right" style="color:#ccc;"></i>
+                            <span class="status-badge green">Received</span>
+                        </div>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-plus-circle"></i> Creating a Purchase Order</h4>
+                        <ol class="step-list">
+                            <li>Click <strong>"Create Purchase Order"</strong> button</li>
+                            <li>Select a <strong>supplier</strong> from the dropdown</li>
+                            <li><strong>Add line items:</strong> Select products and enter quantities needed</li>
+                            <li>Review the <strong>total cost</strong> (unit price x quantity for each line)</li>
+                            <li>Set the <strong>expected delivery date</strong></li>
+                            <li>Save as <strong>Draft</strong> (edit later) or <strong>Submit</strong> (send for approval)</li>
+                        </ol>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-check2-all"></i> Approving Purchase Orders</h4>
+                        <p>POs submitted by branch managers or assistants require approval from an inventory manager, admin, or owner.</p>
+                        <ol class="step-list">
+                            <li>Filter by <strong>"Submitted"</strong> status to see POs awaiting approval</li>
+                            <li>Click on the PO to review line items and total</li>
+                            <li><strong>Approve</strong> to allow ordering, or <strong>Reject</strong> with a reason</li>
+                            <li>Once approved, mark as <strong>"Ordered"</strong> when sent to supplier</li>
+                        </ol>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-truck"></i> Receiving Goods</h4>
+                        <p>When a delivery arrives:</p>
+                        <ol class="step-list">
+                            <li>Find the PO and click <strong>"Receive"</strong></li>
+                            <li>Enter the <strong>actual quantities received</strong> per line item</li>
+                            <li>If partial delivery, the PO moves to <strong>"Partially Received"</strong></li>
+                            <li>When all items received, PO moves to <strong>"Received"</strong> and stock is automatically updated</li>
+                        </ol>
+                    </div>
+
+                    <div class="info-box tip">
+                        <div class="info-box-label">Pro Tip</div>
+                        Use the <strong>Stock Receiving App</strong> (stock-receiving-app.html) on a tablet at the receiving dock for a streamlined goods-in workflow. It connects to the same PO system.
+                    </div>
+
+                    <div class="quiz-block">
+                        <h5><i class="bi bi-question-circle"></i> Knowledge Check</h5>
+                        <p style="font-size: 0.85rem; margin-bottom: 0.75rem;">After a partial delivery, what status does the PO show?</p>
+                        <div class="quiz-option" onclick="checkQuiz(this, 4, false)">A. Received</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 4, true)">B. Partially Received</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 4, false)">C. Ordered</div>
+                        <div class="quiz-feedback" id="quiz4-feedback"></div>
+                    </div>
+
+                    <button class="mark-complete-btn" onclick="markComplete(4)" id="btn4">
+                        <i class="bi bi-check-circle"></i> Mark Section Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: Suppliers -->
+        <div class="training-section" id="s5">
+            <div class="accordion-header" onclick="toggleAccordion(5)">
+                <div class="section-number" id="num5">5</div>
+                <div class="section-title">
+                    <h3>Supplier Management</h3>
+                    <p>Adding suppliers, compliance documents, and performance tracking</p>
+                </div>
+                <i class="bi bi-building section-icon"></i>
+                <i class="bi bi-chevron-down chevron" id="chev5"></i>
+            </div>
+            <div class="accordion-body" id="body5">
+                <div class="accordion-body-inner">
+                    <div class="topic-block">
+                        <h4><i class="bi bi-building"></i> Supplier Types</h4>
+                        <table class="kv-table">
+                            <thead><tr><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Cultivator</strong></td><td>Grows cannabis/hemp flower</td><td>Indoor farms, Greendoor outdoor</td></tr>
+                                <tr><td><strong>Processor</strong></td><td>Extracts and processes raw material</td><td>Concentrate labs, edible manufacturers</td></tr>
+                                <tr><td><strong>Distributor</strong></td><td>Wholesaler who aggregates products</td><td>Multi-brand distributors</td></tr>
+                                <tr><td><strong>Manufacturer</strong></td><td>Makes finished products</td><td>Vape cartridge makers, accessory brands</td></tr>
+                                <tr><td><strong>Importer</strong></td><td>Imports international products</td><td>International CBD brands</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-person-plus"></i> Adding a New Supplier</h4>
+                        <ol class="step-list">
+                            <li>Click <strong>"Add Supplier"</strong> button</li>
+                            <li>Enter company name, contact person, email, phone</li>
+                            <li>Select <strong>supplier type</strong> (cultivator, processor, etc.)</li>
+                            <li>Upload <strong>compliance documents</strong> (business license, Section 21 authorization if medical)</li>
+                            <li>The supplier starts as <strong>"Pending Verification"</strong> until compliance docs are reviewed</li>
+                        </ol>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-shield-check"></i> Supplier Statuses</h4>
+                        <table class="kv-table">
+                            <thead><tr><th>Status</th><th>Meaning</th><th>Can Create POs?</th></tr></thead>
+                            <tbody>
+                                <tr><td><span class="status-badge green">Active</span></td><td>Verified and approved for ordering</td><td>Yes</td></tr>
+                                <tr><td><span class="status-badge gold">Pending Verification</span></td><td>Awaiting document review</td><td>No</td></tr>
+                                <tr><td><span class="status-badge red">Suspended</span></td><td>Temporarily blocked (quality issues, etc.)</td><td>No</td></tr>
+                                <tr><td><span class="status-badge" style="background:#f0f0f0;color:#666;">Inactive</span></td><td>No longer a supplier</td><td>No</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="info-box warning">
+                        <div class="info-box-label">Compliance Requirement</div>
+                        Suppliers of Section 21 (medical) products MUST have valid SAHPRA authorization documents on file. Never approve a medical supplier without verifying their authorization number.
+                    </div>
+
+                    <button class="mark-complete-btn" onclick="markComplete(5)" id="btn5">
+                        <i class="bi bi-check-circle"></i> Mark Section Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 6: Stock Levels -->
+        <div class="training-section" id="s6">
+            <div class="accordion-header" onclick="toggleAccordion(6)">
+                <div class="section-number" id="num6">6</div>
+                <div class="section-title">
+                    <h3>Stock Level Monitoring</h3>
+                    <p>Branch-level stock visibility, low stock alerts, and reorder points</p>
+                </div>
+                <i class="bi bi-bar-chart section-icon"></i>
+                <i class="bi bi-chevron-down chevron" id="chev6"></i>
+            </div>
+            <div class="accordion-body" id="body6">
+                <div class="accordion-body-inner">
+                    <div class="topic-block">
+                        <h4><i class="bi bi-shop"></i> Branch Stock Overview</h4>
+                        <p>JIG Craft Cannabis operates 8 branches. Each branch maintains its own inventory quantities:</p>
+                        <table class="kv-table">
+                            <thead><tr><th>Branch Code</th><th>Branch Name</th><th>Location</th></tr></thead>
+                            <tbody>
+                                <tr><td>DBC-ORM</td><td>DBC Ormonde</td><td>Gauteng</td></tr>
+                                <tr><td>DBC-FBG</td><td>DBC Ficksburg</td><td>Free State</td></tr>
+                                <tr><td>DBC-KDP</td><td>DBC Klerksdorp</td><td>North West</td></tr>
+                                <tr><td>DBC-MYF</td><td>DBC Mayfair</td><td>Gauteng</td></tr>
+                                <tr><td>DBC-LDB</td><td>DBC Ladybrand</td><td>Free State</td></tr>
+                                <tr><td>DBC-RSB</td><td>DBC Rustenburg</td><td>North West</td></tr>
+                                <tr><td>DBC-SPV</td><td>DBC Spruitview</td><td>Gauteng</td></tr>
+                                <tr><td>DBC-WBM</td><td>DBC Wonderboom</td><td>Gauteng</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-exclamation-triangle"></i> Stock Alert Thresholds</h4>
+                        <p>The system uses configurable thresholds (set in Settings) to generate alerts:</p>
+                        <ul>
+                            <li><strong>Out of Stock (0 units):</strong> <span class="status-badge red">Critical</span> - Product cannot be sold</li>
+                            <li><strong>Low Stock (1-10 units):</strong> <span class="status-badge gold">Warning</span> - Needs reorder soon</li>
+                            <li><strong>Below Reorder Point (1-20 units):</strong> <span class="status-badge blue">Reorder</span> - Auto-reorder may trigger</li>
+                            <li><strong>Healthy (20+ units):</strong> <span class="status-badge green">Good</span> - No action needed</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-label">How Branch Stock Works</div>
+                        Each product has a <strong>BranchInventory</strong> record per branch. When POS makes a sale, the branch's quantity decreases. The Stock Levels section shows a consolidated view across all branches so you can spot which branches need replenishment.
+                    </div>
+
+                    <div class="quiz-block">
+                        <h5><i class="bi bi-question-circle"></i> Knowledge Check</h5>
+                        <p style="font-size: 0.85rem; margin-bottom: 0.75rem;">How many branches does JIG Craft Cannabis currently operate?</p>
+                        <div class="quiz-option" onclick="checkQuiz(this, 6, false)">A. 6</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 6, true)">B. 8</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 6, false)">C. 10</div>
+                        <div class="quiz-feedback" id="quiz6-feedback"></div>
+                    </div>
+
+                    <button class="mark-complete-btn" onclick="markComplete(6)" id="btn6">
+                        <i class="bi bi-check-circle"></i> Mark Section Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 7: Auto Reorder -->
+        <div class="training-section" id="s7">
+            <div class="accordion-header" onclick="toggleAccordion(7)">
+                <div class="section-number" id="num7">7</div>
+                <div class="section-title">
+                    <h3>Auto Reorder Rules</h3>
+                    <p>Setting up automatic purchase orders when stock drops below thresholds</p>
+                </div>
+                <i class="bi bi-arrow-repeat section-icon"></i>
+                <i class="bi bi-chevron-down chevron" id="chev7"></i>
+            </div>
+            <div class="accordion-body" id="body7">
+                <div class="accordion-body-inner">
+                    <div class="topic-block">
+                        <h4><i class="bi bi-gear"></i> How Auto Reorder Works</h4>
+                        <p>When a product's stock falls below its <strong>Reorder Point</strong>, the system automatically creates a Purchase Order for the configured <strong>Reorder Quantity</strong> from the preferred supplier.</p>
+                        <div class="info-box">
+                            <div class="info-box-label">Example</div>
+                            Product "Divine Storm" has: Reorder Point = 50g, Reorder Qty = 200g, Supplier = Greendoor. When stock drops to 48g, the system auto-creates a PO for 200g from Greendoor.
+                        </div>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-plus-lg"></i> Creating a Reorder Rule</h4>
+                        <ol class="step-list">
+                            <li>Click <strong>"Add Rule"</strong> button</li>
+                            <li>Select the <strong>product</strong></li>
+                            <li>Set the <strong>Reorder Point</strong> (stock level that triggers the rule)</li>
+                            <li>Set the <strong>Reorder Quantity</strong> (how much to order)</li>
+                            <li>Select the <strong>preferred supplier</strong></li>
+                            <li>Choose <strong>Auto-Order</strong> (creates PO automatically) or <strong>Manual Approval</strong> (notifies you to review first)</li>
+                            <li>Save the rule - it runs automatically on every stock change</li>
+                        </ol>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-funnel"></i> Filtering Rules</h4>
+                        <ul>
+                            <li><strong>Active Only:</strong> Rules currently monitoring stock</li>
+                            <li><strong>Inactive:</strong> Paused rules</li>
+                            <li><strong>Recently Triggered:</strong> Rules that recently created a PO</li>
+                            <li><strong>Auto-Order Enabled:</strong> Fully automatic rules</li>
+                            <li><strong>Manual Approval Required:</strong> Rules that notify but don't auto-create POs</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box tip">
+                        <div class="info-box-label">Best Practice</div>
+                        Start with <strong>Manual Approval</strong> for expensive or slow-moving products, and <strong>Auto-Order</strong> for high-velocity items like popular flower strains and edibles.
+                    </div>
+
+                    <button class="mark-complete-btn" onclick="markComplete(7)" id="btn7">
+                        <i class="bi bi-check-circle"></i> Mark Section Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 8: Stock Take -->
+        <div class="training-section" id="s8">
+            <div class="accordion-header" onclick="toggleAccordion(8)">
+                <div class="section-number" id="num8">8</div>
+                <div class="section-title">
+                    <h3>Stock Take (PWA App)</h3>
+                    <p>Mobile stock counting with AI photo verification - scale reading and unit counting</p>
+                </div>
+                <i class="bi bi-camera section-icon"></i>
+                <i class="bi bi-chevron-down chevron" id="chev8"></i>
+            </div>
+            <div class="accordion-body" id="body8">
+                <div class="accordion-body-inner">
+                    <div class="topic-block">
+                        <h4><i class="bi bi-phone"></i> What is the Stock Take App?</h4>
+                        <p>A Progressive Web App (PWA) designed for mobile use at each branch. Staff physically count products and photograph evidence. The app uses <strong>AI vision</strong> (Claude Haiku) to automatically read scale weights and count units from photos.</p>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-list-check"></i> Stock Take Types</h4>
+                        <table class="kv-table">
+                            <thead><tr><th>Type</th><th>Scope</th><th>When to Use</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Full Count</strong></td><td>All products in the branch</td><td>Monthly or quarterly full inventory audit</td></tr>
+                                <tr><td><strong>Cycle Count</strong></td><td>Specific categories only</td><td>Weekly rotating category counts</td></tr>
+                                <tr><td><strong>Spot Check</strong></td><td>Selected products</td><td>Random verification or discrepancy investigation</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-camera-fill"></i> Photo Evidence & AI Reading</h4>
+                        <p>The app captures two types of photos:</p>
+                        <table class="kv-table">
+                            <thead><tr><th>Photo Type</th><th>Used For</th><th>AI Does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Scale Photo</strong></td><td>Weighable items (loose flower, concentrates)</td><td>Reads the weight displayed on the digital scale (e.g., "142.5g")</td></tr>
+                                <tr><td><strong>Unit Photo</strong></td><td>Countable items (pre-rolls, edibles, vapes)</td><td>Counts the individual items visible in the photo</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="info-box tip">
+                            <div class="info-box-label">AI Accuracy</div>
+                            Scale reading: <strong>95% confidence</strong> using Claude Haiku vision. Unit counting: <strong>90% confidence</strong>. The AI result is compared to your manual entry - if they differ by more than 5% for weighable items, it's flagged for review.
+                        </div>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-arrow-right-circle"></i> Stock Take Workflow</h4>
+                        <ol class="step-list">
+                            <li><strong>Open the app</strong> on your phone/tablet at the branch. Log in with email + PIN</li>
+                            <li><strong>Start or resume a session:</strong> Select Full, Cycle, or Spot count type</li>
+                            <li><strong>Filter by category:</strong> Use Flower, Edibles, Concentrates, Vapes, Accessories tabs</li>
+                            <li><strong>For each product:</strong> Tap to expand, then enter the counted quantity</li>
+                            <li><strong>Take a photo:</strong> For weighable items, photograph the scale. For countable items, photograph the units laid out</li>
+                            <li><strong>AI verifies:</strong> The app sends the photo to Claude Vision API. It reads the weight or counts units and compares with your entry</li>
+                            <li><strong>Review variances:</strong> Items with significant differences between expected and actual are highlighted</li>
+                            <li><strong>Submit for approval:</strong> When all items are counted, submit the session</li>
+                            <li><strong>Manager reviews:</strong> Branch manager or inventory manager approves the count</li>
+                        </ol>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-exclamation-triangle"></i> Variance Thresholds</h4>
+                        <table class="kv-table">
+                            <thead><tr><th>Item Type</th><th>Threshold</th><th>If Exceeded</th></tr></thead>
+                            <tbody>
+                                <tr><td>Countable (pre-rolls, edibles, etc.)</td><td>0% (exact match required)</td><td>Flagged as variance - requires investigation</td></tr>
+                                <tr><td>Weighable (loose flower, concentrates)</td><td>5% tolerance</td><td>Flagged if variance exceeds 5% of expected weight</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-label">Cost</div>
+                        AI photo processing costs approximately <strong>R0.038 per photo</strong> (Claude Haiku). For a full stock take of 150 products, that's about <strong>R5.70 per session</strong>. Monthly cost across all 8 branches: approximately <strong>R23 per month</strong>.
+                    </div>
+
+                    <div class="quiz-block">
+                        <h5><i class="bi bi-question-circle"></i> Knowledge Check</h5>
+                        <p style="font-size: 0.85rem; margin-bottom: 0.75rem;">What variance threshold applies to countable items like pre-rolls?</p>
+                        <div class="quiz-option" onclick="checkQuiz(this, 8, true)">A. 0% - exact match required</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 8, false)">B. 5% tolerance</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 8, false)">C. 10% tolerance</div>
+                        <div class="quiz-feedback" id="quiz8-feedback"></div>
+                    </div>
+
+                    <button class="mark-complete-btn" onclick="markComplete(8)" id="btn8">
+                        <i class="bi bi-check-circle"></i> Mark Section Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 9: MDC Pipeline -->
+        <div class="training-section" id="s9">
+            <div class="accordion-header" onclick="toggleAccordion(9)">
+                <div class="section-number" id="num9">9</div>
+                <div class="section-title">
+                    <h3>MDC Control Panel</h3>
+                    <p>Master Digital Catalogue - the 4-stage product lifecycle pipeline</p>
+                </div>
+                <i class="bi bi-cloud section-icon"></i>
+                <i class="bi bi-chevron-down chevron" id="chev9"></i>
+            </div>
+            <div class="accordion-body" id="body9">
+                <div class="accordion-body-inner">
+                    <div class="topic-block">
+                        <h4><i class="bi bi-info-circle"></i> What is the MDC?</h4>
+                        <p>The <strong>Master Digital Catalogue (MDC)</strong> is the central product database for the entire JIG Craft Cannabis network. As Inventory Manager, you are the <strong>MDC Custodian</strong> - you control which products go live across all 8 branches.</p>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-kanban"></i> The 4-Stage Pipeline</h4>
+                        <p>Products move through four stages on a Kanban-style board:</p>
+                        <ol class="step-list">
+                            <li><strong>Pending:</strong> New product added to system. Needs initial review of name, description, pricing, images, and category classification</li>
+                            <li><strong>QA Review:</strong> Product undergoes quality check. Verify supplier info, batch data, cannabinoid profile, and compliance tags (Section 21 vs Lifestyle)</li>
+                            <li><strong>Approved:</strong> Product passed QA. Now ready for branch stock allocation. Use the <strong>Branch Allocator</strong> to distribute stock to specific branches</li>
+                            <li><strong>Live:</strong> Product is active on the POS network and available for sale at allocated branches</li>
+                        </ol>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-tools"></i> MDC Tools</h4>
+                        <table class="kv-table">
+                            <thead><tr><th>Tool</th><th>Purpose</th><th>When to Use</th></tr></thead>
+                            <tbody>
+                                <tr><td><i class="bi bi-calculator"></i> <strong>Pricing Control</strong></td><td>Set retail, wholesale, and cost prices for products across the network</td><td>When setting up new products or adjusting pricing</td></tr>
+                                <tr><td><i class="bi bi-tags"></i> <strong>Bulk Tagger</strong></td><td>Tag multiple products with track classification (Section 21, Lifestyle, or Both)</td><td>During product onboarding or reclassification</td></tr>
+                                <tr><td><i class="bi bi-distribute-vertical"></i> <strong>Branch Allocator</strong></td><td>Distribute stock quantities from approved products to specific branches</td><td>After QA approval, before going live</td></tr>
+                                <tr><td><i class="bi bi-file-earmark-text"></i> <strong>MDC Report</strong></td><td>Generate a report of the full catalogue status</td><td>Monthly audits, management reviews</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-distribute-vertical"></i> Using the Branch Allocator</h4>
+                        <ol class="step-list">
+                            <li>Click <strong>"Branch Allocator"</strong> in the tools bar (or click allocate on an approved product card)</li>
+                            <li>Select the product to allocate</li>
+                            <li>See the <strong>total available stock</strong> and current branch distribution</li>
+                            <li>Enter quantities for each of the 8 branches</li>
+                            <li>The total allocated must not exceed available stock</li>
+                            <li>Click <strong>Save Allocation</strong> - stock is distributed and product moves to Live</li>
+                        </ol>
+                    </div>
+
+                    <div class="info-box warning">
+                        <div class="info-box-label">Critical Rule</div>
+                        A product CANNOT go Live without branch stock allocation. The MDC enforces this: Approved products stay in the Approved column until you allocate stock to at least one branch.
+                    </div>
+
+                    <div class="quiz-block">
+                        <h5><i class="bi bi-question-circle"></i> Knowledge Check</h5>
+                        <p style="font-size: 0.85rem; margin-bottom: 0.75rem;">What must happen before a product can move from "Approved" to "Live"?</p>
+                        <div class="quiz-option" onclick="checkQuiz(this, 9, false)">A. The owner must approve it</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 9, false)">B. The price must be set</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 9, true)">C. Branch stock must be allocated using the Branch Allocator</div>
+                        <div class="quiz-feedback" id="quiz9-feedback"></div>
+                    </div>
+
+                    <button class="mark-complete-btn" onclick="markComplete(9)" id="btn9">
+                        <i class="bi bi-check-circle"></i> Mark Section Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 10: Reports & Compliance -->
+        <div class="training-section" id="s10">
+            <div class="accordion-header" onclick="toggleAccordion(10)">
+                <div class="section-number" id="num10">10</div>
+                <div class="section-title">
+                    <h3>Reports, Compliance & Settings</h3>
+                    <p>Generating reports, Section 21 compliance, and configuring system settings</p>
+                </div>
+                <i class="bi bi-shield-check section-icon"></i>
+                <i class="bi bi-chevron-down chevron" id="chev10"></i>
+            </div>
+            <div class="accordion-body" id="body10">
+                <div class="accordion-body-inner">
+                    <div class="topic-block">
+                        <h4><i class="bi bi-file-earmark-text"></i> Available Reports</h4>
+                        <table class="kv-table">
+                            <thead><tr><th>Report</th><th>Contains</th><th>Used For</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Inventory Report</strong></td><td>Full product list with current stock levels, values, and status per branch</td><td>Monthly audits, management oversight</td></tr>
+                                <tr><td><strong>Section 21 Audit</strong></td><td>Medical product tracking: prescriptions, authorizations, dispensing records</td><td>SAHPRA compliance, regulatory audits</td></tr>
+                                <tr><td><strong>Sales Summary</strong></td><td>Revenue by product, category, and branch for a selected period</td><td>Performance analysis, demand forecasting</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-shield-exclamation"></i> Section 21 Compliance</h4>
+                        <p>South African law requires Section 21 authorization for medical cannabis products. The compliance panel shows:</p>
+                        <ul>
+                            <li><strong>Pending Approvals:</strong> Users who have submitted Section 21 prescriptions awaiting verification</li>
+                            <li><strong>Approved Users:</strong> Users with verified Section 21 authorization who can purchase medical products</li>
+                        </ul>
+                        <div class="info-box warning">
+                            <div class="info-box-label">Legal Requirement</div>
+                            Never approve a Section 21 user without verifying their prescription document. Invalid approvals expose the business to legal liability. When in doubt, escalate to the owner or admin.
+                        </div>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-gear"></i> System Settings</h4>
+                        <p>The Settings section lets you configure:</p>
+                        <table class="kv-table">
+                            <thead><tr><th>Setting</th><th>Default</th><th>What It Does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Low Stock Alert Threshold</strong></td><td>10 units</td><td>Products at or below this level show as "Low Stock" in red</td></tr>
+                                <tr><td><strong>Reorder Point</strong></td><td>20 units</td><td>Auto-reorder rules trigger when stock drops to this level</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="topic-block">
+                        <h4><i class="bi bi-bell"></i> Notification Preferences</h4>
+                        <p>Toggle these on/off in Settings:</p>
+                        <ul>
+                            <li><strong>Low Stock Alerts:</strong> Get notified when products drop below threshold</li>
+                            <li><strong>New Farm Uploads:</strong> Notified when suppliers upload new product batches</li>
+                            <li><strong>QA Results:</strong> Notified when batch QA results are ready</li>
+                            <li><strong>PND Completion:</strong> Notified when Pick & Dispatch operations complete</li>
+                        </ul>
+                    </div>
+
+                    <div class="quiz-block">
+                        <h5><i class="bi bi-question-circle"></i> Knowledge Check</h5>
+                        <p style="font-size: 0.85rem; margin-bottom: 0.75rem;">What is the default Low Stock Alert Threshold?</p>
+                        <div class="quiz-option" onclick="checkQuiz(this, 10, false)">A. 5 units</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 10, true)">B. 10 units</div>
+                        <div class="quiz-option" onclick="checkQuiz(this, 10, false)">C. 20 units</div>
+                        <div class="quiz-feedback" id="quiz10-feedback"></div>
+                    </div>
+
+                    <button class="mark-complete-btn" onclick="markComplete(10)" id="btn10">
+                        <i class="bi bi-check-circle"></i> Mark Section Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="training-footer">
+        <p>JIG Craft Cannabis - Inventory Manager Training Guide</p>
+        <p>For support, contact <strong>hello@jig.cleva-ai.co.za</strong></p>
+    </div>
+
+    <script>
+    // State
+    const TOTAL_SECTIONS = 10;
+    const completed = new Set(JSON.parse(localStorage.getItem('inv-training-completed') || '[]'));
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+        updateProgress();
+        // Restore completed states
+        completed.forEach(n => {
+            const num = document.getElementById('num' + n);
+            const btn = document.getElementById('btn' + n);
+            if (num) num.classList.add('completed');
+            if (btn) { btn.classList.add('done'); btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Completed'; }
+        });
+    });
+
+    // Accordion toggle
+    function toggleAccordion(n) {
+        const body = document.getElementById('body' + n);
+        const chev = document.getElementById('chev' + n);
+        const isOpen = body.classList.contains('open');
+
+        // Close all
+        for (let i = 1; i <= TOTAL_SECTIONS; i++) {
+            const b = document.getElementById('body' + i);
+            const c = document.getElementById('chev' + i);
+            if (b) b.classList.remove('open');
+            if (c) c.classList.remove('open');
+        }
+
+        // Open clicked (if was closed)
+        if (!isOpen) {
+            body.classList.add('open');
+            chev.classList.add('open');
+        }
+    }
+
+    // Mark section complete
+    function markComplete(n) {
+        completed.add(n);
+        localStorage.setItem('inv-training-completed', JSON.stringify([...completed]));
+
+        const num = document.getElementById('num' + n);
+        const btn = document.getElementById('btn' + n);
+        if (num) num.classList.add('completed');
+        if (btn) { btn.classList.add('done'); btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Completed'; }
+
+        updateProgress();
+
+        // Auto-open next section
+        if (n < TOTAL_SECTIONS) {
+            setTimeout(() => toggleAccordion(n + 1), 400);
+        }
+    }
+
+    // Update progress
+    function updateProgress() {
+        const pct = Math.round((completed.size / TOTAL_SECTIONS) * 100);
+        document.getElementById('progressFill').style.width = pct + '%';
+        document.getElementById('progressLabel').textContent = completed.size + ' of ' + TOTAL_SECTIONS + ' sections completed';
+        document.getElementById('progressPercent').textContent = pct + '%';
+
+        // Update nav pills
+        const pills = document.querySelectorAll('#sectionNav .nav-pill');
+        pills.forEach((pill, i) => {
+            pill.classList.remove('completed');
+            if (completed.has(i + 1)) pill.classList.add('completed');
+        });
+    }
+
+    // Scroll to section
+    function scrollToSection(n) {
+        const el = document.getElementById('s' + n);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => toggleAccordion(n), 300);
+        }
+    }
+
+    // Quiz
+    function checkQuiz(el, quizNum, isCorrect) {
+        const parent = el.closest('.quiz-block');
+        const options = parent.querySelectorAll('.quiz-option');
+        const feedback = document.getElementById('quiz' + quizNum + '-feedback');
+
+        // Disable all options
+        options.forEach(opt => {
+            opt.classList.add('disabled');
+            if (opt === el) {
+                opt.classList.add(isCorrect ? 'correct' : 'incorrect');
+            }
+        });
+
+        // Show correct answer if wrong
+        if (!isCorrect) {
+            options.forEach(opt => {
+                if (opt.onclick && opt.onclick.toString().includes('true')) {
+                    opt.classList.add('correct');
+                }
+            });
+        }
+
+        // Show feedback
+        if (feedback) {
+            feedback.textContent = isCorrect
+                ? 'Correct! Well done.'
+                : 'Not quite. The correct answer is highlighted in green.';
+            feedback.className = 'quiz-feedback show ' + (isCorrect ? 'correct' : 'incorrect');
+        }
+    }
+    </script>
+</body>
+</html>

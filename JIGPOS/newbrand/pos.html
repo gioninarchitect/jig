@@ -1,0 +1,2898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#7C3AED">
+    <title>POS - JIG Craft Cannabis</title>
+    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="images/jig-logo-nobg.png">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow: hidden;
+            height: 100vh;
+            touch-action: pan-y;
+        }
+
+        /* Header - JIG STYLE: Dark header */
+        .pos-header {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .header-branch {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-user {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.95);
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Main Layout - JIG STYLE: Cart LEFT, Products RIGHT */
+        .pos-container {
+            display: flex;
+            height: calc(100vh - 64px);
+            flex-direction: row-reverse; /* Swap: Products right, Cart left */
+        }
+
+        /* Right Panel - Products (now on RIGHT JIG design) */
+        .products-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #0A0A0A; /* Dark background JIG design */
+        }
+
+        /* Track Selector - Dark theme */
+        .track-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .track-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: #2A2A2A;
+            color: white;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .track-btn.active {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: #0A0A0A;
+        }
+
+        .track-btn:hover:not(.active) {
+            background: #3A3A3A;
+        }
+
+        .track-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Category Tabs - Single row, scroll if needed */
+        #mainCategoryRow {
+            display: flex;
+            flex-wrap: nowrap !important;
+            gap: 6px;
+            margin-bottom: 8px;
+            padding: 4px 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #mainCategoryRow .category-tab {
+            flex-shrink: 0;
+            padding: 8px 12px;
+            font-size: 0.75rem;
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .category-tabs::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 4px;
+        }
+
+        /* Pill-shaped category buttons (like Stock Take App) */
+        .cat-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border: 1px solid #3A3A3A;
+            border-radius: 25px;
+            background: #2A2A2A;
+            color: #ccc;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .cat-btn:hover {
+            background: #3A3A3A;
+            border-color: var(--gold);
+            color: white;
+        }
+
+        .cat-btn.active {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            border-color: var(--gold);
+            color: #0A0A0A;
+        }
+
+        .cat-btn i {
+            font-size: 11px;
+        }
+
+        .sub-btn {
+            padding: 6px 12px;
+            font-size: 11px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .sub-btn.active {
+            background: var(--gold);
+            color: #0A0A0A;
+        }
+
+        .category-tab {
+            padding: 12px 10px;
+            background: #2A2A2A;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.15s;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-tab:hover:not(.active) {
+            background: #3A3A3A;
+            transform: scale(1.02);
+        }
+
+        .category-tab.active {
+            background: var(--gold);
+            color: #0A0A0A;
+        }
+
+        /* Search Bar - Dark theme */
+        .search-bar {
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid #2A2A2A;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            background: #1E1E1E;
+            color: white;
+        }
+
+        .search-input::placeholder {
+            color: #6B7280;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6B7280;
+            font-size: 1.1rem;
+        }
+
+        /* Product Grid - JIG STYLE: Large colorful tiles */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        /* Tablet Optimization */
+        @media (min-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .product-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        }
+
+        .product-card:active {
+            transform: scale(0.96);
+        }
+
+        /* Colorful product categories */
+        /* JIG Brand Colors for Product Cards */
+        .product-card[data-category="flower"] { background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); }
+        .product-card[data-category="pre-rolls"] { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: var(--white); }
+        .product-card[data-category="edibles"] { background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%); }
+        .product-card[data-category="concentrates"] { background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-deep) 100%); }
+        .product-card[data-category="accessories"] { background: linear-gradient(135deg, #2A2A2A 0%, #1E1E1E 100%); color: var(--white); }
+        .product-card[data-category="vapes"] { background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%); }
+        .product-card[data-category="oils"] { background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%); color: var(--white); }
+        .product-card[data-category="lifestyle-cbd"] { background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%); }
+        .product-card[data-category="cbd"] { background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%); }
+
+        /* Dark text for light background cards */
+        .product-card[data-category="accessories"] .product-icon,
+        .product-card[data-category="accessories"] .product-name,
+        .product-card[data-category="accessories"] .product-price,
+        .product-card[data-category="accessories"] .product-sku,
+        .product-card[data-category="accessories"] .product-stock,
+        .product-card[data-category="oils"] .product-icon,
+        .product-card[data-category="oils"] .product-name,
+        .product-card[data-category="oils"] .product-price,
+        .product-card[data-category="oils"] .product-sku,
+        .product-card[data-category="oils"] .product-stock,
+        .product-card[data-category="pre-rolls"] .product-icon,
+        .product-card[data-category="pre-rolls"] .product-name,
+        .product-card[data-category="pre-rolls"] .product-price,
+        .product-card[data-category="pre-rolls"] .product-sku,
+        .product-card[data-category="pre-rolls"] .product-stock {
+            color: var(--white);
+            text-shadow: none;
+        }
+
+        .product-icon {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 6px;
+            color: white;
+        }
+
+        .product-name {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: white;
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .product-sku {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        .product-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .product-stock {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.5);
+            margin-top: 2px;
+        }
+
+        .stock-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+
+        .stock-in {
+            background: rgba(255,255,255,0.9);
+            color: #22C55E;
+        }
+
+        .stock-low {
+            background: rgba(255,255,255,0.9);
+            color: #d97706;
+        }
+
+        .stock-out {
+            background: rgba(255,255,255,0.9);
+            color: #dc2626;
+        }
+
+        /* Left Panel - Cart (JIG STYLE: Cart on LEFT) */
+        .cart-panel {
+            width: 380px;
+            background: #0A0A0A;
+            box-shadow: 4px 0 16px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border-right: 3px solid var(--gold);
+        }
+
+        /* Mobile Portrait: Products on top, Cart on bottom */
+        @media (max-width: 767px) and (orientation: portrait) {
+            .pos-container {
+                flex-direction: column;
+            }
+
+            .products-panel {
+                height: 55vh;
+                order: 1; /* Products first on mobile */
+            }
+
+            .cart-panel {
+                width: 100%;
+                height: 45vh;
+                order: 2; /* Cart second on mobile */
+                border-top: 3px solid var(--gold);
+                border-right: none;
+            }
+        }
+
+        /* ========================================
+           TABLET LANDSCAPE (min 600px height, landscape)
+           Optimized for 10" tablets in landscape mode
+           ======================================== */
+        @media (min-width: 768px) and (orientation: landscape) {
+            .pos-container {
+                flex-direction: row-reverse; /* Products right, Cart left */
+            }
+
+            .products-panel {
+                flex: 1;
+                height: auto;
+                order: unset;
+            }
+
+            .cart-panel {
+                width: 320px;
+                height: auto;
+                order: unset;
+                border-top: none;
+                border-right: 3px solid var(--gold);
+            }
+
+            /* Compact product grid for landscape tablets */
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 8px;
+            }
+
+            .product-card {
+                min-height: 90px;
+                padding: 10px;
+            }
+
+            .product-name {
+                font-size: 0.8rem;
+            }
+
+            .product-price {
+                font-size: 1.2rem;
+            }
+
+            /* Compact cart for landscape */
+            .cart-header {
+                padding: 10px 12px;
+            }
+
+            .cart-title {
+                font-size: 1.1rem;
+            }
+
+            .cart-item {
+                padding: 8px 10px;
+                margin-bottom: 6px;
+            }
+
+            .item-name {
+                font-size: 0.8rem;
+            }
+
+            .cart-summary {
+                padding: 10px 12px;
+            }
+
+            .summary-row.total {
+                font-size: 1.5rem;
+            }
+
+            .cart-actions {
+                padding: 10px;
+            }
+
+            .btn-primary {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            /* Smaller category buttons */
+            .cat-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .category-tab {
+                padding: 8px 10px;
+                font-size: 0.7rem;
+            }
+
+            .search-input {
+                padding: 10px 40px 10px 12px;
+                font-size: 0.9rem;
+            }
+
+            .customer-header {
+                padding: 8px 10px;
+            }
+
+            .customer-info {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Wider tablets in landscape (10"+ tablets) */
+        @media (min-width: 1024px) and (orientation: landscape) {
+            .cart-panel {
+                width: 380px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+            }
+
+            .product-card {
+                min-height: 100px;
+                padding: 12px;
+            }
+
+            .product-name {
+                font-size: 0.85rem;
+            }
+
+            .product-price {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Small phones in landscape - use side-by-side too */
+        @media (max-width: 767px) and (orientation: landscape) {
+            .pos-container {
+                flex-direction: row-reverse;
+            }
+
+            .products-panel {
+                flex: 1;
+                height: auto;
+                order: unset;
+            }
+
+            .cart-panel {
+                width: 260px;
+                height: auto;
+                order: unset;
+                border-top: none;
+                border-right: 3px solid var(--gold);
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 6px;
+            }
+
+            .product-card {
+                min-height: 70px;
+                padding: 8px;
+            }
+
+            .product-name {
+                font-size: 0.7rem;
+            }
+
+            .product-price {
+                font-size: 1rem;
+            }
+
+            .cart-header {
+                padding: 8px 10px;
+            }
+
+            .cart-title {
+                font-size: 1rem;
+            }
+
+            .cart-item {
+                padding: 6px 8px;
+                margin-bottom: 4px;
+            }
+
+            .item-name {
+                font-size: 0.75rem;
+            }
+
+            .item-price {
+                font-size: 0.7rem;
+            }
+
+            .qty-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 0.9rem;
+            }
+
+            .qty-input {
+                width: 32px;
+                height: 24px;
+                font-size: 0.8rem;
+            }
+
+            .remove-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 0.9rem;
+            }
+
+            .summary-row {
+                font-size: 0.8rem;
+            }
+
+            .summary-row.total {
+                font-size: 1.3rem;
+            }
+
+            .cart-actions {
+                padding: 8px;
+            }
+
+            .btn-primary {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+
+            .cat-btn {
+                padding: 5px 8px;
+                font-size: 10px;
+            }
+
+            .search-input {
+                padding: 8px 35px 8px 10px;
+                font-size: 0.85rem;
+            }
+
+            .customer-header {
+                padding: 6px 8px;
+            }
+
+            .customer-info {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ========================================
+           TABLET PORTRAIT OPTIMIZATION (768px - 1024px)
+           Large touch targets for portrait/stacked mode
+           ======================================== */
+        @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+            /* Stacked layout for portrait */
+            .pos-container {
+                flex-direction: column;
+            }
+
+            .products-panel {
+                height: 55vh;
+                order: 1;
+            }
+
+            .cart-panel {
+                width: 100%;
+                height: 45vh;
+                order: 2;
+                border-top: 3px solid var(--gold);
+                border-right: none;
+            }
+
+            /* Larger touch targets - minimum 48px */
+            .icon-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 1.3rem;
+            }
+
+            .track-btn {
+                padding: 18px;
+                font-size: 1.2rem;
+                min-height: 60px;
+            }
+
+            /* Larger product cards for finger tapping */
+            .product-card {
+                padding: 18px;
+                min-height: 140px;
+            }
+
+            .product-name {
+                font-size: 1rem;
+            }
+
+            .product-price {
+                font-size: 1.4rem;
+            }
+
+            .stock-badge {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            /* Larger cart items */
+            .cart-item {
+                padding: 14px;
+            }
+
+            /* Bigger payment buttons */
+            .pay-btn {
+                padding: 20px;
+                font-size: 1.3rem;
+                min-height: 56px;
+            }
+
+            /* Larger category buttons */
+            .category-btn {
+                padding: 14px 18px;
+                font-size: 0.95rem;
+                min-height: 48px;
+            }
+
+            /* Better search input */
+            .search-input {
+                padding: 14px 18px;
+                font-size: 1rem;
+                min-height: 48px;
+            }
+
+            /* Numpad optimization for tablets */
+            .numpad-btn {
+                min-height: 56px;
+                font-size: 1.4rem;
+            }
+
+            /* Quantity controls */
+            .qty-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Large Desktop / iPad Pro Landscape */
+        @media (min-width: 1366px) {
+            .cart-panel {
+                width: 420px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
+
+        /* Customer Selector - Dark theme */
+        .customer-selector {
+            background: #1E1E1E;
+            border-bottom: 1px solid #2A2A2A;
+        }
+
+        .customer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .customer-header:hover {
+            background: #2A2A2A;
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .customer-info i {
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        .customer-search-panel {
+            padding: 12px 16px;
+            background: #0A0A0A;
+            border-top: 1px solid #2A2A2A;
+        }
+
+        .customer-search-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #2A2A2A;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .customer-search-input:focus {
+            outline: none;
+            border-color: var(--purple);
+        }
+
+        .customer-results {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .customer-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .customer-option:hover {
+            background: var(--black);
+        }
+
+        .customer-option i {
+            color: var(--gold);
+            width: 24px;
+            text-align: center;
+        }
+
+        .customer-option.selected {
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid var(--green);
+        }
+
+        /* Split Payment Styles */
+        .split-payment-container {
+            background: #0A0A0A;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid var(--cream);
+        }
+
+        .payment-split-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--black);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .payment-split-row select {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #2A2A2A;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .payment-split-row input {
+            width: 120px;
+            padding: 10px;
+            border: 2px solid #2A2A2A;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            text-align: right;
+        }
+
+        .payment-split-row input:focus,
+        .payment-split-row select:focus {
+            outline: none;
+            border-color: var(--purple);
+        }
+
+        .split-remove-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .split-add-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(124, 58, 237, 0.1);
+            border: 2px dashed var(--green);
+            border-radius: 8px;
+            color: var(--purple);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 15px;
+        }
+
+        .split-add-btn:hover {
+            background: rgba(124, 58, 237, 0.2);
+        }
+
+        .payment-balance {
+            background: var(--green);
+            color: var(--cream);
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .payment-balance.complete {
+            background: #22C55E;
+        }
+
+        .payment-balance.overpaid {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .cart-header {
+            background: #1E1E1E;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .cart-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .item-count {
+            background: var(--gold);
+            color: #0A0A0A;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* Cart Items - Dark theme */
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background: #0A0A0A;
+        }
+
+        .cart-item {
+            background: #1E1E1E;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid var(--gold);
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 3px;
+            color: white;
+        }
+
+        .item-price {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: var(--gold);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0A0A0A;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .qty-btn:hover {
+            background: #F59E0B;
+        }
+
+        .qty-btn:active {
+            transform: scale(0.9);
+        }
+
+        .qty-input {
+            width: 40px;
+            height: 28px;
+            text-align: center;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            background: #2A2A2A;
+            color: white;
+        }
+
+        .remove-btn {
+            width: 28px;
+            height: 28px;
+            background: #dc2626;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .remove-btn:hover {
+            background: #ef4444;
+        }
+
+        .remove-btn:active {
+            transform: scale(0.9);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px 15px;
+            color: #6B7280;
+        }
+
+        .empty-cart i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            opacity: 0.4;
+            color: var(--gold);
+        }
+
+        /* Cart Summary - Dark theme */
+        .cart-summary {
+            padding: 12px 15px;
+            background: #1E1E1E;
+            border-top: 2px solid #2A2A2A;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #9CA3AF;
+        }
+
+        .summary-row.total {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--gold);
+            padding-top: 10px;
+            border-top: 2px solid #2A2A2A;
+        }
+
+        /* Action Buttons - Always visible payment buttons */
+        .cart-actions {
+            padding: 12px;
+            background: #0A0A0A;
+            border-top: 2px solid var(--gold);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: #0A0A0A;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary:disabled {
+            background: #3A3A3A;
+            color: #9CA3AF;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            padding: 12px;
+            background: #2A2A2A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-secondary:hover {
+            background: #3A3A3A;
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.97);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #0A0A0A;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            margin: auto 0;
+        }
+
+        /* Payment modal - scrollable with CTA visible */
+        #paymentModal .modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        #paymentModal .modal-body {
+            padding: 20px;
+        }
+        #paymentModal .payment-content > div {
+            padding: 20px;
+        }
+
+        .modal-header {
+            background: var(--green);
+            color: var(--cream);
+            padding: 25px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #2A2A2A;
+            border-top: 4px solid var(--green);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #0A0A0A;
+            color: var(--white);
+            padding: 16px 24px;
+            border-radius: 8px;
+            border-left: 4px solid var(--green);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            max-width: 400px;
+            animation: slideIn 0.3s ease-out;
+            z-index: 10000;
+        }
+
+        .toast.success { border-left-color: var(--purple); }
+        .toast.error { border-left-color: var(--red); }
+        .toast.info { border-left-color: var(--gold); }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: #666;
+            white-space: pre-line;
+        }
+
+        /* Till Status Indicator */
+        .till-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .till-status:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .till-status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .till-status.open .till-status-indicator {
+            background: var(--gold);
+        }
+
+        .till-status.closed .till-status-indicator {
+            background: var(--red);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Denomination Counter */
+        .denomination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .denomination-item {
+            background: #111111;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .denomination-label {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 400;
+            color: var(--white);
+            font-size: 1.1rem;
+        }
+
+        .denomination-input {
+            width: 70px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .denomination-total {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .cash-summary {
+            background: rgba(124, 58, 237, 0.08);
+            border: 2px solid var(--green);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .cash-summary.warning {
+            background: rgba(217, 119, 6, 0.1);
+            border-color: var(--gold);
+        }
+
+        .cash-summary.error {
+            background: rgba(220, 38, 38, 0.08);
+            border-color: var(--red);
+        }
+
+        .cash-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .cash-summary-row.large {
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding-top: 10px;
+            border-top: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .variance-positive {
+            color: var(--purple);
+        }
+
+        .variance-negative {
+            color: var(--red);
+        }
+
+        /* Modal responsiveness for mobile */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .denomination-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .denomination-input {
+                width: 60px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .till-status {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            .header-logo {
+                font-size: 1.1rem;
+            }
+
+            .denomination-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Extra Small Phones (360px) */
+        @media (max-width: 360px) {
+            .pos-header { padding: 8px 10px; }
+            .header-logo { font-size: 1rem; }
+            .header-logo img { height: 28px; }
+            .icon-btn { width: 40px; height: 40px; font-size: 1rem; }
+            .product-card { padding: 10px; min-height: 80px; }
+            .product-card h4 { font-size: 0.85rem; }
+            .product-price { font-size: 0.9rem; }
+            .cart-item { padding: 8px; }
+            .cart-item-name { font-size: 0.85rem; }
+            .pay-btn { padding: 14px; font-size: 1rem; }
+            .numpad-btn { min-height: 50px; font-size: 1.2rem; }
+            .till-status { font-size: 0.75rem; padding: 4px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="posLoginScreen" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%); z-index: 9999; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 20px 0;">
+        <div style="background: #0A0A0A; padding: 30px; border-radius: 16px; width: 100%; max-width: 400px; margin: auto 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <img src="/images/jig-logo-nobg.png" alt="DBC" style="height: 60px; margin-bottom: 10px;">
+                <h1 style="font-family: 'Oswald', sans-serif; font-size: 1.8rem; color: var(--white); margin: 0;">POS LOGIN</h1>
+                <p style="color: #666; margin-top: 5px;">Enter your credentials</p>
+            </div>
+
+            <div id="posLoginError" style="display: none; background: #fee; color: #c00; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9rem;"></div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--white);">Email Address</label>
+                <input type="email" id="posLoginEmail" placeholder="your@email.com" style="width: 100%; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1rem;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--white);">PIN</label>
+                <div style="position: relative;">
+                    <input type="password" id="posLoginPin" placeholder="6-digit PIN" maxlength="6" inputmode="numeric" style="width: 100%; padding: 12px; padding-right: 44px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1.2rem; text-align: center; letter-spacing: 8px;">
+                    <button type="button" onclick="togglePinVisibility('posLoginPin', this)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #999; font-size: 1.1rem; padding: 4px;" title="Show/Hide PIN">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button onclick="posLoginWithPin()" style="width: 100%; padding: 15px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-bottom: 15px;">
+                <i class="fas fa-key"></i> Login with PIN
+            </button>
+
+            <div style="text-align: center; color: #999; margin: 15px 0;">— or —</div>
+
+            <button onclick="posRequestOTP()" id="posOtpBtn" style="width: 100%; padding: 15px; background: var(--gold); color: var(--white); border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                <i class="fas fa-paper-plane"></i> Send OTP Code
+            </button>
+
+            <!-- OTP Input (hidden by default) -->
+            <div id="posOtpSection" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #2A2A2A;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--white);">Enter OTP Code</label>
+                <input type="text" id="posOtpCode" placeholder="6-digit code" maxlength="6" inputmode="numeric" style="width: 100%; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1.2rem; text-align: center; letter-spacing: 8px; margin-bottom: 15px;">
+                <button onclick="posVerifyOTP()" style="width: 100%; padding: 15px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                    <i class="fas fa-check"></i> Verify & Login
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Branch Selector Modal (for owner/admin/super_admin) -->
+    <div class="modal" id="branchSelectModal" style="z-index: 10000;">
+        <div class="modal-content" style="max-width: 480px;">
+            <div class="modal-header">
+                <div class="modal-title">Select Branch</div>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <i class="fas fa-store" style="font-size: 2.5rem; color: var(--purple); margin-bottom: 12px;"></i>
+                    <h3 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 8px; font-size: 1.3rem; letter-spacing: 1px;">Which branch are you working from?</h3>
+                    <p style="color: #666; font-size: 0.9rem;">This sets your POS location for this session</p>
+                </div>
+                <div id="branchSelectList" style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="text-align: center; padding: 20px; color: #999;">
+                        <i class="fas fa-spinner fa-spin"></i> Loading branches...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="pos-header">
+        <div class="header-left">
+            <div class="header-logo" style="font-family: 'Oswald', sans-serif;">JIG CRAFT CANNABIS</div>
+            <div class="header-branch" id="headerBranch" style="cursor: default;">
+                <i class="fas fa-store"></i>
+                <span id="branchName">Loading...</span>
+                <i class="fas fa-chevron-down" id="branchSwitchIcon" style="display: none; font-size: 0.7rem; margin-left: 4px; opacity: 0.7;"></i>
+            </div>
+        </div>
+        <div class="header-right">
+            <!-- Break Button -->
+            <button class="icon-btn" id="breakBtn" onclick="toggleBreak()" title="Take Break" style="background: rgba(255,255,255,0.15);">
+                <i class="fas fa-mug-hot"></i>
+            </button>
+            <!-- Clock In/Out Button -->
+            <button class="icon-btn clock-btn" id="clockBtn" onclick="toggleClock()" title="Clock In/Out" style="background: var(--gold); color: var(--white); position: relative;">
+                <i class="fas fa-clock" id="clockIcon"></i>
+                <span id="clockStatus" style="font-size: 0.7rem; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); white-space: nowrap;"></span>
+            </button>
+            <!-- KPI Toggle Button -->
+            <button class="icon-btn" id="kpiToggleBtn" onclick="toggleKpiPanel()" title="My Stats" style="background: rgba(255,255,255,0.15);">
+                <i class="fas fa-chart-pie"></i>
+            </button>
+            <!-- Shift Summary Button -->
+            <button class="icon-btn" onclick="showShiftSummary()" title="Shift Summary" style="background: rgba(255,255,255,0.15);">
+                <i class="fas fa-chart-bar"></i>
+            </button>
+            <!-- Day End Button (managers/admin/owner only) -->
+            <button class="icon-btn" id="dayEndBtn" onclick="openDayEnd()" title="Day End Cashup" style="background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--white); display: none;">
+                <i class="fas fa-cash-register"></i>
+            </button>
+            <div class="till-status closed" id="tillStatus" onclick="manageTillSession()" title="Click to manage shift">
+                <div class="till-status-indicator"></div>
+                <span id="tillStatusText">Shift Closed</span>
+            </div>
+            <div class="header-user">
+                <i class="fas fa-user-circle"></i>
+                <span id="userName">Cashier</span>
+            </div>
+            <!-- Inventory button removed — stock managed via Stocktake App only -->
+            <button class="icon-btn" onclick="openCatalogue()" title="Digital Catalogue" style="background: rgba(255,255,255,0.15);">
+                <i class="fas fa-book-open"></i>
+            </button>
+            <button class="icon-btn" onclick="logout()" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- KPI Slide-in Panel -->
+    <div id="kpiPanel" style="max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1); background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%); border-bottom: 3px solid var(--gold);">
+        <div style="display: flex; gap: 10px; padding: 12px 16px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 120px; background: rgba(255,255,255,0.12); padding: 10px 14px; border-radius: 10px; text-align: center;">
+                <div style="font-size: 18px; font-weight: bold; font-family: 'Oswald', sans-serif; color: var(--gold);" id="kpiMySales">R0</div>
+                <div style="font-size: 11px; color: rgba(255,255,255,0.75);">My Sales Today</div>
+            </div>
+            <div style="flex: 1; min-width: 120px; background: rgba(255,255,255,0.12); padding: 10px 14px; border-radius: 10px; text-align: center;">
+                <div style="font-size: 18px; font-weight: bold; font-family: 'Oswald', sans-serif; color: var(--gold);" id="kpiMyTxns">0</div>
+                <div style="font-size: 11px; color: rgba(255,255,255,0.75);">Transactions</div>
+            </div>
+            <div style="flex: 1; min-width: 120px; background: rgba(255,255,255,0.12); padding: 10px 14px; border-radius: 10px; text-align: center;">
+                <div style="font-size: 18px; font-weight: bold; font-family: 'Oswald', sans-serif; color: var(--gold);" id="kpiItemsSold">0</div>
+                <div style="font-size: 11px; color: rgba(255,255,255,0.75);">Items Sold</div>
+            </div>
+            <div style="flex: 1; min-width: 120px; background: rgba(255,255,255,0.12); padding: 10px 14px; border-radius: 10px; text-align: center;">
+                <div style="font-size: 18px; font-weight: bold; font-family: 'Oswald', sans-serif; color: var(--gold);" id="kpiAvgTxn">R0</div>
+                <div style="font-size: 11px; color: rgba(255,255,255,0.75);">Avg Transaction</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory Management Modal -->
+    <!-- Inventory modal removed — stock managed via Stocktake App only -->
+
+    <!-- Main POS Container -->
+    <div class="pos-container">
+        <!-- Left Panel: Products -->
+        <div class="products-panel">
+            <!-- Track Selector - HIDDEN for Ormonde launch -->
+            <div class="track-selector" style="display: none;">
+                <button class="track-btn active" data-track="lifestyle" onclick="selectTrack('lifestyle')">
+                    <i class="fas fa-shopping-bag"></i>
+                    Lifestyle Track
+                </button>
+                <button class="track-btn" data-track="medical" onclick="selectTrack('medical')">
+                    <i class="fas fa-prescription-bottle-medical"></i>
+                    Medical Track
+                </button>
+            </div>
+
+            <!-- Section 21 Verification Panel (Medical Track) -->
+            <div id="section21VerificationPanel" style="display: none; background: linear-gradient(135deg, var(--cream) 0%, #fff 100%); border: 2px solid var(--gold); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <i class="fas fa-prescription-bottle-medical" style="font-size: 2rem; color: var(--gold);"></i>
+                    <div>
+                        <h3 style="font-family: 'Oswald', sans-serif; color: var(--white); margin: 0; font-size: 1.3rem; text-transform: uppercase;">Medical Track - Section 21 Required</h3>
+                        <p style="color: var(--gray-500); font-size: 0.85rem; margin: 0;">Verify customer has valid Section 21 prescription before sale</p>
+                    </div>
+                </div>
+
+                <!-- Customer Section 21 Status Check -->
+                <div style="background: var(--white); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                        <input type="text" id="section21CustomerSearch" placeholder="Search customer by phone or ID..."
+                               style="flex: 1; padding: 0.75rem; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 0.9rem;">
+                        <button onclick="checkSection21Status()" style="padding: 0.75rem 1.25rem; background: var(--green); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                            <i class="fas fa-search"></i> Check
+                        </button>
+                    </div>
+                    <div id="section21StatusResult" style="display: none; padding: 0.75rem; border-radius: 8px; font-size: 0.9rem;">
+                        <!-- Status will be shown here -->
+                    </div>
+                </div>
+
+                <!-- Refer Customer to Medical Portal -->
+                <div style="background: rgba(217, 119, 6, 0.1); border-radius: 8px; padding: 1rem;">
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                        <strong>Customer needs Section 21?</strong> Direct them to apply:
+                    </p>
+                    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <p style="font-size: 1.25rem; font-weight: 700; color: var(--white); margin: 0;">R750</p>
+                            <p style="font-size: 0.75rem; color: var(--gray-500); margin: 0;">R300 Doctor + R450 SAHPRA</p>
+                        </div>
+                        <button onclick="openMedicalServicesPortal()" style="padding: 0.75rem 1.5rem; background: var(--gold); color: var(--white); border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                            <i class="fas fa-user-md"></i> Open Application Portal
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Medical Services Iframe Container (Hidden by default) -->
+                <div id="medicalServicesIframeContainer" style="margin-top: 1rem; display: none;">
+                    <div id="medicalServicesPlaceholder" style="text-align: center; padding: 2rem; background: var(--gray-100); border-radius: 8px;">
+                        <i class="fas fa-clinic-medical" style="font-size: 2rem; color: var(--gray-400); margin-bottom: 0.5rem;"></i>
+                        <p style="color: var(--gray-500);">Medical services portal will load here</p>
+                    </div>
+                    <iframe id="medicalServicesIframe" style="width: 100%; height: 600px; border: none; border-radius: 8px; display: none;"></iframe>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" class="search-input" id="productSearch" placeholder="Search products..." onkeyup="searchProducts()">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+
+            <!-- Quick Add Buttons -->
+            <div class="quick-add-bar" style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
+                <button class="quick-add-btn" onclick="quickAddPreroll()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: white; border: none; border-radius: 10px; font-family: 'Oswald', sans-serif; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);">
+                    <i class="fas fa-scroll"></i>
+                    Sheet/Cone R10
+                </button>
+                <button class="quick-add-btn" onclick="quickAddGram()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); color: white; border: none; border-radius: 10px; font-family: 'Oswald', sans-serif; font-size: 1rem; cursor: pointer;">
+                    <i class="fas fa-leaf"></i>
+                    1g Flower
+                </button>
+                <button class="quick-add-btn" onclick="quickAdd3gRack()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%); color: white; border: none; border-radius: 10px; font-family: 'Oswald', sans-serif; font-size: 1rem; cursor: pointer;">
+                    <i class="fas fa-cannabis"></i>
+                    3g Pack
+                </button>
+                <button class="quick-add-btn" onclick="quickAdd5gBag()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: var(--black); color: var(--white); border: 2px solid var(--green); border-radius: 10px; font-family: 'Oswald', sans-serif; font-size: 1rem; cursor: pointer;">
+                    <i class="fas fa-box"></i>
+                    5g Bag
+                </button>
+            </div>
+
+            <!-- Category Hierarchy - 3 Level -->
+            <div id="categoryHierarchy">
+                <!-- Main Categories -->
+                <div class="category-tabs" id="mainCategoryRow">
+                    <button class="category-tab active" data-cat="all" onclick="selectMainCategory('all')">ALL</button>
+                    <button class="category-tab" data-cat="flower" onclick="selectMainCategory('flower')">FLOWER</button>
+                    <button class="category-tab" data-cat="edibles" onclick="selectMainCategory('edibles')">EDIBLES</button>
+                    <button class="category-tab" data-cat="concentrates" onclick="selectMainCategory('concentrates')">CONCENTRATES</button>
+                    <button class="category-tab" data-cat="vapes" onclick="selectMainCategory('vapes')">VAPES</button>
+                    <button class="category-tab" data-cat="oils" onclick="selectMainCategory('oils')">OILS</button>
+                    <button class="category-tab" data-cat="cbd" onclick="selectMainCategory('cbd')">CBD</button>
+                    <button class="category-tab" data-cat="accessories" onclick="selectMainCategory('accessories')">ACCESSORIES</button>
+                </div>
+                <!-- Grow Method Row (for FLOWER) - Same style as Stock Take App -->
+                <div id="growMethodRow" style="display: none; flex-wrap: nowrap; gap: 8px; margin-bottom: 8px; padding: 10px; background: rgba(124, 58, 237, 0.3); border-radius: 8px; border-left: 3px solid var(--green);">
+                    <span style="color: #aaa; font-size: 12px; margin-right: 8px;">Grow:</span>
+                    <button class="cat-btn sub-btn" data-grow="indoor" onclick="selectGrowMethod('indoor')">
+                        <i class="fas fa-warehouse"></i> Indoor
+                    </button>
+                    <button class="cat-btn sub-btn" data-grow="greendoor" onclick="selectGrowMethod('greendoor')">
+                        <i class="fas fa-door-open"></i> Greendoor
+                    </button>
+                </div>
+                <!-- Product Type Row -->
+                <div id="productTypeRow" style="display: none; flex-wrap: nowrap; gap: 8px; padding: 10px; background: rgba(217, 119, 6, 0.15); border-radius: 8px; border-left: 3px solid var(--gold);">
+                    <span style="color: #aaa; font-size: 12px; margin-right: 8px;">Type:</span>
+                    <button class="cat-btn sub-btn" data-type="pre-roll" onclick="selectProductType('pre-roll')">Pre Rolls</button>
+                    <button class="cat-btn sub-btn" data-type="pre-pack" onclick="selectProductType('pre-pack')">Pre Packs</button>
+                    <button class="cat-btn sub-btn" data-type="loose" onclick="selectProductType('loose')">Loose</button>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="product-grid" id="productGrid">
+                <div class="loading active">
+                    <div class="spinner"></div>
+                    <p>Loading products...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Cart -->
+        <div class="cart-panel">
+            <!-- Customer Selection -->
+            <div class="customer-selector" id="customerSelector">
+                <div class="customer-header" onclick="toggleCustomerSearch()">
+                    <div class="customer-info">
+                        <i class="fas fa-user"></i>
+                        <span id="selectedCustomerName">Walk-in Customer</span>
+                    </div>
+                    <i class="fas fa-chevron-down" id="customerChevron"></i>
+                </div>
+                <div class="customer-search-panel" id="customerSearchPanel" style="display: none;">
+                    <input type="text" class="customer-search-input" id="customerSearchInput" placeholder="Search customers by name, email, or phone..." onkeyup="searchCustomers()">
+                    <div class="customer-results" id="customerResults">
+                        <div class="customer-option" onclick="selectWalkIn()">
+                            <i class="fas fa-walking"></i>
+                            <span>Walk-in Customer</span>
+                        </div>
+                    </div>
+                    <div id="purchaseLimitWarning" style="display: none; background: rgba(217, 119, 6, 0.15); border: 1px solid var(--gold); padding: 10px; border-radius: 8px; margin-top: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px; color: var(--gold-dark);">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span id="limitWarningText">Patient approaching daily limit</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: #666; margin-top: 5px;">
+                            Today: <span id="customerDayUsage">0g</span> / <span id="customerDayLimit">150g</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-header">
+                <div class="cart-title">Current Order</div>
+                <div class="item-count"><span id="cartCount">0</span> items</div>
+            </div>
+
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Cart is empty</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Tap products to add</p>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">R 0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>VAT (15%):</span>
+                    <span id="vat">R 0.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>TOTAL:</span>
+                    <span id="total">R 0.00</span>
+                </div>
+            </div>
+
+            <div class="cart-actions">
+                <button class="btn-primary" id="checkoutBtn" onclick="openPaymentModal()" disabled>
+                    <i class="fas fa-credit-card"></i>
+                    CHECKOUT
+                </button>
+                <button class="btn-secondary" onclick="clearCart()">
+                    <i class="fas fa-trash-alt"></i>
+                    Clear Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DBC Shared Libraries -->
+    <script src="/frontend/config.js"></script>
+    <script src="/frontend/jig-utils.js"></script>
+    <script src="/frontend/jig-auth.js"></script>
+
+    <!-- POS State Variables (shared across modules) -->
+    <script>
+        let currentTrack = 'lifestyle';
+        let currentCategory = 'all';
+        let allProducts = [];
+        let cart = [];
+    </script>
+
+    <!-- POS Modules — auth first, then shifts, products, cart, checkout, inventory -->
+    <script src="/frontend/pos-auth.js"></script>
+    <script src="/frontend/pos-shifts.js"></script>
+    <script src="/frontend/pos-products.js"></script>
+    <script src="/frontend/pos-cart.js"></script>
+    <script src="/frontend/pos-checkout.js"></script>
+    <script src="/frontend/pos-cashup.js"></script>
+    <!-- pos-inventory.js removed — stock managed via Stocktake App only -->
+
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Process Payment</div>
+                <button class="modal-close" onclick="closePaymentModal()">×</button>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <div style="font-size: 0.85rem; color: #666;">Amount Due</div>
+                    <div id="paymentTotal" style="font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 400; color: var(--purple);">R 0.00</div>
+                </div>
+
+                <!-- Payment Method Tabs -->
+                <div style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <button class="payment-tab active" onclick="selectPaymentMethod('card')">
+                        <i class="fas fa-credit-card"></i> Card (Speedpoint)
+                    </button>
+                    <button class="payment-tab" onclick="selectPaymentMethod('cash')">
+                        <i class="fas fa-money-bill-wave"></i> Cash
+                    </button>
+                    <button class="payment-tab" onclick="selectPaymentMethod('eft')">
+                        <i class="fas fa-university"></i> Manual EFT
+                    </button>
+                    <button class="payment-tab" onclick="selectPaymentMethod('split')" style="background: linear-gradient(135deg, var(--gold-light), var(--gold));">
+                        <i class="fas fa-divide"></i> Split Payment
+                    </button>
+                </div>
+
+                <!-- Card (Speedpoint) Content - COMPACT -->
+                <div class="payment-content" id="cardPayment">
+                    <div style="background: var(--black); padding: 15px; border-radius: 12px; border: 1px solid #2A2A2A;">
+                        <div style="margin-bottom: 12px;">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600;">Speedpoint Reference *</label>
+                            <input type="text" id="speedpointReference" class="search-input" placeholder="Enter reference from receipt" style="margin-bottom: 0; font-size: 1rem; text-align: center;">
+                        </div>
+
+                        <div style="margin-bottom: 12px;">
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600;">Notes (Optional)</label>
+                            <input type="text" id="speedpointNotes" class="search-input" placeholder="Customer name, card type..." style="margin-bottom: 0;">
+                        </div>
+
+                        <button class="btn-primary" onclick="completeCardPayment()" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                            <i class="fas fa-check"></i> COMPLETE CARD SALE
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cash Content -->
+                <div class="payment-content" id="cashPayment" style="display: none;">
+                    <div style="background: var(--black); padding: 30px; border-radius: 15px; border: 1px solid #2A2A2A;">
+                        <h3 style="font-family: 'Oswald', sans-serif; margin-bottom: 20px; color: var(--white); font-size: 1.4rem; letter-spacing: 1px;">Cash Payment</h3>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Amount Received</label>
+                            <input type="number" class="search-input" placeholder="Enter amount" id="cashReceived" style="margin-bottom: 0;">
+                        </div>
+                        <div style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--green);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span>Change Due:</span>
+                                <span style="font-family: 'Oswald', sans-serif; font-size: 1.6rem; font-weight: 400; color: var(--purple);" id="changeDue">R 0.00</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="completeSale('cash', 'CASH-' + Date.now())">
+                            <i class="fas fa-check"></i> COMPLETE SALE
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Manual EFT Content -->
+                <div class="payment-content" id="eftPayment" style="display: none;">
+                    <div style="background: var(--black); padding: 25px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #2A2A2A;">
+                        <h3 style="font-family: 'Oswald', sans-serif; margin-bottom: 15px; color: var(--white); font-size: 1.4rem; letter-spacing: 1px;">Bank Transfer Details</h3>
+                        <div style="background: #0A0A0A; padding: 20px; border-radius: 10px; border: 2px dashed var(--green);">
+                            <div style="margin-bottom: 12px;"><strong>Bank:</strong> Standard Bank</div>
+                            <div style="margin-bottom: 12px;"><strong>Account Name:</strong> JIG Craft Cannabis</div>
+                            <div style="margin-bottom: 12px;"><strong>Account Number:</strong> 123456789</div>
+                            <div style="margin-bottom: 12px;"><strong>Branch Code:</strong> 051001</div>
+                            <div style="margin-bottom: 12px;"><strong>Reference:</strong> <span style="color: var(--purple); font-weight: 700;" id="eftReference"></span></div>
+                        </div>
+                        <button class="btn-secondary" onclick="copyBankDetails()" style="width: 100%; margin-top: 15px;">
+                            <i class="fas fa-copy"></i> Copy Bank Details
+                        </button>
+                    </div>
+
+                    <div style="background: rgba(217, 119, 6, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--gold); margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <i class="fas fa-exclamation-triangle" style="color: var(--gold);"></i>
+                            <strong>Upload Proof of Payment</strong>
+                        </div>
+                        <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">Payment requires admin approval</p>
+                        <input type="file" id="proofFile" accept="image/*,.pdf" style="margin-bottom: 15px; width: 100%; padding: 10px; border: 2px solid #2A2A2A; border-radius: 8px;">
+                        <button class="btn-primary" onclick="uploadProof()">
+                            <i class="fas fa-upload"></i> UPLOAD & SUBMIT
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Split Payment Content -->
+                <div class="payment-content" id="splitPayment" style="display: none;">
+                    <div id="splitPaymentContainer">
+                        <!-- Split payment rows rendered by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .payment-tab {
+            flex: 1;
+            padding: 14px;
+            background: #0A0A0A;
+            border: 2px solid #2A2A2A;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--white);
+        }
+
+        .payment-tab:hover:not(.active) {
+            border-color: var(--purple);
+            background: var(--black);
+        }
+
+        .payment-tab.active {
+            background: var(--green);
+            color: var(--cream);
+            border-color: var(--purple);
+        }
+
+        .payment-tab:active {
+            transform: scale(0.98);
+        }
+
+        .payment-content {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+    <!-- Till Management Modals -->
+
+    <!-- Open Shift Modal -->
+    <div class="modal" id="openShiftModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Open Shift</div>
+                <button class="modal-close" onclick="closeModal('openShiftModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <i class="fas fa-cash-register" style="font-size: 3rem; color: var(--purple); margin-bottom: 15px;"></i>
+                    <h3 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 10px; font-size: 1.4rem; letter-spacing: 1px;">Start Your Shift</h3>
+                    <p style="color: #666;">Enter your opening float to begin</p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Opening Float (R)</label>
+                    <input type="number" class="search-input" id="openingFloat" value="500" step="50" min="0"
+                           style="margin-bottom: 0; font-size: 1.2rem; font-weight: 700; text-align: center;">
+                    <p style="font-size: 0.85rem; color: #666; margin-top: 8px;">Recommended: R500</p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Till Number</label>
+                    <input type="text" class="search-input" id="tillNumber" value="TILL-01"
+                           style="margin-bottom: 0;">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Opening Notes (Optional)</label>
+                    <textarea class="search-input" id="openingNotes" rows="3"
+                              placeholder="Any notes about the opening cash..." style="margin-bottom: 0; resize: vertical;"></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="openTillSession()" style="width: 100%;">
+                    <i class="fas fa-unlock"></i> OPEN SHIFT
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Close Shift Modal -->
+    <div class="modal" id="closeShiftModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <div class="modal-title">Close Shift & Count Cash</div>
+                <button class="modal-close" onclick="closeModal('closeShiftModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <i class="fas fa-coins" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 10px;"></i>
+                    <h3 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 10px; font-size: 1.4rem; letter-spacing: 1px;">Cash Reconciliation</h3>
+                    <p style="color: #666;">Count your physical cash and enter denominations below</p>
+                </div>
+
+                <div class="cash-summary" id="closingSummaryPreview" style="margin-bottom: 20px;">
+                    <div class="cash-summary-row">
+                        <span>Shift Start:</span>
+                        <span id="shiftStartTime">--:--</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Transactions:</span>
+                        <span id="shiftTransactions">0</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Total Sales:</span>
+                        <span id="shiftTotalSales">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Cash Sales:</span>
+                        <span id="shiftCashSales">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Expected Cash:</span>
+                        <span id="expectedCashAmount" style="font-weight: 700;">R 0.00</span>
+                    </div>
+                </div>
+
+                <h4 style="font-family: 'Oswald', sans-serif; margin-bottom: 15px; color: var(--white); font-size: 1.2rem; letter-spacing: 1px;">Count Physical Cash</h4>
+                <div class="denomination-grid">
+                    <!-- Notes -->
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 200</div>
+                            <div class="denomination-total" id="total_r200">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r200" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 100</div>
+                            <div class="denomination-total" id="total_r100">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r100" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 50</div>
+                            <div class="denomination-total" id="total_r50">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r50" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 20</div>
+                            <div class="denomination-total" id="total_r20">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r20" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 10</div>
+                            <div class="denomination-total" id="total_r10">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r10" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 5</div>
+                            <div class="denomination-total" id="total_r5">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r5" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <!-- Coins -->
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 2</div>
+                            <div class="denomination-total" id="total_r2">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r2" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">R 1</div>
+                            <div class="denomination-total" id="total_r1">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_r1" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">50c</div>
+                            <div class="denomination-total" id="total_c50">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_c50" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">20c</div>
+                            <div class="denomination-total" id="total_c20">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_c20" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">10c</div>
+                            <div class="denomination-total" id="total_c10">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_c10" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                    <div class="denomination-item">
+                        <div>
+                            <div class="denomination-label">5c</div>
+                            <div class="denomination-total" id="total_c5">R 0.00</div>
+                        </div>
+                        <input type="number" class="denomination-input" id="denom_c5" value="0" min="0" onchange="calculateCashTotal()">
+                    </div>
+                </div>
+
+                <div class="cash-summary" id="varianceSummary">
+                    <div class="cash-summary-row">
+                        <span>Actual Cash Counted:</span>
+                        <span id="actualCashTotal" style="font-weight: 700;">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Expected Cash:</span>
+                        <span id="expectedCashTotal" style="font-weight: 700;">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row large">
+                        <span>Variance:</span>
+                        <span id="varianceAmount">R 0.00</span>
+                    </div>
+                    <div id="varianceWarning" style="display: none; margin-top: 10px; padding: 10px; background: rgba(217, 119, 6, 0.15); border-radius: 6px; font-size: 0.9rem;">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--gold);"></i>
+                        Variance exceeds R50 - Manager approval required
+                    </div>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Closing Notes (Optional)</label>
+                    <textarea class="search-input" id="closingNotes" rows="2"
+                              placeholder="Any discrepancies or notes..." style="margin-bottom: 0; resize: vertical;"></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="closeTillSession()" style="width: 100%;">
+                    <i class="fas fa-lock"></i> CLOSE SHIFT
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cash In/Out Modal -->
+    <div class="modal" id="cashOperationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="cashOperationTitle">Cash Operation</div>
+                <button class="modal-close" onclick="closeModal('cashOperationModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <i class="fas" id="cashOperationIcon" style="font-size: 2.5rem; color: var(--purple); margin-bottom: 10px;"></i>
+                    <p style="color: #666;" id="cashOperationDesc"></p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Amount (R)</label>
+                    <input type="number" class="search-input" id="cashOperationAmount" step="10" min="0"
+                           style="margin-bottom: 0; font-size: 1.2rem; font-weight: 700; text-align: center;">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Reason</label>
+                    <textarea class="search-input" id="cashOperationReason" rows="2"
+                              placeholder="Why are you adding/removing cash?" style="margin-bottom: 0; resize: vertical;" required></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="submitCashOperation()" style="width: 100%;">
+                    <i class="fas fa-check"></i> CONFIRM
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shift Summary Modal -->
+    <div class="modal" id="shiftSummaryModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fas fa-chart-bar"></i> Shift Summary</div>
+                <button class="modal-close" onclick="closeModal('shiftSummaryModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div id="shiftSummaryTime" style="font-size: 0.9rem; color: #666;">Shift started at --:--</div>
+                    <div id="shiftSummaryDuration" style="font-family: 'Oswald', sans-serif; font-size: 2rem; color: var(--purple);">0h 0m</div>
+                </div>
+
+                <div class="cash-summary" style="margin-bottom: 15px;">
+                    <div class="cash-summary-row">
+                        <span><i class="fas fa-receipt" style="width: 20px;"></i> Transactions</span>
+                        <span id="summaryTransactions" style="font-weight: 700;">0</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span><i class="fas fa-coins" style="width: 20px;"></i> Total Sales</span>
+                        <span id="summaryTotalSales" style="font-weight: 700; color: var(--purple);">R 0.00</span>
+                    </div>
+                </div>
+
+                <div class="cash-summary">
+                    <h4 style="font-family: 'Oswald', sans-serif; margin-bottom: 15px; font-size: 1.1rem; color: var(--white);">Payment Breakdown</h4>
+                    <div class="cash-summary-row">
+                        <span><i class="fas fa-money-bill-wave" style="width: 20px; color: #22c55e;"></i> Cash</span>
+                        <span id="summaryCash">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span><i class="fas fa-credit-card" style="width: 20px; color: #3b82f6;"></i> Card</span>
+                        <span id="summaryCard">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span><i class="fas fa-mobile-alt" style="width: 20px; color: #f59e0b;"></i> Instapay</span>
+                        <span id="summaryInstapay">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span><i class="fas fa-university" style="width: 20px; color: #8b5cf6;"></i> EFT (Pending)</span>
+                        <span id="summaryEFT">R 0.00</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn-secondary" onclick="showCashInModal()" style="flex: 1; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; background: #0A0A0A; cursor: pointer;">
+                        <i class="fas fa-arrow-down" style="color: var(--purple);"></i> Cash In
+                    </button>
+                    <button class="btn-secondary" onclick="showCashOutModal()" style="flex: 1; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; background: #0A0A0A; cursor: pointer;">
+                        <i class="fas fa-arrow-up" style="color: var(--red);"></i> Cash Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sale Complete Modal -->
+    <div class="modal" id="saleCompleteModal">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-header" style="background: var(--green); color: var(--cream);">
+                <div class="modal-title">
+                    <i class="fas fa-check-circle"></i> Sale Complete
+                </div>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <div style="padding: 20px 0;">
+                    <i class="fas fa-receipt" style="font-size: 3rem; color: var(--purple); margin-bottom: 15px;"></i>
+                    <h3 id="saleCompleteNumber" style="font-family: 'Inter', sans-serif; color: var(--white); margin-bottom: 5px;">SALE-2025-000001</h3>
+                    <div id="saleCompleteTotal" style="font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 400; color: var(--purple);">R 0.00</div>
+                </div>
+
+                <!-- Email Receipt Section -->
+                <div style="background: var(--black); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #2A2A2A;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; text-align: left;">
+                        <i class="fas fa-envelope"></i> Email Receipt to Customer
+                    </label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="email" id="receiptEmail" class="search-input"
+                               placeholder="customer@email.com" style="margin-bottom: 0; flex: 1;">
+                        <button class="btn-primary" onclick="sendReceiptEmail()" style="white-space: nowrap;">
+                            <i class="fas fa-paper-plane"></i> Send
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button class="btn-secondary" onclick="printReceipt()" style="flex: 1;">
+                        <i class="fas fa-print"></i> Print Receipt
+                    </button>
+                    <button class="btn-secondary" onclick="downloadCurrentReceipt()" style="flex: 1;">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                </div>
+
+                <button class="btn-primary" onclick="closeSaleCompleteModal()" style="width: 100%; padding: 15px;">
+                    <i class="fas fa-plus"></i> NEW SALE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        #saleCompleteModal .modal-content {
+            animation: scaleIn 0.3s ease;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        #saleCompleteModal .btn-secondary {
+            background: #0A0A0A;
+            border: 2px solid #2A2A2A;
+            color: var(--white);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        #saleCompleteModal .btn-secondary:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+    </style>
+
+    <!-- Day End / Daily Cashup Modal -->
+    <div class="modal" id="dayEndModal">
+        <div class="modal-content" style="max-width: 600px; max-height: 90vh; display: flex; flex-direction: column;">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%); flex-shrink: 0;">
+                <div class="modal-title" style="color: white;">
+                    <i class="fas fa-cash-register"></i> Day End Cashup
+                </div>
+                <button class="modal-close" onclick="closeDayEndModal()" style="color: white;">&times;</button>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div style="display: flex; gap: 0; background: var(--black); border-bottom: 2px solid #2A2A2A; flex-shrink: 0; overflow-x: auto;">
+                <button class="de-tab-btn active" data-tab="status" onclick="switchDayEndTab('status')" style="flex: 1; padding: 10px 8px; border: none; background: none; font-weight: 600; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid transparent; color: #666; white-space: nowrap;">
+                    <i class="fas fa-info-circle"></i> Status
+                </button>
+                <button class="de-tab-btn" data-tab="sales" onclick="switchDayEndTab('sales')" style="flex: 1; padding: 10px 8px; border: none; background: none; font-weight: 600; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid transparent; color: #666; white-space: nowrap;">
+                    <i class="fas fa-receipt"></i> Sales
+                </button>
+                <button class="de-tab-btn" data-tab="cash" onclick="switchDayEndTab('cash')" style="flex: 1; padding: 10px 8px; border: none; background: none; font-weight: 600; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid transparent; color: #666; white-space: nowrap;">
+                    <i class="fas fa-calculator"></i> Cash
+                </button>
+                <button class="de-tab-btn" data-tab="drops" onclick="switchDayEndTab('drops')" style="flex: 1; padding: 10px 8px; border: none; background: none; font-weight: 600; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid transparent; color: #666; white-space: nowrap;">
+                    <i class="fas fa-vault"></i> Drops
+                </button>
+                <button class="de-tab-btn" data-tab="stock" onclick="switchDayEndTab('stock'); loadStockReconciliation();" style="flex: 1; padding: 10px 8px; border: none; background: none; font-weight: 600; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid transparent; color: #666; white-space: nowrap;">
+                    <i class="fas fa-boxes-stacked"></i> Stock
+                </button>
+                <button class="de-tab-btn" data-tab="history" onclick="switchDayEndTab('history'); loadCashupHistory();" style="flex: 1; padding: 10px 8px; border: none; background: none; font-weight: 600; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid transparent; color: #666; white-space: nowrap;">
+                    <i class="fas fa-history"></i> History
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="modal-body" id="dayEndContent" style="padding: 16px; overflow-y: auto; flex: 1;">
+                <div class="de-tab-content" id="deTab_status" style="display: block;"></div>
+                <div class="de-tab-content" id="deTab_sales" style="display: none;"></div>
+                <div class="de-tab-content" id="deTab_cash" style="display: none;"></div>
+                <div class="de-tab-content" id="deTab_drops" style="display: none;"></div>
+                <div class="de-tab-content" id="deTab_stock" style="display: none;"></div>
+                <div class="de-tab-content" id="deTab_history" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .de-tab-btn.active {
+            color: var(--purple) !important;
+            border-bottom-color: var(--purple) !important;
+        }
+        .de-tab-btn:hover:not(.active) {
+            color: var(--white) !important;
+            background: rgba(124, 58, 237, 0.05) !important;
+        }
+        #dayEndModal .modal-content {
+            animation: scaleIn 0.25s ease;
+        }
+        #dayEndModal .modal-body {
+            background: var(--black);
+        }
+        /* Make denomination inputs more touch-friendly */
+        #dayEndModal input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        #dayEndModal input[type="number"]::-webkit-outer-spin-button,
+        #dayEndModal input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+
+    <!-- UAT Bug Reporter -->
+
+    <!-- Offline Mode Support -->
+    <script src="/frontend/offline-manager.js"></script>
+    <script src="/frontend/pos-offline.js"></script>
+    <script>
+    // Section 21 status check for POS medical track
+    async function checkSection21Status() {
+        const searchInput = document.getElementById('section21CustomerSearch');
+        const resultDiv = document.getElementById('section21StatusResult');
+        const query = searchInput ? searchInput.value.trim() : '';
+        if (!query) { showToast('Enter a customer email or user ID', 'warning'); return; }
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = 'var(--cream)';
+        resultDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+        try {
+            // If query looks like a userId (24 hex chars), check directly
+            // Otherwise, search for user first by email/phone
+            let userId = query;
+            if (!/^[0-9a-f]{24}$/i.test(query)) {
+                const searchRes = await fetch(`${API_URL}/users/search?q=${encodeURIComponent(query)}`, {
+                    headers: { 'Authorization': `Bearer ${getToken()}` }
+                });
+                const searchData = await searchRes.json();
+                const users = searchData.users || [];
+                if (users.length === 0) {
+                    resultDiv.style.background = 'rgba(220, 38, 38, 0.15)';
+                    resultDiv.innerHTML = '<i class="fas fa-times-circle" style="color:#DC2626;"></i> No customer found with that email/phone';
+                    return;
+                }
+                userId = users[0]._id;
+            }
+            const res = await fetch(`${API_URL}/section21/check-access/${userId}`, {
+                headers: { 'Authorization': `Bearer ${getToken()}` }
+            });
+            const data = await res.json();
+            if (data.canAccess) {
+                resultDiv.style.background = 'rgba(34, 197, 94, 0.15)';
+                const expiry = data.document?.daysUntilExpiry ? ` (expires in ${data.document.daysUntilExpiry} days)` : '';
+                resultDiv.innerHTML = `<i class="fas fa-check-circle" style="color:#22C55E;"></i> Section 21 Approved${expiry}`;
+            } else if (data.document) {
+                resultDiv.style.background = 'rgba(245, 158, 11, 0.15)';
+                resultDiv.innerHTML = '<i class="fas fa-clock" style="color:#D97706;"></i> Section 21 document found but not active/approved';
+            } else {
+                resultDiv.style.background = 'rgba(220, 38, 38, 0.15)';
+                resultDiv.innerHTML = '<i class="fas fa-times-circle" style="color:#DC2626;"></i> No Section 21 authorization found';
+            }
+        } catch (err) {
+            resultDiv.style.background = 'rgba(220, 38, 38, 0.15)';
+            resultDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Could not check status';
+        }
+    }
+
+    // KPI Panel toggle
+    let kpiPanelOpen = false;
+    function toggleKpiPanel() {
+        const panel = document.getElementById('kpiPanel');
+        const btn = document.getElementById('kpiToggleBtn');
+        if (!panel) return;
+        kpiPanelOpen = !kpiPanelOpen;
+        panel.style.maxHeight = kpiPanelOpen ? '120px' : '0';
+        if (btn) btn.style.background = kpiPanelOpen ? 'var(--gold)' : 'rgba(255,255,255,0.15)';
+        if (btn) btn.style.color = kpiPanelOpen ? 'var(--green-deep)' : '';
+        if (kpiPanelOpen) loadPosKPIs();
+    }
+    // Load Staff Assistant KPIs
+    async function loadPosKPIs() {
+        try {
+            const t = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+            if (!t) return;
+            const resp = await fetch(`${API_URL}/dashboard/kpis`, {
+                headers: { 'Authorization': `Bearer ${t}` }
+            });
+            if (!resp.ok) return;
+            const data = await resp.json();
+            if (!data.success) return;
+            const k = data.kpis;
+            const fmt = (n) => (n || 0).toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+            el('kpiMySales', `R${fmt(k.mySalesToday)}`);
+            el('kpiMyTxns', k.myTransactionsToday || 0);
+            el('kpiItemsSold', k.itemsSoldToday || 0);
+            el('kpiAvgTxn', `R${fmt(k.avgTransactionValue)}`);
+        } catch (err) { console.error('[PosKPI]', err); }
+    }
+    // Refresh KPIs after each sale
+    if (typeof window.addEventListener === 'function') {
+        window.addEventListener('sale-completed', function() { if (kpiPanelOpen) loadPosKPIs(); });
+    }
+    </script>
+
+    <!-- Digital Catalogue Overlay -->
+    <div id="catalogueOverlay" style="display:none; position:fixed; inset:0; z-index:10000; background:var(--cream, #0A0A0A); overflow-y:auto;">
+        <style>
+            .cat-header {
+                background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%);
+                padding: 16px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+            .cat-header h1 {
+                font-family: 'Oswald', sans-serif;
+                color: white;
+                font-size: 1.6rem;
+                margin: 0;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            .cat-header .cat-branch {
+                font-family: 'Inter', sans-serif;
+                color: var(--gold);
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+            .cat-close {
+                background: rgba(255,255,255,0.15);
+                border: none;
+                color: white;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                font-size: 1.2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .cat-close:hover { background: rgba(255,255,255,0.3); }
+            .cat-search {
+                padding: 12px 20px;
+                background: #0A0A0A;
+                border-bottom: 1px solid #2A2A2A;
+                position: sticky;
+                top: 62px;
+                z-index: 9;
+            }
+            .cat-search input {
+                width: 100%;
+                padding: 10px 14px 10px 38px;
+                border: 2px solid #2A2A2A;
+                border-radius: 10px;
+                font-size: 1rem;
+                font-family: 'Inter', sans-serif;
+                background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23999' viewBox='0 0 512 512'%3E%3Cpath d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z'/%3E%3C/svg%3E") no-repeat 12px center;
+                background-size: 16px;
+            }
+            .cat-body { padding: 16px 20px 80px; }
+            .cat-category-title {
+                font-family: 'Oswald', sans-serif;
+                font-size: 1.3rem;
+                color: var(--white);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin: 20px 0 10px;
+                padding-bottom: 6px;
+                border-bottom: 2px solid var(--gold);
+            }
+            .cat-category-title:first-child { margin-top: 0; }
+            .cat-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 12px;
+            }
+            .cat-item {
+                background: #0A0A0A;
+                border-radius: 12px;
+                padding: 14px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .cat-item-name {
+                font-family: 'Inter', sans-serif;
+                font-weight: 700;
+                font-size: 0.9rem;
+                color: var(--white);
+                line-height: 1.2;
+            }
+            .cat-item-sku {
+                font-family: 'Inter', sans-serif;
+                font-size: 0.7rem;
+                color: #999;
+            }
+            .cat-item-price {
+                font-family: 'Oswald', sans-serif;
+                font-size: 1.5rem;
+                color: var(--purple);
+            }
+            .cat-item-stock {
+                font-family: 'Inter', sans-serif;
+                font-size: 0.7rem;
+                color: #999;
+            }
+            .cat-item-stock .in { color: var(--purple); font-weight: 600; }
+            .cat-item-stock .low { color: #D97706; font-weight: 600; }
+            .cat-footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #0A0A0A;
+                border-top: 1px solid #2A2A2A;
+                padding: 12px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                z-index: 10;
+            }
+            .cat-footer-brand {
+                font-family: 'Oswald', sans-serif;
+                color: var(--white);
+                font-size: 1rem;
+            }
+            .cat-footer-count {
+                font-family: 'Inter', sans-serif;
+                font-size: 0.8rem;
+                color: #999;
+            }
+            @media (max-width: 480px) {
+                .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+                .cat-item { padding: 10px; }
+                .cat-item-price { font-size: 1.2rem; }
+            }
+        </style>
+
+        <div class="cat-header">
+            <div>
+                <h1>JIG Craft Cannabis</h1>
+                <div class="cat-branch" id="catBranchName"></div>
+            </div>
+            <button class="cat-close" onclick="closeCatalogue()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cat-search">
+            <input type="text" id="catSearchInput" placeholder="Search products..." oninput="filterCatalogue()">
+        </div>
+        <div class="cat-body" id="catBody"></div>
+        <div class="cat-footer">
+            <div class="cat-footer-brand">JIG Craft Cannabis</div>
+            <div class="cat-footer-count" id="catCount"></div>
+        </div>
+    </div>
+
+    <script>
+    function openCatalogue() {
+        const overlay = document.getElementById('catalogueOverlay');
+        overlay.style.display = 'block';
+        document.getElementById('catSearchInput').value = '';
+
+        // Set branch name
+        const branchEl = document.getElementById('branchName');
+        document.getElementById('catBranchName').textContent = branchEl ? branchEl.textContent : '';
+
+        renderCatalogue(window.allProducts || []);
+    }
+
+    function closeCatalogue() {
+        document.getElementById('catalogueOverlay').style.display = 'none';
+    }
+
+    function filterCatalogue() {
+        const q = document.getElementById('catSearchInput').value.toLowerCase().trim();
+        const products = window.allProducts || [];
+        if (!q) {
+            renderCatalogue(products);
+            return;
+        }
+        const filtered = products.filter(p =>
+            p.name.toLowerCase().includes(q) ||
+            (p.sku && p.sku.toString().includes(q)) ||
+            (p.category && p.category.toLowerCase().includes(q))
+        );
+        renderCatalogue(filtered);
+    }
+
+    function renderCatalogue(products) {
+        const body = document.getElementById('catBody');
+        const countEl = document.getElementById('catCount');
+
+        // Group by category
+        const grouped = {};
+        products.forEach(p => {
+            const stock = p.inventory?.quantity || 0;
+            if (stock <= 0) return;
+            const cat = p.category || 'other';
+            if (!grouped[cat]) grouped[cat] = [];
+            grouped[cat].push(p);
+        });
+
+        const categoryLabels = {
+            'flower': 'Flower',
+            'pre-rolls': 'Pre-Rolls',
+            'edibles': 'Edibles',
+            'concentrates': 'Concentrates',
+            'topicals': 'Topicals',
+            'accessories': 'Accessories',
+            'glassware': 'Glassware',
+            'vapes': 'Vapes',
+            'vaporizers': 'Vaporizers',
+            'lifestyle-cbd': 'CBD Wellness',
+            'coffee': 'Coffee',
+            'merchandise': 'Merchandise',
+            'bundles': 'Bundles',
+            'oils': 'Oils',
+            'la-brewha': 'La Brewha',
+            'bean-bud': 'Bean & Bud'
+        };
+
+        let html = '';
+        let totalItems = 0;
+        const sortedCats = Object.keys(grouped).sort((a, b) =>
+            (categoryLabels[a] || a).localeCompare(categoryLabels[b] || b)
+        );
+
+        for (const cat of sortedCats) {
+            const items = grouped[cat];
+            totalItems += items.length;
+            html += `<div class="cat-category-title">${categoryLabels[cat] || cat} (${items.length})</div>`;
+            html += '<div class="cat-grid">';
+            items.sort((a, b) => a.name.localeCompare(b.name));
+            for (const p of items) {
+                const stock = p.inventory?.quantity || 0;
+                const stockLabel = stock <= 10 ? `<span class="low">Low Stock</span>` : `<span class="in">In Stock</span>`;
+                html += `
+                    <div class="cat-item">
+                        <div class="cat-item-name">${p.name}</div>
+                        <div class="cat-item-sku">SKU: ${p.sku || '—'}</div>
+                        <div class="cat-item-price">R${(p.price || 0).toFixed(0)}</div>
+                        <div class="cat-item-stock">${stockLabel}</div>
+                    </div>`;
+            }
+            html += '</div>';
+        }
+
+        if (!html) {
+            html = '<div style="text-align:center; padding: 40px; color: #999;"><i class="fas fa-search" style="font-size:2rem; margin-bottom:10px; display:block;"></i>No products found</div>';
+        }
+
+        body.innerHTML = html;
+        countEl.textContent = `${totalItems} products in stock`;
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+{
+  "name": "JIG - Client Onboarding",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "jig/client-created",
+        "options": {
+          "responseMode": "onReceived",
+          "responseData": "allEntries"
+        }
+      },
+      "id": "webhook-client-created",
+      "name": "Client Created Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "jig-client-created"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "set-client-id",
+              "name": "clientId",
+              "value": "={{ $json.body.clientId }}",
+              "type": "string"
+            },
+            {
+              "id": "set-client-name",
+              "name": "clientName",
+              "value": "={{ $json.body.clientName }}",
+              "type": "string"
+            },
+            {
+              "id": "set-business-name",
+              "name": "businessName",
+              "value": "={{ $json.body.businessName }}",
+              "type": "string"
+            },
+            {
+              "id": "set-contact-email",
+              "name": "contactEmail",
+              "value": "={{ $json.body.contactEmail }}",
+              "type": "string"
+            },
+            {
+              "id": "set-tier",
+              "name": "tier",
+              "value": "={{ $json.body.tier || 'Standard' }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "set-client-data",
+      "name": "Extract Client Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$env.TELEGRAM_CHAT_ID}}",
+        "text": "=**New Client Registered**\n\nName: {{ $json.clientName }}\nBusiness: {{ $json.businessName }}\nEmail: {{ $json.contactEmail }}\nTier: {{ $json.tier }}\n\nWelcome aboard! Onboarding flow started.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-welcome",
+      "name": "Send Welcome Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [680, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIALS_ID",
+          "name": "JIG Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "hours"
+      },
+      "id": "wait-1-hour",
+      "name": "Wait 1 Hour",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$env.TELEGRAM_CHAT_ID}}",
+        "text": "=**Document Upload Reminder**\n\nClient: {{ $('Extract Client Data').item.json.clientName }}\nBusiness: {{ $('Extract Client Data').item.json.businessName }}\n\nPlease remind this client to upload their required documents:\n- Business registration\n- Cannabis license\n- Tax clearance\n\nOnboarding cannot proceed without these documents.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-doc-prompt",
+      "name": "Send Doc Upload Prompt",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1120, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIALS_ID",
+          "name": "JIG Telegram Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "jig/client-activated",
+        "options": {
+          "responseMode": "onReceived",
+          "responseData": "allEntries"
+        }
+      },
+      "id": "webhook-client-activated",
+      "name": "Client Activated Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 600],
+      "webhookId": "jig-client-activated"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "set-activated-client",
+              "name": "clientName",
+              "value": "={{ $json.body.clientName }}",
+              "type": "string"
+            },
+            {
+              "id": "set-activated-business",
+              "name": "businessName",
+              "value": "={{ $json.body.businessName }}",
+              "type": "string"
+            },
+            {
+              "id": "set-activated-id",
+              "name": "clientId",
+              "value": "={{ $json.body.clientId }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "set-activated-data",
+      "name": "Extract Activated Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 600]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$env.TELEGRAM_CHAT_ID}}",
+        "text": "=**Client Activated!**\n\n{{ $json.clientName }} ({{ $json.businessName }}) has been verified and activated.\n\nThey can now place orders. Onboarding complete!",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-celebration",
+      "name": "Send Celebration Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [680, 600],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIALS_ID",
+          "name": "JIG Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Client Created Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract Client Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Client Data": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome Message": {
+      "main": [
+        [
+          {
+            "node": "Wait 1 Hour",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 1 Hour": {
+      "main": [
+        [
+          {
+            "node": "Send Doc Upload Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Client Activated Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract Activated Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Activated Data": {
+      "main": [
+        [
+          {
+            "node": "Send Celebration Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "JIG"
+    },
+    {
+      "name": "Onboarding"
+    }
+  ],
+  "triggerCount": 2,
+  "versionId": "1"
+}

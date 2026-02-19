@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Marketplace - JIG Craft Cannabis</title>
+    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--black);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .marketplace-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .marketplace-header {
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 40px;
+        }
+
+        .marketplace-header h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            color: var(--purple);
+        }
+
+        .marketplace-header p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .module-card {
+            background: var(--black);
+            border: 2px solid var(--green);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(124, 58, 237,0.2);
+        }
+
+        .module-card.subscribed {
+            border: 3px solid var(--gold);
+        }
+
+        .module-header {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            border-bottom: 3px solid var(--gold);
+            padding: 30px;
+            color: var(--cream);
+            position: relative;
+        }
+
+        .module-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .module-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .module-price {
+            font-size: 36px;
+            font-weight: 800;
+            margin-top: 10px;
+        }
+
+        .module-price small {
+            font-size: 16px;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .trial-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .subscribed-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gold);
+            border: none;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .module-body {
+            padding: 30px;
+            background: #0A0A0A;
+        }
+
+        .module-description {
+            color: var(--white);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .features-list li {
+            padding: 10px 0;
+            color: var(--green-dark);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(124, 58, 237,0.1);
+        }
+
+        .features-list li i {
+            color: var(--purple);
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .module-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: var(--cream);
+            border: 2px solid var(--green);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+            color: var(--cream);
+            border: 2px solid var(--green-dark);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--black);
+            color: var(--green-dark);
+            border: 2px solid var(--green);
+        }
+
+        .btn-secondary:hover {
+            background: var(--green);
+            color: var(--cream);
+        }
+
+        .btn-cancel {
+            background: #0A0A0A;
+            color: #dc2626;
+            border: 2px solid #dc2626;
+        }
+
+        .btn-cancel:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        .my-subscriptions {
+            background: #0A0A0A;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 2px solid var(--green);
+            box-shadow: 0 10px 40px rgba(124, 58, 237,0.15);
+        }
+
+        .my-subscriptions h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .subscription-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--black);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(124, 58, 237,0.2);
+        }
+
+        .subscription-info {
+            flex: 1;
+        }
+
+        .subscription-name {
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 5px;
+        }
+
+        .subscription-status {
+            font-size: 14px;
+            color: var(--green-dark);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-badge.trial {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .status-badge.active {
+            background: var(--green);
+            color: var(--cream);
+        }
+
+        .status-badge.payment-failed {
+            background: #dc2626;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--green-dark);
+            font-size: 20px;
+        }
+
+        .loading i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--purple);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--green);
+            color: var(--cream);
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(124, 58, 237,0.3);
+        }
+
+        .back-button:hover {
+            background: var(--green-dark);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .marketplace-header h1 {
+                font-size: 32px;
+            }
+
+            .module-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* App Store Modal Styles */
+        .module-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-content {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #0A0A0A;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+
+        .modal-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .modal-subtitle {
+            font-size: 18px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+        }
+
+        .modal-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-top: 15px;
+        }
+
+        .modal-price small {
+            font-size: 16px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-section {
+            margin-bottom: 30px;
+        }
+
+        .modal-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-section-title i {
+            color: var(--purple);
+        }
+
+        .modal-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--green-dark);
+            margin-bottom: 20px;
+        }
+
+        .modal-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .modal-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(124, 58, 237,0.15);
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            font-size: 15px;
+            color: var(--white);
+        }
+
+        .modal-features li:last-child {
+            border-bottom: none;
+        }
+
+        .modal-features i {
+            color: var(--purple);
+            margin-top: 2px;
+        }
+
+        .modal-footer {
+            padding: 30px 40px;
+            background: var(--black);
+            border-top: 2px solid var(--green);
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-footer .btn {
+            flex: 1;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <a href="dashboard.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <div class="marketplace-container">
+        <div class="marketplace-header">
+            <h1><i class="fas fa-store"></i> Module Marketplace</h1>
+            <p>Supercharge your store with powerful add-ons</p>
+        </div>
+
+        <div id="mySubscriptions" class="my-subscriptions" style="display: none;">
+            <h2><i class="fas fa-check-circle"></i> My Active Modules</h2>
+            <div id="subscriptionsList"></div>
+        </div>
+
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner"></i>
+            <p>Loading modules...</p>
+        </div>
+
+        <div id="modulesGrid" class="modules-grid"></div>
+    </div>
+
+    <!-- Module Details Modal -->
+    <div id="moduleModal" class="module-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModuleModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="modal-icon" id="modalIcon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="modal-title" id="modalTitle">Module Name</div>
+                <div class="modal-subtitle" id="modalSubtitle">7-Day Free Trial Available</div>
+                <div class="modal-price" id="modalPrice">R0<small>/month</small></div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-info-circle"></i>
+                        About This Module
+                    </div>
+                    <div class="modal-description" id="modalDescription">
+                        Module description goes here
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">
+                        <i class="fas fa-star"></i>
+                        Key Features
+                    </div>
+                    <ul class="modal-features" id="modalFeatures">
+                        <!-- Features populated by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <!-- Buttons populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/frontend/config.js"></script>
+    <script src="/frontend/jig-utils.js"></script>
+    <script src="/frontend/jig-auth.js"></script>
+    <script>
+        const token = sessionStorage.getItem('token');
+        let mySubscriptions = [];
+
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(400px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(400px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Module Modal Functions
+        let currentModule = null;
+
+        function showModuleDetails(module) {
+            currentModule = module;
+            const modal = document.getElementById('moduleModal');
+
+            // Update modal content
+            document.getElementById('modalIcon').innerHTML = `<i class="fas ${moduleIcons[module.id]}"></i>`;
+            document.getElementById('modalTitle').textContent = module.name;
+            document.getElementById('modalPrice').innerHTML = `R${module.price}<small>/month</small>`;
+            document.getElementById('modalDescription').textContent = module.description;
+
+            // Update features
+            const features = module.features || [];
+            document.getElementById('modalFeatures').innerHTML = features.map(f => `
+                <li><i class="fas fa-check-circle"></i> ${f}</li>
+            `).join('');
+
+            // Check if subscribed
+            const isSubscribed = mySubscriptions.some(s => s.moduleId === module.id);
+
+            // Update footer buttons
+            const footer = document.getElementById('modalFooter');
+            if (isSubscribed) {
+                document.getElementById('modalSubtitle').textContent = 'Active Subscription';
+                footer.innerHTML = `
+                    <button class="btn btn-secondary" disabled>
+                        <i class="fas fa-check"></i> Already Subscribed
+                    </button>
+                    <button class="btn btn-cancel" onclick="cancelSubscription('${module.id}')">
+                        <i class="fas fa-times"></i> Cancel Subscription
+                    </button>
+                `;
+            } else {
+                document.getElementById('modalSubtitle').textContent = '7-Day Free Trial Available';
+                footer.innerHTML = `
+                    <button class="btn btn-primary" onclick="subscribeToModule('${module.id}', '${module.name}', ${module.price})">
+                        <i class="fas fa-rocket"></i> Start Free Trial
+                    </button>
+                `;
+            }
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModuleModal() {
+            const modal = document.getElementById('moduleModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            currentModule = null;
+        }
+
+        // Close modal on overlay click
+        document.getElementById('moduleModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModuleModal();
+            }
+        });
+
+        const moduleIcons = {
+            'section21': 'fa-shield-virus',
+            'viral-influencer': 'fa-fire',
+            'retail store': 'fa-car',
+            'affiliate': 'fa-handshake',
+            'loyalty': 'fa-star',
+            'vouchers': 'fa-ticket'
+        };
+
+        const moduleFeatures = {
+            'section21': [
+                'Legal Section 21 compliance',
+                'Prescription verification system',
+                'Doctor credential checking',
+                '180-day renewal tracking',
+                'Authorization letter management',
+                'Medical cannabis tracking'
+            ],
+            'viral-influencer': [
+                'AI-powered social verification',
+                'Instagram/TikTok/YouTube integration',
+                'Influencer tier assignment',
+                'Viral score algorithm',
+                'Campaign performance tracking',
+                'Automated commission management'
+            ],
+            'retail store': [
+                'GPS-enabled order tracking',
+                '5km geofence automation',
+                'Staff queue dashboard',
+                'Real-time order updates',
+                'WebSocket notifications',
+                'ROI: Break even with 3-4 orders/day'
+            ],
+            'affiliate': [
+                'Unique tracking links',
+                'Commission tracking (5-15%)',
+                'Click & conversion analytics',
+                'Automated payout management',
+                'Performance leaderboards',
+                'Tiered commission structures'
+            ],
+            'loyalty': [
+                'Points earning system (R1 = 1 point)',
+                '4-tier system (Seedling to Harvest)',
+                'Custom tier benefits',
+                'Points redemption',
+                'Customer dashboard',
+                'Admin points management'
+            ],
+            'vouchers': [
+                'Unlimited voucher creation',
+                'Advanced types (%, fixed, BOGO)',
+                'Section 21 compliance',
+                'Auto-apply for tiers',
+                'Full analytics dashboard',
+                'Redemption tracking'
+            ]
+        };
+
+        async function loadModulesAndSubscriptions() {
+            try {
+                // Load available modules
+                const modulesResponse = await fetch(`${API_URL}/subscriptions/modules`);
+                const modulesData = await modulesResponse.json();
+
+                if (!modulesData.success) {
+                    throw new Error('Failed to load modules');
+                }
+
+                // Load user's subscriptions if logged in
+                if (token) {
+                    const subsResponse = await fetch(`${API_URL}/subscriptions/my`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (subsResponse.ok) {
+                        const subsData = await subsResponse.json();
+                        mySubscriptions = subsData.subscriptions || [];
+
+                        if (mySubscriptions.length > 0) {
+                            displayMySubscriptions();
+                        }
+                    }
+                }
+
+                displayModules(modulesData.modules);
+            } catch (error) {
+                console.error('Error loading modules:', error);
+                document.getElementById('loading').innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Error loading modules. Please refresh the page.</p>
+                `;
+            }
+        }
+
+        function displayMySubscriptions() {
+            const container = document.getElementById('mySubscriptions');
+            const list = document.getElementById('subscriptionsList');
+
+            let html = '';
+            mySubscriptions.forEach(sub => {
+                const statusClass = sub.status === 'trial' ? 'trial' : sub.status === 'active' ? 'active' : 'payment-failed';
+                const statusText = sub.status === 'trial' ? `Trial ends ${new Date(sub.trialEndDate).toLocaleDateString()}` :
+                                   sub.status === 'active' ? `Next billing ${new Date(sub.nextBillingDate).toLocaleDateString()}` :
+                                   'Payment Failed';
+
+                html += `
+                    <div class="subscription-item">
+                        <div class="subscription-info">
+                            <div class="subscription-name">
+                                <i class="fas ${moduleIcons[sub.moduleId]}"></i> ${sub.moduleName}
+                                <span class="status-badge ${statusClass}">${sub.status.toUpperCase()}</span>
+                            </div>
+                            <div class="subscription-status">${statusText} • R${sub.monthlyAmount}/month</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+            container.style.display = 'block';
+        }
+
+        function displayModules(modules) {
+            const grid = document.getElementById('modulesGrid');
+            const loading = document.getElementById('loading');
+
+            let html = '';
+
+            modules.forEach(module => {
+                const isSubscribed = mySubscriptions.some(sub =>
+                    sub.moduleId === module.id && ['trial', 'active'].includes(sub.status)
+                );
+
+                const features = moduleFeatures[module.id] || [];
+
+                html += `
+                    <div class="module-card ${isSubscribed ? 'subscribed' : ''}" data-module="${module.id}">
+                        <div class="module-header">
+                            ${isSubscribed ? '<div class="subscribed-badge"><i class="fas fa-check"></i> Active</div>' : '<div class="trial-badge">7-Day Free Trial</div>'}
+                            <div class="module-icon">
+                                <i class="fas ${moduleIcons[module.id]}"></i>
+                            </div>
+                            <div class="module-name">${module.name}</div>
+                            <div class="module-price">
+                                R${module.price}<small>/month</small>
+                            </div>
+                        </div>
+                        <div class="module-body">
+                            <p class="module-description">${module.description}</p>
+
+                            <ul class="features-list">
+                                ${features.map(f => `<li><i class="fas fa-check-circle"></i> ${f}</li>`).join('')}
+                            </ul>
+
+                            <div class="module-actions">
+                                ${isSubscribed ? `
+                                    <button class="btn btn-secondary" onclick='showModuleDetails(${JSON.stringify({...module, features})})'>
+                                        <i class="fas fa-info-circle"></i> View Details
+                                    </button>
+                                    <button class="btn btn-cancel" onclick="cancelSubscription('${module.id}')">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                ` : `
+                                    <button class="btn btn-primary" onclick='showModuleDetails(${JSON.stringify({...module, features})})'>
+                                        <i class="fas fa-rocket"></i> View Details
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+            loading.style.display = 'none';
+        }
+
+        async function subscribeToModule(moduleId, moduleName, price) {
+            if (!token) {
+                showToast('Please log in as admin to manage modules', 'error');
+                return;
+            }
+
+            // Admin can subscribe directly, no confirmation needed
+
+            try {
+                const response = await fetch(`${API_URL}/subscriptions/subscribe`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ moduleId })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast(`Trial started for ${moduleName}! Ends: ${new Date(data.subscription.trialEndDate).toLocaleDateString()}`, 'success');
+
+                    // Reload page to show updated subscription status
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    showToast(`Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                console.error('Subscribe error:', error);
+                showToast('Error subscribing to module. Please try again.', 'error');
+            }
+        }
+
+        async function cancelSubscription(moduleId) {
+            const subscription = mySubscriptions.find(s => s.moduleId === moduleId);
+
+            if (!subscription) {
+                showToast('Subscription not found', 'error');
+                return;
+            }
+
+            // Admin can cancel directly
+            const reason = '';
+
+            try {
+                const response = await fetch(`${API_URL}/subscriptions/${subscription._id}/cancel`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ reason })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('Subscription cancelled successfully', 'success');
+                    location.reload();
+                } else {
+                    showToast(`Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                console.error('Cancel error:', error);
+                showToast('Error cancelling subscription. Please try again.', 'error');
+            }
+        }
+
+        // Load modules on page load
+        window.addEventListener('DOMContentLoaded', loadModulesAndSubscriptions);
+    </script>
+
+    <!-- UAT Bug Reporter -->
+</body>
+</html>

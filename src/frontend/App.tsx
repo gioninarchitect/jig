@@ -28,6 +28,10 @@ import AdminClientsPage from './pages/admin/AdminClientsPage';
 import AdminClientDetailPage from './pages/admin/AdminClientDetailPage';
 import AdminOrdersPage from './pages/admin/AdminOrdersPage';
 import AdminLeadsPage from './pages/admin/AdminLeadsPage';
+import AdminVerificationsPage from './pages/admin/AdminVerificationsPage';
+import AdminChatPage from './pages/admin/AdminChatPage';
+import AdminN8nPage from './pages/admin/AdminN8nPage';
+import VerificationPage from './pages/VerificationPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { status } = useAuth();
@@ -77,6 +81,7 @@ export default function App() {
         <Route path="orders/:id" element={<OrderDetailPage />} />
         <Route path="orders/:id/invoice" element={<InvoicePage />} />
         <Route path="account" element={<AccountPage />} />
+        <Route path="verification" element={<VerificationPage />} />
 
         {/* Admin routes */}
         <Route
@@ -108,6 +113,30 @@ export default function App() {
           element={
             <AdminRoute>
               <AdminLeadsPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/verifications"
+          element={
+            <AdminRoute>
+              <AdminVerificationsPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/chat"
+          element={
+            <AdminRoute>
+              <AdminChatPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/n8n"
+          element={
+            <AdminRoute>
+              <AdminN8nPage />
             </AdminRoute>
           }
         />

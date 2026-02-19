@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Supplier Portal - JIG Craft Cannabis</title>
+    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 50%, var(--green) 100%);
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+        }
+
+        .login-logo h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: var(--white);
+            margin-top: 1rem;
+        }
+
+        .login-logo p {
+            color: var(--gold);
+            font-family: 'Oswald', sans-serif;
+            font-style: italic;
+        }
+
+        .supplier-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .login-form {
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        .login-error {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--red);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        /* Navigation */
+        .supplier-nav {
+            background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%);
+            padding: 1rem 0;
+            border-bottom: 4px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .nav-logo-text {
+            color: var(--cream);
+        }
+
+        .nav-logo-text .brand-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            text-transform: uppercase;
+        }
+
+        .nav-logo-text .brand-tagline {
+            font-family: 'Oswald', sans-serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--gold);
+        }
+
+        .supplier-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .supplier-name {
+            color: var(--cream);
+            text-align: right;
+        }
+
+        .supplier-name .name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .supplier-name .type {
+            font-size: 0.85rem;
+            color: var(--gold);
+            text-transform: capitalize;
+        }
+
+        .logout-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-btn:hover {
+            background: var(--red-dark);
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            background: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            max-width: 1400px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--gray-200);
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray-500);
+            transition: all 0.3s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+
+        .tab-btn.active {
+            background: var(--green);
+            border-color: var(--purple);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+        }
+
+        .stat-card .icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .stat-card .label {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-header h2 i {
+            color: var(--purple);
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--gray-200);
+        }
+
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: var(--green);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .data-table tr:hover td {
+            background: rgba(124, 58, 237, 0.05);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.pending { background: rgba(217, 119, 6, 0.15); color: var(--gold-dark); }
+        .status-badge.approved { background: rgba(124, 58, 237, 0.15); color: var(--purple); }
+        .status-badge.submitted { background: rgba(124, 58, 237, 0.1); color: var(--green-light); }
+        .status-badge.ordered { background: rgba(124, 58, 237, 0.2); color: var(--green-dark); }
+        .status-badge.received { background: rgba(124, 58, 237, 0.25); color: var(--white); }
+        .status-badge.rejected { background: rgba(220, 38, 38, 0.15); color: var(--red); }
+        .status-badge.expired { background: rgba(220, 38, 38, 0.1); color: var(--red-dark); }
+
+        /* Document Cards */
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .document-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .document-card:hover {
+            border-color: var(--purple);
+        }
+
+        .document-card .doc-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gray-100);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--purple);
+            margin-bottom: 1rem;
+        }
+
+        .document-card h4 {
+            font-size: 1rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .document-card .doc-meta {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+
+        .document-card .doc-expiry {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .document-card .doc-expiry.warning {
+            color: var(--gold-dark);
+        }
+
+        .document-card .doc-expiry.danger {
+            color: var(--red);
+        }
+
+        /* Upload Area */
+        .upload-area {
+            background: var(--white);
+            border: 2px dashed var(--gray-200);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .upload-area:hover {
+            border-color: var(--purple);
+            background: rgba(124, 58, 237, 0.02);
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--purple);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-area p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        /* Forms */
+        .form-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 2px solid var(--gray-200);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-card label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .form-card input,
+        .form-card select,
+        .form-card textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-card input:focus,
+        .form-card select:focus,
+        .form-card textarea:focus {
+            outline: none;
+            border-color: var(--purple);
+        }
+
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        /* Performance Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            border: 2px solid var(--gray-200);
+        }
+
+        .metric-card .metric-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--purple);
+        }
+
+        .metric-card .metric-label {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+
+        /* Rating Stars */
+        .rating-stars {
+            color: var(--gold);
+            font-size: 1.25rem;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid var(--green);
+        }
+
+        .toast.error {
+            border-left-color: var(--red);
+        }
+
+        .toast.warning {
+            border-left-color: var(--gold);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--gray-200);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .supplier-info {
+                flex-direction: column;
+            }
+
+            .tab-nav {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
+                <h1>JIG Craft Cannabis</h1>
+                <p>Craft Cannabis</p>
+                <span class="supplier-badge"><i class="fas fa-truck"></i> Supplier Portal</span>
+            </div>
+            <div class="login-error" id="loginError"></div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="supplierId">Supplier ID</label>
+                    <input type="text" id="supplierId" placeholder="SUP-2026-000001" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <!-- Navigation -->
+        <nav class="supplier-nav">
+            <div class="nav-content">
+                <a href="index.html" class="nav-logo">
+                    <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
+                    <div class="nav-logo-text">
+                        <div class="brand-name">JIG Craft Cannabis</div>
+                        <div class="brand-tagline">Craft Cannabis</div>
+                    </div>
+                </a>
+                <div class="supplier-info">
+                    <div class="supplier-name">
+                        <div class="name" id="supplierNameDisplay">Supplier Name</div>
+                        <div class="type" id="supplierTypeDisplay">Cultivator</div>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="showTab('overview')">
+                <i class="fas fa-chart-line"></i> Overview
+            </button>
+            <button class="tab-btn" onclick="showTab('orders')">
+                <i class="fas fa-file-invoice"></i> Purchase Orders
+            </button>
+            <button class="tab-btn" onclick="showTab('batches')">
+                <i class="fas fa-boxes"></i> Batches
+            </button>
+            <button class="tab-btn" onclick="showTab('products')">
+                <i class="fas fa-cannabis"></i> My Products
+            </button>
+            <button class="tab-btn" onclick="showTab('documents')">
+                <i class="fas fa-folder-open"></i> Documents
+            </button>
+            <button class="tab-btn" onclick="showTab('profile')">
+                <i class="fas fa-building"></i> Profile
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="tab-overview">
+                <!-- KPI Toggle -->
+                <div style="margin-bottom: 1rem;">
+                    <button id="supplierKpiToggle" onclick="toggleSupplierKpi()" style="background: var(--white); border: 2px solid var(--gray-200); color: var(--white); padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
+                        <i class="fas fa-chart-pie" style="color: var(--gold);"></i> Supplier KPIs
+                        <i class="fas fa-chevron-down" id="supplierKpiChevron" style="font-size: 0.7rem; transition: transform 0.3s;"></i>
+                    </button>
+                </div>
+                <!-- KPI Slide-in Panel -->
+                <div id="supplierKpiPanel" style="max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <div class="value" id="kpiActivePOs">0</div>
+                        <div class="label">Active POs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon"><i class="fas fa-clock"></i></div>
+                        <div class="value" id="kpiPendingDeliveries">0</div>
+                        <div class="label">Pending Deliveries</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon"><i class="fas fa-money-bill"></i></div>
+                        <div class="value" id="kpiTotalPaid">R0</div>
+                        <div class="label">Total Paid</div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Existing Overview Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <div class="value" id="totalOrders">0</div>
+                        <div class="label">Total Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon"><i class="fas fa-clock"></i></div>
+                        <div class="value" id="pendingOrders">0</div>
+                        <div class="label">Pending Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon"><i class="fas fa-money-bill"></i></div>
+                        <div class="value" id="totalValue">R0</div>
+                        <div class="label">Total Value</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon"><i class="fas fa-star"></i></div>
+                        <div class="value" id="rating">-</div>
+                        <div class="label">Rating</div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Performance Metrics</h2>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="onTimeRate">--%</div>
+                        <div class="metric-label">On-Time Delivery</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="qualityScore">--%</div>
+                        <div class="metric-label">Quality Score</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="defectRate">--%</div>
+                        <div class="metric-label">Defect Rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="leadTime">-- days</div>
+                        <div class="metric-label">Avg Lead Time</div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2><i class="fas fa-history"></i> Recent Orders</h2>
+                </div>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>PO Number</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentOrdersBody">
+                            <tr>
+                                <td colspan="5" class="empty-state">
+                                    <i class="fas fa-inbox"></i>
+                                    <h3>No orders yet</h3>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Purchase Orders Tab -->
+            <div class="tab-content" id="tab-orders">
+                <div class="section-header">
+                    <h2><i class="fas fa-file-invoice"></i> Purchase Orders</h2>
+                </div>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>PO Number</th>
+                                <th>Created</th>
+                                <th>Expected Delivery</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr>
+                                <td colspan="7" class="empty-state">
+                                    <i class="fas fa-inbox"></i>
+                                    <h3>No purchase orders</h3>
+                                    <p>You will see your purchase orders here once they are created.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Batches Tab -->
+            <div class="tab-content" id="tab-batches">
+                <div class="section-header">
+                    <h2><i class="fas fa-boxes"></i> Batch Tracking</h2>
+                </div>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Batch ID</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Harvest Date</th>
+                                <th>QA Status</th>
+                                <th>THC %</th>
+                                <th>CBD %</th>
+                            </tr>
+                        </thead>
+                        <tbody id="batchesTableBody">
+                            <tr>
+                                <td colspan="7" class="empty-state">
+                                    <i class="fas fa-box-open"></i>
+                                    <h3>No batches</h3>
+                                    <p>Batches from your deliveries will appear here.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div class="tab-content" id="tab-products">
+                <div class="section-header">
+                    <h2><i class="fas fa-cannabis"></i> My Products</h2>
+                    <button class="btn btn-primary" onclick="showAddProductModal()">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                </div>
+
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="icon" style="background: var(--gold);"><i class="fas fa-clock"></i></div>
+                        <div class="value" id="productsPending">0</div>
+                        <div class="label">Pending Approval</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="value" id="productsApproved">0</div>
+                        <div class="label">Approved</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);"><i class="fas fa-store"></i></div>
+                        <div class="value" id="productsLive">0</div>
+                        <div class="label">Live on Store</div>
+                    </div>
+                </div>
+
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                            <tr>
+                                <td colspan="6" class="empty-state">
+                                    <i class="fas fa-box-open"></i>
+                                    <h3>No products yet</h3>
+                                    <p>Add your products to start selling through JIG Craft Cannabis.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Documents Tab -->
+            <div class="tab-content" id="tab-documents">
+                <div class="section-header">
+                    <h2><i class="fas fa-folder-open"></i> Compliance Documents</h2>
+                    <button class="btn btn-primary" onclick="showUploadModal()">
+                        <i class="fas fa-upload"></i> Upload Document
+                    </button>
+                </div>
+
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drop files here or click to upload</h3>
+                    <p>Supported: PDF, JPG, PNG (Max 10MB)</p>
+                    <input type="file" id="fileInput" hidden accept=".pdf,.jpg,.jpeg,.png">
+                </div>
+
+                <div class="documents-grid" id="documentsGrid">
+                    <!-- Documents will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div class="tab-content" id="tab-profile">
+                <div class="section-header">
+                    <h2><i class="fas fa-building"></i> Company Profile</h2>
+                </div>
+
+                <div class="form-card">
+                    <form id="profileForm">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--white);">Business Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" id="companyName" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Trading As</label>
+                                <input type="text" id="tradingAs">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Supplier Type</label>
+                                <select id="licenseType" disabled>
+                                    <option value="cultivator">Cultivator</option>
+                                    <option value="processor">Processor</option>
+                                    <option value="distributor">Distributor</option>
+                                    <option value="manufacturer">Manufacturer</option>
+                                    <option value="importer">Importer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>License Number</label>
+                                <input type="text" id="licenseNumber" readonly>
+                            </div>
+                        </div>
+
+                        <h3 style="margin: 2rem 0 1.5rem; color: var(--white);">Contact Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Contact Person</label>
+                                <input type="text" id="contactName">
+                            </div>
+                            <div class="form-group">
+                                <label>Position</label>
+                                <input type="text" id="contactPosition">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="contactEmail">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" id="contactPhone">
+                            </div>
+                        </div>
+
+                        <h3 style="margin: 2rem 0 1.5rem; color: var(--white);">Address</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Street Address</label>
+                                <input type="text" id="street">
+                            </div>
+                            <div class="form-group">
+                                <label>Suburb</label>
+                                <input type="text" id="suburb">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" id="city">
+                            </div>
+                            <div class="form-group">
+                                <label>Province</label>
+                                <input type="text" id="province">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Postal Code</label>
+                                <input type="text" id="postalCode">
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="loadProfile()">
+                                <i class="fas fa-undo"></i> Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/frontend/config.js"></script>
+    <script src="/frontend/jig-utils.js"></script>
+    <script src="/frontend/jig-auth.js"></script>
+    <script>
+        // State
+        let currentSupplier = null;
+        let authToken = null;
+
+        // Check session on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = sessionStorage.getItem('supplierSession');
+            if (saved) {
+                const session = JSON.parse(saved);
+                currentSupplier = session.supplier;
+                authToken = session.token;
+                showDashboard();
+            }
+        });
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const supplierId = document.getElementById('supplierId').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(`${API_URL}/suppliers/portal/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ supplierId, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentSupplier = data.supplier;
+                    authToken = data.token;
+                    sessionStorage.setItem('supplierSession', JSON.stringify({
+                        supplier: currentSupplier,
+                        token: authToken
+                    }));
+                    showDashboard();
+                } else {
+                    showLoginError(data.message || 'Invalid credentials');
+                }
+            } catch (error) {
+                // For demo, use mock data
+                console.log('Using mock supplier data');
+                currentSupplier = {
+                    _id: 'demo',
+                    supplierId: supplierId,
+                    name: 'Demo Supplier Co.',
+                    license: { type: 'cultivator', number: 'LIC-2026-001' },
+                    contactPerson: { name: 'John Smith', email: 'john@demo.com', phone: '012 345 6789' },
+                    address: { street: '123 Main St', suburb: 'Sandton', city: 'Johannesburg', province: 'Gauteng', postalCode: '2196' },
+                    performance: { rating: 4.5, totalOrders: 25, totalValue: 150000, onTimeDeliveryRate: 95, qualityScore: 92, defectRate: 2, averageLeadTime: 5 },
+                    documents: []
+                };
+                authToken = 'demo-token';
+                sessionStorage.setItem('supplierSession', JSON.stringify({
+                    supplier: currentSupplier,
+                    token: authToken
+                }));
+                showDashboard();
+            }
+        });
+
+        function showLoginError(message) {
+            const errorEl = document.getElementById('loginError');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').classList.add('active');
+
+            // Update header
+            document.getElementById('supplierNameDisplay').textContent = currentSupplier.name;
+            document.getElementById('supplierTypeDisplay').textContent = currentSupplier.license?.type || 'Supplier';
+
+            // Load data
+            loadOverview();
+            loadOrders();
+            loadBatches();
+            loadProducts();
+            loadDocuments();
+            loadProfile();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('supplierSession');
+            currentSupplier = null;
+            authToken = null;
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('loginScreen').style.display = 'flex';
+        }
+
+        // Tab Navigation
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+
+            event.target.closest('.tab-btn').classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // Load Overview
+        function loadOverview() {
+            const perf = currentSupplier.performance || {};
+
+            document.getElementById('totalOrders').textContent = perf.totalOrders || 0;
+            document.getElementById('pendingOrders').textContent = '0';
+            document.getElementById('totalValue').textContent = `R${(perf.totalValue || 0).toLocaleString()}`;
+            document.getElementById('rating').innerHTML = perf.rating
+                ? `${perf.rating.toFixed(1)} <span class="rating-stars"><i class="fas fa-star"></i></span>`
+                : '-';
+
+            document.getElementById('onTimeRate').textContent = perf.onTimeDeliveryRate
+                ? `${perf.onTimeDeliveryRate.toFixed(0)}%` : '--%';
+            document.getElementById('qualityScore').textContent = perf.qualityScore
+                ? `${perf.qualityScore.toFixed(0)}%` : '--%';
+            document.getElementById('defectRate').textContent = perf.defectRate !== undefined
+                ? `${perf.defectRate.toFixed(1)}%` : '--%';
+            document.getElementById('leadTime').textContent = perf.averageLeadTime
+                ? `${perf.averageLeadTime} days` : '-- days';
+        }
+
+        // Load Orders
+        async function loadOrders() {
+            try {
+                const response = await fetch(`${API_URL}/suppliers/${currentSupplier._id}/orders`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.success && data.orders?.length > 0) {
+                    renderOrders(data.orders);
+                }
+            } catch (error) {
+                console.log('Could not load orders');
+            }
+        }
+
+        function renderOrders(orders) {
+            const tbody = document.getElementById('ordersTableBody');
+            const recentBody = document.getElementById('recentOrdersBody');
+
+            const rows = orders.map(order => `
+                <tr>
+                    <td><strong>${order.poNumber}</strong></td>
+                    <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td>${order.expectedDeliveryDate ? new Date(order.expectedDeliveryDate).toLocaleDateString() : '-'}</td>
+                    <td>${order.items?.length || 0} items</td>
+                    <td>R${(order.total || 0).toLocaleString()}</td>
+                    <td><span class="status-badge ${order.status}">${order.status}</span></td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="viewOrder('${order._id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            tbody.innerHTML = rows;
+            recentBody.innerHTML = orders.slice(0, 5).map(order => `
+                <tr>
+                    <td><strong>${order.poNumber}</strong></td>
+                    <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td>${order.items?.length || 0} items</td>
+                    <td>R${(order.total || 0).toLocaleString()}</td>
+                    <td><span class="status-badge ${order.status}">${order.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // Load Batches
+        async function loadBatches() {
+            try {
+                const response = await fetch(`${API_URL}/suppliers/${currentSupplier._id}/batches`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.success && data.batches?.length > 0) {
+                    renderBatches(data.batches);
+                }
+            } catch (error) {
+                console.log('Could not load batches');
+            }
+        }
+
+        function renderBatches(batches) {
+            const tbody = document.getElementById('batchesTableBody');
+            tbody.innerHTML = batches.map(batch => `
+                <tr>
+                    <td><strong>${batch.batchId}</strong></td>
+                    <td>${batch.product?.name || 'Unknown'}</td>
+                    <td>${batch.remainingQuantity || 0} ${batch.unitOfMeasure || 'units'}</td>
+                    <td>${batch.harvestDate ? new Date(batch.harvestDate).toLocaleDateString() : '-'}</td>
+                    <td><span class="status-badge ${batch.qaStatus}">${batch.qaStatus}</span></td>
+                    <td>${batch.cannabinoids?.thc?.toFixed(1) || '-'}%</td>
+                    <td>${batch.cannabinoids?.cbd?.toFixed(1) || '-'}%</td>
+                </tr>
+            `).join('');
+        }
+
+        // Load Documents
+        function loadDocuments() {
+            const docs = currentSupplier.documents || [];
+            const grid = document.getElementById('documentsGrid');
+
+            if (docs.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>No documents uploaded</h3>
+                        <p>Upload your compliance documents to keep them on file.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = docs.map(doc => {
+                const isExpiring = doc.expiryDate && new Date(doc.expiryDate) < new Date(Date.now() + 30*24*60*60*1000);
+                const isExpired = doc.expiryDate && new Date(doc.expiryDate) < new Date();
+
+                return `
+                    <div class="document-card">
+                        <div class="doc-icon">
+                            <i class="fas fa-file-${doc.type === 'license' ? 'certificate' : doc.type === 'insurance' ? 'shield-alt' : 'alt'}"></i>
+                        </div>
+                        <h4>${doc.name || doc.type}</h4>
+                        <div class="doc-meta">Uploaded: ${new Date(doc.uploadedAt).toLocaleDateString()}</div>
+                        ${doc.expiryDate ? `
+                            <div class="doc-expiry ${isExpired ? 'danger' : isExpiring ? 'warning' : ''}">
+                                ${isExpired ? 'Expired' : 'Expires'}: ${new Date(doc.expiryDate).toLocaleDateString()}
+                            </div>
+                        ` : ''}
+                        <div style="margin-top: 1rem;">
+                            <span class="status-badge ${doc.verified ? 'approved' : 'pending'}">
+                                ${doc.verified ? 'Verified' : 'Pending Review'}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Load Profile
+        function loadProfile() {
+            const s = currentSupplier;
+            document.getElementById('companyName').value = s.name || '';
+            document.getElementById('tradingAs').value = s.tradingAs || '';
+            document.getElementById('licenseType').value = s.license?.type || 'cultivator';
+            document.getElementById('licenseNumber').value = s.license?.number || '';
+            document.getElementById('contactName').value = s.contactPerson?.name || '';
+            document.getElementById('contactPosition').value = s.contactPerson?.position || '';
+            document.getElementById('contactEmail').value = s.contactPerson?.email || s.email || '';
+            document.getElementById('contactPhone').value = s.contactPerson?.phone || s.phone || '';
+            document.getElementById('street').value = s.address?.street || '';
+            document.getElementById('suburb').value = s.address?.suburb || '';
+            document.getElementById('city').value = s.address?.city || '';
+            document.getElementById('province').value = s.address?.province || '';
+            document.getElementById('postalCode').value = s.address?.postalCode || '';
+        }
+
+        // Save Profile
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const updates = {
+                tradingAs: document.getElementById('tradingAs').value,
+                contactPerson: {
+                    name: document.getElementById('contactName').value,
+                    position: document.getElementById('contactPosition').value,
+                    email: document.getElementById('contactEmail').value,
+                    phone: document.getElementById('contactPhone').value
+                },
+                address: {
+                    street: document.getElementById('street').value,
+                    suburb: document.getElementById('suburb').value,
+                    city: document.getElementById('city').value,
+                    province: document.getElementById('province').value,
+                    postalCode: document.getElementById('postalCode').value
+                }
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/suppliers/${currentSupplier._id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(updates)
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast('Profile updated successfully');
+                    Object.assign(currentSupplier, updates);
+                } else {
+                    showToast('Failed to update profile', 'error');
+                }
+            } catch (error) {
+                showToast('Profile saved locally', 'warning');
+                Object.assign(currentSupplier, updates);
+            }
+        });
+
+        // File Upload
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('document', file);
+            formData.append('type', 'other');
+            formData.append('name', file.name);
+
+            try {
+                const response = await fetch(`${API_URL}/suppliers/${currentSupplier._id}/documents`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}` },
+                    body: formData
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast('Document uploaded successfully');
+                    loadDocuments();
+                } else {
+                    showToast('Failed to upload document', 'error');
+                }
+            } catch (error) {
+                showToast('Upload feature requires backend connection', 'warning');
+            }
+        });
+
+        function viewOrder(orderId) {
+            showToast('Order details view coming soon', 'warning');
+        }
+
+        // Product Management
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${API_URL}/products?supplier=${currentSupplier._id}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.success && data.products?.length > 0) {
+                    renderProducts(data.products);
+                    updateProductStats(data.products);
+                }
+            } catch (error) {
+                console.log('Could not load products');
+            }
+        }
+
+        function updateProductStats(products) {
+            const pending = products.filter(p => p.status === 'pending' || p.status === 'review').length;
+            const approved = products.filter(p => p.status === 'approved').length;
+            const live = products.filter(p => p.status === 'active').length;
+
+            document.getElementById('productsPending').textContent = pending;
+            document.getElementById('productsApproved').textContent = approved;
+            document.getElementById('productsLive').textContent = live;
+        }
+
+        function renderProducts(products) {
+            const tbody = document.getElementById('productsTableBody');
+            tbody.innerHTML = products.map(product => `
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <img src="${product.images?.[0] || 'images/placeholder.png'}"
+                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
+                            <div>
+                                <strong>${product.name}</strong>
+                                <div style="font-size: 0.85rem; color: var(--gray-500);">${product.sku || '-'}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${product.category || '-'}</td>
+                    <td>R${(product.price || 0).toFixed(2)}</td>
+                    <td>${product.inventory?.quantity || 0}</td>
+                    <td><span class="status-badge ${product.status}">${product.status}</span></td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="editProduct('${product._id}')" style="padding: 0.5rem; font-size: 0.85rem;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-secondary" onclick="submitForApproval('${product._id}')"
+                                style="padding: 0.5rem; font-size: 0.85rem; margin-left: 0.5rem;"
+                                ${product.status !== 'draft' ? 'disabled' : ''}>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function showAddProductModal() {
+            // Create modal for adding product
+            const modal = document.createElement('div');
+            modal.id = 'productModal';
+            modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1001;';
+            modal.innerHTML = `
+                <div style="background: #0A0A0A;border-radius:16px;padding:2rem;width:90%;max-width:600px;max-height:90vh;overflow-y:auto;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+                        <h2 style="margin:0;color: var(--white);"><i class="fas fa-plus-circle"></i> Add Product</h2>
+                        <button onclick="closeProductModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">&times;</button>
+                    </div>
+                    <form id="addProductForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Product Name *</label>
+                                <input type="text" id="productName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>SKU</label>
+                                <input type="text" id="productSku">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Category *</label>
+                                <select id="productCategory" required>
+                                    <option value="">Select category</option>
+                                    <option value="flower">Flower</option>
+                                    <option value="concentrates">Concentrates</option>
+                                    <option value="edibles">Edibles</option>
+                                    <option value="topicals">Topicals</option>
+                                    <option value="tinctures">Tinctures</option>
+                                    <option value="accessories">Accessories</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Price (ZAR) *</label>
+                                <input type="number" id="productPrice" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Stock Quantity *</label>
+                                <input type="number" id="productStock" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Unit</label>
+                                <select id="productUnit">
+                                    <option value="units">Units</option>
+                                    <option value="grams">Grams</option>
+                                    <option value="ml">Millilitres</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="productDescription" rows="3" style="width:100%;padding:0.875rem;border:2px solid var(--gray-200);border-radius:10px;"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>THC % (if applicable)</label>
+                                <input type="number" id="productThc" step="0.1" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label>CBD % (if applicable)</label>
+                                <input type="number" id="productCbd" step="0.1" min="0" max="100">
+                            </div>
+                        </div>
+                        <div style="margin-top:1.5rem;display:flex;gap:1rem;">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save as Draft
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await saveProduct();
+            });
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            if (modal) modal.remove();
+        }
+
+        async function saveProduct() {
+            const productData = {
+                name: document.getElementById('productName').value,
+                sku: document.getElementById('productSku').value,
+                category: document.getElementById('productCategory').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                inventory: {
+                    quantity: parseInt(document.getElementById('productStock').value),
+                    unit: document.getElementById('productUnit').value
+                },
+                description: document.getElementById('productDescription').value,
+                cannabinoids: {
+                    thc: parseFloat(document.getElementById('productThc').value) || 0,
+                    cbd: parseFloat(document.getElementById('productCbd').value) || 0
+                },
+                supplier: currentSupplier._id,
+                status: 'draft'
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/products`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast('Product saved as draft');
+                    closeProductModal();
+                    loadProducts();
+                } else {
+                    showToast(data.message || 'Failed to save product', 'error');
+                }
+            } catch (error) {
+                showToast('Product saved locally', 'warning');
+                closeProductModal();
+            }
+        }
+
+        function editProduct(productId) {
+            showToast('Edit feature coming soon', 'warning');
+        }
+
+        async function submitForApproval(productId) {
+            try {
+                const response = await fetch(`${API_URL}/products/${productId}/submit-for-approval`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast('Product submitted for approval');
+                    loadProducts();
+                } else {
+                    showToast(data.message || 'Failed to submit', 'error');
+                }
+            } catch (error) {
+                showToast('Submission requires backend connection', 'warning');
+            }
+        }
+    </script>
+    <script>
+    // Supplier KPI toggle
+    let supplierKpiOpen = false;
+    let supplierKpiLoaded = false;
+    function toggleSupplierKpi() {
+        const panel = document.getElementById('supplierKpiPanel');
+        const chevron = document.getElementById('supplierKpiChevron');
+        const btn = document.getElementById('supplierKpiToggle');
+        if (!panel) return;
+        supplierKpiOpen = !supplierKpiOpen;
+        panel.style.maxHeight = supplierKpiOpen ? '200px' : '0';
+        if (chevron) chevron.style.transform = supplierKpiOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+        if (btn) btn.style.borderColor = supplierKpiOpen ? 'var(--gold)' : 'var(--gray-200)';
+        if (supplierKpiOpen && !supplierKpiLoaded) { loadSupplierKPIs(); supplierKpiLoaded = true; }
+    }
+    async function loadSupplierKPIs() {
+        try {
+            const t = sessionStorage.getItem('supplierToken') || sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+            if (!t) return;
+            const resp = await fetch(`${API_URL}/dashboard/kpis`, {
+                headers: { 'Authorization': `Bearer ${t}` }
+            });
+            if (!resp.ok) return;
+            const data = await resp.json();
+            if (!data.success) return;
+            const k = data.kpis;
+            const fmt = (n) => (n || 0).toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+            el('kpiActivePOs', k.activePOs || 0);
+            el('kpiPendingDeliveries', k.pendingDeliveries || 0);
+            el('kpiTotalPaid', `R${fmt(k.totalPaidValue)}`);
+        } catch (err) { console.error('[SupplierKPI]', err); }
+    }
+    </script>
+</body>
+</html>

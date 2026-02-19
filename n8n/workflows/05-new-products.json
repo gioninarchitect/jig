@@ -1,0 +1,224 @@
+{
+  "name": "JIG - New Product Announcements",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      },
+      "id": "cron-every-5-min",
+      "name": "Every 5 Minutes Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://jig.cleva-ai.co.za/api/v1/n8n/data/products",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "={{$env.N8N_API_KEY}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch-products",
+      "name": "Fetch All Products",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get current product IDs from the API response\nconst currentProducts = $input.all().map(item => item.json);\n\n// Get previously known product IDs from static data\nconst staticData = $getWorkflowStaticData('global');\nconst knownProductIds = staticData.knownProductIds || [];\n\n// Find new products (IDs we haven't seen before)\nconst newProducts = currentProducts.filter(p => !knownProductIds.includes(p.id));\n\n// Update static data with all current product IDs\nstaticData.knownProductIds = currentProducts.map(p => p.id);\n\n// If this is the first run, don't announce everything\nif (knownProductIds.length === 0 && currentProducts.length > 0) {\n  return []; // First run, just populate the list\n}\n\n// Return only new products\nreturn newProducts.map(p => ({ json: p }));"
+      },
+      "id": "code-compare",
+      "name": "Compare With Previous Run",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-name",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-new-products",
+      "name": "New Products Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "set-name",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "set-category",
+              "name": "category",
+              "value": "={{ $json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "set-price",
+              "name": "price",
+              "value": "={{ $json.price }}",
+              "type": "number"
+            },
+            {
+              "id": "set-thc",
+              "name": "thcContent",
+              "value": "={{ $json.thcContent || 'N/A' }}",
+              "type": "string"
+            },
+            {
+              "id": "set-strain",
+              "name": "strainType",
+              "value": "={{ $json.strainType || 'N/A' }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "set-product-data",
+      "name": "Format Product Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$env.TELEGRAM_CHAT_ID}}",
+        "text": "=**New Product Added!**\n\nName: {{ $json.name }}\nCategory: {{ $json.category }}\nPrice: R{{ $json.price }}\nTHC: {{ $json.thcContent }}\nStrain: {{ $json.strainType }}\n\nThis product is now available for ordering.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-new-product",
+      "name": "Broadcast New Product",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1340, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIALS_ID",
+          "name": "JIG Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every 5 Minutes Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch All Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch All Products": {
+      "main": [
+        [
+          {
+            "node": "Compare With Previous Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare With Previous Run": {
+      "main": [
+        [
+          {
+            "node": "New Products Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Products Found?": {
+      "main": [
+        [
+          {
+            "node": "Format Product Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Format Product Data": {
+      "main": [
+        [
+          {
+            "node": "Broadcast New Product",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "global": {
+      "knownProductIds": []
+    }
+  },
+  "tags": [
+    {
+      "name": "JIG"
+    },
+    {
+      "name": "Products"
+    }
+  ],
+  "triggerCount": 1,
+  "versionId": "1"
+}

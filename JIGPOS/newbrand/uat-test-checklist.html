@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAT Test Checklist - JIG Craft Cannabis</title>
+    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--cream);
+            text-transform: uppercase;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: var(--info);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-number.success { color: var(--success); }
+        .stat-number.warning { color: var(--warning); }
+        .stat-number.error { color: var(--error); }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .test-category {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .category-header {
+            background: var(--bg-accent);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .category-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .category-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .category-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .test-list {
+            padding: 1rem 1.5rem;
+        }
+
+        .test-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .test-item:last-child {
+            border-bottom: none;
+        }
+
+        .test-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .test-checkbox.passed {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .test-checkbox.failed {
+            background: var(--error);
+            border-color: var(--error);
+        }
+
+        .test-checkbox i {
+            color: white;
+            font-size: 0.75rem;
+        }
+
+        .test-content {
+            flex: 1;
+        }
+
+        .test-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .test-description {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .test-status {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .test-status.passed {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .test-status.pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
+
+        .test-status.failed {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--error);
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-link {
+            flex: 1;
+            min-width: 200px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .quick-link:hover {
+            transform: translateY(-4px);
+            border-color: var(--text-primary);
+        }
+
+        .quick-link i {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .quick-link span {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .test-list {
+            padding: 1rem 1.5rem;
+            display: none;
+        }
+
+        .test-list.active {
+            display: block;
+        }
+
+        .category-header .toggle-icon {
+            transition: transform 0.3s;
+        }
+
+        .category-header.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Test Modal Styles */
+        .test-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .test-modal-overlay.active {
+            display: flex;
+        }
+
+        .test-modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .test-modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .test-modal-header h3 {
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .test-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .test-modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .test-modal-body {
+            padding: 1.5rem;
+        }
+
+        .test-step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--bg-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content strong {
+            color: var(--text-primary);
+        }
+
+        .credentials-box {
+            background: var(--bg-accent);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .credentials-box p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .credentials-box code {
+            background: var(--bg-dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--success);
+        }
+
+        .test-modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .test-modal-footer .btn {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--bg-dark);
+        }
+
+        .btn-secondary {
+            background: var(--bg-accent);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .timestamp {
+            background: var(--bg-accent);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .timestamp-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-stats {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="images/DeBudChef-rLogo.png" alt="JIG Craft Cannabis" style="width:60px;height:60px;margin-bottom:1rem;object-fit:contain;">
+        <div class="logo">JIG Craft Cannabis</div>
+        <p style="color: var(--text-muted);">User Acceptance Testing</p>
+        <span class="header-badge"><i class="fas fa-clipboard-check"></i> UAT Checklist</span>
+    </header>
+
+    <div class="container">
+        <div class="timestamp">
+            <div class="timestamp-item">
+                <i class="fas fa-calendar"></i>
+                <span>Test Date: <strong id="testDate">25 November 2025</strong></span>
+            </div>
+            <div class="timestamp-item">
+                <i class="fas fa-code-branch"></i>
+                <span>Version: <strong>1.1.0</strong></span>
+            </div>
+            <div class="timestamp-item">
+                <i class="fas fa-user"></i>
+                <span>Tester: <strong>UAT Team</strong></span>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number success" id="passedCount">28</div>
+                <div class="stat-label">Tests Passed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number warning" id="pendingCount">1</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number error" id="failedCount">0</div>
+                <div class="stat-label">Failed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">29</div>
+                <div class="stat-label">Total Tests</div>
+            </div>
+        </div>
+
+        <div class="quick-links">
+            <a href="index.html" class="quick-link">
+                <i class="fas fa-store"></i>
+                <span>Visit Site</span>
+            </a>
+            <a href="release-notes.html" class="quick-link">
+                <i class="fas fa-file-alt"></i>
+                <span>Release Notes</span>
+            </a>
+            <a href="admin.html" class="quick-link">
+                <i class="fas fa-cog"></i>
+                <span>Admin Panel</span>
+            </a>
+            <a href="training-hub.html" class="quick-link">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Training Hub</span>
+            </a>
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-tasks"></i> Test Categories</h2>
+
+        <!-- Authentication Tests -->
+        <div class="test-category">
+            <div class="category-header expanded" onclick="toggleCategory(this)">
+                <h3>
+                    <div class="category-icon"><i class="fas fa-user-lock"></i></div>
+                    Authentication & Login
+                </h3>
+                <div class="category-stats">
+                    <span style="color: var(--success);"><i class="fas fa-check"></i> 6 Passed</span>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+            </div>
+            <div class="test-list active">
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Admin Login</div>
+                        <div class="test-description">Login with admin@jig.cleva-ai.co.za credentials</div>
+                    </div>
+                    <button onclick="openTestModal('admin-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Regular User Login</div>
+                        <div class="test-description">Login with user@jig.cleva-ai.co.za credentials</div>
+                    </div>
+                    <button onclick="openTestModal('user-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Pending Section 21 Patient Login</div>
+                        <div class="test-description">Login with pending@jig.cleva-ai.co.za - Section 21 status: pending</div>
+                    </div>
+                    <button onclick="openTestModal('pending-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Approved Section 21 Patient Login</div>
+                        <div class="test-description">Login with patient@jig.cleva-ai.co.za - Section 21 status: approved</div>
+                    </div>
+                    <button onclick="openTestModal('patient-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Sales Manager Login</div>
+                        <div class="test-description">Login with manager@jig.cleva-ai.co.za - Role: branch_manager</div>
+                    </div>
+                    <button onclick="openTestModal('manager-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Assistant/Cashier Login</div>
+                        <div class="test-description">Login with assistant@jig.cleva-ai.co.za - Role: branch_assistant (POS access)</div>
+                    </div>
+                    <button onclick="openTestModal('assistant-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Tests -->
+        <div class="test-category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h3>
+                    <div class="category-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Customer Dashboard
+                </h3>
+                <div class="category-stats">
+                    <span style="color: var(--success);"><i class="fas fa-check"></i> 4 Passed</span>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+            </div>
+            <div class="test-list">
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Shop Now Button Visibility</div>
+                        <div class="test-description">Button under Quick Actions is visible with proper contrast</div>
+                    </div>
+                    <button onclick="openTestModal('dashboard')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Section 21 Medical Products Card</div>
+                        <div class="test-description">Greyed-out carousel with modal popup on click</div>
+                    </div>
+                    <button onclick="openTestModal('section21-modal')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">No JavaScript Errors</div>
+                        <div class="test-description">Dashboard loads without null reference errors</div>
+                    </div>
+                    <button onclick="openTestModal('dashboard')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Member Dashboard Login Button</div>
+                        <div class="test-description">Button correctly shows/hides based on login state</div>
+                    </div>
+                    <button onclick="openTestModal('dashboard')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products & Search Tests -->
+        <div class="test-category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h3>
+                    <div class="category-icon"><i class="fas fa-search"></i></div>
+                    Products & Search
+                </h3>
+                <div class="category-stats">
+                    <span style="color: var(--success);"><i class="fas fa-check"></i> 4 Passed</span>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+            </div>
+            <div class="test-list">
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Product Search Functionality</div>
+                        <div class="test-description">Search bar returns results without 500 errors</div>
+                    </div>
+                    <button onclick="openTestModal('products')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Category Filtering</div>
+                        <div class="test-description">Products filter correctly by category</div>
+                    </div>
+                    <button onclick="openTestModal('products')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Cart Badge Item Count</div>
+                        <div class="test-description">Badge shows correct number of items (fixed white-on-white)</div>
+                    </div>
+                    <button onclick="openTestModal('products')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Product Detail Page</div>
+                        <div class="test-description">Product detail page loads correctly (fixed "Product not found" error)</div>
+                    </div>
+                    <button onclick="openTestModal('products')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- POS Tests -->
+        <div class="test-category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h3>
+                    <div class="category-icon"><i class="fas fa-cash-register"></i></div>
+                    Point of Sale (POS)
+                </h3>
+                <div class="category-stats">
+                    <span style="color: var(--success);"><i class="fas fa-check"></i> 8 Passed</span>
+                    <span style="color: var(--warning);"><i class="fas fa-clock"></i> 1 Pending</span>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+            </div>
+            <div class="test-list">
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Manager POS Access</div>
+                        <div class="test-description">Sales Manager can access POS and process sales</div>
+                    </div>
+                    <button onclick="openTestModal('manager-pos')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Assistant POS Access</div>
+                        <div class="test-description">Assistant/Cashier can access POS and process sales</div>
+                    </div>
+                    <button onclick="openTestModal('assistant-pos')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Cash Payment</div>
+                        <div class="test-description">Process sale with cash payment method</div>
+                    </div>
+                    <button onclick="openTestModal('pos')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox" style="border-color: var(--warning);"><i class="fas fa-clock" style="color: var(--warning);"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Card Payment (InstaPay)</div>
+                        <div class="test-description">Pending: Waiting for InstaPay registration and integration</div>
+                    </div>
+                    <span class="test-status pending">Pending</span>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">EFT Payment</div>
+                        <div class="test-description">Process sale with EFT payment method</div>
+                    </div>
+                    <button onclick="openTestModal('pos')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Sale Complete Modal</div>
+                        <div class="test-description">Modal appears after payment with Email/Print/Download options</div>
+                    </div>
+                    <button onclick="openTestModal('sale-complete')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Email Receipt (SA Standard)</div>
+                        <div class="test-description">Receipt email with VAT breakdown, line items, business details</div>
+                    </div>
+                    <button onclick="openTestModal('email-receipt')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Invoice & Receipt PDF</div>
+                        <div class="test-description">PDFs generated and downloaded correctly</div>
+                    </div>
+                    <button onclick="openTestModal('pos')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Print Receipt Button</div>
+                        <div class="test-description">Print button available in Sale Complete modal (printer integration deferred)</div>
+                    </div>
+                    <button onclick="openTestModal('sale-complete')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- UI/UX Tests -->
+        <div class="test-category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h3>
+                    <div class="category-icon"><i class="fas fa-paint-brush"></i></div>
+                    UI/UX & Theme Fixes
+                </h3>
+                <div class="category-stats">
+                    <span style="color: var(--success);"><i class="fas fa-check"></i> 4 Passed</span>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+            </div>
+            <div class="test-list">
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Shipping Banner Theme</div>
+                        <div class="test-description">Green banner changed to black/white theme</div>
+                    </div>
+                    <button onclick="openTestModal('shipping-banner')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Upload POP Button</div>
+                        <div class="test-description">Button changed to black theme styling</div>
+                    </div>
+                    <button onclick="openTestModal('dashboard')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Download/Print Invoice Button</div>
+                        <div class="test-description">Button changed to black theme styling</div>
+                    </div>
+                    <button onclick="openTestModal('dashboard')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Admin Panel Sidebar</div>
+                        <div class="test-description">Collapsible sidebar navigation functions correctly</div>
+                    </div>
+                    <button onclick="openTestModal('admin-panel')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Payment Approval -->
+        <div class="test-category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h3>
+                    <div class="category-icon"><i class="fas fa-credit-card"></i></div>
+                    Admin Payment Approval
+                </h3>
+                <div class="category-stats">
+                    <span style="color: var(--success);"><i class="fas fa-check"></i> 3 Passed</span>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+            </div>
+            <div class="test-list">
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Approve Payment Button</div>
+                        <div class="test-description">Admin can approve pending payments (fixed req.user.id)</div>
+                    </div>
+                    <button onclick="openTestModal('approve-payment')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Reject Payment Button</div>
+                        <div class="test-description">Admin can reject pending payments with reason</div>
+                    </div>
+                    <button onclick="openTestModal('approve-payment')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Modal Button Visibility</div>
+                        <div class="test-description">Correct buttons shown for MongoDB vs localStorage orders</div>
+                    </div>
+                    <button onclick="openTestModal('approve-payment')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Notifications -->
+        <div class="test-category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h3>
+                    <div class="category-icon"><i class="fas fa-envelope"></i></div>
+                    Email Notifications
+                </h3>
+                <div class="category-stats">
+                    <span style="color: var(--success);"><i class="fas fa-check"></i> 3 Passed</span>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+            </div>
+            <div class="test-list">
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Welcome Email</div>
+                        <div class="test-description">New users receive welcome email with login credentials</div>
+                    </div>
+                    <button onclick="openTestModal('register')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Membership Activation Email</div>
+                        <div class="test-description">Email sent when R300+ order payment approved</div>
+                    </div>
+                    <button onclick="openTestModal('approve-payment')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
+                </div>
+                <div class="test-item">
+                    <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
+                    <div class="test-content">
+                        <div class="test-title">Email From Address</div>
+                        <div class="test-description">All emails sent from hello@jig.cleva-ai.co.za</div>
+                    </div>
+                    <span class="test-status passed">Verified</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="window.print()">
+                <i class="fas fa-print"></i> Print Report
+            </button>
+            <a href="release-notes.html" class="btn btn-secondary">
+                <i class="fas fa-file-alt"></i> Release Notes
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>JIG Craft Cannabis UAT Test Checklist</p>
+        <p style="margin-top: 0.5rem;">Generated: <span id="generatedDate"></span></p>
+    </footer>
+
+    <!-- Test Instructions Modal -->
+    <div class="test-modal-overlay" id="testModal">
+        <div class="test-modal">
+            <div class="test-modal-header">
+                <h3><i class="fas fa-flask"></i> <span id="modalTitle">Test Instructions</span></h3>
+                <button class="test-modal-close" onclick="closeTestModal()">&times;</button>
+            </div>
+            <div class="test-modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+            <div class="test-modal-footer">
+                <button class="btn btn-secondary" onclick="closeTestModal()">Cancel</button>
+                <a id="modalGoBtn" href="#" class="btn btn-primary" target="_blank"><i class="fas fa-external-link-alt"></i> Go to Test</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generatedDate').textContent = new Date().toLocaleString();
+        document.getElementById('testDate').textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        // Accordion toggle function
+        function toggleCategory(header) {
+            const testList = header.nextElementSibling;
+            const isExpanded = header.classList.contains('expanded');
+
+            if (isExpanded) {
+                header.classList.remove('expanded');
+                testList.classList.remove('active');
+            } else {
+                header.classList.add('expanded');
+                testList.classList.add('active');
+            }
+        }
+
+        // Test configurations
+        const testConfigs = {
+            'admin-login': {
+                title: 'Admin Login Test',
+                url: 'login.html',
+                steps: [
+                    'Go to the login page',
+                    'Enter the admin credentials below',
+                    'Click "Sign In"',
+                    'Verify you are redirected to the Admin Dashboard'
+                ],
+                credentials: {
+                    email: 'admin@jig.cleva-ai.co.za',
+                    password: 'Admin123!'
+                }
+            },
+            'user-login': {
+                title: 'Regular User Login Test',
+                url: 'login.html',
+                steps: [
+                    'Go to the login page',
+                    'Enter the user credentials below',
+                    'Click "Sign In"',
+                    'Verify you are redirected to the Customer Dashboard'
+                ],
+                credentials: {
+                    email: 'user@jig.cleva-ai.co.za',
+                    password: 'User123!'
+                }
+            },
+            'pending-login': {
+                title: 'Pending Section 21 Patient Test',
+                url: 'login.html',
+                steps: [
+                    'Go to the login page',
+                    'Enter the pending patient credentials below',
+                    'Click "Sign In"',
+                    'Verify login succeeds - Section 21 status is "pending"'
+                ],
+                credentials: {
+                    email: 'pending@jig.cleva-ai.co.za',
+                    password: 'Pending123!'
+                }
+            },
+            'patient-login': {
+                title: 'Approved Section 21 Patient Test',
+                url: 'login.html',
+                steps: [
+                    'Go to the login page',
+                    'Enter the approved patient credentials below',
+                    'Click "Sign In"',
+                    'Verify login succeeds - Section 21 status is "approved"'
+                ],
+                credentials: {
+                    email: 'patient@jig.cleva-ai.co.za',
+                    password: 'Patient123!'
+                }
+            },
+            'manager-login': {
+                title: 'Sales Manager Login Test',
+                url: 'login.html',
+                steps: [
+                    'Go to the login page',
+                    'Enter the manager credentials below',
+                    'Click "Sign In"',
+                    'Verify redirected to admin dashboard with branch_manager role'
+                ],
+                credentials: {
+                    email: 'manager@jig.cleva-ai.co.za',
+                    password: 'Manager123!'
+                }
+            },
+            'assistant-login': {
+                title: 'Assistant/Cashier Login Test',
+                url: 'login.html',
+                steps: [
+                    'Go to the login page',
+                    'Enter the assistant credentials below',
+                    'Click "Sign In"',
+                    'Verify login succeeds with branch_assistant role and POS permissions'
+                ],
+                credentials: {
+                    email: 'assistant@jig.cleva-ai.co.za',
+                    password: 'Assistant123!'
+                }
+            },
+            'profile-autofill': {
+                title: 'Profile Auto-Populate Test',
+                url: 'login.html',
+                steps: [
+                    'Login with any user account',
+                    'Navigate to checkout or profile page',
+                    'Verify phone and address fields auto-populate from profile'
+                ],
+                credentials: {
+                    email: 'user@jig.cleva-ai.co.za',
+                    password: 'User123!'
+                }
+            },
+            'dashboard': {
+                title: 'Dashboard Test',
+                url: 'dashboard.html',
+                steps: [
+                    'Login with user credentials first',
+                    'Navigate to the dashboard',
+                    'Verify all sections load without errors',
+                    'Check Section 21 card shows greyed-out carousel'
+                ],
+                credentials: {
+                    email: 'user@jig.cleva-ai.co.za',
+                    password: 'User123!'
+                }
+            },
+            'section21-modal': {
+                title: 'Section 21 Medical Products Test',
+                url: 'dashboard.html',
+                steps: [
+                    'Login with user credentials',
+                    'Navigate to the dashboard',
+                    'Click on the Section 21 Medical Products card',
+                    'Verify a modal popup appears explaining medical access'
+                ],
+                credentials: {
+                    email: 'user@jig.cleva-ai.co.za',
+                    password: 'User123!'
+                }
+            },
+            'products': {
+                title: 'Products Page Test',
+                url: 'products.html',
+                steps: [
+                    'Go to the products page',
+                    'Use the search bar to search for a product',
+                    'Verify search returns results without errors',
+                    'Click on a product to view details'
+                ],
+                credentials: null
+            },
+            'admin-panel': {
+                title: 'Admin Panel Test',
+                url: 'admin.html',
+                steps: [
+                    'Login with admin credentials first',
+                    'Navigate to the admin panel',
+                    'Test the collapsible sidebar navigation',
+                    'Verify all tabs are accessible'
+                ],
+                credentials: {
+                    email: 'admin@jig.cleva-ai.co.za',
+                    password: 'Admin123!'
+                }
+            },
+            'pos': {
+                title: 'POS System Test',
+                url: 'pos.html',
+                steps: [
+                    'Login with admin credentials first',
+                    'Navigate to the POS system',
+                    'Add items to cart',
+                    'Process a sale with Cash or EFT payment'
+                ],
+                credentials: {
+                    email: 'admin@jig.cleva-ai.co.za',
+                    password: 'Admin123!'
+                }
+            },
+            'manager-pos': {
+                title: 'Manager POS Access Test',
+                url: 'pos.html',
+                steps: [
+                    'Login with manager credentials',
+                    'Navigate to the POS system',
+                    'Verify products load correctly',
+                    'Add item to cart and process sale'
+                ],
+                credentials: {
+                    email: 'manager@jig.cleva-ai.co.za',
+                    password: 'Manager123!'
+                }
+            },
+            'assistant-pos': {
+                title: 'Assistant POS Access Test',
+                url: 'pos.html',
+                steps: [
+                    'Login with assistant credentials',
+                    'Navigate to the POS system',
+                    'Verify products load correctly',
+                    'Add item to cart and process sale'
+                ],
+                credentials: {
+                    email: 'assistant@jig.cleva-ai.co.za',
+                    password: 'Assistant123!'
+                }
+            },
+            'sale-complete': {
+                title: 'Sale Complete Modal Test',
+                url: 'pos.html',
+                steps: [
+                    'Login and navigate to POS',
+                    'Add items to cart',
+                    'Process payment (Cash or EFT)',
+                    'Verify Sale Complete modal appears',
+                    'Check Email Receipt, Print Receipt, Download PDF buttons visible'
+                ],
+                credentials: {
+                    email: 'admin@jig.cleva-ai.co.za',
+                    password: 'Admin123!'
+                }
+            },
+            'email-receipt': {
+                title: 'Email Receipt (SA Standard) Test',
+                url: 'pos.html',
+                steps: [
+                    'Complete a sale in POS',
+                    'In Sale Complete modal, enter customer email',
+                    'Click Send button',
+                    'Check email inbox for receipt',
+                    'Verify receipt has: VAT number, line items, subtotal, VAT 15%, total'
+                ],
+                credentials: {
+                    email: 'admin@jig.cleva-ai.co.za',
+                    password: 'Admin123!'
+                }
+            },
+            'approve-payment': {
+                title: 'Approve Payment Test',
+                url: 'admin.html',
+                steps: [
+                    'Login with admin credentials',
+                    'Go to Admin Panel > Payments tab',
+                    'Find a pending payment order',
+                    'Click "Approve" and verify it updates successfully'
+                ],
+                credentials: {
+                    email: 'admin@jig.cleva-ai.co.za',
+                    password: 'Admin123!'
+                }
+            },
+            'register': {
+                title: 'Registration & Welcome Email Test',
+                url: 'register.html',
+                steps: [
+                    'Go to the registration page',
+                    'Fill in registration form with a new email',
+                    'Submit the form',
+                    'Check email inbox for welcome email with credentials'
+                ],
+                credentials: null
+            },
+            'shipping-banner': {
+                title: 'Shipping Banner Theme Test',
+                url: 'index.html',
+                steps: [
+                    'Go to the homepage',
+                    'Look at the shipping banner at the top',
+                    'Verify it uses black/white theme (not green)'
+                ],
+                credentials: null
+            }
+        };
+
+        function openTestModal(testId) {
+            const config = testConfigs[testId];
+            if (!config) return;
+
+            document.getElementById('modalTitle').textContent = config.title;
+
+            let bodyHtml = '';
+
+            // Steps
+            config.steps.forEach((step, i) => {
+                bodyHtml += `
+                    <div class="test-step">
+                        <div class="step-number">${i + 1}</div>
+                        <div class="step-content">${step}</div>
+                    </div>
+                `;
+            });
+
+            // Credentials
+            if (config.credentials) {
+                bodyHtml += `
+                    <div class="credentials-box">
+                        <p><strong>Test Credentials:</strong></p>
+                        <p>Email: <code>${config.credentials.email}</code></p>
+                        <p>Password: <code>${config.credentials.password}</code></p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('modalBody').innerHTML = bodyHtml;
+            document.getElementById('modalGoBtn').href = config.url;
+            document.getElementById('testModal').classList.add('active');
+        }
+
+        function closeTestModal() {
+            document.getElementById('testModal').classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('testModal').addEventListener('click', function(e) {
+            if (e.target === this) closeTestModal();
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeTestModal();
+        });
+    </script>
+</body>
+</html>

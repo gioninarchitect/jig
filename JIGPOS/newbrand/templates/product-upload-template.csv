@@ -1,0 +1,10 @@
+name,sku,description,price,costPrice,category,subcategory,track,tags,quantity,lowStockThreshold
+"Example Indoor Flower","DBC-IND-001","Premium indoor cannabis flower",120,60,flower,indoor-premium,lifestyle,"indoor,flower,cannabis,premium",50,10
+"Example Greendoor Flower","DBC-GRN-001","Quality greenhouse cannabis",80,40,flower,greenhouse,lifestyle,"greendoor,flower,cannabis,budget",100,15
+"Example Pre-roll Indoor","DBC-PR-IND-001","Indoor pre-rolled joint",40,20,flower,indoor-preroll,lifestyle,"indoor,preroll,cannabis",30,10
+"Example Pre-roll Greendoor","DBC-PR-GRN-001","Greendoor pre-rolled joint",25,12,flower,greenhouse-preroll,lifestyle,"greendoor,preroll,cannabis",50,15
+"Example 3g Bag Indoor","DBC-3G-IND-001","3 gram sealed bag - Indoor",300,150,flower,indoor-3g,lifestyle,"indoor,3g,sealed,cannabis",20,5
+"Example 5g Bag Indoor","DBC-5G-IND-001","5 gram sealed bag - Indoor",480,240,flower,indoor-5g,lifestyle,"indoor,5g,sealed,cannabis",15,5
+"Example 3g Bag Greendoor","DBC-3G-GRN-001","3 gram sealed bag - Greendoor",200,100,flower,greenhouse-3g,lifestyle,"greendoor,3g,sealed,cannabis",25,5
+"Example 5g Bag Greendoor","DBC-5G-GRN-001","5 gram sealed bag - Greendoor",320,160,flower,greenhouse-5g,lifestyle,"greendoor,5g,sealed,cannabis",20,5
+"Example Accessory","DBC-ACC-001","Cannabis accessory item",150,75,accessories,grinders,lifestyle,"accessories,grinder",40,10

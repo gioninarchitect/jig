@@ -1,0 +1,214 @@
+{
+  "name": "JIG - Restock Reminders (Daily)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "cron-daily-8am",
+      "name": "Daily 8am Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://jig.cleva-ai.co.za/api/v1/n8n/data/restock-predictions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "={{$env.N8N_API_KEY}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch-restock",
+      "name": "Fetch Restock Predictions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "filter-due-soon",
+              "leftValue": "={{ $json.daysUntilRestock }}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            },
+            {
+              "id": "filter-positive",
+              "leftValue": "={{ $json.daysUntilRestock }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "filter-due-3-days",
+      "name": "Due Within 3 Days?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "set-client-name",
+              "name": "clientName",
+              "value": "={{ $json.clientName }}",
+              "type": "string"
+            },
+            {
+              "id": "set-product-name",
+              "name": "productName",
+              "value": "={{ $json.productName }}",
+              "type": "string"
+            },
+            {
+              "id": "set-days-until",
+              "name": "daysUntilRestock",
+              "value": "={{ $json.daysUntilRestock }}",
+              "type": "number"
+            },
+            {
+              "id": "set-predicted-date",
+              "name": "predictedDate",
+              "value": "={{ $json.predictedRestockDate }}",
+              "type": "string"
+            },
+            {
+              "id": "set-last-qty",
+              "name": "lastOrderQuantity",
+              "value": "={{ $json.lastOrderQuantity }}",
+              "type": "number"
+            },
+            {
+              "id": "set-confidence",
+              "name": "confidence",
+              "value": "={{ $json.confidence }}",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "id": "set-restock-data",
+      "name": "Format Restock Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$env.TELEGRAM_CHAT_ID}}",
+        "text": "=**Restock Reminder**\n\nClient: {{ $json.clientName }}\nProduct: {{ $json.productName }}\nPredicted Restock: {{ $json.predictedDate }}\nDays Until Due: {{ $json.daysUntilRestock }}\nLast Order Qty: {{ $json.lastOrderQuantity }}\nConfidence: {{ Math.round($json.confidence * 100) }}%\n\nReach out to this client about reordering.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-restock",
+      "name": "Send Restock Reminder",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1120, 200],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIALS_ID",
+          "name": "JIG Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 8am Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Restock Predictions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Restock Predictions": {
+      "main": [
+        [
+          {
+            "node": "Due Within 3 Days?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Due Within 3 Days?": {
+      "main": [
+        [
+          {
+            "node": "Format Restock Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Format Restock Data": {
+      "main": [
+        [
+          {
+            "node": "Send Restock Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "JIG"
+    },
+    {
+      "name": "Restock"
+    }
+  ],
+  "triggerCount": 1,
+  "versionId": "1"
+}

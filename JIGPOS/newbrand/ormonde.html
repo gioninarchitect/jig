@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ormonde Collection Point - JIG Craft Cannabis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--green-deep);
+            color: var(--cream);
+            min-height: 100vh;
+        }
+
+        /* Hero Section with Background */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.4) 0%, rgba(0, 0, 0, 0.95) 100%),
+                        url('images/dispensary-bg.jpg') center/cover no-repeat;
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(217, 119, 6, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Back Link */
+        .back-link {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: var(--cream);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            opacity: 0.8;
+            transition: opacity 0.3s, color 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            color: var(--gold);
+        }
+
+        /* Login Card */
+        .login-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%);
+            border-radius: 24px;
+            padding: 48px 40px;
+            border: 1px solid rgba(217, 119, 6, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                        0 0 100px rgba(124, 58, 237, 0.2);
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--green), var(--gold));
+            border-radius: 24px 24px 0 0;
+        }
+
+        /* Logo and Branding */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .brand-header img {
+            width: 180px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .dispensary-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .dispensary-tagline {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-style: italic;
+            color: var(--cream);
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        /* OTP Flow States */
+        .otp-step {
+            display: none;
+        }
+
+        .otp-step.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--cream);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            background: rgba(244, 240, 230, 0.1);
+            border: 1px solid rgba(244, 240, 230, 0.2);
+            border-radius: 12px;
+            color: var(--cream);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.15);
+            background: rgba(244, 240, 230, 0.15);
+        }
+
+        input::placeholder {
+            color: rgba(244, 240, 230, 0.5);
+        }
+
+        /* OTP Input */
+        .otp-inputs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .otp-inputs input {
+            width: 56px;
+            height: 64px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            border-radius: 12px;
+            padding: 0;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            color: var(--cream);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+            background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(244, 240, 230, 0.3);
+            color: var(--cream);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(244, 240, 230, 0.1);
+            box-shadow: none;
+        }
+
+        /* Messages */
+        .message {
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .message.error {
+            background: rgba(220, 38, 38, 0.2);
+            border: 1px solid rgba(220, 38, 38, 0.4);
+            color: #ff8a80;
+        }
+
+        .message.success {
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            color: var(--green-light);
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        /* Timer */
+        .resend-timer {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(244, 240, 230, 0.7);
+            font-size: 14px;
+        }
+
+        .resend-timer a {
+            color: var(--gold);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .resend-timer a:hover {
+            text-decoration: underline;
+        }
+
+        .resend-timer a.disabled {
+            color: rgba(244, 240, 230, 0.5);
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+        /* Dev Mode Banner */
+        .dev-mode-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            color: var(--white);
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dev-mode-banner.show {
+            display: block;
+        }
+
+        /* Quick Login for Dev */
+        .dev-quick-login {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(244, 240, 230, 0.1);
+            display: none;
+        }
+
+        .dev-quick-login.show {
+            display: block;
+        }
+
+        .dev-quick-login h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            color: rgba(244, 240, 230, 0.7);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .role-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .role-btn {
+            padding: 10px;
+            background: rgba(244, 240, 230, 0.05);
+            border: 1px solid rgba(244, 240, 230, 0.15);
+            border-radius: 8px;
+            color: var(--cream);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .role-btn:hover {
+            background: rgba(124, 58, 237, 0.3);
+            border-color: var(--purple);
+        }
+
+        .role-btn i {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        /* Section 21 Badge */
+        .s21-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(217, 119, 6, 0.15);
+            border: 1px solid rgba(217, 119, 6, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 12px;
+        }
+
+        .s21-badge i {
+            font-size: 14px;
+        }
+
+        /* Section 21 Status Cards */
+        .s21-status-card {
+            background: rgba(244, 240, 230, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .s21-status-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 36px;
+        }
+
+        .s21-status-icon.approved {
+            background: rgba(124, 58, 237, 0.3);
+            color: var(--green-light);
+        }
+
+        .s21-status-icon.pending {
+            background: rgba(217, 119, 6, 0.2);
+            color: var(--gold);
+        }
+
+        .s21-status-icon.expired {
+            background: rgba(220, 38, 38, 0.2);
+            color: var(--red);
+        }
+
+        .s21-status-icon.none {
+            background: rgba(244, 240, 230, 0.1);
+            color: rgba(244, 240, 230, 0.5);
+        }
+
+        .s21-status-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .s21-status-message {
+            font-family: 'Oswald', sans-serif;
+            color: rgba(244, 240, 230, 0.8);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .s21-expiry {
+            font-size: 12px;
+            color: rgba(244, 240, 230, 0.6);
+            margin-top: 12px;
+        }
+
+        .s21-expiry strong {
+            color: var(--cream);
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(124, 58, 237, 0.15);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .info-box h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            color: var(--green-light);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-box li {
+            font-size: 13px;
+            color: rgba(244, 240, 230, 0.7);
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .info-box li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--purple);
+            font-size: 10px;
+        }
+
+        .info-box p {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        /* Collection Queue */
+        .collection-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .collection-stat {
+            background: rgba(244, 240, 230, 0.05);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .collection-stat-value {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .collection-stat-label {
+            font-size: 11px;
+            color: rgba(244, 240, 230, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 32px 24px;
+            }
+
+            .dispensary-name {
+                font-size: 32px;
+            }
+
+            .otp-inputs input {
+                width: 48px;
+                height: 56px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dev Mode Banner -->
+    <div class="dev-mode-banner" id="devBanner">
+        DEV MODE - Using test email: florisolivier7@gmail.com
+    </div>
+
+    <div class="hero-section">
+        <a href="locations.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Locations
+        </a>
+
+        <div class="login-container">
+            <div class="login-card">
+                <div class="brand-header">
+                    <img src="/images/jig-logo-nobg.png" alt="JIG Craft Cannabis" class="brand-logo" onerror="this.style.display='none'">
+                    <h1 class="dispensary-name">Ormonde</h1>
+                    <p class="dispensary-tagline">Section 21 Collection Point</p>
+                    <div class="s21-badge">
+                        <i class="fas fa-prescription-bottle-medical"></i>
+                        Licensed Medical Cannabis Collection Point
+                    </div>
+                </div>
+
+                <!-- Step 1: Email Input -->
+                <div class="otp-step active" id="step-email">
+                    <div class="message error" id="emailError"></div>
+                    <div class="message success" id="emailSuccess"></div>
+
+                    <form onsubmit="requestOTP(event)">
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="emailInput" required placeholder="you@example.com" autocomplete="email">
+                        </div>
+                        <button type="submit" class="btn-primary" id="requestOTPBtn">
+                            <i class="fas fa-paper-plane"></i> Send Login Code
+                        </button>
+                    </form>
+
+                    <!-- Dev Mode Quick Login -->
+                    <div class="dev-quick-login" id="devQuickLogin">
+                        <h4>Developer Mode Active</h4>
+                        <p style="color: rgba(244, 240, 230, 0.7); font-size: 13px; margin-bottom: 12px;">
+                            Login as: <strong style="color: var(--gold);">florisolivier7@gmail.com</strong>
+                        </p>
+                        <button class="role-btn" onclick="devLogin()" style="width: 100%;">
+                            <i class="fas fa-code"></i>
+                            Developer Login (Owner Access)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: OTP Verification -->
+                <div class="otp-step" id="step-otp">
+                    <div class="message error" id="otpError"></div>
+                    <div class="message success" id="otpSuccess"></div>
+
+                    <p style="text-align: center; color: rgba(244, 240, 230, 0.7); margin-bottom: 10px;">
+                        Enter the 6-digit code sent to
+                    </p>
+                    <p style="text-align: center; color: var(--cream); font-weight: 600; margin-bottom: 20px;" id="displayEmail"></p>
+
+                    <form onsubmit="verifyOTP(event)">
+                        <div class="otp-inputs" id="otpInputs">
+                            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                            <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                        </div>
+                        <button type="submit" class="btn-primary" id="verifyOTPBtn">
+                            <i class="fas fa-check"></i> Verify & Login
+                        </button>
+                    </form>
+
+                    <div class="resend-timer">
+                        <span id="timerText">Resend code in <strong id="countdown">60</strong>s</span>
+                        <a id="resendLink" class="disabled" onclick="resendOTP()">Resend Code</a>
+                    </div>
+
+                    <button onclick="goBackToEmail()" class="btn-primary btn-secondary" style="margin-top: 15px;">
+                        <i class="fas fa-arrow-left"></i> Change Email
+                    </button>
+                </div>
+
+                <!-- Step 3: Section 21 Status Check -->
+                <div class="otp-step" id="step-s21-status">
+                    <div class="s21-status-card" id="s21StatusCard">
+                        <!-- Dynamic content inserted by JS -->
+                    </div>
+
+                    <!-- Shown when user has approved S21 -->
+                    <div id="s21ApprovedActions" style="display: none;">
+                        <button class="btn-primary" onclick="goToCollection()">
+                            <i class="fas fa-shopping-bag"></i> View My Orders
+                        </button>
+                        <button class="btn-primary btn-secondary" style="margin-top: 10px;" onclick="goToCatalogue()">
+                            <i class="fas fa-cannabis"></i> Browse Products
+                        </button>
+                    </div>
+
+                    <!-- Shown when user needs to apply for S21 -->
+                    <div id="s21ApplyActions" style="display: none;">
+                        <button class="btn-primary" onclick="goToS21Application()">
+                            <i class="fas fa-file-medical"></i> Apply for Section 21
+                        </button>
+                        <div class="info-box">
+                            <h4><i class="fas fa-info-circle"></i> What is Section 21?</h4>
+                            <ul>
+                                <li>Legal framework for medical cannabis in South Africa</li>
+                                <li>Requires a doctor's prescription</li>
+                                <li>Allows collection at licensed dispensaries</li>
+                                <li>Documents valid for 6 months</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Shown when user has pending S21 application -->
+                    <div id="s21PendingActions" style="display: none;">
+                        <div class="info-box">
+                            <h4><i class="fas fa-clock"></i> Application Under Review</h4>
+                            <p style="color: rgba(244, 240, 230, 0.7); font-size: 13px; margin: 0;">
+                                Our team is reviewing your Section 21 documents. You'll receive an email once approved. This usually takes 24-48 hours.
+                            </p>
+                        </div>
+                        <button class="btn-primary btn-secondary" style="margin-top: 15px;" onclick="goToDashboard()">
+                            <i class="fas fa-home"></i> Go to Dashboard
+                        </button>
+                    </div>
+
+                    <!-- Shown when S21 has expired -->
+                    <div id="s21ExpiredActions" style="display: none;">
+                        <button class="btn-primary" onclick="goToS21Renewal()">
+                            <i class="fas fa-redo"></i> Renew My Prescription
+                        </button>
+                        <div class="info-box">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Prescription Expired</h4>
+                            <p style="color: rgba(244, 240, 230, 0.7); font-size: 13px; margin: 0;">
+                                Your Section 21 prescription has expired. Please upload a new prescription from your doctor to continue accessing medical cannabis.
+                            </p>
+                        </div>
+                    </div>
+
+                    <button onclick="logout()" class="btn-primary btn-secondary" style="margin-top: 20px;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/frontend/config.js"></script>
+    <script src="/frontend/jig-utils.js"></script>
+    <script src="/frontend/jig-auth.js"></script>
+    <script>
+        const DEV_TEST_EMAIL = 'florisolivier7@gmail.com';
+
+        let currentEmail = '';
+        let countdownTimer = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            if (DEV_MODE) {
+                document.getElementById('devBanner').classList.add('show');
+                document.getElementById('devQuickLogin').classList.add('show');
+                document.getElementById('emailInput').value = DEV_TEST_EMAIL;
+            }
+
+            // Setup OTP input navigation
+            setupOTPInputs();
+
+            // Check if already logged in
+            const token = sessionStorage.getItem('token');
+            if (token) {
+                redirectToDashboard();
+            }
+        });
+
+        function setupOTPInputs() {
+            const inputs = document.querySelectorAll('#otpInputs input');
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', (e) => {
+                    const value = e.target.value;
+                    if (value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
+
+                input.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const pasteData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+                    pasteData.split('').forEach((char, i) => {
+                        if (inputs[i]) inputs[i].value = char;
+                    });
+                    if (pasteData.length === 6) {
+                        inputs[5].focus();
+                    }
+                });
+            });
+        }
+
+        async function requestOTP(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value.trim();
+            const btn = document.getElementById('requestOTPBtn');
+            const errorDiv = document.getElementById('emailError');
+            const successDiv = document.getElementById('emailSuccess');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            errorDiv.classList.remove('show');
+            successDiv.classList.remove('show');
+
+            try {
+                const response = await fetch(`${API_URL}/auth/otp/request`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, purpose: 'login' })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentEmail = email;
+                    successDiv.textContent = 'Code sent! Check your email.';
+                    successDiv.classList.add('show');
+
+                    setTimeout(() => {
+                        showOTPStep();
+                    }, 1000);
+                } else {
+                    errorDiv.textContent = data.message || 'Failed to send code';
+                    errorDiv.classList.add('show');
+                }
+            } catch (error) {
+                console.error('OTP request error:', error);
+                errorDiv.textContent = 'Connection error. Please try again.';
+                errorDiv.classList.add('show');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Login Code';
+            }
+        }
+
+        function showOTPStep() {
+            document.getElementById('step-email').classList.remove('active');
+            document.getElementById('step-otp').classList.add('active');
+            document.getElementById('displayEmail').textContent = currentEmail;
+
+            // Clear OTP inputs
+            document.querySelectorAll('#otpInputs input').forEach(input => input.value = '');
+            document.querySelectorAll('#otpInputs input')[0].focus();
+
+            // Start countdown
+            startCountdown(60);
+        }
+
+        function goBackToEmail() {
+            document.getElementById('step-otp').classList.remove('active');
+            document.getElementById('step-email').classList.add('active');
+            clearInterval(countdownTimer);
+        }
+
+        function startCountdown(seconds) {
+            let remaining = seconds;
+            const countdownEl = document.getElementById('countdown');
+            const timerText = document.getElementById('timerText');
+            const resendLink = document.getElementById('resendLink');
+
+            timerText.style.display = 'inline';
+            resendLink.style.display = 'none';
+            resendLink.classList.add('disabled');
+
+            clearInterval(countdownTimer);
+            countdownTimer = setInterval(() => {
+                remaining--;
+                countdownEl.textContent = remaining;
+
+                if (remaining <= 0) {
+                    clearInterval(countdownTimer);
+                    timerText.style.display = 'none';
+                    resendLink.style.display = 'inline';
+                    resendLink.classList.remove('disabled');
+                }
+            }, 1000);
+        }
+
+        async function resendOTP() {
+            const resendLink = document.getElementById('resendLink');
+            if (resendLink.classList.contains('disabled')) return;
+
+            resendLink.textContent = 'Sending...';
+            resendLink.classList.add('disabled');
+
+            try {
+                const response = await fetch(`${API_URL}/auth/otp/resend`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentEmail, purpose: 'login' })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('otpSuccess').textContent = 'New code sent!';
+                    document.getElementById('otpSuccess').classList.add('show');
+                    startCountdown(60);
+                } else {
+                    document.getElementById('otpError').textContent = data.message;
+                    document.getElementById('otpError').classList.add('show');
+                }
+            } catch (error) {
+                document.getElementById('otpError').textContent = 'Failed to resend code';
+                document.getElementById('otpError').classList.add('show');
+            }
+
+            resendLink.textContent = 'Resend Code';
+        }
+
+        async function verifyOTP(e) {
+            e.preventDefault();
+            const inputs = document.querySelectorAll('#otpInputs input');
+            const otp = Array.from(inputs).map(i => i.value).join('');
+
+            if (otp.length !== 6) {
+                document.getElementById('otpError').textContent = 'Please enter all 6 digits';
+                document.getElementById('otpError').classList.add('show');
+                return;
+            }
+
+            const btn = document.getElementById('verifyOTPBtn');
+            const errorDiv = document.getElementById('otpError');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+            errorDiv.classList.remove('show');
+
+            try {
+                const response = await fetch(`${API_URL}/auth/otp/verify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentEmail, otpCode: otp })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Store auth data
+                    sessionStorage.setItem('token', data.token);
+                    sessionStorage.setItem('user', JSON.stringify(data.user));
+                    sessionStorage.setItem('currentBranch', 'ormonde');
+
+                    // Check user role - staff/admin go straight to dashboard
+                    const staffRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant'];
+                    if (staffRoles.includes(data.user.role)) {
+                        redirectToDashboard(data.user.role);
+                    } else {
+                        // Patient/user - check Section 21 status
+                        await checkSection21Status(data.token);
+                    }
+                } else {
+                    errorDiv.textContent = data.message || 'Invalid code';
+                    errorDiv.classList.add('show');
+                    // Clear inputs on error
+                    inputs.forEach(i => i.value = '');
+                    inputs[0].focus();
+                }
+            } catch (error) {
+                console.error('OTP verify error:', error);
+                errorDiv.textContent = 'Connection error. Please try again.';
+                errorDiv.classList.add('show');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check"></i> Verify & Login';
+            }
+        }
+
+        function redirectToDashboard(role) {
+            // For Ormonde, redirect to the appropriate dashboard based on role
+            // Owner goes to main admin, others go to store-specific views
+            const roleRedirects = {
+                'owner': 'admin.html',
+                'admin': 'admin.html',
+                'branch_manager': 'pos.html',
+                'branch_assistant': 'pos.html',
+                'user': 'dashboard.html'
+            };
+
+            const redirectUrl = roleRedirects[role] || 'dashboard.html';
+
+            // Add branch context to URL
+            const separator = redirectUrl.includes('?') ? '&' : '?';
+            window.location.href = `${redirectUrl}${separator}branch=ormonde`;
+        }
+
+        // Section 21 Status Check
+        async function checkSection21Status(token) {
+            try {
+                const response = await fetch(`${API_URL}/section21/my-status`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                // Show Section 21 status step
+                document.getElementById('step-otp').classList.remove('active');
+                document.getElementById('step-s21-status').classList.add('active');
+
+                renderS21Status(data);
+            } catch (error) {
+                console.error('Section 21 status check error:', error);
+                // If endpoint fails, assume no S21 document
+                document.getElementById('step-otp').classList.remove('active');
+                document.getElementById('step-s21-status').classList.add('active');
+                renderS21Status({ hasDocument: false });
+            }
+        }
+
+        function renderS21Status(data) {
+            const statusCard = document.getElementById('s21StatusCard');
+            const approvedActions = document.getElementById('s21ApprovedActions');
+            const applyActions = document.getElementById('s21ApplyActions');
+            const pendingActions = document.getElementById('s21PendingActions');
+            const expiredActions = document.getElementById('s21ExpiredActions');
+
+            // Hide all action sections first
+            approvedActions.style.display = 'none';
+            applyActions.style.display = 'none';
+            pendingActions.style.display = 'none';
+            expiredActions.style.display = 'none';
+
+            if (!data.hasDocument) {
+                // No Section 21 document on file
+                statusCard.innerHTML = `
+                    <div class="s21-status-icon none">
+                        <i class="fas fa-file-medical-alt"></i>
+                    </div>
+                    <div class="s21-status-title">No Prescription on File</div>
+                    <div class="s21-status-message">
+                        To access medical cannabis at this collection point, you need a valid Section 21 prescription from a registered doctor.
+                    </div>
+                `;
+                applyActions.style.display = 'block';
+            } else if (data.status === 'approved' && !data.isExpired) {
+                // Approved and valid
+                statusCard.innerHTML = `
+                    <div class="s21-status-icon approved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="s21-status-title">Prescription Active</div>
+                    <div class="s21-status-message">
+                        Welcome back! Your Section 21 prescription is valid. You can collect your medical cannabis at this location.
+                    </div>
+                    <div class="s21-expiry">
+                        Valid until: <strong>${formatDate(data.expiryDate)}</strong>
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-stat">
+                            <div class="collection-stat-value">${data.pendingOrders || 0}</div>
+                            <div class="collection-stat-label">Ready for Collection</div>
+                        </div>
+                        <div class="collection-stat">
+                            <div class="collection-stat-value">${data.monthlyUsage || '0g'}</div>
+                            <div class="collection-stat-label">This Month</div>
+                        </div>
+                    </div>
+                `;
+                approvedActions.style.display = 'block';
+            } else if (data.status === 'pending') {
+                // Pending review
+                statusCard.innerHTML = `
+                    <div class="s21-status-icon pending">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="s21-status-title">Application Pending</div>
+                    <div class="s21-status-message">
+                        Your Section 21 documents are being reviewed. We'll notify you by email once approved.
+                    </div>
+                    <div class="s21-expiry">
+                        Submitted: <strong>${formatDate(data.submittedDate)}</strong>
+                    </div>
+                `;
+                pendingActions.style.display = 'block';
+            } else if (data.status === 'rejected') {
+                // Rejected
+                statusCard.innerHTML = `
+                    <div class="s21-status-icon expired">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="s21-status-title">Application Not Approved</div>
+                    <div class="s21-status-message">
+                        ${data.rejectionReason || 'Your Section 21 application could not be approved. Please contact support for more information.'}
+                    </div>
+                `;
+                applyActions.style.display = 'block';
+            } else if (data.isExpired) {
+                // Expired
+                statusCard.innerHTML = `
+                    <div class="s21-status-icon expired">
+                        <i class="fas fa-calendar-times"></i>
+                    </div>
+                    <div class="s21-status-title">Prescription Expired</div>
+                    <div class="s21-status-message">
+                        Your Section 21 prescription expired on ${formatDate(data.expiryDate)}. Please upload a new prescription to continue.
+                    </div>
+                `;
+                expiredActions.style.display = 'block';
+            }
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-ZA', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        function goToCollection() {
+            window.location.href = 'dashboard.html?branch=ormonde&tab=orders';
+        }
+
+        function goToCatalogue() {
+            window.location.href = 'products.html?category=section21&branch=ormonde';
+        }
+
+        function goToS21Application() {
+            window.location.href = 'section21-apply.html?branch=ormonde';
+        }
+
+        function goToS21Renewal() {
+            window.location.href = 'section21-apply.html?branch=ormonde&renew=true';
+        }
+
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?branch=ormonde';
+        }
+
+        function logout() {
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
+            sessionStorage.removeItem('currentBranch');
+            window.location.reload();
+        }
+
+        // Dev mode quick login - Single developer account
+        async function devLogin() {
+            if (!DEV_MODE) return;
+
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: DEV_TEST_EMAIL,
+                        password: 'DevMode123!'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    sessionStorage.setItem('token', data.token);
+                    sessionStorage.setItem('user', JSON.stringify(data.user));
+                    sessionStorage.setItem('currentBranch', 'ormonde');
+                    redirectToDashboard(data.user.role);
+                } else {
+                    // If password login fails, use OTP flow
+                    document.getElementById('emailInput').value = DEV_TEST_EMAIL;
+                    requestOTP({ preventDefault: () => {} });
+                }
+            } catch (error) {
+                console.error('Dev login error:', error);
+                // Fall back to OTP flow
+                document.getElementById('emailInput').value = DEV_TEST_EMAIL;
+            }
+        }
+    </script>
+</body>
+</html>

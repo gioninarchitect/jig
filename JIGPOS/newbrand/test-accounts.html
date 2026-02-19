@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Accounts - JIG Craft Cannabis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 16px;
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .header .branch-badge {
+            display: inline-block;
+            background: var(--green);
+            color: var(--cream);
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Info Card */
+        .info-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--gold);
+        }
+
+        .info-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 18px;
+            color: var(--purple);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-card p {
+            color: var(--green-dark);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .info-card code {
+            background: var(--black);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 13px;
+            color: var(--purple);
+        }
+
+        /* Section Title */
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--gold);
+        }
+
+        /* Account Cards */
+        .accounts-grid {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .account-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .account-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            border-color: var(--gold);
+        }
+
+        .account-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--white);
+        }
+
+        .account-icon.customer { background: linear-gradient(135deg, #6B7280, #4B5563); }
+        .account-icon.patient { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+        .account-icon.admin { background: linear-gradient(135deg, var(--red), #8B2520); }
+        .account-icon.owner { background: linear-gradient(135deg, var(--gold), #B8941F); }
+        .account-icon.inventory { background: linear-gradient(135deg, #8B5CF6, #6D28D9); }
+        .account-icon.staff { background: linear-gradient(135deg, var(--green), var(--green-dark)); }
+        .account-icon.packer { background: linear-gradient(135deg, #F59E0B, #D97706); }
+        .account-icon.dispatch { background: linear-gradient(135deg, #10B981, #059669); }
+
+        .account-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .account-info .email {
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 13px;
+            color: var(--purple);
+            background: var(--black);
+            padding: 4px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .account-info .description {
+            font-size: 12px;
+            color: #6B7280;
+            margin-top: 6px;
+        }
+
+        .account-dashboard {
+            text-align: right;
+        }
+
+        .account-dashboard .label {
+            font-size: 10px;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .account-dashboard .page {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--purple);
+            background: rgba(124, 58, 237, 0.1);
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--green);
+            color: var(--cream);
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .quick-link:hover {
+            background: var(--green-dark);
+            transform: translateY(-2px);
+        }
+
+        .quick-link i {
+            font-size: 18px;
+            color: var(--gold);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .footer p {
+            font-size: 12px;
+            color: var(--purple);
+            opacity: 0.7;
+        }
+
+        .footer .tagline {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            color: var(--gold);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Accordion Styles */
+        .accordion {
+            margin-bottom: 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .accordion-header {
+            background: var(--white);
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: none;
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--gold);
+        }
+
+        .accordion-header:hover {
+            background: rgba(124, 58, 237, 0.05);
+        }
+
+        .accordion-header.active {
+            background: var(--green);
+            border-left-color: var(--gold);
+        }
+
+        .accordion-header.active .accordion-title {
+            color: var(--cream);
+        }
+
+        .accordion-header.active .accordion-title i {
+            color: var(--gold);
+        }
+
+        .accordion-header.active .accordion-icon {
+            color: var(--gold);
+            transform: rotate(180deg);
+        }
+
+        .accordion-header.active .accordion-count {
+            background: rgba(244, 240, 230, 0.2);
+            color: var(--cream);
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .accordion-title i {
+            font-size: 22px;
+            color: var(--gold);
+            width: 30px;
+            text-align: center;
+        }
+
+        .accordion-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .accordion-count {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--purple);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .accordion-icon {
+            color: var(--purple);
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: var(--black);
+        }
+
+        .accordion-content.open {
+            max-height: 1000px;
+        }
+
+        .accordion-body {
+            padding: 20px;
+        }
+
+        .accordion-body .accounts-grid {
+            margin-bottom: 0;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: #0A0A0A;
+                padding: 20px;
+            }
+            .quick-links {
+                display: none;
+            }
+            .account-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .accordion-content {
+                max-height: none !important;
+            }
+            .accordion-header {
+                background: var(--green) !important;
+            }
+            .accordion-header .accordion-title {
+                color: var(--cream) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" class="logo">
+            <h1>Test Accounts</h1>
+            <div class="subtitle">System Testing Guide</div>
+            <div class="branch-badge">
+                <i class="fas fa-map-marker-alt"></i> Ormonde Branch Launch
+            </div>
+        </div>
+
+        <!-- OTP Info -->
+        <div class="info-card">
+            <h3><i class="fas fa-info-circle"></i> Authentication</h3>
+            <p>
+                All accounts use <strong>OTP (One-Time Password)</strong> authentication.
+                Enter the email address on the login page to receive a 6-digit code.
+                Staff should use <code>ormonde.html</code> for branch-specific login.
+            </p>
+        </div>
+
+        <!-- Customer Accounts Accordion -->
+        <div class="accordion">
+            <div class="accordion-header active" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-users"></i>
+                    Customer Accounts
+                </div>
+                <div class="accordion-meta">
+                    <span class="accordion-count">2 accounts</span>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+            </div>
+            <div class="accordion-content open">
+                <div class="accordion-body">
+                    <div class="accounts-grid">
+                        <div class="account-card">
+                            <div class="account-icon customer">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="account-info">
+                                <h4>Customer</h4>
+                                <div class="email">customer@jig.cleva-ai.co.za</div>
+                                <div class="description">Standard customer account for e-commerce testing</div>
+                            </div>
+                            <div class="account-dashboard">
+                                <div class="label">Dashboard</div>
+                                <div class="page">dashboard.html</div>
+                            </div>
+                        </div>
+
+                        <div class="account-card">
+                            <div class="account-icon patient">
+                                <i class="fas fa-prescription"></i>
+                            </div>
+                            <div class="account-info">
+                                <h4>Patient</h4>
+                                <div class="email">patient@jig.cleva-ai.co.za</div>
+                                <div class="description">Medical patient with Section 21 access</div>
+                            </div>
+                            <div class="account-dashboard">
+                                <div class="label">Dashboard</div>
+                                <div class="page">dashboard.html</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Management Accounts Accordion -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-crown"></i>
+                    Management Accounts
+                </div>
+                <div class="accordion-meta">
+                    <span class="accordion-count">3 accounts</span>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="accounts-grid">
+                        <div class="account-card">
+                            <div class="account-icon owner">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="account-info">
+                                <h4>Owner</h4>
+                                <div class="email">owner@jig.cleva-ai.co.za</div>
+                                <div class="description">Full system access, PO approvals, reports</div>
+                            </div>
+                            <div class="account-dashboard">
+                                <div class="label">Dashboard</div>
+                                <div class="page">owner-dashboard.html</div>
+                            </div>
+                        </div>
+
+                        <div class="account-card">
+                            <div class="account-icon admin">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div class="account-info">
+                                <h4>Admin</h4>
+                                <div class="email">admin@jig.cleva-ai.co.za</div>
+                                <div class="description">User management, payments, orders, inventory</div>
+                            </div>
+                            <div class="account-dashboard">
+                                <div class="label">Dashboard</div>
+                                <div class="page">admin.html</div>
+                            </div>
+                        </div>
+
+                        <div class="account-card">
+                            <div class="account-icon inventory">
+                                <i class="fas fa-boxes-stacked"></i>
+                            </div>
+                            <div class="account-info">
+                                <h4>Inventory Manager</h4>
+                                <div class="email">inventory@jig.cleva-ai.co.za</div>
+                                <div class="description">Stock control, batches, purchase orders</div>
+                            </div>
+                            <div class="account-dashboard">
+                                <div class="label">Dashboard</div>
+                                <div class="page">inventory-manager-dashboard.html</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ormonde Staff Accordion -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-store"></i>
+                    Ormonde Branch Staff
+                </div>
+                <div class="accordion-meta">
+                    <span class="accordion-count">2 accounts</span>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="accounts-grid">
+                        <div class="account-card">
+                            <div class="account-icon staff">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="account-info">
+                                <h4>Staff Manager</h4>
+                                <div class="email">ormonde.manager@jig.cleva-ai.co.za</div>
+                                <div class="description">POS access with overrides, refunds, voids</div>
+                            </div>
+                            <div class="account-dashboard">
+                                <div class="label">Dashboard</div>
+                                <div class="page">pos.html</div>
+                            </div>
+                        </div>
+
+                        <div class="account-card">
+                            <div class="account-icon staff">
+                                <i class="fas fa-cash-register"></i>
+                            </div>
+                            <div class="account-info">
+                                <h4>Staff Assistant</h4>
+                                <div class="email">ormonde.assistant@jig.cleva-ai.co.za</div>
+                                <div class="description">Basic POS access for sales transactions</div>
+                            </div>
+                            <div class="account-dashboard">
+                                <div class="label">Dashboard</div>
+                                <div class="page">pos.html</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fulfillment Staff Accordion -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-truck-fast"></i>
+                    Fulfillment Staff
+                </div>
+                <div class="accordion-meta">
+                    <span class="accordion-count">2 accounts</span>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="accounts-grid">
+                        <div class="account-card">
+                            <div class="account-icon packer">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="account-info">
+                                <h4>Packer</h4>
+                                <div class="email">packer@jig.cleva-ai.co.za</div>
+                                <div class="description">Order packing and preparation</div>
+                            </div>
+                            <div class="account-dashboard">
+                                <div class="label">Dashboard</div>
+                                <div class="page">pnd-dashboard.html</div>
+                            </div>
+                        </div>
+
+                        <div class="account-card">
+                            <div class="account-icon dispatch">
+                                <i class="fas fa-shipping-fast"></i>
+                            </div>
+                            <div class="account-info">
+                                <h4>Dispatch Manager</h4>
+                                <div class="email">dispatch@jig.cleva-ai.co.za</div>
+                                <div class="description">Shipping, courier assignment, tracking</div>
+                            </div>
+                            <div class="account-dashboard">
+                                <div class="label">Dashboard</div>
+                                <div class="page">pnd-dashboard.html</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <h2 class="section-title">
+            <i class="fas fa-link"></i> Quick Links
+        </h2>
+        <div class="quick-links">
+            <a href="index.html" class="quick-link">
+                <i class="fas fa-store"></i>
+                Public Store
+            </a>
+            <a href="ormonde.html" class="quick-link">
+                <i class="fas fa-key"></i>
+                Staff Login (OTP)
+            </a>
+            <a href="admin.html" class="quick-link">
+                <i class="fas fa-cog"></i>
+                Admin Dashboard
+            </a>
+            <a href="pos.html" class="quick-link">
+                <i class="fas fa-cash-register"></i>
+                POS System
+            </a>
+            <a href="owner-dashboard.html" class="quick-link">
+                <i class="fas fa-crown"></i>
+                Owner Dashboard
+            </a>
+            <a href="inventory-manager-dashboard.html" class="quick-link">
+                <i class="fas fa-boxes-stacked"></i>
+                Inventory Manager
+            </a>
+            <a href="pnd-dashboard.html" class="quick-link">
+                <i class="fas fa-truck"></i>
+                Pack & Dispatch
+            </a>
+            <a href="TEST_PLAN_BY_ROLE.md" class="quick-link">
+                <i class="fas fa-clipboard-check"></i>
+                Test Plan
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="tagline">Craft Cannabis</div>
+            <p>JIG Craft Cannabis (Pty) Ltd &bull; Ormonde Branch Launch &bull; February 2026</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isOpen = content.classList.contains('open');
+
+            // Close all accordions
+            document.querySelectorAll('.accordion-content').forEach(c => {
+                c.classList.remove('open');
+            });
+            document.querySelectorAll('.accordion-header').forEach(h => {
+                h.classList.remove('active');
+            });
+
+            // Open clicked accordion if it was closed
+            if (!isOpen) {
+                content.classList.add('open');
+                header.classList.add('active');
+            }
+        }
+
+        // Copy email to clipboard on click
+        document.querySelectorAll('.email').forEach(email => {
+            email.style.cursor = 'pointer';
+            email.title = 'Click to copy';
+            email.addEventListener('click', function() {
+                const text = this.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    const original = this.textContent;
+                    this.textContent = 'Copied!';
+                    this.style.background = '#7C3AED';
+                    this.style.color = '#0A0A0A';
+                    setTimeout(() => {
+                        this.textContent = original;
+                        this.style.background = '';
+                        this.style.color = '';
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

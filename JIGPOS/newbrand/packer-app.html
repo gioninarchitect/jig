@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#7C3AED">
+    <title>DBC Packer</title>
+    <link rel="manifest" href="/manifest-packer.json">
+    <link rel="apple-touch-icon" href="/images/jig-logo-nobg.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        h1, h2, h3 { font-family: 'Oswald', sans-serif; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--green-dark), var(--green));
+            color: var(--cream);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 { font-size: 1.5rem; }
+        .header .badge {
+            background: var(--gold);
+            color: var(--green-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            padding: 1rem;
+            background: #0A0A0A;
+            border-bottom: 2px solid var(--gold);
+        }
+        .stat {
+            text-align: center;
+            padding: 0.5rem;
+        }
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            font-family: 'Oswald', sans-serif;
+        }
+        .stat-label { font-size: 0.75rem; color: #666; }
+
+        /* Order Cards */
+        .orders-section { padding: 1rem; }
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--green-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-card {
+            background: #0A0A0A;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--gold);
+        }
+        .order-card.priority-high { border-left-color: var(--red); }
+        .order-card.in-progress { border-left-color: var(--purple); background: #f0fff4; }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        .order-id {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            color: var(--green-dark);
+        }
+        .order-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-confirmed { background: #fef3c7; color: #92400e; }
+        .status-processing { background: #dbeafe; color: #1e40af; }
+        .order-items { font-size: 0.9rem; color: #555; margin-bottom: 0.75rem; }
+        .order-item { padding: 0.25rem 0; border-bottom: 1px dashed #ddd; }
+        .order-item:last-child { border: none; }
+        .order-actions { display: flex; gap: 0.5rem; }
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-primary { background: var(--green); color: white; }
+        .btn-success { background: #22c55e; color: white; }
+        .btn-outline { background: #0A0A0A; border: 2px solid var(--green); color: var(--purple); }
+
+        /* Photo Capture */
+        .photo-section {
+            margin: 0.75rem 0;
+            padding: 0.75rem;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        .photo-box {
+            aspect-ratio: 4/3;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: #0A0A0A;
+        }
+        .photo-box.captured { border-color: var(--purple); background: #f0fff4; }
+        .photo-box i { font-size: 1.5rem; color: #999; }
+        .photo-box span { font-size: 0.75rem; color: #666; margin-top: 0.25rem; }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0A0A0A;
+            display: flex;
+            border-top: 2px solid var(--gold);
+            padding: 0.5rem;
+            z-index: 100;
+        }
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.75rem;
+        }
+        .nav-item.active { color: var(--purple); }
+        .nav-item i { font-size: 1.25rem; display: block; margin-bottom: 0.25rem; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 1000;
+            animation: slideDown 0.3s ease;
+        }
+        .toast.success { background: var(--green); color: white; }
+        .toast.error { background: var(--red); color: white; }
+        @keyframes slideDown { from { transform: translate(-50%, -100%); } to { transform: translate(-50%, 0); } }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #ddd;
+            border-top-color: var(--purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Install Banner */
+        .install-banner {
+            background: linear-gradient(135deg, var(--gold), var(--green));
+            color: white;
+            padding: 1rem;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .install-banner.show { display: flex; }
+        .install-banner button {
+            background: #0A0A0A;
+            color: var(--green-dark);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Install Banner -->
+    <div class="install-banner" id="installBanner">
+        <span><i class="fas fa-download"></i> Install DBC Packer App</span>
+        <button onclick="installApp()">Install</button>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1><i class="fas fa-box-open"></i> DBC Packer</h1>
+        <span class="badge" id="queueCount">0</span>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-value" id="pendingCount">0</div>
+            <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="inProgressCount">0</div>
+            <div class="stat-label">Packing</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="completedCount">0</div>
+            <div class="stat-label">Today</div>
+        </div>
+    </div>
+
+    <!-- Orders Section -->
+    <div class="orders-section">
+        <div class="section-title">
+            <span><i class="fas fa-list"></i> Packing Queue</span>
+            <button class="btn btn-outline" style="padding: 0.5rem 1rem;" onclick="refreshOrders()">
+                <i class="fas fa-sync"></i>
+            </button>
+        </div>
+        <div id="ordersList">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Loading orders...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active">
+            <i class="fas fa-box-open"></i>
+            Packing
+        </a>
+        <a href="pnd-dashboard.html" class="nav-item">
+            <i class="fas fa-truck"></i>
+            Dashboard
+        </a>
+        <a href="#" class="nav-item" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </a>
+    </nav>
+
+    <script src="/frontend/config.js"></script>
+    <script src="/frontend/jig-utils.js"></script>
+    <script src="/frontend/jig-auth.js"></script>
+    <script>
+
+        let deferredPrompt;
+        const capturedPhotos = {};
+
+        function getUserRole() {
+            try {
+                const user = JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || '{}');
+                return user.role || '';
+            } catch { return ''; }
+        }
+
+        // Redirect if not authenticated
+        if (!getToken()) {
+            window.location.href = 'ormonde.html';
+        }
+
+        // Role check - only packer, admin, owner can access
+        const allowedRoles = ['packer', 'admin', 'owner', 'manager'];
+        const userRole = getUserRole();
+        if (userRole && !allowedRoles.includes(userRole)) {
+            alert('Access denied. Packers only.');
+            window.location.href = 'ormonde.html';
+        }
+
+        // PWA Install
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installBanner').classList.add('show');
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((result) => {
+                    deferredPrompt = null;
+                    document.getElementById('installBanner').classList.remove('show');
+                });
+            }
+        }
+
+        // Load Orders
+        async function refreshOrders() {
+            const list = document.getElementById('ordersList');
+            list.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading orders...</p></div>';
+
+            try {
+                const response = await fetch(`${API_URL}/orders/all?status=confirmed,processing`, {
+                    headers: { 'Authorization': `Bearer ${getToken()}` }
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    renderOrders(data.orders || []);
+                    updateStats(data.orders || []);
+                } else {
+                    list.innerHTML = '<p style="text-align:center;color:#999;padding:2rem;">Failed to load orders</p>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                list.innerHTML = '<p style="text-align:center;color:#999;padding:2rem;">Connection error</p>';
+            }
+        }
+
+        function updateStats(orders) {
+            const pending = orders.filter(o => o.status === 'confirmed').length;
+            const inProgress = orders.filter(o => o.status === 'processing').length;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('inProgressCount').textContent = inProgress;
+            document.getElementById('queueCount').textContent = orders.length;
+        }
+
+        function renderOrders(orders) {
+            const list = document.getElementById('ordersList');
+
+            if (orders.length === 0) {
+                list.innerHTML = '<p style="text-align:center;color:#999;padding:2rem;"><i class="fas fa-check-circle" style="font-size:2rem;color: var(--purple);display:block;margin-bottom:0.5rem;"></i>All caught up!</p>';
+                return;
+            }
+
+            list.innerHTML = orders.map(order => `
+                <div class="order-card ${order.status === 'processing' ? 'in-progress' : ''} ${order.priority === 'high' ? 'priority-high' : ''}">
+                    <div class="order-header">
+                        <span class="order-id">#${order.orderNumber || order._id.slice(-8)}</span>
+                        <span class="order-status status-${order.status}">${order.status}</span>
+                    </div>
+                    <div class="order-items">
+                        ${(order.items || []).map(item => `
+                            <div class="order-item">${item.quantity}x ${item.name || item.product?.name || 'Item'}</div>
+                        `).join('')}
+                    </div>
+                    ${order.status === 'processing' ? `
+                        <div class="photo-section">
+                            <div class="photo-grid">
+                                <div class="photo-box ${capturedPhotos[order._id + '-before'] ? 'captured' : ''}" onclick="capturePhoto('${order._id}', 'before')">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Before</span>
+                                </div>
+                                <div class="photo-box ${capturedPhotos[order._id + '-after'] ? 'captured' : ''}" onclick="capturePhoto('${order._id}', 'after')">
+                                    <i class="fas fa-camera"></i>
+                                    <span>After</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn btn-success" onclick="completePacking('${order._id}')">
+                                <i class="fas fa-check"></i> Complete
+                            </button>
+                        </div>
+                    ` : `
+                        <div class="order-actions">
+                            <button class="btn btn-primary" onclick="startPacking('${order._id}')">
+                                <i class="fas fa-play"></i> Start Packing
+                            </button>
+                        </div>
+                    `}
+                </div>
+            `).join('');
+        }
+
+        async function startPacking(orderId) {
+            try {
+                const response = await fetch(`${API_URL}/orders/${orderId}/start-packing`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast('Packing started!', 'success');
+                    refreshOrders();
+                } else {
+                    showToast(data.message || 'Failed', 'error');
+                }
+            } catch (error) {
+                showToast('Error starting packing', 'error');
+            }
+        }
+
+        async function completePacking(orderId) {
+            if (!capturedPhotos[orderId + '-before'] || !capturedPhotos[orderId + '-after']) {
+                showToast('Please capture both photos', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/orders/${orderId}/complete-packing`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${getToken()}`
+                    },
+                    body: JSON.stringify({
+                        packingNotes: 'Packed via mobile app',
+                        photoUrl: capturedPhotos[orderId + '-after']
+                    })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast('Order packed!', 'success');
+                    delete capturedPhotos[orderId + '-before'];
+                    delete capturedPhotos[orderId + '-after'];
+                    refreshOrders();
+                } else {
+                    showToast(data.message || 'Failed', 'error');
+                }
+            } catch (error) {
+                showToast('Error completing packing', 'error');
+            }
+        }
+
+        // Hidden file input for photo capture
+        let currentPhotoOrder = null;
+        let currentPhotoType = null;
+
+        function capturePhoto(orderId, type) {
+            currentPhotoOrder = orderId;
+            currentPhotoType = type;
+
+            // Create file input if not exists
+            let fileInput = document.getElementById('photoInput');
+            if (!fileInput) {
+                fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.id = 'photoInput';
+                fileInput.accept = 'image/*';
+                fileInput.capture = 'environment'; // Use back camera on mobile
+                fileInput.style.display = 'none';
+                fileInput.onchange = handlePhotoCapture;
+                document.body.appendChild(fileInput);
+            }
+            fileInput.click();
+        }
+
+        function handlePhotoCapture(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const key = currentPhotoOrder + '-' + currentPhotoType;
+                capturedPhotos[key] = e.target.result;
+
+                // Update the photo box to show captured state
+                const photoBox = document.querySelector(`.photo-box[onclick*="${currentPhotoOrder}"][onclick*="${currentPhotoType}"]`);
+                if (photoBox) {
+                    photoBox.classList.add('captured');
+                    photoBox.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">`;
+                }
+
+                showToast(currentPhotoType + ' photo captured!', 'success');
+            };
+            reader.readAsDataURL(file);
+
+            // Reset input
+            event.target.value = '';
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            sessionStorage.removeItem('adminToken');
+            window.location.href = 'ormonde.html';
+        }
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw-packer.js')
+                .then(reg => console.log('Packer SW registered:', reg.scope))
+                .catch(err => console.error('Packer SW failed:', err));
+        }
+
+        // Initialize
+        refreshOrders();
+        setInterval(refreshOrders, 30000); // Refresh every 30 seconds
+    </script>
+</body>
+</html>

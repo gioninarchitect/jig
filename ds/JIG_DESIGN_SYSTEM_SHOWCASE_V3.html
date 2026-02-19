@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JIG Craft Cannabis - Design System v3</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-black: #0A0A0A;
+      --color-white: #FAFAFA;
+      --color-purple: #7C3AED;
+      --color-purple-light: #A855F7;
+      --color-green: #15803D;
+      --color-amber: #D97706;
+      --color-slate: #1E1E1E;
+      --color-gray-700: #374151;
+      --color-gray-500: #6B7280;
+      
+      --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+      
+      --font-display: 'Anton', Impact, sans-serif;
+      --font-heading: 'Oswald', 'Arial Narrow', sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      
+      --radius-sm: 4px;
+      --radius-md: 8px;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-body);
+      background: var(--color-black);
+      color: var(--color-white);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px;
+    }
+    
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 64px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 64px;
+    }
+    
+    .header__logo {
+      max-width: 240px;
+      margin: 0 auto 24px;
+    }
+    
+    .header__logo img {
+      width: 100%;
+      height: auto;
+    }
+    
+    .header__title {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-gray-500);
+      margin-top: 20px;
+    }
+    
+    /* Section */
+    .section {
+      margin-bottom: 72px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .section__title {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    
+    .section__title::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: var(--color-purple);
+      border-radius: 2px;
+    }
+    
+    .subsection {
+      margin-top: 36px;
+    }
+    
+    .subsection__title {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-gray-500);
+      margin-bottom: 16px;
+    }
+    
+    /* Colors */
+    .colors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+    }
+    
+    .color-swatch {
+      text-align: center;
+    }
+    
+    .color-swatch__box {
+      height: 72px;
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    
+    .color-swatch__name {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 2px;
+    }
+    
+    .color-swatch__hex {
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--color-gray-500);
+    }
+    
+    /* Gradient */
+    .gradient-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .gradient-box {
+      height: 88px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+    }
+    
+    .gradient-box span {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    
+    .gradient-brand { background: var(--gradient-brand); color: var(--color-white); }
+    .gradient-dark { 
+      background: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--color-gray-500);
+    }
+    
+    /* Typography */
+    .type-scale {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .type-sample {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      align-items: baseline;
+      gap: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    
+    .type-sample__label {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-purple);
+    }
+    
+    .type-display { font-family: var(--font-display); font-size: 64px; line-height: 1; }
+    .type-h1 { font-family: var(--font-heading); font-size: 44px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em; }
+    .type-h2 { font-family: var(--font-heading); font-size: 32px; font-weight: 600; text-transform: uppercase; }
+    .type-h3 { font-family: var(--font-heading); font-size: 22px; font-weight: 600; }
+    .type-body { font-family: var(--font-body); font-size: 16px; color: rgba(255,255,255,0.75); }
+    .type-overline { 
+      font-family: var(--font-heading); 
+      font-size: 11px; 
+      font-weight: 600; 
+      letter-spacing: 0.18em; 
+      text-transform: uppercase;
+      color: var(--color-purple);
+    }
+    
+    /* Buttons */
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 13px 26px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    
+    .btn-primary {
+      background: var(--gradient-brand);
+      color: var(--color-white);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-white);
+      border: 2px solid var(--color-white);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--color-white);
+      color: var(--color-black);
+    }
+    
+    .btn-ghost {
+      background: rgba(255,255,255,0.04);
+      color: var(--color-white);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.25);
+    }
+    
+    .btn-purple {
+      background: var(--color-purple);
+      color: var(--color-white);
+    }
+    
+    .btn-green {
+      background: var(--color-green);
+      color: var(--color-white);
+    }
+    
+    .btn-amber {
+      background: var(--color-amber);
+      color: var(--color-black);
+    }
+    
+    /* Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .card {
+      background: var(--color-slate);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      border-color: rgba(124, 58, 237, 0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    }
+    
+    .card__number {
+      font-family: var(--font-display);
+      font-size: 52px;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+    
+    .card__title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 600;
+      margin: 14px 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    
+    .card__text {
+      font-size: 14px;
+      color: var(--color-gray-500);
+      line-height: 1.55;
+    }
+    
+    /* Badges */
+    .badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .badge {
+      display: inline-flex;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    
+    .badge--gradient {
+      background: var(--gradient-brand);
+      color: var(--color-white);
+    }
+    
+    .badge--purple {
+      background: rgba(124, 58, 237, 0.12);
+      color: var(--color-purple);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+    }
+    
+    .badge--green {
+      background: rgba(21, 128, 61, 0.12);
+      color: var(--color-green);
+      border: 1px solid rgba(21, 128, 61, 0.25);
+    }
+    
+    .badge--amber {
+      background: rgba(217, 119, 6, 0.12);
+      color: var(--color-amber);
+      border: 1px solid rgba(217, 119, 6, 0.25);
+    }
+    
+    .badge--outline {
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    /* Nav */
+    .nav-demo {
+      background: rgba(10, 10, 10, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+    }
+    
+    .nav-demo__logo {
+      font-family: var(--font-display);
+      font-size: 28px;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .nav-demo__links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    
+    .nav-demo__link {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+    
+    .nav-demo__link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-purple);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-demo__link:hover {
+      color: var(--color-white);
+    }
+    
+    .nav-demo__link:hover::after,
+    .nav-demo__link--active::after {
+      width: 100%;
+    }
+    
+    /* Form */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 500px;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    .form-label {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-gray-500);
+      margin-bottom: 6px;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--color-slate);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-sm);
+      color: var(--color-white);
+      font-family: var(--font-body);
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+    }
+    
+    .form-input::placeholder {
+      color: var(--color-gray-700);
+    }
+    
+    /* Pillars */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+    
+    .pillar {
+      background: var(--color-slate);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius-md);
+      padding: 20px 12px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .pillar:hover {
+      border-color: rgba(124, 58, 237, 0.25);
+    }
+    
+    .pillar__name {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-purple);
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 56px 0;
+      margin-top: 56px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    
+    .footer__text {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-gray-700);
+    }
+    
+    @media (max-width: 768px) {
+      .container { padding: 24px; }
+      .type-display { font-size: 44px; }
+      .type-h1 { font-size: 28px; }
+      .pillars { grid-template-columns: repeat(2, 1fr); }
+      .nav-demo { flex-direction: column; gap: 14px; }
+      .nav-demo__links { flex-wrap: wrap; justify-content: center; gap: 14px; }
+      .type-sample { grid-template-columns: 1fr; gap: 6px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <header class="header">
+      <div class="header__logo">
+        <img src="/mnt/user-data/uploads/jiglogo_nobg.png" alt="JIG Craft Cannabis">
+      </div>
+      <div class="header__title">Brand Design System v3.0</div>
+    </header>
+    
+    <section class="section">
+      <h2 class="section__title">Brand Pillars</h2>
+      <div class="pillars">
+        <div class="pillar"><div class="pillar__name">Excellence</div></div>
+        <div class="pillar"><div class="pillar__name">Precision</div></div>
+        <div class="pillar"><div class="pillar__name">Women-Led</div></div>
+        <div class="pillar"><div class="pillar__name">Science</div></div>
+        <div class="pillar"><div class="pillar__name">Partnership</div></div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <h2 class="section__title">Color Palette</h2>
+      
+      <div class="subsection">
+        <div class="subsection__title">Primary</div>
+        <div class="colors">
+          <div class="color-swatch">
+            <div class="color-swatch__box" style="background: #0A0A0A; border-color: rgba(255,255,255,0.15);"></div>
+            <div class="color-swatch__name">Black</div>
+            <div class="color-swatch__hex">#0A0A0A</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch__box" style="background: #FAFAFA;"></div>
+            <div class="color-swatch__name">White</div>
+            <div class="color-swatch__hex">#FAFAFA</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch__box" style="background: #7C3AED;"></div>
+            <div class="color-swatch__name">Purple</div>
+            <div class="color-swatch__hex">#7C3AED</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subsection">
+        <div class="subsection__title">Secondary</div>
+        <div class="colors">
+          <div class="color-swatch">
+            <div class="color-swatch__box" style="background: #15803D;"></div>
+            <div class="color-swatch__name">Forest</div>
+            <div class="color-swatch__hex">#15803D</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch__box" style="background: #D97706;"></div>
+            <div class="color-swatch__name">Amber</div>
+            <div class="color-swatch__hex">#D97706</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch__box" style="background: #1E1E1E;"></div>
+            <div class="color-swatch__name">Slate</div>
+            <div class="color-swatch__hex">#1E1E1E</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch__box" style="background: #6B7280;"></div>
+            <div class="color-swatch__name">Gray</div>
+            <div class="color-swatch__hex">#6B7280</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subsection">
+        <div class="subsection__title">Gradient</div>
+        <div class="gradient-showcase">
+          <div class="gradient-box gradient-brand">
+            <span>Brand Gradient</span>
+          </div>
+          <div class="gradient-box gradient-dark">
+            <span>Dark Gradient</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <h2 class="section__title">Typography</h2>
+      <div class="type-scale">
+        <div class="type-sample">
+          <span class="type-sample__label">Display</span>
+          <span class="type-display">JIG</span>
+        </div>
+        <div class="type-sample">
+          <span class="type-sample__label">H1</span>
+          <span class="type-h1">Cultivating Excellence</span>
+        </div>
+        <div class="type-sample">
+          <span class="type-sample__label">H2</span>
+          <span class="type-h2">Premium Craft Cannabis</span>
+        </div>
+        <div class="type-sample">
+          <span class="type-sample__label">H3</span>
+          <span class="type-h3">Small-Batch, Indoor Grown</span>
+        </div>
+        <div class="type-sample">
+          <span class="type-sample__label">Body</span>
+          <span class="type-body">JIG Cannabis is a licensed indoor cultivation facility specializing in small-batch, high-quality cannabis for medicinal and connoisseur markets worldwide.</span>
+        </div>
+        <div class="type-sample">
+          <span class="type-sample__label">Overline</span>
+          <span class="type-overline">Africa's First Women-Owned License</span>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <h2 class="section__title">Buttons</h2>
+      <div class="buttons">
+        <button class="btn btn-primary">Partner With Us</button>
+        <button class="btn btn-secondary">Learn More</button>
+        <button class="btn btn-ghost">View Facility</button>
+      </div>
+      <div class="buttons" style="margin-top: 16px;">
+        <button class="btn btn-purple">Purple</button>
+        <button class="btn btn-green">Green</button>
+        <button class="btn btn-amber">Amber</button>
+      </div>
+    </section>
+    
+    <section class="section">
+      <h2 class="section__title">Badges</h2>
+      <div class="badges">
+        <span class="badge badge--gradient">Licensed</span>
+        <span class="badge badge--purple">Premium</span>
+        <span class="badge badge--green">Indoor Grown</span>
+        <span class="badge badge--amber">Women-Led</span>
+        <span class="badge badge--outline">Lab Tested</span>
+      </div>
+    </section>
+    
+    <section class="section">
+      <h2 class="section__title">Cards</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="card__number">01</div>
+          <h3 class="card__title">Cloning and Genetics</h3>
+          <p class="card__text">Only elite phenotypes selected for consistency in our tissue culture lab.</p>
+        </div>
+        <div class="card">
+          <div class="card__number">02</div>
+          <h3 class="card__title">Indoor Cultivation</h3>
+          <p class="card__text">Fully controlled environments for superior quality and year-round availability.</p>
+        </div>
+        <div class="card">
+          <div class="card__number">03</div>
+          <h3 class="card__title">Hand-Trimming</h3>
+          <p class="card__text">Maximizing terpene retention through artisanal slow-curing methods.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <h2 class="section__title">Navigation</h2>
+      <nav class="nav-demo">
+        <div class="nav-demo__logo">JIG</div>
+        <ul class="nav-demo__links">
+          <li><a href="#" class="nav-demo__link nav-demo__link--active">Home</a></li>
+          <li><a href="#" class="nav-demo__link">About</a></li>
+          <li><a href="#" class="nav-demo__link">Process</a></li>
+          <li><a href="#" class="nav-demo__link">Partner</a></li>
+          <li><a href="#" class="nav-demo__link">Contact</a></li>
+        </ul>
+      </nav>
+    </section>
+    
+    <section class="section">
+      <h2 class="section__title">Form Elements</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Business Name</label>
+          <input type="text" class="form-input" placeholder="Your company">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="partner@company.com">
+        </div>
+      </div>
+      <button class="btn btn-primary" style="margin-top: 4px;">Submit</button>
+    </section>
+    
+    <footer class="footer">
+      <p class="footer__text">JIG Craft Cannabis Design System v3.0</p>
+    </footer>
+    
+  </div>
+</body>
+</html>

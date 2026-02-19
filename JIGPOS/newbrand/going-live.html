@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go-Live Status | JIG Craft Cannabis - Ormonde</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --brand-forest: #2D5A3D;
+            --brand-forest-dark: #1E3D2A;
+            --brand-forest-light: #3D7A52;
+            --brand-cream: #F5F1E8;
+            --brand-gold: #C4A962;
+            --brand-charcoal: #2C2C2C;
+            --brand-white: #FFFFFF;
+            --status-done: #22C55E;
+            --status-progress: #FFC107;
+            --status-pending: #6C757D;
+            --status-blocked: #DC2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--brand-cream);
+            color: var(--brand-charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--brand-forest) 0%, var(--brand-forest-dark) 100%);
+            color: var(--brand-white);
+            padding: 32px;
+            text-align: center;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 20px;
+            border-radius: 30px;
+            margin-bottom: 16px;
+        }
+
+        .header-badge i {
+            color: var(--brand-gold);
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        /* Live Clock */
+        .live-clock {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0,0,0,0.2);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .live-clock i {
+            color: var(--brand-gold);
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Progress Hero */
+        .progress-hero {
+            background: var(--brand-white);
+            margin: -40px 24px 24px;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .overall-progress {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .progress-circle {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 16px;
+            position: relative;
+        }
+
+        .progress-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-circle-bg {
+            fill: none;
+            stroke: #e9ecef;
+            stroke-width: 12;
+        }
+
+        .progress-circle-fill {
+            fill: none;
+            stroke: var(--brand-forest);
+            stroke-width: 12;
+            stroke-linecap: round;
+            stroke-dasharray: 502;
+            stroke-dashoffset: 100;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .progress-percent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-forest);
+        }
+
+        .progress-percent span {
+            font-size: 1.5rem;
+        }
+
+        .progress-label {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .stat-card {
+            background: var(--brand-cream);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--brand-forest);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 48px;
+        }
+
+        /* Timeline */
+        .timeline-section {
+            background: var(--brand-white);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--brand-forest);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--brand-forest);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--brand-gold);
+        }
+
+        .target-time {
+            background: var(--brand-forest);
+            color: var(--brand-white);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Timeline Items */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--status-done), var(--status-progress), var(--status-pending));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+            padding: 20px 24px;
+            background: var(--brand-cream);
+            border-radius: 12px;
+            border-left: 4px solid var(--status-pending);
+        }
+
+        .timeline-item.done {
+            border-left-color: var(--status-done);
+            opacity: 0.85;
+        }
+
+        .timeline-item.in-progress {
+            border-left-color: var(--status-progress);
+            background: #FFFBEB;
+        }
+
+        .timeline-item.blocked {
+            border-left-color: var(--status-blocked);
+            background: #FEF2F2;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -40px;
+            top: 24px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--brand-white);
+            font-size: 0.9rem;
+            background: var(--status-pending);
+        }
+
+        .timeline-item.done .timeline-marker {
+            background: var(--status-done);
+        }
+
+        .timeline-item.in-progress .timeline-marker {
+            background: var(--status-progress);
+            animation: pulse 1.5s infinite;
+        }
+
+        .timeline-item.blocked .timeline-marker {
+            background: var(--status-blocked);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--brand-charcoal);
+        }
+
+        .timeline-time {
+            font-size: 0.85rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timeline-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .timeline-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 12px;
+        }
+
+        .status-done {
+            background: rgba(40, 167, 69, 0.15);
+            color: var(--status-done);
+        }
+
+        .status-progress {
+            background: rgba(255, 193, 7, 0.2);
+            color: #D97706;
+        }
+
+        .status-pending {
+            background: rgba(108, 117, 125, 0.15);
+            color: var(--status-pending);
+        }
+
+        .status-blocked {
+            background: rgba(220, 53, 69, 0.15);
+            color: var(--status-blocked);
+        }
+
+        /* Checklist */
+        .checklist {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 0.9rem;
+        }
+
+        .checklist-item i {
+            width: 20px;
+        }
+
+        .checklist-item.checked {
+            color: var(--status-done);
+        }
+
+        .checklist-item.checked i {
+            color: var(--status-done);
+        }
+
+        .checklist-item:not(.checked) {
+            color: #888;
+        }
+
+        /* Key Contacts */
+        .contacts-section {
+            background: var(--brand-white);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .contact-card {
+            background: var(--brand-cream);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .contact-avatar {
+            width: 64px;
+            height: 64px;
+            background: var(--brand-forest);
+            color: var(--brand-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 1.5rem;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            color: var(--brand-charcoal);
+        }
+
+        .contact-role {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .contact-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--status-done);
+        }
+
+        .contact-status i {
+            font-size: 0.6rem;
+        }
+
+        /* Notes Section */
+        .notes-section {
+            background: #FFFBEB;
+            border: 2px solid var(--brand-gold);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .notes-title {
+            font-weight: 600;
+            color: var(--brand-charcoal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .notes-title i {
+            color: var(--brand-gold);
+        }
+
+        .notes-content {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .notes-content ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .notes-content li {
+            margin-bottom: 6px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px;
+            color: #888;
+        }
+
+        .refresh-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            color: var(--brand-forest);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .contacts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            .progress-hero {
+                margin: -30px 16px 16px;
+                padding: 24px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .contacts-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-badge">
+            <i class="fas fa-cannabis"></i>
+            <span>JIG Craft Cannabis</span>
+        </div>
+        <h1>Ormonde Go-Live Status</h1>
+        <p class="header-subtitle">Real-time deployment progress tracker</p>
+        <div class="live-clock">
+            <i class="fas fa-clock pulse"></i>
+            <span id="liveTime">--:--:--</span>
+            <span style="opacity: 0.7;">| 4 Feb 2026</span>
+        </div>
+    </header>
+
+    <!-- Progress Hero -->
+    <div class="progress-hero">
+        <div class="overall-progress">
+            <div class="progress-circle">
+                <svg width="180" height="180" viewBox="0 0 180 180">
+                    <circle class="progress-circle-bg" cx="90" cy="90" r="80"/>
+                    <circle class="progress-circle-fill" cx="90" cy="90" r="80" id="progressCircle"/>
+                </svg>
+                <div class="progress-percent" id="progressPercent">80<span>%</span></div>
+            </div>
+            <div class="progress-label">Overall Go-Live Progress</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--status-done);">8</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--status-progress);">2</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--status-pending);">0</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--status-blocked);">0</div>
+                <div class="stat-label">Blocked</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Timeline Section -->
+        <div class="timeline-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-list-check"></i>
+                    Deployment Timeline
+                </h2>
+                <div class="target-time">
+                    <i class="fas fa-flag-checkered"></i>
+                    Target: Today EOD
+                </div>
+            </div>
+
+            <div class="timeline">
+                <!-- Item 1 - Done -->
+                <div class="timeline-item done">
+                    <div class="timeline-marker"><i class="fas fa-check"></i></div>
+                    <div class="timeline-header">
+                        <div class="timeline-title">Infrastructure Setup</div>
+                        <div class="timeline-time"><i class="far fa-clock"></i> Completed 10:00</div>
+                    </div>
+                    <div class="timeline-description">MongoDB database, branch configuration, OTP authentication system</div>
+                    <div class="checklist">
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Database configured</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Ormonde branch created</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Staff accounts created</div>
+                    </div>
+                    <span class="timeline-status status-done"><i class="fas fa-check-circle"></i> Complete</span>
+                </div>
+
+                <!-- Item 2 - Done -->
+                <div class="timeline-item done">
+                    <div class="timeline-marker"><i class="fas fa-check"></i></div>
+                    <div class="timeline-header">
+                        <div class="timeline-title">OTP Authentication</div>
+                        <div class="timeline-time"><i class="far fa-clock"></i> Completed 11:30</div>
+                    </div>
+                    <div class="timeline-description">Staff login via OTP code instead of password</div>
+                    <div class="checklist">
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> OTP request endpoint</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> OTP verify endpoint</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Branch login page</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Stock take app OTP</div>
+                    </div>
+                    <span class="timeline-status status-done"><i class="fas fa-check-circle"></i> Complete</span>
+                </div>
+
+                <!-- Item 3 - Done -->
+                <div class="timeline-item done">
+                    <div class="timeline-marker"><i class="fas fa-check"></i></div>
+                    <div class="timeline-header">
+                        <div class="timeline-title">POS System</div>
+                        <div class="timeline-time"><i class="far fa-clock"></i> Completed 14:00</div>
+                    </div>
+                    <div class="timeline-description">Point of Sale with Odyssey layout and all payment methods</div>
+                    <div class="checklist">
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Cart on LEFT layout</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Cash payment flow</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Card/Speedpoint manual</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> EFT payment flow</div>
+                    </div>
+                    <span class="timeline-status status-done"><i class="fas fa-check-circle"></i> Complete</span>
+                </div>
+
+                <!-- Item 4 - Done -->
+                <div class="timeline-item done">
+                    <div class="timeline-marker"><i class="fas fa-check"></i></div>
+                    <div class="timeline-header">
+                        <div class="timeline-title">Stock Take Application</div>
+                        <div class="timeline-time"><i class="far fa-clock"></i> Completed 15:30</div>
+                    </div>
+                    <div class="timeline-description">SA GMP compliant stock counting with photo verification</div>
+                    <div class="checklist">
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> OTP login converted</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Session creation</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Photo upload required</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Variance calculation</div>
+                    </div>
+                    <span class="timeline-status status-done"><i class="fas fa-check-circle"></i> Complete</span>
+                </div>
+
+                <!-- Item 5 - In Progress -->
+                <div class="timeline-item in-progress">
+                    <div class="timeline-marker"><i class="fas fa-spinner fa-spin"></i></div>
+                    <div class="timeline-header">
+                        <div class="timeline-title">Documentation & Training</div>
+                        <div class="timeline-time"><i class="far fa-clock"></i> In Progress</div>
+                    </div>
+                    <div class="timeline-description">Workflow documentation and training materials for staff</div>
+                    <div class="checklist">
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Checkout workflows doc</div>
+                        <div class="checklist-item checked"><i class="fas fa-check-circle"></i> Go-Live status page</div>
+                        <div class="checklist-item"><i class="far fa-circle"></i> Staff walkthrough</div>
+                    </div>
+                    <span class="timeline-status status-progress"><i class="fas fa-clock"></i> In Progress</span>
+                </div>
+
+                <!-- Item 6 - In Progress -->
+                <div class="timeline-item in-progress">
+                    <div class="timeline-marker"><i class="fas fa-spinner fa-spin"></i></div>
+                    <div class="timeline-header">
+                        <div class="timeline-title">Production Deployment</div>
+                        <div class="timeline-time"><i class="far fa-clock"></i> Next Step</div>
+                    </div>
+                    <div class="timeline-description">Deploy to production server and verify all systems operational</div>
+                    <div class="checklist">
+                        <div class="checklist-item"><i class="far fa-circle"></i> Create deployment tarball</div>
+                        <div class="checklist-item"><i class="far fa-circle"></i> Upload to server</div>
+                        <div class="checklist-item"><i class="far fa-circle"></i> Configure DNS/domain</div>
+                        <div class="checklist-item"><i class="far fa-circle"></i> SSL certificate</div>
+                        <div class="checklist-item"><i class="far fa-circle"></i> Smoke test all flows</div>
+                    </div>
+                    <span class="timeline-status status-progress"><i class="fas fa-clock"></i> Up Next</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Key Contacts -->
+        <div class="contacts-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i>
+                    Key Contacts
+                </h2>
+            </div>
+
+            <div class="contacts-grid">
+                <div class="contact-card">
+                    <div class="contact-avatar"><i class="fas fa-user-tie"></i></div>
+                    <div class="contact-name">Floris Olivier</div>
+                    <div class="contact-role">Project Lead</div>
+                    <div class="contact-status"><i class="fas fa-circle"></i> Online</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-avatar"><i class="fas fa-store"></i></div>
+                    <div class="contact-name">Ormonde Branch</div>
+                    <div class="contact-role">Retail Location</div>
+                    <div class="contact-status"><i class="fas fa-circle"></i> Standby</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-avatar"><i class="fas fa-headset"></i></div>
+                    <div class="contact-name">Tech Support</div>
+                    <div class="contact-role">DBC Systems</div>
+                    <div class="contact-status"><i class="fas fa-circle"></i> Available</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div class="notes-section">
+            <div class="notes-title">
+                <i class="fas fa-sticky-note"></i>
+                Important Notes
+            </div>
+            <div class="notes-content">
+                <ul>
+                    <li><strong>Speedpoint Integration:</strong> Card machines are NOT integrated - staff must manually enter reference numbers from Speedpoint receipts</li>
+                    <li><strong>Stock Take:</strong> Photo verification is MANDATORY for SA GMP compliance - no count without photo</li>
+                    <li><strong>Day-End:</strong> All tills must be closed before manager can do daily cashup</li>
+                    <li><strong>OTP Codes:</strong> Development mode accepts "123456" as bypass code for testing</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="refresh-note">
+            <i class="fas fa-sync-alt"></i>
+            Page updates in real-time
+        </div>
+        <p>JIG Craft Cannabis | Ormonde Branch Go-Live | February 2026</p>
+    </footer>
+
+    <script>
+        // Live Clock
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-ZA', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            document.getElementById('liveTime').textContent = time;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Progress Circle Animation
+        function setProgress(percent) {
+            const circle = document.getElementById('progressCircle');
+            const percentText = document.getElementById('progressPercent');
+            const circumference = 2 * Math.PI * 80; // r = 80
+            const offset = circumference - (percent / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+            percentText.innerHTML = percent + '<span>%</span>';
+        }
+
+        // Set initial progress (80%)
+        setTimeout(() => setProgress(80), 500);
+
+        // Auto-refresh simulation (in production, would fetch from API)
+        function checkForUpdates() {
+            // This would normally fetch status from server
+            console.log('Checking for status updates...');
+        }
+
+        // Check every 30 seconds
+        setInterval(checkForUpdates, 30000);
+    </script>
+
+</body>
+</html>

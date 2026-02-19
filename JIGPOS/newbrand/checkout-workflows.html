@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Workflows | JIG Craft Cannabis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --brand-forest: #2D5A3D;
+            --brand-forest-dark: #1E3D2A;
+            --brand-forest-light: #3D7A52;
+            --brand-cream: #F5F1E8;
+            --brand-gold: #C4A962;
+            --brand-charcoal: #2C2C2C;
+            --brand-white: #FFFFFF;
+            --brand-success: #22C55E;
+            --brand-warning: #FFC107;
+            --brand-danger: #DC2626;
+            --brand-info: #17A2B8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--brand-cream);
+            color: var(--brand-charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--brand-forest);
+            color: var(--brand-white);
+            padding: 24px 32px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .logo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .logo-badge i {
+            font-size: 2rem;
+            color: var(--brand-gold);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--brand-forest);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--brand-forest);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--brand-gold);
+        }
+
+        /* Accordion Styles */
+        .accordion {
+            margin-bottom: 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            background: var(--brand-white);
+        }
+
+        .accordion-header {
+            background: var(--brand-white);
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--brand-forest);
+        }
+
+        .accordion-header:hover {
+            background: rgba(124, 58, 237, 0.05);
+        }
+
+        .accordion-header.active {
+            background: var(--brand-forest);
+            color: var(--brand-white);
+            border-left-color: var(--brand-gold);
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .accordion-title i {
+            font-size: 1.25rem;
+            width: 28px;
+            text-align: center;
+        }
+
+        .accordion-header:not(.active) .accordion-title i {
+            color: var(--brand-forest);
+        }
+
+        .accordion-header.active .accordion-title i {
+            color: var(--brand-gold);
+        }
+
+        .accordion-icon {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: var(--brand-white);
+        }
+
+        .accordion-content.open {
+            max-height: 2000px;
+            transition: max-height 0.6s ease-in;
+        }
+
+        .accordion-body {
+            padding: 24px;
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        /* Workflow Steps */
+        .workflow-steps {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .workflow-steps::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--brand-forest), var(--brand-gold));
+        }
+
+        .step {
+            position: relative;
+            margin-bottom: 24px;
+            padding-left: 24px;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            position: absolute;
+            left: -32px;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--brand-forest);
+            color: var(--brand-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--brand-forest-dark);
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+
+        .step-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Sub-options */
+        .sub-options {
+            margin-top: 16px;
+            padding: 16px;
+            background: rgba(124, 58, 237, 0.05);
+            border-radius: 8px;
+        }
+
+        .sub-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .sub-option:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .sub-option:first-child {
+            padding-top: 0;
+        }
+
+        .sub-option-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--brand-forest);
+            color: var(--brand-white);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .sub-option-content h4 {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--brand-forest-dark);
+            margin-bottom: 4px;
+        }
+
+        .sub-option-content p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Input Example */
+        .input-example {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: var(--brand-white);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .input-example span {
+            color: var(--brand-forest);
+            font-weight: 500;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-success {
+            background: rgba(40, 167, 69, 0.15);
+            color: var(--brand-success);
+        }
+
+        .status-warning {
+            background: rgba(255, 193, 7, 0.15);
+            color: #D97706;
+        }
+
+        .status-info {
+            background: rgba(23, 162, 184, 0.15);
+            color: var(--brand-info);
+        }
+
+        /* Notes */
+        .workflow-note {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(196, 169, 98, 0.15);
+            border-left: 3px solid var(--brand-gold);
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+        }
+
+        .workflow-note i {
+            color: var(--brand-gold);
+            margin-right: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px;
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .footer strong {
+            color: var(--brand-forest);
+        }
+
+        /* Print Styles */
+        @media print {
+            .accordion-content {
+                max-height: none !important;
+            }
+            .accordion-header {
+                background: var(--brand-forest) !important;
+                color: var(--brand-white) !important;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            .container {
+                padding: 20px 16px;
+            }
+            .accordion-header {
+                padding: 16px;
+            }
+            .accordion-body {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-badge">
+            <i class="fas fa-cannabis"></i>
+            <span style="font-family: 'Playfair Display', serif; font-size: 1.5rem;">JIG Craft Cannabis</span>
+        </div>
+        <h1>Checkout Workflows</h1>
+        <p>Staff Training Reference Guide</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <!-- POS SALE FLOW -->
+        <h2 class="section-title">
+            <i class="fas fa-cash-register"></i>
+            POS Sale Flow
+        </h2>
+
+        <!-- Cash Payment -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Cash Payment
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Add Items to Cart</div>
+                            <div class="step-description">Scan or select products from the product grid. Quantities can be adjusted using +/- buttons.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Review Cart Total</div>
+                            <div class="step-description">Verify all items and amounts are correct before proceeding.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Select "Cash" Payment</div>
+                            <div class="step-description">Click the CASH button in the payment methods section.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Enter Amount Tendered</div>
+                            <div class="step-description">Enter the cash amount received from customer. System calculates change automatically.</div>
+                            <div class="input-example">
+                                <span>Amount Tendered:</span> R 500.00 | <span>Change Due:</span> R 127.50
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Complete Sale</div>
+                            <div class="step-description">Click "COMPLETE CASH SALE" to finalize. Receipt prints automatically.</div>
+                        </div>
+                    </div>
+                    <div class="workflow-note">
+                        <i class="fas fa-info-circle"></i>
+                        Cash drawer opens automatically on completion. Count change back to customer.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card (Speedpoint) Payment -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-credit-card"></i>
+                    Card Payment (Speedpoint)
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Add Items to Cart</div>
+                            <div class="step-description">Scan or select products. Review cart total.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Select "Card" Payment</div>
+                            <div class="step-description">Click the CARD button in payment methods.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Process on Speedpoint Terminal</div>
+                            <div class="step-description">Enter the amount on the Speedpoint device. Customer taps/inserts card and enters PIN.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Wait for Approval</div>
+                            <div class="step-description">Speedpoint will print a receipt with reference number when approved.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Enter Reference Number</div>
+                            <div class="step-description">Enter the Speedpoint reference number from the receipt into the POS.</div>
+                            <div class="input-example">
+                                <span>Reference:</span> SP-2026020412345 | <span>Notes:</span> Visa Credit
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Complete Card Sale</div>
+                            <div class="step-description">Click "COMPLETE CARD SALE" to finalize transaction.</div>
+                        </div>
+                    </div>
+                    <div class="workflow-note">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Important:</strong> Always enter the Speedpoint reference for reconciliation. Never complete without it.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EFT Payment -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-building-columns"></i>
+                    EFT / Bank Transfer
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-note" style="margin-bottom: 20px; background: rgba(220, 53, 69, 0.1); border-left-color: var(--brand-danger);">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--brand-danger);"></i>
+                        <strong>Important:</strong> EFT payments require Admin/Manager approval before goods are released.
+                    </div>
+
+                    <h4 style="color: var(--brand-forest); margin-bottom: 16px; font-size: 1rem;">
+                        <i class="fas fa-user"></i> Staff at POS
+                    </h4>
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Add Items to Cart</div>
+                            <div class="step-description">Build the order as normal.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Select "Manual EFT" Payment</div>
+                            <div class="step-description">Click the EFT button in payment methods.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Show Banking Details to Customer</div>
+                            <div class="step-description">POS displays bank account details for customer to make transfer.</div>
+                            <div class="input-example">
+                                <span>Bank:</span> Standard Bank | <span>Account:</span> JIG Craft Cannabis | <span>Acc #:</span> 123456789 | <span>Branch:</span> 051001
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Customer Makes Transfer</div>
+                            <div class="step-description">Customer uses their banking app to make the EFT payment using the reference provided.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Upload Proof of Payment</div>
+                            <div class="step-description">Customer shows POP on their phone. Staff takes screenshot/photo and uploads via the POS file upload.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Submit for Approval</div>
+                            <div class="step-description">Click "UPLOAD & SUBMIT". Order goes to <strong>pending approval</strong> status.</div>
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--brand-forest); margin: 24px 0 16px; font-size: 1rem; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.1);">
+                        <i class="fas fa-user-tie"></i> Admin/Manager Approval
+                    </h4>
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">7</div>
+                            <div class="step-title">View Pending Orders</div>
+                            <div class="step-description">Admin/Manager goes to Orders tab in Admin Panel. Pending EFT orders show "View POP" link.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">8</div>
+                            <div class="step-title">Review Proof of Payment</div>
+                            <div class="step-description">Click "View POP" to see the uploaded proof. Verify amount, date, and reference match.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">9</div>
+                            <div class="step-title">Approve or Reject</div>
+                            <div class="step-description">Click "Approve" to confirm payment and release order. Click "Reject" if POP is invalid.</div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-note">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Do NOT release goods until approval is confirmed.</strong> EFT payments are async - wait for manager approval before customer leaves with products.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Split Payment -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-divide"></i>
+                    Split Payment
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Add Items to Cart</div>
+                            <div class="step-description">Build complete order with all items.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Select "Split" Payment</div>
+                            <div class="step-description">Click SPLIT button to enter split payment mode.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Enter First Payment Amount</div>
+                            <div class="step-description">Enter the amount for the first payment method (e.g., R200 cash).</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Process First Payment</div>
+                            <div class="step-description">Complete the first portion (cash or card as per method selected).</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Process Remaining Balance</div>
+                            <div class="step-description">System shows remaining amount. Select method and complete second payment.</div>
+                            <div class="input-example">
+                                <span>Total:</span> R 450.00 | <span>Paid:</span> R 200.00 (Cash) | <span>Remaining:</span> R 250.00
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Finalize Sale</div>
+                            <div class="step-description">Once balance is R0.00, sale completes automatically.</div>
+                        </div>
+                    </div>
+                    <div class="workflow-note">
+                        <i class="fas fa-info-circle"></i>
+                        Split payments can combine any methods: Cash + Card, Card + EFT, etc.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TILL SESSION FLOW -->
+        <h2 class="section-title" style="margin-top: 48px;">
+            <i class="fas fa-clock"></i>
+            Till Session Flow
+        </h2>
+
+        <!-- Open Till -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-door-open"></i>
+                    Opening a Till
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Log In to POS</div>
+                            <div class="step-description">Use your OTP login credentials to access the system.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Select Till Terminal</div>
+                            <div class="step-description">Choose the till you're operating (Till 1, Till 2, etc.).</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Count Float</div>
+                            <div class="step-description">Count the cash float in the drawer. Standard float is R500.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Enter Opening Balance</div>
+                            <div class="step-description">Enter the counted float amount into the system.</div>
+                            <div class="input-example">
+                                <span>Opening Float:</span> R 500.00
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Confirm Opening</div>
+                            <div class="step-description">Click "OPEN TILL" to start your session. System records timestamp.</div>
+                        </div>
+                    </div>
+                    <div class="workflow-note">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Always verify float!</strong> Report discrepancies to manager before opening.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Close Till -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-door-closed"></i>
+                    Closing a Till
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Complete All Pending Sales</div>
+                            <div class="step-description">Ensure no sales are in progress. Process or void any pending transactions.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Initiate Till Close</div>
+                            <div class="step-description">Click "CLOSE TILL" button in the POS menu.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Count Cash in Drawer</div>
+                            <div class="step-description">Count all cash by denomination. Be thorough and accurate.</div>
+                            <div class="sub-options">
+                                <div class="sub-option">
+                                    <div class="sub-option-icon"><i class="fas fa-coins"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Coins</h4>
+                                        <p>Count R5, R2, R1, 50c, 20c, 10c separately</p>
+                                    </div>
+                                </div>
+                                <div class="sub-option">
+                                    <div class="sub-option-icon"><i class="fas fa-money-bill"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Notes</h4>
+                                        <p>Count R200, R100, R50, R20, R10 separately</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Enter Counted Amount</div>
+                            <div class="step-description">Enter your total counted cash. System compares to expected.</div>
+                            <div class="input-example">
+                                <span>Expected:</span> R 3,245.50 | <span>Counted:</span> R 3,245.50 | <span>Variance:</span> R 0.00
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Review Session Summary</div>
+                            <div class="step-description">System shows total sales, payment breakdown, and any variances.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Submit Till Close</div>
+                            <div class="step-description">Click "SUBMIT" to close the till. Print Z-report if required.</div>
+                        </div>
+                    </div>
+                    <div class="workflow-note">
+                        <i class="fas fa-info-circle"></i>
+                        Variances over R50 require manager sign-off and explanation note.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DAILY CASHUP FLOW -->
+        <h2 class="section-title" style="margin-top: 48px;">
+            <i class="fas fa-calculator"></i>
+            Daily Cashup Flow
+        </h2>
+
+        <!-- Manager Cashup -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-user-tie"></i>
+                    Manager Cashup Process
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Ensure All Tills Closed</div>
+                            <div class="step-description">All operator tills must be closed before daily cashup can begin.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Access Cashup Module</div>
+                            <div class="step-description">Go to Admin > Cashup or Manager Dashboard > End of Day.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Review Till Summaries</div>
+                            <div class="step-description">System shows aggregated data from all closed tills.</div>
+                            <div class="sub-options">
+                                <div class="sub-option">
+                                    <div class="sub-option-icon"><i class="fas fa-money-bill-wave"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Cash Sales</h4>
+                                        <p>Total cash across all tills</p>
+                                    </div>
+                                </div>
+                                <div class="sub-option">
+                                    <div class="sub-option-icon"><i class="fas fa-credit-card"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Card Sales</h4>
+                                        <p>Total Speedpoint transactions</p>
+                                    </div>
+                                </div>
+                                <div class="sub-option">
+                                    <div class="sub-option-icon"><i class="fas fa-building-columns"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>EFT Sales</h4>
+                                        <p>Total bank transfers received</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Physical Cash Count</div>
+                            <div class="step-description">Count all cash from tills combined. Separate float for next day.</div>
+                            <div class="input-example">
+                                <span>Expected Total:</span> R 8,450.00 | <span>Float Reserved:</span> R 500.00 | <span>Banking:</span> R 7,950.00
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Enter Counted Amounts</div>
+                            <div class="step-description">Enter actual counted amounts for each payment method.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Reconcile Card Transactions</div>
+                            <div class="step-description">Match Speedpoint batch totals with POS card sales.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">7</div>
+                            <div class="step-title">Add Notes for Variances</div>
+                            <div class="step-description">Document any discrepancies with explanations.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">8</div>
+                            <div class="step-title">Submit for Approval</div>
+                            <div class="step-description">Click "SUBMIT CASHUP" to send to owner/HQ for approval.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Owner Approval -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-check-double"></i>
+                    Owner/HQ Approval
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Review Submitted Cashup</div>
+                            <div class="step-description">Access pending cashups from Admin Dashboard > Approvals.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Verify Totals</div>
+                            <div class="step-description">Compare system sales vs counted amounts. Review any variances.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Check Supporting Documents</div>
+                            <div class="step-description">Review attached notes, photos, or Speedpoint batch slips if uploaded.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Approve or Reject</div>
+                            <div class="step-description">Approve to finalize day, or reject with notes for manager to correct.</div>
+                            <div class="sub-options">
+                                <div class="sub-option">
+                                    <div class="sub-option-icon" style="background: var(--brand-success);"><i class="fas fa-check"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Approve</h4>
+                                        <p>Day is closed. Banking amount confirmed.</p>
+                                    </div>
+                                </div>
+                                <div class="sub-option">
+                                    <div class="sub-option-icon" style="background: var(--brand-danger);"><i class="fas fa-times"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Reject</h4>
+                                        <p>Sent back to manager with notes. Must recount and resubmit.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STOCK TAKE FLOW -->
+        <h2 class="section-title" style="margin-top: 48px;">
+            <i class="fas fa-clipboard-list"></i>
+            Stock Take Flow
+        </h2>
+
+        <!-- Create Stock Take -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-plus-circle"></i>
+                    Creating a Stock Take Session
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Log In via OTP</div>
+                            <div class="step-description">Access the Stock Take app using your branch email and OTP code.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Select Stock Take Type</div>
+                            <div class="step-description">Choose the type of count to perform.</div>
+                            <div class="sub-options">
+                                <div class="sub-option">
+                                    <div class="sub-option-icon"><i class="fas fa-boxes-stacked"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Full Count</h4>
+                                        <p>All products in inventory</p>
+                                    </div>
+                                </div>
+                                <div class="sub-option">
+                                    <div class="sub-option-icon"><i class="fas fa-rotate"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Cycle Count</h4>
+                                        <p>Selected categories only</p>
+                                    </div>
+                                </div>
+                                <div class="sub-option">
+                                    <div class="sub-option-icon"><i class="fas fa-bullseye"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Spot Check</h4>
+                                        <p>Random selection of products</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Create Session</div>
+                            <div class="step-description">Click "CREATE" to generate stock take session. System assigns a session number.</div>
+                            <div class="input-example">
+                                <span>Session:</span> ST-20260204-001 | <span>Type:</span> Full Count | <span>Items:</span> 151
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Counting Products -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-scale-balanced"></i>
+                    Counting Products
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Select Product</div>
+                            <div class="step-description">Choose a product from the list or scan barcode.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Physical Count</div>
+                            <div class="step-description">Count or weigh the product. For weighables, use calibrated scale.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Take Photo (Required)</div>
+                            <div class="step-description">Photograph the scale reading or counted items. This is mandatory for compliance.</div>
+                            <div class="workflow-note">
+                                <i class="fas fa-camera"></i>
+                                <strong>SA GMP Requirement:</strong> Photo verification is mandatory for all counts.
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Enter Actual Quantity</div>
+                            <div class="step-description">Input the counted/weighed amount. System calculates variance automatically.</div>
+                            <div class="input-example">
+                                <span>Expected:</span> 250g | <span>Actual:</span> 245g | <span>Variance:</span> -5g (-2%)
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Add Notes (if variance)</div>
+                            <div class="step-description">For variances >5%, add explanation notes.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div class="step-title">Save Item</div>
+                            <div class="step-description">Click "SAVE" to record count. Move to next item.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit for Review -->
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <i class="fas fa-paper-plane"></i>
+                    Submitting for Review
+                </div>
+                <i class="fas fa-chevron-down accordion-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Complete All Items</div>
+                            <div class="step-description">Ensure all products have been counted with photos uploaded.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Review Summary</div>
+                            <div class="step-description">Check the stock take summary for completeness.</div>
+                            <div class="sub-options">
+                                <div class="sub-option">
+                                    <div class="sub-option-icon" style="background: var(--brand-success);"><i class="fas fa-check"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Items Counted</h4>
+                                        <p>151/151 complete</p>
+                                    </div>
+                                </div>
+                                <div class="sub-option">
+                                    <div class="sub-option-icon" style="background: var(--brand-warning);"><i class="fas fa-triangle-exclamation"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Variances</h4>
+                                        <p>3 items with variance >5%</p>
+                                    </div>
+                                </div>
+                                <div class="sub-option">
+                                    <div class="sub-option-icon" style="background: var(--brand-info);"><i class="fas fa-camera"></i></div>
+                                    <div class="sub-option-content">
+                                        <h4>Photos</h4>
+                                        <p>151/151 uploaded</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Submit for Manager Review</div>
+                            <div class="step-description">Click "SUBMIT FOR REVIEW" to send to manager.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Manager Review</div>
+                            <div class="step-description">Manager reviews variances and approves or requests recount.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-title">Final Approval</div>
+                            <div class="step-description">Once approved, inventory is updated to match counted quantities.</div>
+                        </div>
+                    </div>
+                    <div class="workflow-note">
+                        <i class="fas fa-shield-check"></i>
+                        <strong>Compliance:</strong> Approved stock takes generate SAHPRA-compliant reports automatically.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><strong>JIG Craft Cannabis</strong> | Staff Training Documentation</p>
+        <p style="margin-top: 8px;">Last Updated: February 2026</p>
+    </footer>
+
+    <script>
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isOpen = content.classList.contains('open');
+
+            // Close all accordions first (optional - remove for independent operation)
+            // document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+            // document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+
+            // Toggle this accordion
+            if (isOpen) {
+                content.classList.remove('open');
+                header.classList.remove('active');
+            } else {
+                content.classList.add('open');
+                header.classList.add('active');
+            }
+        }
+
+        // Optional: Expand all / Collapse all functionality
+        function expandAll() {
+            document.querySelectorAll('.accordion-content').forEach(c => c.classList.add('open'));
+            document.querySelectorAll('.accordion-header').forEach(h => h.classList.add('active'));
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+            document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+        }
+    </script>
+
+</body>
+</html>

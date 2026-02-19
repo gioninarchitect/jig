@@ -21,7 +21,7 @@ import cors from 'cors';
 import path from 'path';
 import fs from 'fs';
 import { pool } from './db';
-import { errorHandler } from './middleware';
+import { errorHandler, chatWebhookLimiter } from './middleware';
 
 // Route imports
 import authRoutes from './routes/auth.routes';
@@ -31,6 +31,11 @@ import orderRoutes from './routes/orders.routes';
 import eventRoutes from './routes/events.routes';
 import intelligenceRoutes from './routes/intelligence.routes';
 import leadRoutes from './routes/leads.routes';
+import verificationRoutes from './routes/verification.routes';
+import chatWebhookRoutes from './chat/webhookRoutes';
+import chatAdminRoutes from './chat/adminRoutes';
+import n8nRoutes from './routes/n8n.routes';
+import { startNotificationScheduler } from './chat/notifications';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3002;
@@ -74,6 +79,10 @@ api.use('/orders', orderRoutes);
 api.use('/events', eventRoutes);
 api.use('/intelligence', intelligenceRoutes);
 api.use('/leads', leadRoutes);
+api.use('/verification', verificationRoutes);
+api.use('/chat', chatWebhookLimiter, chatWebhookRoutes);
+api.use('/chat', chatAdminRoutes);
+api.use('/n8n', n8nRoutes);
 
 app.use('/api/v1', api);
 
@@ -87,6 +96,9 @@ app.listen(PORT, () => {
   console.log(`[JIG] Server running on port ${PORT}`);
   console.log(`[JIG] Health: http://localhost:${PORT}/health`);
   console.log(`[JIG] API:    http://localhost:${PORT}/api/v1`);
+
+  // Start notification scheduler
+  startNotificationScheduler();
 });
 
 export default app;

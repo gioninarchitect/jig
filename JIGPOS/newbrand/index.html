@@ -1,0 +1,2545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JIG Craft Cannabis | Medical Cannabis SA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* ==================== BUTTONS ==================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+            color: var(--gray-900);
+            box-shadow: var(--shadow-gold), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(217, 119, 6,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.4);
+            color: var(--white);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: var(--white);
+            border-color: var(--white);
+            color: var(--purple);
+            transform: translateY(-4px);
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.4s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(244,240,230,0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15), 0 1px 0 rgba(124, 58, 237,0.1);
+            padding: 0.75rem 0;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--green-dark);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-brand {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            color: var(--white);
+            text-transform: uppercase;
+            line-height: 1;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-brand span {
+            display: block;
+            font-size: 0.55rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        .nav.scrolled .nav-brand { color: var(--purple); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--white);
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+        .nav.scrolled .nav-links a { color: var(--gray-700); }
+        .nav-links a:hover { color: var(--gold); }
+
+        .nav-cta { display: flex; gap: 1rem; align-items: center; }
+        .nav-cta .btn { padding: 0.6rem 1.25rem; font-size: 0.75rem; border-radius: 10px; }
+        .cart-btn {
+            position: relative;
+            background: transparent;
+            border: 2px solid var(--cream);
+            color: var(--cream);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--white); }
+        .cart-btn .icon { width: 20px; height: 20px; }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--gold);
+            color: var(--white);
+            font-size: 0.7rem;
+            font-weight: 700;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav.scrolled .cart-btn { border-color: var(--purple); color: var(--purple); }
+        .nav.scrolled .cart-btn:hover { background: var(--green); color: var(--cream); }
+
+        /* Cart Drawer */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .cart-overlay.active { opacity: 1; visibility: visible; }
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            max-width: 100%;
+            height: 100vh;
+            background: var(--black);
+            z-index: 9999;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -8px 0 30px rgba(0,0,0,0.2);
+        }
+        .cart-drawer.active { right: 0; }
+        .cart-drawer-header {
+            padding: 1.5rem;
+            background: var(--green);
+            color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-drawer-header h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+        .cart-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--cream);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .cart-drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #0A0A0A;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: var(--green-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-weight: 600; color: var(--white); margin-bottom: 0.25rem; }
+        .cart-item-price { color: var(--gold-dark); font-weight: 700; }
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .cart-item-qty button {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--green);
+            border-radius: 6px;
+            background: transparent;
+            color: var(--purple);
+            cursor: pointer;
+        }
+        .cart-item-qty button:hover { background: var(--green); color: white; }
+        .cart-drawer-footer {
+            padding: 1.5rem;
+            background: #0A0A0A;
+            border-top: 3px solid var(--gold);
+        }
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+        .cart-checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gold);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .cart-checkout-btn:hover { background: var(--gold-dark); }
+        .cart-empty {
+            text-align: center;
+            padding: 3rem;
+            color: var(--green-light);
+        }
+        .cart-empty .icon { width: 60px; height: 60px; margin-bottom: 1rem; }
+
+        /* Add to Cart Button */
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            background: var(--gold);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .add-to-cart-btn:hover { background: var(--gold-dark); transform: translateY(-2px); }
+        .add-to-cart-btn .icon { width: 16px; height: 16px; }
+
+        .nav.scrolled .btn-outline {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+        .nav.scrolled .btn-outline:hover {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .nav-mobile { display: none; background: none; border: none; font-size: 1.5rem; color: var(--white); cursor: pointer; }
+        .nav.scrolled .nav-mobile { color: var(--purple); }
+
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--green-dark);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0;
+                border-bottom: 3px solid var(--gold);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links a {
+                padding: 1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                color: var(--cream) !important;
+            }
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+            .nav-cta { display: none; }
+            .nav-mobile { display: block; }
+        }
+
+        /* ==================== HERO ==================== */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, #1E1E1E 0%, #0A0A0A 40%, #0A0A0A 100%);
+        }
+
+        /* Cannabis leaf pattern */
+        .hero-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.06;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D4AF37'%3E%3Cpath d='M40 8c0 0-3 12-3 20c0 4 1.5 7 3 7s3-3 3-7c0-8-3-20-3-20z'/%3E%3Cpath d='M40 35c-8-12-22-18-22-18s4 14 12 22c4 4 8 5 10 4c-2-2-2-5 0-8z'/%3E%3Cpath d='M40 35c8-12 22-18 22-18s-4 14-12 22c-4 4-8 5-10 4c2-2 2-5 0-8z'/%3E%3Cpath d='M40 42c-12-6-25-4-25-4s8 12 18 16c5 2 9 1 10-1c-2-3-1-6 0-8c-1-1-2-2-3-3z'/%3E%3Cpath d='M40 42c12-6 25-4 25-4s-8 12-18 16c-5 2-9 1-10-1c2-3 1-6 0-8c1-1 2-2 3-3z'/%3E%3Cpath d='M40 55c0 0-2 8-2 17h4c0-9-2-17-2-17z'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 100px 100px;
+        }
+
+        /* Gradient orbs */
+        .hero-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+        }
+
+        .hero-glow-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(217, 119, 6,0.25) 0%, transparent 70%);
+            top: -200px;
+            right: -150px;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .hero-glow-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(220, 38, 38,0.15) 0%, transparent 70%);
+            bottom: -150px;
+            left: -100px;
+            animation: pulse 8s ease-in-out infinite 4s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: var(--white);
+            max-width: 680px;
+            padding: 6rem 0;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(217, 119, 6,0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.6rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(217, 119, 6,0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-badge i { color: var(--gold); font-size: 0.9rem; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.02em;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+            text-shadow: 0 4px 30px rgba(217, 119, 6,0.4);
+        }
+
+        .hero-tagline {
+            font-family: 'Oswald', sans-serif;
+            font-style: italic;
+            font-size: 1.35rem;
+            color: var(--gold-light);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            max-width: 550px;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+
+        .hero-stat {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.5rem;
+            color: var(--gold);
+            line-height: 1;
+            text-shadow: 0 4px 20px rgba(217, 119, 6,0.3);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            opacity: 0.7;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .hero-tagline { font-size: 1.1rem; }
+            .hero-buttons { flex-direction: column; }
+            .hero-stats { flex-wrap: wrap; gap: 2rem; }
+            .stat-value { font-size: 2.5rem; }
+        }
+
+        /* ==================== SECTIONS ==================== */
+        .section {
+            padding: 6rem 0;
+            background: var(--black);
+        }
+
+        .section-cream {
+            background: var(--black);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--gold-dark);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            color: var(--purple);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .section-subtitle {
+            font-family: 'Oswald', sans-serif;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--gray-500);
+        }
+
+        /* ==================== 3D STEP CARDS ==================== */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            perspective: 1000px;
+        }
+        
+        /* Tablet: 2 columns */
+        @media (max-width: 968px) {
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Mobile: Horizontal Swipe Carousel */
+        @media (max-width: 640px) {
+            .steps-grid {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+                scroll-snap-type: x mandatory;
+                overflow-x: auto;
+                overflow-y: hidden;
+                padding: 1rem 0 2rem;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .steps-grid::-webkit-scrollbar {
+                display: none;
+            }
+            .step-card {
+                flex: 0 0 85%;
+                min-width: 85%;
+                scroll-snap-align: center;
+                scroll-snap-stop: always;
+                border-radius: 20px !important;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+                padding: 2rem 1.5rem;
+            }
+            .step-card:first-child {
+                margin-left: 1rem;
+            }
+            .step-card:last-child {
+                margin-right: 1rem;
+            }
+            .step-num {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                transform: none !important;
+                margin: 0 auto 1rem;
+            }
+            .step-icon {
+                width: 70px !important;
+                height: 70px !important;
+                margin-bottom: 1rem !important;
+            }
+            .step-title {
+                font-size: 1.4rem;
+            }
+            .step-desc {
+                font-size: 0.95rem;
+            }
+        }
+
+        .step-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.08),
+                0 0 0 1px rgba(0,0,0,0.03);
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .step-card:hover {
+            transform: translateY(-12px) rotateX(5deg);
+            box-shadow: 
+                0 30px 60px rgba(124, 58, 237,0.15),
+                0 0 0 1px rgba(217, 119, 6,0.2);
+        }
+
+        .step-num {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: var(--green-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 20px rgba(217, 119, 6,0.4);
+            z-index: 2;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, var(--green), var(--green-dark));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem auto 1.5rem;
+            font-size: 2rem;
+            color: var(--white);
+            box-shadow: 
+                0 15px 35px rgba(124, 58, 237,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            transform: translateZ(20px);
+            transition: all 0.4s;
+        }
+
+        .step-card:hover .step-icon {
+            transform: translateZ(30px) scale(1.05);
+            box-shadow: 0 20px 45px rgba(124, 58, 237,0.4);
+        }
+
+        .step-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            color: var(--purple);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .step-desc {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        
+
+        /* ==================== MENU SECTION ==================== */
+        .menu-section {
+            background: linear-gradient(160deg, var(--green) 0%, var(--green-dark) 50%, var(--green-deep) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 10% 20%, rgba(217, 119, 6,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 80%, rgba(220, 38, 38,0.05) 0%, transparent 50%);
+        }
+
+        .menu-section .section-label { color: var(--gold-light); }
+        .menu-section .section-title { color: var(--white); }
+        .menu-section .section-subtitle { color: rgba(255,255,255,0.75); }
+
+        /* Tier Headers */
+        .tier-block {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 3rem;
+        }
+
+        .tier-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 2rem;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .tier-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tier-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green-dark);
+            font-size: 1.25rem;
+            box-shadow: 0 8px 25px rgba(217, 119, 6,0.35);
+        }
+
+        .tier-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            text-transform: uppercase;
+            color: var(--white);
+            letter-spacing: 0.02em;
+        }
+
+        .tier-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.75rem;
+            color: var(--gold);
+            background: rgba(0,0,0,0.25);
+            padding: 0.5rem 1.75rem;
+            border-radius: 50px;
+            letter-spacing: 0.02em;
+        }
+
+        /* ==================== 3D PRODUCT CARDS ==================== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.75rem;
+            perspective: 1200px;
+        }
+        
+        /* Mobile & Tablet: Horizontal Carousel for Products */
+        @media (max-width: 1024px) {
+            .products-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                gap: 1rem;
+                padding: 1rem;
+                margin: 0 -1rem;
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE/Edge */
+            }
+            .products-grid::-webkit-scrollbar {
+                display: none; /* Chrome/Safari */
+            }
+            .product-card {
+                flex: 0 0 280px;
+                scroll-snap-align: start;
+                scroll-margin-left: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                gap: 0.75rem;
+            }
+            .product-card {
+                flex: 0 0 260px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .product-card {
+                flex: 0 0 240px;
+            }
+        }
+
+        /* Carousel wrapper with edge gradients */
+        .carousel-wrapper {
+            position: relative;
+        }
+
+        @media (max-width: 1024px) {
+            .carousel-wrapper::before,
+            .carousel-wrapper::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 40px;
+                z-index: 10;
+                pointer-events: none;
+            }
+            .carousel-wrapper::before {
+                left: 0;
+                background: linear-gradient(to right, var(--cream) 0%, transparent 100%);
+            }
+            .carousel-wrapper::after {
+                right: 0;
+                background: linear-gradient(to left, var(--cream) 0%, transparent 100%);
+            }
+
+            /* Scroll hint indicator */
+            .scroll-hint {
+                display: flex;
+                justify-content: center;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+            .scroll-hint span {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--gray-200);
+                transition: background 0.3s;
+            }
+            .scroll-hint span.active {
+                background: var(--gold);
+                width: 24px;
+                border-radius: 4px;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .scroll-hint {
+                display: none;
+            }
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 20px 50px rgba(0,0,0,0.15),
+                0 0 0 1px rgba(255,255,255,0.1);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--green), var(--gold));
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) rotateX(5deg) scale(1.02);
+            box-shadow: 
+                0 40px 80px rgba(0,0,0,0.25),
+                0 0 0 2px var(--gold);
+        }
+
+        .product-img {
+            height: 160px;
+            background: linear-gradient(145deg, var(--green-light), var(--green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.2) 100%);
+        }
+
+        .product-img i {
+            font-size: 4rem;
+            color: var(--white);
+            opacity: 0.15;
+            transition: all 0.4s;
+        }
+
+        .product-card:hover .product-img i {
+            opacity: 0.25;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.4rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            z-index: 5;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .product-badge.indica {
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            color: var(--white);
+        }
+
+        .product-badge.sativa {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: var(--green-dark);
+        }
+
+        .product-badge.hybrid {
+            background: linear-gradient(135deg, var(--green-light), var(--green));
+            color: var(--white);
+        }
+
+        .product-content {
+            padding: 1.75rem;
+            transform: translateZ(10px);
+        }
+
+        .product-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.35rem;
+            text-transform: uppercase;
+            color: var(--purple);
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.02em;
+        }
+
+        .product-genetics {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gold-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .product-desc {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+        }
+
+        .product-stats {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .stat-box {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem 0.5rem;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .product-card:hover .stat-box {
+            background: var(--black);
+            border-color: rgba(217, 119, 6,0.2);
+        }
+
+        .stat-box-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-box-value {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.05rem;
+            color: var(--purple);
+            margin-top: 2px;
+        }
+
+        .product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.35rem 0.75rem;
+            background: var(--black);
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            transition: all 0.3s;
+        }
+
+        .product-card:hover .tag {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        /* ==================== 3D FEATURE CARDS ==================== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            perspective: 1000px;
+        }
+        
+        /* Tablet: 2 columns */
+        @media (max-width: 968px) and (min-width: 641px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Mobile: Horizontal Swipe Carousel */
+        @media (max-width: 640px) {
+            .features-grid {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+                scroll-snap-type: x mandatory;
+                overflow-x: auto;
+                overflow-y: hidden;
+                padding: 1rem 0 1.5rem;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .features-grid::-webkit-scrollbar {
+                display: none;
+            }
+            .feature-card {
+                flex: 0 0 85%;
+                min-width: 85%;
+                scroll-snap-align: center;
+                scroll-snap-stop: always;
+            }
+            .feature-card:first-child {
+                margin-left: 1rem;
+            }
+            .feature-card:last-child {
+                margin-right: 1rem;
+            }
+        }
+
+        .feature-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-100);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--gold);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, var(--gold-light), var(--gold));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            font-size: 1.75rem;
+            color: var(--green-dark);
+            box-shadow: var(--shadow-gold);
+            transform: translateZ(15px);
+            transition: all 0.4s;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: translateZ(25px) scale(1.1);
+            background: linear-gradient(145deg, var(--green-light), var(--green));
+            color: var(--gold);
+        }
+
+        .feature-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.15rem;
+            text-transform: uppercase;
+            color: var(--purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        
+
+        /* ==================== 3D LOCATION CARDS ==================== */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            perspective: 1000px;
+        }
+
+        .location-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            padding-top: 3rem;
+            margin-top: 15px;
+            text-align: center;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-100);
+            overflow: visible;
+        }
+
+        .location-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--green), var(--gold), var(--red));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .location-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .location-card:hover {
+            transform: translateY(-12px) rotateX(5deg);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--purple);
+        }
+
+        .location-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, var(--green), var(--green-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            color: var(--white);
+            box-shadow: var(--shadow-green);
+            transform: translateZ(15px);
+            transition: all 0.4s;
+        }
+
+        .location-card:hover .location-icon {
+            transform: translateZ(25px) scale(1.1);
+        }
+
+        .location-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            color: var(--purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .location-address {
+            font-size: 0.95rem;
+            color: var(--gray-500);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .location-hours {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            background: var(--black);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+        }
+
+        .location-hours i { color: var(--gold); }
+
+        @media (max-width: 1024px) {
+            .locations-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+            .locations-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ==================== CTA ==================== */
+        .cta {
+            background: linear-gradient(160deg, var(--green) 0%, var(--green-dark) 50%, var(--green-deep) 100%);
+            padding: 6rem 0;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(217, 119, 6,0.15) 0%, transparent 60%);
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .cta-tagline {
+            font-family: 'Oswald', sans-serif;
+            font-style: italic;
+            font-size: 1.35rem;
+            color: var(--gold-light);
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            background: var(--green-deep);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--green-dark);
+        }
+
+        .footer-brand {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .footer-brand span {
+            display: block;
+            font-family: 'Oswald', sans-serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--gold-light);
+            text-transform: none;
+        }
+
+        .footer-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .footer-social a {
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            background: var(--gold);
+            color: var(--green-dark);
+            transform: translateY(-4px);
+        }
+
+        .footer-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.75rem; }
+
+        .footer-links a {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--gold);
+            padding-left: 0.5rem;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-legal a:hover { color: var(--gold); }
+
+        @media (max-width: 968px) {
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 576px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+            .footer-legal { justify-content: center; flex-wrap: wrap; }
+        }
+
+        /* ==================== AGE GATE ==================== */
+        .age-gate {
+            position: fixed;
+            inset: 0;
+            background: rgba(21,43,29,0.98);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+
+        .age-gate.hidden { display: none; }
+
+        .age-gate-box {
+            background: var(--white);
+            border-radius: 28px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 400px;
+            margin: 1rem;
+            box-shadow: var(--shadow-xl);
+            border: 3px solid var(--gold);
+            transform: translateY(0);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .age-gate-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--green-dark);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .age-gate-box h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.75rem;
+            text-transform: uppercase;
+            color: var(--purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .age-gate-box p {
+            color: var(--gray-500);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .age-gate-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .age-gate-btns .btn {
+            min-width: 130px;
+        }
+
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-300);
+        }
+    
+        /* Inline SVG Icon Styles */
+        .icon {
+            display: inline-flex;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+        }
+        .icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        .step-icon .icon, .feature-icon .icon, .location-icon .icon, .tier-icon .icon {
+            width: 50%;
+            height: 50%;
+        }
+        .product-img .icon {
+            width: 4rem;
+            height: 4rem;
+            opacity: 0.15;
+        }
+        .nav-logo-icon .icon, .footer-logo-icon .icon, .age-gate-logo .icon {
+            width: 60%;
+            height: 60%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Age Gate -->
+    <div class="age-gate" id="ageGate">
+        <div class="age-gate-box">
+            <img src="images/DeBudChef-rLogo.png" alt="JIG Craft Cannabis" class="age-gate-logo" style="width:100px;height:100px;border-radius:20px;margin:0 auto 1.5rem;">
+            <h2>Age Verification</h2>
+            <p>Please enter your date of birth to verify you are 18 years or older.</p>
+            <div style="display: flex; gap: 10px; justify-content: center; margin: 20px 0;">
+                <select id="dobDay" style="padding: 12px; border-radius: 8px; border: 2px solid #ddd; font-size: 16px; min-width: 80px;">
+                    <option value="">Day</option>
+                </select>
+                <select id="dobMonth" style="padding: 12px; border-radius: 8px; border: 2px solid #ddd; font-size: 16px; min-width: 120px;">
+                    <option value="">Month</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+                <select id="dobYear" style="padding: 12px; border-radius: 8px; border: 2px solid #ddd; font-size: 16px; min-width: 100px;">
+                    <option value="">Year</option>
+                </select>
+            </div>
+            <div id="ageError" style="color: #DC2626; margin-bottom: 15px; display: none; font-weight: 600;"></div>
+            <button class="btn btn-gold" onclick="verifyAge()" style="width: 100%; padding: 14px; font-size: 16px;">
+                Verify Age
+            </button>
+            <p style="margin-top: 15px; font-size: 12px; color: #666;">
+                By entering, you confirm you are of legal age to purchase cannabis products in South Africa.
+            </p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo">
+                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" class="nav-logo-img" style="width:48px;height:48px;border-radius:12px;filter:drop-shadow(0 4px 12px rgba(217, 119, 6,0.3));">
+                <div class="nav-brand">
+                    JIG Craft Cannabis
+                    <span>Craft Cannabis</span>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a href="#how-it-works">How It Works</a>
+                <a href="#menu">Menu</a>
+                <a href="#locations">Locations</a>
+                <a href="#about">About</a>
+            </div>
+            <div class="nav-cta">
+                <button class="cart-btn" onclick="toggleCart()">
+                    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg></span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <a href="login.html" class="btn btn-outline"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg></span> Login</a>
+                <a href="register.html" class="btn btn-gold"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM504 312l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg></span> Register</a>
+            </div>
+            <button class="nav-mobile" onclick="toggleMobileMenu()"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg></span></button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-pattern"></div>
+        <div class="hero-glow hero-glow-1"></div>
+        <div class="hero-glow hero-glow-2"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0z"/></svg></span>
+                    SAHPRA Compliant · Section 21 Approved
+                </div>
+
+                <h1>De Bud <span>Chef</span></h1>
+                <div class="hero-tagline">"Craft Cannabis · Est. 2026 · Finest Goods"</div>
+                <p>South Africa's trusted medical cannabis collection points. Expert guidance, premium products, and personalised wellness solutions curated by our specialists.</p>
+                
+                <div class="hero-buttons">
+                    <a href="register.html" class="btn btn-gold">
+                        <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM504 312l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg></span> Become a Member
+                    </a>
+                    <a href="#menu" class="btn btn-outline">
+                        <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0c5.3 0 10.3 2.7 13.3 7.1c15.8 23.5 36.7 63.7 49.2 109c7.2 26.4 11.8 55.2 10.4 84c11.5-8.8 23.7-16.7 35.8-23.6c41-23.3 84.4-36.9 112.2-42.5c5.2-1 10.7 .6 14.4 4.4s5.4 9.2 4.4 14.5c-5.6 27.7-19.3 70.9-42.7 111.7c-9.1 15.9-19.9 31.7-32.4 46.3c27.8 6.6 52.4 17.3 67.2 25.5c5.1 2.8 8.2 8.2 8.2 14s-3.2 11.2-8.2 14c-14.8 8.2-39.4 18.8-67.2 25.5c12.5 14.5 23.3 30.3 32.4 46.3c23.4 40.8 37.1 84 42.7 111.7c1 5.2-.6 10.7-4.4 14.4s-9.2 5.4-14.4 4.4c-27.8-5.6-71.2-19.2-112.2-42.5c-12.1-6.9-24.3-14.7-35.8-23.6c1.4 28.8-3.2 57.6-10.4 84c-12.5 45.3-33.4 85.5-49.2 109c-3 4.4-7.9 7.1-13.3 7.1s-10.3-2.7-13.3-7.1c-15.8-23.5-36.7-63.7-49.2-109c-7.2-26.4-11.8-55.2-10.4-84c-11.5 8.8-23.7 16.7-35.8 23.6c-41 23.3-84.4 36.9-112.2 42.5c-5.2 1-10.7-.6-14.4-4.4s-5.4-9.2-4.4-14.4c5.6-27.7 19.3-70.9 42.7-111.7c9.1-15.9 19.9-31.7 32.4-46.3c-27.8-6.6-52.4-17.3-67.2-25.5c-5.1-2.8-8.2-8.2-8.2-14s3.2-11.2 8.2-14c14.8-8.2 39.4-18.8 67.2-25.5c-12.5-14.5-23.3-30.3-32.4-46.3C19.3 134.7 5.6 91.5 0 63.8c-1-5.2 .6-10.7 4.4-14.4s9.2-5.4 14.4-4.4c27.8 5.6 71.2 19.2 112.2 42.5c12.1 6.9 24.3 14.7 35.8 23.6c-1.4-28.8 3.2-57.6 10.4-84c12.5-45.3 33.4-85.5 49.2-109c3-4.4 7.9-7.1 13.3-7.1z"/></svg></span> View Menu
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Collection Points</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="stat-value">50+</div>
+                        <div class="stat-label">Premium Products</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Lab Tested</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section section-cream" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Getting Started</div>
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Access legal medical cannabis in four simple steps</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <div class="step-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM504 312l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg></span></div>
+                    <h3 class="step-title">Register</h3>
+                    <p class="step-desc">Create your secure member account with a valid SA ID</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-96 55.2C54 332.9 0 401.3 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7c0-81-54-149.4-128-171.1l0 50.8c27.6 7.1 48 32.2 48 62l0 40c0 8.8-7.2 16-16 16l-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l0-24c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 24c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0c-8.8 0-16-7.2-16-16l0-40c0-29.8 20.4-54.9 48-62l0-57.1c-6-.6-12.1-.9-18.3-.9l-91.4 0c-6.2 0-12.3 .3-18.3 .9l0 65.4c23.1 6.9 40 28.3 40 53.7c0 30.9-25.1 56-56 56s-56-25.1-56-56c0-25.4 16.9-46.8 40-53.7l0-59.1zM144 448a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/></svg></span></div>
+                    <h3 class="step-title">Consult</h3>
+                    <p class="step-desc">Speak with a registered cannabinoid prescriber</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM160 240c0-8.8 7.2-16 16-16l32 0 0-32c0-8.8 7.2-16 16-16s16 7.2 16 16l0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-32-32 0c-8.8 0-16-7.2-16-16z"/></svg></span></div>
+                    <h3 class="step-title">Section 21</h3>
+                    <p class="step-desc">Your doctor submits a SAHPRA application</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <div class="step-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M224 24l0 56-56 0c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l56 0 0 56c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-56 56 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-56 0 0-56c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM559.7 392.2c17.8-13.1 21.6-38.1 8.5-55.9s-38.1-21.6-55.9-8.5L392.6 416 272 416c-8.8 0-16-7.2-16-16s7.2-16 16-16l16 0 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0-16 0-78.3 0c-29.1 0-57.3 9.9-80 28L68.8 384 32 384c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l160 0 127.2 0c29.1 0 57.3-9.9 80-28l160.5-118.2z"/></svg></span></div>
+                    <h3 class="step-title">Collect</h3>
+                    <p class="step-desc">Pick up your medicine from any collection point</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu -->
+    <section class="section menu-section" id="menu">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">JIG Craft Cannabis Collection</div>
+                <h2 class="section-title">Our Products</h2>
+                <p class="section-subtitle">Premium glassware, CBD wellness, and lifestyle accessories</p>
+            </div>
+
+            <!-- Featured Products - Loaded from Database -->
+            <div class="tier-block">
+                <div class="tier-header">
+                    <div class="tier-info">
+                        <div class="tier-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/></svg></span></div>
+                        <div class="tier-name">Featured Products</div>
+                    </div>
+                    <div class="tier-price"><a href="products.html" style="color: var(--gold); text-decoration: none;">View All</a></div>
+                </div>
+                <div class="carousel-wrapper">
+                    <div class="products-grid" id="featuredProductsGrid">
+                        <!-- Loading state -->
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--purple);">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">Loading products...</div>
+                        </div>
+                    </div>
+                    <div class="scroll-hint" id="scrollHint"></div>
+                </div>
+            </div>
+            <!-- Member Benefits Callout -->
+            <div class="tier-block" style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); border-radius: 20px; padding: 2rem; margin-top: 2rem;">
+                <div style="text-align: center; color: var(--white);">
+                    <h3 style="font-family: 'Oswald', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem; text-transform: uppercase;">Members Get More</h3>
+                    <p style="font-size: 1rem; opacity: 0.9; margin-bottom: 1.5rem;">Register for exclusive access to our full product range including medical cannabis (Section 21), member pricing, and loyalty rewards</p>
+                    <a href="register.html" style="display: inline-block; background: var(--gold); color: var(--gray-900); padding: 1rem 2.5rem; border-radius: 12px; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; transition: all 0.3s;">Become a Member</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Why Choose Us</div>
+                <h2 class="section-title">Craft Cannabis</h2>
+                <p class="section-subtitle">Your wellness journey, backed by expertise and compliance</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M288 0L160 0 128 0C110.3 0 96 14.3 96 32s14.3 32 32 32l0 132.8c0 11.8-3.3 23.5-9.5 33.5L10.3 406.2C3.6 417.2 0 429.7 0 442.6C0 480.9 31.1 512 69.4 512l309.2 0c38.3 0 69.4-31.1 69.4-69.4c0-12.8-3.6-25.4-10.3-36.4L329.5 230.4c-6.2-10.1-9.5-21.7-9.5-33.5L320 64c17.7 0 32-14.3 32-32s-14.3-32-32-32L288 0zM192 196.8L192 64l64 0 0 132.8c0 22.8 6.3 45.2 18.2 64.5l36.4 58.7-165.2 0 36.4-58.7c11.9-19.3 18.2-41.7 18.2-64.5z"/></svg></span></div>
+                    <h3 class="feature-title">Lab Tested</h3>
+                    <p class="feature-desc">Every product tested for purity, potency, and safety</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><path d="M384 32l128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L398.4 96c-5.2 25.8-22.9 47.1-46.4 57.3L352 448l160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-192 0-192 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l160 0 0-294.7c-23.5-10.3-41.2-31.6-46.4-57.3L128 96c-17.7 0-32-14.3-32-32s14.3-32 32-32l128 0c14.6-19.4 37.8-32 64-32s49.4 12.6 64 32zm55.6 288l144.9 0L512 195.8 439.6 320zM512 416c-62.9 0-115.2-34-126-78.9c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C627.2 382 574.9 416 512 416zM126.8 195.8L54.4 320l144.9 0L126.8 195.8zM.9 337.1c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C242 382 189.7 416 126.8 416S11.7 382 .9 337.1z"/></svg></span></div>
+                    <h3 class="feature-title">SAHPRA Compliant</h3>
+                    <p class="feature-desc">Operating fully within SA legal frameworks</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-96 55.2C54 332.9 0 401.3 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7c0-81-54-149.4-128-171.1l0 50.8c27.6 7.1 48 32.2 48 62l0 40c0 8.8-7.2 16-16 16l-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l0-24c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 24c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0c-8.8 0-16-7.2-16-16l0-40c0-29.8 20.4-54.9 48-62l0-57.1c-6-.6-12.1-.9-18.3-.9l-91.4 0c-6.2 0-12.3 .3-18.3 .9l0 65.4c23.1 6.9 40 28.3 40 53.7c0 30.9-25.1 56-56 56s-56-25.1-56-56c0-25.4 16.9-46.8 40-53.7l0-59.1zM144 448a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/></svg></span></div>
+                    <h3 class="feature-title">Doctor Network</h3>
+                    <p class="feature-desc">Partner cannabinoid prescribers across SA</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"/></svg></span></div>
+                    <h3 class="feature-title">Secure & Private</h3>
+                    <p class="feature-desc">Your information is protected and confidential</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations -->
+    <section class="section section-cream" id="locations">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Find Us</div>
+                <h2 class="section-title">Collection Points</h2>
+                <p class="section-subtitle">Visit us at our 8 locations across South Africa</p>
+            </div>
+            <div class="locations-grid">
+                <div class="location-card" onclick="window.location.href='ormonde.html'" style="cursor:pointer; border: 2px solid var(--gold); box-shadow: 0 0 20px rgba(217, 119, 6,0.3);">
+                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--green-dark);padding:4px 16px;border-radius:20px;font-size:0.75rem;font-weight:700;text-transform:uppercase;">Now Open</div>
+                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
+                    <h3 class="location-name" style="color:var(--gold);">Ormonde</h3>
+                    <p class="location-address">Ormonde, Johannesburg South<br>Gauteng</p>
+                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
+                    <div style="margin-top:1rem;"><span style="background:var(--green);color:var(--white);padding:8px 20px;border-radius:8px;font-size:0.85rem;font-weight:600;">Shop Now</span></div>
+                </div>
+                <div class="location-card" onclick="window.location.href='spruitview.html'" style="opacity:0.7;cursor:pointer;">
+                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
+                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
+                    <h3 class="location-name">Spruitview</h3>
+                    <p class="location-address">Spruitview, Ekurhuleni<br>Gauteng</p>
+                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
+                </div>
+                <div class="location-card" onclick="window.location.href='rustenburg.html'" style="opacity:0.7;cursor:pointer;">
+                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
+                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
+                    <h3 class="location-name">Rustenburg</h3>
+                    <p class="location-address">Rustenburg<br>North West</p>
+                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
+                </div>
+                <div class="location-card" onclick="window.location.href='klerksdorp.html'" style="opacity:0.7;cursor:pointer;">
+                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
+                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
+                    <h3 class="location-name">Klerksdorp</h3>
+                    <p class="location-address">Klerksdorp<br>North West</p>
+                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
+                </div>
+                <div class="location-card" onclick="window.location.href='mayfair.html'" style="opacity:0.7;cursor:pointer;">
+                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
+                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
+                    <h3 class="location-name">Mayfair</h3>
+                    <p class="location-address">Mayfair, Johannesburg<br>Gauteng</p>
+                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
+                </div>
+                <div class="location-card" onclick="window.location.href='ladybrand.html'" style="opacity:0.7;cursor:pointer;">
+                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
+                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
+                    <h3 class="location-name">Ladybrand</h3>
+                    <p class="location-address">Ladybrand<br>Free State</p>
+                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
+                </div>
+                <div class="location-card" onclick="window.location.href='ficksburg.html'" style="opacity:0.7;cursor:pointer;">
+                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
+                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
+                    <h3 class="location-name">Ficksburg</h3>
+                    <p class="location-address">Ficksburg<br>Free State</p>
+                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
+                </div>
+                <div class="location-card" onclick="window.location.href='wonderboom.html'" style="opacity:0.7;cursor:pointer;">
+                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
+                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
+                    <h3 class="location-name">Wonderboom</h3>
+                    <p class="location-address">Wonderboom, Pretoria<br>Gauteng</p>
+                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
+                </div>
+            </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Begin Your Journey</h2>
+                <div class="cta-tagline">"Craft Cannabis · Finest Goods"</div>
+                <p>Join thousands of South Africans accessing legal medical cannabis. Register today.</p>
+                <a href="#" class="btn btn-gold"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></span> Get Started Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="width:50px;height:50px;border-radius:12px;">
+                        <div class="footer-brand">JIG Craft Cannabis<span>"Craft Cannabis"</span></div>
+                    </div>
+                    <p class="footer-desc">South Africa's trusted medical cannabis wellness destination. Quality products, expert guidance, and compassionate care.</p>
+                    <div class="footer-social">
+                        <a href="#"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"/></svg></span></a>
+                        <a href="#"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></span></a>
+                        <a href="#"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></span></a>
+                        <a href="#"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg></span></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#menu">Our Menu</a></li>
+                        <li><a href="#locations">Locations</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Cannabis Education</a></li>
+                        <li><a href="#">Section 21 Guide</a></li>
+                        <li><a href="#">Find a Doctor</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="/cdn-cgi/l/email-protection#f59d9099999ab59194978091969d9093db969adb8f94"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></span> <span class="__cf_email__" data-cfemail="f69e939a9a99b69297948392959e9390d89599d88c97">[email&#160;protected]</span></a></li>
+                        <li><a href="tel:+27100000000"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg></span> +27 10 000 0000</a></li>
+                        <li><a href="#"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></span> WhatsApp Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 JIG Craft Cannabis. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <h3>Your Cart</h3>
+            <button class="cart-close-btn" onclick="toggleCart()">
+                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg></span>
+            </button>
+        </div>
+        <div class="cart-drawer-body" id="cartItems">
+            <div class="cart-empty">
+                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg></span>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-drawer-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">R0</span>
+            </div>
+            <button class="cart-checkout-btn" onclick="goToCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <script src="/frontend/config.js"></script>
+    <script src="/frontend/jig-utils.js"></script>
+    <script src="/frontend/jig-auth.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const nav = document.querySelector('.nav-links');
+            nav.classList.toggle('active');
+        }
+
+        // ==================== AGE GATE FUNCTIONALITY (DATABASE PERSISTENT) ====================
+        function initAgeGateDropdowns() {
+            // Populate days
+            const daySelect = document.getElementById('dobDay');
+            if (daySelect && daySelect.options.length <= 1) {
+                for (let i = 1; i <= 31; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    daySelect.appendChild(option);
+                }
+            }
+
+            // Populate years (from current year - 100 to current year - 18)
+            const yearSelect = document.getElementById('dobYear');
+            if (yearSelect && yearSelect.options.length <= 1) {
+                const currentYear = new Date().getFullYear();
+                for (let year = currentYear - 18; year >= currentYear - 100; year--) {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    yearSelect.appendChild(option);
+                }
+            }
+        }
+
+        async function verifyAge() {
+            const day = document.getElementById('dobDay').value;
+            const month = document.getElementById('dobMonth').value;
+            const year = document.getElementById('dobYear').value;
+            const errorDiv = document.getElementById('ageError');
+
+            // Validate all fields are selected
+            if (!day || !month || !year) {
+                errorDiv.textContent = 'Please select your complete date of birth';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            // Calculate age
+            const birthDate = new Date(year, month - 1, day);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            // Check if 18 or older
+            if (age < 18) {
+                errorDiv.textContent = 'You must be 18 years or older to access this site';
+                errorDiv.style.display = 'block';
+                setTimeout(() => { window.location.href = 'https://google.com'; }, 2000);
+                return;
+            }
+
+            // Try to save to database if logged in
+            const token = getAuthToken();
+            if (token) {
+                try {
+                    const response = await fetch(`${API_URL}/auth/otp/verify-age`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ dateOfBirth: birthDate.toISOString() })
+                    });
+
+                    const data = await response.json();
+                    if (data.success) {
+                        console.log('Age verified and saved to database');
+                    }
+                } catch (error) {
+                    console.error('Failed to save age to database:', error);
+                }
+            }
+
+            // Also store in localStorage as backup
+            localStorage.setItem('ageVerified', 'true');
+            localStorage.setItem('ageVerifiedDOB', birthDate.toISOString());
+            document.getElementById('ageGate').classList.add('hidden');
+        }
+
+        async function checkAgeGate() {
+            const ageGate = document.getElementById('ageGate');
+            if (!ageGate) return;
+
+            // First check if logged in and verified in database
+            const token = getAuthToken();
+            if (token) {
+                try {
+                    const response = await fetch(`${API_URL}/auth/otp/age-status`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const data = await response.json();
+
+                    if (data.success && data.ageVerification?.isVerified) {
+                        ageGate.classList.add('hidden');
+                        localStorage.setItem('ageVerified', 'true'); // Sync to localStorage
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Failed to check age status from database:', error);
+                }
+            }
+
+            // Fallback to localStorage for non-logged-in users
+            const ageVerified = localStorage.getItem('ageVerified');
+            if (ageVerified === 'true') {
+                ageGate.classList.add('hidden');
+            } else {
+                initAgeGateDropdowns();
+            }
+        }
+
+        // Check age gate on page load (after API_URL is defined)
+        // Moved to after API_URL definition
+
+        // ==================== CART FUNCTIONALITY - DATABASE PERSISTENT ====================
+        let cart = [];
+        let isLoggedIn = false;
+
+        // Check if user is logged in
+        function getAuthToken() {
+            return sessionStorage.getItem('token') || localStorage.getItem('token');
+        }
+
+        // Initialize cart, load featured products, and check age gate on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            await checkAgeGate();  // Check age verification (database first, then localStorage)
+            await loadCart();
+            await loadFeaturedProducts();
+        });
+
+        // Load featured products from database
+        async function loadFeaturedProducts() {
+            const grid = document.getElementById('featuredProductsGrid');
+
+            try {
+                // Fetch ONLY non-cannabis products for public display
+                // Safe categories: accessories only
+                // DO NOT show: flower, pre-rolls, edibles, concentrates, vapes, oils, bundles, coffee
+                const response = await fetch(`${API_URL}/products?category=accessories&limit=6&status=active`);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const products = data.products || data.data || [];
+
+                    if (products.length === 0) {
+                        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--purple);">No products available. Check back soon!</div>';
+                        return;
+                    }
+
+                    // Build product cards
+                    grid.innerHTML = products.map(product => {
+                        const imageUrl = product.images && product.images.length > 0
+                            ? product.images[0].url
+                            : '/images/jig-logo-nobg.png';
+                        const category = product.category || 'Product';
+                        const desc = product.shortDescription || product.description || '';
+                        const truncatedDesc = desc.length > 100 ? desc.substring(0, 100) + '...' : desc;
+
+                        return `
+                            <div class="product-card">
+                                <div class="product-img" style="background: linear-gradient(145deg, var(--green), var(--green-dark)); position: relative;">
+                                    <span class="product-badge" style="background: var(--gold);">${category}</span>
+                                    <img src="${imageUrl}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; padding: 1rem;" onerror="this.src='/images/jig-logo-nobg.png'">
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="product-name">${product.name}</h3>
+                                    <p class="product-genetics">${product.brand || 'JIG Craft Cannabis'}</p>
+                                    <p class="product-desc">${truncatedDesc}</p>
+                                    <div class="product-stats">
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Stock</div>
+                                            <div class="stat-box-value">${product.inventory?.quantity || 0}</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-box-label">Price</div>
+                                            <div class="stat-box-value">R${product.price}</div>
+                                        </div>
+                                    </div>
+                                    <button class="add-to-cart-btn" onclick="addToCart('${product._id}', '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${imageUrl}')">
+                                        <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg></span>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    // Initialize carousel scroll indicators
+                    initCarouselIndicators(products.length);
+                } else {
+                    grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--red);">Failed to load products</div>';
+                }
+            } catch (error) {
+                console.error('Load featured products error:', error);
+                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--red);">Network error loading products</div>';
+            }
+        }
+
+        // Carousel scroll indicators
+        function initCarouselIndicators(count) {
+            const grid = document.getElementById('featuredProductsGrid');
+            const hint = document.getElementById('scrollHint');
+            if (!grid || !hint || count === 0) return;
+
+            // Only show on mobile/tablet
+            if (window.innerWidth > 1024) return;
+
+            // Create indicator dots
+            hint.innerHTML = '';
+            for (let i = 0; i < Math.min(count, 6); i++) {
+                const dot = document.createElement('span');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    const cardWidth = grid.querySelector('.product-card')?.offsetWidth || 280;
+                    grid.scrollTo({ left: i * (cardWidth + 16), behavior: 'smooth' });
+                });
+                hint.appendChild(dot);
+            }
+
+            // Update active dot on scroll
+            grid.addEventListener('scroll', () => {
+                const cardWidth = grid.querySelector('.product-card')?.offsetWidth || 280;
+                const scrollPos = grid.scrollLeft;
+                const activeIndex = Math.round(scrollPos / (cardWidth + 16));
+                const dots = hint.querySelectorAll('span');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === activeIndex);
+                });
+            });
+        }
+
+        // Re-init on resize
+        window.addEventListener('resize', () => {
+            const grid = document.getElementById('featuredProductsGrid');
+            const cards = grid?.querySelectorAll('.product-card');
+            if (cards?.length) initCarouselIndicators(cards.length);
+        });
+
+        // Load cart from database (logged in) or localStorage (guest/offline)
+        async function loadCart() {
+            const token = getAuthToken();
+
+            if (token) {
+                try {
+                    const response = await fetch(`${API_URL}/cart`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        isLoggedIn = true;
+                        cart = data.cart.items.map((item, index) => ({
+                            index: index,
+                            productId: item.product?._id || item.product,
+                            name: item.name,
+                            price: item.price,
+                            quantity: item.quantity,
+                            image: item.image || '/images/jig-logo-nobg.png'
+                        }));
+                        updateCartUI();
+                        return;
+                    }
+                } catch (error) {
+                    console.log('Cart API unavailable, using localStorage fallback');
+                }
+            }
+
+            // Fallback to localStorage for guests or offline
+            isLoggedIn = false;
+            cart = JSON.parse(localStorage.getItem('cart')) || [];
+            updateCartUI();
+        }
+
+        // Toggle cart drawer
+        function toggleCart() {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            drawer.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Add item to cart - DATABASE FIRST, localStorage fallback
+        async function addToCart(productId, name, price, image) {
+            const token = getAuthToken();
+
+            if (token && isValidObjectId(productId)) {
+                // Logged in with valid MongoDB ID - add to database
+                try {
+                    const response = await fetch(`${API_URL}/cart/add`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ productId, quantity: 1 })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        cart = data.cart.items.map((item, index) => ({
+                            index: index,
+                            productId: item.product?._id || item.product,
+                            name: item.name,
+                            price: item.price,
+                            quantity: item.quantity,
+                            image: item.image || '/images/jig-logo-nobg.png'
+                        }));
+                        updateCartUI();
+                        toggleCart();
+                        showToast('Added to cart', name + ' has been added to your cart');
+                        return;
+                    }
+                    // If API fails, fall through to localStorage
+                } catch (error) {
+                    console.error('Add to cart API error:', error);
+                }
+            }
+
+            // Fallback to localStorage for guests, offline, or placeholder products
+            const existingItem = cart.find(item => item.productId === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    productId: productId,
+                    name: name,
+                    price: price,
+                    quantity: 1,
+                    image: image || '/images/jig-logo-nobg.png'
+                });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+            toggleCart();
+            showToast('Added to cart', name + ' has been added to your cart');
+        }
+
+        // Check if string is a valid MongoDB ObjectId
+        function isValidObjectId(str) {
+            return /^[0-9a-fA-F]{24}$/.test(str);
+        }
+
+        // Update item quantity - DATABASE FIRST
+        async function updateQty(productId, delta) {
+            const token = getAuthToken();
+            const itemIndex = cart.findIndex(item => item.productId === productId);
+
+            if (itemIndex === -1) return;
+
+            const newQuantity = cart[itemIndex].quantity + delta;
+
+            if (token && isLoggedIn) {
+                try {
+                    const response = await fetch(`${API_URL}/cart/item/${itemIndex}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ quantity: Math.max(0, newQuantity) })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        cart = data.cart.items.map((item, index) => ({
+                            index: index,
+                            productId: item.product?._id || item.product,
+                            name: item.name,
+                            price: item.price,
+                            quantity: item.quantity,
+                            image: item.image || '/images/jig-logo-nobg.png'
+                        }));
+                        updateCartUI();
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Update cart API error:', error);
+                }
+            }
+
+            // Fallback to localStorage
+            if (newQuantity <= 0) {
+                cart = cart.filter(item => item.productId !== productId);
+            } else {
+                cart[itemIndex].quantity = newQuantity;
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        // Remove item from cart - DATABASE FIRST
+        async function removeFromCart(productId) {
+            const token = getAuthToken();
+            const itemIndex = cart.findIndex(item => item.productId === productId);
+
+            if (itemIndex === -1) return;
+
+            if (token && isLoggedIn) {
+                try {
+                    const response = await fetch(`${API_URL}/cart/item/${itemIndex}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        cart = data.cart.items.map((item, index) => ({
+                            index: index,
+                            productId: item.product?._id || item.product,
+                            name: item.name,
+                            price: item.price,
+                            quantity: item.quantity,
+                            image: item.image || '/images/jig-logo-nobg.png'
+                        }));
+                        updateCartUI();
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Remove from cart API error:', error);
+                }
+            }
+
+            // Fallback to localStorage
+            cart = cart.filter(item => item.productId !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        // Update cart UI
+        function updateCartUI() {
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+
+            // Update count badge
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+
+            // Update total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = 'R' + total.toLocaleString();
+
+            // Update cart items display
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="cart-empty"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg></span><p>Your cart is empty</p></div>';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-img">
+                            <img src="${item.image || '/images/jig-logo-nobg.png'}" alt="${item.name}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.src='/images/jig-logo-nobg.png'">
+                        </div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">R${item.price.toLocaleString()}</div>
+                            <div class="cart-item-qty">
+                                <button onclick="updateQty('${item.productId}', -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="updateQty('${item.productId}', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Go to checkout
+        function goToCheckout() {
+            if (cart.length === 0) {
+                showToast('Cart Empty', 'Please add items to your cart first', 'error');
+                return;
+            }
+            window.location.href = 'cart.html';
+        }
+
+    </script>
+    <style>
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    </style>
+</body>
+</html>

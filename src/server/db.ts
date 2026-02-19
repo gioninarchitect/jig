@@ -17,7 +17,11 @@ import type {
   PriceTier,
   PopUpload,
   PopStatus,
+  ClientDocument,
+  DocumentType,
+  DocumentStatus,
 } from '../world-model/types';
+import { REQUIRED_DOCUMENT_TYPES, ALL_DOCUMENT_TYPES } from '../world-model/types';
 
 // ─────────────────────────────────────────────────────────────
 // CONNECTION POOL
@@ -181,6 +185,23 @@ function rowToPopUpload(r: Record<string, unknown>): PopUpload {
   };
 }
 
+function rowToClientDocument(r: Record<string, unknown>): ClientDocument {
+  return {
+    id: r.id as string,
+    clientId: r.client_id as string,
+    docType: r.doc_type as DocumentType,
+    fileName: r.file_name as string,
+    filePath: r.file_path as string,
+    fileSize: Number(r.file_size),
+    mimeType: r.mime_type as string,
+    status: r.status as DocumentStatus,
+    adminNotes: (r.admin_notes as string) ?? undefined,
+    reviewedBy: (r.reviewed_by as string) ?? undefined,
+    reviewedAt: r.reviewed_at ? new Date(r.reviewed_at as string).getTime() : undefined,
+    uploadedAt: new Date(r.uploaded_at as string).getTime(),
+  };
+}
+
 function rowToOrderItem(r: Record<string, unknown>): OrderItem {
   return {
     productId: r.product_id as string,
@@ -199,6 +220,27 @@ function rowToOrderItem(r: Record<string, unknown>): OrderItem {
 export async function getClientById(id: string): Promise<Client | null> {
   const { rows } = await query('SELECT * FROM clients WHERE id = $1', [id]);
   return rows.length > 0 ? rowToClient(rows[0] as Record<string, unknown>) : null;
+}
+
+export async function createClient(data: {
+  companyName: string;
+  contactPerson: string;
+  email: string;
+  phone: string;
+  registrationNumber?: string;
+  address?: { street: string; city: string; province: string; postalCode: string; country: string };
+}): Promise<Client> {
+  const addr = data.address ?? { street: '', city: '', province: '', postalCode: '', country: 'South Africa' };
+  const { rows } = await query(
+    `INSERT INTO clients (company_name, contact_person, email, phone, registration_number,
+       address_street, address_city, address_province, address_postal_code, address_country)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+     RETURNING *`,
+    [data.companyName, data.contactPerson, data.email, data.phone,
+     data.registrationNumber ?? null,
+     addr.street, addr.city, addr.province, addr.postalCode, addr.country],
+  );
+  return rowToClient(rows[0] as Record<string, unknown>);
 }
 
 export async function getClientByEmail(email: string): Promise<Client | null> {
@@ -1085,4 +1127,109 @@ export async function listLeads(
     notes: r.notes,
     createdAt: r.created_at,
   }));
+}
+
+// ─────────────────────────────────────────────────────────────
+// CLIENT DOCUMENT (VERIFICATION) QUERIES
+// ─────────────────────────────────────────────────────────────
+
+export async function getClientDocuments(clientId: string): Promise<ClientDocument[]> {
+  const { rows } = await query(
+    'SELECT * FROM client_documents WHERE client_id = $1 ORDER BY uploaded_at DESC',
+    [clientId],
+  );
+  return rows.map((r) => rowToClientDocument(r as Record<string, unknown>));
+}
+
+export async function upsertClientDocument(data: {
+  clientId: string;
+  docType: DocumentType;
+  fileName: string;
+  filePath: string;
+  fileSize: number;
+  mimeType: string;
+}): Promise<ClientDocument> {
+  // Delete existing doc of same type (handles re-upload)
+  await query(
+    'DELETE FROM client_documents WHERE client_id = $1 AND doc_type = $2',
+    [data.clientId, data.docType],
+  );
+
+  const { rows } = await query(
+    `INSERT INTO client_documents (client_id, doc_type, file_name, file_path, file_size, mime_type)
+     VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+    [data.clientId, data.docType, data.fileName, data.filePath, data.fileSize, data.mimeType],
+  );
+  return rowToClientDocument(rows[0] as Record<string, unknown>);
+}
+
+export async function reviewClientDocument(
+  docId: string,
+  status: DocumentStatus,
+  adminNotes: string | null,
+  reviewedBy: string,
+): Promise<ClientDocument> {
+  const { rows } = await query(
+    `UPDATE client_documents SET status = $1, admin_notes = $2, reviewed_by = $3, reviewed_at = NOW()
+     WHERE id = $4 RETURNING *`,
+    [status, adminNotes, reviewedBy, docId],
+  );
+  const doc = rowToClientDocument(rows[0] as Record<string, unknown>);
+
+  // Auto-activate: if this approval completes all required docs, activate the client
+  if (status === 'approved') {
+    const { rows: approvedRows } = await query(
+      `SELECT doc_type FROM client_documents
+       WHERE client_id = $1 AND status = 'approved' AND doc_type = ANY($2)`,
+      [doc.clientId, REQUIRED_DOCUMENT_TYPES],
+    );
+    const approvedTypes = new Set(approvedRows.map((r) => (r as Record<string, unknown>).doc_type));
+    const allApproved = REQUIRED_DOCUMENT_TYPES.every((t) => approvedTypes.has(t));
+
+    if (allApproved) {
+      await query(
+        `UPDATE clients SET status = 'active' WHERE id = $1 AND status = 'pending'`,
+        [doc.clientId],
+      );
+    }
+  }
+
+  return doc;
+}
+
+export async function getPendingClientDocuments(): Promise<
+  (ClientDocument & { clientName: string; clientEmail: string })[]
+> {
+  const { rows } = await query(
+    `SELECT cd.*, c.company_name AS client_name, c.email AS client_email
+     FROM client_documents cd
+     JOIN clients c ON c.id = cd.client_id
+     WHERE cd.status = 'pending'
+     ORDER BY cd.uploaded_at ASC`,
+  );
+  return rows.map((r) => {
+    const row = r as Record<string, unknown>;
+    return {
+      ...rowToClientDocument(row),
+      clientName: row.client_name as string,
+      clientEmail: row.client_email as string,
+    };
+  });
+}
+
+export async function getClientVerificationStatus(clientId: string): Promise<{
+  documents: ClientDocument[];
+  allRequiredUploaded: boolean;
+  allApproved: boolean;
+}> {
+  const documents = await getClientDocuments(clientId);
+  const docTypeMap = new Map(documents.map((d) => [d.docType, d]));
+
+  const allRequiredUploaded = REQUIRED_DOCUMENT_TYPES.every((t) => docTypeMap.has(t));
+  const allApproved = REQUIRED_DOCUMENT_TYPES.every((t) => {
+    const doc = docTypeMap.get(t);
+    return doc && doc.status === 'approved';
+  });
+
+  return { documents, allRequiredUploaded, allApproved };
 }

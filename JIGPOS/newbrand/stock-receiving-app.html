@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stock Receiving - JIG Craft Cannabis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-100);
+            min-height: 100vh;
+            color: var(--gray-800);
+        }
+
+        /* Header */
+        .app-header {
+            background: var(--primary-dark);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-title i {
+            font-size: 1.5rem;
+            color: var(--gold);
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--primary-dark);
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--red);
+            color: white;
+        }
+
+        /* Session Info Bar */
+        .session-bar {
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+
+        .session-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .session-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .session-info i {
+            color: var(--gold);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Mode Selection */
+        .mode-selection {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mode-card {
+            background: #0A0A0A;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid var(--gray-200);
+            transition: all 0.2s;
+        }
+
+        .mode-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .mode-card.active {
+            border-color: var(--primary);
+            background: var(--green-light);
+        }
+
+        .mode-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .mode-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .mode-card p {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+        }
+
+        /* Transfer List */
+        .transfer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .transfer-card {
+            background: #0A0A0A;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 2px solid var(--gray-200);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .transfer-card:hover {
+            border-color: var(--primary);
+        }
+
+        .transfer-card.selected {
+            border-color: var(--purple);
+            background: var(--green-light);
+        }
+
+        .transfer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .transfer-id {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .transfer-status {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .status-in_transit {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+        .status-arrived {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .transfer-meta {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Items List */
+        .items-section {
+            background: #0A0A0A;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .item-card {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .item-card:last-child {
+            border-bottom: none;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .item-sku {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+        }
+
+        .item-expected {
+            text-align: right;
+        }
+
+        .item-expected .label {
+            font-size: 0.7rem;
+            color: var(--gray-600);
+            text-transform: uppercase;
+        }
+
+        .item-expected .value {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .item-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 0.75rem;
+            align-items: end;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .input-group label {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .input-group input {
+            padding: 0.75rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .photo-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 2px dashed var(--gray-400);
+            background: var(--gray-50);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            transition: all 0.2s;
+        }
+
+        .photo-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .photo-btn.has-photo {
+            border-style: solid;
+            border-color: var(--purple);
+            background: var(--green-light);
+            color: var(--purple);
+        }
+
+        /* Variance Display */
+        .variance-display {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .variance-ok {
+            background: var(--green-light);
+            color: var(--purple);
+        }
+
+        .variance-warning {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .variance-error {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+        /* Quick Add Section */
+        .quick-add-section {
+            background: #0A0A0A;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+        }
+
+        .product-results {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .product-result {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--gray-100);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-result:hover {
+            background: var(--gray-50);
+        }
+
+        .product-result .name {
+            font-weight: 500;
+        }
+
+        .product-result .sku {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            background: var(--gray-200);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--green);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+        }
+
+        /* Submit Section */
+        .submit-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0A0A0A;
+            padding: 1rem;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .submit-section .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 1rem;
+            font-size: 1rem;
+        }
+
+        /* Camera Modal */
+        .camera-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: black;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .camera-modal.active {
+            display: flex;
+        }
+
+        .camera-header {
+            background: var(--primary-dark);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .camera-preview {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .camera-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .camera-guide {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 400px;
+            aspect-ratio: 4/3;
+            border: 3px solid var(--green);
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        .camera-guide-text {
+            position: absolute;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .camera-controls {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            background: rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 100;
+        }
+
+        .capture-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #0A0A0A;
+            border: 4px solid var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 101;
+        }
+
+        .capture-btn:active {
+            transform: scale(0.95);
+        }
+
+        .close-camera-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 1rem;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            background: var(--gray-800);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease;
+            max-width: 300px;
+        }
+
+        .toast.success { background: var(--green); }
+        .toast.error { background: var(--red); }
+        .toast.info { background: var(--blue); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--gray-600);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .mode-selection {
+                grid-template-columns: 1fr;
+            }
+            .item-inputs {
+                grid-template-columns: 1fr 1fr;
+            }
+            .item-inputs .photo-btn {
+                grid-column: span 2;
+                width: 100%;
+                height: 44px;
+            }
+        }
+
+        /* Hide main content padding for bottom bar */
+        .main-content {
+            padding-bottom: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-top">
+            <div class="header-title">
+                <i class="fas fa-truck-ramp-box"></i>
+                <h1>Stock Receiving</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline" onclick="doLogout()" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Tab Navigation (consistent with stocktake-app) -->
+        <div style="display: flex; gap: 8px; margin-bottom: 0.75rem;">
+            <button onclick="window.location.href='stocktake-app.html'" style="flex: 1; padding: 10px; background: rgba(255,255,255,0.15); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <i class="fas fa-clipboard-list"></i> Stock Take
+            </button>
+            <button style="flex: 1; padding: 10px; background: var(--gold); color: var(--primary-dark); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <i class="fas fa-truck-ramp-box"></i> Receive Stock
+            </button>
+        </div>
+        <div class="session-bar">
+            <div class="session-info">
+                <span><i class="fas fa-store"></i> <span id="branchName">Loading...</span></span>
+                <span><i class="fas fa-user"></i> <span id="userName">Loading...</span></span>
+            </div>
+            <span id="sessionDate"></span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Mode Selection -->
+        <div class="mode-selection" id="modeSelection">
+            <div class="mode-card active" onclick="selectMode('quick')" id="modeQuick">
+                <i class="fas fa-bolt"></i>
+                <h3>Quick Add Stock</h3>
+                <p>Add incoming stock to inventory</p>
+            </div>
+            <div class="mode-card" onclick="selectMode('transfer')" id="modeTransfer" style="opacity: 0.5;">
+                <i class="fas fa-truck"></i>
+                <h3>Receive Transfer</h3>
+                <p>From HQ (coming soon)</p>
+            </div>
+        </div>
+
+        <!-- Transfer Selection (for transfer mode) -->
+        <div id="transferSection" style="display: none;">
+            <h3 style="margin-bottom: 1rem; color: var(--gray-600);">
+                <i class="fas fa-inbox"></i> Incoming Transfers
+            </h3>
+            <div class="transfer-list" id="transferList">
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No pending transfers</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Add Section -->
+        <div id="quickAddSection" style="display: none;">
+            <div class="quick-add-section">
+                <h3 style="margin-bottom: 1rem;">
+                    <i class="fas fa-search"></i> Find Product
+                </h3>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="productSearch" placeholder="Search by name or SKU..." oninput="searchProducts(this.value)">
+                </div>
+                <div class="product-results" id="productResults"></div>
+            </div>
+        </div>
+
+        <!-- Items to Receive -->
+        <div class="items-section" id="itemsSection" style="display: none;">
+            <div class="section-header">
+                <h2><i class="fas fa-clipboard-list"></i> Items to Receive</h2>
+                <span id="itemCount">0 items</span>
+            </div>
+            <div id="itemsList"></div>
+        </div>
+
+        <!-- Progress -->
+        <div id="progressSection" style="display: none;">
+            <div class="progress-text" id="progressText">0 of 0 items verified</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Submit Section -->
+    <div class="submit-section" id="submitSection" style="display: none;">
+        <button class="btn btn-outline" onclick="cancelReceiving()">
+            <i class="fas fa-times"></i> Cancel
+        </button>
+        <button class="btn btn-success" id="submitBtn" onclick="submitReceiving()" disabled>
+            <i class="fas fa-check"></i> Complete Receiving
+        </button>
+    </div>
+
+    <!-- Camera Modal -->
+    <div class="camera-modal" id="cameraModal">
+        <div class="camera-header">
+            <span id="cameraTitle">Take Photo</span>
+            <button class="close-camera-btn" onclick="closeCamera()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="camera-preview">
+            <video id="cameraVideo" autoplay playsinline></video>
+            <div class="camera-guide"></div>
+            <div class="camera-guide-text">Position product/delivery note in frame</div>
+        </div>
+        <div class="camera-controls">
+            <button class="capture-btn" id="captureBtn" onclick="capturePhoto()" ontouchend="capturePhoto()">
+                <i class="fas fa-camera" style="font-size: 1.5rem; color: var(--primary);"></i>
+            </button>
+        </div>
+        <canvas id="photoCanvas" style="display: none;"></canvas>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- DBC Shared Libraries -->
+    <script src="/frontend/config.js"></script>
+    <script src="/frontend/jig-utils.js"></script>
+    <script src="/frontend/jig-auth.js"></script>
+
+    <script>
+        // API_URL provided by shared libraries
+
+        // State
+        let currentMode = null;
+        let selectedTransfer = null;
+        let receivingItems = [];
+        let allProducts = [];
+        let cameraStream = null;
+        let currentPhotoIndex = null;
+        let currentUser = null;
+        let currentBranch = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            document.getElementById('sessionDate').textContent = new Date().toLocaleDateString('en-ZA', {
+                weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'
+            });
+            // Auto-select Quick Add mode (default for single branch)
+            setTimeout(() => selectMode('quick'), 500);
+        });
+
+        // getToken provided by /frontend/jig-utils.js (checks stocktakeToken + others)
+
+        function doLogout() {
+            localStorage.removeItem('stocktakeToken');
+            localStorage.removeItem('stocktakeUser');
+            window.location.href = 'stocktake-app.html';
+        }
+
+        async function checkAuth() {
+            const token = getToken();
+            if (!token) {
+                // Redirect to stocktake app for login
+                window.location.href = 'stocktake-app.html';
+                return;
+            }
+
+            try {
+                // Try OTP auth endpoint first, then regular
+                let response = await fetch(`${API_URL}/auth/otp/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    response = await fetch(`${API_URL}/auth/me`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                }
+
+                const data = await response.json();
+
+                if (data.success && data.user) {
+                    currentUser = data.user;
+                    // Get branch from various possible locations
+                    const branchId = data.user.branch?._id || data.user.branchId || data.user.primaryBranch;
+                    currentBranch = data.user.branch || { _id: branchId, name: data.user.branch?.name || 'Ormonde' };
+                    document.getElementById('userName').textContent = data.user.firstName || data.user.username;
+                    document.getElementById('branchName').textContent = currentBranch?.name || 'Ormonde';
+
+                    // Also try to get branch from localStorage if not set
+                    if (!currentBranch._id) {
+                        const storedUser = localStorage.getItem('stocktakeUser');
+                        if (storedUser) {
+                            try {
+                                const parsed = JSON.parse(storedUser);
+                                currentBranch = { _id: parsed.branchId || parsed.branch?._id, name: parsed.branch?.name || 'Ormonde' };
+                            } catch(e) {}
+                        }
+                    }
+
+                    loadProducts();
+                } else {
+                    window.location.href = 'stocktake-app.html';
+                }
+            } catch (error) {
+                console.error('Auth error:', error);
+                showToast('Authentication error', 'error');
+            }
+        }
+
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${API_URL}/products?status=active&limit=500`, {
+                    headers: { 'Authorization': `Bearer ${getToken()}` }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    allProducts = data.products || [];
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        // Mode Selection
+        function selectMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+            document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active');
+
+            document.getElementById('transferSection').style.display = mode === 'transfer' ? 'block' : 'none';
+            document.getElementById('quickAddSection').style.display = mode === 'quick' ? 'block' : 'none';
+
+            if (mode === 'transfer') {
+                loadTransfers();
+            } else {
+                // Reset for quick add
+                receivingItems = [];
+                renderItems();
+            }
+
+            document.getElementById('itemsSection').style.display = 'block';
+            document.getElementById('progressSection').style.display = 'block';
+            document.getElementById('submitSection').style.display = 'flex';
+        }
+
+        // Load Transfers
+        async function loadTransfers() {
+            const branchId = currentBranch?._id || currentUser?.branchId || currentUser?.primaryBranch;
+            if (!branchId) {
+                showToast('No branch assigned - use Quick Add instead', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/stock-transfers?toBranch=${branchId}&status=in_transit,arrived`, {
+                    headers: { 'Authorization': `Bearer ${getToken()}` }
+                });
+                const data = await response.json();
+
+                if (data.success && data.transfers?.length > 0) {
+                    renderTransfers(data.transfers);
+                } else {
+                    document.getElementById('transferList').innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No pending transfers for this branch</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading transfers:', error);
+                showToast('Error loading transfers', 'error');
+            }
+        }
+
+        function renderTransfers(transfers) {
+            const html = transfers.map(t => `
+                <div class="transfer-card ${selectedTransfer?._id === t._id ? 'selected' : ''}" onclick="selectTransfer('${t._id}')">
+                    <div class="transfer-header">
+                        <span class="transfer-id">${t.transferNumber || 'TRF-' + t._id.slice(-6).toUpperCase()}</span>
+                        <span class="transfer-status status-${t.status}">${t.status.replace('_', ' ').toUpperCase()}</span>
+                    </div>
+                    <div class="transfer-meta">
+                        <span><i class="fas fa-building"></i> From: ${t.fromBranch?.name || 'HQ'}</span>
+                        <span><i class="fas fa-box"></i> ${t.items?.length || 0} items</span>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('transferList').innerHTML = html;
+        }
+
+        async function selectTransfer(transferId) {
+            try {
+                const response = await fetch(`${API_URL}/stock-transfers/${transferId}`, {
+                    headers: { 'Authorization': `Bearer ${getToken()}` }
+                });
+                const data = await response.json();
+
+                if (data.success && data.transfer) {
+                    selectedTransfer = data.transfer;
+                    receivingItems = data.transfer.items.map((item, idx) => ({
+                        index: idx,
+                        productId: item.product?._id || item.productId,
+                        name: item.name || item.product?.name,
+                        sku: item.product?.sku || '',
+                        expectedQty: item.quantity,
+                        receivedQty: null,
+                        photo: null,
+                        variance: null,
+                        variancePercent: null
+                    }));
+                    renderItems();
+                    loadTransfers(); // Refresh to show selected state
+                }
+            } catch (error) {
+                console.error('Error loading transfer:', error);
+                showToast('Error loading transfer details', 'error');
+            }
+        }
+
+        // Product Search (Quick Add)
+        function searchProducts(query) {
+            if (!query || query.length < 2) {
+                document.getElementById('productResults').innerHTML = '';
+                return;
+            }
+
+            const q = query.toLowerCase();
+            const matches = allProducts.filter(p =>
+                p.name.toLowerCase().includes(q) ||
+                (p.sku && p.sku.toLowerCase().includes(q))
+            ).slice(0, 10);
+
+            const html = matches.map(p => `
+                <div class="product-result" onclick="addProduct('${p._id}')">
+                    <div>
+                        <div class="name">${p.name}</div>
+                        <div class="sku">${p.sku || 'No SKU'}</div>
+                    </div>
+                    <i class="fas fa-plus" style="color: var(--primary);"></i>
+                </div>
+            `).join('');
+
+            document.getElementById('productResults').innerHTML = html || '<p style="padding: 1rem; color: var(--gray-600);">No products found</p>';
+        }
+
+        function addProduct(productId) {
+            const product = allProducts.find(p => p._id === productId);
+            if (!product) return;
+
+            // Check if already added
+            if (receivingItems.find(i => i.productId === productId)) {
+                showToast('Product already added', 'info');
+                return;
+            }
+
+            receivingItems.push({
+                index: receivingItems.length,
+                productId: product._id,
+                name: product.name,
+                sku: product.sku || '',
+                expectedQty: null, // No expected qty for quick add
+                receivedQty: null,
+                photo: null,
+                variance: null,
+                variancePercent: null
+            });
+
+            document.getElementById('productSearch').value = '';
+            document.getElementById('productResults').innerHTML = '';
+            renderItems();
+            showToast(`Added ${product.name}`, 'success');
+        }
+
+        // Render Items
+        function renderItems() {
+            if (receivingItems.length === 0) {
+                document.getElementById('itemsList').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <p>${currentMode === 'transfer' ? 'Select a transfer above' : 'Search and add products'}</p>
+                    </div>
+                `;
+                document.getElementById('itemCount').textContent = '0 items';
+                updateProgress();
+                return;
+            }
+
+            const html = receivingItems.map((item, idx) => `
+                <div class="item-card" id="item-${idx}">
+                    <div class="item-header">
+                        <div>
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-sku">${item.sku}</div>
+                        </div>
+                        ${item.expectedQty !== null ? `
+                            <div class="item-expected">
+                                <div class="label">Expected</div>
+                                <div class="value">${item.expectedQty}g</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="item-inputs">
+                        <div class="input-group">
+                            <label>Qty Received (g)</label>
+                            <input type="number" step="0.01" id="qty-${idx}"
+                                value="${item.receivedQty || ''}"
+                                onchange="updateQty(${idx}, this.value)"
+                                placeholder="0.00">
+                        </div>
+                        <div class="input-group">
+                            <label>Photo</label>
+                            <button class="photo-btn ${item.photo ? 'has-photo' : ''}" onclick="openCamera(${idx})">
+                                <i class="fas ${item.photo ? 'fa-check' : 'fa-camera'}"></i>
+                            </button>
+                        </div>
+                        ${currentMode === 'quick' ? `
+                            <button class="btn btn-danger" onclick="removeItem(${idx})" style="padding: 0.75rem;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                    ${item.variance !== null ? `
+                        <div class="variance-display ${getVarianceClass(item.variancePercent)}">
+                            <i class="fas ${item.variancePercent === 0 ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i>
+                            Variance: ${item.variance > 0 ? '+' : ''}${item.variance}g (${item.variancePercent}%)
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+
+            document.getElementById('itemsList').innerHTML = html;
+            document.getElementById('itemCount').textContent = `${receivingItems.length} items`;
+            updateProgress();
+        }
+
+        function getVarianceClass(percent) {
+            if (percent === 0) return 'variance-ok';
+            if (Math.abs(percent) <= 5) return 'variance-warning';
+            return 'variance-error';
+        }
+
+        function updateQty(index, value) {
+            const qty = parseFloat(value);
+            receivingItems[index].receivedQty = isNaN(qty) ? null : qty;
+
+            // Calculate variance if expected qty exists
+            if (receivingItems[index].expectedQty !== null && receivingItems[index].receivedQty !== null) {
+                const expected = receivingItems[index].expectedQty;
+                const received = receivingItems[index].receivedQty;
+                receivingItems[index].variance = (received - expected).toFixed(2);
+                receivingItems[index].variancePercent = expected > 0
+                    ? ((receivingItems[index].variance / expected) * 100).toFixed(1)
+                    : 0;
+            }
+
+            renderItems();
+        }
+
+        function removeItem(index) {
+            receivingItems.splice(index, 1);
+            receivingItems.forEach((item, idx) => item.index = idx);
+            renderItems();
+        }
+
+        function updateProgress() {
+            const total = receivingItems.length;
+            const verified = receivingItems.filter(i => i.receivedQty !== null && i.photo).length;
+            const percent = total > 0 ? (verified / total * 100) : 0;
+
+            document.getElementById('progressBar').style.width = `${percent}%`;
+            document.getElementById('progressText').textContent = `${verified} of ${total} items verified`;
+
+            // Enable submit if all items verified
+            const allVerified = total > 0 && verified === total;
+            document.getElementById('submitBtn').disabled = !allVerified;
+        }
+
+        // Camera Functions
+        async function openCamera(index) {
+            currentPhotoIndex = index;
+            const modal = document.getElementById('cameraModal');
+            const video = document.getElementById('cameraVideo');
+
+            modal.classList.add('active');
+
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: 'environment',
+                        width: { ideal: 1920 },
+                        height: { ideal: 1080 }
+                    }
+                });
+                video.srcObject = cameraStream;
+            } catch (error) {
+                console.error('Camera error:', error);
+                showToast('Could not access camera', 'error');
+                closeCamera();
+            }
+        }
+
+        function closeCamera() {
+            const modal = document.getElementById('cameraModal');
+            const video = document.getElementById('cameraVideo');
+
+            modal.classList.remove('active');
+
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+
+            video.srcObject = null;
+            currentPhotoIndex = null;
+        }
+
+        async function capturePhoto() {
+            const photoIndex = currentPhotoIndex;
+
+            if (photoIndex === null) {
+                showToast('No item selected', 'error');
+                return;
+            }
+
+            const video = document.getElementById('cameraVideo');
+            const canvas = document.getElementById('photoCanvas');
+            const ctx = canvas.getContext('2d');
+
+            if (!video.videoWidth || !video.videoHeight) {
+                showToast('Camera not ready', 'error');
+                return;
+            }
+
+            // Show feedback
+            const captureBtn = document.getElementById('captureBtn');
+            captureBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; color: var(--primary);"></i>';
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0);
+
+            showToast('Photo captured!', 'success');
+
+            // Convert to data URL for now (could upload to server)
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+            closeCamera();
+
+            // Store photo
+            receivingItems[photoIndex].photo = dataUrl;
+            renderItems();
+        }
+
+        // Submit
+        async function submitReceiving() {
+            if (!confirm('Complete receiving? Stock will be added to inventory.')) return;
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            try {
+                if (currentMode === 'transfer' && selectedTransfer) {
+                    // Mark transfer as received
+                    const response = await fetch(`${API_URL}/stock-transfers/${selectedTransfer._id}/delivered`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${getToken()}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            items: receivingItems.map(item => ({
+                                productId: item.productId,
+                                quantityReceived: item.receivedQty,
+                                variance: item.variance,
+                                photo: item.photo ? 'captured' : null
+                            }))
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (data.success) {
+                        showToast('Transfer received! Stock updated.', 'success');
+                        setTimeout(() => window.location.reload(), 1500);
+                    } else {
+                        throw new Error(data.message);
+                    }
+                } else {
+                    // Quick add - direct inventory update
+                    const response = await fetch(`${API_URL}/branch-inventory/receive`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${getToken()}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            branchId: currentBranch._id,
+                            items: receivingItems.map(item => ({
+                                productId: item.productId,
+                                quantity: item.receivedQty,
+                                photo: item.photo ? 'captured' : null
+                            })),
+                            notes: 'Quick add receiving'
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (data.success) {
+                        showToast('Stock received! Inventory updated.', 'success');
+                        setTimeout(() => window.location.reload(), 1500);
+                    } else {
+                        throw new Error(data.message);
+                    }
+                }
+            } catch (error) {
+                console.error('Submit error:', error);
+                showToast('Error: ' + error.message, 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Complete Receiving';
+            }
+        }
+
+        function cancelReceiving() {
+            if (confirm('Cancel receiving? Changes will be lost.')) {
+                window.location.reload();
+            }
+        }
+
+        // showToast provided by /frontend/jig-utils.js
+    </script>
+</body>
+</html>

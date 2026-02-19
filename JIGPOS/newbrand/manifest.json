@@ -1,0 +1,38 @@
+{
+  "name": "JIG Craft Cannabis POS",
+  "short_name": "JIG POS",
+  "description": "Craft cannabis point of sale system",
+  "start_url": "/pos.html",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#7C3AED",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Open POS",
+      "url": "/pos.html",
+      "description": "Go to Point of Sale"
+    },
+    {
+      "name": "View Sales",
+      "url": "/admin.html#sales",
+      "description": "View sales reports"
+    }
+  ]
+}

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section 21 Information - JIG Craft Cannabis</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/globals.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        nav {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            padding: 1rem 5%;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        nav a {
+            color: var(--cream);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--purple);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            color: var(--green-dark);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            font-family: 'Oswald', sans-serif;
+            font-style: italic;
+        }
+
+        h2 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--purple);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            color: var(--green-dark);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--purple);
+        }
+
+        a:hover {
+            color: var(--gold-dark);
+        }
+
+        .info-box {
+            background: rgba(124, 58, 237, 0.1);
+            border-left: 4px solid var(--green);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: rgba(217, 119, 6, 0.1);
+            border-left: 4px solid var(--gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .step {
+            background: #0A0A0A;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 12px;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--green);
+            color: var(--cream);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--green);
+            color: var(--cream);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            background: var(--green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+            color: var(--cream);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <h1>Section 21 Medical Cannabis Information</h1>
+        <p class="subtitle">Your comprehensive guide to accessing medical cannabis in South Africa</p>
+
+        <!-- CONSULTATION JOURNEY - THIS CAN BE MARKETED -->
+        <div style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); border-radius: 16px; padding: 2.5rem; margin-bottom: 2rem; text-align: center; border: 3px solid var(--gold);">
+            <h2 style="color: var(--cream); margin-top: 0; font-size: 2rem;">Start Your Wellness Journey</h2>
+            <p style="color: var(--cream); font-size: 1.2rem; margin-bottom: 1.5rem; opacity: 0.95;">Connect with a licensed healthcare provider who understands medical cannabis</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px;">
+                    <i class="fas fa-user-md" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 0.5rem;"></i>
+                    <h4 style="color: var(--cream); margin: 0.5rem 0;">Licensed Doctors</h4>
+                    <p style="color: var(--cream); opacity: 0.9; font-size: 0.9rem; margin: 0;">Experienced in cannabis medicine</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px;">
+                    <i class="fas fa-video" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 0.5rem;"></i>
+                    <h4 style="color: var(--cream); margin: 0.5rem 0;">Online Consultations</h4>
+                    <p style="color: var(--cream); opacity: 0.9; font-size: 0.9rem; margin: 0;">From the comfort of your home</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px;">
+                    <i class="fas fa-file-medical" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 0.5rem;"></i>
+                    <h4 style="color: var(--cream); margin: 0.5rem 0;">Full Support</h4>
+                    <p style="color: var(--cream); opacity: 0.9; font-size: 0.9rem; margin: 0;">Authorization & prescription guidance</p>
+                </div>
+            </div>
+
+            <a href="#consultation-form" class="cta-button" style="background: var(--gold); color: var(--white); font-size: 1.1rem; padding: 1rem 2.5rem;">
+                <i class="fas fa-calendar-check"></i> Book Your Consultation
+            </a>
+            <p style="color: var(--cream); opacity: 0.8; font-size: 0.85rem; margin-top: 1rem;">Consultation fee: R350 | Includes eligibility assessment</p>
+        </div>
+        <!-- END CONSULTATION JOURNEY -->
+
+        <div class="info-box">
+            <p><strong>What is Section 21?</strong></p>
+            <p>Section 21 of the Medicines and Related Substances Act allows for the legal use of unregistered medicines, including medical cannabis, when prescribed by a licensed healthcare provider for specific medical conditions.</p>
+        </div>
+
+        <h2>How to Access Medical Cannabis</h2>
+
+        <div class="step">
+            <h3><span class="step-number">1</span>Consult a Healthcare Provider</h3>
+            <p>Schedule an appointment with a licensed doctor who can prescribe medical cannabis. They will:</p>
+            <ul>
+                <li>Evaluate your medical condition</li>
+                <li>Determine if medical cannabis is appropriate for your treatment</li>
+                <li>Discuss potential benefits and risks</li>
+                <li>Create a treatment plan if suitable</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3><span class="step-number">2</span>Obtain Section 21 Authorization Letter</h3>
+            <p>If your doctor determines medical cannabis is suitable, they will provide:</p>
+            <ul>
+                <li><strong>Section 21 Authorization Letter</strong> - Valid for 180 days</li>
+                <li>Doctor's details and practice number</li>
+                <li>Specific conditions being treated</li>
+                <li>Recommended cannabis products and dosages</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3><span class="step-number">3</span>Register with JIG Craft Cannabis</h3>
+            <p>Create an account on our platform:</p>
+            <ul>
+                <li>Provide accurate personal information</li>
+                <li>Complete age verification (18+)</li>
+                <li>Accept our terms and conditions</li>
+            </ul>
+            <a href="/login.html" class="cta-button">Create Account</a>
+        </div>
+
+        <div class="step">
+            <h3><span class="step-number">4</span>Upload Your Authorization Letter</h3>
+            <p>Submit your Section 21 Authorization Letter through your dashboard:</p>
+            <ul>
+                <li>Navigate to the Medical Cannabis tab</li>
+                <li>Upload a clear copy of your authorization letter (PDF, JPG, or PNG)</li>
+                <li>Provide required doctor information</li>
+                <li>Submit for verification</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3><span class="step-number">5</span>Verification Process</h3>
+            <p>Our medical team will verify your authorization:</p>
+            <ul>
+                <li>Review document authenticity</li>
+                <li>Verify doctor credentials</li>
+                <li>Confirm authorization is current and valid</li>
+                <li>Typically completed within 24-48 hours</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3><span class="step-number">6</span>Obtain Your Prescription</h3>
+            <p>After authorization approval, obtain a prescription from your doctor:</p>
+            <ul>
+                <li>Specific products and quantities</li>
+                <li>Dosage instructions</li>
+                <li>Valid prescription period</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3><span class="step-number">7</span>Shop Medical Cannabis Products</h3>
+            <p>Once approved, you can:</p>
+            <ul>
+                <li>Browse our medical-grade cannabis products</li>
+                <li>Place orders according to your prescription</li>
+                <li>Receive secure, discreet delivery</li>
+                <li>Track your orders and prescriptions</li>
+            </ul>
+        </div>
+
+        <h2>Important Requirements</h2>
+
+        <div class="warning-box">
+            <h3>Authorization Letter Must Include:</h3>
+            <ul>
+                <li>Doctor's full name and practice number</li>
+                <li>Patient's full name (matching your account)</li>
+                <li>Medical conditions being treated</li>
+                <li>Recommended cannabis products or cannabinoid ratios</li>
+                <li>Issue date (valid for 180 days)</li>
+                <li>Doctor's signature and practice stamp</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <h3>Prescription Requirements:</h3>
+            <ul>
+                <li>Issued after Section 21 authorization approval</li>
+                <li>Specific products and quantities</li>
+                <li>Clear dosage instructions</li>
+                <li>Valid prescription period</li>
+                <li>Doctor's signature</li>
+            </ul>
+        </div>
+
+        <h2>Conditions Commonly Treated with Medical Cannabis</h2>
+        <p>Medical cannabis may be prescribed for conditions including:</p>
+        <ul>
+            <li>Chronic pain</li>
+            <li>Nausea and vomiting (especially from chemotherapy)</li>
+            <li>Multiple sclerosis</li>
+            <li>Epilepsy and seizure disorders</li>
+            <li>HIV/AIDS-related symptoms</li>
+            <li>Cancer-related symptoms</li>
+            <li>Post-traumatic stress disorder (PTSD)</li>
+            <li>Inflammatory bowel disease</li>
+            <li>Palliative care</li>
+        </ul>
+        <p><em>Note: This is not an exhaustive list. Your doctor will determine if medical cannabis is appropriate for your specific condition.</em></p>
+
+        <h2>Legal Framework</h2>
+
+        <h3>Medicines and Related Substances Act (Act 101 of 1965)</h3>
+        <p>Section 21 allows for:</p>
+        <ul>
+            <li>Use of unregistered medicines for specific patients</li>
+            <li>Prescription by registered medical practitioners</li>
+            <li>Legal possession and use of prescribed medical cannabis</li>
+        </ul>
+
+        <h3>Patient Rights and Responsibilities</h3>
+        <p><strong>Your Rights:</strong></p>
+        <ul>
+            <li>Access to medical cannabis with valid authorization</li>
+            <li>Privacy and confidentiality of medical information</li>
+            <li>Quality, pharmaceutical-grade products</li>
+            <li>Clear dosage and usage instructions</li>
+        </ul>
+
+        <p><strong>Your Responsibilities:</strong></p>
+        <ul>
+            <li>Use only as prescribed by your healthcare provider</li>
+            <li>Do not share your medication with others</li>
+            <li>Store securely away from children and pets</li>
+            <li>Renew authorization and prescriptions before expiry</li>
+            <li>Report any adverse effects to your doctor</li>
+        </ul>
+
+        <h2>Privacy and Security</h2>
+        <p>We take your medical privacy seriously:</p>
+        <ul>
+            <li>All medical information is encrypted and stored securely</li>
+            <li>HIPAA-compliant data protection</li>
+            <li>Medical information accessible only to authorized verification staff</li>
+            <li>Discreet packaging and delivery</li>
+            <li>No sharing of medical information for marketing purposes</li>
+        </ul>
+
+        <h2>Renewal Process</h2>
+        <p>Section 21 authorizations are valid for 180 days. To renew:</p>
+        <ol>
+            <li>Schedule a follow-up appointment with your doctor</li>
+            <li>Doctor evaluates your treatment progress</li>
+            <li>New authorization letter issued if treatment continues</li>
+            <li>Upload new authorization through your dashboard</li>
+            <li>Continue receiving medical cannabis with new prescription</li>
+        </ol>
+
+        <!-- CONSULTATION BOOKING FORM - MARKETABLE -->
+        <div id="consultation-form" style="background: #0A0A0A; border: 2px solid var(--green); border-radius: 16px; padding: 2rem; margin: 2rem 0;">
+            <h2 style="text-align: center; color: var(--purple);"><i class="fas fa-calendar-plus"></i> Book Your Doctor Consultation</h2>
+            <p style="text-align: center; color: var(--green-dark); margin-bottom: 2rem;">Take the first step on your medical cannabis journey</p>
+
+            <form id="consultationForm" style="max-width: 600px; margin: 0 auto;">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; color: var(--green-dark); font-weight: 600; margin-bottom: 0.5rem;">Full Name *</label>
+                    <input type="text" name="fullName" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--green); border-radius: 8px; font-size: 1rem;">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; color: var(--green-dark); font-weight: 600; margin-bottom: 0.5rem;">Email *</label>
+                        <input type="email" name="email" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--green); border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; color: var(--green-dark); font-weight: 600; margin-bottom: 0.5rem;">Phone *</label>
+                        <input type="tel" name="phone" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--green); border-radius: 8px; font-size: 1rem;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; color: var(--green-dark); font-weight: 600; margin-bottom: 0.5rem;">What condition would you like to discuss? *</label>
+                    <select name="condition" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--green); border-radius: 8px; font-size: 1rem; background: #0A0A0A;">
+                        <option value="">Select a condition...</option>
+                        <option value="chronic-pain">Chronic Pain</option>
+                        <option value="anxiety">Anxiety / Stress</option>
+                        <option value="insomnia">Sleep Disorders / Insomnia</option>
+                        <option value="epilepsy">Epilepsy / Seizures</option>
+                        <option value="ms">Multiple Sclerosis</option>
+                        <option value="cancer">Cancer-related Symptoms</option>
+                        <option value="ptsd">PTSD</option>
+                        <option value="inflammation">Inflammatory Conditions</option>
+                        <option value="other">Other (please specify below)</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; color: var(--green-dark); font-weight: 600; margin-bottom: 0.5rem;">Additional Information (optional)</label>
+                    <textarea name="notes" rows="3" style="width: 100%; padding: 0.75rem; border: 1px solid var(--green); border-radius: 8px; font-size: 1rem; resize: vertical;" placeholder="Tell us more about your condition or any questions you have..."></textarea>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: flex; align-items: flex-start; gap: 0.5rem; color: var(--green-dark); cursor: pointer;">
+                        <input type="checkbox" name="consent" required style="margin-top: 3px;">
+                        <span style="font-size: 0.9rem;">I consent to being contacted about my consultation request and understand that this is an enquiry only, not a medical consultation.</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="cta-button" style="width: 100%; text-align: center; font-size: 1.1rem;">
+                    <i class="fas fa-paper-plane"></i> Request Consultation
+                </button>
+
+                <p style="text-align: center; color: var(--green-dark); font-size: 0.85rem; margin-top: 1rem;">
+                    <i class="fas fa-shield-alt"></i> Your information is secure and confidential
+                </p>
+            </form>
+
+            <div id="consultationSuccess" style="display: none; text-align: center; padding: 2rem;">
+                <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--purple); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--purple);">Consultation Request Received!</h3>
+                <p style="color: var(--green-dark);">Our medical team will contact you within 24-48 hours to schedule your consultation.</p>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('consultationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In production, this would submit to an API
+                const formData = new FormData(this);
+                console.log('Consultation request:', Object.fromEntries(formData));
+
+                // Show success message
+                this.style.display = 'none';
+                document.getElementById('consultationSuccess').style.display = 'block';
+
+                // Scroll to success message
+                document.getElementById('consultationSuccess').scrollIntoView({ behavior: 'smooth' });
+            });
+        </script>
+
+        <div class="info-box">
+            <h3>Need Help?</h3>
+            <p>Our team is here to assist you:</p>
+            <ul>
+                <li><strong>Medical Consultations:</strong> consultations@jig.cleva-ai.co.za</li>
+                <li><strong>Medical Verification Team:</strong> section21@jig.cleva-ai.co.za</li>
+                <li><strong>General Support:</strong> support@jig.cleva-ai.co.za</li>
+            </ul>
+            <p style="margin-top: 1rem;">
+                <a href="/login.html" class="cta-button">Create Account</a>
+            </p>
+        </div>
+
+        <h2>Frequently Asked Questions</h2>
+
+        <h3>How long does verification take?</h3>
+        <p>Authorization letter verification typically takes 24-48 hours during business days.</p>
+
+        <h3>Can I use my authorization at multiple pickup points?</h3>
+        <p>Your Section 21 authorization allows you to obtain medical cannabis from any licensed pickup point in South Africa.</p>
+
+        <h3>What if my doctor is unfamiliar with Section 21?</h3>
+        <p>We can provide your doctor with resources and information about the Section 21 process. Contact our support team.</p>
+
+        <h3>Is my medical information kept confidential?</h3>
+        <p>Yes. All medical information is encrypted, stored securely, and accessible only to authorized medical verification staff.</p>
+
+        <h3>Can I order medical cannabis products without a prescription?</h3>
+        <p>No. A valid prescription is required for each order of medical cannabis products, in addition to your Section 21 authorization.</p>
+
+        <h3>What happens if my authorization expires?</h3>
+        <p>You will need to obtain a new authorization letter from your doctor and submit it for verification before continuing to purchase medical cannabis products.</p>
+
+        <p style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted);">
+            <strong>Disclaimer:</strong> This information is for educational purposes only and does not constitute medical advice. Consult with your healthcare provider to determine if medical cannabis is appropriate for your condition.
+        </p>
+
+        <p style="color: var(--text-muted); margin-top: 2rem;">
+            &copy; 2025 JIG Craft Cannabis. All rights reserved.
+        </p>
+    </div>
+    <!-- UAT Bug Reporter -->
+</body>
+</html>

@@ -1,0 +1,213 @@
+{
+  "name": "JIG - Admin Daily Digest",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 18 * * *"
+            }
+          ]
+        }
+      },
+      "id": "cron-daily-6pm",
+      "name": "Daily 6pm Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://jig.cleva-ai.co.za/api/v1/n8n/data/stats",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "={{$env.N8N_API_KEY}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch-stats",
+      "name": "Fetch Daily Stats",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "set-date",
+              "name": "reportDate",
+              "value": "={{ $now.format('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "set-total-clients",
+              "name": "totalClients",
+              "value": "={{ $json.totalClients || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-active-clients",
+              "name": "activeClients",
+              "value": "={{ $json.activeClients || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-total-orders",
+              "name": "totalOrders",
+              "value": "={{ $json.totalOrders || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-orders-today",
+              "name": "ordersToday",
+              "value": "={{ $json.ordersToday || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-revenue-today",
+              "name": "revenueToday",
+              "value": "={{ $json.revenueToday || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-revenue-month",
+              "name": "revenueThisMonth",
+              "value": "={{ $json.revenueThisMonth || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-unpaid-orders",
+              "name": "unpaidOrders",
+              "value": "={{ $json.unpaidOrders || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-unpaid-amount",
+              "name": "unpaidAmount",
+              "value": "={{ $json.unpaidAmount || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-leads-count",
+              "name": "totalLeads",
+              "value": "={{ $json.totalLeads || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-new-leads",
+              "name": "newLeadsToday",
+              "value": "={{ $json.newLeadsToday || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-products-count",
+              "name": "totalProducts",
+              "value": "={{ $json.totalProducts || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-churn-risk",
+              "name": "highChurnRisk",
+              "value": "={{ $json.highChurnRisk || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "set-restock-due",
+              "name": "restockDueSoon",
+              "value": "={{ $json.restockDueSoon || 0 }}",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "id": "format-stats",
+      "name": "Format Stats Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "operation": "sendMessage",
+        "chatId": "={{$env.TELEGRAM_CHAT_ID}}",
+        "text": "=**JIG Daily Digest - {{ $json.reportDate }}**\n\n---\n**Clients**\nTotal: {{ $json.totalClients }}\nActive: {{ $json.activeClients }}\nHigh Churn Risk: {{ $json.highChurnRisk }}\n\n**Orders**\nToday: {{ $json.ordersToday }}\nTotal: {{ $json.totalOrders }}\nUnpaid: {{ $json.unpaidOrders }} (R{{ $json.unpaidAmount }})\n\n**Revenue**\nToday: R{{ $json.revenueToday }}\nThis Month: R{{ $json.revenueThisMonth }}\n\n**Pipeline**\nTotal Leads: {{ $json.totalLeads }}\nNew Today: {{ $json.newLeadsToday }}\n\n**Inventory**\nProducts: {{ $json.totalProducts }}\nRestock Due Soon: {{ $json.restockDueSoon }}\n\n---\n_End of daily digest_",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "telegram-digest",
+      "name": "Send Daily Digest",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [900, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIALS_ID",
+          "name": "JIG Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 6pm Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Daily Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Daily Stats": {
+      "main": [
+        [
+          {
+            "node": "Format Stats Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Stats Data": {
+      "main": [
+        [
+          {
+            "node": "Send Daily Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "JIG"
+    },
+    {
+      "name": "Admin"
+    }
+  ],
+  "triggerCount": 1,
+  "versionId": "1"
+}

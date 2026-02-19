@@ -1,0 +1,2695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Owner Dashboard - JIG Craft Cannabis</title>
+    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--surface-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .owner-nav {
+            background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%);
+            padding: 1rem 0;
+            border-bottom: 4px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        .nav-logo-text {
+            color: var(--cream);
+        }
+
+        .nav-logo-text .brand-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-logo-text .brand-tagline {
+            font-family: 'Oswald', sans-serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--gold);
+        }
+
+        .owner-badge {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: var(--cream);
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .logout-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-btn:hover {
+            background: var(--red-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Welcome Header */
+        .welcome-header {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            border-radius: 20px;
+            padding: 2rem 2.5rem;
+            margin-bottom: 2rem;
+            border: 3px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D4AF37' opacity='0.1'%3E%3Cpath d='M40 8c0 0-3 12-3 20c0 4 1.5 7 3 7s3-3 3-7c0-8-3-20-3-20z'/%3E%3Cpath d='M40 35c-8-12-22-18-22-18s4 14 12 22c4 4 8 5 10 4c-2-2-2-5 0-8z'/%3E%3Cpath d='M40 35c8-12 22-18 22-18s-4 14-12 22c-4 4-8 5-10 4c2-2 2-5 0-8z'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 80px;
+        }
+
+        .welcome-header h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            color: var(--cream);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-header p {
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+
+        .welcome-date {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--surface-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-dark);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            border-color: var(--gold-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .stat-card.revenue::before { background: var(--gold); }
+        .stat-card.orders::before { background: var(--green); }
+        .stat-card.inventory::before { background: #6366F1; }
+        .stat-card.branches::before { background: var(--red); }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card.revenue .stat-icon { background: rgba(217, 119, 6,0.15); color: var(--gold); }
+        .stat-card.orders .stat-icon { background: rgba(124, 58, 237,0.2); color: var(--green-light); }
+        .stat-card.inventory .stat-icon { background: rgba(99,102,241,0.15); color: #818CF8; }
+        .stat-card.branches .stat-icon { background: rgba(220, 38, 38,0.15); color: #EF6461; }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat-change.positive { color: #22C55E; }
+        .stat-change.negative { color: var(--red); }
+
+        /* Branches Section */
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: var(--gold);
+        }
+
+        .branches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .branch-card {
+            background: var(--surface-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-dark);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .branch-card:hover {
+            border-color: var(--gold-dark);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .branch-header {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .branch-name {
+            color: var(--cream);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .branch-code {
+            background: var(--gold);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .branch-body {
+            padding: 1.5rem;
+        }
+
+        .branch-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .branch-stat {
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--surface-elevated);
+            border-radius: 10px;
+        }
+
+        .branch-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .branch-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .branch-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-dark);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status-dot.active { background: #22C55E; }
+        .status-dot.inactive { background: var(--gray-500); }
+
+        .branch-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .branch-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .branch-btn.primary {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .branch-btn.primary:hover {
+            background: var(--gold-light);
+        }
+
+        .branch-btn.secondary {
+            background: var(--surface-elevated);
+            color: var(--text-secondary);
+        }
+
+        .branch-btn.secondary:hover {
+            background: var(--surface-hover);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-btn {
+            background: var(--surface-card);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .action-btn:hover {
+            border-color: var(--gold-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .action-btn i {
+            font-size: 2rem;
+            color: var(--gold);
+        }
+
+        .action-btn span {
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Sticky Bottom Nav (mobile) */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface-card);
+            border-top: 1px solid var(--border-dark);
+            z-index: 100;
+            padding: 0.4rem 0;
+            padding-bottom: calc(0.4rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        .bottom-nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.15rem;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            transition: color 0.2s;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .bottom-nav-item.active,
+        .bottom-nav-item:hover {
+            color: var(--gold);
+        }
+
+        .bottom-nav-item i {
+            font-size: 1.1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: row;
+                gap: 0.5rem;
+                padding: 0 0.75rem;
+            }
+
+            .nav-logo img {
+                width: 32px !important;
+                height: 32px !important;
+            }
+
+            .nav-logo-text .brand-name {
+                font-size: 1rem !important;
+            }
+
+            .nav-logo-text .brand-tagline {
+                display: none;
+            }
+
+            .owner-badge {
+                display: none;
+            }
+
+            .owner-nav {
+                padding: 0.5rem 0;
+                border-bottom-width: 2px;
+            }
+
+            /* Hide desktop nav links (moved to bottom nav) */
+            .nav-actions .nav-link,
+            .nav-actions .logout-btn {
+                display: none;
+            }
+
+            .bottom-nav {
+                display: block;
+            }
+
+            /* Pad main content for bottom nav */
+            main.main-content {
+                padding-bottom: 5rem;
+            }
+
+            .welcome-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .welcome-header {
+                padding: 1.25rem 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .main-content {
+                padding: 0.75rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .branches-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: var(--surface-elevated);
+            color: var(--text-primary);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            margin-bottom: 0.75rem;
+            animation: slideIn 0.3s ease-out;
+            border-left: 4px solid var(--green);
+        }
+
+        .toast.error { border-left-color: var(--red); }
+        .toast.success { border-left-color: #22C55E; }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Hamburger Menu Button */
+        .hamburger-btn {
+            background: none;
+            border: none;
+            color: var(--cream);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .hamburger-btn:hover {
+            color: var(--gold);
+        }
+
+        /* Cart Icon */
+        .cart-icon-btn {
+            background: none;
+            border: none;
+            color: var(--cream);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .cart-icon-btn:hover {
+            color: var(--gold);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--gold);
+            color: var(--white);
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar Drawer */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar-drawer {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 320px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--green-deep) 0%, var(--green-dark) 100%);
+            z-index: 999;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+        }
+
+        .sidebar-drawer.active {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-logo img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .sidebar-logo-text {
+            color: var(--cream);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+        }
+
+        .sidebar-close {
+            background: none;
+            border: none;
+            color: var(--cream);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .sidebar-close:hover {
+            color: var(--gold);
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 1rem 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: var(--cream);
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-menu-item:hover {
+            background: rgba(255,255,255,0.1);
+            border-left-color: var(--gold);
+        }
+
+        .sidebar-menu-item.active {
+            background: rgba(217, 119, 6, 0.15);
+            border-left-color: var(--gold);
+        }
+
+        .sidebar-menu-item i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--gold);
+        }
+
+        .sidebar-menu-item span {
+            font-weight: 500;
+        }
+
+        .sidebar-section-title {
+            padding: 1rem 1.5rem 0.5rem;
+            color: var(--gold);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-logout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .sidebar-logout:hover {
+            background: var(--red-dark);
+        }
+
+        /* Cart Drawer */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .cart-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: var(--surface-card);
+            z-index: 999;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+        }
+
+        .cart-drawer.active {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--green-deep);
+            color: var(--cream);
+        }
+
+        .cart-header h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            color: var(--cream);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .cart-close:hover {
+            color: var(--gold);
+        }
+
+        .cart-items {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .cart-empty i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--border-dark);
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: var(--gray-100);
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .cart-item-price {
+            color: var(--purple);
+            font-weight: 700;
+        }
+
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--gray-200);
+            background: var(--white);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: var(--green);
+            color: white;
+            border-color: var(--purple);
+        }
+
+        .cart-item-remove {
+            color: var(--red);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-dark);
+            background: var(--surface-elevated);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .cart-total-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .cart-total-value {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--purple);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        @media (max-width: 480px) {
+            .sidebar-drawer {
+                width: 100%;
+                left: -100%;
+            }
+            .cart-drawer {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* Extra Small Phones (360px) */
+        @media (max-width: 360px) {
+            .owner-nav { padding: 0.5rem 0; }
+            .nav-logo { font-size: 0.9rem; }
+            .nav-logo img { width: 28px !important; height: 28px !important; }
+            .main-content { padding: 0.5rem; }
+            .stats-grid { gap: 0.5rem; }
+            .stat-card { padding: 0.75rem; }
+            .stat-value { font-size: 1.3rem; }
+            .stat-label { font-size: 0.7rem; }
+            .section-title { font-size: 1.2rem; }
+            .tab-btn { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+            .hamburger-btn { width: 36px; height: 36px; font-size: 1rem; }
+            .action-btn { padding: 0.5rem; font-size: 0.8rem; }
+            .modal-content { padding: 1rem; margin: 0.5rem; }
+            .toast { width: calc(100% - 1rem); right: 0.5rem; }
+        }
+
+        /* Reports Modal Styles */
+        .reports-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .reports-modal.active {
+            display: flex;
+        }
+
+        .reports-modal-content {
+            background: var(--surface-bg);
+            border: 1px solid var(--border-dark);
+            border-radius: 16px;
+            width: 95%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .reports-modal-header {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 16px 16px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .reports-modal-header h2 {
+            color: var(--cream);
+            margin: 0;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+        }
+
+        .reports-modal-close {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: var(--cream);
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .reports-modal-close:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.05);
+        }
+
+        .reports-modal-body {
+            padding: 1.25rem;
+        }
+
+        .reports-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 1.25rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-bottom: 2px solid var(--border-dark);
+            padding-bottom: 0;
+        }
+
+        .reports-tabs::-webkit-scrollbar { display: none; }
+
+        .report-tab {
+            padding: 0.65rem 1rem;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            border-radius: 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            white-space: nowrap;
+            margin-bottom: -2px;
+        }
+
+        .report-tab i {
+            margin-right: 0.35rem;
+            font-size: 0.8rem;
+        }
+
+        .report-tab:hover {
+            color: var(--text-primary);
+            background: var(--surface-elevated);
+        }
+
+        .report-tab.active {
+            background: transparent;
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        .report-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .report-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .report-section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .report-section-title i {
+            color: var(--gold);
+        }
+
+        .report-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .report-stat {
+            background: var(--surface-card);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border-dark);
+            transition: border-color 0.2s;
+        }
+
+        .report-stat:hover {
+            border-color: var(--gold);
+        }
+
+        .report-stat.pending {
+            border-left: 3px solid rgba(243, 156, 18, 0.8);
+        }
+
+        .report-stat.processing {
+            border-left: 3px solid rgba(52, 152, 219, 0.8);
+        }
+
+        .report-stat.success {
+            border-left: 3px solid rgba(124, 58, 237, 0.8);
+        }
+
+        .report-stat.danger {
+            border-left: 3px solid rgba(231, 76, 60, 0.8);
+        }
+
+        .report-stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Oswald', sans-serif;
+            line-height: 1.2;
+        }
+
+        .report-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 0.65rem 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-dark);
+            color: var(--text-primary);
+        }
+
+        .report-table th {
+            background: var(--surface-elevated);
+            color: var(--text-secondary);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+        }
+
+        .report-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .report-table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .report-table tr:hover {
+            background: var(--surface-hover);
+        }
+
+        .report-table tbody tr {
+            transition: background 0.15s;
+        }
+
+        .category-badge {
+            background: var(--gold);
+            color: var(--green-dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .report-summary {
+            background: var(--surface-elevated);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border: 1px solid var(--border-dark);
+        }
+
+        .report-summary p {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        .report-empty {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 2rem;
+            font-style: italic;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-dark);
+            flex-wrap: wrap;
+        }
+
+        .report-btn {
+            padding: 0.55rem 1rem;
+            border: 1px solid var(--border-dark);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+            background: var(--surface-elevated);
+            color: var(--text-secondary);
+        }
+
+        .report-btn:hover {
+            border-color: var(--gold);
+            color: var(--text-primary);
+        }
+
+        .report-btn-primary {
+            background: var(--green);
+            color: var(--white);
+            border-color: var(--purple);
+        }
+
+        .report-btn-primary:hover {
+            background: var(--green-dark);
+        }
+
+        .report-btn-secondary {
+            background: var(--surface-elevated);
+            color: var(--text-secondary);
+        }
+
+        .report-btn-secondary:hover {
+            background: var(--surface-hover);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .date-range-picker {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--surface-elevated);
+            border-radius: 8px;
+            border: 1px solid var(--border-dark);
+        }
+
+        .date-range-picker label {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .date-range-picker input[type="date"] {
+            padding: 0.5rem;
+            border: 1px solid var(--border-dark);
+            background: var(--surface-card);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .reports-modal-content {
+                width: 100%;
+                height: 100%;
+                max-height: 100%;
+                border-radius: 0;
+            }
+            .reports-modal-header {
+                border-radius: 0;
+            }
+            .report-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ===== OTP LOGIN SCREEN STYLES ===== */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-card {
+            background: var(--black);
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            margin: 1rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .login-card h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: var(--white);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .login-card .tagline {
+            font-family: 'Oswald', sans-serif;
+            font-style: italic;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .login-card .subtitle {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .login-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .login-form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .login-form-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .login-form-group input:focus {
+            outline: none;
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .login-btn:hover {
+            background: var(--green-dark);
+            transform: translateY(-2px);
+        }
+
+        .login-btn:disabled {
+            background: var(--gray-500);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-btn-secondary {
+            background: transparent;
+            color: var(--purple);
+            border: 2px solid var(--green);
+            margin-top: 1rem;
+        }
+
+        .login-btn-secondary:hover {
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .login-message {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .login-message.show {
+            display: block;
+        }
+
+        .login-message.error {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--red);
+            border: 1px solid var(--red);
+        }
+
+        .login-message.success {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--purple);
+            border: 1px solid var(--green);
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .otp-inputs input {
+            width: 52px;
+            height: 60px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .otp-inputs input:focus {
+            outline: none;
+            border-color: var(--purple);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+        }
+
+        .otp-step {
+            display: none;
+        }
+
+        .otp-step.active {
+            display: block;
+        }
+
+        .resend-timer {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray-500);
+        }
+
+        .resend-link {
+            color: var(--purple);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+
+        .dev-hint {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            text-align: center;
+        }
+
+        .dev-hint strong {
+            color: var(--purple);
+        }
+
+        /* Hide dashboard content when not logged in */
+        .dashboard-container {
+            display: none;
+        }
+
+        .dashboard-container.visible {
+            display: block;
+        }
+
+        /* ===== CAMERA GRID ===== */
+        .camera-slot {
+            position: relative;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #1a1a1a;
+            border: 1px solid var(--gray-200);
+        }
+
+        .camera-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .camera-scan-line {
+            position: absolute;
+            top: -10%;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(124, 58, 237,0.6), transparent);
+            box-shadow: 0 0 15px rgba(124, 58, 237,0.4);
+            animation: cameraScan 4s linear infinite;
+            z-index: 2;
+        }
+
+        @keyframes cameraScan {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+
+        .camera-placeholder-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 1;
+        }
+
+        .camera-pulse-icon {
+            font-size: 2rem;
+            color: var(--gray-500);
+            animation: cameraPulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes cameraPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .camera-awaiting-text {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--gray-500);
+            text-transform: uppercase;
+        }
+
+        .camera-branch-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .camera-config-btn {
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
+            background: rgba(0,0,0,0.6);
+            color: var(--cream);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            z-index: 3;
+            transition: background 0.2s;
+        }
+
+        .camera-config-btn:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .camera-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            z-index: 2;
+        }
+
+        .camera-branch-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .camera-live-badge {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #22C55E;
+            letter-spacing: 0.05em;
+        }
+
+        .camera-live-badge i {
+            font-size: 0.4rem;
+            animation: cameraPulse 1.5s ease-in-out infinite;
+        }
+
+        .camera-feed-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .camera-feed-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .camera-error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--red);
+            gap: 0.5rem;
+        }
+
+        /* ===== LIVE FEED ===== */
+        .live-feed-section .section-title {
+            margin-bottom: 0;
+        }
+
+        #liveFeedList::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #liveFeedList::-webkit-scrollbar-thumb {
+            background: var(--gray-200);
+            border-radius: 2px;
+        }
+
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .camera-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.5rem !important;
+            }
+
+            .branches-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .nav-content {
+                padding: 0 1rem !important;
+            }
+
+            .nav-logo img {
+                width: 50px !important;
+                height: 50px !important;
+            }
+
+            .nav-logo-text .brand-name {
+                font-size: 1.3rem !important;
+            }
+
+            main {
+                padding: 1rem !important;
+            }
+
+            .owner-badge {
+                padding: 0.35rem 0.75rem !important;
+                font-size: 0.7rem !important;
+            }
+
+            .live-feed-section > div:first-child {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .branch-month-stat {
+                font-size: 0.7rem !important;
+            }
+
+            .section-title {
+                font-size: 1.1rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .camera-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr !important;
+            }
+
+            .stat-card {
+                padding: 1rem !important;
+            }
+
+            .nav-actions {
+                gap: 0.5rem !important;
+            }
+
+            .nav-actions button {
+                padding: 0.4rem !important;
+                width: 36px !important;
+                height: 36px !important;
+            }
+        }
+
+        /* Tablet: 2-col cameras */
+        @media (min-width: 769px) and (max-width: 1100px) {
+            .camera-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+    </style>
+    <!-- Tablet Optimizations -->
+    <link rel="stylesheet" href="css/tablet-optimizations.css">
+</head>
+<body>
+    <!-- OTP Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div style="text-align: center;">
+                <img src="images/DeBudChef-rLogo.png" alt="JIG Craft Cannabis" style="height: 100px; margin: 0 auto 15px; display: block;">
+                <h1>JIG Craft Cannabis</h1>
+                <p class="tagline"></p>
+                <p class="subtitle">Owner Dashboard</p>
+            </div>
+
+            <!-- Step 1: Email Input -->
+            <div class="otp-step active" id="step-email">
+                <div class="login-message error" id="emailError"></div>
+                <div class="login-message success" id="emailSuccess"></div>
+
+                <form id="emailForm">
+                    <div class="login-form-group">
+                        <label><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="loginEmail" required placeholder="your@email.com" autocomplete="email">
+                    </div>
+                    <button type="submit" class="login-btn" id="requestOTPBtn">
+                        <i class="fas fa-paper-plane"></i> Send Login Code
+                    </button>
+                </form>
+
+                <div class="dev-hint" id="devHint" style="display: none;">
+                    Dev Mode: Use code <strong>123456</strong>
+                </div>
+
+                <div style="text-align: center; margin-top: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 12px 0;">
+                        <hr style="flex: 1; border: none; border-top: 1px solid #2A2A2A;">
+                        <span style="color: #999; font-size: 0.8rem;">or login with PIN</span>
+                        <hr style="flex: 1; border: none; border-top: 1px solid #2A2A2A;">
+                    </div>
+                    <form id="pinForm" onsubmit="loginWithPin(event)" style="display: flex; flex-direction: column; gap: 8px;">
+                        <input type="email" id="pinEmail" required placeholder="your@email.com" autocomplete="email" style="padding: 10px 14px; border: 2px solid #2A2A2A; border-radius: 10px; font-size: 0.95rem; font-family: 'Inter', sans-serif;">
+                        <div style="position: relative;">
+                            <input type="password" id="pinInput" required placeholder="Enter PIN" inputmode="numeric" pattern="[0-9]*" style="padding: 10px 14px; padding-right: 44px; border: 2px solid #2A2A2A; border-radius: 10px; font-size: 0.95rem; font-family: 'Inter', sans-serif; letter-spacing: 4px; text-align: center; width: 100%; box-sizing: border-box;">
+                            <button type="button" onclick="togglePinVisibility('pinInput', this)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #999; font-size: 1.1rem; padding: 4px;" title="Show/Hide PIN">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <button type="submit" class="login-btn" id="pinLoginBtn">
+                            <i class="fas fa-key"></i> Login with PIN
+                        </button>
+                    </form>
+                    <div class="login-message error" id="pinError"></div>
+                </div>
+            </div>
+
+            <!-- Step 2: OTP Verification -->
+            <div class="otp-step" id="step-otp">
+                <div class="login-message error" id="otpError"></div>
+                <div class="login-message success" id="otpSuccess"></div>
+
+                <p style="text-align: center; color: var(--gray-500); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    Enter the 6-digit code sent to
+                </p>
+                <p style="text-align: center; color: var(--white); font-weight: 600; margin-bottom: 1.5rem;" id="displayEmail"></p>
+
+                <form id="otpForm">
+                    <div class="otp-inputs" id="otpInputs">
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    </div>
+                    <button type="submit" class="login-btn" id="verifyOTPBtn">
+                        <i class="fas fa-check"></i> Verify & Login
+                    </button>
+                </form>
+
+                <div class="resend-timer">
+                    <span id="timerText">Resend code in <strong id="countdown">60</strong>s</span>
+                    <a id="resendLink" class="resend-link" style="display: none;" onclick="resendOTP()">Resend Code</a>
+                </div>
+
+                <button type="button" onclick="goBackToEmail()" class="login-btn login-btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Change Email
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container" id="dashboardContainer">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar Drawer -->
+    <div class="sidebar-drawer" id="sidebarDrawer">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="images/DeBudChef-rLogo.png" alt="JIG Craft Cannabis">
+                <span class="sidebar-logo-text">JIG Craft Cannabis</span>
+            </div>
+            <button class="sidebar-close" onclick="toggleSidebar()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-menu">
+            <div class="sidebar-section-title">Dashboard</div>
+            <a href="#" class="sidebar-menu-item active" onclick="event.preventDefault(); sidebarNav('sectionWelcome');">
+                <i class="fas fa-chart-line"></i>
+                <span>Overview</span>
+            </a>
+            <a href="#" class="sidebar-menu-item" onclick="event.preventDefault(); sidebarNav('liveFeedSection');">
+                <i class="fas fa-satellite-dish"></i>
+                <span>Live Feed</span>
+            </a>
+            <a href="admin.html" class="sidebar-menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Admin Panel</span>
+            </a>
+
+            <div class="sidebar-section-title">Operations</div>
+            <a href="pos.html" class="sidebar-menu-item">
+                <i class="fas fa-cash-register"></i>
+                <span>Point of Sale</span>
+            </a>
+            <a href="inventory-manager-dashboard.html" class="sidebar-menu-item">
+                <i class="fas fa-boxes"></i>
+                <span>Inventory</span>
+            </a>
+            <a href="stocktake-app.html" class="sidebar-menu-item">
+                <i class="fas fa-clipboard-check"></i>
+                <span>Stock Take</span>
+            </a>
+            <a href="pnd-dashboard.html" class="sidebar-menu-item">
+                <i class="fas fa-truck"></i>
+                <span>Pack & Dispatch</span>
+            </a>
+            <a href="branch-receiving.html" class="sidebar-menu-item">
+                <i class="fas fa-dolly"></i>
+                <span>Branch Receiving</span>
+            </a>
+
+            <div class="sidebar-section-title">Branches</div>
+            <a href="#" class="sidebar-menu-item" onclick="event.preventDefault(); sidebarNav('sectionBranches');">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>All Branches</span>
+            </a>
+            <a href="#" class="sidebar-menu-item" onclick="event.preventDefault(); sidebarNav('cameraSection');">
+                <i class="fas fa-video"></i>
+                <span>Surveillance</span>
+            </a>
+
+            <div class="sidebar-section-title">Approvals</div>
+            <a href="#" class="sidebar-menu-item" onclick="event.preventDefault(); toggleSidebar(); showApprovalsPanel('pending-orders');">
+                <i class="fas fa-check-circle"></i>
+                <span>Pending Approvals</span>
+            </a>
+
+            <div class="sidebar-section-title">B2B / Wholesale</div>
+            <a href="wholesale-pos.html" class="sidebar-menu-item">
+                <i class="fas fa-store"></i>
+                <span>Wholesale POS</span>
+            </a>
+            <a href="#" class="sidebar-menu-item" onclick="event.preventDefault(); toggleSidebar(); showWholesaleOrders();">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>B2B Orders</span>
+            </a>
+            <a href="#" class="sidebar-menu-item" onclick="event.preventDefault(); toggleSidebar(); showWholesaleCustomers();">
+                <i class="fas fa-building"></i>
+                <span>B2B Customers</span>
+            </a>
+
+            <div class="sidebar-section-title">Reports</div>
+            <a href="#" class="sidebar-menu-item" onclick="event.preventDefault(); toggleSidebar(); showReportsModal();">
+                <i class="fas fa-file-alt"></i>
+                <span>Sales Reports</span>
+            </a>
+            <a href="#" class="sidebar-menu-item" onclick="event.preventDefault(); toggleSidebar(); showReportsModal('staff');">
+                <i class="fas fa-users"></i>
+                <span>Staff Reports</span>
+            </a>
+
+            <div class="sidebar-section-title">Customer</div>
+            <a href="products.html" class="sidebar-menu-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Shop</span>
+            </a>
+            <a href="dashboard.html" class="sidebar-menu-item">
+                <i class="fas fa-user"></i>
+                <span>My Account</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <button class="sidebar-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+            <button class="cart-close" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <i class="fas fa-shopping-basket"></i>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span class="cart-total-label">Total</span>
+                <span class="cart-total-value" id="cartTotal">R0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="goToCheckout()">
+                <i class="fas fa-lock"></i> Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+    <nav class="owner-nav">
+        <div class="nav-content">
+            <button class="hamburger-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a href="index.html" class="nav-logo">
+                <img src="images/DeBudChef-rLogo.png" alt="JIG Craft Cannabis">
+                <div class="nav-logo-text">
+                    <div class="brand-name">JIG Craft Cannabis</div>
+                    <div class="brand-tagline"></div>
+                </div>
+            </a>
+            <div class="owner-badge">
+                <i class="fas fa-crown"></i> Owner
+            </div>
+            <div class="nav-actions">
+                <a href="admin.html" class="nav-link">
+                    <i class="fas fa-cog"></i> Admin Panel
+                </a>
+                <a href="pos.html" class="nav-link">
+                    <i class="fas fa-cash-register"></i> POS
+                </a>
+                <!-- Cart removed from owner dashboard -->
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <main class="main-content">
+        <!-- Welcome Header -->
+        <div class="welcome-header" id="sectionWelcome">
+            <h1>Welcome Back, <span id="ownerName">Power</span>!</h1>
+            <p>Here's what's happening across your branches today</p>
+            <div class="welcome-date" id="currentDate"></div>
+        </div>
+
+        <!-- Stats Overview -->
+        <!-- KPI Toggle -->
+        <div style="margin-bottom: 1rem;">
+            <button id="ownerKpiToggle" onclick="toggleOwnerKpi()" style="background: var(--surface-card); border: 1px solid var(--border-dark); color: var(--text-primary); padding: 10px 20px; border-radius: 12px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
+                <i class="fas fa-chart-pie" style="color: var(--gold);"></i> Performance KPIs
+                <i class="fas fa-chevron-down" id="ownerKpiChevron" style="font-size: 0.7rem; transition: transform 0.3s;"></i>
+            </button>
+        </div>
+        <!-- KPI Slide-in Panel -->
+        <div id="ownerKpiPanel" style="max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);">
+            <div class="stats-grid" id="ownerKpiGrid" style="margin-bottom: 1.5rem;">
+                <div class="stat-card revenue">
+                    <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="stat-label">Revenue This Month</div>
+                    <div class="stat-value" id="kpiRevenueMonth">R0.00</div>
+                    <div class="stat-change" id="kpiGrowth"><i class="fas fa-chart-line"></i> <span>--</span> vs last month</div>
+                </div>
+                <div class="stat-card orders">
+                    <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <div class="stat-label">Transactions This Month</div>
+                    <div class="stat-value" id="kpiTransactions">0</div>
+                    <div class="stat-change" id="kpiPendingCashups"><i class="fas fa-clock"></i> <span>0</span> cashups pending</div>
+                </div>
+                <div class="stat-card inventory">
+                    <div class="stat-icon"><i class="fas fa-boxes"></i></div>
+                    <div class="stat-label">Expenses (POs This Month)</div>
+                    <div class="stat-value" id="kpiExpenses">R0.00</div>
+                    <div class="stat-change" id="kpiPLIndicator"><i class="fas fa-balance-scale"></i> P&L indicator</div>
+                </div>
+                <div class="stat-card branches">
+                    <div class="stat-icon"><i class="fas fa-store"></i></div>
+                    <div class="stat-label">Last Month Revenue</div>
+                    <div class="stat-value" id="kpiLastMonth">R0.00</div>
+                    <div class="stat-change"><i class="fas fa-calendar-alt"></i> Comparison baseline</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Activity Feed -->
+        <div id="liveFeedSection" class="live-feed-section" style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h2 class="section-title" style="margin-bottom: 0;"><i class="fas fa-satellite-dish"></i> Live Activity Feed</h2>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <select id="liveFeedBranchFilter" onchange="renderLiveFeed()" style="padding: 0.4rem 0.75rem; border: 1px solid var(--border-dark); border-radius: 8px; font-size: 0.8rem; background: var(--surface-elevated); color: var(--text-primary); cursor: pointer;">
+                        <option value="all">All Branches</option>
+                    </select>
+                    <div style="display: flex; align-items: center; gap: 0.4rem;">
+                        <div id="liveFeedStatusDot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--gray-500);"></div>
+                        <span id="liveFeedStatusText" style="font-size: 0.75rem; color: var(--gray-500);">Connecting...</span>
+                    </div>
+                </div>
+            </div>
+            <div id="liveFeedList" style="background: var(--surface-card); border-radius: 12px; border: 1px solid var(--border-dark); max-height: 300px; overflow-y: auto;">
+                <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                    <i class="fas fa-satellite-dish" style="font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4;"></i>
+                    <p>Waiting for live activity...</p>
+                    <p style="font-size: 0.8rem; margin-top: 0.25rem;">Events will appear here as they happen</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <h2 class="section-title"><i class="fas fa-bolt"></i> Quick Actions</h2>
+        <div class="quick-actions">
+            <a href="#" class="action-btn" onclick="navigateWithAuth('admin.html', 'staff')">
+                <i class="fas fa-users-cog"></i>
+                <span>Manage Staff</span>
+            </a>
+            <a href="#" class="action-btn" onclick="navigateWithAuth('admin.html', 'inventory')">
+                <i class="fas fa-boxes"></i>
+                <span>Inventory</span>
+            </a>
+            <a href="#" class="action-btn" onclick="navigateWithAuth('admin.html', 'orders')">
+                <i class="fas fa-receipt"></i>
+                <span>View Orders</span>
+            </a>
+            <a href="#" class="action-btn" onclick="navigateWithAuth('pos.html')">
+                <i class="fas fa-cash-register"></i>
+                <span>Open POS</span>
+            </a>
+            <a href="#" class="action-btn" onclick="showReportsModal()">
+                <i class="fas fa-chart-line"></i>
+                <span>Reports</span>
+            </a>
+            <a href="#" class="action-btn" onclick="navigateWithAuth('admin.html', 'settings')">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+
+        <!-- Monthly Budget Section -->
+        <h2 class="section-title"><i class="fas fa-chart-pie"></i> Monthly Budget vs Actual</h2>
+        <div class="budget-widget" style="background: var(--white); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <span style="font-size: 0.85rem; color: var(--gray-500);">Current Month</span>
+                    <h3 id="budgetMonth" style="font-family: 'Oswald', sans-serif; color: var(--white); font-size: 1.5rem; margin: 0;">Loading...</h3>
+                </div>
+                <select id="budgetBranchSelect" onchange="loadBudgetData()" style="padding: 0.5rem 1rem; border: 1px solid var(--gray-200); border-radius: 8px; background: var(--white);">
+                    <option value="all">All Branches</option>
+                </select>
+            </div>
+
+            <!-- Budget Progress Bars -->
+            <div id="budgetProgressBars" style="display: grid; gap: 1rem;">
+                <!-- Revenue Target -->
+                <div class="budget-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="font-weight: 600; color: var(--white);">Revenue Target</span>
+                        <span id="revenueProgress" style="font-weight: 600; color: var(--gold-dark);">R0 / R0</span>
+                    </div>
+                    <div style="background: var(--gray-100); border-radius: 10px; height: 12px; overflow: hidden;">
+                        <div id="revenueBar" style="background: linear-gradient(90deg, var(--gold), var(--gold-light)); height: 100%; width: 0%; border-radius: 10px; transition: width 0.5s ease;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.75rem; color: var(--gray-500);">
+                        <span id="revenuePercent">0%</span>
+                        <span id="revenueDaysLeft">-- days left</span>
+                    </div>
+                </div>
+
+                <!-- Expenses -->
+                <div class="budget-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="font-weight: 600; color: var(--white);">Expenses Budget</span>
+                        <span id="expensesProgress" style="font-weight: 600; color: var(--red);">R0 / R0</span>
+                    </div>
+                    <div style="background: var(--gray-100); border-radius: 10px; height: 12px; overflow: hidden;">
+                        <div id="expensesBar" style="background: linear-gradient(90deg, var(--green), var(--green-light)); height: 100%; width: 0%; border-radius: 10px; transition: width 0.5s ease;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.75rem; color: var(--gray-500);">
+                        <span id="expensesPercent">0%</span>
+                        <span id="expensesStatus">On track</span>
+                    </div>
+                </div>
+
+                <!-- Gross Profit -->
+                <div class="budget-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="font-weight: 600; color: var(--white);">Gross Profit</span>
+                        <span id="profitProgress" style="font-weight: 600; color: var(--purple);">R0 / R0</span>
+                    </div>
+                    <div style="background: var(--gray-100); border-radius: 10px; height: 12px; overflow: hidden;">
+                        <div id="profitBar" style="background: linear-gradient(90deg, #10B981, #34D399); height: 100%; width: 0%; border-radius: 10px; transition: width 0.5s ease;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.75rem; color: var(--gray-500);">
+                        <span id="profitPercent">0%</span>
+                        <span id="profitMargin">-- margin</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">
+                <h4 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 1rem; font-size: 1.1rem;">Expense Categories</h4>
+                <div id="expenseCategories" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                    <!-- Categories loaded dynamically -->
+                    <div style="text-align: center; padding: 1rem; background: var(--gray-50); border-radius: 8px;">
+                        <i class="fas fa-spinner fa-spin" style="color: var(--gray-400);"></i>
+                        <p style="font-size: 0.8rem; color: var(--gray-500); margin-top: 0.5rem;">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button onclick="openBudgetModal()" style="padding: 0.75rem 1.5rem; background: var(--green); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                    <i class="fas fa-edit"></i> Edit Budget
+                </button>
+                <button onclick="viewBudgetHistory()" style="padding: 0.75rem 1.5rem; background: var(--white); color: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; font-weight: 600; cursor: pointer;">
+                    <i class="fas fa-history"></i> View History
+                </button>
+            </div>
+        </div>
+
+        <!-- Pending Approvals Section -->
+        <h2 class="section-title"><i class="fas fa-clipboard-check"></i> Pending Approvals</h2>
+        <div class="stats-grid" style="margin-bottom: 1.5rem;">
+            <div class="stat-card" style="cursor: pointer;" onclick="showPendingPOs()">
+                <div class="stat-icon" style="background: rgba(217, 119, 6,0.15); color: var(--gold-dark);"><i class="fas fa-file-invoice-dollar"></i></div>
+                <div class="stat-label">Purchase Orders</div>
+                <div class="stat-value" id="pendingPOCount">0</div>
+                <div class="stat-change">Awaiting your approval</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="showPendingSuppliers()">
+                <div class="stat-icon" style="background: rgba(220, 38, 38,0.15); color: var(--red);"><i class="fas fa-building"></i></div>
+                <div class="stat-label">Supplier Verifications</div>
+                <div class="stat-value" id="pendingSupplierCount">0</div>
+                <div class="stat-change">Pending compliance review</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="showPendingBatches()">
+                <div class="stat-icon" style="background: rgba(124, 58, 237,0.15); color: var(--purple);"><i class="fas fa-box"></i></div>
+                <div class="stat-label">Batch QA Reviews</div>
+                <div class="stat-value" id="pendingBatchCount">0</div>
+                <div class="stat-change">Ready for final approval</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="showPendingStockTakes()">
+                <div class="stat-icon" style="background: rgba(139,92,246,0.15); color: #8B5CF6;"><i class="fas fa-clipboard-list"></i></div>
+                <div class="stat-label">Stock Takes</div>
+                <div class="stat-value" id="pendingStockTakeCount">0</div>
+                <div class="stat-change">Submitted for approval</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="showSystemAlerts()">
+                <div class="stat-icon" style="background: rgba(99,102,241,0.15); color: #6366F1;"><i class="fas fa-bell"></i></div>
+                <div class="stat-label">System Alerts</div>
+                <div class="stat-value" id="alertCount">0</div>
+                <div class="stat-change">Require attention</div>
+            </div>
+        </div>
+
+        <!-- Approvals Panel -->
+        <div id="approvalsPanel" style="display: none; margin-bottom: 2rem;">
+            <div style="background: var(--white); border-radius: 16px; border: 2px solid var(--gold); overflow: hidden;">
+                <div style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="color: var(--cream); margin: 0; font-family: 'Oswald', sans-serif; text-transform: uppercase;" id="approvalsPanelTitle">Pending Approvals</h3>
+                    <button onclick="hideApprovalsPanel()" style="background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer;"><i class="fas fa-times"></i></button>
+                </div>
+                <div style="padding: 1.5rem; max-height: 400px; overflow-y: auto;" id="approvalsPanelContent">
+                    <!-- Content loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Branches -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 class="section-title" id="sectionBranches" style="margin-bottom: 0;"><i class="fas fa-store"></i> Your Branches</h2>
+            <button class="action-btn" style="padding: 0.75rem 1.5rem; flex-direction: row;" onclick="showAddBranchModal()">
+                <i class="fas fa-plus"></i>
+                <span>Add Branch</span>
+            </button>
+        </div>
+        <div class="branches-grid" id="branchesGrid">
+            <div class="loading">
+                <i class="fas fa-spinner"></i> Loading branches...
+            </div>
+        </div>
+
+        <!-- Surveillance Section -->
+        <div id="cameraSection"></div>
+        <h2 class="section-title"><i class="fas fa-video"></i> Branch Surveillance</h2>
+        <div id="cameraGrid" class="camera-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem;">
+            <div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--gray-500);">
+                <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem;"></i>
+                <p style="margin-top: 0.5rem;">Loading camera feeds...</p>
+            </div>
+        </div>
+
+        <!-- Staff Overview Section -->
+        <h2 class="section-title"><i class="fas fa-users"></i> Staff Overview</h2>
+        <div class="stats-grid" style="margin-bottom: 2rem;">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(124, 58, 237,0.15); color: var(--purple);"><i class="fas fa-user-tie"></i></div>
+                <div class="stat-label">Total Staff</div>
+                <div class="stat-value" id="totalStaffCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(34,197,94,0.15); color: #22C55E;"><i class="fas fa-user-check"></i></div>
+                <div class="stat-label">Active Today</div>
+                <div class="stat-value" id="activeStaffCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(217, 119, 6,0.15); color: var(--gold-dark);"><i class="fas fa-user-clock"></i></div>
+                <div class="stat-label" id="breakStaffLabel">On Break</div>
+                <div class="stat-value" id="breakStaffCount">0</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='admin.html#staff'">
+                <div class="stat-icon" style="background: rgba(99,102,241,0.15); color: #6366F1;"><i class="fas fa-user-plus"></i></div>
+                <div class="stat-label">Manage Staff</div>
+                <div class="stat-value"><i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Branch Modal -->
+    <div id="branchModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: var(--white); border-radius: 16px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;">
+            <div style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
+                <h3 style="color: var(--cream); margin: 0; font-family: 'Oswald', sans-serif;"><i class="fas fa-store"></i> Add New Branch</h3>
+                <button onclick="hideBranchModal()" style="background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer;"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="branchForm" style="padding: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="grid-column: span 2;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Branch Name *</label>
+                        <input type="text" id="branchName" required style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Branch Code *</label>
+                        <input type="text" id="branchCode" required placeholder="e.g. DBC-JHB-01" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Phone</label>
+                        <input type="tel" id="branchPhone" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Email</label>
+                        <input type="email" id="branchEmail" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Street Address</label>
+                        <input type="text" id="branchStreet" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">City</label>
+                        <input type="text" id="branchCity" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Province</label>
+                        <select id="branchProvince" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                            <option value="">Select Province</option>
+                            <option value="Gauteng">Gauteng</option>
+                            <option value="Western Cape">Western Cape</option>
+                            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                            <option value="Eastern Cape">Eastern Cape</option>
+                            <option value="Free State">Free State</option>
+                            <option value="Mpumalanga">Mpumalanga</option>
+                            <option value="North West">North West</option>
+                            <option value="Limpopo">Limpopo</option>
+                            <option value="Northern Cape">Northern Cape</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Postal Code</label>
+                        <input type="text" id="branchPostal" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Status</label>
+                        <select id="branchStatus" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                            <option value="true">Active (Open)</option>
+                            <option value="false">Inactive (Closed)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
+                    <button type="button" onclick="hideBranchModal()" style="padding: 0.75rem 1.5rem; background: var(--gray-200); border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Cancel</button>
+                    <button type="submit" style="padding: 0.75rem 1.5rem; background: var(--gold); color: var(--green-dark); border: none; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-save"></i> Save Branch</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reports Modal -->
+    <div id="reportsModal" class="reports-modal">
+        <div class="reports-modal-content">
+            <div class="reports-modal-header">
+                <h2><i class="fas fa-chart-bar"></i> Business Reports</h2>
+                <button class="reports-modal-close" onclick="closeReportsModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="reports-modal-body">
+                <!-- Report Tabs -->
+                <div class="reports-tabs">
+                    <button class="report-tab active" onclick="switchReportTab('sales', this)">
+                        <i class="fas fa-dollar-sign"></i> Sales Summary
+                    </button>
+                    <button class="report-tab" onclick="switchReportTab('products', this)">
+                        <i class="fas fa-cannabis"></i> Top Products
+                    </button>
+                    <button class="report-tab" onclick="switchReportTab('orders', this)">
+                        <i class="fas fa-shopping-cart"></i> Orders
+                    </button>
+                    <button class="report-tab" onclick="switchReportTab('inventory', this)">
+                        <i class="fas fa-boxes"></i> Inventory
+                    </button>
+                    <button class="report-tab" onclick="switchReportTab('staff', this)">
+                        <i class="fas fa-users"></i> Staff Performance
+                    </button>
+                </div>
+
+                <!-- Filters: Branch + Date Range -->
+                <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 1.5rem; padding: 1rem; background: var(--surface-elevated); border-radius: 10px; border: 1px solid var(--border-dark);">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.85rem;"><i class="fas fa-store"></i> Branch:</label>
+                        <select id="reportBranchFilter" onchange="refreshReports()" style="padding: 0.4rem 0.75rem; background: var(--surface-card); border: 1px solid var(--border-dark); border-radius: 8px; color: var(--text-primary); font-size: 0.85rem; cursor: pointer;">
+                            <option value="all">All Branches</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.85rem;">From:</label>
+                        <input type="date" id="reportStartDate" style="padding: 0.4rem 0.5rem; background: var(--surface-card); border: 1px solid var(--border-dark); border-radius: 8px; color: var(--text-primary); font-size: 0.85rem;">
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.85rem;">To:</label>
+                        <input type="date" id="reportEndDate" style="padding: 0.4rem 0.5rem; background: var(--surface-card); border: 1px solid var(--border-dark); border-radius: 8px; color: var(--text-primary); font-size: 0.85rem;">
+                    </div>
+                    <button class="report-btn report-btn-primary" onclick="refreshReports()" style="margin-left: auto;">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+
+                <!-- Sales Summary Section -->
+                <div id="salesSection" class="report-section active">
+                    <h3 class="report-section-title"><i class="fas fa-chart-line"></i> Sales Summary</h3>
+                    <div id="salesReportContent">
+                        <div class="report-stats-grid">
+                            <div class="report-stat">
+                                <div class="report-stat-value">Loading...</div>
+                                <div class="report-stat-label">Total Revenue</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="report-actions">
+                        <button class="report-btn report-btn-secondary" onclick="generateReport('sales-pdf')">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="report-btn report-btn-secondary" onclick="generateReport('sales-csv')">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Top Products Section -->
+                <div id="productsSection" class="report-section">
+                    <h3 class="report-section-title"><i class="fas fa-trophy"></i> Top Products</h3>
+                    <div id="topProductsContent">
+                        <p class="report-empty">Loading product data...</p>
+                    </div>
+                    <div class="report-actions">
+                        <button class="report-btn report-btn-secondary" onclick="generateReport('products-pdf')">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="report-btn report-btn-secondary" onclick="generateReport('products-csv')">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Orders Section -->
+                <div id="ordersSection" class="report-section">
+                    <h3 class="report-section-title"><i class="fas fa-receipt"></i> Orders Breakdown</h3>
+                    <div id="ordersReportContent">
+                        <p class="report-empty">Loading orders data...</p>
+                    </div>
+                    <div class="report-actions">
+                        <button class="report-btn report-btn-secondary" onclick="generateReport('orders-pdf')">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="report-btn report-btn-secondary" onclick="generateReport('orders-csv')">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Inventory Section -->
+                <div id="inventorySection" class="report-section">
+                    <h3 class="report-section-title"><i class="fas fa-warehouse"></i> Inventory Report</h3>
+                    <div id="inventoryReportContent">
+                        <p class="report-empty">Loading inventory data...</p>
+                    </div>
+                    <div class="report-actions">
+                        <button class="report-btn report-btn-secondary" onclick="generateReport('inventory-pdf')">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="report-btn report-btn-secondary" onclick="generateReport('inventory-csv')">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                        <button class="report-btn report-btn-primary" onclick="navigateWithAuth('inventory-manager-dashboard.html')">
+                            <i class="fas fa-external-link-alt"></i> Full Inventory Dashboard
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Staff Performance Section -->
+                <div id="staffSection" class="report-section">
+                    <h3 class="report-section-title"><i class="fas fa-user-chart"></i> Staff Performance</h3>
+                    <div id="staffReportContent">
+                        <p class="report-empty">Loading staff data...</p>
+                    </div>
+                    <div class="report-actions">
+                        <button class="report-btn report-btn-secondary" onclick="generateReport('staff-pdf')">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="report-btn report-btn-secondary" onclick="generateReport('staff-csv')">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                        <button class="report-btn report-btn-primary" onclick="navigateWithAuth('admin.html', 'staff')">
+                            <i class="fas fa-external-link-alt"></i> Manage Staff
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Bottom Nav (Mobile) -->
+    <nav class="bottom-nav" id="bottomNav">
+        <div class="bottom-nav-items">
+            <button class="bottom-nav-item active" onclick="scrollToSection('welcome')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="bottom-nav-item" onclick="scrollToSection('branches')">
+                <i class="fas fa-store"></i>
+                <span>Branches</span>
+            </button>
+            <a href="pos.html" class="bottom-nav-item">
+                <i class="fas fa-cash-register"></i>
+                <span>POS</span>
+            </a>
+            <a href="admin.html" class="bottom-nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Admin</span>
+            </a>
+            <button class="bottom-nav-item" onclick="toggleSidebar()">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>More</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Socket.IO Client (for live feed) -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+    <!-- DBC Shared Libraries -->
+    <script src="/frontend/config.js"></script>
+    <script src="/frontend/jig-utils.js"></script>
+    <script src="/frontend/jig-auth.js"></script>
+
+    <!-- Owner modules — auth first, then core, then rest in any order -->
+    <script src="/frontend/owner-auth.js"></script>
+    <script src="/frontend/owner-core.js"></script>
+    <script src="/frontend/owner-branches.js"></script>
+    <script src="/frontend/owner-livefeed.js"></script>
+    <script src="/frontend/owner-cameras.js"></script>
+    <script src="/frontend/owner-reports.js"></script>
+    <script src="/frontend/owner-approvals.js"></script>
+    <script src="/frontend/owner-wholesale.js"></script>
+    <script src="/frontend/owner-budget.js"></script>
+    <script src="/frontend/owner-stock.js"></script>
+    <script>
+    function scrollToSection(name) {
+        const el = document.getElementById('section' + name.charAt(0).toUpperCase() + name.slice(1));
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Update bottom nav active state
+        document.querySelectorAll('.bottom-nav-item').forEach(btn => btn.classList.remove('active'));
+        if (event && event.currentTarget) event.currentTarget.classList.add('active');
+    }
+
+    // Sidebar navigation helper — close sidebar then scroll to section
+    function sidebarNav(sectionId) {
+        toggleSidebar();
+        setTimeout(() => {
+            const el = document.getElementById(sectionId);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+    }
+    </script>
+    </div><!-- End Dashboard Container -->
+</body>
+</html>

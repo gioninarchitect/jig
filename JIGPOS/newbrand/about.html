@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - JIG Craft Cannabis</title>
+    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.8;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--green-deep);
+            backdrop-filter: blur(20px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+        }
+
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--cream);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 5% 80px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--green-deep) 0%, var(--green-dark) 100%);
+        }
+
+        .hero h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            color: var(--cream);
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            font-style: italic;
+            color: var(--gold);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-section h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--gold);
+            padding-left: 20px;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content-section p {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            color: var(--green-dark);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .content-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-section li {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            color: var(--green-dark);
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .content-section li:before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+
+        /* Values Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .value-card {
+            background: var(--green-deep);
+            padding: 40px 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(217, 119, 6, 0.2);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .value-card i {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .value-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--cream);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .value-card p {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: rgba(244, 240, 230, 0.8);
+            line-height: 1.7;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: var(--green);
+            padding: 80px 5%;
+            margin: 0;
+            max-width: 100%;
+        }
+
+        .team-section h2 {
+            color: var(--cream);
+            border-left-color: var(--gold);
+        }
+
+        .team-section p {
+            color: rgba(244, 240, 230, 0.9);
+        }
+
+        .team-section li {
+            color: rgba(244, 240, 230, 0.9);
+        }
+
+        .team-section li:before {
+            color: var(--gold);
+        }
+
+        .team-section li strong {
+            color: var(--cream);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, var(--green-dark) 0%, var(--green-deep) 100%);
+        }
+
+        .cta-section h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--cream);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cta-section p {
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            font-style: italic;
+            color: rgba(244, 240, 230, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--white);
+            padding: 18px 50px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 5%;
+            background: var(--green-deep);
+            text-align: center;
+            border-top: 1px solid rgba(217, 119, 6, 0.2);
+        }
+
+        footer p {
+            font-family: 'Inter', sans-serif;
+            color: rgba(244, 240, 230, 0.6);
+            font-size: 14px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .content-section h2 {
+                font-size: 32px;
+            }
+
+            .cta-section h2 {
+                font-size: 36px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .value-card {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .content-section h2 {
+                font-size: 26px;
+            }
+
+            .cta-section h2 {
+                font-size: 28px;
+            }
+
+            .btn-primary {
+                padding: 15px 35px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">JIG CRAFT CANNABIS</div>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="locations.html">Locations</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="products.html">Shop</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>About JIG Craft Cannabis</h1>
+        <p>Craft Cannabis</p>
+    </div>
+
+    <!-- Our Story -->
+    <div class="content-section">
+        <h2>Our Story</h2>
+        <p>JIG Craft Cannabis was founded with a simple mission: to make natural wellness accessible to everyone, anytime. We believe in the power of cannabis-based wellness products to improve quality of life, reduce stress, and promote holistic health.</p>
+        <p>What started as a passion project has grown into a trusted network of retail store wellness centers, combining the convenience of modern retail with the therapeutic benefits of CBD and cannabis accessories.</p>
+        <p>Today, we serve thousands of customers across our locations, offering premium products, expert guidance, and a commitment to quality that sets us apart in the wellness industry.</p>
+    </div>
+
+    <!-- Mission -->
+    <div class="content-section">
+        <h2>Our Mission</h2>
+        <p>To provide convenient access to high-quality cannabis wellness products and accessories, empowering individuals to take control of their health naturally.</p>
+        <p>We are committed to:</p>
+        <ul>
+            <li>Offering only premium, lab-tested wellness products</li>
+            <li>Providing exceptional customer service and education</li>
+            <li>Making wellness accessible through our retail store locations</li>
+            <li>Supporting responsible cannabis use and compliance</li>
+            <li>Building a community focused on natural health solutions</li>
+        </ul>
+    </div>
+
+    <!-- Values -->
+    <div class="content-section">
+        <h2>Our Values</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <i class="fas fa-certificate"></i>
+                <h3>Quality First</h3>
+                <p>Every product is carefully sourced and tested to meet our rigorous quality standards.</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-user-check"></i>
+                <h3>Customer-Centric</h3>
+                <p>Your wellness journey is our priority. We provide personalized guidance and support.</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-leaf"></i>
+                <h3>Natural Wellness</h3>
+                <p>We believe in the power of plant-based solutions for holistic health.</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Compliance & Safety</h3>
+                <p>We operate with full regulatory compliance and prioritize customer safety.</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-clock"></i>
+                <h3>24/7 Convenience</h3>
+                <p>Wellness doesn't wait. Our retail store locations offer convenient access when you need it.</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Education</h3>
+                <p>We empower our customers with knowledge about cannabis wellness and safe usage.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- What We Offer -->
+    <div class="content-section team-section">
+        <h2>What We Offer</h2>
+        <p>JIG Craft Cannabis provides a comprehensive range of wellness products and services:</p>
+        <ul>
+            <li><strong>Premium CBD Products:</strong> Oils, edibles, topicals, and beverages</li>
+            <li><strong>Cannabis Accessories:</strong> Grinders, papers, vaporizers, storage solutions</li>
+            <li><strong>Morija Roastery Coffee:</strong> CBD-infused specialty coffee blends</li>
+            <li><strong>Thaba Cafe Products:</strong> Artisanal cafe offerings</li>
+            <li><strong>Section 21 Medical Cannabis:</strong> For authorized patients with prescriptions</li>
+            <li><strong>Retail Store Convenience:</strong> Quick, discreet pickup at all locations</li>
+            <li><strong>Expert Consultation:</strong> Knowledgeable staff to guide your wellness journey</li>
+        </ul>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <h2>Join Our Wellness Community</h2>
+        <p>Experience the JIG Craft Cannabis difference. Visit us today or explore our online store.</p>
+        <a href="products.html" class="btn-primary">Shop Now</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 JIG Craft Cannabis. All rights reserved. | Craft Cannabis</p>
+    </footer>
+
+    <!-- UAT Bug Reporter -->
+</body>
+</html>

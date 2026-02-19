@@ -24,8 +24,52 @@ import { requireAuth, requireAdmin, AuthenticatedRequest } from '../middleware';
 import * as db from '../db';
 import { VAT_RATE } from '../../world-model/types';
 import { sendOrderNotification } from '../email';
+import * as chatDb from '../chat/chatDb';
+import * as telegram from '../chat/telegramService';
+import { emitEvent } from '../n8n/emitter';
 
 const router = Router();
+
+/** Send a Telegram notification to a client (non-blocking, best-effort). */
+async function notifyClient(clientId: string, text: string): Promise<void> {
+  try {
+    const links = await chatDb.getLinksByClientId(clientId);
+    for (const link of links) {
+      if (link.platform === 'telegram') {
+        await telegram.sendMessage(link.platformUserId, text, 'HTML');
+      }
+    }
+  } catch (err) {
+    console.error('[OrderNotify] Failed to send chat notification:', (err as Error).message);
+  }
+}
+
+/** Get tracking URL for common SA couriers. */
+function getCourierTrackingUrl(courier: string, tracking: string): string | null {
+  const c = courier.toLowerCase();
+  if (c.includes('courier guy') || c.includes('tcg')) {
+    return `https://www.thecourierguy.co.za/tracking?tracking=${tracking}`;
+  }
+  if (c.includes('dawn wing') || c.includes('dawnwing')) {
+    return `https://www.dawnwing.co.za/tools/track?waybill=${tracking}`;
+  }
+  if (c.includes('aramex')) {
+    return `https://www.aramex.com/track/results?ShipmentNumber=${tracking}`;
+  }
+  if (c.includes('ram') && !c.includes('aramex')) {
+    return `https://www.ram.co.za/track-and-trace/?consignmentno=${tracking}`;
+  }
+  if (c.includes('fastway') || c.includes('aramax')) {
+    return `https://www.fastway.co.za/courier-services/track-your-parcel?l=${tracking}`;
+  }
+  if (c.includes('dhl')) {
+    return `https://www.dhl.com/za-en/home/tracking.html?tracking-id=${tracking}`;
+  }
+  if (c.includes('fedex')) {
+    return `https://www.fedex.com/fedextrack/?trknbr=${tracking}`;
+  }
+  return null;
+}
 
 // ── Multer config for POP uploads ─────────────────────────
 
@@ -153,6 +197,16 @@ router.post(
       // Send order notification email to admin (non-blocking)
       sendOrderNotification(order, client).catch(() => {});
 
+      // Emit n8n event
+      emitEvent('order.created', {
+        orderId: order.id,
+        clientId,
+        companyName: client.companyName,
+        total: order.total,
+        itemCount: resolvedItems.length,
+        paymentMethod: order.paymentMethod,
+      });
+
       res.status(201).json({ order });
     } catch (err) {
       next(err);
@@ -243,6 +297,47 @@ router.patch(
       const invoiceNumber = await db.assignInvoiceNumber(orderId);
       const order = await db.getOrderById(orderId);
 
+      // Notify client via Telegram with full invoice
+      if (order) {
+        const itemLines = order.items.map(
+          (i) => `  ${i.name} x${i.quantity}  R${(i.quantity * i.unitPrice).toLocaleString('en-ZA', { minimumFractionDigits: 2 })}`,
+        );
+        notifyClient(existing.clientId, [
+          `<b>Order Confirmed!</b>`,
+          ``,
+          `<b>━━ INVOICE ━━</b>`,
+          `PO: <b>${order.poNumber}</b>`,
+          `Invoice: <b>${invoiceNumber}</b>`,
+          `Date: ${new Date().toLocaleDateString('en-ZA')}`,
+          ``,
+          `<b>Items:</b>`,
+          ...itemLines,
+          ``,
+          `Subtotal: R${order.subtotal.toLocaleString('en-ZA', { minimumFractionDigits: 2 })}`,
+          `VAT (15%): R${order.vatAmount.toLocaleString('en-ZA', { minimumFractionDigits: 2 })}`,
+          `<b>Total: R${order.total.toLocaleString('en-ZA', { minimumFractionDigits: 2 })}</b>`,
+          ``,
+          `<b>Payment Details:</b>`,
+          `Bank: ${process.env.JIG_BANK_NAME || 'FNB'}`,
+          `Account: ${process.env.JIG_BANK_ACCOUNT_NAME || 'JIG Craft Cannabis'}`,
+          `Acc No: ${process.env.JIG_BANK_ACCOUNT_NUMBER || 'Contact admin'}`,
+          `Branch: ${process.env.JIG_BANK_BRANCH_CODE || 'Contact admin'}`,
+          `Ref: ${order.poNumber}`,
+          ``,
+          `Full invoice: jig.cleva-ai.co.za`,
+        ].join('\n')).catch(() => {});
+      }
+
+      // Emit n8n event
+      emitEvent('order.confirmed', {
+        orderId,
+        clientId: existing.clientId,
+        invoiceNumber,
+        total: order?.total,
+        poNumber: order?.poNumber,
+        items: order?.items.map((i) => ({ name: i.name, quantity: i.quantity, unitPrice: i.unitPrice })),
+      });
+
       res.json({ order, invoiceNumber });
     } catch (err) {
       next(err);
@@ -270,6 +365,38 @@ router.patch(
       await db.updateOrderStatus(orderId, 'shipped', { courierName, trackingNumber });
       const order = await db.getOrderById(orderId);
 
+      // Notify client via Telegram with delivery details
+      const shipLines = [
+        `<b>Order Shipped!</b>`,
+        ``,
+        `Your order <b>${order?.poNumber || orderId}</b> is on its way.`,
+        ``,
+      ];
+      if (courierName) shipLines.push(`Courier: <b>${courierName}</b>`);
+      if (trackingNumber) shipLines.push(`Tracking: <b>${trackingNumber}</b>`);
+      if (order?.deliveryAddress) {
+        const addr = order.deliveryAddress;
+        const addrStr = [addr.street, addr.city, addr.province, addr.postalCode].filter(Boolean).join(', ');
+        if (addrStr) shipLines.push(`Delivering to: ${addrStr}`);
+      }
+      shipLines.push('');
+      shipLines.push('You will be notified when your order is delivered.');
+      if (trackingNumber && courierName) {
+        // Common SA courier tracking URLs
+        const trackingUrl = getCourierTrackingUrl(courierName, trackingNumber);
+        if (trackingUrl) shipLines.push(`Track: ${trackingUrl}`);
+      }
+      notifyClient(existing.clientId, shipLines.join('\n')).catch(() => {});
+
+      // Emit n8n event
+      emitEvent('order.shipped', {
+        orderId,
+        clientId: existing.clientId,
+        courierName,
+        trackingNumber,
+        poNumber: order?.poNumber,
+      });
+
       res.json({ order });
     } catch (err) {
       next(err);
@@ -294,6 +421,21 @@ router.patch(
 
       await db.updateOrderStatus(orderId, 'delivered');
       const order = await db.getOrderById(orderId);
+
+      // Notify client via Telegram
+      notifyClient(existing.clientId, [
+        `<b>Order Delivered!</b>`,
+        ``,
+        `Your order <b>${order?.poNumber || orderId}</b> has been delivered.`,
+        `Thank you for your business!`,
+      ].join('\n')).catch(() => {});
+
+      // Emit n8n event
+      emitEvent('order.delivered', {
+        orderId,
+        clientId: existing.clientId,
+        poNumber: order?.poNumber,
+      });
 
       res.json({ order });
     } catch (err) {
@@ -338,7 +480,7 @@ router.get(
           name: process.env.JIG_COMPANY_NAME || 'JIG Craft Cannabis (Pty) Ltd',
           registration: process.env.JIG_COMPANY_REG || '',
           vat: process.env.JIG_COMPANY_VAT || '',
-          address: process.env.JIG_COMPANY_ADDRESS || 'Cape Town, Western Cape, South Africa',
+          address: process.env.JIG_COMPANY_ADDRESS || 'Johannesburg, Gauteng, South Africa',
           email: process.env.JIG_COMPANY_EMAIL || 'info@jigcannabis.com',
           phone: process.env.JIG_COMPANY_PHONE || '',
         },
@@ -406,6 +548,14 @@ router.post(
         mimeType: file.mimetype,
       });
 
+      // Emit n8n event
+      emitEvent('pop.uploaded', {
+        popId: pop.id,
+        orderId,
+        clientId: req.authUser!.clientId,
+        fileName: file.originalname,
+      });
+
       res.status(201).json({ pop });
     } catch (err) {
       next(err);
@@ -466,6 +616,38 @@ router.patch(
         await db.updateOrderPayment(req.params.id as string, 'paid', Date.now());
       }
 
+      // Notify client about POP review
+      const order = await db.getOrderById(req.params.id as string);
+      if (order) {
+        if (status === 'approved') {
+          notifyClient(order.clientId, [
+            `<b>Payment Verified!</b>`,
+            ``,
+            `Your proof of payment for order <b>${order.poNumber || order.id}</b> has been approved.`,
+            `Amount: <b>R${order.total.toFixed(2)}</b>`,
+          ].join('\n')).catch(() => {});
+        } else {
+          notifyClient(order.clientId, [
+            `<b>POP Review Update</b>`,
+            ``,
+            `Your proof of payment for order <b>${order.poNumber || order.id}</b> was not accepted.`,
+            adminNotes ? `Reason: ${adminNotes}` : 'Please upload a clearer image or correct document.',
+            ``,
+            `Tap /pop to re-upload.`,
+          ].join('\n')).catch(() => {});
+        }
+      }
+
+      // Emit n8n event
+      emitEvent(status === 'approved' ? 'pop.approved' : 'pop.rejected', {
+        popId: req.params.popId,
+        orderId: req.params.id,
+        clientId: order?.clientId,
+        status,
+        adminNotes,
+        total: order?.total,
+      });
+
       res.json({ pop });
     } catch (err) {
       next(err);
@@ -516,6 +698,45 @@ router.patch(
       const paidAt = paymentStatus === 'paid' ? Date.now() : undefined;
       await db.updateOrderPayment(req.params.id as string, paymentStatus, paidAt);
       const order = await db.getOrderById(req.params.id as string);
+
+      // Emit n8n event
+      if (paymentStatus === 'paid') {
+        emitEvent('payment.received', {
+          orderId: req.params.id,
+          clientId: order?.clientId,
+          total: order?.total,
+          poNumber: order?.poNumber,
+        });
+      } else if (paymentStatus === 'overdue') {
+        emitEvent('payment.overdue', {
+          orderId: req.params.id,
+          clientId: order?.clientId,
+          total: order?.total,
+          poNumber: order?.poNumber,
+        });
+      }
+
+      // Notify client on payment status changes
+      if (order && paymentStatus === 'paid') {
+        notifyClient(order.clientId, [
+          `<b>Payment Confirmed!</b>`,
+          ``,
+          `Payment received for order <b>${order.poNumber || order.id}</b>.`,
+          `Amount: <b>R${order.total.toFixed(2)}</b>`,
+          ``,
+          `Thank you!`,
+        ].join('\n')).catch(() => {});
+      } else if (order && paymentStatus === 'overdue') {
+        notifyClient(order.clientId, [
+          `<b>Payment Overdue</b>`,
+          ``,
+          `Payment for order <b>${order.poNumber || order.id}</b> is overdue.`,
+          `Amount: <b>R${order.total.toFixed(2)}</b>`,
+          ``,
+          `Please arrange payment as soon as possible.`,
+          `Tap /pop to upload proof of payment.`,
+        ].join('\n')).catch(() => {});
+      }
 
       res.json({ order });
     } catch (err) {

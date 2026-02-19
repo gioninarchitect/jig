@@ -1,0 +1,35 @@
+{
+  "name": "JIG Dispatch App",
+  "short_name": "JIG Dispatch",
+  "description": "JIG Craft Cannabis - Dispatch & Delivery App",
+  "start_url": "/dispatch-app.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#7C3AED",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/images/jig-logo-nobg.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/jig-logo-nobg.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Dispatch Queue",
+      "url": "/dispatch-app.html",
+      "icons": [{"src": "/images/jig-logo-nobg.png", "sizes": "96x96"}],
+      "description": "View orders ready for dispatch"
+    }
+  ],
+  "prefer_related_applications": false
+}

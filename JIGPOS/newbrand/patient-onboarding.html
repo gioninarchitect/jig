@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Onboarding - Medical Cannabis Consultation | JIG Craft Cannabis</title>
+    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* JIG Craft Cannabis Brand Colors */
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --purple: #7C3AED;
+            --purple-dark: #6D28D9;
+            --purple-light: #A855F7;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #D97706;
+            --amber-dark: #B45309;
+            --amber-light: #F59E0B;
+            --slate: #1E1E1E;
+            --slate-light: #2A2A2A;
+            /* Legacy aliases */
+            --cream: #0A0A0A;
+            --green-deep: #0A0A0A;
+            --gold: #D97706;
+            --gold-dark: #B45309;
+            --gold-light: #F59E0B;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #2A2A2A;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
+            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            padding: 60px 20px 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--black);
+            clip-path: ellipse(60% 100% at 50% 100%);
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: var(--black);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--gold);
+        }
+
+        .logo img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        .hero h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.8rem;
+            color: var(--cream);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .hero .tagline {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            color: var(--gold-light);
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: var(--cream);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Journey Steps */
+        .journey-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
+            color: var(--purple);
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        .journey-steps {
+            position: relative;
+        }
+
+        .journey-steps::before {
+            content: '';
+            position: absolute;
+            left: 40px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--green), var(--gold));
+            border-radius: 2px;
+        }
+
+        .step {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            z-index: 1;
+            border: 4px solid var(--cream);
+            box-shadow: 0 4px 15px rgba(124, 58, 237,0.3);
+        }
+
+        .step-number i {
+            font-size: 2rem;
+            color: var(--gold);
+        }
+
+        .step-content {
+            flex: 1;
+            background: #0A0A0A;
+            margin-left: 20px;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid rgba(124, 58, 237,0.15);
+            transition: all 0.3s;
+        }
+
+        .step-content:hover {
+            border-color: var(--gold);
+            box-shadow: 0 5px 20px rgba(217, 119, 6,0.15);
+        }
+
+        .step-content h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--purple);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .step-content p {
+            color: var(--green-dark);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .step-content .duration {
+            display: inline-block;
+            background: var(--black);
+            color: var(--green-dark);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            padding: 50px 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 50px 0;
+            border: 3px solid var(--gold);
+        }
+
+        .cta-section h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: var(--cream);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            color: var(--cream);
+            opacity: 0.9;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--white);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(217, 119, 6,0.4);
+        }
+
+        .cta-btn i {
+            margin-right: 8px;
+        }
+
+        .cta-price {
+            display: block;
+            color: var(--gold-light);
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .benefit-card {
+            background: #0A0A0A;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid rgba(124, 58, 237,0.15);
+            transition: all 0.3s;
+        }
+
+        .benefit-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        .benefit-card i {
+            font-size: 2.5rem;
+            color: var(--purple);
+            margin-bottom: 15px;
+        }
+
+        .benefit-card h4 {
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+
+        .benefit-card p {
+            color: var(--green-dark);
+            font-size: 0.95rem;
+        }
+
+        /* Conditions */
+        .conditions-section {
+            background: #0A0A0A;
+            padding: 40px;
+            border-radius: 16px;
+            border: 2px solid rgba(124, 58, 237,0.15);
+        }
+
+        .conditions-section h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--purple);
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .conditions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .condition-tag {
+            background: var(--black);
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: var(--green-dark);
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .condition-tag:hover {
+            background: var(--green);
+            color: var(--cream);
+        }
+
+        .condition-tag i {
+            margin-right: 8px;
+            color: var(--gold);
+        }
+
+        /* FAQ */
+        .faq-section h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--purple);
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .faq-item {
+            background: #0A0A0A;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(124, 58, 237,0.15);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .faq-question:hover {
+            background: var(--black);
+        }
+
+        .faq-question i {
+            color: var(--gold);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            color: var(--green-dark);
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 0 20px 20px;
+            max-height: 500px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--green-dark);
+        }
+
+        .footer a {
+            color: var(--purple);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .journey-steps::before {
+                left: 20px;
+            }
+
+            .step-number {
+                width: 50px;
+                height: 50px;
+            }
+
+            .step-number i {
+                font-size: 1.2rem;
+            }
+
+            .step-content {
+                margin-left: 15px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <div class="hero">
+        <div class="logo">
+            <img src="images/DeBudChef-rLogo.png" alt="JIG Craft Cannabis">
+        </div>
+        <h1>Your Wellness Journey Starts Here</h1>
+        <p class="tagline">Medical Cannabis Consultation & Authorization</p>
+        <p>Connect with licensed healthcare providers who understand your needs. We guide you through every step of the Section 21 authorization process.</p>
+    </div>
+
+    <div class="container">
+        <!-- Benefits -->
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <i class="fas fa-user-md"></i>
+                <h4>Licensed Doctors</h4>
+                <p>Experienced physicians registered with HPCSA who specialize in cannabis medicine</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-laptop-medical"></i>
+                <h4>Online Consultations</h4>
+                <p>Convenient video consultations from the comfort and privacy of your home</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-file-medical-alt"></i>
+                <h4>Full Documentation</h4>
+                <p>Complete Section 21 authorization and prescription support</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-headset"></i>
+                <h4>Ongoing Support</h4>
+                <p>Continuous care coordination and renewal assistance</p>
+            </div>
+        </div>
+
+        <!-- Journey Steps -->
+        <h2 class="journey-title"><i class="fas fa-route"></i> Your Patient Journey</h2>
+
+        <div class="journey-steps">
+            <div class="step">
+                <div class="step-number">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Step 1: Request Consultation</h3>
+                    <p>Complete our simple intake form with your medical history and condition details. Our team reviews your information to match you with the right healthcare provider.</p>
+                    <span class="duration"><i class="fas fa-clock"></i> 5 minutes</span>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Step 2: Doctor Consultation</h3>
+                    <p>Meet with a licensed doctor via secure video call. They'll review your medical history, discuss your symptoms, and determine if medical cannabis is appropriate for your treatment.</p>
+                    <span class="duration"><i class="fas fa-clock"></i> 30-45 minutes</span>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">
+                    <i class="fas fa-file-signature"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Step 3: Section 21 Authorization</h3>
+                    <p>If approved, your doctor issues a Section 21 Authorization Letter - the legal document that allows you to access medical cannabis in South Africa. Valid for 180 days.</p>
+                    <span class="duration"><i class="fas fa-clock"></i> Same day</span>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">
+                    <i class="fas fa-prescription"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Step 4: Prescription & Treatment Plan</h3>
+                    <p>Receive a personalized treatment plan with specific product recommendations, dosages, and usage guidance tailored to your condition.</p>
+                    <span class="duration"><i class="fas fa-clock"></i> Same day</span>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">
+                    <i class="fas fa-hand-holding-medical"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Step 5: Begin Your Treatment</h3>
+                    <p>With your authorization verified, access quality medical cannabis products. Our team provides ongoing support and coordinates with your doctor for follow-ups and renewals.</p>
+                    <span class="duration"><i class="fas fa-clock"></i> 24-48 hours verification</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h2><i class="fas fa-calendar-check"></i> Ready to Start?</h2>
+            <p>Take the first step toward better wellness. Book your consultation today.</p>
+            <a href="section21-info.html#consultation-form" class="cta-btn">
+                <i class="fas fa-user-plus"></i> Book Your Consultation
+            </a>
+            <span class="cta-price">Consultation fee: R350 | Includes eligibility assessment & documentation</span>
+        </div>
+
+        <!-- Conditions -->
+        <div class="conditions-section">
+            <h2><i class="fas fa-stethoscope"></i> Conditions We Support</h2>
+            <div class="conditions-grid">
+                <div class="condition-tag"><i class="fas fa-bone"></i> Chronic Pain</div>
+                <div class="condition-tag"><i class="fas fa-brain"></i> Anxiety & Stress</div>
+                <div class="condition-tag"><i class="fas fa-moon"></i> Insomnia</div>
+                <div class="condition-tag"><i class="fas fa-bolt"></i> Epilepsy</div>
+                <div class="condition-tag"><i class="fas fa-ribbon"></i> Cancer Support</div>
+                <div class="condition-tag"><i class="fas fa-heart-broken"></i> PTSD</div>
+                <div class="condition-tag"><i class="fas fa-virus"></i> MS & Autoimmune</div>
+                <div class="condition-tag"><i class="fas fa-stomach"></i> IBS & Crohn's</div>
+                <div class="condition-tag"><i class="fas fa-head-side-virus"></i> Migraines</div>
+                <div class="condition-tag"><i class="fas fa-hand-sparkles"></i> Arthritis</div>
+                <div class="condition-tag"><i class="fas fa-lungs-virus"></i> Nausea</div>
+                <div class="condition-tag"><i class="fas fa-plus-circle"></i> And More...</div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section" style="margin-top: 50px;">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>How much does a consultation cost?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>The consultation fee is R350, which includes your eligibility assessment, doctor consultation, and if approved, your Section 21 Authorization Letter.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Do I need a referral from my GP?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>No referral is required. You can book directly with our medical team. However, bringing any relevant medical records or test results can help your consultation.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>How long is the authorization valid?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Section 21 Authorization Letters are valid for 180 days (6 months). We'll remind you when it's time to renew and help schedule your follow-up consultation.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Is the consultation confidential?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely. All consultations are strictly confidential and protected by doctor-patient privilege. Your medical information is encrypted and never shared without your consent.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>What if I'm not approved?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Not everyone qualifies for medical cannabis. If the doctor determines it's not suitable for your condition, they'll discuss alternative treatment options. The consultation fee is non-refundable as it covers the doctor's time and assessment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>JIG Craft Cannabis</strong> | Craft Cannabis</p>
+        <p style="margin-top: 10px;"><a href="index.html">Home</a> | <a href="section21-info.html">Section 21 Info</a> | <a href="contact.html">Contact Us</a></p>
+        <p style="margin-top: 20px; font-size: 0.85rem; opacity: 0.8;">This page is for informational purposes about our consultation service. Medical cannabis products require a valid Section 21 authorization.</p>
+    </div>
+
+    <script>
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('open');
+        }
+    </script>
+
+    <!-- UAT Bug Reporter -->
+</body>
+</html>
