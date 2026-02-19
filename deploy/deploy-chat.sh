@@ -99,7 +99,7 @@ if ! grep -q "TELEGRAM_BOT_TOKEN" "$APP_DIR/.env" 2>/dev/null; then
   cat >> "$APP_DIR/.env" <<'EOF'
 
 # Chat Bot (Telegram)
-TELEGRAM_BOT_TOKEN=8176040533:AAHbRUUkYp3W-VSzdk6c2Qg_4vQtoVK3jmQ
+TELEGRAM_BOT_TOKEN=your-telegram-bot-token-here
 TELEGRAM_WEBHOOK_SECRET=
 EOF
   echo "  Telegram token added to .env"
