@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TnT-ZA Training — Super Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #0D6B3D;
+  --primary-light: #10A85C;
+  --dark: #1A1A2E;
+  --dark-2: #0f0f1a;
+  --surface: #16213E;
+  --text: #F5F5F5;
+  --text-mid: #A0A0B0;
+  --text-dim: #606070;
+  --danger: #DC3545;
+  --warning: #E8A317;
+  --success: #198754;
+  --border: rgba(255,255,255,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Outfit', sans-serif; background: var(--dark); color: var(--text); line-height: 1.7; }
+
+.hero {
+  background: linear-gradient(135deg, var(--dark-2), var(--surface));
+  border-bottom: 3px solid var(--primary);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; margin-bottom: 0.5rem; }
+.hero .role-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 0.4rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.hero p { color: var(--text-mid); max-width: 600px; margin: 0 auto; }
+
+.container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* Accordion */
+.acc { margin-bottom: 0.75rem; }
+.acc-header {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+  user-select: none;
+}
+.acc-header:hover { border-color: var(--primary); }
+.acc-header.open { border-radius: 12px 12px 0 0; border-color: var(--primary); background: rgba(13,107,61,0.1); }
+.acc-header h3 { font-size: 1rem; font-weight: 600; }
+.acc-header .chevron { transition: transform 0.2s; color: var(--text-dim); }
+.acc-header.open .chevron { transform: rotate(180deg); color: var(--primary); }
+.acc-body {
+  display: none;
+  background: rgba(22,33,62,0.5);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  padding: 1.25rem;
+}
+.acc-body.open { display: block; }
+
+.acc-body p { color: var(--text-mid); margin-bottom: 1rem; }
+.acc-body ul { color: var(--text-mid); padding-left: 1.5rem; margin-bottom: 1rem; }
+.acc-body li { margin-bottom: 0.4rem; }
+.acc-body code { font-family: 'JetBrains Mono', monospace; background: rgba(13,107,61,0.15); color: var(--primary-light); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85rem; }
+.acc-body strong { color: var(--text); }
+
+.section-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.alert {
+  background: rgba(220,53,69,0.1);
+  border: 1px solid rgba(220,53,69,0.3);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  color: #f08888;
+  font-size: 0.9rem;
+}
+.alert strong { color: #ff6b6b; }
+
+.info-box {
+  background: rgba(13,107,61,0.1);
+  border: 1px solid rgba(13,107,61,0.3);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-light);
+  font-size: 0.9rem;
+}
+
+.login-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.login-table th, .login-table td { padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+.login-table th { color: var(--text-dim); font-weight: 500; }
+.login-table td { font-family: 'JetBrains Mono', monospace; color: var(--primary-light); }
+
+footer { text-align: center; padding: 2rem; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="role-badge">Super Admin</div>
+  <h1>TnT-ZA Training Guide</h1>
+  <p>Full system access. You see everything, control everything, and are responsible for the integrity of the entire platform.</p>
+</div>
+
+<div class="container">
+
+<div class="alert">
+  <strong>Weight variance alerts come directly to you.</strong> Any container weight loss beyond threshold triggers an immediate notification. You cannot dismiss these from the dashboard — they must be investigated and resolved with notes.
+</div>
+
+<div class="section-label">Getting Started</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>How to Log In</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <p>TnT-ZA uses <strong>PIN-to-email authentication</strong>. No passwords.</p>
+    <ul>
+      <li>Go to <code>https://tnt.cleva-ai.co.za</code></li>
+      <li>Enter your email address</li>
+      <li>Check your email for a <strong>6-digit PIN</strong> (expires in 5 minutes)</li>
+      <li>Enter the PIN to log in</li>
+    </ul>
+    <p>Your session lasts 24 hours. After that, you'll need a new PIN.</p>
+  </div>
+</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>What You See (Full Access)</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <p>As Super Admin, your sidebar shows <strong>all 11 sections</strong>:</p>
+    <ul>
+      <li><strong>Dashboard</strong> — KPIs, phase chart, activity feed, weight alerts, risk gauges</li>
+      <li><strong>Plants</strong> — All 50+ plants, search, filter, phase transitions</li>
+      <li><strong>Containers</strong> — All bins/racks/bags/jars, event timelines, weight charts</li>
+      <li><strong>Batches</strong> — Batch cards, lab status, COA download, chain of custody</li>
+      <li><strong>Facilities</strong> — Facility cards with quota, zones, counts</li>
+      <li><strong>Audit</strong> — Immutable log with SHA-256 hash chain, CSV export</li>
+      <li><strong>Lab</strong> — Testing status per batch, quarantine flags</li>
+      <li><strong>Compliance</strong> — Quota, anomalies, destruction log, permits</li>
+      <li><strong>QMS</strong> — SOPs, deviations, equipment calibration</li>
+      <li><strong>Security</strong> — Open anomalies, transport manifests, destruction records</li>
+      <li><strong>Users</strong> — User directory</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-label">Critical Responsibilities</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>Weight Variance Alerts</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <p>The <strong>red panel on the dashboard</strong> shows all open weight variance anomalies. This is the most critical feature in TnT-ZA.</p>
+    <ul>
+      <li>Every container is weighed at every zone transition</li>
+      <li>If weight loss exceeds the threshold (5% for bins/bags/jars, 15% for drying racks), an <strong>anomaly is created automatically</strong></li>
+      <li>You, the Tenant Admin, and the Facility Manager are <strong>all notified simultaneously</strong></li>
+      <li>These alerts <strong>cannot be dismissed</strong> — they must be resolved with investigation notes</li>
+    </ul>
+    <p>To resolve: go to <strong>Compliance → Open Anomalies</strong> and click Resolve. You must enter what you found.</p>
+  </div>
+</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>Audit Log & Hash Chain Verification</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <p>Every action in TnT-ZA is logged in an <strong>append-only audit trail</strong>. No entry can ever be updated or deleted.</p>
+    <ul>
+      <li>Each entry is linked to the previous via a <strong>SHA-256 hash chain</strong></li>
+      <li>If anyone tampers with a past entry, the chain breaks and verification fails</li>
+      <li>Only you (Super Admin) can run <code>GET /api/audit/verify</code> to check integrity</li>
+      <li>Export the full log as CSV for regulatory submissions</li>
+    </ul>
+  </div>
+</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>Quota Management</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <p>Only Super Admin can update the INCB annual quota for a facility.</p>
+    <ul>
+      <li>The quota is shown on the dashboard as a percentage</li>
+      <li>At 70%, 85%, and 95% — automatic alerts are created</li>
+      <li>At 100% — new plant registration is <strong>blocked</strong></li>
+      <li>Update via <code>PATCH /api/compliance/quota/:facilityId</code></li>
+    </ul>
+  </div>
+</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>Risk Scores</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <p>The dashboard shows 3 computed risk gauges:</p>
+    <ul>
+      <li><strong>Diversion Risk</strong> (0-100, higher = worse) — based on weight variances + open anomalies</li>
+      <li><strong>Compliance Score</strong> (0-100, higher = better) — based on anomaly count + pending destructions</li>
+      <li><strong>Weight Integrity</strong> (0-100, higher = better) — based on container variance data</li>
+    </ul>
+    <p>These update automatically from the World Model. If diversion risk goes above 50, the system flags a <strong>Potential Diversion Pattern</strong> alert.</p>
+  </div>
+</div>
+
+<div class="section-label">Daily Workflow</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>Morning Checklist</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <ul>
+      <li>Open Dashboard — check for red weight variance panel</li>
+      <li>Review risk gauges — all 3 should be green</li>
+      <li>Check active alerts (inference engine) for any warnings</li>
+      <li>Review notifications bell for overnight activity</li>
+      <li>Check quota percentage — plan if approaching limit</li>
+    </ul>
+  </div>
+</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>Weekly Checklist</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <ul>
+      <li>Run audit chain verification</li>
+      <li>Export audit CSV for records</li>
+      <li>Review all resolved anomalies — check investigation notes are adequate</li>
+      <li>Check permit expiry dates (Compliance page)</li>
+      <li>Review equipment calibration schedule (QMS page)</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  TnT-ZA Track & Trace — ILCO Farms / Origin by ILCO Farming<br>
+  Training documentation v1.0
+</footer>
+
+<script>
+function toggle(el) {
+  const body = el.nextElementSibling;
+  const isOpen = el.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.acc-header.open').forEach(h => {
+    h.classList.remove('open');
+    h.nextElementSibling.classList.remove('open');
+  });
+  // Open clicked (if was closed)
+  if (!isOpen) {
+    el.classList.add('open');
+    body.classList.add('open');
+  }
+}
+</script>
+</body>
+</html>

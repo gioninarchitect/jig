@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Production Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0A0A0A;color:#fff;font-family:'Outfit',system-ui,sans-serif}
+.page{max-width:900px;margin:0 auto;padding:40px 24px 100px}
+
+.hdr{text-align:center;margin-bottom:48px}
+.hdr h1{font-size:2rem;font-weight:800;color:#C9A84C;letter-spacing:-0.5px}
+.hdr p{color:rgba(255,255,255,.3);font-size:.85rem;margin-top:6px}
+
+/* Flow */
+.flow{display:flex;flex-direction:column;gap:0;position:relative}
+
+/* Step */
+.step{position:relative;display:flex;gap:16px;padding:0 0 0 40px}
+.step::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:rgba(201,168,76,.15)}
+.step:last-child::before{display:none}
+
+.dot{position:absolute;left:6px;top:20px;width:20px;height:20px;border-radius:50%;border:2px solid #C9A84C;background:#0A0A0A;z-index:1;display:flex;align-items:center;justify-content:center}
+.dot span{width:8px;height:8px;border-radius:50%;background:#C9A84C}
+
+.card{flex:1;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:20px;margin-bottom:16px;transition:all .25s}
+.card:hover{border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.02)}
+
+.card-num{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(201,168,76,.5);letter-spacing:2px;margin-bottom:4px}
+.card-title{font-size:1.1rem;font-weight:700;color:#C9A84C;margin-bottom:8px}
+.card-desc{font-size:.82rem;color:rgba(255,255,255,.4);line-height:1.6}
+.card-desc strong{color:rgba(255,255,255,.7)}
+.card-example{margin-top:10px;padding:10px 14px;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.1);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:.75rem;color:rgba(201,168,76,.7);line-height:1.6}
+
+.card-tags{display:flex;gap:4px;margin-top:10px;flex-wrap:wrap}
+.tag{font-size:.6rem;padding:3px 8px;border-radius:6px;font-weight:600;border:1px solid}
+.tag-gold{color:#C9A84C;border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.06)}
+.tag-white{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+.tag-green{color:#22C55E;border-color:rgba(34,197,94,.2);background:rgba(34,197,94,.06)}
+.tag-red{color:#F87171;border-color:rgba(248,113,113,.2);background:rgba(248,113,113,.06)}
+
+/* Question */
+.question{margin-top:40px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);border-radius:16px;padding:24px;text-align:center}
+.question h2{color:#C9A84C;font-size:1rem;margin-bottom:8px}
+.question p{color:rgba(255,255,255,.4);font-size:.85rem;line-height:1.6}
+
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.opt{padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);text-align:left}
+.opt h3{font-size:.85rem;color:#fff;margin-bottom:4px}
+.opt p{font-size:.75rem;color:rgba(255,255,255,.3);line-height:1.5}
+.opt-label{font-size:.6rem;color:#C9A84C;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+
+.footer{text-align:center;margin-top:48px;color:rgba(255,255,255,.08);font-size:.65rem;font-family:'JetBrains Mono',monospace}
+
+@media(max-width:600px){
+  .options{grid-template-columns:1fr}
+  .hdr h1{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <h1>Origin — Production Flow</h1>
+  <p>From strain selection to customer delivery — the complete lifecycle</p>
+</div>
+
+<div class="flow">
+
+  <!-- 1. STRAIN -->
+  <div class="step">
+    <div class="dot"><span></span></div>
+    <div class="card">
+      <div class="card-num">STEP 01</div>
+      <div class="card-title">Strain</div>
+      <div class="card-desc">
+        What we grow. Each strain has genetics, expected yield, THC/CBD profile, flowering time. The <strong>strain database</strong> tracks performance across all batches over time.
+      </div>
+      <div class="card-example">
+        Durban Poison (DP) — Sativa — 22% THC — 8wk flower — Dutch Passion<br>
+        Swazi Gold (SG) — Sativa — 18% THC — 9wk flower — Landrace
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-gold">Strain Database</span>
+        <span class="tag tag-white">Analytics</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MOTHER -->
+  <div class="step">
+    <div class="dot"><span></span></div>
+    <div class="card">
+      <div class="card-num">STEP 02</div>
+      <div class="card-title">Mother Plant</div>
+      <div class="card-desc">
+        The source of all clones. Each mother has an <strong>identifier (M01, M02)</strong>, status (Active/Stressed/Culled), health timeline, and clone history. Mothers live in the <strong>mother bay</strong> with dedicated care.
+      </div>
+      <div class="card-example">
+        M01 — Durban Poison — Active — 47 clones taken — 85% rooting rate<br>
+        M02 — Swazi Gold — Active — 23 clones taken — 91% rooting rate
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-gold">Mother Registry</span>
+        <span class="tag tag-white">Health Timeline</span>
+        <span class="tag tag-white">Clone Matrix</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. CLONE -->
+  <div class="step">
+    <div class="dot"><span></span></div>
+    <div class="card">
+      <div class="card-num">STEP 03</div>
+      <div class="card-title">Clone</div>
+      <div class="card-desc">
+        Cuttings taken from a mother. Each clone gets an <strong>auto-generated ID (M01-01, M01-02...)</strong>. Goes into a <strong>clone tray</strong> in the nursery. 14-day rooting period. Mortality tracked per clone with root cause. Three purposes: <strong>Production, R&D, Client</strong>.
+      </div>
+      <div class="card-example">
+        20 cuttings from M01 → M01-01 to M01-20<br>
+        Clone Tray: CT-2026-003<br>
+        After rooting: 16 survived, 4 died (root rot)<br>
+        Purpose: PRODUCTION
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-green">Auto-ID</span>
+        <span class="tag tag-white">Mortality Tracking</span>
+        <span class="tag tag-red">Root Cause</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. GREENHOUSE -->
+  <div class="step">
+    <div class="dot"><span></span></div>
+    <div class="card">
+      <div class="card-num">STEP 04</div>
+      <div class="card-title">Greenhouse</div>
+      <div class="card-desc">
+        Surviving clones get <strong>transplanted</strong> to a greenhouse. Each greenhouse (GH1, GH2) has multiple bays. The <strong>BayGrid</strong> shows a visual overview of all greenhouses and their status.
+      </div>
+      <div class="card-example">
+        GH1 — Mixed — 6 bays — 4/6 active<br>
+        GH2 — Flower — 6 bays — 2/6 active
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-gold">BayGrid</span>
+        <span class="tag tag-white">Visual Layout</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. BAY -->
+  <div class="step">
+    <div class="dot"><span></span></div>
+    <div class="card">
+      <div class="card-num">STEP 05</div>
+      <div class="card-title">Bay (with Rows)</div>
+      <div class="card-desc">
+        Each bay has <strong>4 rows × 2 positions = 8 fixed spots</strong>. Each spot has a <strong>permanent ID (B1-R1P1)</strong>. Clones are allocated TO spots. Rows can have <strong>mixed strains</strong>. The grow calendar drives daily tasks per bay.
+      </div>
+      <div class="card-example">
+        Bay 1 — Durban Poison — 8/8 spots filled — VEG Day 14<br>
+        R1: [B1-R1P1 M01-01] [B1-R1P2 M01-02]<br>
+        R2: [B1-R2P1 M01-03] [B1-R2P2 M01-04]<br>
+        R3: [B1-R3P1 M01-05] [B1-R3P2 M01-06]<br>
+        R4: [B1-R4P1 M01-07] [B1-R4P2 M01-08]
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-gold">Fixed Grid</span>
+        <span class="tag tag-green">Spot IDs</span>
+        <span class="tag tag-white">Mixed Strains</span>
+        <span class="tag tag-white">Grow Calendar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. GROW -->
+  <div class="step">
+    <div class="dot"><span></span></div>
+    <div class="card">
+      <div class="card-num">STEP 06</div>
+      <div class="card-title">Grow (Veg → Flip → Flower)</div>
+      <div class="card-desc">
+        Plants grow through phases: <strong>Veg (14-16 days) → Flip → Flower (56 days)</strong>. Daily tasks from the grow calendar: scouting, feeding, topping, defoliation, spraying. Clone IDs become <strong>active plant IDs (ZA-XXXXXX)</strong> at transplant.
+      </div>
+      <div class="card-example">
+        M01-07 → transplanted to B1-R4P1 → becomes ZA-000142<br>
+        Day 14: Top plant — Day 15: FLIP — Day 71: Harvest ready
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-gold">Calendar</span>
+        <span class="tag tag-white">IPM Spray</span>
+        <span class="tag tag-white">Feeding</span>
+        <span class="tag tag-white">Phase Tracking</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. HARVEST → BATCH -->
+  <div class="step">
+    <div class="dot"><span></span></div>
+    <div class="card" style="border-color:rgba(248,113,113,.2)">
+      <div class="card-num">STEP 07</div>
+      <div class="card-title" style="color:#F87171">Harvest → Batch Created</div>
+      <div class="card-desc">
+        Plants cut. <strong>Wet weight recorded</strong> — this is the baseline for all loss tracking. Bay cleared. Batch created with number encoding <strong>Strain + Mother + Clone Date</strong>.
+      </div>
+      <div class="card-example">
+        8 plants from Bay 1 harvested → 450g wet weight<br>
+        Batch: DP-M01-20260301<br>
+        (Durban Poison — Mother M01 — Cloned 1 March 2026)<br>
+        Bay 1 → EMPTY → ready for next cycle
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">⚖ Wet Weight</span>
+        <span class="tag tag-gold">Batch Created</span>
+        <span class="tag tag-white">Bay Cleared</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. PROCESSING -->
+  <div class="step">
+    <div class="dot"><span></span></div>
+    <div class="card" style="border-color:rgba(201,168,76,.15)">
+      <div class="card-num">STEPS 08-13</div>
+      <div class="card-title">Processing</div>
+      <div class="card-desc">
+        <strong>Wet Receiving → Drying (2wk) → Debuc (JR only) → Trim (25 trimmers) → Cure (2wk+) → Store &amp; QA</strong>. Weight tracked at every handover. RP signs off on all processing. Per-trimmer weight reconciliation.
+      </div>
+      <div class="card-example">
+        450g wet → 135g dry → 120g debuc → 95g trimmed + 22g waste → 90g cured<br>
+        RP sign-off at each stage<br>
+        8/8 lab tests PASS → COA → QA sign-off → RELEASED
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-red">⚖ 6 Weight Points</span>
+        <span class="tag tag-gold">RP Sign-off</span>
+        <span class="tag tag-white">COA</span>
+        <span class="tag tag-white">Trim Tracking</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. SALE + DISPATCH -->
+  <div class="step">
+    <div class="dot"><span></span></div>
+    <div class="card">
+      <div class="card-num">STEPS 14-17</div>
+      <div class="card-title">Sale → Dispatch → Customer</div>
+      <div class="card-desc">
+        Client order → batch allocated → transport manifest → security gate sign-off → delivery (self/courier/pickup) → customer scans QR → <strong>sees full provenance back to mother plant</strong>.
+      </div>
+      <div class="card-example">
+        Customer scans QR on product:<br>
+        DP-M01-20260301 → Durban Poison → Mother M01 → Clone M01-07<br>
+        → GH1 Bay 1 Spot B1-R4P1 → Veg 14d + Flower 56d<br>
+        → Harvested 450g → Dried → Trimmed → Cured → Lab 8/8 PASS<br>
+        → COA-2026-012 → Delivered 28 March
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-gold">QR Provenance</span>
+        <span class="tag tag-white">Transport</span>
+        <span class="tag tag-white">Origin POS</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- QUESTION -->
+<div class="question">
+  <h2>When does the BATCH get created?</h2>
+  <p>The batch number encodes Strain + Mother + Clone Date. But at which point in the flow does it become a batch?</p>
+  <div class="options">
+    <div class="opt">
+      <div class="opt-label">OPTION A — AT CLONING</div>
+      <h3>Strain → Mother → Clone → Batch → GH → Bay</h3>
+      <p>Batch created when clones are cut. The batch follows the clones through the greenhouse. Batch = a group of clones from the same mother on the same day.</p>
+    </div>
+    <div class="opt">
+      <div class="opt-label">OPTION B — AT HARVEST</div>
+      <h3>Strain → Mother → Clone → GH → Bay → Harvest → Batch</h3>
+      <p>Batch created when plants are harvested. The batch is the harvested material entering processing. Clones have no batch until they're cut.</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Origin — Track & Trace — TnT-ZA v2.0</div>
+</div>
+</body>
+</html>

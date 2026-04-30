@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TnT-ZA — Stakeholder Summary — 29 March 2026</title>
+<style>
+@page{size:A4;margin:18mm}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:#1a1a2e;font-size:9.5pt;line-height:1.55;background:#fff}
+.page{page-break-after:always}.page:last-child{page-break-after:auto}
+h1{font-size:26pt;font-weight:800;color:#0D6B3D}
+h2{font-size:13pt;color:#0D6B3D;margin:14px 0 6px;padding-bottom:4px;border-bottom:2px solid #0D6B3D}
+h3{font-size:10pt;color:#333;margin:10px 0 4px}
+p{margin-bottom:6px;color:#444}
+table{width:100%;border-collapse:collapse;font-size:8.5pt;margin:6px 0}
+th{background:#f0fdf4;color:#0D6B3D;text-align:left;padding:5px 7px;font-weight:700;border-bottom:2px solid #BBF7D0}
+td{padding:4px 7px;border-bottom:1px solid #eee;color:#444}
+.cover{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:88vh;text-align:center}
+.cover .badge{padding:4px 16px;border-radius:20px;background:#0D6B3D;color:#fff;font-size:7pt;font-weight:700;letter-spacing:1px;margin-bottom:10px;display:inline-block}
+.cover .meta{font-size:8.5pt;color:#999;margin-top:36px;line-height:2}
+.box{background:#f0fdf4;padding:10px 14px;border-radius:8px;border-left:4px solid #0D6B3D;margin:8px 0;font-size:9pt}
+.box strong{color:#0D6B3D}
+.red-box{background:#FEF2F2;border-left-color:#DC2626}
+.red-box strong{color:#DC2626}
+.amber-box{background:#FFFBEB;border-left-color:#D97706}
+.amber-box strong{color:#D97706}
+.stat-row{display:flex;gap:8px;margin:8px 0}
+.stat{flex:1;text-align:center;padding:10px;border:1px solid #eee;border-radius:8px}
+.stat .n{font-size:22pt;font-weight:800;color:#0D6B3D}
+.stat .l{font-size:6.5pt;color:#999;text-transform:uppercase;letter-spacing:1px}
+.check{color:#0D6B3D;font-weight:700}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.footer{text-align:center;font-size:6.5pt;color:#bbb;margin-top:14px;padding-top:5px;border-top:1px solid #eee}
+ul{padding-left:16px;margin:4px 0}
+li{margin:2px 0}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="page cover">
+<div class="badge">CONFIDENTIAL — STAKEHOLDER DOCUMENT</div>
+<h1>TnT-ZA</h1>
+<p style="font-size:14pt;color:#666">Cannabis Track &amp; Trace Platform</p>
+<p style="font-size:11pt;color:#999;margin-top:4px">Build Summary &amp; UAT Status Report</p>
+<div class="meta">
+Prepared for: ILCO Farming (Pty) Ltd — Stakeholders &amp; Owners<br>
+Date: 29 March 2026<br>
+Sprint: 28-29 March 2026 (2-day intensive build)<br>
+Status: Live — UAT in progress at facility<br>
+Platform: https://tntilco.cleva-ai.co.za<br>
+Developer: Cleva AI
+</div>
+</div>
+
+<!-- PAGE 2: WHAT WAS BUILT -->
+<div class="page">
+<h2>What Was Built in 2 Days</h2>
+<p>In a focused 2-day sprint (28-29 March 2026), the complete TnT-ZA system was built, deployed, and entered UAT testing at the ILCO Farms facility.</p>
+
+<div class="stat-row">
+<div class="stat"><div class="n">35</div><div class="l">Pages Built</div></div>
+<div class="stat"><div class="n">19</div><div class="l">Staff Roles</div></div>
+<div class="stat"><div class="n">17</div><div class="l">Workflow Steps</div></div>
+<div class="stat"><div class="n">55+</div><div class="l">Database Models</div></div>
+<div class="stat"><div class="n">30</div><div class="l">API Routes</div></div>
+</div>
+
+<h2>Complete Feature List — All Live</h2>
+<table>
+<tr><th>Feature</th><th>Pages</th><th>Status</th></tr>
+<tr><td><strong>Role-Based Dashboards</strong> — 7 different dashboard layouts per role</td><td>Dashboard + 12 widgets</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Notifications</strong> — overdue tasks, critical tickets, weight alerts, mortality, low stock</td><td>Dashboard widget</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>My Shift</strong> — staff opens app → sees today's allocated role + tasks</td><td>Shift page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Task Board (Kanban)</strong> — drag-and-drop, role-filtered tabs (My Tasks, My Team, Cultivation, Processing, QA, All)</td><td>Kanban page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Facility 360 Drilldown</strong> — Facility → Strains → Mothers → Clones → GH → Bays → Plants</td><td>Facility360 page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>BayGrid</strong> — visual greenhouse layout, 4 rows per bay, strain colors, plant positions</td><td>BayGrid page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Grow Calendar</strong> — day-by-day schedule from ILCO's actual Excel grow sheets</td><td>Calendar page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Mother Plants</strong> — register, clone (3 purposes: Production, R&D, Client), clone matrix</td><td>Mothers page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Smart Clone Tracking</strong> — M01 → 20 cuttings → auto M01-01 to M01-20 → transplant survivors → auto plant records</td><td>Clone API</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Mortality Register</strong> — record deaths with 15 root causes, preventable flag, corrective action, stats</td><td>Mortality page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Plants</strong> — register, phase transitions, flag, QR print, weight tracking, genealogy</td><td>Plants + Detail</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Containers</strong> — BIN/RACK/CURE/PACKAGE, 4 actions (load/unload/move/handover), weight chain</td><td>Containers + Detail</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Batches</strong> — create from harvested plants, chain of custody, destruction request</td><td>Batches + Detail</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Trim Sessions</strong> — per-trimmer weight in/out/waste, variance reconciliation, 25 trimmers</td><td>Trim page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Lab Testing</strong> — 8 test types, COA generation, quarantine auto-tasks (7 tasks)</td><td>Lab page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Tickets</strong> — accordion by workflow stage, 4 types (Issue/Requisition/Approval/RP), status colors (Red/Yellow/Green)</td><td>Tickets page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Tasks &amp; SOPs</strong> — create, assign, complete with checklists, KPIs per role, SAHPRA templates</td><td>Tasks page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Asset Register</strong> — 3-tier (Equipment/Consumable/Lifecycle), QR labels, maintenance log, calibration, stock levels</td><td>Assets page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Strain Database</strong> — analytics per strain: plants, batches, rooting %, THC, yield, flower weeks</td><td>Strains page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Feeding &amp; Irrigation</strong> — feed plans, records (pH/EC/volume/run-off), per-greenhouse stats</td><td>Feeding page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Dispatch &amp; Transport</strong> — manifests, departed/arrived tracking, batch selection</td><td>Dispatch page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Scan &amp; Weigh</strong> — camera QR scan, AI scale reading, weight variance detection</td><td>Scan page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Compliance</strong> — 8 anomaly rules, weight variance alerts, anomaly resolution</td><td>Compliance page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>QMS</strong> — SOPs, deviations, equipment calibration, SOP acknowledgement</td><td>QMS page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Site Master File</strong> — live digital SMF, 8 sections, exportable PDF anytime</td><td>SMF page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Audit Trail</strong> — append-only, SHA-256 hash chain, CSV + PDF export</td><td>Audit page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Users</strong> — 19 roles, invite with PIN, role switching by FM, deactivate</td><td>Users page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Security</strong> — anomaly view, destruction log, transport manifests</td><td>Security page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Onboarding Wizard</strong> — 9-step facility setup (scenario, zones, strains, equipment, team, SOPs)</td><td>Wizard</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>QR Provenance</strong> — public page, anyone scans → full production history, no login</td><td>Provenance page</td><td class="check">✅ Live</td></tr>
+<tr><td><strong>Mobile-First UX</strong> — bottom nav, 44px touch targets, safe areas, glassmorphism dark theme</td><td>All pages</td><td class="check">✅ Live</td></tr>
+</table>
+<div class="footer">TnT-ZA Stakeholder Summary — Page 2 — 29 March 2026 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 3: WORKFLOW + WEIGHT -->
+<div class="page">
+<h2>The 17-Step Workflow — Every Gram Tracked</h2>
+<table>
+<tr><th>#</th><th>Step</th><th>Who</th><th>Weighed?</th><th>System Action</th></tr>
+<tr><td>1</td><td>Mother Plants</td><td>Cultivator</td><td>—</td><td>Register + clone matrix</td></tr>
+<tr><td>2</td><td>Clone (3 types)</td><td>Cultivator / Staff</td><td>—</td><td>Auto-create M01-01 to M01-20</td></tr>
+<tr><td>3</td><td>Rooting</td><td>Cultivator</td><td>—</td><td>Mortality tracked per clone</td></tr>
+<tr><td>4</td><td>Transplant</td><td>Cultivator</td><td>—</td><td>Auto-create plant records + bay allocation</td></tr>
+<tr><td>5</td><td>Vegetative</td><td>Cultivator + Irrigation</td><td>—</td><td>Grow calendar tasks auto-populated</td></tr>
+<tr><td>6</td><td>Flip</td><td>Cultivator</td><td>—</td><td>Light change logged</td></tr>
+<tr><td>7</td><td>Flower</td><td>Cultivator + Irrigation</td><td>—</td><td>Trichome checks, feeding logged</td></tr>
+<tr style="background:#FEF2F2"><td>8</td><td><strong>Harvest</strong></td><td>Cultivator → Processing</td><td><strong>⚖ WET</strong></td><td>Batch created, bay cleared, handover</td></tr>
+<tr style="background:#FFFBEB"><td>9</td><td>Wet Receiving</td><td>Jannette (JR)</td><td><strong>⚖ VERIFY</strong></td><td>Weight must match harvest — anomaly if not</td></tr>
+<tr><td>10</td><td>Drying</td><td>Jannette</td><td><strong>⚖ DRY</strong></td><td>Daily temp/humidity logged</td></tr>
+<tr><td>11</td><td>Debuc (JR only)</td><td>Jannette</td><td><strong>⚖ PER BIN</strong></td><td>Each bin weighed + barcoded</td></tr>
+<tr><td>12</td><td>Trim (25 staff)</td><td>Trimmers</td><td><strong>⚖ IN+OUT+WASTE</strong></td><td>Per-trimmer reconciliation (±2%)</td></tr>
+<tr><td>13</td><td>Cure</td><td>Jannette</td><td><strong>⚖ CURE</strong></td><td>Container tracking, humidity</td></tr>
+<tr style="background:#ECFEFF"><td>14</td><td><strong>Store &amp; QA</strong></td><td>Lab + QA + RP</td><td><strong>⚖ FINAL</strong></td><td>8 tests → COA → RP sign-off → RELEASED</td></tr>
+<tr><td>15</td><td>Sale</td><td>Admin (Ilze)</td><td>—</td><td>Batch allocated, invoice, SAHPRA ref</td></tr>
+<tr><td>16</td><td>Dispatch</td><td>Security (Sipho)</td><td><strong>⚖ MANIFEST</strong></td><td>Gate sign-off, GPS tracking</td></tr>
+<tr><td>17</td><td>Retail</td><td>Client</td><td><strong>⚖ RECEIVED</strong></td><td>Customer scans QR → full provenance</td></tr>
+</table>
+
+<div class="red-box">
+<strong>Weight Variance Alert:</strong> Any variance &gt;2% at any handover point triggers an automatic CRITICAL alert to Facility Manager, Head of Cultivation, and Tenant Admin. Logged in tamper-proof audit trail.
+</div>
+
+<h2>Smart Clone Tracking — Zero Extra Work for Staff</h2>
+<table>
+<tr><th>Staff Action</th><th>System Auto-Does</th></tr>
+<tr><td>"20 cuttings from M01"</td><td>Creates M01-01 to M01-20 automatically</td></tr>
+<tr><td>"Day 7 root check ✓" (one tap)</td><td>Bulk marks all 20 as checked</td></tr>
+<tr><td>"16 survived, 4 died — root rot"</td><td>16 → ROOTED, 4 → CULLED + mortality record</td></tr>
+<tr><td>"Transplant to GH1 Bay 1"</td><td>16 plant records created (ZA-XXXXXX), bay allocated, clone IDs activated</td></tr>
+</table>
+
+<p style="font-size:8pt;color:#666">Three clone purposes: <strong>Production</strong> (grow→sell), <strong>R&amp;D</strong> (new mothers), <strong>Client</strong> (sell clones directly)</p>
+
+<h2>Ticket System — The Operational Heartbeat</h2>
+<div class="two-col">
+<div>
+<h3>4 Ticket Types</h3>
+<ul>
+<li><strong>Issue</strong> — problem found (pest, equipment, anomaly)</li>
+<li><strong>Requisition</strong> — need supplies/equipment (with Rand cost)</li>
+<li><strong>Approval</strong> — compliance document needs sign-off</li>
+<li><strong>RP Sign-off</strong> — pharmacist must approve</li>
+</ul>
+</div>
+<div>
+<h3>Status Colors</h3>
+<ul>
+<li>🔴 <strong>Red</strong> — Open (needs action)</li>
+<li>🟡 <strong>Yellow</strong> — In Progress (being worked on)</li>
+<li>🟢 <strong>Green</strong> — Closed (completed)</li>
+</ul>
+<p style="font-size:8pt">Organised by workflow stage in accordion view.<br>Each role sees only their relevant stages.</p>
+</div>
+</div>
+
+<div class="footer">TnT-ZA Stakeholder Summary — Page 3 — 29 March 2026 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 4: ROLES + ORG CHART -->
+<div class="page">
+<h2>19 Staff Roles — Organisation Chart</h2>
+<table>
+<tr><th>Lvl</th><th>Role</th><th>Person</th><th>Responsibility</th><th>Dashboard Shows</th></tr>
+<tr><td>5</td><td>Super Admin</td><td>Floris</td><td>Full system + config</td><td>Everything</td></tr>
+<tr><td>4</td><td>Tenant Admin</td><td>Ilze</td><td>ALL approvals + business</td><td>Stats, Staff, Compliance, QA, Risk, Tickets, Facilities</td></tr>
+<tr><td>4</td><td>Responsible Pharmacist</td><td>TBD</td><td>Product release sign-off</td><td>RP tickets, batches, COAs</td></tr>
+<tr><td>3</td><td>Facility Manager</td><td>Ray</td><td>All operations, anomalies</td><td>Weight alerts, Risk gauges, All tickets, Kanban</td></tr>
+<tr><td>3</td><td>Processing Manager</td><td>Jannette (JR)</td><td>Steps 9-14, debuc sole</td><td>Processing tasks, Trim sessions, Weight alerts</td></tr>
+<tr><td>3</td><td>Facility Supervisor</td><td>Loraine</td><td>Day-to-day, cleaning, spray</td><td>All stages, Tickets, Tasks, Compliance</td></tr>
+<tr><td>3</td><td>Head of Cultivation</td><td>Lou</td><td>Manages cultivators</td><td>BayGrid, Clones, Calendar, Kanban (Cultivation tab)</td></tr>
+<tr><td>3</td><td>QA Inspector</td><td>TBD</td><td>Audit, SOPs, sign-off</td><td>QA Overview, Deviations, SOPs, Compliance</td></tr>
+<tr><td>3</td><td>Maintenance Manager</td><td>TBD</td><td>Equipment, calibration</td><td>Tickets (primary), Assets, Calibration</td></tr>
+<tr><td>3</td><td>Nursery Manager</td><td>TBD</td><td>Clone/rooting area</td><td>Mothers, Clone trays, Propagation</td></tr>
+<tr><td>2</td><td>Cultivator (×2+)</td><td>Report to Lou</td><td>Steps 1-8 grow</td><td>My Shift, BayGrid, Tasks, Calendar</td></tr>
+<tr><td>2</td><td>Lab Tech</td><td>Keke</td><td>Testing, COA</td><td>Lab, Tasks, Pending tests</td></tr>
+<tr><td>2</td><td>Irrigation Tech</td><td>TBD</td><td>Feeding, pH/EC</td><td>Feeding page, BayGrid</td></tr>
+<tr><td>1</td><td>Security</td><td>Sipho</td><td>Gate, dispatch</td><td>My Shift, Dispatch, Tasks</td></tr>
+<tr><td>1</td><td>Trimmers (×25)</td><td>Various</td><td>Weight in/out/waste</td><td>My Shift, Trim sessions</td></tr>
+<tr><td>1</td><td>General Worker</td><td>Various</td><td>Can clone + tasks</td><td>My Shift, Tasks</td></tr>
+<tr><td>1</td><td>Housekeeping</td><td>Various</td><td>Daily room cleaning</td><td>My Shift, Cleaning checklists</td></tr>
+<tr><td>1</td><td>Laundry</td><td>Various</td><td>PPE processing</td><td>My Shift, Tasks</td></tr>
+<tr><td>0</td><td>Viewer</td><td>SAHPRA Inspector</td><td>Read-only audit</td><td>All data, no edit, COAs, Audit trail</td></tr>
+</table>
+
+<h2>Key Management Features</h2>
+<div class="two-col">
+<div>
+<h3>For FM / Head of Cultivation</h3>
+<ul>
+<li><strong>Task Board (Kanban)</strong> — drag tasks between To Do / In Progress / Done</li>
+<li><strong>Role-filtered tabs</strong> — My Tasks, My Team, Cultivation, Processing, QA, All</li>
+<li><strong>Shift Allocation</strong> — assign staff roles + tasks per day via grow calendar</li>
+<li><strong>Role Switching</strong> — FM can change any staff member's role instantly</li>
+</ul>
+</div>
+<div>
+<h3>For Tenant Admin (Ilze)</h3>
+<ul>
+<li><strong>Approval queue</strong> — all requisitions, compliance docs, RP sign-offs in one view</li>
+<li><strong>Staff overview</strong> — team count by role</li>
+<li><strong>Risk gauges</strong> — diversion, compliance, weight integrity scores</li>
+<li><strong>Site Master File</strong> — live SAHPRA document, export PDF anytime</li>
+</ul>
+</div>
+</div>
+
+<h2>For Staff (Workers / Trimmers / Housekeeping)</h2>
+<div class="box">
+<strong>Simplest possible experience:</strong> Staff opens app at shift start → sees "My Shift" → their role for today + task list → Start Shift → check off tasks → if issue, add deviation notes → Complete Shift. No navigation. No searching. One screen.
+</div>
+
+<div class="footer">TnT-ZA Stakeholder Summary — Page 4 — 29 March 2026 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 5: COMPLIANCE + SAHPRA -->
+<div class="page">
+<h2>SAHPRA Compliance — Fully Automated</h2>
+<table>
+<tr><th>SAHPRA Requirement</th><th>TnT-ZA Implementation</th><th>Manual Effort</th></tr>
+<tr><td>Production register</td><td>Auto-logged when batch created</td><td>None</td></tr>
+<tr><td>Quarantine protocol</td><td>7 auto-tasks created on failed lab test</td><td>Execute tasks</td></tr>
+<tr><td>SAPS destruction witness</td><td>Checklist enforced — name, badge, station, photos</td><td>Witness present</td></tr>
+<tr><td>COA before sale</td><td>8/8 tests must pass, then RP sign-off required</td><td>Run tests</td></tr>
+<tr><td>Transport manifest</td><td>Digital manifest with Section 22C permit ref</td><td>Create manifest</td></tr>
+<tr><td>INCB monthly report</td><td>Auto-generated reconciliation task</td><td>Review + submit</td></tr>
+<tr><td>Spray records</td><td>Grow calendar logs chemical, dosage, applicator, time</td><td>Record at spray</td></tr>
+<tr><td>Equipment calibration</td><td>Weekly SOP reminders, calibration log</td><td>Calibrate</td></tr>
+<tr><td>Site Master File</td><td>Live digital — always current — PDF export</td><td>None</td></tr>
+<tr><td>Audit trail</td><td>SHA-256 hash chain — tamper-proof, append-only</td><td>None</td></tr>
+<tr><td>Cleaning records</td><td>Per-room daily checklists (grow, dry, trim, pack)</td><td>Complete checklist</td></tr>
+<tr><td>Staff training records</td><td>SOP acknowledgements tracked per user</td><td>Acknowledge SOPs</td></tr>
+</table>
+
+<h2>Mortality &amp; Root Cause Tracking</h2>
+<p>Every death is recorded with one of 15 root causes:</p>
+<div class="two-col">
+<div>
+<ul>
+<li>Pest</li><li>Mould</li><li>Root Rot</li><li>Nutrient Burn</li><li>Nutrient Deficiency</li><li>Overwatering</li><li>Underwatering</li><li>Light Stress</li>
+</ul>
+</div>
+<div>
+<ul>
+<li>Heat Stress</li><li>Cold Stress</li><li>Genetic</li><li>Transplant Shock</li><li>Mechanical Damage</li><li>Disease</li><li>Unknown</li>
+</ul>
+</div>
+</div>
+<p>Each record tracks: preventable (yes/no), corrective action taken, phase when death occurred. FM reviews all mortality records. Stats show: total deaths, monthly trend, clone mortality %, preventable %, top cause.</p>
+
+<h2>Asset Register — Everything Tagged</h2>
+<table>
+<tr><th>Tier</th><th>What</th><th>Tracked</th></tr>
+<tr><td>Equipment</td><td>Scales, fans, sensors, cameras, lab gear</td><td>Calibration schedule, maintenance log, QR tag</td></tr>
+<tr><td>Consumable</td><td>Gloves, labels, chemicals, PPE</td><td>Stock level, min threshold, auto-reorder alert</td></tr>
+<tr><td>Lifecycle</td><td>Product containers (BIN, RACK, CURE, PACKAGE)</td><td>Weight chain, handler, zone history</td></tr>
+</table>
+
+<h2>Notification System</h2>
+<p>Every dashboard shows a notification panel with:</p>
+<ul>
+<li>🔴 Overdue tasks requiring action</li>
+<li>🔴 Critical tickets open</li>
+<li>🟡 Weight variance anomalies detected</li>
+<li>🟡 Equipment calibration due this week</li>
+<li>🟡 Consumables running low</li>
+<li>🔵 Approvals pending (requisitions, RP sign-offs)</li>
+<li>💀 Mortality events this month</li>
+<li>🔵 Tasks due today</li>
+</ul>
+
+<div class="footer">TnT-ZA Stakeholder Summary — Page 5 — 29 March 2026 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 6: TECHNICAL + ACCESS -->
+<div class="page">
+<h2>Technical Architecture</h2>
+<table>
+<tr><th>Layer</th><th>Technology</th></tr>
+<tr><td>Frontend</td><td>React 18 + TypeScript + Vite + Tailwind CSS</td></tr>
+<tr><td>Backend</td><td>Node.js + Express + TypeScript</td></tr>
+<tr><td>Database</td><td>PostgreSQL 16 + Prisma ORM (55+ models)</td></tr>
+<tr><td>Auth</td><td>PIN-based login + JWT sessions</td></tr>
+<tr><td>AI Features</td><td>Claude Vision for QR scanning + scale reading</td></tr>
+<tr><td>Audit</td><td>SHA-256 hash chain (tamper-proof)</td></tr>
+<tr><td>Design</td><td>Mobile-first, dark glassmorphism, 44px touch targets</td></tr>
+<tr><td>Hosting</td><td>VPS — 154.66.197.199 — PM2 process manager</td></tr>
+</table>
+
+<h2>Scalability</h2>
+<ul>
+<li><strong>Multi-tenant</strong> — one system can serve multiple cannabis operators</li>
+<li><strong>White-label</strong> — branding configurable per tenant</li>
+<li><strong>API-first</strong> — ready for Origin POS integration, IoT sensors, external systems</li>
+<li><strong>Mobile PWA</strong> — works on any phone, no app store needed</li>
+</ul>
+
+<h2>UAT Status</h2>
+<div class="amber-box">
+<strong>Currently testing at facility.</strong> 20 test accounts created. Staff logging in with their role-specific accounts. Testing clone creation, bay allocation, ticket workflows, and shift allocation.
+</div>
+
+<h2>Access Credentials</h2>
+<table>
+<tr><th>Role</th><th>Email</th><th>PIN</th></tr>
+<tr><td>Super Admin</td><td>superilco@cleva-ai.co.za</td><td>(existing)</td></tr>
+<tr><td>Admin</td><td>florisolivier7@gmail.com</td><td>123456</td></tr>
+<tr><td>Facility Manager</td><td>ray@ilcofarming.co.za</td><td>123456</td></tr>
+<tr><td>Head of Cultivation</td><td>lou@ilcofarming.co.za</td><td>123456</td></tr>
+<tr><td>Processing Manager</td><td>jr@ilcofarms.co.za</td><td>123456</td></tr>
+<tr><td>Lab Tech</td><td>keke@ilcofarms.co.za</td><td>123456</td></tr>
+<tr><td>Security</td><td>sipho@ilcofarms.co.za</td><td>123456</td></tr>
+<tr><td colspan="3" style="color:#999;font-size:8pt">+ 13 more role-specific accounts (all PIN: 123456)</td></tr>
+</table>
+
+<h2>Next Phase</h2>
+<table>
+<tr><th>Feature</th><th>Priority</th></tr>
+<tr><td>QA-controlled SAHPRA inspector access (viewing window)</td><td>High</td></tr>
+<tr><td>SOP workflow: task → QA formats → SOP Library</td><td>High</td></tr>
+<tr><td>Document approval UI (draft → review → RP → approve)</td><td>High</td></tr>
+<tr><td>Origin POS stock integration</td><td>Medium</td></tr>
+<tr><td>IoT sensor auto-readings</td><td>Medium</td></tr>
+<tr><td>Calendar amendment audit log</td><td>Medium</td></tr>
+<tr><td>Repeating/pinned tasks</td><td>Medium</td></tr>
+</table>
+
+<div class="box">
+<strong>Bottom line:</strong> In 2 days, ILCO Farms went from paper-based tracking to a fully digital, SAHPRA-compliant, mobile-first track &amp; trace system covering 17 production steps, 19 staff roles, 9 weight checkpoints, and complete chain of custody from mother plant to customer. Every gram tracked. Every handler named. Every timestamp logged.
+</div>
+
+<div class="footer">TnT-ZA Stakeholder Summary — Page 6 — 29 March 2026 — CONFIDENTIAL<br>© 2026 Cleva AI — Developed for ILCO Farming (Pty) Ltd</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1669 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── ENUMS ────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  SUPER_ADMIN
+  TENANT_ADMIN
+  FACILITY_MANAGER
+  PROCESSING_MANAGER
+  PROCESSING_SUPERVISOR
+  FACILITY_SUPERVISOR
+  QA_INSPECTOR
+  GMP_PARTNER          // External GMP audit partner — scoped, read-mostly + observations + findings
+  RESPONSIBLE_PHARMACIST
+  MAINTENANCE_MANAGER
+  HEAD_OF_CULTIVATION
+  NURSERY_MANAGER
+  CULTIVATOR
+  LAB_TECH
+  IRRIGATION_TECH
+  SECURITY_OFFICER
+  TRIMMER
+  DELIVERY_DRIVER
+  GENERAL_WORKER
+  HOUSEKEEPING
+  LAUNDRY
+  CLIENT
+  VIEWER
+}
+
+enum PlantPhase {
+  SEEDLING
+  VEGETATIVE
+  FLOWERING
+  HARVESTED
+  DRYING
+  CURING
+  PROCESSING
+  PACKAGED
+  DESTROYED
+}
+
+enum BatchStatus {
+  ACTIVE
+  IN_TESTING
+  QUARANTINED
+  RELEASED
+  DESTROYED
+  EXPIRED
+}
+
+enum COAStatus {
+  PENDING
+  ISSUED
+  REVOKED
+}
+
+enum ComplianceStatus {
+  COMPLIANT
+  NON_COMPLIANT
+  UNDER_REVIEW
+  PENDING_INSPECTION
+}
+
+enum AnomalyType {
+  WEIGHT_LOSS
+  DESTRUCTION_RATE
+  TRANSPORT_TIME
+  YIELD_DEVIATION
+  INVENTORY_DISCREPANCY
+  CONTAINER_WEIGHT_VARIANCE
+  CONTAINER_STALE
+  CONTAINER_ZONE_MISMATCH
+}
+
+enum SeverityLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ContainerType {
+  BIN
+  RACK
+  BAG
+  JAR
+  PACKAGE
+  CUSTOM
+}
+
+enum ContainerEventType {
+  LOAD
+  UNLOAD
+  MOVE
+  WEIGH
+  HANDOVER
+}
+
+enum ContainerStatus {
+  EMPTY
+  LOADED
+  IN_TRANSIT
+  RETIRED
+}
+
+enum ZoneType {
+  PROPAGATION
+  GROW
+  DRY
+  TRIM
+  CURE
+  PROCESS
+  PACK
+  STORAGE
+  QUARANTINE
+}
+
+enum FacilityScenario {
+  INDOOR_CULTIVATOR
+  OUTDOOR_HEMP
+  GMP_MANUFACTURER
+  RESEARCH
+  CUSTOM
+}
+
+enum Species {
+  SATIVA
+  INDICA
+  HYBRID
+}
+
+enum ChemoType {
+  THC_DOMINANT
+  CBD_DOMINANT
+  BALANCED
+}
+
+enum PermitType {
+  SECTION_22A
+  SECTION_22C
+}
+
+enum GreenhouseType {
+  VEG
+  FLOWER
+  MOTHER
+  DRY
+  PROCESS
+  MIXED
+}
+
+enum BayStatus {
+  EMPTY
+  PARTIAL
+  FULL
+  RESERVED
+  HARVESTING
+}
+
+enum MotherStatus {
+  ACTIVE
+  STRESSED
+  CULLED
+  RETIRED
+}
+
+enum CloneTrayStatus {
+  ROOTING
+  ROOTED
+  TRANSPLANTED
+  FAILED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum TicketStatus {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CLOSED
+}
+
+// ── CORE MODELS ──────────────────────────────────────────────────────────────
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  branding  Json?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users      User[]
+  facilities Facility[]
+  plants     Plant[]
+  batches    Batch[]
+  containers Container[]
+  audits     AuditLog[]
+  anomalies  Anomaly[]
+  sops       SOP[]
+  strains    Strain[]
+}
+
+model User {
+  id         String   @id @default(uuid())
+  email      String   @unique
+  name       String
+  role       UserRole
+  pinHash    String?
+  active     Boolean  @default(true)
+  lockedAt   DateTime?
+  failedAttempts Int  @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  facilityId String?
+  facility   Facility? @relation(fields: [facilityId], references: [id])
+
+  sessions           Session[]
+  handledPlants      Plant[]              @relation("PlantHandler")
+  containerEventsOut ContainerEvent[]     @relation("OutgoingHandler")
+  containerEventsIn  ContainerEvent[]     @relation("IncomingHandler")
+  labResults         LabResult[]
+  coasIssued         COA[]
+  destructionsFM     DestructionEvent[]   @relation("DestructionFM")
+  deviationsRaised   Deviation[]          @relation("DeviationRaiser")
+  calibrations       EquipmentCalibration[] @relation("Calibrator")
+  sopsApproved       SOP[]                @relation("SOPApprover")
+  sopAcks            SOPAcknowledgement[]
+  notifications      Notification[]
+  auditLogs          AuditLog[]
+  anomaliesResolved  Anomaly[]            @relation("AnomalyResolver")
+
+  @@index([tenantId])
+  @@index([email])
+}
+
+model Facility {
+  id                 String           @id @default(uuid())
+  name               String
+  location           String
+  address            String?
+  gpsLat             Float?
+  gpsLng             Float?
+  licenseNumber      String?
+  growType           String?          // indoor, greenhouse, outdoor
+  scenario           FacilityScenario @default(INDOOR_CULTIVATOR)
+  status             ComplianceStatus @default(COMPLIANT)
+  gmpStatus          String           @default("ACTIVE")
+  gmpCertNumber      String?
+  gmpCertExpiry      DateTime?
+  quotaAllocated     Int              @default(0)
+  quotaUsed          Int              @default(0)
+  onboardingComplete Boolean          @default(false)
+  onboardingStep     Int              @default(0)
+  sapsStation        String?
+  sapsContact        String?
+  wasteCompany       String?
+  transportCompany   String?
+  labPartner         String?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  users              User[]
+  zones              Zone[]
+  plants             Plant[]
+  batches            Batch[]
+  containers         Container[]
+  permits            Permit[]
+  quotaTracking      QuotaTracking[]
+  sops               SOP[]
+  deviations         Deviation[]
+  equipment          EquipmentCalibration[]
+  destructionEvents  DestructionEvent[]
+  transportOrigin    TransportManifest[]  @relation("TransportOrigin")
+  transportDest      TransportManifest[]  @relation("TransportDest")
+  strains            Strain[]
+
+  @@index([tenantId])
+}
+
+model Strain {
+  id             String    @id @default(uuid())
+  name           String
+  species        Species   @default(HYBRID)
+  chemoType      ChemoType @default(THC_DOMINANT)
+  growMethod     String    @default("indoor")   // indoor, greenhouse, outdoor
+  source         String?                         // seed bank name + lot
+  expectedYield  Float?                          // grams per plant
+  expectedThc    Float?
+  expectedCbd    Float?
+  floweringWeeks Int?
+  active         Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  facilityId String
+  facility   Facility @relation(fields: [facilityId], references: [id])
+
+  @@index([tenantId])
+  @@index([facilityId])
+}
+
+// ── BAYGRID ─────────────────────────────────────────────────────────────────
+
+model Greenhouse {
+  id             String         @id @default(uuid())
+  name           String         // GH1, GH2
+  type           GreenhouseType @default(MIXED)
+  totalBays      Int            @default(0)
+  active         Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+
+  facilityId     String
+  tenantId       String
+
+  bays           Bay[]
+
+  @@index([facilityId])
+  @@index([tenantId])
+}
+
+model Bay {
+  id             String    @id @default(uuid())
+  name           String    // Bay 1, Bay 2
+  lines          Int       @default(4)
+  capacity       Int       @default(8)
+  status         BayStatus @default(EMPTY)
+  currentStrain  String?
+  currentBatchId String?
+  currentPhase   String?
+  daysInPhase    Int       @default(0)
+  allocatedAt    DateTime?
+  createdAt      DateTime  @default(now())
+
+  greenhouseId   String
+  greenhouse     Greenhouse @relation(fields: [greenhouseId], references: [id])
+
+  spots          BaySpot[]
+  allocations    BayAllocation[]
+
+  @@index([greenhouseId])
+  @@index([status])
+}
+
+model BaySpot {
+  id          String   @id @default(uuid())
+  spotId      String   // BAY1-R1P1 (permanent, never changes)
+  row         Int      // 1-4
+  position    Int      // 1-2 (position within row)
+  status      String   @default("EMPTY") // EMPTY, OCCUPIED, RESERVED, MAINTENANCE
+
+  // What's in this spot (null if empty)
+  plantId     String?  // ZA-XXXXXX plant record
+  cloneId     String?  // M01-07 clone record
+  strain      String?
+  allocatedAt DateTime?
+  allocatedBy String?  // userId who placed it
+
+  // History
+  previousPlantId String?
+  clearedAt   DateTime?
+  clearedBy   String?
+
+  bayId       String
+  bay         Bay      @relation(fields: [bayId], references: [id])
+
+  @@unique([bayId, row, position])
+  @@index([bayId])
+  @@index([status])
+}
+
+// Keep old model for migration compatibility
+model BayAllocation {
+  id          String   @id @default(uuid())
+  lineNumber  Int
+  position    Int
+  strain      String
+  allocatedAt DateTime @default(now())
+  removedAt   DateTime?
+
+  bayId       String
+  bay         Bay      @relation(fields: [bayId], references: [id])
+  plantId     String
+  allocatedBy String   // userId
+
+  @@index([bayId])
+  @@index([plantId])
+}
+
+// ── MOTHER PLANTS & CLONES ──────────────────────────────────────────────────
+
+model MotherPlant {
+  id            String       @id @default(uuid())
+  identifier    String       @unique  // M1, M2, M3
+  strain        String
+  status        MotherStatus @default(ACTIVE)
+  source        String       @default("CLONED") // CLONED or PURCHASED
+  breeder       String?
+  purchaseDate  DateTime?
+  defects       Json?        // string[]
+  testStatus    String       @default("NOT_TESTED") // TESTED, NOT_TESTED
+  testResults   Json?
+  totalClones   Int          @default(0)
+  activeClones  Int          @default(0)
+  photos        Json?        // string[]
+  notes         String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Location in mother bay
+  bayId         String?
+  greenhouseId  String?
+  bayPosition   Int?         // position number in mother bay
+
+  // Health timeline
+  lastHealthCheck DateTime?
+  healthCheckInterval Int @default(7) // days between checks
+  nextHealthCheck DateTime?
+  lastFeedDate  DateTime?
+  feedingNotes  String?
+
+  facilityId    String
+  tenantId      String
+  plantId       String?      // links to Plant model if also tracked as plant
+
+  cloneTrays    CloneTray[]
+  timeline      MotherEvent[]
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([strain])
+}
+
+model MotherEvent {
+  id            String   @id @default(uuid())
+  eventType     String   // HEALTH_CHECK, FEEDING, CLONE_TAKEN, PHOTO, STATUS_CHANGE, NOTE, DEFECT_FOUND, TREATMENT
+  description   String
+  notes         String?
+  photo         String?
+  timestamp     DateTime @default(now())
+
+  motherPlantId String
+  motherPlant   MotherPlant @relation(fields: [motherPlantId], references: [id])
+  performedById String   // userId
+  tenantId      String
+
+  @@index([motherPlantId])
+  @@index([timestamp])
+}
+
+model CloneTray {
+  id             String          @id @default(uuid())
+  trayNumber     String          @unique  // CT-2026-001
+  strain         String
+  totalCuttings  Int
+  rooted         Int             @default(0)
+  mortality      Int             @default(0)
+  rootingDays    Int             @default(14)
+  status         CloneTrayStatus @default(ROOTING)
+  purpose        String          @default("PRODUCTION") // R_AND_D (new mothers), PRODUCTION (grow + sell product), CLIENT (sell clones)
+  clientName     String?         // if CLIENT purpose — who ordered
+  clientRef      String?         // client order reference
+  cloneDate      DateTime        @default(now())
+  rootedDate     DateTime?
+  transplantDate DateTime?
+  photo          String?
+  notes          String?
+  createdAt      DateTime        @default(now())
+
+  motherPlantId  String
+  motherPlant    MotherPlant     @relation(fields: [motherPlantId], references: [id])
+  createdById    String          // userId who took cuttings
+  tenantId       String
+
+  clones         Clone[]
+
+  @@index([motherPlantId])
+  @@index([tenantId])
+  @@index([status])
+}
+
+model Clone {
+  id              String   @id @default(uuid())
+  cloneId         String   @unique  // M01-01, M01-02, etc
+  motherIdentifier String  // M01
+  sequenceNumber  Int      // 1, 2, 3...
+  strain          String
+  status          String   @default("ROOTING") // ROOTING, ROOTED, TRANSPLANTED, CULLED, DEAD
+  healthStatus    String   @default("HEALTHY") // HEALTHY, WEAK, STRESSED, DISEASED, DEAD
+
+  // Location
+  cloneBoxId      String?  // which CloneBox it's in (container ID)
+  bayId           String?  // after transplant
+  greenhouseId    String?
+  plantId         String?  // linked Plant record after transplant
+
+  // Mortality
+  deathDate       DateTime?
+  deathCause      String?  // PEST, MOULD, ROOT_ROT, NUTRIENT, OVERWATERING, GENETIC, TRANSPLANT_SHOCK, UNKNOWN
+  deathNotes      String?
+
+  // Dates
+  rootCheckDay7   Boolean  @default(false)
+  rootCheckDay14  Boolean  @default(false)
+  rootsVisible    Boolean  @default(false)
+  transplantDate  DateTime?
+
+  cloneTrayId     String
+  cloneTray       CloneTray @relation(fields: [cloneTrayId], references: [id])
+  tenantId        String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([cloneTrayId])
+  @@index([tenantId])
+  @@index([status])
+  @@index([motherIdentifier])
+}
+
+// ── GROW SCHEDULE / CALENDAR ────────────────────────────────────────────────
+
+model GrowSchedule {
+  id            String   @id @default(uuid())
+  title         String   // "GH1 Durban Poison Cycle 3"
+  strain        String
+  startDate     DateTime
+  phases        Json     // [{ phase, startDay, endDay, notes }]
+  status        String   @default("ACTIVE") // ACTIVE, COMPLETED, CANCELLED
+  notes         String?
+  createdAt     DateTime @default(now())
+
+  greenhouseId  String
+  tenantId      String
+  createdById   String
+
+  @@index([tenantId])
+  @@index([greenhouseId])
+}
+
+// ── DAILY SHIFT ALLOCATION ──────────────────────────────────────────────────
+
+model ShiftAllocation {
+  id            String   @id @default(uuid())
+  date          DateTime // which day
+  userId        String   // who is assigned
+  userName      String
+  role          String   // what role they play today
+  tasks         Json     // [{ title, description, bayId?, greenhouseId? }]
+  status        String   @default("PENDING") // PENDING, STARTED, COMPLETED
+  startedAt     DateTime?
+  completedAt   DateTime?
+  deviationNotes String? // if something went wrong
+  allocatedById String   // FM/Head who allocated
+  tenantId      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([date, userId])
+  @@index([tenantId])
+  @@index([userId])
+  @@index([date])
+}
+
+// ── HR: ATTENDANCE + TRAINING ───────────────────────────────────────────────
+
+model Attendance {
+  id          String   @id @default(uuid())
+  date        DateTime
+  userId      String
+  userName    String
+  clockIn     DateTime?
+  clockOut    DateTime?
+  hoursWorked Float?
+  status      String   @default("PRESENT") // PRESENT, ABSENT, LATE, HALF_DAY, LEAVE, SICK
+  notes       String?
+  tenantId    String
+  createdAt   DateTime @default(now())
+
+  @@unique([date, userId])
+  @@index([tenantId])
+  @@index([userId])
+  @@index([date])
+}
+
+model TrainingRecord {
+  id              String   @id @default(uuid())
+  userId          String
+  userName        String
+  trainingType    String   // SOP_TRAINING, INDUCTION, SAFETY, EQUIPMENT, COMPLIANCE, ROLE_SPECIFIC
+  title           String   // "Harvest SOP v2", "Fire safety", "Scale calibration"
+  description     String?
+  sopId           String?  // linked SOP if applicable
+  completedAt     DateTime?
+  expiresAt       DateTime? // some training expires (e.g. annual safety)
+  status          String   @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, EXPIRED
+  score           Float?   // if assessed (e.g. 85%)
+  assessedById    String?  // who assessed
+  certificate     String?  // certificate URL/ref
+  notes           String?
+  tenantId        String
+  createdAt       DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([userId])
+  @@index([status])
+}
+
+// ── FEEDING / IRRIGATION ────────────────────────────────────────────────────
+
+model FeedPlan {
+  id              String   @id @default(uuid())
+  name            String   // "GH1 Veg Feed Plan"
+  greenhouseId    String
+  phase           String   // VEG, FLOWER, FLUSH
+  schedule        Json     // [{ weekNumber, nutrientA_ml, nutrientB_ml, targetPh, targetEc }]
+  notes           String?
+  active          Boolean  @default(true)
+  tenantId        String
+  createdById     String
+  createdAt       DateTime @default(now())
+
+  feedRecords     FeedRecord[]
+
+  @@index([tenantId])
+  @@index([greenhouseId])
+}
+
+model FeedRecord {
+  id              String   @id @default(uuid())
+  date            DateTime @default(now())
+  greenhouseId    String
+  bayId           String?
+  feedPlanId      String?
+  feedPlan        FeedPlan? @relation(fields: [feedPlanId], references: [id])
+
+  // What was applied
+  waterVolume     Float?   // liters
+  nutrients       Json?    // { A: ml, B: ml, CalMag: ml, ... }
+  phIn            Float?   // pH of solution going in
+  ecIn            Float?   // EC of solution going in
+
+  // Run-off readings
+  phRunOff        Float?   // what came out
+  ecRunOff        Float?   // what came out
+  runOffVolume    Float?   // liters of run-off
+  runOffNotes     String?
+
+  // Environment at time of feed
+  temperature     Float?
+  humidity        Float?
+
+  notes           String?
+  recordedById    String   // userId
+  tenantId        String
+
+  @@index([tenantId])
+  @@index([greenhouseId])
+  @@index([date])
+}
+
+// ── TRIM SESSIONS ───────────────────────────────────────────────────────────
+
+model TrimSession {
+  id              String   @id @default(uuid())
+  batchId         String
+  date            DateTime @default(now())
+  status          String   @default("IN_PROGRESS") // IN_PROGRESS, COMPLETED
+  totalWeightIn   Float    @default(0)
+  totalWeightOut  Float    @default(0)
+  totalWaste      Float    @default(0)
+  variance        Float?   // percentage difference
+  notes           String?
+  supervisorId    String   // Processing Manager
+  tenantId        String
+  createdAt       DateTime @default(now())
+  completedAt     DateTime?
+
+  assignments     TrimmerAssignment[]
+
+  @@index([tenantId])
+  @@index([batchId])
+  @@index([status])
+}
+
+model TrimmerAssignment {
+  id            String   @id @default(uuid())
+  trimmerId     String   // userId (TRIMMER role)
+  trimmerName   String
+  weightIn      Float    // grams received
+  weightOut     Float?   // grams returned (trimmed product)
+  wasteWeight   Float?   // grams waste
+  status        String   @default("ASSIGNED") // ASSIGNED, IN_PROGRESS, COMPLETED, PARTIAL
+  startTime     DateTime @default(now())
+  endTime       DateTime?
+  notes         String?
+
+  trimSessionId String
+  trimSession   TrimSession @relation(fields: [trimSessionId], references: [id])
+
+  @@index([trimSessionId])
+  @@index([trimmerId])
+}
+
+// ── DOCUMENT APPROVAL WORKFLOW ───────────────────────────────────────────────
+
+model ComplianceApproval {
+  id              String   @id @default(uuid())
+  documentType    String   // SOP, COA, DESTRUCTION, TRANSPORT, INCB_REPORT, QUARANTINE_RELEASE, BATCH_RELEASE, SPRAY_RECORD, CALIBRATION, CLEANING
+  documentId      String   // ID of the SOP, COA, batch, etc.
+  title           String
+  status          String   @default("DRAFT") // DRAFT, PENDING_REVIEW, UNDER_REVIEW, PENDING_RP, PENDING_APPROVAL, APPROVED, REJECTED
+  priority        String   @default("NORMAL") // NORMAL, URGENT, CRITICAL
+  notes           String?
+  rejectionReason String?
+
+  // Who
+  createdById     String   // who created/submitted
+  reviewerId      String?  // Level 3 reviewer (FM/QA/Loraine)
+  reviewedAt      DateTime?
+  reviewNotes     String?
+
+  rpId            String?  // Responsible Pharmacist sign-off
+  rpSignedAt      DateTime?
+  rpNotes         String?
+
+  approverId      String?  // Final approver (Ilze / Tenant Admin)
+  approvedAt      DateTime?
+  approverNotes   String?
+
+  tenantId        String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  signatures      ApprovalSignature[]
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([documentType])
+  @@index([rpId])
+}
+
+model ApprovalSignature {
+  id           String   @id @default(uuid())
+  role         String   // CREATOR, REVIEWER, RP, APPROVER
+  signedById   String
+  signedByName String
+  signedAt     DateTime @default(now())
+  action       String   // SUBMITTED, REVIEWED, RP_SIGNED, APPROVED, REJECTED
+  notes        String?
+  ipAddress    String?
+
+  approvalId   String
+  approval     ComplianceApproval @relation(fields: [approvalId], references: [id])
+
+  @@index([approvalId])
+}
+
+// ── TASKS & SOP CHECKLISTS ──────────────────────────────────────────────────
+
+model TaskTemplate {
+  id            String   @id @default(uuid())
+  title         String   // "Daily Spray Schedule"
+  description   String?
+  sopId         String?  // linked SOP (optional)
+  roleRequired  String   // which role must do this
+  frequency     String   @default("ONE_TIME") // DAILY, WEEKLY, MONTHLY, PER_BATCH, ON_QUARANTINE, ONE_TIME
+  category      String   @default("GENERAL") // SAHPRA, CLEANING, CULTIVATION, PROCESSING, QA, MAINTENANCE, QUARANTINE
+  checklist     Json     // [{ item: string, required: boolean }]
+  autoCreate    Boolean  @default(false) // auto-create on trigger (e.g. quarantine)
+  triggerEvent  String?  // event that creates this task (e.g. BATCH_QUARANTINED)
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  tenantId      String
+  tasks         Task[]
+
+  @@index([tenantId])
+  @@index([category])
+  @@index([triggerEvent])
+}
+
+model Task {
+  id                String   @id @default(uuid())
+  title             String
+  status            String   @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, OVERDUE, SKIPPED
+  dueDate           DateTime?
+  completedAt       DateTime?
+  checklistDone     Json?    // [{ item: string, done: boolean, note?: string }]
+  photo             String?  // proof of completion
+  notes             String?
+  priority          String   @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+
+  // Context
+  greenhouseId      String?
+  bayId             String?
+  batchId           String?
+  zoneId            String?
+
+  templateId        String?
+  template          TaskTemplate? @relation(fields: [templateId], references: [id])
+  assignedToId      String   // userId — the person doing the work
+  assignerId        String?  // userId — who raised / assigned the ticket
+  reviewedById      String?  // supervisor sign-off
+  category          String?  // SAHPRA, CLEANING, CULTIVATION, PROCESSING, QA, MAINTENANCE, QUARANTINE, DEEP_CLEAN, GENERAL
+  tenantId          String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([tenantId])
+  @@index([assignedToId])
+  @@index([assignerId])
+  @@index([status])
+  @@index([dueDate])
+  @@index([batchId])
+}
+
+// ── KPIs ────────────────────────────────────────────────────────────────────
+
+model KpiTarget {
+  id          String   @id @default(uuid())
+  role        String   // which role this KPI applies to
+  name        String   // "Tasks Completed On Time"
+  metric      String   // machine key: tasks_on_time, weight_accuracy, clones_rooted_pct
+  target      Float    // target value (e.g. 95 for 95%)
+  unit        String   @default("%") // %, count, g, days
+  period      String   @default("MONTHLY") // DAILY, WEEKLY, MONTHLY
+  active      Boolean  @default(true)
+  tenantId    String
+  createdAt   DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([role])
+}
+
+model KpiEntry {
+  id          String   @id @default(uuid())
+  kpiTargetId String
+  userId      String
+  value       Float    // actual value
+  period      String   // "2026-03", "2026-W13"
+  tenantId    String
+  recordedAt  DateTime @default(now())
+
+  @@index([kpiTargetId])
+  @@index([userId])
+  @@index([tenantId, period])
+}
+
+// ── SUPPORT TICKETS ─────────────────────────────────────────────────────────
+
+model Ticket {
+  id            String         @id @default(uuid())
+  title         String
+  description   String
+  priority      TicketPriority @default(MEDIUM)
+  status        TicketStatus   @default(OPEN)
+
+  // Type: what kind of ticket
+  ticketType    String         @default("ISSUE") // ISSUE, REQUISITION, APPROVAL, RP_SIGNOFF
+
+  // Category: operational area
+  category      String         @default("GENERAL") // PEST, MOULD, EQUIPMENT, FEEDING, ENVIRONMENT, IRRIGATION, MAINTENANCE, GENERAL, REQUISITION_SUPPLIES, REQUISITION_EQUIPMENT, REQUISITION_PPE, REQUISITION_SERVICES, COMPLIANCE_APPROVAL, RP_SIGNOFF
+
+  // Workflow stage: which of the 17 steps
+  workflowStage String?        // PROPAGATION (1-3), VEGETATIVE (4-5), FLOWERING (6-7), HARVEST (8), WET_RECEIVING (9), DRYING (10), DEBUC (11), TRIM (12), CURE (13), STORE_QA (14), SALE (15), DISPATCH (16), RETAIL (17), FACILITY (cross-cutting)
+
+  photos        Json?          // string[]
+  resolution    String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  resolvedAt    DateTime?
+
+  // Context — where was the issue found
+  greenhouseId  String?
+  bayId         String?
+  plantId       String?
+  batchId       String?
+  taskId        String?        // linked to task that found the issue
+
+  // Requisition fields
+  estimatedCost Float?         // Rand value for requisitions
+  quantity      Int?           // how many items requested
+  supplier      String?        // preferred supplier
+
+  // Approval chain
+  rpSignedById  String?        // Responsible Pharmacist sign-off
+  rpSignedAt    DateTime?
+  rpNotes       String?
+  approvedById  String?        // Ilze / Tenant Admin final approval
+  approvedAt    DateTime?
+  approvalNotes String?
+
+  reportedById  String         // who created it
+  assignedToId  String?        // who's working on it
+  tenantId      String
+
+  comments      TicketComment[]
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([priority])
+  @@index([ticketType])
+  @@index([workflowStage])
+}
+
+model TicketComment {
+  id        String   @id @default(uuid())
+  content   String
+  photo     String?
+  createdAt DateTime @default(now())
+
+  ticketId  String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  authorId  String   // userId
+
+  @@index([ticketId])
+}
+
+// ── MORTALITY TRACKING ──────────────────────────────────────────────────────
+
+model MortalityRecord {
+  id            String   @id @default(uuid())
+  date          DateTime @default(now())
+
+  // What died
+  entityType    String   // CLONE, PLANT, MOTHER
+  entityId      String?  // plant or mother ID if applicable
+  cloneTrayId   String?  // if clone death
+  strain        String
+  quantity      Int      @default(1) // how many died (for clone trays can be multiple)
+
+  // Root cause analysis
+  causeCategory String   // PEST, MOULD, ROOT_ROT, NUTRIENT_BURN, NUTRIENT_DEFICIENCY, OVERWATERING, UNDERWATERING, LIGHT_STRESS, HEAT_STRESS, COLD_STRESS, GENETIC, TRANSPLANT_SHOCK, MECHANICAL_DAMAGE, DISEASE, UNKNOWN
+  causeDetail   String?  // free text detail
+  preventable   Boolean  @default(false) // was this preventable?
+  actionTaken   String?  // what corrective action was taken
+
+  // Context
+  greenhouseId  String?
+  bayId         String?
+  phase         String?  // which phase the plant was in when it died
+
+  // Evidence
+  photos        Json?    // string[]
+  notes         String?
+
+  reportedById  String   // who reported the death
+  reviewedById  String?  // FM/Head of Cult who reviewed
+  reviewedAt    DateTime?
+  tenantId      String
+  createdAt     DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([causeCategory])
+  @@index([strain])
+  @@index([date])
+  @@index([cloneTrayId])
+}
+
+// ── ASSET REGISTER (Unified — all 3 tiers) ──────────────────────────────────
+
+model Asset {
+  id              String   @id @default(uuid())
+  assetTag        String   @unique  // QR code identifier: AST-XXXXXX
+  qrCode          String?  // generated QR data URL or reference
+
+  // Classification
+  tier            String   @default("FIXED") // LIFECYCLE, FIXED, CONSUMABLE
+  category        String   // GREENHOUSE_INFRA, ENVIRONMENTAL_SENSOR, WEIGHING, LAB, SECURITY, FACILITY, PPE, CONSUMABLE
+  subcategory     String?  // e.g. "Fan", "Temp Sensor", "HPLC", "Gloves"
+  name            String   // "GH1 Extractor Fan A", "Trim Scale 2", "Hairnets"
+  aliases         Json?    // string[] — alternative names, nicknames
+  description     String?
+  manufacturer    String?
+  model           String?
+  serialNumber    String?
+
+  // Location
+  facilityId      String
+  zoneId          String?
+  greenhouseId    String?
+  bayId           String?
+
+  // Status
+  status          String   @default("ACTIVE") // ACTIVE, MAINTENANCE, FAULTY, DECOMMISSIONED, OUT_OF_STOCK
+  condition       String   @default("GOOD") // NEW, GOOD, FAIR, POOR, BROKEN
+
+  // Workflow stage this asset belongs to
+  workflowStage   String?  // PROPAGATION, VEGETATIVE, FLOWERING, HARVEST, WET_RECEIVING, DRYING, DEBUC, TRIM, CURE, STORE_QA, SALE, DISPATCH, FACILITY
+
+  // Financial
+  purchaseDate    DateTime?
+  purchaseCost    Float?
+  supplier        String?
+  warrantyExpiry  DateTime?
+
+  // Calibration (Tier 2 — equipment)
+  requiresCalibration Boolean @default(false)
+  lastCalibratedAt    DateTime?
+  nextCalibrationDue  DateTime?
+  calibrationInterval Int?     // days between calibrations
+
+  // IoT Sensor fields (Tier 2 — sensors)
+  isSensor        Boolean  @default(false)
+  sensorType      String?  // TEMPERATURE, HUMIDITY, CO2, LIGHT_PAR, SOIL_MOISTURE, PH, EC, WATER_FLOW
+  readingUnit     String?  // °C, %, ppm, µmol, %, pH, mS/cm, L
+  readingInterval Int?     // seconds between readings
+  lastReading     Float?
+  lastReadingAt   DateTime?
+
+  // Consumable fields (Tier 3 — stock)
+  isConsumable    Boolean  @default(false)
+  currentStock    Int?
+  minStockLevel   Int?     // reorder threshold
+  reorderQuantity Int?
+  unitOfMeasure   String?  // box, pair, roll, bottle, unit
+
+  // Assignment
+  assignedToId    String?  // userId who is responsible
+  assignedToName  String?
+
+  // Photos
+  photos          Json?    // string[]
+
+  tenantId        String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  maintenanceLogs AssetMaintenanceLog[]
+  sensorReadings  SensorReading[]
+
+  @@index([tenantId])
+  @@index([tier])
+  @@index([category])
+  @@index([status])
+  @@index([workflowStage])
+  @@index([assetTag])
+  @@index([isSensor])
+  @@index([nextCalibrationDue])
+}
+
+model AssetMaintenanceLog {
+  id          String   @id @default(uuid())
+  type        String   // CALIBRATION, REPAIR, SERVICE, INSPECTION, CLEANING, REPLACEMENT
+  description String
+  cost        Float?
+  performedBy String   // userId
+  performedAt DateTime @default(now())
+  nextDueAt   DateTime?
+  notes       String?
+  photos      Json?
+
+  assetId     String
+  asset       Asset    @relation(fields: [assetId], references: [id])
+
+  @@index([assetId])
+}
+
+model SensorReading {
+  id        String   @id @default(uuid())
+  value     Float
+  unit      String
+  timestamp DateTime @default(now())
+
+  assetId   String
+  asset     Asset    @relation(fields: [assetId], references: [id])
+
+  @@index([assetId, timestamp])
+}
+
+// ── ZONES (original) ────────────────────────────────────────────────────────
+
+model Zone {
+  id              String   @id @default(uuid())
+  name            String
+  zoneType        ZoneType
+  capacity        Int      @default(0)
+  hasEnvMonitor   Boolean  @default(false)
+  targetTempMin   Float?
+  targetTempMax   Float?
+  targetHumidMin  Float?
+  targetHumidMax  Float?
+  lightCycleOn    Int?     // hours
+  lightCycleOff   Int?
+  accessLevel     String?  // restricted, controlled, open
+  active          Boolean  @default(true)
+  createdAt       DateTime @default(now())
+
+  facilityId String
+  facility   Facility @relation(fields: [facilityId], references: [id])
+
+  plants             Plant[]
+  containersInZone   Container[]       @relation("ContainerCurrentZone")
+  containerEventsFrom ContainerEvent[] @relation("EventFromZone")
+  containerEventsTo   ContainerEvent[] @relation("EventToZone")
+
+  @@index([facilityId])
+}
+
+// ── PLANT LIFECYCLE ──────────────────────────────────────────────────────────
+
+model Plant {
+  id           String     @id @default(uuid())
+  identifier   String     @unique // ZA-XXXXXX
+  rfidTag      String?    @unique
+  qrCode       String?    @unique
+  strain       String
+  phase        PlantPhase @default(SEEDLING)
+  weightsJson  Json?      // { HARVESTED: 500, DRYING: 420, ... }
+  status       String     @default("ACTIVE") // ACTIVE, FLAGGED, DESTROYED
+  flagReason   String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  tenantId     String
+  tenant       Tenant     @relation(fields: [tenantId], references: [id])
+  facilityId   String
+  facility     Facility   @relation(fields: [facilityId], references: [id])
+  zoneId       String
+  zone         Zone       @relation(fields: [zoneId], references: [id])
+  handlerId    String?
+  handler      User?      @relation("PlantHandler", fields: [handlerId], references: [id])
+  motherPlantId String?
+  motherPlant  Plant?     @relation("PlantGenealogy", fields: [motherPlantId], references: [id])
+  children     Plant[]    @relation("PlantGenealogy")
+
+  batchPlants  BatchPlant[]
+
+  @@index([tenantId])
+  @@index([facilityId])
+  @@index([phase])
+  @@index([strain])
+}
+
+model Batch {
+  id          String      @id @default(uuid())
+  batchNumber String      @unique // B-YYYY-NNN
+  strain      String
+  status      BatchStatus @default(ACTIVE)
+  coaStatus   COAStatus   @default(PENDING)
+  totalWeight Float       @default(0)
+  parentBatchId String?
+  parentBatch Batch?      @relation("BatchGenealogy", fields: [parentBatchId], references: [id])
+  childBatches Batch[]    @relation("BatchGenealogy")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  tenantId    String
+  tenant      Tenant     @relation(fields: [tenantId], references: [id])
+  facilityId  String
+  facility    Facility   @relation(fields: [facilityId], references: [id])
+
+  batchPlants  BatchPlant[]
+  containers   Container[]
+  labResults   LabResult[]
+  coas         COA[]
+  destructions DestructionEvent[]
+
+  @@index([tenantId])
+  @@index([status])
+}
+
+model BatchPlant {
+  id       String @id @default(uuid())
+  batchId  String
+  batch    Batch  @relation(fields: [batchId], references: [id])
+  plantId  String
+  plant    Plant  @relation(fields: [plantId], references: [id])
+
+  @@unique([batchId, plantId])
+}
+
+// ── CONTAINER TRACKING ───────────────────────────────────────────────────────
+
+model Container {
+  id            String          @id @default(uuid())
+  containerId   String          @unique // BIN-001, RACK-017, etc
+  qrCode        String?         @unique
+  containerType ContainerType
+  status        ContainerStatus @default(EMPTY)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  tenantId      String
+  tenant        Tenant          @relation(fields: [tenantId], references: [id])
+  facilityId    String
+  facility      Facility        @relation(fields: [facilityId], references: [id])
+  batchId       String?
+  batch         Batch?          @relation(fields: [batchId], references: [id])
+  currentZoneId String?
+  currentZone   Zone?           @relation("ContainerCurrentZone", fields: [currentZoneId], references: [id])
+
+  events        ContainerEvent[]
+
+  @@index([tenantId])
+  @@index([batchId])
+  @@index([status])
+}
+
+model ContainerEvent {
+  id         String             @id @default(uuid())
+  eventType  ContainerEventType
+  weight     Float?
+  weightUnit String             @default("g") // g or kg
+  notes      String?
+  photoUrl   String?
+  timestamp  DateTime           @default(now())
+
+  containerId       String
+  container         Container @relation(fields: [containerId], references: [id])
+  fromZoneId        String?
+  fromZone          Zone?     @relation("EventFromZone", fields: [fromZoneId], references: [id])
+  toZoneId          String?
+  toZone            Zone?     @relation("EventToZone", fields: [toZoneId], references: [id])
+  outgoingHandlerId String?
+  outgoingHandler   User?     @relation("OutgoingHandler", fields: [outgoingHandlerId], references: [id])
+  incomingHandlerId String?
+  incomingHandler   User?     @relation("IncomingHandler", fields: [incomingHandlerId], references: [id])
+
+  @@index([containerId])
+  @@index([timestamp])
+}
+
+// ── LAB & COMPLIANCE ─────────────────────────────────────────────────────────
+
+model LabResult {
+  id         String   @id @default(uuid())
+  testType   String   // POTENCY, PESTICIDE, HEAVY_METALS, MICROBIAL, MYCOTOXIN, RESIDUAL_SOLVENTS, MOISTURE, FOREIGN_MATTER
+  resultData Json     // { values, thresholds, units }
+  passed     Boolean
+  testedAt   DateTime @default(now())
+
+  batchId    String
+  batch      Batch    @relation(fields: [batchId], references: [id])
+  testedById String
+  testedBy   User     @relation(fields: [testedById], references: [id])
+
+  @@index([batchId])
+}
+
+model COA {
+  id        String    @id @default(uuid())
+  pdfUrl    String?
+  qrCode    String?
+  valid     Boolean   @default(true)
+  revokeReason String?
+  issuedAt  DateTime  @default(now())
+  revokedAt DateTime?
+
+  batchId   String
+  batch     Batch     @relation(fields: [batchId], references: [id])
+  issuedById String
+  issuedBy  User      @relation(fields: [issuedById], references: [id])
+
+  @@index([batchId])
+}
+
+model DestructionEvent {
+  id               String   @id @default(uuid())
+  weight           Float
+  reason           String
+  sapsOfficerName  String
+  sapsOfficerBadge String
+  sapsStation      String
+  photosUrl        Json?    // string[]
+  confirmed        Boolean  @default(false)
+  witnessedAt      DateTime @default(now())
+
+  batchId          String?
+  batch            Batch?   @relation(fields: [batchId], references: [id])
+  facilityId       String
+  facility         Facility @relation(fields: [facilityId], references: [id])
+  facilityManagerId String
+  facilityManager  User     @relation("DestructionFM", fields: [facilityManagerId], references: [id])
+
+  @@index([facilityId])
+}
+
+model TransportManifest {
+  id               String   @id @default(uuid())
+  batchIds         Json     // string[]
+  transporter      String
+  vehicleReg       String
+  expectedDuration Int      // minutes
+  actualDuration   Int?
+  departedAt       DateTime?
+  arrivedAt        DateTime?
+  gpsRouteJson     Json?
+  createdAt        DateTime @default(now())
+
+  // Driver identity — SAHPRA chain-of-custody
+  driverName          String?
+  driverIdNumber      String?   // SA ID / passport number
+  driverPhone         String?
+  driverLicenseUrl    String?   // uploaded driver's-licence photo
+  driverLicenseExpiry DateTime?
+
+  // Vehicle inspection before dispatch (from ILCO yard)
+  vehicleInspectedAt   DateTime?
+  vehicleInspectedById String?   // userId of the inspector
+  vehicleInspectionPassed Boolean?
+  vehicleInspectionNotes  String?
+  vehicleInspectionPhotoUrl String?
+  vehicleInspectionChecks Json?  // { sealsIntact, cargoSecured, tempLogger, gpsTracker, driverBriefed, ... }
+
+  originFacilityId String
+  originFacility   Facility @relation("TransportOrigin", fields: [originFacilityId], references: [id])
+  destFacilityId   String
+  destFacility     Facility @relation("TransportDest", fields: [destFacilityId], references: [id])
+}
+
+model Permit {
+  id           String     @id @default(uuid())
+  type         PermitType
+  permitNumber String
+  issuedDate   DateTime
+  expiryDate   DateTime
+  conditions   String?
+  createdAt    DateTime   @default(now())
+
+  facilityId   String
+  facility     Facility   @relation(fields: [facilityId], references: [id])
+
+  @@index([facilityId])
+}
+
+model QuotaTracking {
+  id          String @id @default(uuid())
+  year        Int
+  annualQuota Int
+  usedQuota   Int    @default(0)
+
+  facilityId  String
+  facility    Facility @relation(fields: [facilityId], references: [id])
+
+  @@unique([facilityId, year])
+}
+
+// ── QMS ──────────────────────────────────────────────────────────────────────
+
+model SOP {
+  id         String   @id @default(uuid())
+  title      String
+  version    Int      @default(1)
+  content    String
+  category   String   @default("GENERAL") // SAHPRA, CULTIVATION, PROCESSING, QA, CLEANING, MAINTENANCE, QUARANTINE, GENERAL
+  rolesRequired Json? // string[] — which roles must be trained on this SOP
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  facilityId String
+  facility   Facility @relation(fields: [facilityId], references: [id])
+  approvedById String?
+  approvedBy User?    @relation("SOPApprover", fields: [approvedById], references: [id])
+
+  acknowledgements SOPAcknowledgement[]
+  deviations       Deviation[]
+
+  @@index([facilityId])
+  @@index([category])
+}
+
+model SOPAcknowledgement {
+  id           String   @id @default(uuid())
+  acknowledgedAt DateTime @default(now())
+  sopVersion   Int
+
+  sopId  String
+  sop    SOP  @relation(fields: [sopId], references: [id])
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  @@unique([sopId, userId, sopVersion])
+}
+
+model Deviation {
+  id          String        @id @default(uuid())
+  description String
+  severity    SeverityLevel
+  rootCause   String?
+  capa        String?
+  closedAt    DateTime?
+  createdAt   DateTime      @default(now())
+
+  sopId       String
+  sop         SOP           @relation(fields: [sopId], references: [id])
+  raisedById  String
+  raisedBy    User          @relation("DeviationRaiser", fields: [raisedById], references: [id])
+  facilityId  String
+  facility    Facility      @relation(fields: [facilityId], references: [id])
+
+  @@index([facilityId])
+}
+
+model EquipmentCalibration {
+  id             String   @id @default(uuid())
+  equipmentName  String
+  lastCalibrated DateTime?
+  nextDue        DateTime?
+  createdAt      DateTime @default(now())
+
+  facilityId     String
+  facility       Facility @relation(fields: [facilityId], references: [id])
+  calibratedById String?
+  calibratedBy   User?    @relation("Calibrator", fields: [calibratedById], references: [id])
+
+  @@index([facilityId])
+}
+
+// ── SYSTEM ───────────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  action     String
+  entityType String
+  entityId   String
+  beforeJson Json?
+  afterJson  Json?
+  ipAddress  String?
+  deviceId   String?
+  hashChain  String   // SHA-256 chain
+  timestamp  DateTime @default(now())
+
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([tenantId])
+  @@index([entityType, entityId])
+  @@index([timestamp])
+}
+
+model Anomaly {
+  id                String      @id @default(uuid())
+  type              AnomalyType
+  severity          SeverityLevel
+  description       String
+  entityType        String
+  entityId          String
+  falsePositive     Boolean     @default(false)
+  investigationNotes String?
+  detectedAt        DateTime    @default(now())
+  resolvedAt        DateTime?
+
+  tenantId          String
+  tenant            Tenant      @relation(fields: [tenantId], references: [id])
+  resolvedById      String?
+  resolvedBy        User?       @relation("AnomalyResolver", fields: [resolvedById], references: [id])
+
+  @@index([tenantId])
+  @@index([type])
+  @@index([resolvedAt])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId, read])
+}
+
+model ComplianceDocument {
+  id          String   @id @default(uuid())
+  title       String
+  docType     String   // LICENSE, PERMIT, COA, SOP, CALIBRATION, GMP_CERT, SAPS_REPORT, OTHER
+  fileUrl     String
+  expiryDate  DateTime?
+  notes       String?
+  uploadedAt  DateTime @default(now())
+
+  facilityId  String
+  tenantId    String
+
+  @@index([tenantId])
+  @@index([docType])
+  @@index([expiryDate])
+}
+
+model Session {
+  id         String   @id @default(uuid())
+  token      String?
+  ipAddress  String?
+  deviceInfo String?
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// ── CULTIVATION SOP FORMS (digitised paper SOPs: 3-CUL / 8-CLN / 4-FAC series) ─
+
+// SOP 3-CUL-2 · IPM Scouting Sheet
+model IPMObservation {
+  id                String   @id @default(uuid())
+  date              DateTime @default(now())
+  zone              String   // MOTHER_BAY | CLONE_ROOM | GREENHOUSE
+  line              String   // row/line identifier e.g. R3-L7
+  batchId           String?
+  insectOrDisease   String
+  degree            String   // LOW | MEDIUM | HIGH
+  pestType          String
+  stickyCardCount   Int?
+  notes             String?
+  doneBy            String   // userId
+  doneByName        String?
+  departmentHead    String?
+  signedAt          DateTime @default(now())
+  tenantId          String
+  createdAt         DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([zone])
+  @@index([degree])
+}
+
+// SOP 3-CUL-6 / 3-CUL-8 · Daily Zone Check Sheets
+model DailyCheckRecord {
+  id         String   @id @default(uuid())
+  date       DateTime @default(now())
+  zone       String   // MOTHER_BAY | CLONE_ROOM | GREENHOUSE
+  items      Json     // { [itemLabel]: 'PASS' | 'FAIL' | null }
+  notes      String?
+  doneBy     String
+  doneByName String?
+  signedAt   DateTime @default(now())
+  tenantId   String
+  createdAt  DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([zone])
+  @@index([date])
+}
+
+// SOPs 8-CLN-7 / 8-CLN-8 / 8-CLN-9 · Cleaning Schedule (per-task initial)
+model CleaningInitial {
+  id         String   @id @default(uuid())
+  date       DateTime @default(now())
+  zone       String
+  day        String   // MON | TUE | WED | THU | FRI
+  taskIndex  Int
+  taskLabel  String
+  initialled String
+  initialledByName String?
+  signedAt   DateTime @default(now())
+  tenantId   String
+  createdAt  DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([zone, day])
+}
+
+// SOPs 3-CUL-6 / 3-CUL-7 / 3-CUL-9 · Cultivation Activity Log
+model CultivationActivity {
+  id                String   @id @default(uuid())
+  date              DateTime @default(now())
+  time              String?
+  zone              String
+  activityPerformed String
+  reason            String
+  strainId          String?
+  batchNo           String?
+  numberSize        Int?
+  performedBy       String
+  performedByName   String?
+  signedAt          DateTime @default(now())
+  tenantId          String
+  createdAt         DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([zone])
+}
+
+// SOP 4-FAC-2 · Temperature & Humidity Daily Check
+model EnvReading {
+  id        String   @id @default(uuid())
+  date      DateTime @default(now())
+  zone      String   // CLONE_ROOM | GREENHOUSE
+  slot      String   // 08:00 | 11:50 | 16:50
+  temp      Float
+  rh        Float
+  strainId  String?
+  batchNo   String?
+  checkedBy String
+  checkedByName String?
+  signedAt  DateTime @default(now())
+  tenantId  String
+  createdAt DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([zone, date])
+}
+
+// SOP 3-CUL-012 · Harvest Request Form + Check Sheet
+model HarvestRequest {
+  id                  String   @id @default(uuid())
+  batchNo             String
+  strainId            String
+  floweringStartDate  DateTime
+  batchSizePlants     Int
+  greenhouse          String
+  bay                 String
+  reasonForHarvest    String
+  requestedBy         String
+  requestedByName     String?
+  requestedDate       DateTime
+  status              String   @default("REQUESTED") // REQUESTED | APPROVED | DECLINED | COMPLETED
+  checklistAnswers    Json?    // boolean[]
+  dryingRoomAllocated String?
+
+  // Potential yield — estimated before harvest
+  expectedYieldPerPlantG Int?      // grams per plant, based on strain baseline × grower factor
+  expectedYieldKg        Decimal?  // total potential (auto = plants × gPerPlant / 1000)
+  expectedHarvestDate    DateTime?
+
+  // Actual yield — captured after harvest for variance reporting
+  actualYieldKg          Decimal?
+  actualHarvestDate      DateTime?
+  yieldVariancePct       Float?   // (actual - expected) / expected × 100
+
+  qamApprovedBy       String?
+  qamApprovedByName   String?
+  hocApprovedBy       String?
+  hocApprovedByName   String?
+  approvedAt          DateTime?
+  tenantId            String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([tenantId])
+  @@index([status])
+}

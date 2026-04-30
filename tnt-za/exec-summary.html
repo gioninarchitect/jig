@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TnT-ZA — Executive Summary</title>
+<style>
+@page{size:A4;margin:18mm}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:#1a1a2e;font-size:10pt;line-height:1.6;background:#fff}
+.page{page-break-after:always;position:relative}.page:last-child{page-break-after:auto}
+h1{font-size:28pt;font-weight:800;color:#0D6B3D;margin-bottom:4px}
+h2{font-size:14pt;color:#0D6B3D;margin:16px 0 8px;padding-bottom:4px;border-bottom:2px solid #0D6B3D}
+h3{font-size:11pt;color:#333;margin:12px 0 6px}
+p{margin-bottom:8px;color:#444}
+.subtitle{color:#888;font-size:9pt}
+.cover{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:85vh;text-align:center}
+.cover .badge{display:inline-block;padding:4px 16px;border-radius:20px;background:#0D6B3D;color:#fff;font-size:8pt;font-weight:700;letter-spacing:1px;margin-bottom:12px}
+.cover .meta{font-size:9pt;color:#999;margin-top:40px;line-height:2}
+table{width:100%;border-collapse:collapse;font-size:9pt;margin:8px 0}
+th{background:#f0fdf4;color:#0D6B3D;text-align:left;padding:6px 8px;font-weight:700;border-bottom:2px solid #BBF7D0}
+td{padding:5px 8px;border-bottom:1px solid #eee;color:#444}
+.highlight{background:#f0fdf4;padding:12px 16px;border-radius:8px;border-left:4px solid #0D6B3D;margin:12px 0;font-size:9pt}
+.highlight strong{color:#0D6B3D}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.stat{text-align:center;padding:10px;border:1px solid #eee;border-radius:8px}
+.stat .num{font-size:20pt;font-weight:800;color:#0D6B3D}
+.stat .lbl{font-size:7pt;color:#999;text-transform:uppercase;letter-spacing:1px}
+.chain{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:8px 0}
+.chain-item{border:1px solid #FDE68A;background:#FFFBEB;border-radius:6px;padding:6px 10px;font-size:8pt;text-align:center}
+.chain-item strong{color:#D97706;display:block;font-size:7pt}
+.chain-arrow{color:#D97706;font-weight:700}
+.footer{text-align:center;font-size:7pt;color:#bbb;margin-top:16px;padding-top:6px;border-top:1px solid #eee}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check{color:#0D6B3D;font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="page cover">
+<div class="badge">CONFIDENTIAL</div>
+<h1>TnT-ZA</h1>
+<p style="font-size:16pt;color:#666;margin-bottom:4px">Cannabis Track & Trace</p>
+<p style="font-size:11pt;color:#999">Executive Summary for Stakeholders</p>
+<div class="meta">
+Prepared for: ILCO Farming (Pty) Ltd<br>
+Date: 29 March 2026<br>
+Version: 2.0<br>
+Status: UAT Phase — Live System<br>
+Prepared by: Cleva AI
+</div>
+</div>
+
+<!-- PAGE 2: WHAT IT IS -->
+<div class="page">
+<h2>What Is TnT-ZA?</h2>
+<p>TnT-ZA is a digital track and trace system that follows every plant, every gram, and every person involved in cannabis production — from the moment a cutting is taken from a mother plant until the final product reaches the customer.</p>
+
+<div class="highlight">
+<strong>In simple terms:</strong> Every action in the facility is recorded digitally. Every weight is logged. Every handover is documented. The system knows where everything is, who touched it, and when. Nothing goes unaccounted for.
+</div>
+
+<h2>The Problem We Solve</h2>
+<div class="two-col">
+<div>
+<h3>Without TnT-ZA</h3>
+<ul style="font-size:9pt;color:#666;padding-left:16px">
+<li>Paper records — easy to lose</li>
+<li>No real-time visibility</li>
+<li>Weight discrepancies found too late</li>
+<li>SAHPRA audits take days to prepare</li>
+<li>No product traceability</li>
+<li>Accountability relies on trust</li>
+</ul>
+</div>
+<div>
+<h3>With TnT-ZA</h3>
+<ul style="font-size:9pt;color:#0D6B3D;padding-left:16px">
+<li>Every gram tracked digitally</li>
+<li>Real-time dashboards per role</li>
+<li>Weight variances detected instantly</li>
+<li>Site Master File ready in seconds</li>
+<li>Full QR provenance for customers</li>
+<li>Every action tied to a person + time</li>
+</ul>
+</div>
+</div>
+
+<h2>Key Numbers</h2>
+<div class="stat-grid">
+<div class="stat"><div class="num">17</div><div class="lbl">Production Steps</div></div>
+<div class="stat"><div class="num">9</div><div class="lbl">Weight Checkpoints</div></div>
+<div class="stat"><div class="num">19</div><div class="lbl">Staff Roles</div></div>
+<div class="stat"><div class="num">30</div><div class="lbl">System Pages</div></div>
+</div>
+
+<h2>Weight Tracking Chain</h2>
+<p style="font-size:9pt;color:#666">Example: single batch — every gram accounted for at every handover</p>
+<div class="chain">
+<div class="chain-item"><strong>Harvest</strong>450g wet</div><div class="chain-arrow">→</div>
+<div class="chain-item"><strong>Receive</strong>450g ✓</div><div class="chain-arrow">→</div>
+<div class="chain-item"><strong>Dry</strong>135g</div><div class="chain-arrow">→</div>
+<div class="chain-item"><strong>Debuc</strong>120g</div><div class="chain-arrow">→</div>
+<div class="chain-item"><strong>Trim</strong>95g+22g waste</div><div class="chain-arrow">→</div>
+<div class="chain-item"><strong>Cure</strong>90g</div><div class="chain-arrow">→</div>
+<div class="chain-item"><strong>Store</strong>90g sellable</div><div class="chain-arrow">→</div>
+<div class="chain-item"><strong>Ship</strong>28g</div><div class="chain-arrow">→</div>
+<div class="chain-item"><strong>Retail</strong>28g ✓</div>
+</div>
+<p style="font-size:8pt;color:#DC2626">Any variance >2% at any handover → automatic alert to management</p>
+
+<div class="footer">TnT-ZA Executive Summary — Page 2 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 3: 17 STEPS -->
+<div class="page">
+<h2>The Complete 17-Step Workflow</h2>
+<table>
+<tr><th>#</th><th>Step</th><th>What Happens</th><th>Who</th><th>Weight?</th></tr>
+<tr><td>1</td><td>Mother Plants</td><td>Register + maintain mother genetics</td><td>Cultivator</td><td>—</td></tr>
+<tr><td>2</td><td>Clone</td><td>Take cuttings (Production / R&D / Client)</td><td>Cultivator</td><td>—</td></tr>
+<tr><td>3</td><td>Rooting</td><td>14-day rooting — mortality tracked per clone</td><td>Cultivator</td><td>—</td></tr>
+<tr><td>4</td><td>Transplant</td><td>Healthy clones → greenhouse bay positions</td><td>Cultivator</td><td>—</td></tr>
+<tr><td>5</td><td>Vegetative</td><td>14-16 days — topping, defoliation, feeding</td><td>Cultivator + Irrigation</td><td>—</td></tr>
+<tr><td>6</td><td>Flip</td><td>Light change 18/6 → 12/12 triggers flowering</td><td>Cultivator</td><td>—</td></tr>
+<tr><td>7</td><td>Flower</td><td>56 days — trichome monitoring, nutrients</td><td>Cultivator + Irrigation</td><td>—</td></tr>
+<tr style="background:#FEF2F2"><td>8</td><td><strong>Harvest</strong></td><td>Cut plants — WET WEIGHT recorded — batch created</td><td>Cultivator → Processing</td><td><strong>⚖ YES</strong></td></tr>
+<tr style="background:#FFFBEB"><td>9</td><td>Wet Receiving</td><td>Verify weight matches harvest — handover sign-off</td><td>Processing (Jannette)</td><td><strong>⚖ VERIFY</strong></td></tr>
+<tr><td>10</td><td>Drying</td><td>14 days on racks — daily environment logged</td><td>Processing</td><td><strong>⚖ YES</strong></td></tr>
+<tr><td>11</td><td>Debuc</td><td>Cut buds from stems — JR ONLY — per bin weighed</td><td>Jannette only</td><td><strong>⚖ YES</strong></td></tr>
+<tr><td>12</td><td>Trim</td><td>25 trimmers — weight in/out/waste per person</td><td>Trimmers</td><td><strong>⚖ YES</strong></td></tr>
+<tr><td>13</td><td>Cure</td><td>Containers — minimum 2 weeks — humidity monitored</td><td>Processing</td><td><strong>⚖ YES</strong></td></tr>
+<tr style="background:#ECFEFF"><td>14</td><td><strong>Store & QA</strong></td><td>8 lab tests → COA → QA + RP sign-off → RELEASED</td><td>Lab + QA + Pharmacist</td><td><strong>⚖ FINAL</strong></td></tr>
+<tr><td>15</td><td>Sale</td><td>Client order → batch allocated → invoice</td><td>Admin (Ilze)</td><td>—</td></tr>
+<tr><td>16</td><td>Dispatch</td><td>Transport manifest → security gate sign-off</td><td>Security (Sipho)</td><td><strong>⚖ YES</strong></td></tr>
+<tr><td>17</td><td>Retail</td><td>Delivered → weight verified → customer QR scan</td><td>Client</td><td><strong>⚖ YES</strong></td></tr>
+</table>
+<div class="footer">TnT-ZA Executive Summary — Page 3 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 4: ROLES + COMPLIANCE -->
+<div class="page">
+<h2>Staff Roles & Permissions</h2>
+<table>
+<tr><th>Level</th><th>Role</th><th>Person</th><th>Responsibility</th></tr>
+<tr><td>5</td><td>Super Admin</td><td>Floris</td><td>Full system access + configuration</td></tr>
+<tr><td>4</td><td>Tenant Admin</td><td>Ilze</td><td>All approvals, users, compliance, business</td></tr>
+<tr><td>4</td><td>Responsible Pharmacist</td><td>TBD</td><td>Product release sign-off, COA approval</td></tr>
+<tr><td>3</td><td>Facility Manager</td><td>Ray</td><td>All operations, weight alerts, anomalies</td></tr>
+<tr><td>3</td><td>Processing Manager</td><td>Jannette (JR)</td><td>Steps 9-14, debuc (sole responsibility)</td></tr>
+<tr><td>3</td><td>Facility Supervisor</td><td>Loraine</td><td>Day-to-day ops, cleaning, spraying</td></tr>
+<tr><td>3</td><td>Head of Cultivation</td><td>Lou</td><td>Manages cultivators, grow oversight</td></tr>
+<tr><td>3</td><td>QA Inspector</td><td>TBD</td><td>Audit, SOPs, deviations, sign-off</td></tr>
+<tr><td>3</td><td>Maintenance Manager</td><td>TBD</td><td>Equipment calibration, repairs</td></tr>
+<tr><td>2</td><td>Cultivator (×2)</td><td>Report to Lou</td><td>Steps 1-8 — grow operations</td></tr>
+<tr><td>2</td><td>Lab Tech</td><td>Keke</td><td>8 test types, COA generation</td></tr>
+<tr><td>2</td><td>Irrigation Tech</td><td>TBD</td><td>Feeding programs, pH/EC monitoring</td></tr>
+<tr><td>1</td><td>Security</td><td>Sipho</td><td>Gate, dispatch, destruction witness</td></tr>
+<tr><td>1</td><td>Trimmers (×25)</td><td>Various</td><td>Trim sessions — weight in/out/waste</td></tr>
+<tr><td>1</td><td>Housekeeping + Laundry</td><td>Various</td><td>Daily cleaning checklists, PPE</td></tr>
+<tr><td>0</td><td>Viewer</td><td>SAHPRA Inspector</td><td>Read-only audit access (controlled)</td></tr>
+</table>
+
+<h2>SAHPRA Compliance — Built In</h2>
+<table>
+<tr><th>Requirement</th><th>How TnT-ZA Handles It</th></tr>
+<tr><td>Production register</td><td>Auto-logged when batch created</td></tr>
+<tr><td>Quarantine protocol</td><td>7 auto-tasks: isolate, notify SAHPRA, sample, investigate</td></tr>
+<tr><td>Destruction record</td><td>SAPS witness required — checklist enforced</td></tr>
+<tr><td>COA before sale</td><td>8/8 lab tests must pass before release</td></tr>
+<tr><td>Transport manifest</td><td>Digital manifest with permit reference</td></tr>
+<tr><td>INCB reporting</td><td>Monthly reconciliation auto-generated</td></tr>
+<tr><td>Spray records</td><td>Per-batch SOP with chemical, dosage, applicator</td></tr>
+<tr><td>Equipment calibration</td><td>Weekly SOP — automated reminders</td></tr>
+<tr><td>Site Master File</td><td>Live digital — exportable as PDF anytime</td></tr>
+<tr><td>Audit trail</td><td>SHA-256 hash chain — tamper-proof, append-only</td></tr>
+</table>
+
+<div class="footer">TnT-ZA Executive Summary — Page 4 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 5: WHAT'S LIVE + NEXT -->
+<div class="page">
+<h2>Current Status — What's Live</h2>
+<div class="stat-grid">
+<div class="stat"><div class="num">30</div><div class="lbl">Pages Built</div></div>
+<div class="stat"><div class="num">19</div><div class="lbl">Roles Active</div></div>
+<div class="stat"><div class="num">50+</div><div class="lbl">Database Models</div></div>
+<div class="stat"><div class="num">20</div><div class="lbl">Test Accounts</div></div>
+</div>
+
+<table>
+<tr><th>Feature</th><th>Status</th></tr>
+<tr><td>17-step workflow tracking</td><td class="check">✅ Live</td></tr>
+<tr><td>Weight tracking with automatic anomaly alerts</td><td class="check">✅ Live</td></tr>
+<tr><td>Clone tracking (Production + R&D + Client)</td><td class="check">✅ Live</td></tr>
+<tr><td>Individual clone IDs (M01-01, M01-02...)</td><td class="check">✅ Live</td></tr>
+<tr><td>Greenhouse BayGrid with 4-row layout</td><td class="check">✅ Live</td></tr>
+<tr><td>Grow Calendar (day-by-day schedule)</td><td class="check">✅ Live</td></tr>
+<tr><td>Ticket system (issues, requisitions, approvals)</td><td class="check">✅ Live</td></tr>
+<tr><td>Trim sessions (25 trimmers, weight reconciliation)</td><td class="check">✅ Live</td></tr>
+<tr><td>Lab testing + COA generation</td><td class="check">✅ Live</td></tr>
+<tr><td>Feeding & irrigation records</td><td class="check">✅ Live</td></tr>
+<tr><td>Asset register (equipment, sensors, consumables)</td><td class="check">✅ Live</td></tr>
+<tr><td>Mortality tracking with root cause analysis</td><td class="check">✅ Live</td></tr>
+<tr><td>Batch destruction workflow</td><td class="check">✅ Live</td></tr>
+<tr><td>Site Master File (live + PDF export)</td><td class="check">✅ Live</td></tr>
+<tr><td>Strain database with analytics</td><td class="check">✅ Live</td></tr>
+<tr><td>Facility 360 drilldown navigation</td><td class="check">✅ Live</td></tr>
+<tr><td>Dispatch & transport manifests</td><td class="check">✅ Live</td></tr>
+<tr><td>QR code scanning + AI scale reading</td><td class="check">✅ Live</td></tr>
+<tr><td>Mobile-first responsive design</td><td class="check">✅ Live</td></tr>
+<tr><td>Tamper-proof audit trail</td><td class="check">✅ Live</td></tr>
+<tr><td>Role-based personalised dashboards</td><td class="check">✅ Live</td></tr>
+</table>
+
+<h2>Next Steps</h2>
+<table>
+<tr><th>Phase</th><th>Feature</th><th>Timeline</th></tr>
+<tr><td>UAT</td><td>Staff training at facility</td><td>This week</td></tr>
+<tr><td>UAT</td><td>Fix issues from testing feedback</td><td>This week</td></tr>
+<tr><td>Phase 2</td><td>QA-controlled SAHPRA viewer access</td><td>April 2026</td></tr>
+<tr><td>Phase 2</td><td>Document approval workflow UI</td><td>April 2026</td></tr>
+<tr><td>Phase 2</td><td>Origin POS stock integration</td><td>April 2026</td></tr>
+<tr><td>Phase 2</td><td>IoT sensor auto-readings</td><td>May 2026</td></tr>
+</table>
+
+<h2>Access</h2>
+<div class="highlight">
+<strong>Live system:</strong> https://tntilco.cleva-ai.co.za<br>
+<strong>Admin:</strong> florisolivier7@gmail.com — PIN: 123456<br>
+<strong>FM:</strong> ray@ilcofarming.co.za — PIN: 123456<br>
+<strong>Head Cult:</strong> lou@ilcofarming.co.za — PIN: 123456
+</div>
+
+<div class="footer">TnT-ZA Executive Summary — Page 5 — CONFIDENTIAL<br>© 2026 Cleva AI — Developed for ILCO Farming (Pty) Ltd</div>
+</div>
+
+</body>
+</html>

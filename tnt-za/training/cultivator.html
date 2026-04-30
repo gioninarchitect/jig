@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TnT-ZA Training — Cultivator</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#0D6B3D;--primary-light:#10A85C;--dark:#1A1A2E;--dark-2:#0f0f1a;--surface:#16213E;--text:#F5F5F5;--text-mid:#A0A0B0;--text-dim:#606070;--danger:#DC3545;--warning:#E8A317;--success:#198754;--border:rgba(255,255,255,0.08)}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);line-height:1.7}.hero{background:linear-gradient(135deg,var(--dark-2),var(--surface));border-bottom:3px solid var(--primary);padding:3rem 2rem;text-align:center}.hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:.5rem}.hero .role-badge{display:inline-block;background:var(--primary);color:#fff;padding:.4rem 1.2rem;border-radius:999px;font-size:.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem}.hero p{color:var(--text-mid);max-width:600px;margin:0 auto}.container{max-width:800px;margin:0 auto;padding:2rem 1.5rem}.acc{margin-bottom:.75rem}.acc-header{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s;user-select:none}.acc-header:hover{border-color:var(--primary)}.acc-header.open{border-radius:12px 12px 0 0;border-color:var(--primary);background:rgba(13,107,61,.1)}.acc-header h3{font-size:1rem;font-weight:600}.acc-header .chevron{transition:transform .2s;color:var(--text-dim)}.acc-header.open .chevron{transform:rotate(180deg);color:var(--primary)}.acc-body{display:none;background:rgba(22,33,62,.5);border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;padding:1.25rem}.acc-body.open{display:block}.acc-body p{color:var(--text-mid);margin-bottom:1rem}.acc-body ul{color:var(--text-mid);padding-left:1.5rem;margin-bottom:1rem}.acc-body li{margin-bottom:.4rem}.acc-body code{font-family:'JetBrains Mono',monospace;background:rgba(13,107,61,.15);color:var(--primary-light);padding:.15rem .4rem;border-radius:4px;font-size:.85rem}.acc-body strong{color:var(--text)}.section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-dim);margin:2rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}.alert{background:rgba(232,163,23,.1);border:1px solid rgba(232,163,23,.3);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;color:#f0c888;font-size:.9rem}.alert strong{color:var(--warning)}.info-box{background:rgba(13,107,61,.1);border:1px solid rgba(13,107,61,.3);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;color:var(--primary-light);font-size:.9rem}footer{text-align:center;padding:2rem;color:var(--text-dim);font-size:.8rem;border-top:1px solid var(--border);margin-top:3rem}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="role-badge">Cultivator</div>
+  <h1>TnT-ZA Training Guide</h1>
+  <p>You are on the ground. You register plants, transition phases, weigh product, load containers, and hand material to the next person. Your actions create the data trail.</p>
+</div>
+<div class="container">
+
+<div class="alert"><strong>You don't receive weight alerts — you create the events that trigger them.</strong> Every weight you record is compared against the previous. Accuracy is critical.</div>
+
+<div class="section-label">Getting Started</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>How to Log In</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul><li>Go to <code>https://tntilco.cleva-ai.co.za</code></li><li>Enter your email → check for 6-digit PIN → enter PIN</li><li>Session lasts 24 hours</li></ul>
+</div></div>
+
+<div class="section-label">Plant Lifecycle (Your Primary Workflow)</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Registering a New Plant</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul><li>Go to <strong>Plants → Register Plant</strong></li><li>Enter strain, select facility, select zone (Grow Room)</li><li>Optionally link a mother plant (for clones/genealogy)</li><li>System auto-generates: <code>ZA-XXXXXX</code> ID + RFID tag + QR code</li><li>The facility quota is checked — if full, registration is blocked</li></ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Phase Transitions</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<p>Phases move in strict order. You cannot skip a phase.</p>
+<ul>
+<li><code>SEEDLING</code> → <code>VEGETATIVE</code> — no weight required</li>
+<li><code>VEGETATIVE</code> → <code>FLOWERING</code> — no weight required</li>
+<li><code>FLOWERING</code> → <code>HARVESTED</code> — <strong>WEIGHT REQUIRED</strong></li>
+<li><code>HARVESTED</code> → <code>DRYING</code> — <strong>WEIGHT REQUIRED</strong></li>
+<li><code>DRYING</code> → <code>CURING</code> — <strong>WEIGHT REQUIRED</strong></li>
+<li><code>CURING</code> → <code>PROCESSING</code> — no weight required</li>
+<li><code>PROCESSING</code> → <code>PACKAGED</code> — <strong>WEIGHT REQUIRED</strong></li>
+</ul>
+<p>Use the <strong>Scan page</strong> to photograph the plant tag, then tap "View Details" and update the phase.</p>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Scanning Plants</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul><li>Open <strong>Scan</strong> from the sidebar</li><li>Photograph the plant's tag (shows <code>ZA-XXXXXX</code>)</li><li>Claude Vision reads the ID and pulls up the record</li><li>You see: strain, current phase, zone, handler, weights</li><li>From here you can transition the phase or flag an issue</li></ul>
+</div></div>
+
+<div class="section-label">Container Operations</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Loading a Container</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul><li>Scan the container label (e.g., <code>BIN-001</code>)</li><li>Select <strong>LOAD</strong> action</li><li>Weigh the product on the scale — photograph the scale display</li><li>Enter the weight and zone</li><li>Container status changes to LOADED</li></ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Moving a Container</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul><li>Scan the container</li><li>Select <strong>MOVE</strong></li><li><strong>Weight is mandatory</strong> at every zone transition</li><li>Photograph the scale — enter weight and destination zone</li><li>System compares weight to previous. If loss > threshold → alert fires to management</li></ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Handover to Next Person</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul><li>When transferring a container to the Facility Manager or next zone handler</li><li>Scan container → select <strong>HANDOVER</strong></li><li>Enter the incoming handler's ID and the weight</li><li>Both your ID (outgoing) and theirs (incoming) are recorded</li><li>This creates a chain-of-custody entry</li></ul>
+</div></div>
+
+<div class="section-label">Other Tasks</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Flagging a Non-Compliant Plant</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul><li>If you spot mould, pest damage, or other issues</li><li>Scan the plant → View Details → <strong>Flag Issue</strong></li><li>Enter the reason — plant status changes to FLAGGED</li><li>Facility Manager is notified</li></ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Raising a Deviation</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul><li>If you deviated from an SOP (e.g., different drying temperature)</li><li>Go to <strong>QMS → Deviations → Create</strong></li><li>Select the SOP, describe what happened, set severity</li><li>The FM will add root cause analysis and CAPA</li></ul>
+</div></div>
+
+</div>
+<footer>TnT-ZA Track & Trace — ILCO Farms / Origin by ILCO Farming<br>Training documentation v1.0</footer>
+<script>function toggle(el){const body=el.nextElementSibling;const isOpen=el.classList.contains('open');document.querySelectorAll('.acc-header.open').forEach(h=>{h.classList.remove('open');h.nextElementSibling.classList.remove('open')});if(!isOpen){el.classList.add('open');body.classList.add('open')}}</script>
+</body>
+</html>

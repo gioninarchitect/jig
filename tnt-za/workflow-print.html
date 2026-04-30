@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ILCO Farms — Production Workflow Specification</title>
+<style>
+@page{size:A4;margin:20mm 18mm}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:#1a1a2e;font-size:10pt;line-height:1.6;background:#fff}
+.page{page-break-after:always;position:relative;padding:0}
+.page:last-child{page-break-after:auto}
+
+/* Header */
+.cover{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:90vh;text-align:center}
+.cover h1{font-size:32pt;font-weight:800;color:#0D6B3D;margin-bottom:8px}
+.cover h2{font-size:14pt;font-weight:400;color:#666;margin-bottom:40px}
+.cover .meta{font-size:9pt;color:#999;margin-top:60px;line-height:2}
+.cover .ver{display:inline-block;padding:4px 16px;border-radius:20px;background:#0D6B3D;color:#fff;font-size:8pt;font-weight:700;letter-spacing:1px;margin-bottom:8px}
+
+/* Headings */
+h2{font-size:16pt;color:#0D6B3D;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #0D6B3D}
+h3{font-size:12pt;color:#333;margin-bottom:8px;margin-top:16px}
+h4{font-size:10pt;color:#0D6B3D;margin-bottom:4px;margin-top:12px}
+
+p{margin-bottom:8px;color:#444}
+.subtitle{color:#888;font-size:9pt;margin-bottom:16px}
+
+/* Flow card */
+.step{border:1px solid #ddd;border-radius:10px;padding:14px 16px;margin-bottom:10px;position:relative;background:#fafafa}
+.step-num{position:absolute;top:-8px;left:14px;background:#0D6B3D;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7pt;font-weight:800}
+.step-num.proc{background:#D97706}
+.step-num.dist{background:#2563EB}
+.step-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.step-name{font-weight:700;font-size:11pt;color:#1a1a2e}
+.step-dur{font-size:7pt;padding:2px 8px;border-radius:12px;background:#eee;color:#666}
+.step-list{list-style:none;padding:0}
+.step-list li{font-size:9pt;color:#555;padding-left:12px;position:relative;line-height:1.7}
+.step-list li::before{content:'•';position:absolute;left:0;color:#0D6B3D;font-weight:700}
+.step-foot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:6px;border-top:1px solid #eee;font-size:7.5pt;flex-wrap:wrap;gap:4px}
+.step-role{font-weight:700;color:#0D6B3D}
+.step-role.proc{color:#D97706}
+.step-role.dist{color:#2563EB}
+.step-weight{font-weight:700;color:#D97706;background:#FEF3C7;padding:2px 6px;border-radius:4px}
+.step-badge{padding:1px 5px;border-radius:3px;font-size:6.5pt;font-weight:600;border:1px solid}
+.step-badge.qr{color:#0D6B3D;border-color:#BBF7D0;background:#F0FDF4}
+.step-badge.photo{color:#2563EB;border-color:#BFDBFE;background:#EFF6FF}
+.step-badge.task{color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF}
+.step-badge.barcode{color:#D97706;border-color:#FDE68A;background:#FFFBEB}
+
+/* Two column */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* Table */
+table{width:100%;border-collapse:collapse;font-size:8.5pt;margin:8px 0}
+th{background:#f0fdf4;color:#0D6B3D;text-align:left;padding:6px 8px;font-weight:700;border-bottom:2px solid #BBF7D0}
+td{padding:5px 8px;border-bottom:1px solid #eee;color:#444}
+
+/* Weight chain */
+.chain{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:8px 0}
+.chain-item{border:1px solid #FDE68A;background:#FFFBEB;border-radius:6px;padding:6px 10px;font-size:8pt;text-align:center}
+.chain-item strong{color:#D97706;display:block;font-size:7.5pt}
+.chain-arrow{color:#D97706;font-weight:700;font-size:10pt}
+
+/* QR */
+.qr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qr-card{border:1px solid #BBF7D0;background:#F0FDF4;border-radius:8px;padding:10px 12px;font-size:8.5pt;color:#444}
+.qr-card strong{color:#0D6B3D}
+.qr-card .ql{font-size:6.5pt;font-weight:700;color:#0D6B3D;letter-spacing:1px;margin-bottom:2px}
+
+/* SAHPRA */
+.sahpra-list{list-style:none;padding:0}
+.sahpra-list li{font-size:9pt;color:#444;padding:6px 0 6px 16px;border-bottom:1px solid #fee2e2;position:relative}
+.sahpra-list li::before{content:'';position:absolute;left:0;top:12px;width:6px;height:6px;border-radius:50%;background:#EF4444}
+.sahpra-list li strong{color:#1a1a2e}
+
+/* Role cards */
+.role-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.role-card{border:1px solid #eee;border-radius:8px;padding:10px 12px}
+.role-card .rn{font-weight:700;font-size:9pt;margin-bottom:1px}
+.role-card .rm{font-size:7pt;color:#999;margin-bottom:6px}
+.role-card .rt{display:flex;flex-wrap:wrap;gap:3px}
+.role-card .rx{font-size:6.5pt;padding:1px 5px;border-radius:3px;background:#f5f5f5;color:#666;border:1px solid #eee}
+
+.footer{text-align:center;font-size:7pt;color:#bbb;margin-top:20px;padding-top:8px;border-top:1px solid #eee}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: COVER -->
+<div class="page cover">
+  <div class="ver">TnT-ZA v2.0</div>
+  <h1>ILCO Farms</h1>
+  <h2>Complete Production Workflow Specification</h2>
+  <p style="color:#888;max-width:500px">End-to-end cannabis track &amp; trace — from mother plant to customer's hands. 17 steps, 16 roles, every gram accounted for.</p>
+  <div class="meta">
+    Prepared for: ILCO Farming (Pty) Ltd<br>
+    Document version: 2.0<br>
+    Date: 28 March 2026<br>
+    Classification: CONFIDENTIAL
+  </div>
+</div>
+
+<!-- PAGE 2: CULTIVATION STEPS 1-5 -->
+<div class="page">
+  <h2>Cultivation — Steps 1 to 5</h2>
+  <p class="subtitle">Mother plant management through vegetative growth. All steps performed by CULTIVATOR (Lou) with IRRIGATION TECH support from Step 5.</p>
+
+  <div class="step"><div class="step-num">1</div><div class="step-head"><span class="step-name">Mother Plants</span><span class="step-badge photo">📷 360°</span></div>
+    <ul class="step-list"><li>Mother Batch 1 (MB1): Durban Poison, Swazi Gold, Malawi Gold</li><li>Mother Batch 2 (MB2): Power Plant, Northern Lights</li><li>Each mother tracked: status (Active/Stressed/Culled/Retired), total clones taken, success rate</li><li>Source documented: seed bank purchase or cloned from another mother</li><li>Defects documented, test status recorded</li></ul>
+    <div class="step-foot"><span class="step-role">CULTIVATOR</span></div>
+  </div>
+
+  <div class="step"><div class="step-num">2</div><div class="step-head"><span class="step-name">✂ Clone (Take Cuttings)</span><span class="step-badge photo">📷 Tray</span></div>
+    <ul class="step-list"><li>Select mother plant for cutting</li><li>Record: number of cuttings, who took them, date and time</li><li>Place in clone tray — assigned identifier CT-2026-xxx</li><li>Apply rooting hormone compound</li><li>Photograph tray setup for documentation</li></ul>
+    <div class="step-foot"><span class="step-role">CULTIVATOR</span></div>
+  </div>
+
+  <div class="step"><div class="step-num">3</div><div class="step-head"><span class="step-name">Rooting</span><span class="step-dur">14 days</span></div>
+    <ul class="step-list"><li>Clone trays placed in propagation area — controlled environment</li><li>Root check at day 7 and day 14 — documented per tray</li><li>Track mortality: how many cuttings died per tray</li><li>Calculate rooting success rate per mother — builds strain performance database over time</li></ul>
+    <div class="step-foot"><span class="step-role">CULTIVATOR</span><span class="step-badge task">☐ Root check day 7</span><span class="step-badge task">☐ Root check day 14</span></div>
+  </div>
+
+  <div class="step"><div class="step-num">4</div><div class="step-head"><span class="step-name">Transplant to Greenhouse</span><span class="step-badge qr">BayGrid</span></div>
+    <ul class="step-list"><li>Rooted clones transplanted to greenhouse bay position</li><li>BayGrid assignment: Greenhouse → Bay → Line → Position (e.g. GH1 → Bay 1 → Line 2 → Pos 1)</li><li>Start feeding program at low concentration</li><li>Bay status updates automatically: EMPTY → PARTIAL → FULL</li></ul>
+    <div class="step-foot"><span class="step-role">CULTIVATOR</span></div>
+  </div>
+
+  <div class="step"><div class="step-num">5</div><div class="step-head"><span class="step-name">Vegetative Growth</span><span class="step-dur">14–16 days</span></div>
+    <ul class="step-list"><li>Light schedule: 18 hours on / 6 hours off</li><li>Topping: cut main stem above 5th node to encourage branching</li><li>Defoliation: remove excess fan leaves for airflow</li><li>Bottom cleaning: remove lower growth that won't produce</li><li>Record cm growth measurements weekly</li><li>Feeding concentration increases gradually through veg period</li></ul>
+    <div class="step-foot"><span class="step-role">CULTIVATOR + IRRIGATION TECH</span><span class="step-badge task">☐ Top</span><span class="step-badge task">☐ Defoliate</span><span class="step-badge task">☐ cm growth</span></div>
+  </div>
+
+  <div class="footer">ILCO Farms — Production Workflow Specification — Page 2 of 8 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 3: CULTIVATION STEPS 6-8 -->
+<div class="page">
+  <h2>Cultivation — Steps 6 to 8</h2>
+  <p class="subtitle">Flip through flowering to harvest. Harvest is the critical handover point from Cultivation to Processing.</p>
+
+  <div class="step"><div class="step-num">6</div><div class="step-head"><span class="step-name">Flip</span></div>
+    <ul class="step-list"><li>Light schedule change: 18/6 → 12/12 — triggers flowering response</li><li>Record flip date precisely — all subsequent timelines calculated from this</li><li>Stretch period begins: rapid vertical growth for 2-3 weeks</li><li>Measure stretch cm per strain — builds predictive growth database</li><li>Continue regular feeding + environmental monitoring</li></ul>
+    <div class="step-foot"><span class="step-role">CULTIVATOR</span></div>
+  </div>
+
+  <div class="step"><div class="step-num">7</div><div class="step-head"><span class="step-name">Flower</span><span class="step-dur">56 days (8 weeks)</span></div>
+    <ul class="step-list"><li>8-week flowering period (varies by strain)</li><li>Monitor trichome development: clear → milky → amber (determines harvest timing)</li><li>Monitor pistil color: white → orange/brown</li><li>Full bloom nutrient feeding schedule maintained</li><li>Flush with plain water 1-2 weeks before target harvest (removes nutrient buildup)</li><li>Environment: temperature 20-26°C, relative humidity 40-50%</li><li>Target harvest date calculated from flip date + strain average flower time</li></ul>
+    <div class="step-foot"><span class="step-role">CULTIVATOR + IRRIGATION TECH</span><span class="step-badge task">☐ Trichome check</span></div>
+  </div>
+
+  <div class="step" style="border-color:#FCA5A5;background:#FEF2F2"><div class="step-num" style="background:#DC2626">8</div><div class="step-head"><span class="step-name" style="color:#DC2626">⚡ Harvest — Critical Handover</span><span class="step-badge qr">QR Scan</span></div>
+    <ul class="step-list"><li>Cut plants at base — all material from bay harvested together</li><li><strong>Record WET WEIGHT per plant</strong> — this is the baseline for all subsequent weight tracking</li><li>Assign harvested material to BIN containers (BIN-xxx) — each container gets QR</li><li>Create production batch: B-2026-xxx — links all plants, strain, grow data</li><li>Clear bay in BayGrid → status returns to EMPTY → available for next cycle</li><li><strong>HANDOVER: Cultivator signs off → Processing Manager (JR) receives</strong></li><li>This is the most important weight checkpoint — wet weight at harvest is the reference for all loss calculations</li></ul>
+    <div class="step-foot"><span class="step-role">CULTIVATOR → PROCESSING MGR</span><span class="step-weight">⚖ WET WEIGHT RECORDED</span></div>
+  </div>
+
+  <h3 style="margin-top:24px">Cultivation Summary</h3>
+  <table>
+    <tr><th>Step</th><th>Duration</th><th>Key Data</th><th>Role</th></tr>
+    <tr><td>1. Mother</td><td>Ongoing</td><td>Status, clone count, source</td><td>Cultivator</td></tr>
+    <tr><td>2. Clone</td><td>1 day</td><td>Cuttings count, who, date</td><td>Cultivator</td></tr>
+    <tr><td>3. Rooting</td><td>14 days</td><td>Mortality, rooting %</td><td>Cultivator</td></tr>
+    <tr><td>4. Transplant</td><td>1 day</td><td>GH/Bay/Line/Pos</td><td>Cultivator</td></tr>
+    <tr><td>5. Vegetative</td><td>14-16 days</td><td>cm growth, topping</td><td>Cultivator + Irrigation</td></tr>
+    <tr><td>6. Flip</td><td>1 day</td><td>Flip date, stretch start</td><td>Cultivator</td></tr>
+    <tr><td>7. Flower</td><td>56 days</td><td>Trichomes, target date</td><td>Cultivator + Irrigation</td></tr>
+    <tr><td>8. Harvest</td><td>1 day</td><td>WET WEIGHT, batch created</td><td>Cultivator → Processing</td></tr>
+  </table>
+  <p style="font-size:8pt;color:#888"><strong>Total cultivation cycle:</strong> approximately 100-110 days from clone to harvest</p>
+
+  <div class="footer">ILCO Farms — Production Workflow Specification — Page 3 of 8 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 4: PROCESSING STEPS 9-11 -->
+<div class="page">
+  <h2>Processing — Steps 9 to 11</h2>
+  <p class="subtitle">Wet receiving through debuc. All steps under Processing Manager (Jannette / JR). Debuc is JR's sole responsibility.</p>
+
+  <div class="step" style="border-color:#FDE68A;background:#FFFBEB"><div class="step-num proc">9</div><div class="step-head"><span class="step-name" style="color:#D97706">Wet Material Receiving</span><span class="step-badge qr">QR Scan</span></div>
+    <ul class="step-list"><li>Receive harvested material from cultivation team</li><li><strong>VERIFY total wet weight matches harvest record exactly</strong> — first weight integrity check</li><li>Assign BIN container IDs with QR labels</li><li>Handover documented: Cultivator name + Processing Manager name + timestamp</li><li>Any weight variance at this point → immediate ANOMALY → alerts FM + Tenant Admin + Super Admin</li></ul>
+    <div class="step-foot"><span class="step-role proc">PROCESSING MGR (JR)</span><span class="step-weight">⚖ VERIFY WET WEIGHT</span></div>
+  </div>
+
+  <div class="step"><div class="step-num proc">10</div><div class="step-head"><span class="step-name">Drying (DRS)</span><span class="step-dur">14 days</span></div>
+    <ul class="step-list"><li>Hang whole plants or branches on drying racks — assigned RACK-xxx IDs</li><li>Drying room environment: 18-21°C temperature, 55-65% relative humidity</li><li>Daily monitoring: temperature + humidity logged in TnT-ZA</li><li>Expected moisture loss: approximately 70-75% of wet weight</li><li>Ready indicator: small stems snap cleanly (not bend)</li><li>Record DRY WEIGHT when removing from racks — second weight checkpoint</li></ul>
+    <div class="step-foot"><span class="step-role proc">PROCESSING MGR</span><span class="step-weight">⚖ DRY WEIGHT OUT</span><span class="step-badge qr">QR on Rack</span></div>
+  </div>
+
+  <div class="step" style="border-color:#FDE68A;background:#FEFCE8"><div class="step-num proc">11</div><div class="step-head"><span class="step-name" style="color:#CA8A04">Debuc — JR ONLY</span><span class="step-badge barcode">Barcode</span></div>
+    <ul class="step-list"><li><strong>This step is Jannette's (JR) sole responsibility — no one else performs debuc</strong></li><li>Cut individual buds from dried stems/branches</li><li>Place into bins — each bin weighed individually and recorded</li><li>Generate barcode label per bin — printed and affixed</li><li>Every bin scanned with barcode scanner — weight logged in TnT-ZA</li><li>Remaining stem material and waste weighed + documented separately</li><li>Total bin weight + waste weight must equal dry weight input (±2%)</li></ul>
+    <div class="step-foot"><span class="step-role" style="color:#CA8A04">JR ONLY (Jannette)</span><span class="step-weight">⚖ WEIGHT PER BIN</span></div>
+  </div>
+
+  <div class="footer">ILCO Farms — Production Workflow Specification — Page 4 of 8 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 5: PROCESSING STEPS 12-14 -->
+<div class="page">
+  <h2>Processing — Steps 12 to 14</h2>
+  <p class="subtitle">Trim sessions through QA sign-off and batch release. The store/QA step is the final gate before any product can be sold.</p>
+
+  <div class="step"><div class="step-num proc">12</div><div class="step-head"><span class="step-name">Trim</span><span class="step-badge barcode">Barcode</span></div>
+    <ul class="step-list"><li>Multiple TRIMMERS work simultaneously — each assigned a weighed bin</li><li><strong>Weight IN:</strong> each trimmer receives a bin — weight recorded at handover</li><li><strong>Weight OUT:</strong> each trimmer returns trimmed product — weight recorded</li><li><strong>Waste:</strong> trim waste (sugar leaves, stems) weighed separately per trimmer</li><li>Partial completion allowed — trimmer can finish bin next day (leftover tracked)</li><li><strong>Reconciliation rule: Weight IN = Weight OUT + Waste Weight (±2%)</strong></li><li>Any variance outside tolerance → ANOMALY → requires investigation</li><li>Trimmer performance tracked: grams per hour, accuracy, completion rate</li></ul>
+    <div class="step-foot"><span class="step-role" style="color:#059669">TRIMMERS (T1, T2, T3...)</span><span class="step-weight">⚖ IN + OUT + WASTE</span></div>
+  </div>
+
+  <div class="step"><div class="step-num proc">13</div><div class="step-head"><span class="step-name">Cure</span><span class="step-dur">14+ days</span></div>
+    <ul class="step-list"><li>Trimmed product placed into cure containers — assigned CURE-xxx IDs with QR</li><li>Minimum 2-week curing period in controlled environment</li><li>Burping schedule: open containers daily (first week) → every 2-3 days (second week onward)</li><li>Target humidity inside container: 62% (use humidity packs if needed)</li><li>Additional 5-10% moisture loss during curing is expected</li><li>Record final cure weight when curing period complete</li></ul>
+    <div class="step-foot"><span class="step-role proc">PROCESSING MGR</span><span class="step-weight">⚖ CURE WEIGHT</span><span class="step-badge qr">QR on Container</span></div>
+  </div>
+
+  <div class="step" style="border-color:#A5F3FC;background:#ECFEFF"><div class="step-num" style="background:#0891B2">14</div><div class="step-head"><span class="step-name" style="color:#0891B2">Store &amp; QA Sign-off — GATE</span><span class="step-badge qr">QR Scan</span></div>
+    <ul class="step-list"><li>Move cured product to secure storage vault</li><li><strong>Lab Testing: ALL 8 test types must PASS</strong> — potency, pesticide, heavy metals, microbial, moisture, mycotoxin, residual solvents, terpene profile</li><li>If ANY test fails → batch status: <strong>QUARANTINED</strong> → 7 auto-tasks created (isolate, notify SAHPRA within 24hrs, sample for retest, document, root cause, cleaning review, equipment check)</li><li>All 8 tests PASS → Certificate of Analysis (COA) generated automatically (PDF + embedded QR code)</li><li>QA Inspector reviews batch: visual inspection, documentation check, weight verification</li><li>QA Inspector sign-off → batch status: <strong>RELEASED</strong> → available for sale</li><li>Final sellable weight recorded — this is the definitive inventory number</li></ul>
+    <div class="step-foot"><span class="step-role" style="color:#0891B2">QA INSPECTOR + LAB TECH</span><span class="step-weight">⚖ FINAL SELLABLE WEIGHT</span></div>
+  </div>
+
+  <div class="footer">ILCO Farms — Production Workflow Specification — Page 5 of 8 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 6: DISTRIBUTION + WEIGHT CHAIN -->
+<div class="page">
+  <h2>Distribution — Steps 15 to 17</h2>
+  <p class="subtitle">Sale, dispatch, and retail delivery. Integration with Origin POS system for stock management.</p>
+
+  <div class="step"><div class="step-num dist">15</div><div class="step-head"><span class="step-name" style="color:#7C3AED">Sale</span></div>
+    <ul class="step-list"><li>Client order received — type: B2B (wholesale), Export (international), or Patient (medical)</li><li>Batch allocated from released inventory — specific quantity reserved</li><li>Invoice generated with batch reference number + COA download link</li><li>SAHPRA tracking reference number assigned for regulatory compliance</li><li>Stock sync to Origin POS — reserved quantity deducted from available inventory</li></ul>
+    <div class="step-foot"><span class="step-role dist">TENANT ADMIN</span></div>
+  </div>
+
+  <div class="step" style="border-color:#BFDBFE;background:#EFF6FF"><div class="step-num dist">16</div><div class="step-head"><span class="step-name" style="color:#2563EB">Dispatch</span><span class="step-badge qr">QR Scan</span></div>
+    <ul class="step-list"><li>Transport manifest created — lists all batch IDs, weights, destination</li><li>Vehicle registration + driver license details recorded</li><li>Security officer gate departure sign-off — timestamp logged</li><li>GPS tracking during transport (optional — for high-value shipments)</li><li>Expected vs actual travel time monitored — overdue triggers ANOMALY alert</li></ul>
+    <div class="step-foot"><span class="step-role dist">SECURITY OFFICER</span><span class="step-weight">⚖ MANIFEST WEIGHT</span></div>
+  </div>
+
+  <div class="step"><div class="step-num dist">17</div><div class="step-head"><span class="step-name">Retail / Delivery</span><span class="step-badge qr">QR Provenance</span></div>
+    <ul class="step-list"><li>Product delivered to client / Origin retail store</li><li>Received weight verified against transport manifest — any discrepancy flagged</li><li>Origin POS stock levels updated automatically via API sync</li><li>Customer scans QR code on product → public provenance page showing full history:</li><li>&nbsp;&nbsp;Mother plant → Clone date → Grow location → Harvest date → Lab results → COA</li></ul>
+    <div class="step-foot"><span class="step-role" style="color:#666">CLIENT / ORIGIN POS</span><span class="step-weight">⚖ RECEIVED WEIGHT</span></div>
+  </div>
+
+  <h3 style="margin-top:20px">Weight Tracking Chain — Example: Single Batch</h3>
+  <div class="chain">
+    <div class="chain-item"><strong>① Harvest</strong>450g wet</div><div class="chain-arrow">→</div>
+    <div class="chain-item"><strong>② Receive</strong>450g ✓</div><div class="chain-arrow">→</div>
+    <div class="chain-item"><strong>③ Dry</strong>135g (−70%)</div><div class="chain-arrow">→</div>
+    <div class="chain-item"><strong>④ Debuc</strong>120g (−15g stems)</div><div class="chain-arrow">→</div>
+    <div class="chain-item"><strong>⑤ Trim</strong>95g + 22g waste</div><div class="chain-arrow">→</div>
+    <div class="chain-item"><strong>⑥ Cure</strong>90g (−5%)</div><div class="chain-arrow">→</div>
+    <div class="chain-item"><strong>⑦ Store</strong>90g sellable</div><div class="chain-arrow">→</div>
+    <div class="chain-item"><strong>⑧ Ship</strong>28g</div><div class="chain-arrow">→</div>
+    <div class="chain-item"><strong>⑨ Receive</strong>28g ✓</div>
+  </div>
+  <p style="font-size:8pt;color:#DC2626;margin-top:8px"><strong>Rule:</strong> Any variance &gt; 2% at any handover point → ANOMALY created → FM + Tenant Admin + Super Admin alerted immediately via in-app notification + email. Logged in tamper-proof audit trail (SHA-256 hash chain).</p>
+
+  <div class="footer">ILCO Farms — Production Workflow Specification — Page 6 of 8 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 7: QR + SAHPRA -->
+<div class="page">
+  <h2>QR Code &amp; Scanner Workflow</h2>
+  <p class="subtitle">9 scan points across the 17-step workflow. QR codes enable full traceability from mother plant to customer.</p>
+
+  <div class="qr-grid">
+    <div class="qr-card"><div class="ql">QR GENERATED</div><strong>Plant Registration (Step 1)</strong> — Each plant gets ZA-XXXXXX identifier + QR. Printed as label. Scan → full lineage to mother.</div>
+    <div class="qr-card"><div class="ql">QR GENERATED</div><strong>Container Creation (Steps 8–14)</strong> — BIN, RACK, CURE, PACKAGE each get QR. Scan → contents, weight history, handler chain.</div>
+    <div class="qr-card"><div class="ql">QR GENERATED</div><strong>Batch (Step 8)</strong> — B-2026-xxx gets QR. Links all plants, containers, lab results. Goes on final retail product.</div>
+    <div class="qr-card"><div class="ql">QR GENERATED</div><strong>COA (Step 14)</strong> — PDF has embedded QR. Scan → 8 test results, batch info, compliance.</div>
+    <div class="qr-card"><div class="ql">SCANNER USED</div><strong>Zone Transitions</strong> — Scan container QR when moving between zones. Auto-detects container + zone. Prompts for weight.</div>
+    <div class="qr-card"><div class="ql">SCANNER USED</div><strong>Debuc (Step 11)</strong> — Barcode scanner. Scan IN at debuc, OUT after weighing. JR scans every bin.</div>
+    <div class="qr-card"><div class="ql">SCANNER USED</div><strong>Trim (Step 12)</strong> — Trimmer scans barcode to receive + return. System auto-calculates weight in vs out.</div>
+    <div class="qr-card"><div class="ql">SCANNER USED</div><strong>Dispatch (Step 16)</strong> — Security scans all QRs. Verifies all on manifest, weights match.</div>
+    <div class="qr-card" style="grid-column:span 2"><div class="ql">PUBLIC QR</div><strong>Customer / Inspector (Step 17)</strong> — Anyone scans product QR → public provenance page. Mother → Clone → Grow → Lab → COA. No login required. Full supply chain transparency.</div>
+  </div>
+
+  <h2 style="margin-top:24px">SAHPRA Compliance — Automated Touchpoints</h2>
+  <p class="subtitle">10 compliance triggers automated through the TnT-ZA task and SOP system.</p>
+
+  <ul class="sahpra-list">
+    <li><strong>Batch Created</strong> — Auto-logged in SAHPRA production register</li>
+    <li><strong>Quarantine Triggered</strong> — 7 auto-tasks: isolate batch, notify SAHPRA within 24 hours, collect retest samples, document details, begin root cause analysis, review cleaning schedule, check equipment calibration</li>
+    <li><strong>Destruction Event</strong> — SAPS officer must witness. Checklist: weigh material, officer present (name, badge, station), photograph process, both parties sign certificate, file in compliance records, update INCB quota</li>
+    <li><strong>COA Issued</strong> — Automatically attached to batch record. PDF with QR code. Required before any sale</li>
+    <li><strong>Dispatch</strong> — Transport manifest with Section 22C permit reference number</li>
+    <li><strong>Monthly INCB Reconciliation</strong> — Auto-task: reconcile produced vs destroyed vs in-stock vs dispatched. Submit to SAHPRA by 5th of following month</li>
+    <li><strong>Spray Application</strong> — Per-batch SOP: chemical name, dilution ratio, PPE worn, applicator name, start/end time, re-entry interval</li>
+    <li><strong>Equipment Calibration</strong> — Weekly SOP: scales, pH meters, EC meters, temperature/humidity sensors. All readings logged</li>
+    <li><strong>Daily Facility Inspection</strong> — Entry/exit logs complete, cameras operational, PPE compliance, pest trap checks, fire safety</li>
+    <li><strong>Room Cleaning</strong> — Per room per day: grow room, dry room, trim room, pack room. Each has SAHPRA-compliant checklist</li>
+  </ul>
+
+  <div class="footer">ILCO Farms — Production Workflow Specification — Page 7 of 8 — CONFIDENTIAL</div>
+</div>
+
+<!-- PAGE 8: ROLES -->
+<div class="page">
+  <h2>Roles &amp; Access Levels</h2>
+  <p class="subtitle">16 roles across 6 access levels. Each role sees a tailored dashboard with relevant widgets and KPIs.</p>
+
+  <table>
+    <tr><th>Level</th><th>Role</th><th>Person</th><th>Workflow Steps</th><th>Dashboard Focus</th></tr>
+    <tr><td>5</td><td>Super Admin</td><td>Floris</td><td>All</td><td>Full system access + config</td></tr>
+    <tr><td>4</td><td>Tenant Admin</td><td>Ilze</td><td>15 (Sale) + all oversight</td><td>Business: staff, compliance, risk, facilities</td></tr>
+    <tr><td>3</td><td>Facility Manager</td><td>Ray</td><td>All 17 oversight</td><td>Operations: weight alerts, risk, tickets, anomalies</td></tr>
+    <tr><td>3</td><td>Processing Manager</td><td>Jannette (JR)</td><td>9–14</td><td>Processing: receiving, drying, debuc, trim, cure</td></tr>
+    <tr><td>3</td><td>QA Inspector</td><td>TBD</td><td>14 (sign-off)</td><td>QA: quarantined, COAs, deviations, SOPs, audit</td></tr>
+    <tr><td>3</td><td>Maintenance Manager</td><td>TBD</td><td>Cross-cutting</td><td>Equipment: calibration, tickets, uptime</td></tr>
+    <tr><td>2</td><td>Cultivator</td><td>Lou</td><td>1–8</td><td>Grow: BayGrid, clones, tasks, growth tracking</td></tr>
+    <tr><td>2</td><td>Lab Tech</td><td>Keke</td><td>14 (testing)</td><td>Lab: pending tests, COA generation, results</td></tr>
+    <tr><td>2</td><td>Irrigation Tech</td><td>TBD</td><td>5–7</td><td>Feeding: plans, run-off, pH/EC monitoring</td></tr>
+    <tr><td>1</td><td>Security Officer</td><td>Sipho</td><td>16 (dispatch)</td><td>Gate: transport, manifests, destruction witness</td></tr>
+    <tr><td>1</td><td>Trimmer</td><td>Multiple</td><td>12</td><td>Tasks: weight in/out, waste, speed</td></tr>
+    <tr><td>1</td><td>General Worker</td><td>Multiple</td><td>5–7 (assist)</td><td>Tasks: SOP checklists</td></tr>
+    <tr><td>1</td><td>Housekeeping</td><td>Multiple</td><td>All rooms daily</td><td>Tasks: room cleaning checklists</td></tr>
+    <tr><td>1</td><td>Laundry</td><td>Multiple</td><td>Daily PPE</td><td>Tasks: collect, wash, dry, return</td></tr>
+    <tr><td>0</td><td>Viewer</td><td>SAHPRA Inspector</td><td>Read-only all</td><td>Audit: all data, no edit, COAs, trail</td></tr>
+  </table>
+
+  <h3>KPI Examples by Role</h3>
+  <div class="two-col">
+    <div>
+      <h4>Cultivator</h4>
+      <table><tr><th>KPI</th><th>Target</th></tr><tr><td>Clone Rooting Rate</td><td>≥ 85%</td></tr><tr><td>Tasks On Time</td><td>≥ 95%</td></tr><tr><td>Plant Mortality</td><td>≤ 5%</td></tr></table>
+    </div>
+    <div>
+      <h4>Facility Manager</h4>
+      <table><tr><th>KPI</th><th>Target</th></tr><tr><td>Weight Integrity</td><td>≥ 90%</td></tr><tr><td>Open Anomalies</td><td>0</td></tr><tr><td>Ticket Resolution</td><td>≤ 3 days</td></tr></table>
+    </div>
+    <div>
+      <h4>Processing Manager</h4>
+      <table><tr><th>KPI</th><th>Target</th></tr><tr><td>Trim Weight Accuracy</td><td>≥ 98%</td></tr><tr><td>Batches Processed/mo</td><td>≥ 5</td></tr><tr><td>Drying Loss Rate</td><td>70-75%</td></tr></table>
+    </div>
+    <div>
+      <h4>QA Inspector</h4>
+      <table><tr><th>KPI</th><th>Target</th></tr><tr><td>Quarantined Batches</td><td>0</td></tr><tr><td>Open Deviations</td><td>0</td></tr><tr><td>Active SOPs</td><td>≥ 10</td></tr></table>
+    </div>
+  </div>
+
+  <div class="footer" style="margin-top:30px">ILCO Farms — Production Workflow Specification — Page 8 of 8 — CONFIDENTIAL<br>TnT-ZA v2.0 — 17 steps · 16 roles · 9 weight checkpoints · 9 QR scan points · 12 SAHPRA SOP templates</div>
+</div>
+
+</body>
+</html>

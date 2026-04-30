@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TnT-ZA — QR Code & Weight Verification Lifecycle</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#0D6B3D;--primary-light:#10A85C;--dark:#1A1A2E;--dark-2:#0f0f1a;--surface:#16213E;--text:#F5F5F5;--text-mid:#A0A0B0;--text-dim:#606070;--danger:#DC3545;--warning:#E8A317;--success:#198754;--border:rgba(255,255,255,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);line-height:1.7}
+
+.hero{background:linear-gradient(135deg,var(--dark-2),var(--surface));border-bottom:3px solid var(--primary);padding:3rem 2rem;text-align:center}
+.hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:.5rem}
+.hero .badge{display:inline-block;background:var(--primary);color:#fff;padding:.4rem 1.2rem;border-radius:999px;font-size:.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem}
+.hero p{color:var(--text-mid);max-width:700px;margin:0 auto;font-size:.95rem}
+
+.container{max-width:850px;margin:0 auto;padding:2rem 1.5rem}
+
+.section-label{font-size:.7rem;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-dim);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);font-weight:600}
+
+/* Flow steps */
+.flow{counter-reset:flow-step}
+.flow-step{counter-increment:flow-step;position:relative;padding-left:4rem;padding-bottom:2rem;border-left:2px solid rgba(13,107,61,0.2);margin-left:1.2rem}
+.flow-step:last-child{border-left:none;padding-bottom:0}
+.flow-step::before{content:counter(flow-step);position:absolute;left:-1.1rem;top:0;width:2.2rem;height:2.2rem;border-radius:10px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem}
+.flow-step h3{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.3rem}
+.flow-step .sub{font-size:.8rem;color:var(--primary-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem;font-weight:600}
+.flow-step p{color:var(--text-mid);font-size:.9rem;margin-bottom:.5rem}
+.flow-step .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.75rem 0}
+.flow-step .detail-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:.75rem}
+.flow-step .detail-card .label{font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px}
+.flow-step .detail-card .value{font-size:.9rem;color:var(--text);font-weight:500;margin-top:.15rem}
+.flow-step code{font-family:'JetBrains Mono',monospace;background:rgba(13,107,61,.15);color:var(--primary-light);padding:.1rem .4rem;border-radius:4px;font-size:.82rem}
+.flow-step ul{padding-left:1.25rem;margin:.5rem 0;color:var(--text-mid)}
+.flow-step li{margin-bottom:.3rem;font-size:.88rem}
+.flow-step strong{color:var(--text)}
+
+/* Alert boxes */
+.alert-red{background:rgba(220,53,69,.08);border:1px solid rgba(220,53,69,.25);border-radius:10px;padding:1rem 1.25rem;margin:1rem 0;color:#f08888;font-size:.88rem}
+.alert-red strong{color:#ff6b6b}
+.alert-amber{background:rgba(232,163,23,.08);border:1px solid rgba(232,163,23,.25);border-radius:10px;padding:1rem 1.25rem;margin:1rem 0;color:#f0c888;font-size:.88rem}
+.alert-amber strong{color:var(--warning)}
+.alert-green{background:rgba(13,107,61,.08);border:1px solid rgba(13,107,61,.25);border-radius:10px;padding:1rem 1.25rem;margin:1rem 0;color:var(--primary-light);font-size:.88rem}
+.alert-green strong{color:var(--primary-light)}
+
+/* Threshold table */
+.threshold-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem}
+.threshold-table th{text-align:left;color:var(--text-dim);font-weight:500;padding:.5rem .75rem;border-bottom:1px solid var(--border);font-size:.75rem;text-transform:uppercase;letter-spacing:1px}
+.threshold-table td{padding:.6rem .75rem;border-bottom:1px solid rgba(255,255,255,.03);color:var(--text-mid)}
+.threshold-table td:first-child{color:var(--text);font-weight:500;font-family:'JetBrains Mono',monospace}
+.threshold-table .critical{color:#ff6b6b;font-weight:600}
+.threshold-table .normal{color:var(--primary-light)}
+
+/* Diagram */
+.diagram{background:var(--dark-2);border:1px solid var(--border);border-radius:16px;padding:2rem;margin:1.5rem 0;overflow-x:auto}
+.diagram pre{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--text-mid);line-height:1.6;white-space:pre;overflow-x:auto}
+.diagram .highlight{color:var(--primary-light);font-weight:600}
+
+/* Phone mockup */
+.phone-row{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin:1.5rem 0}
+.phone{width:220px;background:#000;border-radius:24px;padding:10px;border:2px solid #333;flex-shrink:0}
+.phone-screen{background:var(--dark);border-radius:18px;padding:1rem .75rem;min-height:320px;position:relative}
+.phone-label{text-align:center;color:var(--text-dim);font-size:.75rem;margin-top:.75rem;font-weight:500}
+.phone-screen .ps-title{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.75rem}
+.phone-screen .ps-card{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:.6rem;margin-bottom:.5rem}
+.phone-screen .ps-card .id{font-family:'JetBrains Mono';color:var(--primary-light);font-weight:600;font-size:.75rem}
+.phone-screen .ps-card .meta{font-size:.65rem;color:var(--text-dim)}
+.phone-screen .ps-btn{display:block;width:100%;padding:.5rem;border-radius:8px;text-align:center;font-size:.7rem;font-weight:600;margin-top:.5rem;border:none;cursor:pointer}
+.phone-screen .ps-btn-primary{background:var(--primary);color:#fff}
+.phone-screen .ps-btn-amber{background:var(--warning);color:#000}
+.phone-screen .ps-btn-outline{background:transparent;border:1px solid var(--border);color:var(--text-mid)}
+.phone-screen .ps-weight{font-family:'JetBrains Mono';font-size:1.8rem;font-weight:700;color:var(--text);text-align:center;margin:.75rem 0 .25rem}
+.phone-screen .ps-weight-unit{font-size:.9rem;color:var(--text-dim)}
+.phone-screen .ps-variance{text-align:center;font-size:.7rem;padding:.3rem .6rem;border-radius:6px;display:inline-block;margin:0 auto}
+.phone-screen .ps-ok{background:rgba(25,135,84,.15);color:#86efac}
+.phone-screen .ps-warn{background:rgba(220,53,69,.15);color:#fca5a5}
+.phone-screen .ps-circle{width:50px;height:50px;border-radius:50%;margin:1rem auto .5rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.phone-screen .ps-actions{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.phone-screen .ps-action{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:.5rem;text-align:center;font-size:.65rem;color:var(--text-mid)}
+
+/* Accordion */
+.acc{margin-bottom:.6rem}
+.acc-header{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem 1.1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s;user-select:none}
+.acc-header:hover{border-color:var(--primary)}
+.acc-header.open{border-radius:12px 12px 0 0;border-color:var(--primary);background:rgba(13,107,61,.08)}
+.acc-header h3{font-size:.95rem;font-weight:600}
+.acc-header .chv{transition:transform .2s;color:var(--text-dim);font-size:.8rem}
+.acc-header.open .chv{transform:rotate(180deg);color:var(--primary)}
+.acc-body{display:none;background:rgba(22,33,62,.4);border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;padding:1.1rem}
+.acc-body.open{display:block}
+.acc-body p{color:var(--text-mid);margin-bottom:.75rem;font-size:.88rem}
+.acc-body ul{color:var(--text-mid);padding-left:1.25rem;margin-bottom:.75rem}
+.acc-body li{margin-bottom:.3rem;font-size:.85rem}
+.acc-body strong{color:var(--text)}
+.acc-body code{font-family:'JetBrains Mono',monospace;background:rgba(13,107,61,.15);color:var(--primary-light);padding:.1rem .35rem;border-radius:3px;font-size:.8rem}
+
+footer{text-align:center;padding:2rem;color:var(--text-dim);font-size:.75rem;border-top:1px solid var(--border);margin-top:3rem}
+
+@media(max-width:600px){
+  .flow-step .detail-grid{grid-template-columns:1fr}
+  .phone-row{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Complete Workflow</div>
+  <h1>QR Code & Weight Verification Lifecycle</h1>
+  <p>The full process — from generating a QR label to scanning it on the farm floor, photographing the scale, comparing weights, and triggering compliance alerts. Nothing left out.</p>
+</div>
+
+<div class="container">
+
+<!-- Overview diagram -->
+<div class="section-label">System Overview</div>
+
+<div class="diagram">
+<pre>
+ GENERATE          PRINT            STICK            SCAN             ACTION           WEIGH            COMPARE          RECORD           ALERT
+ ─────────         ──────           ──────           ──────           ──────           ──────           ───────          ──────           ──────
+ Register a        Download         Attach label     Open Scan page   Select what      Photograph       System checks    ContainerEvent   If variance
+ plant or          QR PNG from      to physical      on phone →       you're doing:    the digital      new weight vs    created with     exceeds
+ container →       detail page →    container or     photograph       LOAD / UNLOAD    scale display    last recorded    handler, weight  threshold →
+ system auto-      print on         plant tag        the QR label     MOVE / HANDOVER  → AI reads       weight auto-     zone, timestamp  ANOMALY
+ generates         label printer                     → AI identifies                   weight (OCR)     matically        + audit log      + NOTIFY ALL
+ QR code           or sticker                        the entity                        → or enter                        with hash chain  SENIOR ROLES
+                                                                                       manually
+</pre>
+</div>
+
+<!-- Phase 1: Generation -->
+<div class="section-label">Phase 1 — QR Code Generation</div>
+
+<div class="flow">
+  <div class="flow-step">
+    <div class="sub">When a plant is registered</div>
+    <h3>Plant QR Code</h3>
+    <p>Every time a cultivator registers a new plant, the system automatically generates:</p>
+    <div class="detail-grid">
+      <div class="detail-card">
+        <div class="label">Plant Identifier</div>
+        <div class="value"><code>ZA-000142</code></div>
+      </div>
+      <div class="detail-card">
+        <div class="label">RFID Tag</div>
+        <div class="value"><code>RFID-A3F8B2C9D1E4</code></div>
+      </div>
+      <div class="detail-card">
+        <div class="label">QR Code Encodes</div>
+        <div class="value"><code>tntilco.cleva-ai.co.za/scan?id=ZA-000142&type=plant</code></div>
+      </div>
+      <div class="detail-card">
+        <div class="label">QR Image</div>
+        <div class="value">300x300px PNG, ILCO green on white, error correction: HIGH</div>
+      </div>
+    </div>
+    <p>The QR encodes a URL. When scanned by any smartphone camera (not just TnT-ZA), it opens the plant record directly. When scanned inside the TnT-ZA app, it triggers the full workflow.</p>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">When a container is registered</div>
+    <h3>Container QR Code</h3>
+    <p>Containers (bins, racks, bags, jars) receive an auto-generated ID and QR code:</p>
+    <div class="detail-grid">
+      <div class="detail-card">
+        <div class="label">Container ID</div>
+        <div class="value"><code>BIN-001</code>, <code>RACK-017</code>, <code>BAG-033</code>, <code>JAR-112</code></div>
+      </div>
+      <div class="detail-card">
+        <div class="label">QR Code Encodes</div>
+        <div class="value"><code>tntilco.cleva-ai.co.za/scan?id=BIN-001&type=container</code></div>
+      </div>
+    </div>
+    <p>Container QR codes are the most frequently scanned — they are used at every zone transition.</p>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">When a batch is created</div>
+    <h3>Batch QR Code</h3>
+    <p>Batches get a QR that links to the chain-of-custody view and (once issued) the Certificate of Analysis:</p>
+    <div class="detail-grid">
+      <div class="detail-card">
+        <div class="label">Batch Number</div>
+        <div class="value"><code>B-2026-004</code></div>
+      </div>
+      <div class="detail-card">
+        <div class="label">Public Provenance</div>
+        <div class="value">Customers scan this QR to see the full product story</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">API endpoints</div>
+    <h3>How to Get a QR Code</h3>
+    <ul>
+      <li><code>GET /api/qr/plant/:id</code> — Returns QR PNG URL + data URL for a plant</li>
+      <li><code>GET /api/qr/container/:id</code> — Returns QR for a container</li>
+      <li><code>GET /api/qr/batch/:id</code> — Returns QR for a batch</li>
+      <li><code>GET /api/qr/print/:type/:id</code> — Returns raw PNG image (for printing)</li>
+    </ul>
+    <p>On the frontend: every plant detail, container detail, and batch detail page has a <strong>"Print QR Label"</strong> button that downloads the PNG.</p>
+  </div>
+</div>
+
+<!-- Phase 2: Print & Attach -->
+<div class="section-label">Phase 2 — Print & Attach Labels</div>
+
+<div class="flow">
+  <div class="flow-step">
+    <div class="sub">Physical labelling</div>
+    <h3>Printing QR Labels</h3>
+    <p>Download the QR PNG from the app. Print using:</p>
+    <ul>
+      <li><strong>Thermal label printer</strong> (recommended) — Waterproof, adhesive-backed, 50x50mm labels</li>
+      <li><strong>Regular printer</strong> — Print on adhesive paper, cut to size, laminate if needed</li>
+      <li><strong>Handwritten backup</strong> — If no printer: write <code>BIN-001</code> on the container with permanent marker. The AI Vision can read handwritten text too.</li>
+    </ul>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">Where to stick them</div>
+    <h3>Label Placement</h3>
+    <ul>
+      <li><strong>Plant tags:</strong> On the stake/clip next to the plant, facing outward for easy scanning</li>
+      <li><strong>Bins:</strong> On the front face, upper-left corner, above the fill line</li>
+      <li><strong>Racks:</strong> On the end panel, one label per rack level</li>
+      <li><strong>Bags:</strong> On the seal/tie area, visible when bags are stacked</li>
+      <li><strong>Jars:</strong> On the lid or side, not on the bottom</li>
+    </ul>
+    <p>Labels must be <strong>visible without moving the container</strong>. If you have to flip, rotate, or open something to scan — the label is in the wrong place.</p>
+  </div>
+</div>
+
+<!-- Phase 3: The Scan Workflow -->
+<div class="section-label">Phase 3 — The Scan & Weigh Workflow (Daily Operations)</div>
+
+<p style="color:var(--text-mid);margin-bottom:1.5rem;font-size:.9rem">This is the core workflow that happens dozens of times per day on the farm floor. Five steps, under 30 seconds per container.</p>
+
+<!-- Phone mockups showing each step -->
+<div class="phone-row">
+  <div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="ps-title">Step 1: Scan Label</div>
+        <div class="ps-circle" style="background:rgba(13,107,61,.15)">&#128247;</div>
+        <div style="text-align:center;font-size:.7rem;color:var(--text-dim);margin-bottom:.75rem">Point at QR label on container</div>
+        <div class="ps-btn ps-btn-primary">&#128248; Scan Label</div>
+      </div>
+    </div>
+    <div class="phone-label">Open camera, photograph the QR</div>
+  </div>
+
+  <div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="ps-title">Step 2: Identified</div>
+        <div class="ps-card">
+          <div class="id">BIN-001</div>
+          <div class="meta">Container &middot; LOADED &middot; Grow Room</div>
+          <div class="meta">Last weight: 650.2g</div>
+        </div>
+        <div style="font-size:.7rem;color:var(--text-dim);margin:.5rem 0">What are you doing?</div>
+        <div class="ps-actions">
+          <div class="ps-action" style="border-color:var(--primary)">&#128230; Load</div>
+          <div class="ps-action">&#128230; Unload</div>
+          <div class="ps-action" style="border-color:rgba(59,130,246,.4)">&#128666; Move</div>
+          <div class="ps-action">&#129309; Handover</div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-label">Container identified, pick action</div>
+  </div>
+
+  <div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="ps-title">Step 3: Weigh</div>
+        <div class="ps-circle" style="background:rgba(232,163,23,.15)">&#9878;&#65039;</div>
+        <div style="text-align:center;font-size:.7rem;color:var(--text-dim);margin-bottom:.75rem">Photograph the scale display</div>
+        <div class="ps-btn ps-btn-amber">&#128248; Photograph Scale</div>
+        <div style="text-align:center;margin-top:.5rem"><span style="font-size:.65rem;color:var(--text-dim)">Or enter manually &rarr;</span></div>
+      </div>
+    </div>
+    <div class="phone-label">AI reads the scale (OCR)</div>
+  </div>
+
+  <div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="ps-title">Step 4: Confirm</div>
+        <div class="ps-card">
+          <div class="meta">Container: BIN-001</div>
+          <div class="meta">Action: MOVE to Drying Room</div>
+        </div>
+        <div class="ps-weight">623.4<span class="ps-weight-unit">g</span></div>
+        <div style="text-align:center"><span class="ps-variance ps-ok">&#9989; 4.1% loss — within range</span></div>
+        <div class="ps-btn ps-btn-primary" style="margin-top:.75rem">&#9989; Confirm MOVE — 623.4g</div>
+      </div>
+    </div>
+    <div class="phone-label">Review weight + variance</div>
+  </div>
+
+  <div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="ps-title">Step 5: Done</div>
+        <div class="ps-circle" style="background:rgba(25,135,84,.15)">&#9989;</div>
+        <div style="text-align:center;font-size:.9rem;font-weight:600;color:var(--text)">Recorded</div>
+        <div style="text-align:center;font-size:.7rem;color:var(--text-dim);margin-top:.25rem">BIN-001 &middot; MOVE &middot; 623.4g</div>
+        <div style="display:flex;gap:.4rem;margin-top:1rem">
+          <div class="ps-btn ps-btn-primary" style="flex:1">Scan Next</div>
+          <div class="ps-btn ps-btn-outline" style="flex:1">Timeline</div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-label">Recorded + ready for next</div>
+  </div>
+</div>
+
+<!-- Detailed step breakdown -->
+<div class="section-label">Step-by-Step Detail</div>
+
+<div class="flow">
+  <div class="flow-step">
+    <div class="sub">Step 1</div>
+    <h3>Scan the Container Label</h3>
+    <p>Staff opens the <strong>Scan & Weigh</strong> page from the sidebar. Taps "Scan Label". The rear camera opens.</p>
+    <p>They point the phone at the QR label on the container. Tap the green capture button. The photo is sent to <strong>Claude AI Vision</strong> which:</p>
+    <ul>
+      <li>Reads the QR code or text identifier from the image</li>
+      <li>Determines the type: plant (<code>ZA-XXXXXX</code>), container (<code>BIN-XXX</code>), batch (<code>B-YYYY-NNN</code>), or scale</li>
+      <li>Looks up the entity in the database</li>
+      <li>Returns the full record: type, status, zone, last weight, handler</li>
+    </ul>
+    <p><strong>Time: 2-3 seconds.</strong></p>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">Step 2</div>
+    <h3>Select Action</h3>
+    <p>For containers, the system shows 4 action buttons:</p>
+    <ul>
+      <li><strong>LOAD</strong> — Product goes INTO the container. Used when harvesting into a bin.</li>
+      <li><strong>UNLOAD</strong> — Product comes OUT of the container. Used when moving to processing.</li>
+      <li><strong>MOVE</strong> — Container moves to another zone (e.g., Grow Room → Drying Room). Requires selecting destination zone.</li>
+      <li><strong>HANDOVER</strong> — Container transfers from one person to another. Both handler IDs are recorded.</li>
+    </ul>
+    <p>For plants: the system shows "View Details" which opens the plant page where you can transition phases.</p>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">Step 3</div>
+    <h3>Photograph the Scale</h3>
+    <p>After selecting an action, staff must record the weight. Two options:</p>
+    <p><strong>Option A: Photo (recommended)</strong> — Tap "Photograph Scale". Camera opens again. Point at the digital scale display. Capture. Claude Vision reads the number and unit (grams or kilograms) from the display using OCR. The weight auto-fills.</p>
+    <p><strong>Option B: Manual</strong> — Tap "Enter manually". Type the weight on the numeric keypad. Used when photo fails or no digital scale is available.</p>
+
+    <div class="alert-green">
+      <strong>Tips for clear scale photos:</strong> Ensure display is well-lit (no glare). Hold phone steady and straight-on. Wait for scale to stabilize before photographing. Include only the display in frame.
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">Step 4</div>
+    <h3>Review Weight & Variance</h3>
+    <p>The confirmation screen shows:</p>
+    <ul>
+      <li>Container ID and selected action</li>
+      <li>The new weight (from scale photo or manual entry)</li>
+      <li>The previous weight (from the last recorded event on this container)</li>
+      <li>The <strong>variance percentage</strong> calculated automatically</li>
+    </ul>
+    <p>If variance is within the expected range, a green indicator shows: <strong>"4.1% loss — within range"</strong></p>
+    <p>If variance exceeds the threshold, a red warning shows <strong>before</strong> the staff member can submit:</p>
+
+    <div class="alert-red">
+      <strong>"26.3% weight change detected."</strong> 650.2g → 479.1g. This will trigger a CRITICAL anomaly alert to all senior staff. You may still submit — but the alert will fire immediately.
+    </div>
+
+    <p>The warning does <strong>not block submission</strong>. The staff member can still confirm. But they know the alert will fire. This is by design — we want real data, not data people are afraid to enter.</p>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">Step 5</div>
+    <h3>Confirm & Record</h3>
+    <p>Staff taps the green confirm button. The system creates:</p>
+    <ul>
+      <li>A <strong>ContainerEvent</strong> record: container ID, event type, weight, weight unit, handler ID (from JWT), zone, timestamp</li>
+      <li>An <strong>AuditLog</strong> entry with SHA-256 hash chain (tamper-evident, append-only, never deletable)</li>
+      <li>If zone changed: updates the container's <code>currentZoneId</code></li>
+      <li>If action is HANDOVER: records both outgoing handler (the person submitting) and incoming handler (selected by the submitter)</li>
+    </ul>
+    <p>The screen shows "Recorded" with a green checkmark and two buttons: <strong>"Scan Next"</strong> (loops back to step 1) and <strong>"View Timeline"</strong> (opens the container detail page).</p>
+  </div>
+</div>
+
+<!-- Weight Variance Engine -->
+<div class="section-label">Phase 4 — Weight Variance Detection</div>
+
+<div class="flow">
+  <div class="flow-step">
+    <div class="sub">Automatic comparison</div>
+    <h3>How Variance Is Calculated</h3>
+    <p>On every UNLOAD, MOVE, or HANDOVER event, the system:</p>
+    <ul>
+      <li>Finds the last recorded weight for this container (most recent event with a weight value)</li>
+      <li>Calculates: <code>variance = (previousWeight - newWeight) / previousWeight</code></li>
+      <li>Looks up the threshold for this container type</li>
+      <li>If variance exceeds threshold → triggers anomaly</li>
+    </ul>
+
+    <table class="threshold-table">
+      <thead><tr><th>Container Type</th><th>Expected Loss</th><th>Alert Threshold</th><th>Reason</th></tr></thead>
+      <tbody>
+        <tr><td>BIN</td><td class="normal">~0%</td><td class="critical">&gt;5%</td><td>Short-term storage, no moisture loss expected</td></tr>
+        <tr><td>BAG</td><td class="normal">~0%</td><td class="critical">&gt;5%</td><td>Sealed, trimmed product</td></tr>
+        <tr><td>JAR</td><td class="normal">~0%</td><td class="critical">&gt;5%</td><td>Cured, sealed product</td></tr>
+        <tr><td>RACK</td><td class="normal">~10-15%</td><td class="critical">&gt;15%</td><td>Drying racks — moisture loss is expected and normal</td></tr>
+        <tr><td>PACKAGE</td><td class="normal">~0%</td><td class="critical">&gt;5%</td><td>Final packaged product</td></tr>
+      </tbody>
+    </table>
+
+    <p>Drying racks have a higher threshold (15%) because cannabis naturally loses 10-15% of its weight during the drying process (moisture evaporation). Anything beyond 15% is suspicious.</p>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">When threshold is exceeded</div>
+    <h3>What Happens on Alert</h3>
+    <p>The system executes ALL of the following simultaneously:</p>
+    <ul>
+      <li><strong>Anomaly record created</strong> — type: <code>CONTAINER_WEIGHT_VARIANCE</code>, severity: HIGH or CRITICAL (>25% = CRITICAL)</li>
+      <li><strong>Notification to ALL senior roles</strong> — every user with role FACILITY_MANAGER, TENANT_ADMIN, or SUPER_ADMIN in this tenant receives a notification</li>
+      <li><strong>Audit log entry</strong> — action: <code>ANOMALY_DETECTED</code>, with before/after weights, linked to the container</li>
+      <li><strong>Event bus emission</strong> — <code>ANOMALY_DETECTED</code> event fires for any subscribed systems</li>
+      <li><strong>Dashboard red panel</strong> — the anomaly appears immediately in the red "Weight Variance Alerts" panel on the dashboard</li>
+    </ul>
+
+    <div class="alert-red">
+      <strong>THIS IS NOT OPTIONAL.</strong> The alert cannot be suppressed, deferred, or dismissed. It is created automatically by the system. The ONLY way to clear it is for a Facility Manager (or higher) to investigate and resolve it with written investigation notes.
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">Resolution process</div>
+    <h3>Resolving a Weight Variance Anomaly</h3>
+    <p>To resolve an anomaly, a Facility Manager must:</p>
+    <ul>
+      <li>Go to <strong>Compliance → Open Anomalies</strong></li>
+      <li>Click <strong>Resolve</strong> on the anomaly</li>
+      <li>Enter <strong>investigation notes</strong> (mandatory — cannot be blank). Examples:</li>
+    </ul>
+    <div class="detail-grid">
+      <div class="detail-card">
+        <div class="label">Legitimate reason</div>
+        <div class="value">"Scale was not zeroed before weighing. Re-weighed after calibration: 648.1g. Within 0.3% of expected."</div>
+      </div>
+      <div class="detail-card">
+        <div class="label">Concerning finding</div>
+        <div class="value">"Product spill during transfer. Approximately 30g recovered from floor and returned to container. CCTV footage reviewed and confirms."</div>
+      </div>
+    </div>
+    <p>Investigation notes are permanent. They are stored in the audit trail and included in compliance reports. SAHPRA inspectors can read them.</p>
+  </div>
+</div>
+
+<!-- Phase 5: Chain of Custody -->
+<div class="section-label">Phase 5 — Chain of Custody</div>
+
+<div class="flow">
+  <div class="flow-step">
+    <div class="sub">Every event is recorded</div>
+    <h3>The Full Trail</h3>
+    <p>Every container event records:</p>
+    <div class="detail-grid">
+      <div class="detail-card"><div class="label">Who</div><div class="value">Handler ID (from JWT — the logged-in user)</div></div>
+      <div class="detail-card"><div class="label">What</div><div class="value">LOAD, UNLOAD, MOVE, WEIGH, or HANDOVER</div></div>
+      <div class="detail-card"><div class="label">When</div><div class="value">Timestamp (automatic, cannot be faked)</div></div>
+      <div class="detail-card"><div class="label">Where</div><div class="value">From zone → To zone</div></div>
+      <div class="detail-card"><div class="label">How much</div><div class="value">Weight in grams, scale photo URL</div></div>
+      <div class="detail-card"><div class="label">Verified by</div><div class="value">SHA-256 hash chain (tamper-evident audit log)</div></div>
+    </div>
+    <p>For HANDOVER events, both the <strong>outgoing handler</strong> (person giving) and <strong>incoming handler</strong> (person receiving) are recorded. This creates an unbroken chain: "Johan loaded 650g into BIN-001 at 09:15 in Grow Room → handed to Lerato at 09:22 → Lerato moved BIN-001 to Drying Room at 09:30 with weight 648g → unloaded at 14:45 with weight 562g (13.3% loss — within drying range)."</p>
+  </div>
+
+  <div class="flow-step">
+    <div class="sub">Viewing the chain</div>
+    <h3>Container Timeline</h3>
+    <p>Click any container → see the full event timeline with:</p>
+    <ul>
+      <li>Chronological list of every event (emoji icons per type)</li>
+      <li>Weight at each event</li>
+      <li>Handler name(s)</li>
+      <li>Zone transitions</li>
+      <li>Weight-over-time line chart</li>
+      <li>Any anomalies flagged (highlighted in red)</li>
+    </ul>
+    <p>This is what a SAHPRA inspector reviews. Every gram accounted for.</p>
+  </div>
+</div>
+
+<!-- Phase 6: Batch Reconciliation -->
+<div class="section-label">Phase 6 — Batch Weight Reconciliation</div>
+
+<div class="flow">
+  <div class="flow-step">
+    <div class="sub">Macro-level check</div>
+    <h3>Harvest Weight vs Current Total</h3>
+    <p>The reconciliation endpoint compares:</p>
+    <ul>
+      <li><strong>Batch harvest weight</strong> — total weight of all plants when they were harvested into this batch</li>
+      <li><strong>Current container weight</strong> — sum of the last recorded weight across all containers linked to this batch</li>
+      <li><strong>Variance</strong> — the difference, as a percentage</li>
+    </ul>
+    <p>This catches systemic issues that individual container checks might miss. If 5 containers each lost 4% (under threshold individually), but the batch total is down 20%, something is wrong.</p>
+    <p>Endpoint: <code>GET /api/containers/reconciliation/:batchId</code></p>
+  </div>
+</div>
+
+<!-- Other anomaly types -->
+<div class="section-label">Other Anomaly Types (Beyond Weight)</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>CONTAINER_ZONE_MISMATCH</h3><span class="chv">&#9660;</span></div><div class="acc-body">
+<p>Triggered when a container is scanned in a zone different from its recorded <code>currentZoneId</code>.</p>
+<p><strong>Example:</strong> BIN-001 is recorded as being in Grow Room, but someone scans it in Storage. Either the container was moved without recording, or someone is in the wrong room.</p>
+<p><strong>Notifies:</strong> Facility Manager + Tenant Admin</p>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>CONTAINER_STALE</h3><span class="chv">&#9660;</span></div><div class="acc-body">
+<p>Triggered when a LOADED or IN_TRANSIT container has no events for more than 24 hours.</p>
+<p><strong>Example:</strong> JAR-002 was loaded yesterday and has had no activity since. Is it stuck in curing? Was it forgotten? Is the label damaged?</p>
+<p><strong>Check endpoint:</strong> <code>GET /api/anomalies/check-stale</code></p>
+<p><strong>Notifies:</strong> Facility Manager</p>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>INVENTORY_DISCREPANCY</h3><span class="chv">&#9660;</span></div><div class="acc-body">
+<p>Triggered during SAPS destruction events. If the weight recorded in the destruction log differs from the batch/plant recorded weight by more than 2%.</p>
+<p><strong>Example:</strong> Batch B-2026-003 has a recorded weight of 1,200g. During destruction, 1,150g is weighed by the SAPS officer. That's a 4.2% discrepancy. Where did 50g go?</p>
+<p><strong>Notifies:</strong> Facility Manager + Tenant Admin + Super Admin</p>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>TRANSPORT_TIME</h3><span class="chv">&#9660;</span></div><div class="acc-body">
+<p>Triggered when a transport manifest's actual duration exceeds 130% of the expected duration.</p>
+<p><strong>Example:</strong> A transport from ILCO Farm to a collection point has an expected duration of 180 minutes. The vehicle arrives after 260 minutes (144% of expected). What happened during the extra 80 minutes?</p>
+<p><strong>Notifies:</strong> Facility Manager + Security Officer</p>
+</div></div>
+
+<!-- SAHPRA compliance -->
+<div class="section-label">Why This Matters — SAHPRA Compliance</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>What SAHPRA requires</h3><span class="chv">&#9660;</span></div><div class="acc-body">
+<p>Under Section 22C(1)(b), cannabis cultivators must maintain:</p>
+<ul>
+  <li><strong>Full traceability</strong> — every gram must be accounted for from cultivation to sale or destruction</li>
+  <li><strong>Batch labelling</strong> — all batches must have unique identifiers as early as possible in the process</li>
+  <li><strong>Record retention</strong> — audit records must be kept for at least 10 years</li>
+  <li><strong>Destruction records</strong> — all destruction must be witnessed by a SAPS officer</li>
+  <li><strong>INCB reporting</strong> — quantities produced, manufactured, used, and destroyed must be reported to the International Narcotics Control Board</li>
+</ul>
+<p>The QR + Scan + Weigh system satisfies ALL of these requirements automatically. No manual paperwork. No Excel spreadsheets. No gaps.</p>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>During a SAHPRA inspection</h3><span class="chv">&#9660;</span></div><div class="acc-body">
+<p>An inspector can:</p>
+<ul>
+  <li><strong>Scan any QR label</strong> on any container or plant → instantly see the full history</li>
+  <li><strong>Verify the audit trail</strong> → the SHA-256 hash chain proves no entries have been tampered with</li>
+  <li><strong>Check weight reconciliation</strong> → batch harvest weight vs current container total</li>
+  <li><strong>Review anomaly log</strong> → see every variance, how it was investigated, and what was found</li>
+  <li><strong>Export audit CSV</strong> → download the complete trail for offline analysis</li>
+  <li><strong>Verify the hash chain</strong> → <code>GET /api/audit/verify</code> returns <code>{ valid: true }</code> if no tampering</li>
+</ul>
+<p>All of this from a phone. No office visit required. No waiting for someone to pull files.</p>
+</div></div>
+
+<!-- The data model -->
+<div class="section-label">Technical: What Gets Stored</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>ContainerEvent record (per scan)</h3><span class="chv">&#9660;</span></div><div class="acc-body">
+<pre style="font-family:'JetBrains Mono';font-size:.75rem;color:var(--text-mid);background:var(--dark-2);padding:1rem;border-radius:8px;overflow-x:auto">
+{
+  id:                "uuid",
+  eventType:         "MOVE",
+  weight:            623.4,
+  weightUnit:        "g",
+  notes:             null,
+  photoUrl:          "/uploads/scans/scan-1711450200.jpg",
+  timestamp:         "2026-03-26T09:30:00Z",
+  containerId:       "uuid → BIN-001",
+  fromZoneId:        "uuid → Grow Room",
+  toZoneId:          "uuid → Drying Room",
+  outgoingHandlerId: "uuid → Johan van Wyk",
+  incomingHandlerId: null (only set for HANDOVER)
+}
+</pre>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>AuditLog entry (per action)</h3><span class="chv">&#9660;</span></div><div class="acc-body">
+<pre style="font-family:'JetBrains Mono';font-size:.75rem;color:var(--text-mid);background:var(--dark-2);padding:1rem;border-radius:8px;overflow-x:auto">
+{
+  id:         "uuid",
+  action:     "CONTAINER_MOVED",
+  entityType: "Container",
+  entityId:   "uuid → BIN-001",
+  beforeJson: { zone: "Grow Room", weight: 650.2 },
+  afterJson:  { zone: "Drying Room", weight: 623.4 },
+  hashChain:  "a3f8b2c9d1e4...  (SHA-256)",
+  timestamp:  "2026-03-26T09:30:00Z",
+  userId:     "uuid → Johan van Wyk",
+  tenantId:   "uuid → ILCO Farms"
+}
+</pre>
+<p>The <code>hashChain</code> field = SHA256(previousEntryHash + timestamp + userId + action + entityId). If ANY previous entry is modified, every subsequent hash breaks. This is cryptographic proof that the trail has not been tampered with.</p>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Anomaly record (when triggered)</h3><span class="chv">&#9660;</span></div><div class="acc-body">
+<pre style="font-family:'JetBrains Mono';font-size:.75rem;color:var(--text-mid);background:var(--dark-2);padding:1rem;border-radius:8px;overflow-x:auto">
+{
+  id:                  "uuid",
+  type:                "CONTAINER_WEIGHT_VARIANCE",
+  severity:            "CRITICAL",
+  description:         "Container BIN-001 weight: 650.2g → 479.1g (26.3% loss, threshold 5%)",
+  entityType:          "Container",
+  entityId:            "uuid → BIN-001",
+  detectedAt:          "2026-03-26T14:45:00Z",
+  resolvedAt:          null,
+  resolvedById:        null,
+  investigationNotes:  null,
+  falsePositive:       false,
+  tenantId:            "uuid → ILCO Farms"
+}
+</pre>
+<p>This record CANNOT be deleted. It can only be resolved (with mandatory notes). If it was a false positive (e.g., scale error), the FM marks <code>falsePositive: true</code> with an explanation. The record still exists — it just shows it was investigated and explained.</p>
+</div></div>
+
+</div>
+
+<footer>
+  TnT-ZA Track & Trace — ILCO Farms / Origin by ILCO Farming<br>
+  QR Code & Weight Verification Lifecycle v1.0 — March 2026
+</footer>
+
+<script>
+function toggle(el){const b=el.nextElementSibling;const o=el.classList.contains('open');document.querySelectorAll('.acc-header.open').forEach(h=>{h.classList.remove('open');h.nextElementSibling.classList.remove('open')});if(!o){el.classList.add('open');b.classList.add('open')}}
+</script>
+</body>
+</html>

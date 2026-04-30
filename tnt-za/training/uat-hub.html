@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TnT-ZA — UAT Testing Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#0D6B3D;--primary-light:#10A85C;--dark:#1A1A2E;--dark-2:#0f0f1a;--surface:#16213E;--text:#F5F5F5;--text-mid:#A0A0B0;--text-dim:#606070;--danger:#DC3545;--warning:#E8A317;--success:#198754;--border:rgba(255,255,255,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);line-height:1.7}
+a{color:var(--primary-light);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.hero{background:linear-gradient(135deg,var(--dark-2),var(--surface));border-bottom:3px solid var(--primary);padding:2.5rem 1.5rem;text-align:center}
+.hero h1{font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;margin-bottom:.5rem}
+.hero .badge{display:inline-block;background:var(--warning);color:#000;padding:.35rem 1rem;border-radius:999px;font-size:.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:.75rem}
+.hero p{color:var(--text-mid);max-width:550px;margin:0 auto;font-size:.95rem}
+
+.container{max-width:900px;margin:0 auto;padding:1.5rem}
+
+/* Live link */
+.live-bar{background:rgba(13,107,61,.12);border:1px solid rgba(13,107,61,.3);border-radius:14px;padding:1rem 1.5rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+.live-bar .url{font-family:'JetBrains Mono',monospace;color:var(--primary-light);font-size:1rem;font-weight:600}
+.live-bar .btn{display:inline-block;background:var(--primary);color:#fff;padding:.6rem 1.5rem;border-radius:10px;font-weight:600;font-size:.9rem;text-decoration:none;transition:background .2s}
+.live-bar .btn:hover{background:var(--primary-light);text-decoration:none}
+
+/* Login cards */
+.section-label{font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-dim);margin:2rem 0 .75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+
+.login-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.75rem}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;transition:all .2s;position:relative;overflow:hidden}
+.login-card:hover{border-color:var(--primary);transform:translateY(-2px)}
+.login-card .role-tag{display:inline-block;padding:.2rem .6rem;border-radius:6px;font-size:.7rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:.5rem}
+.login-card .name{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:.25rem}
+.login-card .email{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--primary-light);margin-bottom:.15rem;cursor:pointer}
+.login-card .pin{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--text-mid)}
+.login-card .pin span{background:rgba(255,255,255,.08);padding:.1rem .4rem;border-radius:4px;letter-spacing:2px}
+.login-card .sees{font-size:.75rem;color:var(--text-dim);margin-top:.5rem;line-height:1.5}
+.login-card .cta-row{display:flex;gap:.4rem;margin-top:.75rem;flex-wrap:wrap}
+.login-card .cta{display:inline-block;padding:.35rem .7rem;background:rgba(13,107,61,.15);border:1px solid rgba(13,107,61,.3);border-radius:8px;font-size:.72rem;color:var(--primary-light);font-weight:500;text-decoration:none;transition:all .15s}
+.login-card .cta:hover{background:var(--primary);color:#fff;text-decoration:none}
+
+/* Role colors */
+.role-super{background:rgba(168,85,247,.2);color:#c084fc}
+.role-tenant{background:rgba(59,130,246,.2);color:#93c5fd}
+.role-fm{background:rgba(13,107,61,.2);color:#86efac}
+.role-cult{background:rgba(34,197,94,.2);color:#4ade80}
+.role-lab{background:rgba(232,163,23,.2);color:#fcd34d}
+.role-sec{background:rgba(220,53,69,.2);color:#fca5a5}
+.role-view{background:rgba(255,255,255,.08);color:var(--text-mid)}
+
+/* Test checklist */
+.checklist{margin:1rem 0}
+.check-item{display:flex;align-items:flex-start;gap:.75rem;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.check-item:last-child{border:none}
+.check-box{width:22px;height:22px;min-width:22px;border:2px solid var(--border);border-radius:6px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;margin-top:.1rem}
+.check-box:hover{border-color:var(--primary)}
+.check-box.done{background:var(--primary);border-color:var(--primary)}
+.check-box.done::after{content:'✓';color:#fff;font-size:.75rem;font-weight:700}
+.check-text{font-size:.88rem;color:var(--text-mid)}
+.check-text strong{color:var(--text)}
+
+/* Accordion */
+.acc{margin-bottom:.6rem}
+.acc-header{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem 1.1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s;user-select:none}
+.acc-header:hover{border-color:var(--primary)}
+.acc-header.open{border-radius:12px 12px 0 0;border-color:var(--primary);background:rgba(13,107,61,.08)}
+.acc-header h3{font-size:.95rem;font-weight:600}
+.acc-header .chv{transition:transform .2s;color:var(--text-dim);font-size:.8rem}
+.acc-header.open .chv{transform:rotate(180deg);color:var(--primary)}
+.acc-body{display:none;background:rgba(22,33,62,.4);border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;padding:1.1rem}
+.acc-body.open{display:block}
+.acc-body p{color:var(--text-mid);margin-bottom:.75rem;font-size:.9rem}
+
+.status-bar{display:flex;gap:.5rem;margin:1.5rem 0;flex-wrap:wrap}
+.status-pill{padding:.4rem 1rem;border-radius:999px;font-size:.8rem;font-weight:600}
+.status-green{background:rgba(25,135,84,.15);color:#86efac;border:1px solid rgba(25,135,84,.3)}
+.status-amber{background:rgba(232,163,23,.15);color:#fcd34d;border:1px solid rgba(232,163,23,.3)}
+.status-red{background:rgba(220,53,69,.15);color:#fca5a5;border:1px solid rgba(220,53,69,.3)}
+
+footer{text-align:center;padding:1.5rem;color:var(--text-dim);font-size:.75rem;border-top:1px solid var(--border);margin-top:2rem}
+
+@media(max-width:600px){
+  .login-grid{grid-template-columns:1fr}
+  .live-bar{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">UAT Testing</div>
+  <h1>TnT-ZA Test Hub</h1>
+  <p>Login credentials, test checklists, and shortcuts for every role. Tap a card to copy the email, then log in.</p>
+</div>
+
+<div class="container">
+
+<!-- Live URL -->
+<div class="live-bar">
+  <span class="url">tntilco.cleva-ai.co.za</span>
+  <a href="https://tntilco.cleva-ai.co.za" target="_blank" class="btn">Open App →</a>
+</div>
+
+<div class="status-bar">
+  <span class="status-green" id="apiStatus">● Checking API...</span>
+  <span class="status-amber">50 plants seeded</span>
+  <span class="status-amber">4 batches</span>
+  <span class="status-amber">10 containers</span>
+</div>
+
+<!-- Login Cards -->
+<div class="section-label">Login as any role — tap email to copy</div>
+
+<div class="login-grid">
+
+  <div class="login-card">
+    <span class="role-tag role-super">Super Admin</span>
+    <div class="name">Floris Olivier</div>
+    <div class="email" onclick="copy(this)" title="Tap to copy">superilco@cleva-ai.co.za</div>
+    <div class="pin">Seed PIN: <span>991122</span></div>
+    <div class="sees">Sees: Everything — all 12 sidebar items</div>
+    <div class="cta-row">
+      <a href="https://tntilco.cleva-ai.co.za/dashboard" class="cta" target="_blank">Dashboard</a>
+      <a href="https://tntilco.cleva-ai.co.za/audit" class="cta" target="_blank">Audit</a>
+      <a href="https://tntilco.cleva-ai.co.za/compliance" class="cta" target="_blank">Compliance</a>
+      <a href="https://tntilco.cleva-ai.co.za/onboarding" class="cta" target="_blank">Setup Wizard</a>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <span class="role-tag role-tenant">Tenant Admin</span>
+    <div class="name">Ilze</div>
+    <div class="email" onclick="copy(this)" title="Tap to copy">adminilco@cleva-ai.co.za</div>
+    <div class="pin">Seed PIN: <span>882233</span></div>
+    <div class="sees">Sees: All except Users page</div>
+    <div class="cta-row">
+      <a href="https://tntilco.cleva-ai.co.za/dashboard" class="cta" target="_blank">Dashboard</a>
+      <a href="https://tntilco.cleva-ai.co.za/batches" class="cta" target="_blank">Batches</a>
+      <a href="https://tntilco.cleva-ai.co.za/compliance" class="cta" target="_blank">Compliance</a>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <span class="role-tag role-fm">Facility Manager</span>
+    <div class="name">Ray</div>
+    <div class="email" onclick="copy(this)" title="Tap to copy">fmilco@cleva-ai.co.za</div>
+    <div class="pin">Seed PIN: <span>773344</span></div>
+    <div class="sees">Sees: Dashboard, Scan, Plants, Containers, Batches, Facilities, Audit, Lab, Compliance, QMS, Security</div>
+    <div class="cta-row">
+      <a href="https://tntilco.cleva-ai.co.za/containers" class="cta" target="_blank">Containers</a>
+      <a href="https://tntilco.cleva-ai.co.za/compliance" class="cta" target="_blank">Anomalies</a>
+      <a href="https://tntilco.cleva-ai.co.za/qms" class="cta" target="_blank">QMS</a>
+      <a href="https://tntilco.cleva-ai.co.za/onboarding" class="cta" target="_blank">Setup Wizard</a>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <span class="role-tag role-cult">Cultivator</span>
+    <div class="name">Lou</div>
+    <div class="email" onclick="copy(this)" title="Tap to copy">growerilco@cleva-ai.co.za</div>
+    <div class="pin">Seed PIN: <span>664455</span></div>
+    <div class="sees">Sees: Dashboard, Scan, Plants, Containers, Batches, Facilities, Audit, Lab, Compliance, QMS</div>
+    <div class="cta-row">
+      <a href="https://tntilco.cleva-ai.co.za/plants" class="cta" target="_blank">Plants</a>
+      <a href="https://tntilco.cleva-ai.co.za/scan" class="cta" target="_blank">Scan</a>
+      <a href="https://tntilco.cleva-ai.co.za/containers" class="cta" target="_blank">Containers</a>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <span class="role-tag role-lab">Lab Tech</span>
+    <div class="name">Keke</div>
+    <div class="email" onclick="copy(this)" title="Tap to copy">labilco@cleva-ai.co.za</div>
+    <div class="pin">Seed PIN: <span>555666</span></div>
+    <div class="sees">Sees: Dashboard, Scan, Plants, Containers, Batches, Facilities, Audit, Lab, Compliance, QMS</div>
+    <div class="cta-row">
+      <a href="https://tntilco.cleva-ai.co.za/lab" class="cta" target="_blank">Lab Testing</a>
+      <a href="https://tntilco.cleva-ai.co.za/batches" class="cta" target="_blank">Batches</a>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <span class="role-tag role-sec">Security Officer</span>
+    <div class="name">Sipho Dlamini</div>
+    <div class="email" onclick="copy(this)" title="Tap to copy">securityilco@cleva-ai.co.za</div>
+    <div class="pin">Seed PIN: <span>446677</span></div>
+    <div class="sees">Sees: Dashboard, Scan, Plants, Containers, Batches, Facilities, Audit, Security</div>
+    <div class="cta-row">
+      <a href="https://tntilco.cleva-ai.co.za/security" class="cta" target="_blank">Security</a>
+      <a href="https://tntilco.cleva-ai.co.za/scan" class="cta" target="_blank">Scan</a>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <span class="role-tag role-view">Viewer / Inspector</span>
+    <div class="name">SAHPRA Inspector</div>
+    <div class="email" onclick="copy(this)" title="Tap to copy">inspector@cleva-ai.co.za</div>
+    <div class="pin">Seed PIN: <span>337788</span></div>
+    <div class="sees">Sees: Dashboard, Plants, Containers, Batches, Audit (read-only)</div>
+    <div class="cta-row">
+      <a href="https://tntilco.cleva-ai.co.za/plants" class="cta" target="_blank">Plants</a>
+      <a href="https://tntilco.cleva-ai.co.za/audit" class="cta" target="_blank">Audit Trail</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- How to login -->
+<div class="section-label">How to log in</div>
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Login flow (2 steps)</h3><span class="chv">▼</span></div><div class="acc-body">
+<p><strong>Step 1:</strong> Enter the email address → tap "Request PIN"</p>
+<p><strong>Step 2:</strong> The PIN is logged on the server. For demo, use the seed PINs above. Enter the 6-digit PIN → you're in.</p>
+<p><strong>Note:</strong> The seed PINs in the table are pre-hashed into the database. When you request a PIN via the login page, a NEW PIN is generated. For demo testing, check the server logs: <code>pm2 logs tnt-za --lines 10</code></p>
+</div></div>
+
+<!-- Public page -->
+<div class="section-label">Public QR Provenance (no login needed)</div>
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Customer-facing product verification</h3><span class="chv">▼</span></div><div class="acc-body">
+<p>This is what customers see when they scan the QR on a product package:</p>
+<p><a href="https://tntilco.cleva-ai.co.za/provenance/placeholder" target="_blank" style="font-size:1.1rem;font-weight:600">→ Open Provenance Page</a></p>
+<p>Shows: batch number, strain, farm name, 8 lab test results (pass/fail), chain of custody timeline. No login required.</p>
+</div></div>
+
+<!-- Test checklists -->
+<div class="section-label">UAT Checklist — Test Everything</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Dashboard & World Model</h3><span class="chv">▼</span></div><div class="acc-body">
+<div class="checklist">
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>4 stat cards</strong> show real numbers (50 plants, batches, anomalies, quota %)</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Phase bar chart</strong> shows plant distribution (SEEDLING through PACKAGED)</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Activity feed</strong> shows last 10 audit entries with timestamps</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Weight variance panel</strong> (red) shows open CONTAINER_WEIGHT_VARIANCE anomaly</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>3 risk gauges</strong> show: Diversion Risk, Compliance Score, Weight Integrity</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Inference alerts</strong> show if any active warnings</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Facilities table</strong> shows ILCO Farm with plant/batch counts</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Setup banner</strong> shows "Set up your facility" CTA (for FM+ roles)</div></div>
+</div>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Plants</h3><span class="chv">▼</span></div><div class="acc-body">
+<div class="checklist">
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Plant list</strong> shows 50 plants with ID, strain, phase, zone</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Search</strong> works (try "Durban" or "ZA-000")</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Phase filter</strong> works (select HARVESTED, DRYING etc)</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Click a plant</strong> → detail page with phase timeline + weights</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Genealogy</strong> shows mother plant + clones for first 10 plants</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Mobile</strong> — table becomes cards on phone</div></div>
+</div>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Containers</h3><span class="chv">▼</span></div><div class="acc-body">
+<div class="checklist">
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Container list</strong> shows 10 containers (BIN, RACK, BAG, JAR)</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Click a container</strong> → event timeline (LOAD, MOVE, HANDOVER, UNLOAD)</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Weight chart</strong> shows weight over time for containers with >1 event</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>BIN-001</strong> has the suspicious unload (30% weight loss)</div></div>
+</div>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Batches & Lab</h3><span class="chv">▼</span></div><div class="acc-body">
+<div class="checklist">
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>4 batch cards</strong> with different statuses (ACTIVE, IN_TESTING, QUARANTINED, RELEASED)</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Click a batch</strong> → 8-test grid shows pass/fail/pending</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>B-2026-004 (RELEASED)</strong> has COA issued + all 8 tests passing</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>B-2026-003 (QUARANTINED)</strong> has failed pesticide test</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Chain of custody</strong> shows container events per batch</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Lab page</strong> shows testing status per batch with progress bars</div></div>
+</div>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Compliance, Security, QMS, Audit</h3><span class="chv">▼</span></div><div class="acc-body">
+<div class="checklist">
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Compliance</strong> — quota gauge, open anomalies list, destruction log (2 events)</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Security</strong> — transport manifest, open anomalies, destruction records</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>QMS</strong> — 2 SOPs with versions, 1 open deviation, 2 equipment with calibration dates</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Audit</strong> — 25+ entries with user, action, entity, timestamp. CSV export link.</div></div>
+</div>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Onboarding Wizard</h3><span class="chv">▼</span></div><div class="acc-body">
+<div class="checklist">
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Accessible</strong> from sidebar "Setup Wizard" and dashboard banner</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Step 0</strong> — 4 scenario cards (Indoor, Outdoor, Manufacturer, Research)</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Step 1</strong> — Facility name, address, GPS "Use My Location", grow type toggle</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Step 2</strong> — License number, expiry, quota</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Step 3</strong> — Zone template or custom zones</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Step 4</strong> — Quick-add strain chips + custom strains</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Steps 5-8</strong> — Equipment, Team, SOPs, Partners (all skippable)</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Mobile</strong> — works on phone with big touch targets</div></div>
+</div>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>RBAC — Role Access Control</h3><span class="chv">▼</span></div><div class="acc-body">
+<div class="checklist">
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Viewer</strong> sees only: Dashboard, Plants, Containers, Batches, Audit</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Security Officer</strong> adds: Scan, Facilities, Security</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Cultivator / Lab Tech</strong> adds: Lab, Compliance, QMS</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Facility Manager</strong> adds: Setup Wizard + can resolve anomalies</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Super Admin</strong> sees: Users + everything else</div></div>
+</div>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Mobile Responsiveness</h3><span class="chv">▼</span></div><div class="acc-body">
+<div class="checklist">
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Login page</strong> — centered card, PIN input with large digits</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Sidebar</strong> — hamburger menu, slides over as overlay</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Plant table</strong> — collapses to card view on mobile</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Onboarding wizard</strong> — full-width, big buttons, swipe-friendly</div></div>
+  <div class="check-item"><div class="check-box" onclick="this.classList.toggle('done')"></div><div class="check-text"><strong>Scan page</strong> — camera opens, capture button 44px+</div></div>
+</div>
+</div></div>
+
+<!-- Training docs -->
+<div class="section-label">Training Documents</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem;margin:1rem 0">
+  <a href="super-admin.html" class="cta" style="text-align:center;padding:.6rem">Super Admin Guide</a>
+  <a href="tenant-admin.html" class="cta" style="text-align:center;padding:.6rem">Tenant Admin Guide</a>
+  <a href="facility-manager.html" class="cta" style="text-align:center;padding:.6rem">Facility Manager Guide</a>
+  <a href="cultivator.html" class="cta" style="text-align:center;padding:.6rem">Cultivator Guide</a>
+  <a href="lab-tech.html" class="cta" style="text-align:center;padding:.6rem">Lab Tech Guide</a>
+  <a href="security-officer.html" class="cta" style="text-align:center;padding:.6rem">Security Officer Guide</a>
+  <a href="viewer.html" class="cta" style="text-align:center;padding:.6rem">Viewer / Inspector Guide</a>
+  <a href="scan-workflow.html" class="cta" style="text-align:center;padding:.6rem">Scan Workflow</a>
+  <a href="onboarding-guide.html" class="cta" style="text-align:center;padding:.6rem">Onboarding Guide</a>
+</div>
+
+</div>
+
+<footer>
+  TnT-ZA Track & Trace — ILCO Farms / Origin by ILCO Farming<br>
+  UAT Hub v1.0 — 26 March 2026
+</footer>
+
+<script>
+function toggle(el){
+  const b=el.nextElementSibling;
+  const o=el.classList.contains('open');
+  document.querySelectorAll('.acc-header.open').forEach(h=>{h.classList.remove('open');h.nextElementSibling.classList.remove('open')});
+  if(!o){el.classList.add('open');b.classList.add('open')}
+}
+
+function copy(el){
+  navigator.clipboard.writeText(el.textContent).then(()=>{
+    const orig=el.textContent;
+    el.style.color='#86efac';
+    el.textContent='✓ Copied!';
+    setTimeout(()=>{el.textContent=orig;el.style.color=''},1500);
+  });
+}
+
+// Check API health
+fetch('https://tntilco.cleva-ai.co.za/api/health')
+  .then(r=>r.json())
+  .then(d=>{
+    const el=document.getElementById('apiStatus');
+    el.textContent='● API Online';
+    el.className='status-pill status-green';
+  })
+  .catch(()=>{
+    const el=document.getElementById('apiStatus');
+    el.textContent='● API Offline';
+    el.className='status-pill status-red';
+  });
+</script>
+</body>
+</html>

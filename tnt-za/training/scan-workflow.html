@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TnT-ZA — Photo Scan Workflow</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #0D6B3D;
+  --primary-light: #10A85C;
+  --dark: #1A1A2E;
+  --dark-2: #0f0f1a;
+  --surface: #16213E;
+  --text: #F5F5F5;
+  --text-mid: #A0A0B0;
+  --text-dim: #606070;
+  --danger: #DC3545;
+  --warning: #E8A317;
+  --success: #198754;
+  --border: rgba(255,255,255,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Outfit', sans-serif; background: var(--dark); color: var(--text); line-height: 1.7; }
+
+.hero {
+  background: linear-gradient(135deg, var(--dark-2), var(--surface));
+  border-bottom: 3px solid var(--primary);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; margin-bottom: 0.5rem; }
+.hero .badge {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 0.4rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.hero p { color: var(--text-mid); max-width: 650px; margin: 0 auto; }
+
+.container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+.section-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Flow diagram */
+.flow { display: flex; flex-direction: column; gap: 0; margin: 1.5rem 0; }
+.flow-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+.flow-num {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.flow-connector {
+  width: 2px;
+  height: 20px;
+  background: var(--primary);
+  opacity: 0.3;
+  margin-left: 19px;
+}
+.flow-content h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+.flow-content p { color: var(--text-mid); font-size: 0.9rem; }
+.flow-content code { font-family: 'JetBrains Mono', monospace; background: rgba(13,107,61,0.15); color: var(--primary-light); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85rem; }
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--primary); }
+.card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+}
+.card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+.card p { font-size: 0.85rem; color: var(--text-mid); }
+
+.alert {
+  background: rgba(220,53,69,0.1);
+  border: 1px solid rgba(220,53,69,0.3);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  color: #f08888;
+  font-size: 0.9rem;
+}
+.alert strong { color: #ff6b6b; }
+
+.info-box {
+  background: rgba(13,107,61,0.1);
+  border: 1px solid rgba(13,107,61,0.3);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  color: var(--primary-light);
+  font-size: 0.9rem;
+}
+
+/* Accordion */
+.acc { margin-bottom: 0.75rem; }
+.acc-header {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+  user-select: none;
+}
+.acc-header:hover { border-color: var(--primary); }
+.acc-header.open { border-radius: 12px 12px 0 0; border-color: var(--primary); background: rgba(13,107,61,0.1); }
+.acc-header h3 { font-size: 1rem; font-weight: 600; }
+.acc-header .chevron { transition: transform 0.2s; color: var(--text-dim); }
+.acc-header.open .chevron { transform: rotate(180deg); color: var(--primary); }
+.acc-body {
+  display: none;
+  background: rgba(22,33,62,0.5);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  padding: 1.25rem;
+}
+.acc-body.open { display: block; }
+.acc-body p { color: var(--text-mid); margin-bottom: 1rem; }
+.acc-body ul { color: var(--text-mid); padding-left: 1.5rem; margin-bottom: 1rem; }
+.acc-body li { margin-bottom: 0.4rem; }
+.acc-body strong { color: var(--text); }
+
+.screenshot {
+  background: var(--dark-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+.phone-frame {
+  width: 260px;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 28px;
+  padding: 12px;
+  border: 2px solid #333;
+}
+.phone-screen {
+  background: var(--dark);
+  border-radius: 20px;
+  padding: 1.5rem 1rem;
+  min-height: 300px;
+}
+.phone-screen .scan-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(13,107,61,0.15);
+  border: 3px solid var(--primary);
+  margin: 1rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+.phone-screen .scan-label { font-size: 0.8rem; color: var(--text-mid); text-align: center; }
+.phone-screen .scan-result {
+  margin-top: 1rem;
+  background: rgba(13,107,61,0.1);
+  border: 1px solid rgba(13,107,61,0.3);
+  border-radius: 10px;
+  padding: 0.75rem;
+  text-align: left;
+}
+.phone-screen .scan-result .id { font-family: 'JetBrains Mono'; color: var(--primary-light); font-weight: 600; }
+.phone-screen .scan-result .meta { font-size: 0.75rem; color: var(--text-dim); }
+
+footer { text-align: center; padding: 2rem; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Core Workflow</div>
+  <h1>Photo Scan &amp; Identify</h1>
+  <p>How TnT-ZA uses your phone camera + Claude AI Vision to identify plants, containers, batches, and scale readings — no dedicated scanner hardware needed.</p>
+</div>
+
+<div class="container">
+
+<div class="info-box">
+  <strong>No special equipment required.</strong> Any smartphone with a camera can scan. The system uses AI vision to read tags, labels, and scale displays from photos.
+</div>
+
+<!-- What can be scanned -->
+<div class="section-label">What You Can Scan</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-icon" style="background: rgba(13,107,61,0.15);">&#127793;</div>
+    <h4>Plant Tags</h4>
+    <p>Reads <code>ZA-XXXXXX</code> identifiers from plant labels, stickers, or handwritten tags.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon" style="background: rgba(232,163,23,0.15);">&#128230;</div>
+    <h4>Container Labels</h4>
+    <p>Identifies <code>BIN-001</code>, <code>RACK-017</code>, <code>BAG-033</code>, <code>JAR-112</code> from container stickers.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon" style="background: rgba(25,135,84,0.15);">&#128196;</div>
+    <h4>Batch Stickers</h4>
+    <p>Reads <code>B-2026-012</code> batch numbers from labels on sealed packages.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon" style="background: rgba(160,160,176,0.15);">&#9878;&#65039;</div>
+    <h4>Scale Displays</h4>
+    <p>Reads digital scale displays and extracts the weight in grams or kilograms automatically.</p>
+  </div>
+</div>
+
+<!-- How it works -->
+<div class="section-label">How It Works</div>
+
+<div class="flow">
+  <div class="flow-step">
+    <div class="flow-num">1</div>
+    <div class="flow-content">
+      <h4>Open the Scan Page</h4>
+      <p>Tap <strong>Scan</strong> in the sidebar (or bottom nav on mobile). The scan page loads with a camera button.</p>
+    </div>
+  </div>
+  <div class="flow-connector"></div>
+  <div class="flow-step">
+    <div class="flow-num">2</div>
+    <div class="flow-content">
+      <h4>Open Camera</h4>
+      <p>Tap <strong>"Open Camera"</strong>. Your phone's rear camera activates. Point it at the plant tag, container label, batch sticker, or scale display.</p>
+    </div>
+  </div>
+  <div class="flow-connector"></div>
+  <div class="flow-step">
+    <div class="flow-num">3</div>
+    <div class="flow-content">
+      <h4>Take the Photo</h4>
+      <p>Tap the <strong>green capture button</strong>. The photo is taken and sent to Claude AI Vision for analysis. You'll see "Analyzing..." for 2-3 seconds.</p>
+    </div>
+  </div>
+  <div class="flow-connector"></div>
+  <div class="flow-step">
+    <div class="flow-num">4</div>
+    <div class="flow-content">
+      <h4>AI Identifies the Item</h4>
+      <p>Claude Vision reads the text in the photo and determines if it's a <strong>plant ID</strong>, <strong>container ID</strong>, <strong>batch number</strong>, or <strong>scale reading</strong>. It returns a confidence score.</p>
+    </div>
+  </div>
+  <div class="flow-connector"></div>
+  <div class="flow-step">
+    <div class="flow-num">5</div>
+    <div class="flow-content">
+      <h4>Record is Loaded</h4>
+      <p>If matched, the full record loads instantly — strain, phase, zone, last weight, handler. You see the current state of that item without searching.</p>
+    </div>
+  </div>
+  <div class="flow-connector"></div>
+  <div class="flow-step">
+    <div class="flow-num">6</div>
+    <div class="flow-content">
+      <h4>Take Action</h4>
+      <p>Tap <strong>"View Details"</strong> to see the full timeline, or <strong>"Scan Again"</strong> to scan the next item. From the detail page you can transition phases, record weights, or trigger handovers.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Phone mockup -->
+<div class="screenshot">
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 1rem;">What it looks like on your phone</p>
+  <div class="phone-frame">
+    <div class="phone-screen">
+      <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem;">Scan</div>
+      <div class="scan-circle">&#128247;</div>
+      <div class="scan-label">Point at tag, label, or scale</div>
+      <div class="scan-result">
+        <div style="font-size: 0.7rem; color: var(--primary); margin-bottom: 0.3rem;">&#10004; Matched</div>
+        <div class="id">BIN-001</div>
+        <div class="meta">Container &middot; LOADED &middot; Drying Room</div>
+        <div class="meta">Last weight: 650.2g &middot; Handler: Johan</div>
+        <div style="margin-top: 0.5rem; padding: 0.4rem; background: rgba(13,107,61,0.2); border-radius: 6px; text-align: center; font-size: 0.75rem; color: var(--primary-light); font-weight: 600;">View Timeline &rarr;</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scale reading -->
+<div class="section-label">Scale Reading Workflow</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>How Scale Photos Work</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <p>When you photograph a digital scale:</p>
+    <ul>
+      <li>Claude Vision reads the number on the scale display</li>
+      <li>It detects the unit (grams or kilograms)</li>
+      <li>The result shows as <code>"Scale Reading: 652.3g"</code></li>
+      <li>This is the same technology used in the Origin stocktake app for OCR</li>
+    </ul>
+    <p><strong>Tips for clear scale photos:</strong></p>
+    <ul>
+      <li>Ensure the scale display is well-lit (no glare)</li>
+      <li>Hold the phone steady and straight-on (not at an angle)</li>
+      <li>Wait for the scale to stabilize before photographing</li>
+      <li>Include only the scale display in frame — crop out clutter</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Weight variance -->
+<div class="section-label">Why Every Scan Matters</div>
+
+<div class="alert">
+  <strong>Weight is tracked at every zone transition.</strong> When a container moves from Grow Room to Drying Room, it must be weighed. If the weight loss exceeds the threshold (5% for bins/bags/jars, 15% for drying racks), a <strong>CRITICAL anomaly</strong> fires immediately to all senior staff. This cannot be dismissed — it must be investigated.
+</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>The Container Lifecycle (Scan at Every Step)</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <ul>
+      <li><strong>LOAD</strong> — Scan container + weigh → product goes into container in Grow Room</li>
+      <li><strong>MOVE</strong> — Scan container + weigh → container moves to Drying Room (weight mandatory)</li>
+      <li><strong>HANDOVER</strong> — Scan container + weigh → one person hands to another (both recorded)</li>
+      <li><strong>UNLOAD</strong> — Scan container + weigh → product comes out (weight compared to last event)</li>
+    </ul>
+    <p>At every step, the photo scan identifies the container and the scale photo captures the weight. The system compares automatically.</p>
+  </div>
+</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>What Triggers a Weight Variance Alert?</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <p>When a container is unloaded, moved, or handed over, the system checks:</p>
+    <ul>
+      <li><strong>Bins, Bags, Jars:</strong> >5% weight loss from last recorded weight = ALERT</li>
+      <li><strong>Drying Racks:</strong> >15% weight loss = ALERT (natural moisture loss is expected)</li>
+    </ul>
+    <p>When triggered:</p>
+    <ul>
+      <li>An <strong>Anomaly</strong> record is created (type: CONTAINER_WEIGHT_VARIANCE)</li>
+      <li><strong>All senior roles</strong> (Super Admin, Tenant Admin, Facility Manager) receive a notification</li>
+      <li>The anomaly appears in the <strong>red dashboard panel</strong></li>
+      <li>It <strong>cannot be dismissed</strong> — must be resolved with investigation notes</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Roles that scan -->
+<div class="section-label">Who Uses the Scanner</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-icon" style="background: rgba(13,107,61,0.15);">&#129528;</div>
+    <h4>Cultivator</h4>
+    <p>Scans plants for phase transitions. Scans containers for LOAD/UNLOAD/MOVE events. Most frequent scanner.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon" style="background: rgba(232,163,23,0.15);">&#128188;</div>
+    <h4>Facility Manager</h4>
+    <p>Scans containers at handover points. Records weights. Resolves variance alerts.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon" style="background: rgba(220,53,69,0.15);">&#128737;</div>
+    <h4>Security Officer</h4>
+    <p>Scans at facility gate for transport manifests. Verifies container IDs against manifest lists.</p>
+  </div>
+</div>
+
+<!-- Tips -->
+<div class="section-label">Tips for Best Results</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>Photo Tips</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <ul>
+      <li><strong>Lighting:</strong> Ensure the tag/label is well-lit. Avoid shadows and glare.</li>
+      <li><strong>Distance:</strong> Fill about 50% of the frame with the label. Not too far, not too close.</li>
+      <li><strong>Angle:</strong> Shoot straight-on, not at an angle. The AI reads text better when flat.</li>
+      <li><strong>Clarity:</strong> Hold the phone steady. Blurry photos reduce confidence.</li>
+      <li><strong>One item at a time:</strong> Frame one tag/label per photo. Multiple IDs in one photo may confuse.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="acc">
+  <div class="acc-header" onclick="toggle(this)">
+    <h3>If the Scan Fails</h3>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="acc-body">
+    <p>If the AI returns "Unknown" or low confidence:</p>
+    <ul>
+      <li>Try again with better lighting or a closer crop</li>
+      <li>If the label is damaged or unreadable, you can always search manually on the Plants or Containers page</li>
+      <li>Report damaged labels to the Facility Manager for replacement</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  TnT-ZA Track & Trace — ILCO Farms / Origin by ILCO Farming<br>
+  Scan Workflow Documentation v1.0
+</footer>
+
+<script>
+function toggle(el) {
+  const body = el.nextElementSibling;
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.acc-header.open').forEach(h => {
+    h.classList.remove('open');
+    h.nextElementSibling.classList.remove('open');
+  });
+  if (!isOpen) {
+    el.classList.add('open');
+    body.classList.add('open');
+  }
+}
+</script>
+</body>
+</html>

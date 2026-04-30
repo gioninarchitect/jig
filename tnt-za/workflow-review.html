@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#060610">
+<title>ILCO Farms — TnT-ZA Workflow</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #0D6B3D;
+  --primary-light: #10B981;
+  --primary-glow: rgba(13,107,61,0.4);
+  --dark: #060610;
+  --card: rgba(255,255,255,0.03);
+  --card-hover: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(255,255,255,0.14);
+  --neon-green: #22C55E;
+  --neon-yellow: #FBBF24;
+  --neon-blue: #60A5FA;
+  --neon-purple: #A78BFA;
+  --neon-red: #F87171;
+  --neon-cyan: #22D3EE;
+  --neon-rose: #FB7185;
+  --neon-orange: #FB923C;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--dark);color:#fff;font-family:'Outfit',system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Glow effects */
+.glow-green{box-shadow:0 0 20px rgba(34,197,94,0.08),inset 0 0 20px rgba(34,197,94,0.03)}
+.glow-yellow{box-shadow:0 0 20px rgba(251,191,36,0.08),inset 0 0 20px rgba(251,191,36,0.03)}
+.glow-blue{box-shadow:0 0 20px rgba(96,165,250,0.08),inset 0 0 20px rgba(96,165,250,0.03)}
+.glow-red{box-shadow:0 0 20px rgba(248,113,113,0.08),inset 0 0 20px rgba(248,113,113,0.03)}
+.glow-purple{box-shadow:0 0 20px rgba(167,139,250,0.08),inset 0 0 20px rgba(167,139,250,0.03)}
+.glow-cyan{box-shadow:0 0 20px rgba(34,211,238,0.08),inset 0 0 20px rgba(34,211,238,0.03)}
+
+.page{max-width:1400px;margin:0 auto;padding:32px 24px 100px}
+
+/* App-like header */
+.app-header{display:flex;align-items:center;justify-content:space-between;padding:16px 0;margin-bottom:32px;border-bottom:1px solid var(--border)}
+.app-logo{font-weight:800;font-size:1.2rem;color:var(--primary-light);letter-spacing:1px}
+.app-title{font-size:0.8rem;color:rgba(255,255,255,0.3);letter-spacing:0.5px}
+.app-badge{font-size:0.55rem;padding:4px 10px;border-radius:20px;background:rgba(13,107,61,0.15);color:var(--neon-green);border:1px solid rgba(34,197,94,0.2);font-weight:700;letter-spacing:1px}
+
+/* Hero */
+.hero{text-align:center;padding:48px 0 40px;position:relative}
+.hero::before{content:'';position:absolute;top:50%;left:50%;width:400px;height:400px;background:radial-gradient(circle,rgba(13,107,61,0.08) 0%,transparent 70%);transform:translate(-50%,-50%);pointer-events:none}
+.hero h1{font-size:2.8rem;font-weight:800;letter-spacing:-1px;line-height:1.1}
+.hero h1 span{background:linear-gradient(135deg,var(--neon-green),var(--primary-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:rgba(255,255,255,0.35);font-size:0.9rem;margin-top:10px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6}
+.hero-stats{display:flex;justify-content:center;gap:24px;margin-top:24px;flex-wrap:wrap}
+.hero-stat{text-align:center}
+.hero-stat .num{font-size:1.8rem;font-weight:800;font-family:'JetBrains Mono',monospace}
+.hero-stat .num.green{color:var(--neon-green)}.hero-stat .num.yellow{color:var(--neon-yellow)}.hero-stat .num.blue{color:var(--neon-blue)}
+.hero-stat .lbl{font-size:0.65rem;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+
+/* Section */
+.sec{margin-bottom:56px}
+.sec-hdr{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.sec-tag{font-size:0.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:6px 16px;border-radius:8px;white-space:nowrap;backdrop-filter:blur(10px)}
+.sec-tag.cult{background:rgba(34,197,94,0.08);color:var(--neon-green);border:1px solid rgba(34,197,94,0.15)}
+.sec-tag.proc{background:rgba(251,191,36,0.08);color:var(--neon-yellow);border:1px solid rgba(251,191,36,0.15)}
+.sec-tag.dist{background:rgba(96,165,250,0.08);color:var(--neon-blue);border:1px solid rgba(96,165,250,0.15)}
+.sec-tag.scan{background:rgba(34,211,238,0.08);color:var(--neon-cyan);border:1px solid rgba(34,211,238,0.15)}
+.sec-tag.sahpra{background:rgba(248,113,113,0.08);color:var(--neon-red);border:1px solid rgba(248,113,113,0.15)}
+.sec-line{flex:1;height:1px;background:rgba(255,255,255,0.04)}
+
+/* Flow grid */
+.flow{display:grid;gap:12px}
+.f5{grid-template-columns:repeat(5,1fr)}.f3{grid-template-columns:repeat(3,1fr)}.f4{grid-template-columns:repeat(4,1fr)}
+
+/* Card — glassmorphism */
+.c{position:relative;border-radius:16px;padding:20px;border:1px solid var(--border);background:var(--card);backdrop-filter:blur(8px);transition:all 0.3s ease}
+.c:hover{border-color:var(--border-hover);background:var(--card-hover);transform:translateY(-2px)}
+
+/* Step number — floating neon pill */
+.sn{position:absolute;top:-11px;left:16px;height:22px;min-width:22px;padding:0 8px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:800;font-family:'JetBrains Mono',monospace;backdrop-filter:blur(10px)}
+.sn.g{background:rgba(34,197,94,0.15);color:var(--neon-green);border:1px solid rgba(34,197,94,0.3);box-shadow:0 0 12px rgba(34,197,94,0.15)}
+.sn.y{background:rgba(251,191,36,0.15);color:var(--neon-yellow);border:1px solid rgba(251,191,36,0.3);box-shadow:0 0 12px rgba(251,191,36,0.15)}
+.sn.b{background:rgba(96,165,250,0.15);color:var(--neon-blue);border:1px solid rgba(96,165,250,0.3);box-shadow:0 0 12px rgba(96,165,250,0.15)}
+.sn.r{background:rgba(248,113,113,0.15);color:var(--neon-red);border:1px solid rgba(248,113,113,0.3);box-shadow:0 0 12px rgba(248,113,113,0.15)}
+.sn.c2{background:rgba(34,211,238,0.15);color:var(--neon-cyan);border:1px solid rgba(34,211,238,0.3);box-shadow:0 0 12px rgba(34,211,238,0.15)}
+
+.cn{font-weight:700;font-size:1rem;margin:6px 0 8px}
+.cd{position:absolute;top:10px;right:14px;font-size:0.58rem;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.3);font-weight:600;border:1px solid rgba(255,255,255,0.05)}
+
+.cl{list-style:none;margin:0;padding:0}
+.cl li{font-size:0.78rem;color:rgba(255,255,255,0.4);line-height:1.65;padding-left:14px;position:relative}
+.cl li::before{content:'';position:absolute;left:0;top:9px;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.1)}
+.cl li strong{color:rgba(255,255,255,0.65)}
+
+.cf{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.04);flex-wrap:wrap;gap:6px}
+.cr{font-size:0.6rem;font-weight:700;letter-spacing:0.3px}
+.cw{font-size:0.58rem;font-weight:700;padding:3px 8px;border-radius:6px;display:flex;align-items:center;gap:3px}
+.cw.amber{color:var(--neon-yellow);background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.15)}
+.cb{display:flex;gap:3px;flex-wrap:wrap}
+.badge{font-size:0.5rem;padding:2px 7px;border-radius:4px;font-weight:600;border:1px solid;backdrop-filter:blur(4px)}
+.badge.qr{color:var(--neon-green);border-color:rgba(34,197,94,0.2);background:rgba(34,197,94,0.06)}
+.badge.photo{color:var(--neon-blue);border-color:rgba(96,165,250,0.2);background:rgba(96,165,250,0.06)}
+.badge.task{color:var(--neon-purple);border-color:rgba(167,139,250,0.2);background:rgba(167,139,250,0.06)}
+.badge.barcode{color:var(--neon-yellow);border-color:rgba(251,191,36,0.2);background:rgba(251,191,36,0.06)}
+
+/* Card variants with neon glow */
+.c.mother{border-color:rgba(167,139,250,0.2)}.c.mother:hover{border-color:rgba(167,139,250,0.4)}.c.mother .cn{color:var(--neon-purple)}
+.c.harvest{border-color:rgba(248,113,113,0.2);background:rgba(248,113,113,0.02)}.c.harvest:hover{border-color:rgba(248,113,113,0.4)}.c.harvest .cn{color:var(--neon-red)}
+.c.weigh{border-color:rgba(251,191,36,0.2);background:rgba(251,191,36,0.02)}.c.weigh .cn{color:var(--neon-yellow)}
+.c.debuc{border-color:rgba(253,224,71,0.15);background:rgba(253,224,71,0.01)}.c.debuc .cn{color:#FDE047}
+.c.qa{border-color:rgba(34,211,238,0.2);background:rgba(34,211,238,0.02)}.c.qa .cn{color:var(--neon-cyan)}
+.c.dispatch{border-color:rgba(96,165,250,0.2);background:rgba(96,165,250,0.02)}.c.dispatch .cn{color:var(--neon-blue)}
+.c.sale{border-color:rgba(167,139,250,0.15);background:rgba(167,139,250,0.01)}.c.sale .cn{color:var(--neon-purple)}
+
+/* Down arrow row */
+.arrow-down{display:flex;padding:4px 0;justify-content:flex-end;padding-right:calc(20%)}
+.arrow-down svg{opacity:0.1}
+.arrow-down-3{padding-right:calc(33%)}
+
+/* GH mini */
+.ghr{display:flex;gap:6px;margin-top:10px}
+.ghb{background:rgba(34,197,94,0.04);border:1px solid rgba(34,197,94,0.15);border-radius:8px;padding:6px 8px}
+.ghl{font-size:0.55rem;font-weight:700;color:var(--neon-green);margin-bottom:3px;font-family:'JetBrains Mono',monospace}
+.ghbs{display:flex;gap:2px}
+.bay{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.5rem;font-weight:800;font-family:'JetBrains Mono',monospace}
+.bay.on{background:var(--neon-green);color:#000}.bay.off{border:1px dashed rgba(255,255,255,0.08);color:rgba(255,255,255,0.08)}
+
+/* Trimmer tags */
+.tr{display:flex;gap:3px;margin-top:8px;flex-wrap:wrap}
+.tt{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:6px;padding:2px 8px;font-size:0.55rem;color:#34D399;font-weight:700;font-family:'JetBrains Mono',monospace}
+
+/* Cure dots */
+.jg{display:grid;grid-template-columns:repeat(4,12px);gap:2px;margin-top:8px}
+.j{width:12px;height:12px;border-radius:50%;background:rgba(217,119,6,0.15);border:1px solid rgba(217,119,6,0.25)}
+
+/* Weight chain */
+.wc{background:rgba(251,191,36,0.02);border:1px solid rgba(251,191,36,0.1);border-radius:20px;padding:28px;margin-bottom:48px;position:relative;overflow:hidden}
+.wc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(251,191,36,0.2),transparent)}
+.wc h3{color:var(--neon-yellow);font-size:0.85rem;margin-bottom:20px;font-weight:700}
+.wcf{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.wi{background:rgba(251,191,36,0.04);border:1px solid rgba(251,191,36,0.1);border-radius:10px;padding:10px 14px;font-size:0.72rem;line-height:1.5}
+.wi strong{color:var(--neon-yellow);display:block;margin-bottom:2px;font-size:0.65rem;font-family:'JetBrains Mono',monospace}
+.wi .r{color:rgba(248,113,113,0.6);font-size:0.6rem}.wi .g{color:rgba(34,197,94,0.6);font-size:0.6rem}
+.wa{color:rgba(251,191,36,0.12);font-size:1rem;font-weight:700}
+.wn{color:rgba(251,191,36,0.3);font-size:0.68rem;margin-top:14px;line-height:1.5}
+
+/* QR section */
+.qs{background:rgba(34,197,94,0.02);border:1px solid rgba(34,197,94,0.08);border-radius:20px;padding:28px;margin-bottom:48px;position:relative}
+.qs::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(34,197,94,0.2),transparent)}
+.qs h3{color:var(--neon-green);font-size:0.85rem;margin-bottom:20px}
+.qg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.qc{background:rgba(34,197,94,0.03);border:1px solid rgba(34,197,94,0.08);border-radius:12px;padding:14px 16px;font-size:0.75rem;color:rgba(255,255,255,0.45);line-height:1.6;transition:border-color 0.2s}
+.qc:hover{border-color:rgba(34,197,94,0.2)}
+.qc .ql{font-size:0.5rem;font-weight:700;color:var(--neon-green);letter-spacing:1.5px;margin-bottom:3px;font-family:'JetBrains Mono',monospace}
+.qc strong{color:rgba(255,255,255,0.7)}
+
+/* SAHPRA */
+.sp{background:rgba(248,113,113,0.02);border:1px solid rgba(248,113,113,0.08);border-radius:20px;padding:28px;margin-bottom:48px;position:relative}
+.sp::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(248,113,113,0.15),transparent)}
+.sp h3{color:var(--neon-red);font-size:0.85rem;margin-bottom:20px}
+.spg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.si{display:flex;gap:10px;padding:10px 14px;border-radius:10px;background:rgba(248,113,113,0.02);border:1px solid rgba(248,113,113,0.05);font-size:0.72rem;color:rgba(255,255,255,0.45);line-height:1.5;transition:border-color 0.2s}
+.si:hover{border-color:rgba(248,113,113,0.15)}
+.si .d{width:6px;height:6px;border-radius:50%;background:var(--neon-red);margin-top:6px;flex-shrink:0;box-shadow:0 0 6px rgba(248,113,113,0.3)}
+.si strong{color:rgba(255,255,255,0.65)}
+
+/* Roles */
+.rs h3{font-size:0.85rem;color:rgba(255,255,255,0.4);margin-bottom:20px}
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.rc{border-radius:12px;padding:14px 16px;background:var(--card);border:1px solid var(--border);transition:all 0.25s;backdrop-filter:blur(4px)}
+.rc:hover{border-color:var(--border-hover);transform:translateY(-1px)}
+.rn{font-weight:700;font-size:0.82rem;margin-bottom:2px}
+.rm{font-size:0.6rem;color:rgba(255,255,255,0.2);margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.rt{display:flex;flex-wrap:wrap;gap:3px}
+.rx{font-size:0.52rem;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.05)}
+
+.footer{text-align:center;padding:40px 0;color:rgba(255,255,255,0.08);font-size:0.65rem;font-family:'JetBrains Mono',monospace}
+
+@media(max-width:1100px){.f5{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){
+  .f5,.f3,.f4{grid-template-columns:1fr}
+  .arrow-down{display:none}
+  .page{padding:20px 16px 80px}
+  .hero h1{font-size:1.8rem}
+  .hero-stats{gap:16px}
+  .wcf{flex-direction:column}.wa{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- App header -->
+<div class="app-header">
+  <div><div class="app-logo">ILCO Farms</div><div class="app-title">Track &amp; Trace — TnT-ZA</div></div>
+  <div class="app-badge">v2.0</div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <h1><span>Complete Production</span><br>Workflow</h1>
+  <p>Every gram tracked. Every handler named. Every timestamp logged.<br>From mother plant to customer — full SAHPRA compliance.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num green mono">17</div><div class="lbl">Steps</div></div>
+    <div class="hero-stat"><div class="num yellow mono">9</div><div class="lbl">Weight Points</div></div>
+    <div class="hero-stat"><div class="num blue mono">9</div><div class="lbl">QR Scans</div></div>
+    <div class="hero-stat"><div class="num green mono">18</div><div class="lbl">Roles</div></div>
+  </div>
+</div>
+
+<!-- ══════ CULTIVATION ══════ -->
+<div class="sec">
+  <div class="sec-hdr"><div class="sec-tag cult">Cultivation</div><div class="sec-line"></div></div>
+  <div class="flow f5">
+    <div class="c mother glow-purple"><div class="sn g">1</div><div class="cn">Mother Plants</div><ul class="cl"><li><strong>MB1:</strong> Durban Poison, Swazi Gold, Malawi Gold</li><li><strong>MB2:</strong> Power Plant, Northern Lights</li><li>Status: Active / Stressed / Culled</li><li>Clone success rate per mother</li></ul><div class="cf"><span class="cr" style="color:var(--neon-green)">CULTIVATOR</span><div class="cb"><span class="badge photo">📷 360°</span></div></div></div>
+
+    <div class="c"><div class="sn g">2</div><div class="cn">✂ Clone</div><ul class="cl"><li>Cuttings from selected mother</li><li>Record: count, who, date</li><li>Clone tray <strong class="mono">CT-2026-xxx</strong></li><li>Apply rooting hormone</li></ul><div class="cf"><span class="cr" style="color:var(--neon-green)">CULTIVATOR</span><div class="cb"><span class="badge photo">📷 Tray</span></div></div></div>
+
+    <div class="c"><div class="sn g">3</div><div class="cd">14 days</div><div class="cn">Rooting</div><ul class="cl"><li>Propagation area</li><li>Check roots: <strong>day 7 + 14</strong></li><li>Track mortality per tray</li><li>Rooting % per mother</li></ul><div class="cf"><span class="cr" style="color:var(--neon-green)">CULTIVATOR</span><div class="cb"><span class="badge task">☐ Root check</span></div></div></div>
+
+    <div class="c"><div class="sn g">4</div><div class="cn">Transplant</div><ul class="cl"><li>Rooted clones → greenhouse bay</li><li>Assign: <strong>GH → Bay → Line → Pos</strong></li><li>Start feeding (low)</li><li>BayGrid status updates</li></ul><div class="ghr"><div class="ghb"><div class="ghl">GH1</div><div class="ghbs"><div class="bay on">1</div><div class="bay on">2</div><div class="bay on">3</div></div></div><div class="ghb"><div class="ghl">GH2</div><div class="ghbs"><div class="bay on">4</div><div class="bay on">5</div><div class="bay off"></div></div></div></div><div class="cf"><span class="cr" style="color:var(--neon-green)">CULTIVATOR</span><div class="cb"><span class="badge qr">BayGrid</span></div></div></div>
+
+    <div class="c"><div class="sn g">5</div><div class="cd">14–16d</div><div class="cn">Vegetative</div><ul class="cl"><li>Light: <strong>18/6</strong></li><li>Top, defoliate, bottom clean</li><li>Record cm growth weekly</li><li>Feeding increases gradually</li></ul><div class="cf"><span class="cr" style="color:var(--neon-green)">CULTIVATOR + <span style="color:var(--neon-blue)">IRRIGATION</span></span><div class="cb"><span class="badge task">☐ Top</span><span class="badge task">☐ Defol</span></div></div></div>
+  </div>
+
+  <div class="arrow-down"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-5-5 5 5 5-5"/></svg></div>
+
+  <div class="flow f3">
+    <div class="c"><div class="sn g">6</div><div class="cn">Flip</div><ul class="cl"><li>Light: <strong>18/6 → 12/12</strong></li><li>Triggers flowering</li><li>Record flip date</li><li>Stretch begins</li></ul><div class="cf"><span class="cr" style="color:var(--neon-green)">CULTIVATOR</span></div></div>
+
+    <div class="c"><div class="sn g">7</div><div class="cd">56 days</div><div class="cn">Flower</div><ul class="cl"><li>8 weeks flowering</li><li>Trichomes: clear → milky → amber</li><li>Full bloom nutrients + flush last 2wk</li><li>Env: 20-26°C, 40-50% RH</li></ul><div class="cf"><span class="cr" style="color:var(--neon-green)">CULTIVATOR + <span style="color:var(--neon-blue)">IRRIGATION</span></span><div class="cb"><span class="badge task">☐ Trichome</span></div></div></div>
+
+    <div class="c harvest glow-red"><div class="sn r">8</div><div class="cn">⚡ Harvest</div><ul class="cl"><li>Cut plants at base</li><li><strong>Record WET WEIGHT per plant</strong></li><li>Create batch <strong class="mono">B-2026-xxx</strong></li><li>Clear bay → BayGrid EMPTY</li><li><strong>HANDOVER:</strong> Cultivator → Processing</li></ul><div class="cf"><span class="cr" style="color:var(--neon-green)">CULTIVATOR → <span style="color:var(--neon-yellow)">PROCESSING</span></span><div class="cb"><span class="badge qr">QR</span><span class="cw amber">⚖ WET WT</span></div></div></div>
+  </div>
+</div>
+
+<!-- ══════ PROCESSING ══════ -->
+<div class="sec">
+  <div class="sec-hdr"><div class="sec-tag proc">Processing</div><div class="sec-line"></div></div>
+  <div class="flow f3">
+    <div class="c weigh glow-yellow"><div class="sn y">9</div><div class="cn">Wet Receiving</div><ul class="cl"><li>Receive from cultivation</li><li><strong>VERIFY wet weight = harvest</strong></li><li>Assign BIN containers</li><li>Handover sign-off</li><li>Variance → <strong>ANOMALY</strong></li></ul><div class="cf"><span class="cr" style="color:var(--neon-yellow)">PROCESSING MGR (JR)</span><div class="cb"><span class="badge qr">QR</span><span class="cw amber">⚖ VERIFY</span></div></div></div>
+
+    <div class="c"><div class="sn y">10</div><div class="cd">14 days</div><div class="cn">Drying (DRS)</div><ul class="cl"><li>Hang on racks <strong class="mono">RACK-xxx</strong></li><li>Room: 18-21°C, 55-65% RH</li><li>Daily temp + humidity logged</li><li>~70-75% moisture loss</li></ul><div class="cf"><span class="cr" style="color:var(--neon-yellow)">PROCESSING MGR</span><div class="cb"><span class="badge qr">QR</span><span class="cw amber">⚖ DRY WT</span></div></div></div>
+
+    <div class="c debuc"><div class="sn y">11</div><div class="cn">Debuc</div><ul class="cl"><li><strong style="color:#FDE047">JR ONLY — Jannette</strong></li><li>Cut buds from dried stems</li><li>Each bin weighed + barcoded</li><li>Scan every bin individually</li></ul><div class="cf"><span class="cr" style="color:#FDE047">JR ONLY</span><div class="cb"><span class="badge barcode">Barcode</span><span class="cw amber">⚖ PER BIN</span></div></div></div>
+  </div>
+
+  <div class="arrow-down arrow-down-3"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-5-5 5 5 5-5"/></svg></div>
+
+  <div class="flow f3">
+    <div class="c"><div class="sn y">12</div><div class="cn">Trim</div><ul class="cl"><li>Multiple <strong>TRIMMERS</strong> simultaneously</li><li>Each gets weighed bin (Weight IN)</li><li>Returns trimmed product (Weight OUT)</li><li>Waste weighed separately</li><li><strong>IN = OUT + Waste (±2%)</strong></li></ul><div class="tr"><span class="tt">T1 — 45g</span><span class="tt">T2 — 40g</span><span class="tt">T3 — 35g</span></div><div class="cf"><span class="cr" style="color:#34D399">TRIMMERS</span><div class="cb"><span class="badge barcode">Barcode</span><span class="cw amber">⚖ IN+OUT</span></div></div></div>
+
+    <div class="c"><div class="sn y">13</div><div class="cd">14+ days</div><div class="cn">Cure</div><ul class="cl"><li>Into containers <strong class="mono">CURE-xxx</strong></li><li>Min 2 weeks curing</li><li>Burp: daily → every 2-3 days</li><li>Target 62% humidity</li></ul><div class="jg"><div class="j"></div><div class="j"></div><div class="j"></div><div class="j"></div><div class="j"></div><div class="j"></div><div class="j"></div><div class="j"></div><div class="j"></div><div class="j"></div><div class="j"></div><div class="j"></div></div><div class="cf"><span class="cr" style="color:var(--neon-yellow)">PROCESSING MGR</span><div class="cb"><span class="badge qr">QR</span><span class="cw amber">⚖ CURE WT</span></div></div></div>
+
+    <div class="c qa glow-cyan"><div class="sn c2">14</div><div class="cn">Store &amp; QA</div><ul class="cl"><li>Secure storage vault</li><li>Lab: <strong>8/8 tests PASS</strong></li><li>Fail → <strong>QUARANTINE</strong> (7 auto-tasks)</li><li>COA generated (PDF + QR)</li><li>QA + <strong>RP sign-off</strong></li><li>Batch → <strong>RELEASED</strong></li></ul><div class="cf"><span class="cr" style="color:var(--neon-cyan)">QA + <span style="color:var(--neon-rose)">RP</span> + <span style="color:var(--neon-yellow)">LAB</span></span><div class="cb"><span class="badge qr">QR</span><span class="cw amber">⚖ FINAL WT</span></div></div></div>
+  </div>
+</div>
+
+<!-- ══════ DISTRIBUTION ══════ -->
+<div class="sec">
+  <div class="sec-hdr"><div class="sec-tag dist">Distribution</div><div class="sec-line"></div></div>
+  <div class="flow f3">
+    <div class="c sale"><div class="sn b">15</div><div class="cn">Sale</div><ul class="cl"><li>Client order (B2B / Export / Patient)</li><li>Batch allocated from released stock</li><li>Invoice + COA link</li><li>SAHPRA tracking ref</li></ul><div class="cf"><span class="cr" style="color:var(--neon-purple)">TENANT ADMIN</span></div></div>
+
+    <div class="c dispatch glow-blue"><div class="sn b">16</div><div class="cn">Dispatch</div><ul class="cl"><li>Transport manifest</li><li>Vehicle + driver assigned</li><li>Security gate sign-off</li><li>GPS tracking</li><li>Overdue → ANOMALY</li></ul><div class="cf"><span class="cr" style="color:var(--neon-blue)">SECURITY</span><div class="cb"><span class="badge qr">QR</span><span class="cw amber">⚖ MANIFEST</span></div></div></div>
+
+    <div class="c"><div class="sn b">17</div><div class="cn">Retail</div><ul class="cl"><li>Delivered to client / Origin store</li><li>Weight verified vs manifest</li><li>Origin POS stock updated</li><li>Customer QR → <strong>full provenance</strong></li></ul><div class="cf"><span class="cr" style="color:rgba(255,255,255,0.3)">CLIENT / ORIGIN POS</span><div class="cb"><span class="badge qr">QR Provenance</span><span class="cw amber">⚖ RECEIVED</span></div></div></div>
+  </div>
+</div>
+
+<!-- ══════ WEIGHT CHAIN ══════ -->
+<div class="wc">
+  <h3>⚖ Weight Chain — Example: Single Batch</h3>
+  <div class="wcf">
+    <div class="wi"><strong>① Harvest</strong>450g wet<br><span class="g">baseline</span></div><div class="wa">→</div>
+    <div class="wi"><strong>② Receiving</strong>450g ✓<br><span class="g">0% variance</span></div><div class="wa">→</div>
+    <div class="wi"><strong>③ Drying</strong>135g dry<br><span class="r">−70% moisture</span></div><div class="wa">→</div>
+    <div class="wi"><strong>④ Debuc</strong>120g bins<br><span class="r">−15g stems</span></div><div class="wa">→</div>
+    <div class="wi"><strong>⑤ Trim</strong>95g + 22g waste<br><span class="g">IN=OUT+waste ✓</span></div><div class="wa">→</div>
+    <div class="wi"><strong>⑥ Cure</strong>90g<br><span class="r">−5% moisture</span></div><div class="wa">→</div>
+    <div class="wi"><strong>⑦ Store</strong>90g sellable<br><span class="g">COA issued ✓</span></div><div class="wa">→</div>
+    <div class="wi"><strong>⑧ Dispatch</strong>28g<br><span class="g">manifest ✓</span></div><div class="wa">→</div>
+    <div class="wi"><strong>⑨ Retail</strong>28g<br><span class="g">0% variance ✓</span></div>
+  </div>
+  <div class="wn">⚠ Any variance &gt; 2% at any handover → ANOMALY → FM + Tenant Admin + Super Admin alerted. Tamper-proof audit trail (SHA-256 hash chain).</div>
+</div>
+
+<!-- ══════ QR SCAN ══════ -->
+<div class="qs">
+  <h3>📱 QR &amp; Scanner Workflow</h3>
+  <div class="qg">
+    <div class="qc"><div class="ql">QR GENERATED</div><strong>Plant (Step 1)</strong> — ZA-XXXXXX + QR label. Scan → full lineage to mother.</div>
+    <div class="qc"><div class="ql">QR GENERATED</div><strong>Container (Steps 8-14)</strong> — BIN, RACK, CURE. Scan → contents, weight history, handlers.</div>
+    <div class="qc"><div class="ql">QR GENERATED</div><strong>Batch (Step 8)</strong> — B-2026-xxx. Links all plants, containers, lab results. Goes on retail product.</div>
+    <div class="qc"><div class="ql">QR GENERATED</div><strong>COA (Step 14)</strong> — PDF with embedded QR. Scan → 8 test results + compliance status.</div>
+    <div class="qc"><div class="ql">SCANNER USED</div><strong>Zone Transitions</strong> — Scan container when moving between rooms. Auto-detect + prompt for weight.</div>
+    <div class="qc"><div class="ql">SCANNER USED</div><strong>Debuc (Step 11)</strong> — Barcode scanner. IN at debuc, OUT after weighing. JR scans every bin.</div>
+    <div class="qc"><div class="ql">SCANNER USED</div><strong>Trim (Step 12)</strong> — Scan to receive + return. Auto-calculate weight in vs out.</div>
+    <div class="qc"><div class="ql">SCANNER USED</div><strong>Dispatch (Step 16)</strong> — Security scans all QRs. Verifies manifest + weights.</div>
+    <div class="qc"><div class="ql">PUBLIC QR</div><strong>Customer (Step 17)</strong> — Anyone scans → public provenance. No login. Full transparency.</div>
+  </div>
+</div>
+
+<!-- ══════ SAHPRA ══════ -->
+<div class="sp">
+  <h3>🏛 SAHPRA Compliance</h3>
+  <div class="spg">
+    <div class="si"><div class="d"></div><div><strong>Batch Created</strong> — Auto-log in production register</div></div>
+    <div class="si"><div class="d"></div><div><strong>Quarantine</strong> — 7 auto-tasks: isolate, notify SAHPRA 24hrs, sample, document, root cause, cleaning, equipment</div></div>
+    <div class="si"><div class="d"></div><div><strong>Destruction</strong> — SAPS witness. Weigh, photograph, sign, file, update INCB</div></div>
+    <div class="si"><div class="d"></div><div><strong>COA</strong> — Auto-attached to batch. PDF + QR. Required before sale</div></div>
+    <div class="si"><div class="d"></div><div><strong>Dispatch</strong> — Manifest with Section 22C permit ref</div></div>
+    <div class="si"><div class="d"></div><div><strong>Monthly INCB</strong> — Reconcile produced vs destroyed vs stock vs dispatched</div></div>
+    <div class="si"><div class="d"></div><div><strong>Spray</strong> — Per-batch: chemical, dilution, PPE, applicator, time, re-entry</div></div>
+    <div class="si"><div class="d"></div><div><strong>Calibration</strong> — Weekly: scales, pH, EC, temp/humidity sensors</div></div>
+    <div class="si"><div class="d"></div><div><strong>Daily Inspection</strong> — Entry/exit, cameras, PPE, pest traps, fire</div></div>
+    <div class="si"><div class="d"></div><div><strong>Room Cleaning</strong> — Per room per day. Grow, dry, trim, pack</div></div>
+  </div>
+</div>
+
+<!-- ══════ ROLES ══════ -->
+<div class="rs sec">
+  <h3>18 Roles — Mapped to 17 Steps</h3>
+  <div class="rg">
+    <div class="rc"><div class="rn" style="color:var(--neon-purple)">Tenant Admin (Ilze)</div><div class="rm">LVL 4 · ALL approvals</div><div class="rt"><span class="rx">Sale</span><span class="rx">INCB</span><span class="rx">Approvals</span><span class="rx">Users</span></div></div>
+    <div class="rc"><div class="rn" style="color:var(--neon-rose)">Responsible Pharmacist</div><div class="rm">LVL 4 · Product sign-off</div><div class="rt"><span class="rx">COA</span><span class="rx">Release</span><span class="rx">Quarantine</span><span class="rx">Destruction</span></div></div>
+    <div class="rc"><div class="rn" style="color:var(--neon-green)">Facility Manager (Ray)</div><div class="rm">LVL 3 · All 17 steps</div><div class="rt"><span class="rx">Weight alerts</span><span class="rx">Risk</span><span class="rx">Anomalies</span><span class="rx">Tickets</span></div></div>
+    <div class="rc"><div class="rn" style="color:#FDE047">Processing Mgr (JR)</div><div class="rm">LVL 3 · Steps 9–14</div><div class="rt"><span class="rx">Receiving</span><span class="rx">Drying</span><span class="rx">Debuc</span><span class="rx">Trim</span><span class="rx">Cure</span></div></div>
+    <div class="rc"><div class="rn" style="color:var(--neon-green)">Facility Supervisor (Loraine)</div><div class="rm">LVL 3 · Day-to-day ops</div><div class="rt"><span class="rx">Maintenance</span><span class="rx">Cleaning</span><span class="rx">Spraying</span><span class="rx">Review</span></div></div>
+    <div class="rc"><div class="rn" style="color:var(--neon-cyan)">QA Inspector</div><div class="rm">LVL 3 · Audit + sign-off</div><div class="rt"><span class="rx">Step 14</span><span class="rx">SOPs</span><span class="rx">Deviations</span><span class="rx">Quarantine</span></div></div>
+    <div class="rc"><div class="rn" style="color:var(--neon-orange)">Maintenance Manager</div><div class="rm">LVL 3 · Equipment all stages</div><div class="rt"><span class="rx">Calibration</span><span class="rx">Repairs</span><span class="rx">Tickets</span></div></div>
+    <div class="rc"><div class="rn" style="color:#86EFAC">Head of Cultivation</div><div class="rm">LVL 3 · Steps 1–8 oversight</div><div class="rt"><span class="rx">BayGrid</span><span class="rx">Mothers</span><span class="rx">Schedule</span><span class="rx">Reports</span></div></div>
+    <div class="rc"><div class="rn" style="color:var(--neon-green)">Cultivator (Lou)</div><div class="rm">LVL 2 · Steps 1–8</div><div class="rt"><span class="rx">Mother</span><span class="rx">Clone</span><span class="rx">Veg</span><span class="rx">Flower</span><span class="rx">Harvest</span></div></div>
+    <div class="rc"><div class="rn" style="color:var(--neon-yellow)">Lab Tech (Keke)</div><div class="rm">LVL 2 · Step 14</div><div class="rt"><span class="rx">8 tests</span><span class="rx">COA</span><span class="rx">Retest</span></div></div>
+    <div class="rc"><div class="rn" style="color:var(--neon-blue)">Irrigation Tech</div><div class="rm">LVL 2 · Steps 5–7</div><div class="rt"><span class="rx">Feed plans</span><span class="rx">Run-off</span><span class="rx">pH/EC</span></div></div>
+    <div class="rc"><div class="rn" style="color:var(--neon-red)">Security (Sipho)</div><div class="rm">LVL 1 · Gate + Step 16</div><div class="rt"><span class="rx">Gate</span><span class="rx">Dispatch</span><span class="rx">Destruction</span></div></div>
+    <div class="rc"><div class="rn" style="color:#34D399">Trimmers</div><div class="rm">LVL 1 · Step 12</div><div class="rt"><span class="rx">Wt in/out</span><span class="rx">Waste</span><span class="rx">Speed</span></div></div>
+    <div class="rc"><div class="rn" style="color:rgba(255,255,255,0.4)">General Worker</div><div class="rm">LVL 1</div><div class="rt"><span class="rx">SOPs</span><span class="rx">Tasks</span></div></div>
+    <div class="rc"><div class="rn" style="color:#EC4899">Housekeeping</div><div class="rm">LVL 1 · Daily per room</div><div class="rt"><span class="rx">Grow</span><span class="rx">Dry</span><span class="rx">Trim</span><span class="rx">Pack</span></div></div>
+    <div class="rc"><div class="rn" style="color:#8B5CF6">Laundry</div><div class="rm">LVL 1 · PPE daily</div><div class="rt"><span class="rx">Collect</span><span class="rx">Wash</span><span class="rx">Return</span></div></div>
+    <div class="rc"><div class="rn" style="color:rgba(255,255,255,0.25)">Viewer (Inspector)</div><div class="rm">LVL 0 · Read-only</div><div class="rt"><span class="rx">All data</span><span class="rx">No edit</span><span class="rx">Audit</span><span class="rx">COAs</span></div></div>
+  </div>
+</div>
+
+<div class="footer">ILCO Farms · TnT-ZA v2.0 · 17 steps · 18 roles · 9 weight checkpoints · 9 QR scans · 12 SAHPRA SOPs</div>
+</div>
+</body>
+</html>

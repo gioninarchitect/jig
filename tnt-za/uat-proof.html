@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — UAT Proof by Role</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0A0A0A;color:#fff;font-family:'Outfit',system-ui,sans-serif;padding:32px 20px 80px}
+.page{max-width:900px;margin:0 auto}
+h1{font-size:1.8rem;font-weight:800;color:#C9A84C;margin-bottom:4px}
+.sub{color:rgba(255,255,255,.5);font-size:.95rem;margin-bottom:32px}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Accordion */
+.role{margin-bottom:8px;border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.01)}
+.role.open{border-color:rgba(201,168,76,.2)}
+.role-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;transition:background .2s}
+.role-header:hover{background:rgba(255,255,255,.03)}
+.role-left{display:flex;align-items:center;gap:12px}
+.role-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.role-name{font-weight:700;font-size:1.05rem}
+.role-person{font-size:.85rem;color:rgba(255,255,255,.5);margin-left:4px}
+.role-level{font-size:.7rem;padding:2px 8px;border-radius:10px;background:rgba(201,168,76,.1);color:#C9A84C;font-weight:600;border:1px solid rgba(201,168,76,.15)}
+.role-arrow{color:rgba(255,255,255,.3);transition:transform .2s;font-size:1.2rem}
+.role.open .role-arrow{transform:rotate(180deg)}
+
+.role-body{display:none;padding:0 20px 20px;border-top:1px solid rgba(255,255,255,.04)}
+.role.open .role-body{display:block}
+
+/* Sections inside role */
+.section{margin-top:16px}
+.section-title{font-size:.8rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+
+/* Nav items */
+.nav-group{margin-bottom:12px}
+.nav-group-label{font-size:.7rem;color:rgba(255,255,255,.3);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.nav-items{display:flex;flex-wrap:wrap;gap:4px}
+.nav-item{font-size:.8rem;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.06)}
+
+/* KPI cards */
+.kpi-row{display:flex;gap:6px;flex-wrap:wrap}
+.kpi{padding:8px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);text-align:center;min-width:100px;flex:1}
+.kpi .val{font-size:1.1rem;font-weight:800;color:#C9A84C;font-family:'JetBrains Mono',monospace}
+.kpi .lbl{font-size:.65rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* Tickets */
+.ticket-stages{display:flex;flex-wrap:wrap;gap:4px}
+.ticket-stage{font-size:.7rem;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.06)}
+.ticket-stage.yes{background:rgba(201,168,76,.08);color:#C9A84C;border-color:rgba(201,168,76,.15)}
+.ticket-stage.no{background:rgba(255,255,255,.02);color:rgba(255,255,255,.25);border-color:rgba(255,255,255,.03)}
+
+/* Permissions */
+.perms{display:flex;gap:6px;flex-wrap:wrap}
+.perm{font-size:.75rem;padding:3px 8px;border-radius:6px}
+.perm.yes{background:rgba(34,197,94,.1);color:#22C55E;border:1px solid rgba(34,197,94,.2)}
+.perm.no{background:rgba(239,68,68,.05);color:rgba(239,68,68,.3);border:1px solid rgba(239,68,68,.1)}
+
+/* Dashboard widgets */
+.widgets{display:flex;flex-wrap:wrap;gap:4px}
+.widget{font-size:.7rem;padding:3px 8px;border-radius:4px;background:rgba(201,168,76,.06);color:rgba(201,168,76,.7);border:1px solid rgba(201,168,76,.1)}
+
+/* Notifications */
+.notif-list{margin-top:6px}
+.notif{font-size:.85rem;color:rgba(255,255,255,.65);padding:4px 0;display:flex;align-items:center;gap:6px}
+.notif-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.notif-dot.red{background:#EF4444}
+.notif-dot.amber{background:#F59E0B}
+.notif-dot.blue{background:#3B82F6}
+
+/* Objective */
+.objective{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.12);border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.6}
+.objective strong{color:#C9A84C}
+
+/* Quick actions */
+.actions{display:flex;gap:4px;flex-wrap:wrap}
+.action{font-size:.7rem;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.03);color:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.06)}
+
+.footer{text-align:center;margin-top:40px;color:rgba(255,255,255,.08);font-size:.75rem;font-family:'JetBrains Mono',monospace}
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Origin — UAT Proof by Role</h1>
+<p class="sub">Click each role to see exactly what they get: sidebar, dashboard, KPIs, tickets, notifications, permissions</p>
+
+<div id="roles"></div>
+
+<div class="footer">Origin TnT-ZA v2.0 — 31 March 2026 — 39 pages, 21 roles, 0 gaps</div>
+</div>
+
+<script>
+const ALL_STAGES = ['PROPAGATION','VEGETATIVE','FLOWERING','HARVEST','WET_RECEIVING','DRYING','DEBUC','TRIM','CURE','STORE_QA','SALE','DISPATCH','FACILITY'];
+
+const ROLES = [
+  {
+    name: 'Owner (Tenant Admin)', person: 'Ilze / Coenie', objective: '<strong>Business oversight.</strong> See all operations at a glance. Approve requisitions and compliance docs. Monitor weight integrity and staff performance. One dashboard for Cannabis + Retail + Farming.', email: 'coenie@ilcofarm.co.za', level: 4, color: '#C9A84C',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Management: ['Owner 360','Dashboard','Task Board','Facility 360'], Cultivation: ['BayGrid','Calendar','Mothers','Strains','Plants','Feeding','Mortality'], Processing: ['Batches','Containers','Trim','Lab','Dispatch'], Compliance: ['SOP Library','Anomalies','QMS','Audit','Site Master File'], System: ['Assets','HR & Training','Security','Users','Setup'] },
+    kpis: [{val:'200',lbl:'Plants'},{val:'10',lbl:'Batches Released'},{val:'0',lbl:'Anomalies'},{val:'0',lbl:'Approvals Pending'},{val:'25',lbl:'Staff'}],
+    ticketStages: ALL_STAGES,
+    widgets: ['Notifications','Stats','Forecast','BayGrid','Staff Overview','Compliance','Tickets','Tasks','Weight Alerts','QA Inspection','Phase Chart','Activity','Risk Gauges','Facilities'],
+    perms: { 'Create tickets': true, 'Resolve tickets': true, 'Approve requisitions': true, 'RP Sign-off': false, 'Switch staff roles': true, 'Deactivate users': false, 'View all data': true },
+    notifications: [{type:'red',text:'Pending approvals needing sign-off'},{type:'amber',text:'Weight variance alerts'},{type:'amber',text:'Stale tickets (4hrs+)'}],
+    quickActions: ['Strain','Mother','Clone','Batch','Greenhouse','Bay','Facility','Tickets'],
+  },
+  {
+    name: 'Super Admin', person: 'Floris', objective: '<strong>Full system control.</strong> Everything the Owner sees plus system configuration, user management, technical dashboard, and audit verification. Can access Owner 360 from sidebar.', email: 'florisolivier7@gmail.com', level: 5, color: '#A78BFA',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Management: ['Owner 360','Dashboard','Task Board','Facility 360'], Cultivation: ['BayGrid','Calendar','Mothers','Strains','Plants','Feeding','Mortality'], Processing: ['Batches','Containers','Trim','Lab','Dispatch'], Compliance: ['SOP Library','Anomalies','QMS','Audit','Site Master File'], System: ['Assets','HR & Training','Security','Users','Setup'] },
+    kpis: [{val:'200',lbl:'Plants'},{val:'10',lbl:'Released'},{val:'0',lbl:'Anomalies'},{val:'0',lbl:'Approvals'},{val:'25',lbl:'Staff'},{val:'53',lbl:'Models'}],
+    ticketStages: ALL_STAGES,
+    widgets: ['ALL widgets — full technical dashboard + Owner 360 in sidebar'],
+    perms: { 'Create tickets': true, 'Resolve tickets': true, 'Approve requisitions': true, 'Deactivate users': true, 'System config': true, 'View all data': true },
+    notifications: [{type:'red',text:'Everything the Owner sees'},{type:'blue',text:'System health + technical alerts'}],
+    quickActions: ['Strain','Mother','Clone','Batch','Greenhouse','Bay','Facility','Tickets'],
+  },
+  {
+    name: 'Responsible Pharmacist', person: 'TBD', objective: '<strong>Product release authority.</strong> Sign off on EVERY processing stage (9-14). Nothing leaves the facility without RP approval. Review COAs, quarantine decisions, destruction authorizations.', email: 'rp@ilcofarms.co.za', level: 4, color: '#FB7185',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Management: ['Dashboard','Task Board'], Processing: ['Batches','Containers','Trim','Lab','Dispatch'], Compliance: ['SOP Library','Anomalies','QMS','Audit'] },
+    kpis: [{val:'0',lbl:'RP Pending'},{val:'8',lbl:'Batches Active'},{val:'2',lbl:'COAs Issued'}],
+    ticketStages: ['WET_RECEIVING','DRYING','DEBUC','TRIM','CURE','STORE_QA','SALE'],
+    widgets: ['Notifications','Stats','Tickets (RP_SIGNOFF filtered)','Tasks'],
+    perms: { 'Create tickets': true, 'Resolve tickets': true, 'RP Sign-off': true, 'Approve requisitions': false },
+    notifications: [{type:'red',text:'Products awaiting your sign-off — processing stops without RP approval'}],
+    quickActions: [],
+  },
+  {
+    name: 'Facility Manager', person: 'Ray', objective: '<strong>Operations command.</strong> See everything happening across the facility. Resolve weight anomalies. Manage tickets and escalations. Monitor risk gauges. Switch staff between roles as needed.', email: 'ray@ilcofarming.co.za', level: 3, color: '#22C55E',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Management: ['Dashboard','Task Board','Facility 360'], Cultivation: ['BayGrid','Calendar','Mothers','Strains','Plants','Feeding','Mortality'], Processing: ['Batches','Containers','Trim','Lab','Dispatch'], Compliance: ['SOP Library','Anomalies','QMS','Audit','Site Master File'], System: ['Assets','HR & Training','Security','Users'] },
+    kpis: [{val:'90%',lbl:'Weight Integrity'},{val:'0',lbl:'Open Anomalies'},{val:'3d',lbl:'Ticket Resolution'},{val:'85%',lbl:'Compliance Score'}],
+    ticketStages: ALL_STAGES,
+    widgets: ['Notifications','Stats','Forecast','BayGrid','Tickets','Tasks','Compliance','Weight Alerts','Clone Trays','Phase Chart','Activity','Risk Gauges'],
+    perms: { 'Create tickets': true, 'Resolve tickets': true, 'Switch staff roles': true, 'Approve requisitions': false },
+    notifications: [{type:'red',text:'Critical tickets assigned to you'},{type:'red',text:'Weight anomalies detected'},{type:'amber',text:'Stale tickets (4hrs+)'},{type:'amber',text:'Overdue tasks'}],
+    quickActions: ['Strain','Mother','Clone','Batch','Greenhouse','Bay','Trim','Tickets'],
+  },
+  {
+    name: 'Head of Cultivation', person: 'Lou', objective: '<strong>Grow management.</strong> Manage all cultivators. Monitor BayGrid, grow calendar, mother health. Track clone rooting rates and mortality. Ensure healthy plants reach harvest.', email: 'lou@ilcofarming.co.za', level: 3, color: '#4ADE80',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Management: ['Dashboard','Task Board','Facility 360'], Cultivation: ['BayGrid','Calendar','Mothers','Strains','Plants','Feeding','Mortality'], Compliance: ['SOP Library','Audit'] },
+    kpis: [{val:'5',lbl:'Active Mothers'},{val:'85%',lbl:'Rooting Rate'},{val:'<5%',lbl:'Mortality'},{val:'0',lbl:'Health Checks Due'},{val:'100',lbl:'Active Plants'},{val:'50',lbl:'Clones/Month'}],
+    ticketStages: ALL_STAGES,
+    widgets: ['Notifications','Stats','Forecast','BayGrid','Tasks','Clone Trays','Tickets','Phase Chart','Weight Alerts','Activity'],
+    perms: { 'Create tickets': true, 'Resolve tickets': true, 'Manage cultivators': true, 'Allocate shifts': true },
+    notifications: [{type:'red',text:'Mother health checks overdue'},{type:'amber',text:'Clone mortality alert'},{type:'amber',text:'Stale tickets'},{type:'blue',text:'Calendar tasks for tomorrow'}],
+    quickActions: ['Strain','Mother','Clone','Batch','Greenhouse','Bay','Board'],
+  },
+  {
+    name: 'Processing Manager', person: 'Jannette (JR)', objective: '<strong>Post-harvest pipeline.</strong> Manage wet receiving through cure. Debuc is JR ONLY. Oversee 25 trimmers with weight reconciliation. Ensure every gram is accounted for.', email: 'jr@ilcofarms.co.za', level: 3, color: '#FBBF24',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Management: ['Dashboard','Task Board'], Processing: ['Batches','Containers','Trim','Lab','Dispatch'], Compliance: ['SOP Library','Anomalies','QMS','Audit'] },
+    kpis: [{val:'5',lbl:'Batches/Mo'},{val:'3',lbl:'In Processing'},{val:'20',lbl:'Tasks Done'},{val:'98%',lbl:'Trim Accuracy'}],
+    ticketStages: ['WET_RECEIVING','DRYING','DEBUC','TRIM','CURE','STORE_QA'],
+    widgets: ['Notifications','Stats','Tasks','Tickets','Weight Alerts','Phase Chart','Activity'],
+    perms: { 'Create tickets': true, 'Resolve tickets': true, 'Debuc': true, 'Manage trim sessions': true },
+    notifications: [{type:'amber',text:'Active trim sessions in progress'},{type:'amber',text:'Weight reconciliation issues'},{type:'blue',text:'Overdue tasks'}],
+    quickActions: [],
+  },
+  {
+    name: 'Facility Supervisor', person: 'Loraine', objective: '<strong>Day-to-day facility.</strong> Manage cleaning schedules, spray records, staff tasks. Review completion rates. Ensure SAHPRA-compliant facility operations daily.', email: 'loraine@ilcofarms.co.za', level: 3, color: '#22C55E',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Management: ['Dashboard','Task Board','Facility 360'], Cultivation: ['BayGrid','Calendar','Mothers','Strains','Plants'], Processing: ['Batches','Containers','Trim','Lab','Dispatch'], Compliance: ['SOP Library','Anomalies','QMS','Audit'] },
+    kpis: [{val:'0',lbl:'Facility Tickets'},{val:'95%',lbl:'Task Completion'},{val:'0',lbl:'Calibrations Due'},{val:'50',lbl:'Tasks/Month'}],
+    ticketStages: ALL_STAGES,
+    widgets: ['Notifications','Stats','Tickets','Tasks','Compliance','Weight Alerts','BayGrid','Activity'],
+    perms: { 'Create tickets': true, 'Resolve tickets': true, 'Review cleaning tasks': true },
+    notifications: [{type:'amber',text:'Facility tickets open'},{type:'amber',text:'Stale tickets'},{type:'blue',text:'Tasks due today'}],
+    quickActions: [],
+  },
+  {
+    name: 'QA Inspector', person: 'TBD', objective: '<strong>Quality gate.</strong> Audit SOPs, review deviations, sign off at Store/QA. Manage SOP Library. Control SAHPRA inspector access. Ensure product meets all quality standards before release.', email: 'qa@ilcofarms.co.za', level: 3, color: '#22D3EE',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Management: ['Dashboard','Task Board'], Processing: ['Batches','Containers','Lab'], Compliance: ['SOP Library','Anomalies','QMS','Audit','Site Master File'] },
+    kpis: [{val:'0',lbl:'Quarantined'},{val:'0',lbl:'Open Deviations'},{val:'10',lbl:'Active SOPs'},{val:'20',lbl:'Tasks Done'}],
+    ticketStages: ['STORE_QA','CURE','DRYING'],
+    widgets: ['QA Overview','Compliance Summary','Tasks','Tickets','Weight Alerts','Phase Chart','Activity'],
+    perms: { 'Create tickets': true, 'Resolve tickets': true, 'Sign off at Store/QA': true, 'Manage SOPs': true },
+    notifications: [{type:'amber',text:'Stale tickets'},{type:'blue',text:'Overdue tasks'}],
+    quickActions: [],
+  },
+  {
+    name: 'Maintenance Manager', person: 'TBD', objective: '<strong>Equipment uptime.</strong> Keep all scales calibrated, equipment running, consumables stocked. Resolve maintenance tickets. Prevent equipment failures from disrupting operations.', email: 'maint@ilcofarms.co.za', level: 3, color: '#F97316',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Management: ['Dashboard','Task Board'], System: ['Assets','HR & Training'] },
+    kpis: [{val:'98%',lbl:'Equipment Uptime'},{val:'100%',lbl:'Calibrations On Time'},{val:'15',lbl:'Tickets Resolved'},{val:'8',lbl:'Preventive Done'}],
+    ticketStages: ['FACILITY'],
+    widgets: ['Notifications','Stats','Tickets','Tasks','Weight Alerts','BayGrid','Activity'],
+    perms: { 'Create tickets': true, 'Resolve tickets': true, 'Log maintenance': true, 'Register assets': true },
+    notifications: [{type:'red',text:'Equipment calibrations due this week'},{type:'red',text:'Faulty assets reported'},{type:'amber',text:'Low stock consumables'},{type:'amber',text:'Maintenance tickets assigned'}],
+    quickActions: ['Assets','Tickets','Board'],
+  },
+  {
+    name: 'Nursery Manager', person: 'TBD', email: 'nursery@ilcofarms.co.za', objective: '<strong>Clone success.</strong> Manage the nursery — clone room, rooting trays, transplant decisions. Maximize rooting rates, minimize mortality. Decide which clones are healthy enough to transplant.', level: 3, color: '#34D399',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Management: ['Dashboard','Task Board','Facility 360'], Cultivation: ['BayGrid','Calendar','Mothers','Strains','Plants'] },
+    kpis: [{val:'5',lbl:'Active Trays'},{val:'85%',lbl:'Rooting Rate'},{val:'15%',lbl:'Mortality Rate'},{val:'200',lbl:'Total Clones'}],
+    ticketStages: ALL_STAGES,
+    widgets: ['Notifications','Stats','BayGrid','Clone Trays','Tasks','Tickets','Activity'],
+    perms: { 'Create tickets': true, 'Resolve tickets': true, 'Clone management': true, 'Transplant decisions': true },
+    notifications: [{type:'amber',text:'Clone mortality alert'},{type:'blue',text:'Root checks due'}],
+    quickActions: [],
+  },
+  {
+    name: 'Cultivator', person: 'Cultivator 1, 2', objective: '<strong>Grow the plants.</strong> Open app → see My Shift → do daily tasks (topping, defoliation, scouting, feeding). Report issues via tickets. Take clones when directed. Record growth data.', email: 'cult1@ilcofarms.co.za', level: 2, color: '#4ADE80',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Cultivation: ['BayGrid','Calendar','Mothers','Strains','Plants'] },
+    kpis: [{val:'85%',lbl:'Rooting Rate'},{val:'95%',lbl:'Tasks On Time'},{val:'<5%',lbl:'Mortality'},{val:'20',lbl:'Clones/Mo'}],
+    ticketStages: ['PROPAGATION','VEGETATIVE','FLOWERING','HARVEST'],
+    widgets: ['Notifications','Stats','Forecast','BayGrid','Tasks','Clone Trays','Tickets','Activity'],
+    perms: { 'Create tickets': true, 'Resolve tickets': false, 'Register plants': true, 'Take clones': true, 'Phase transitions': true },
+    notifications: [{type:'amber',text:'Overdue tasks'},{type:'blue',text:'Shift not started'}],
+    quickActions: ['My Shift','BayGrid','Mothers','Tickets'],
+  },
+  {
+    name: 'Lab Tech', person: 'Keke', objective: '<strong>Test and certify.</strong> Run 8 lab tests per batch. All must pass. Generate COA for released batches. Flag failed tests for quarantine.', email: 'keke@ilcofarms.co.za', level: 2, color: '#FBBF24',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Processing: ['Batches','Lab','Dispatch'], Compliance: ['SOP Library','Audit'] },
+    kpis: [{val:'40',lbl:'Tests Done'},{val:'90%',lbl:'Pass Rate'},{val:'5',lbl:'COAs Generated'}],
+    ticketStages: ['STORE_QA'],
+    widgets: ['Notifications','Stats','Tasks','Tickets','Phase Chart','Activity'],
+    perms: { 'Create tickets': true, 'Submit lab results': true, 'Generate COA': true },
+    notifications: [{type:'blue',text:'Overdue tasks'},{type:'blue',text:'Shift not started'}],
+    quickActions: [],
+  },
+  {
+    name: 'Trimmer', person: '25 trimmers', objective: '<strong>Trim accurately.</strong> Receive weighed bin → trim → return trimmed product + waste. Weight IN must equal weight OUT + waste (within 2%). Simple shift view.', email: 'trimmer1@ilcofarms.co.za', level: 1, color: '#34D399',
+    navGroups: { Core: ['My Shift','Tickets','Checklists'], Processing: ['Batches','Containers','Trim'] },
+    kpis: [{val:'98%',lbl:'Weight Accuracy'},{val:'20',lbl:'Sessions'},{val:'100g/hr',lbl:'Trim Speed'}],
+    ticketStages: ['TRIM'],
+    widgets: ['Notifications','Stats','Tasks','Tickets','Activity'],
+    perms: { 'Create tickets': true, 'Record trim output': true, 'Resolve tickets': false },
+    notifications: [{type:'blue',text:'Shift not started'},{type:'blue',text:'Overdue tasks'}],
+    quickActions: ['My Shift','Tickets'],
+  },
+  {
+    name: 'Security Officer', person: 'Sipho', objective: '<strong>Gate control.</strong> Log visitors, sign off dispatch manifests, witness destructions. Verify all containers match transport manifest before gate release.', email: 'sipho@ilcofarms.co.za', level: 1, color: '#F87171',
+    navGroups: { Core: ['My Shift','Tickets','Checklists','Scan'], Processing: ['Dispatch'] },
+    kpis: [{val:'100%',lbl:'Gate Logs'},{val:'10',lbl:'Manifests'},{val:'2',lbl:'Destructions'}],
+    ticketStages: ['DISPATCH','FACILITY'],
+    widgets: ['Notifications','Stats','Tasks','Tickets','Activity'],
+    perms: { 'Create tickets': true, 'Mark dispatch departed/arrived': true, 'Witness destruction': true },
+    notifications: [{type:'blue',text:'Shift not started'},{type:'blue',text:'Overdue tasks'}],
+    quickActions: ['My Shift','Tickets'],
+  },
+  {
+    name: 'Housekeeping', person: 'Various', objective: '<strong>Clean rooms daily.</strong> Open app → see cleaning checklist for each room (grow, dry, trim, pack). Tick items. Report issues. All logged for SAHPRA compliance.', email: 'hk@ilcofarms.co.za', level: 1, color: '#EC4899',
+    navGroups: { Core: ['My Shift','Tickets','Checklists'], Compliance: ['SOP Library','Audit'] },
+    kpis: [{val:'100%',lbl:'Tasks Done'},{val:'95%',lbl:'Inspection Pass'}],
+    ticketStages: ['FACILITY'],
+    widgets: ['Notifications','Stats','Tasks','Tickets'],
+    perms: { 'Create tickets': true, 'Complete cleaning checklists': true },
+    notifications: [{type:'blue',text:'Shift not started'},{type:'blue',text:'Overdue tasks'}],
+    quickActions: ['My Shift','Tickets','Checklists'],
+  },
+  {
+    name: 'SAHPRA Viewer', person: 'Inspector (external)', objective: '<strong>Audit access.</strong> Read-only view of all data — plants, batches, COAs, audit trail, SOPs. Cannot create or edit anything. Access controlled by QA Inspector.', email: 'inspector@ilcofarms.co.za', level: 0, color: 'rgba(255,255,255,.3)',
+    navGroups: { Core: ['Tickets','Checklists'], Cultivation: ['BayGrid','Strains','Plants'], Processing: ['Batches','Containers'], Compliance: ['SOP Library','Audit'] },
+    kpis: [],
+    ticketStages: ALL_STAGES,
+    widgets: ['Stats','BayGrid','Tickets (read-only)','Phase Chart','Activity'],
+    perms: { 'Create tickets': false, 'Resolve tickets': false, 'View all data': true, 'Edit anything': false, 'Export audit': true },
+    notifications: [],
+    quickActions: [],
+  },
+];
+
+const container = document.getElementById('roles');
+
+ROLES.forEach((role, idx) => {
+  const div = document.createElement('div');
+  div.className = 'role';
+  div.innerHTML = `
+    <div class="role-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="role-left">
+        <div class="role-dot" style="background:${role.color}"></div>
+        <span class="role-name">${role.name}</span>
+        <span class="role-person">${role.person}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="role-level">Level ${role.level}</span>
+        <span class="role-arrow">▼</span>
+      </div>
+    </div>
+    <div class="role-body">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;flex-wrap:wrap;gap:8px">
+        <span style="font-size:.85rem;color:rgba(255,255,255,.4)">${role.email} — PIN: 123456</span>
+        ${role.email && role.email !== '—' ? `<a href="https://tntilco.cleva-ai.co.za/login" target="_blank" style="font-size:.75rem;padding:6px 16px;border-radius:8px;background:#C9A84C;color:#0A0A0A;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px">Test This Role →</a>` : `<span style="font-size:.7rem;color:rgba(255,255,255,.15)">No account yet</span>`}
+      </div>
+      ${role.objective ? `<div class="objective">${role.objective}</div>` : ""}
+
+      ${role.quickActions.length ? `
+      <div class="section">
+        <div class="section-title">Quick Actions (Dashboard)</div>
+        <div class="actions">${role.quickActions.map(a => `<div class="action">${a}</div>`).join('')}</div>
+      </div>` : ''}
+
+      <div class="section">
+        <div class="section-title">Sidebar Navigation</div>
+        ${Object.entries(role.navGroups).map(([group, items]) => `
+          <div class="nav-group">
+            <div class="nav-group-label">${group}</div>
+            <div class="nav-items">${items.map(i => `<div class="nav-item">${i}</div>`).join('')}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      ${role.kpis.length ? `
+      <div class="section">
+        <div class="section-title">KPIs</div>
+        <div class="kpi-row">${role.kpis.map(k => `<div class="kpi"><div class="val">${k.val}</div><div class="lbl">${k.lbl}</div></div>`).join('')}</div>
+      </div>` : ''}
+
+      <div class="section">
+        <div class="section-title">Dashboard Widgets</div>
+        <div class="widgets">${role.widgets.map(w => `<div class="widget">${w}</div>`).join('')}</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Ticket Visibility (Workflow Stages)</div>
+        <div class="ticket-stages">${ALL_STAGES.map(s => `<div class="ticket-stage ${role.ticketStages.includes(s) ? 'yes' : 'no'}">${s.replace(/_/g,' ')}</div>`).join('')}</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Permissions</div>
+        <div class="perms">${Object.entries(role.perms).map(([k,v]) => `<div class="perm ${v ? 'yes' : 'no'}">${v ? '✓' : '✗'} ${k}</div>`).join('')}</div>
+      </div>
+
+      ${role.notifications.length ? `
+      <div class="section">
+        <div class="section-title">Smart Notifications</div>
+        <div class="notif-list">${role.notifications.map(n => `<div class="notif"><div class="notif-dot ${n.type}"></div>${n.text}</div>`).join('')}</div>
+      </div>` : ''}
+    </div>
+  `;
+  container.appendChild(div);
+});
+</script>
+</body>
+</html>
