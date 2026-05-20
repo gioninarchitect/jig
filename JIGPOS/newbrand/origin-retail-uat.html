@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Origin Retail - Pharmacy UAT Pack</title>
+  <link rel="icon" type="image/png" href="images/origin-logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--black:#080807;--panel:#14120f;--panel2:#1d1912;--line:#332b1a;--gold:#c9a84c;--gold2:#e3c76b;--white:#f7f1e6;--muted:#b8ad98;--green:#22c55e;--red:#ef4444}
+    *{box-sizing:border-box} body{margin:0;background:var(--black);color:var(--white);font-family:Inter,sans-serif;line-height:1.5}
+    header{position:sticky;top:0;z-index:20;background:rgba(8,8,7,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px 22px;display:flex;justify-content:space-between;gap:18px;align-items:center}
+    .brand{display:flex;gap:12px;align-items:center}.mark{width:38px;height:38px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-family:Cinzel,serif;font-weight:700}.brand h1{font-family:Cinzel,serif;font-size:1.05rem;margin:0;color:var(--gold2);text-transform:uppercase}.brand p{margin:1px 0 0;color:var(--muted);font-size:.8rem}
+    nav{display:flex;gap:10px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--gold);background:var(--gold);color:#090807;text-decoration:none;border-radius:7px;padding:10px 13px;font-weight:800;font-size:.82rem;cursor:pointer}.btn.ghost{background:transparent;color:var(--gold2)}.btn.dark{background:#15120d;color:var(--white);border-color:#3b321f}
+    main{max-width:1180px;margin:0 auto;padding:26px 18px 54px}.hero{min-height:52vh;display:grid;align-items:end;border-bottom:1px solid var(--line);padding:34px 0}.eyebrow{color:var(--gold);font-weight:800;text-transform:uppercase;font-size:.75rem;letter-spacing:.08em}.hero h2{font-family:Cinzel,serif;font-size:clamp(2rem,5vw,4.8rem);line-height:.96;margin:12px 0;text-transform:uppercase;letter-spacing:0}.hero p{max-width:760px;color:var(--muted);font-size:1.05rem}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}.stat{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:15px}.stat strong{display:block;color:var(--gold2);font-size:1.6rem}.stat span{color:var(--muted);font-size:.83rem}
+    .section-title{display:flex;justify-content:space-between;align-items:end;gap:14px;margin:32px 0 14px}.section-title h3{font-family:Cinzel,serif;color:var(--gold2);text-transform:uppercase;margin:0}.section-title p{margin:0;color:var(--muted);font-size:.9rem}
+    .acc{border:1px solid var(--line);border-radius:8px;background:var(--panel);margin:10px 0;overflow:hidden}.acc-btn{width:100%;background:transparent;color:var(--white);border:0;padding:16px;text-align:left;display:flex;justify-content:space-between;gap:14px;align-items:center;cursor:pointer}.acc-btn:hover{background:#18140e}.acc-id{font-family:Cinzel,serif;color:var(--gold);font-size:1.2rem}.acc-title{font-weight:800}.acc-meta{color:var(--muted);font-size:.83rem}.acc-panel{display:none;padding:0 16px 16px}.acc.open .acc-panel{display:block}.acc.open .chev{transform:rotate(180deg)}.chev{transition:.18s;color:var(--gold)}
+    .grid{display:grid;grid-template-columns:1.4fr .9fr;gap:16px}.card{background:var(--panel2);border:1px solid #2e2618;border-radius:8px;padding:14px}.card h4{margin:0 0 8px;color:var(--gold2)}.check{display:grid;gap:8px;margin-top:10px}.check span{display:flex;gap:8px;color:var(--muted);font-size:.9rem}.check b{color:var(--white)}.pillrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.pill{border:1px solid #3b321f;background:#100e0a;color:var(--gold2);border-radius:999px;padding:5px 9px;font-size:.75rem;font-weight:800}.copy{background:#211b12;color:var(--white);border-color:#4a3d22}.notice{border-left:4px solid var(--gold);background:#12100b;padding:14px;border-radius:8px;color:var(--muted)}
+    footer{border-top:1px solid var(--line);color:var(--muted);font-size:.82rem;padding-top:18px;margin-top:34px}
+    @media(max-width:860px){header{align-items:flex-start;flex-direction:column}.stats,.grid{grid-template-columns:1fr}.hero{min-height:auto;padding-top:28px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><div class="mark">OR</div><div><h1>Origin Retail UAT</h1><p>Section 21 pharmacy pickup and dispensing partner workflow</p></div></div>
+    <nav>
+      <a class="btn" href="origin-retail-pharmacy.html#pharmacy-create">Open Control Panel</a>
+      <a class="btn ghost" href="origin-retail-stakeholder-summary.html">Stakeholder Summary</a>
+      <a class="btn ghost" href="origin-retail-requirements-compare.html">Requirements Compare</a>
+      <a class="btn ghost" href="admin.html">Admin</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Production UAT Reference</div>
+        <h2>Pharmacy Partner Workflow</h2>
+        <p>This UAT pack proves that Section 21 remains the controlling prerequisite while partner pharmacies are added as pickup and dispensing points. Every critical CTA must persist to the database, create the correct audit evidence, and support financial reconciliation.</p>
+        <div class="hero-actions">
+          <a class="btn" href="origin-retail-pharmacy.html#pharmacy-create">Run UAT CTAs</a>
+          <a class="btn ghost" href="origin-retail-requirements-compare.html">Compare Requirements</a>
+          <a class="btn ghost" href="#scenarios">Review Scenarios</a>
+          <button class="btn dark" id="expandAll" type="button">Expand All</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="stats">
+      <div class="stat"><strong>7</strong><span>UAT scenarios</span></div>
+      <div class="stat"><strong>15+</strong><span>persistent evidence tables</span></div>
+      <div class="stat"><strong>21</strong><span>day uncollected expiry rule</span></div>
+      <div class="stat"><strong>0</strong><span>frontend-only status changes allowed</span></div>
+    </div>
+
+    <div class="notice"><b>UAT rule:</b> Section 21, prescription reference, pharmacy onboarding, package custody, inventory movement, ledger, refunds, settlement, and audit evidence must be proven through saved records. A button that only changes the screen does not pass UAT.</div>
+
+    <div id="scenarios" class="section-title"><div><h3>UAT Scenarios</h3><p>Use these accordions as the live demo runbook.</p></div></div>
+
+    <div class="acc open">
+      <button class="acc-btn" type="button"><span><span class="acc-id">01</span> <span class="acc-title">Partner Pharmacy Onboarding</span><br><span class="acc-meta">Create, document, approve, and activate the pharmacy.</span></span><span class="chev">▼</span></button>
+      <div class="acc-panel"><div class="grid"><div class="card"><h4>Acceptance Test</h4><div class="check"><span><b>1.</b>Create partner pharmacy with license and RP details.</span><span><b>2.</b>Add required documents: pharmacy license, RP registration, bank confirmation, partner agreement, storage SOP.</span><span><b>3.</b>Approve each document.</span><span><b>4.</b>Add responsible pharmacist user.</span><span><b>5.</b>Activate pharmacy only after controls pass.</span></div></div><div class="card"><h4>Direct CTAs</h4><div class="pillrow"><a class="pill" href="origin-retail-pharmacy.html#pharmacy-create">Create Pharmacy</a><a class="pill" href="origin-retail-pharmacy.html#pharmacy-documents">Approve Docs</a><a class="pill" href="origin-retail-pharmacy.html#pharmacy-users">Add RP User</a><a class="pill" href="origin-retail-pharmacy.html#pharmacy-create">Activate</a></div></div></div></div>
+    </div>
+
+    <div class="acc">
+      <button class="acc-btn" type="button"><span><span class="acc-id">02</span> <span class="acc-title">Section 21 Order Creation</span><br><span class="acc-meta">Order cannot bypass patient authorization and prescription controls.</span></span><span class="chev">▼</span></button>
+      <div class="acc-panel"><div class="grid"><div class="card"><h4>Acceptance Test</h4><div class="check"><span><b>1.</b>Create order against an active pharmacy.</span><span><b>2.</b>Record Section 21 document reference and prescription reference.</span><span><b>3.</b>Confirm dispensing partner.</span><span><b>4.</b>Record payment and allocations.</span></div></div><div class="card"><h4>Direct CTAs</h4><div class="pillrow"><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Create Order</a><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Confirm Section 21</a><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Record Payment</a><a class="pill" href="origin-retail-pharmacy.html#audit-evidence">Audit Evidence</a></div></div></div></div>
+    </div>
+
+    <div class="acc">
+      <button class="acc-btn" type="button"><span><span class="acc-id">03</span> <span class="acc-title">Batch Inventory and Packing</span><br><span class="acc-meta">Packing must deduct stock through immutable movement records.</span></span><span class="chev">▼</span></button>
+      <div class="acc-panel"><div class="grid"><div class="card"><h4>Acceptance Test</h4><div class="check"><span><b>1.</b>Create inventory batch with SKU, batch number, lot, expiry and quantity.</span><span><b>2.</b>Load order detail and select the order item ID.</span><span><b>3.</b>Pack against the batch and order item.</span><span><b>4.</b>Confirm inventory movement row and package QR payload.</span></div></div><div class="card"><h4>Direct CTAs</h4><div class="pillrow"><a class="pill" href="origin-retail-pharmacy.html#batch-inventory">Create Batch</a><a class="pill" href="origin-retail-pharmacy.html#batch-inventory">Fetch Order Items</a><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Pack Order</a><a class="pill" href="origin-retail-pharmacy.html#audit-evidence">Audit Evidence</a></div></div></div></div>
+    </div>
+
+    <div class="acc">
+      <button class="acc-btn" type="button"><span><span class="acc-id">04</span> <span class="acc-title">Dispatch, Arrival and Collection</span><br><span class="acc-meta">Custody chain must show hub, courier, pharmacy, and customer release.</span></span><span class="chev">▼</span></button>
+      <div class="acc-panel"><div class="grid"><div class="card"><h4>Acceptance Test</h4><div class="check"><span><b>1.</b>Dispatch package to pharmacy.</span><span><b>2.</b>Record pharmacy arrival scan.</span><span><b>3.</b>Verify collection OTP.</span><span><b>4.</b>Collect order and create pharmacy ledger fee.</span></div></div><div class="card"><h4>Direct CTAs</h4><div class="pillrow"><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Dispatch</a><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Arrival Scan</a><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Verify OTP</a><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Collect</a><a class="pill" href="origin-retail-pharmacy.html#finance-ledger">Ledger</a></div></div></div></div>
+    </div>
+
+    <div class="acc">
+      <button class="acc-btn" type="button"><span><span class="acc-id">05</span> <span class="acc-title">21-Day Uncollected Expiry</span><br><span class="acc-meta">Uncollected orders must generate return and refund controls.</span></span><span class="chev">▼</span></button>
+      <div class="acc-panel"><div class="grid"><div class="card"><h4>Acceptance Test</h4><div class="check"><span><b>1.</b>Run expiry job for arrived orders older than 21 days.</span><span><b>2.</b>Generate return waybill.</span><span><b>3.</b>Create refunds payable line.</span><span><b>4.</b>Create return-required workflow ticket.</span></div></div><div class="card"><h4>Direct CTAs</h4><div class="pillrow"><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Run Expiry</a><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Request Return</a><a class="pill" href="origin-retail-pharmacy.html#finance-status">Refund Status</a><a class="pill" href="origin-retail-pharmacy.html#audit-evidence">Audit Evidence</a></div></div></div></div>
+    </div>
+
+    <div class="acc">
+      <button class="acc-btn" type="button"><span><span class="acc-id">06</span> <span class="acc-title">Return to Hub</span><br><span class="acc-meta">Returned packages must restore stock through balancing entries.</span></span><span class="chev">▼</span></button>
+      <div class="acc-panel"><div class="grid"><div class="card"><h4>Acceptance Test</h4><div class="check"><span><b>1.</b>Receive returned package at hub.</span><span><b>2.</b>Update return waybill status.</span><span><b>3.</b>Create return inventory movement.</span><span><b>4.</b>Confirm stock balance changed by movement, not overwrite.</span></div></div><div class="card"><h4>Direct CTAs</h4><div class="pillrow"><a class="pill" href="origin-retail-pharmacy.html#order-lifecycle">Receive Return</a><a class="pill" href="origin-retail-pharmacy.html#batch-inventory">Batch Inventory</a><a class="pill" href="origin-retail-pharmacy.html#audit-evidence">Audit Evidence</a></div></div></div></div>
+    </div>
+
+    <div class="acc">
+      <button class="acc-btn" type="button"><span><span class="acc-id">07</span> <span class="acc-title">Finance Reconciliation</span><br><span class="acc-meta">Handling fees, refunds, and settlement status must reconcile.</span></span><span class="chev">▼</span></button>
+      <div class="acc-panel"><div class="grid"><div class="card"><h4>Acceptance Test</h4><div class="check"><span><b>1.</b>Load pharmacy ledger.</span><span><b>2.</b>Create settlement for accrued collection fees.</span><span><b>3.</b>Move settlement to invoiced or paid.</span><span><b>4.</b>Move refund status through approval and paid states.</span></div></div><div class="card"><h4>Direct CTAs</h4><div class="pillrow"><a class="pill" href="origin-retail-pharmacy.html#finance-ledger">Load Ledger</a><a class="pill" href="origin-retail-pharmacy.html#finance-ledger">Create Settlement</a><a class="pill" href="origin-retail-pharmacy.html#finance-status">Settlement Status</a><a class="pill" href="origin-retail-pharmacy.html#finance-status">Refund Status</a></div></div></div></div>
+    </div>
+
+    <footer>Origin Retail - UAT pack for Section 21 pharmacy pickup and dispensing partners. Generated 20 May 2026.</footer>
+  </main>
+  <script>
+    document.querySelectorAll('.acc-btn').forEach((btn)=>btn.addEventListener('click',()=>btn.closest('.acc').classList.toggle('open')));
+    document.getElementById('expandAll').addEventListener('click',()=>document.querySelectorAll('.acc').forEach((a)=>a.classList.add('open')));
+  </script>
+</body>
+</html>

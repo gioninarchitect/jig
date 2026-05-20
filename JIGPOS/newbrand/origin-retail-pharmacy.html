@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Origin Retail Pharmacy</title>
+  <link rel="icon" type="image/png" href="images/origin-logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --black:#0A0A0A; --panel:#141414; --line:#2A2A2A; --gold:#C9A84C; --white:#F5F0E8; --muted:#A89F8C; --green:#22C55E; --red:#EF4444; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--black); color: var(--white); font-family: Inter, sans-serif; }
+    header { position: sticky; top: 0; z-index: 10; background: rgba(10,10,10,.96); border-bottom: 1px solid var(--line); padding: 16px 24px; display:flex; justify-content:space-between; align-items:center; }
+    h1, h2 { font-family: Cinzel, serif; text-transform: uppercase; letter-spacing: .02em; margin: 0; }
+    h1 { font-size: 1.35rem; color: var(--gold); }
+    h2 { font-size: 1rem; margin-bottom: 14px; }
+    main { padding: 24px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+    section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px; }
+    .span-4 { grid-column: span 4; } .span-6 { grid-column: span 6; } .span-8 { grid-column: span 8; } .span-12 { grid-column: span 12; }
+    label { display: block; color: var(--muted); font-size: .8rem; margin: 10px 0 5px; }
+    input, select { width: 100%; background: #0E0E0E; color: var(--white); border: 1px solid #333; border-radius: 6px; padding: 10px; }
+    button { background: var(--gold); color: #0A0A0A; border: 0; border-radius: 6px; padding: 10px 12px; font-weight: 800; cursor: pointer; margin: 8px 8px 0 0; }
+    button.secondary { background: #222; color: var(--white); border: 1px solid #444; }
+    button.danger { background: var(--red); color: white; }
+    table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    th, td { border-bottom: 1px solid #2A2A2A; padding: 9px; text-align: left; vertical-align: top; }
+    th { color: var(--gold); font-size: .78rem; text-transform: uppercase; }
+    pre { background:#080808; border:1px solid #252525; border-radius:8px; padding:14px; min-height:220px; overflow:auto; font-family:'JetBrains Mono', monospace; font-size:.78rem; }
+    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .grid3 { display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .toast { position: fixed; right: 18px; bottom: 18px; background:#222; border:1px solid #444; border-left:4px solid var(--gold); padding:12px 14px; border-radius:8px; transform: translateY(140%); transition:.2s; max-width: 420px; }
+    .toast.show { transform: translateY(0); }
+    .toast.success { border-left-color: var(--green); }
+    .toast.error { border-left-color: var(--red); }
+    a { color: var(--gold); text-decoration: none; }
+    @media (max-width: 980px) { main { grid-template-columns: 1fr; } .span-4,.span-6,.span-8,.span-12 { grid-column: span 1; } .grid2,.grid3 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Origin Retail Pharmacy</h1>
+      <div style="color:var(--muted);font-size:.86rem;">Section 21 remains the prerequisite. Pharmacies are pickup and dispensing partners.</div>
+    </div>
+    <nav style="display:flex;gap:14px;flex-wrap:wrap;">
+      <a href="origin-retail-uat.html">UAT Pack</a>
+      <a href="origin-retail-stakeholder-summary.html">Stakeholder Summary</a>
+      <a href="origin-retail-requirements-compare.html">Requirements Compare</a>
+      <a href="admin.html">Back to Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="span-8" id="pharmacy-list">
+      <h2>Partner Pharmacies</h2>
+      <button onclick="refreshPharmacies()">Refresh</button>
+      <table>
+        <thead><tr><th>Facility</th><th>Status</th><th>Vault</th><th>License</th><th>Fee</th><th></th></tr></thead>
+        <tbody id="pharmacyRows"></tbody>
+      </table>
+    </section>
+
+    <section class="span-4" id="pharmacy-create">
+      <h2>Create Pharmacy</h2>
+      <input id="pharmacyId" placeholder="Selected pharmacy ID">
+      <label>Facility name</label><input id="facilityName">
+      <div class="grid2"><input id="licenseNumber" placeholder="License number"><input id="licenseExpiry" type="date"></div>
+      <label>Responsible pharmacist</label><input id="rpName">
+      <div class="grid2"><input id="rpEmail" placeholder="RP email"><input id="rpReg" placeholder="RP registration"></div>
+      <div class="grid2"><input id="contactEmail" placeholder="Contact email"><input id="contactPhone" placeholder="Contact phone"></div>
+      <div class="grid2"><input id="addressCity" placeholder="City"><input id="addressProvince" placeholder="Province"></div>
+      <div class="grid2"><select id="handlingFeeType"><option>FLAT</option><option>PERCENT</option></select><input id="handlingFeeValue" type="number" placeholder="Fee value"></div>
+      <button onclick="createPharmacy()">Create</button>
+      <button onclick="activatePharmacy()" class="secondary">Activate Selected</button>
+    </section>
+
+    <section class="span-6" id="pharmacy-documents">
+      <h2>Onboarding Documents</h2>
+      <input id="docPharmacyId" placeholder="Pharmacy ID">
+      <div class="grid2">
+        <select id="docType">
+          <option value="pharmacy_license">Pharmacy license</option>
+          <option value="responsible_pharmacist_registration">Responsible pharmacist registration</option>
+          <option value="bank_confirmation">Bank confirmation</option>
+          <option value="signed_partner_agreement">Signed partner agreement</option>
+          <option value="storage_sop">Storage SOP</option>
+          <option value="premises_proof">Premises proof</option>
+        </select>
+        <input id="docExpiry" type="date">
+      </div>
+      <input id="docFileName" placeholder="File name">
+      <input id="docFilePath" placeholder="File path">
+      <button onclick="addDocument()">Add/Replace Document</button>
+      <label>Review document ID</label><input id="reviewDocumentId">
+      <input id="reviewNotes" placeholder="Review notes">
+      <button onclick="reviewDocument('approved')">Approve</button>
+      <button onclick="reviewDocument('rejected')" class="danger">Reject</button>
+    </section>
+
+    <section class="span-6" id="pharmacy-users">
+      <h2>Pharmacy Users</h2>
+      <input id="userPharmacyId" placeholder="Pharmacy ID">
+      <div class="grid2"><input id="pharmacyUserName" placeholder="Name"><input id="pharmacyUserEmail" placeholder="Email"></div>
+      <div class="grid2">
+        <select id="pharmacyUserRole">
+          <option>RESPONSIBLE_PHARMACIST</option><option>PHARMACIST</option><option>PHARMACY_ASSISTANT</option><option>PHARMACY_ADMIN</option>
+        </select>
+        <input id="pharmacyUserReg" placeholder="Registration number">
+      </div>
+      <button onclick="addPharmacyUser()">Add User</button>
+    </section>
+
+    <section class="span-12" id="order-lifecycle">
+      <h2>Section 21 Order and Pickup Lifecycle</h2>
+      <div class="grid3"><input id="orderId" placeholder="Core order ID"><input id="orderPharmacyId" placeholder="Pharmacy ID"><input id="orderNumber" placeholder="Order number"></div>
+      <div class="grid3"><input id="section21Ref" placeholder="Section 21 document ref"><input id="prescriptionRef" placeholder="Prescription ref"><input id="prescriberRef" placeholder="Prescriber ref"></div>
+      <div class="grid3"><input id="itemSku" placeholder="SKU"><input id="itemName" placeholder="Item name"><input id="itemQty" type="number" value="1"></div>
+      <div class="grid3"><input id="orderTotal" type="number" placeholder="Medication total"><input id="consultationFee" type="number" placeholder="Consultation fee"><input id="collectionOtp" placeholder="Collection OTP" value="123456"></div>
+      <div class="grid2"><input id="paymentAmount" type="number" placeholder="Payment amount"><input id="paymentRef" placeholder="Payment reference"></div>
+      <input id="courierName" placeholder="Courier">
+      <button onclick="createPharmacyOrder()">Create Order</button>
+      <button onclick="loadOrderDetail()" class="secondary">Load Order Detail</button>
+      <button onclick="confirmSection21()">Confirm Section 21</button>
+      <button onclick="recordPayment()">Record Payment</button>
+      <button onclick="runOrderAction('pack')">Pack</button>
+      <button onclick="runOrderAction('dispatch')">Dispatch</button>
+      <button onclick="runOrderAction('arrival')">Pharmacy Arrival</button>
+      <button onclick="runOrderAction('verify')">Verify OTP</button>
+      <button onclick="runOrderAction('collect')">Collect</button>
+      <button onclick="runOrderAction('requestReturn')" class="secondary">Request Return</button>
+      <button onclick="runOrderAction('receiveReturn')" class="secondary">Receive Return</button>
+      <button onclick="runExpiry()" class="danger">Run 21-Day Expiry</button>
+    </section>
+
+    <section class="span-6" id="batch-inventory">
+      <h2>Batch Inventory</h2>
+      <div class="grid2"><input id="inventorySku" placeholder="SKU"><input id="inventoryProductName" placeholder="Product name"></div>
+      <div class="grid3"><input id="inventoryBatchNumber" placeholder="Batch number"><input id="inventoryLotNumber" placeholder="Lot number"><input id="inventoryExpiryDate" type="date"></div>
+      <div class="grid3"><input id="inventoryQty" type="number" placeholder="Quantity on hand"><input id="inventoryBatchId" placeholder="Inventory batch ID"><input id="packOrderItemId" placeholder="Order item ID"></div>
+      <input id="packQty" type="number" placeholder="Pack quantity">
+      <button onclick="createInventoryBatch()">Create Batch</button>
+      <button onclick="loadOrderDetail()" class="secondary">Fetch Order Items</button>
+    </section>
+
+    <section class="span-6" id="finance-ledger">
+      <h2>Finance</h2>
+      <div class="grid3"><input id="settlementPharmacyId" placeholder="Pharmacy ID"><input id="periodStart" type="date"><input id="periodEnd" type="date"></div>
+      <button onclick="createSettlement()">Create Settlement</button>
+      <button onclick="loadLedger()" class="secondary">Load Ledger</button>
+      <button onclick="loadRefunds()" class="secondary">Load Refunds</button>
+    </section>
+
+    <section class="span-6" id="finance-status">
+      <h2>Finance Status Controls</h2>
+      <div class="grid2"><input id="settlementId" placeholder="Settlement ID"><select id="settlementStatus"><option>invoiced</option><option>paid</option><option>cancelled</option></select></div>
+      <button onclick="updateSettlementStatus()">Update Settlement</button>
+      <div class="grid2"><input id="refundId" placeholder="Refund ID"><select id="refundStatus"><option>pending</option><option>approved</option><option>paid</option><option>cancelled</option></select></div>
+      <button onclick="updateRefundStatus()">Update Refund</button>
+    </section>
+
+    <section class="span-6" id="audit-evidence">
+      <h2>Audit</h2>
+      <div class="grid2"><input id="auditEntityType" placeholder="Entity type"><input id="auditEntityId" placeholder="Entity ID"></div>
+      <button onclick="loadAudit()">Load Audit</button>
+    </section>
+
+    <section class="span-12">
+      <h2>Last Result</h2>
+      <pre id="lastResult">{}</pre>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="frontend/config.js"></script>
+  <script src="frontend/origin-retail-pharmacy.js"></script>
+</body>
+</html>

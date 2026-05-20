@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - API Server
+ * Origin by ILCO Farming - API Server
  *
  * Express application wiring all routes together.
  * Requires PostgreSQL + environment variables (see .env.example).
@@ -35,7 +35,11 @@ import verificationRoutes from './routes/verification.routes';
 import chatWebhookRoutes from './chat/webhookRoutes';
 import chatAdminRoutes from './chat/adminRoutes';
 import n8nRoutes from './routes/n8n.routes';
+import b2bStatsRoutes from './routes/b2b-stats.routes';
+import supplierRoutes from './routes/suppliers.routes';
+import pharmacyCoreRoutes from './routes/pharmacy-core.routes';
 import { startNotificationScheduler } from './chat/notifications';
+import { startOriginRetailScheduler } from './origin-retail-scheduler';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3002;
@@ -83,6 +87,9 @@ api.use('/verification', verificationRoutes);
 api.use('/chat', chatWebhookLimiter, chatWebhookRoutes);
 api.use('/chat', chatAdminRoutes);
 api.use('/n8n', n8nRoutes);
+api.use('/b2b-stats', b2bStatsRoutes);
+api.use('/suppliers', supplierRoutes);
+api.use('/origin-retail/pharmacy-core', pharmacyCoreRoutes);
 
 app.use('/api/v1', api);
 
@@ -93,12 +100,13 @@ app.use(errorHandler as express.ErrorRequestHandler);
 // ── Start ───────────────────────────────────────────────────
 
 app.listen(PORT, () => {
-  console.log(`[JIG] Server running on port ${PORT}`);
-  console.log(`[JIG] Health: http://localhost:${PORT}/health`);
-  console.log(`[JIG] API:    http://localhost:${PORT}/api/v1`);
+  console.log(`[Origin] Server running on port ${PORT}`);
+  console.log(`[Origin] Health: http://localhost:${PORT}/health`);
+  console.log(`[Origin] API:    http://localhost:${PORT}/api/v1`);
 
   // Start notification scheduler
   startNotificationScheduler();
+  startOriginRetailScheduler();
 });
 
 export default app;

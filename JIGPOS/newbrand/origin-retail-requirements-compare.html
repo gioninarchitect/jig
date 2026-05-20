@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Origin Retail - Requirements Compare</title>
+  <link rel="icon" type="image/png" href="images/origin-logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--black:#080807;--panel:#14120f;--panel2:#1c1811;--line:#342c1b;--gold:#c9a84c;--gold2:#e2c66c;--white:#f7f0e4;--muted:#b7ab94;--green:#22c55e;--amber:#f59e0b}
+    *{box-sizing:border-box}body{margin:0;background:var(--black);color:var(--white);font-family:Inter,sans-serif;line-height:1.5}a{color:inherit}
+    header{position:sticky;top:0;z-index:10;background:rgba(8,8,7,.95);border-bottom:1px solid var(--line);padding:14px 22px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+    .brand{display:flex;gap:12px;align-items:center}.logo{width:40px;height:40px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-family:Cinzel,serif;font-weight:700}.brand h1{font-family:Cinzel,serif;font-size:1rem;text-transform:uppercase;margin:0;color:var(--gold2)}.brand p{margin:0;color:var(--muted);font-size:.8rem}
+    nav{display:flex;gap:10px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--gold);background:var(--gold);color:#090807;text-decoration:none;border-radius:7px;padding:10px 13px;font-weight:800;font-size:.82rem}.btn.ghost{background:transparent;color:var(--gold2)}
+    main{max-width:1220px;margin:0 auto;padding:30px 18px 58px}.hero{border-bottom:1px solid var(--line);padding:38px 0 30px}.eyebrow{color:var(--gold);font-weight:800;text-transform:uppercase;font-size:.75rem;letter-spacing:.08em}.hero h2{font-family:Cinzel,serif;text-transform:uppercase;font-size:clamp(2rem,5vw,4.6rem);line-height:.98;margin:10px 0;letter-spacing:0}.hero p{max-width:850px;color:var(--muted);font-size:1.04rem}
+    .map{font-family:JetBrains Mono,monospace;background:#0e0c08;border:1px solid var(--line);border-radius:8px;padding:18px;margin:22px 0;color:#d8caa8;overflow:auto;white-space:pre}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}.panel h3{font-family:Cinzel,serif;text-transform:uppercase;color:var(--gold2);margin:0 0 10px}.panel p{color:var(--muted);margin:0}.status{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(34,197,94,.35);background:rgba(34,197,94,.12);color:#b8f7c8;border-radius:999px;padding:5px 9px;font-size:.74rem;font-weight:800}.status.partial{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.13);color:#facc7a}
+    table{width:100%;border-collapse:collapse;margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}th,td{border-bottom:1px solid var(--line);padding:13px;text-align:left;vertical-align:top}th{color:var(--gold2);text-transform:uppercase;font-size:.76rem;letter-spacing:.04em;background:#100e0a}td{color:var(--muted);font-size:.9rem}td b{color:var(--white)}code{font-family:JetBrains Mono,monospace;color:var(--gold2)}
+    .acc{border:1px solid var(--line);border-radius:8px;background:var(--panel);margin:10px 0;overflow:hidden}.acc button{width:100%;background:transparent;color:var(--white);border:0;text-align:left;padding:16px;display:flex;justify-content:space-between;gap:14px;cursor:pointer}.acc button:hover{background:#19150e}.acc-body{display:none;padding:0 16px 16px;color:var(--muted)}.acc.open .acc-body{display:block}.chev{color:var(--gold);transition:.18s}.acc.open .chev{transform:rotate(180deg)}
+    footer{border-top:1px solid var(--line);color:var(--muted);font-size:.82rem;margin-top:34px;padding-top:18px}
+    @media(max-width:900px){header{flex-direction:column;align-items:flex-start}.grid{grid-template-columns:1fr}th,td{display:block;width:100%}tr{display:block;border-bottom:1px solid var(--line)}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><div class="logo">OR</div><div><h1>Requirements Compare</h1><p>Original pharmacy backend requirements mapped to the live Origin implementation</p></div></div>
+    <nav><a class="btn" href="origin-retail-uat.html">UAT Pack</a><a class="btn ghost" href="origin-retail-pharmacy.html#order-lifecycle">Live CTAs</a><a class="btn ghost" href="origin-retail-stakeholder-summary.html">Summary</a></nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Before vs Implemented</div>
+      <h2>Financial Leak Control Backbone</h2>
+      <p>This page compares the requested backend architecture with what has been added to Origin Retail. The implemented model links online payments, pharmacy processing ledger, central batch inventory, package custody, refunds, returns and settlement status through persisted database records.</p>
+    </section>
+
+    <div class="map">[ Patients ] -> [ Pharmacy_Orders ] -> [ Pharmacy_Order_Items ] -> [ Inventory_Batches ]
+                         |                         |
+                         |                         -> [ Inventory_Movements ]
+                         |
+                         -> [ Payment_Events ] -> [ Payment_Allocations ]
+                         |
+                         -> [ Order_Packages ] -> [ Package_Custody_Events ]
+                         |
+                         -> [ Pharmacy_Ledger ] -> [ Pharmacy_Settlements ]
+                         |
+                         -> [ Return_Waybills ] -> [ Refunds_Payable ] -> [ Workflow_Tickets ]</div>
+
+    <div class="grid">
+      <div class="panel"><h3>Golden Rule</h3><p>Financial and physical-stock history is not overwritten. Corrective actions are represented as new balancing rows such as refund records, return waybills and inventory return movements.</p></div>
+      <div class="panel"><h3>Production Gate</h3><p>UAT must prove every button writes to the database. A visual status change without persisted audit evidence does not pass.</p></div>
+    </div>
+
+    <table>
+      <thead><tr><th>Requested Requirement</th><th>Implemented In Origin Retail</th><th>Status</th><th>Direct CTA</th></tr></thead>
+      <tbody>
+        <tr><td><b>Partner_Pharmacies</b><br>Facility, fee type, fee value, vault status.</td><td><code>partner_pharmacies</code> with handling fee rules, vault flag, activation status, onboarding document gate and responsible pharmacist requirement.</td><td><span class="status">Added</span></td><td><a class="btn ghost" href="origin-retail-pharmacy.html#pharmacy-create">Create Pharmacy</a></td></tr>
+        <tr><td><b>Orders</b><br>Patient, pharmacy, consultation fee, medication total, payment status, lifecycle status.</td><td><code>pharmacy_orders</code> with payment status, Section 21 references, prescription reference, pharmacy link, OTP hash, and status-event history.</td><td><span class="status">Added</span></td><td><a class="btn ghost" href="origin-retail-pharmacy.html#order-lifecycle">Create Order</a></td></tr>
+        <tr><td><b>Pharmacy_Ledger</b><br>Collection and return fees with payout status.</td><td><code>pharmacy_ledger</code> records collection fee earned at OTP collection, links to pharmacy, order, package and settlement.</td><td><span class="status">Added</span></td><td><a class="btn ghost" href="origin-retail-pharmacy.html#finance-ledger">Load Ledger</a></td></tr>
+        <tr><td><b>Order_Items and Central_Inventory</b><br>Track packed product batch and inventory count.</td><td><code>pharmacy_order_items</code>, <code>inventory_batches</code> and <code>inventory_movements</code> link each packed item to batch, lot, expiry and movement balance.</td><td><span class="status">Added</span></td><td><a class="btn ghost" href="origin-retail-pharmacy.html#batch-inventory">Batch Inventory</a></td></tr>
+        <tr><td><b>Immutability</b><br>Never overwrite financial or stock history.</td><td>Append-only triggers block update/delete on payment events, allocations, inventory movements, package custody, order status events and audit events.</td><td><span class="status">Added</span></td><td><a class="btn ghost" href="origin-retail-pharmacy.html#audit-evidence">Audit Evidence</a></td></tr>
+        <tr><td><b>21-Day Expiry</b><br>Arrived orders older than 21 days become uncollected expired.</td><td>Scheduler runs daily and manual UAT CTA exists. Expired orders generate return waybill, refund payable and return-required workflow ticket.</td><td><span class="status">Added</span></td><td><a class="btn ghost" href="origin-retail-pharmacy.html#order-lifecycle">Run Expiry</a></td></tr>
+        <tr><td><b>Reverse Waybill</b><br>Flag package for return to hub.</td><td><code>return_waybills</code> is created from return request or expiry flow and linked to order, package and pharmacy.</td><td><span class="status">Added</span></td><td><a class="btn ghost" href="origin-retail-pharmacy.html#order-lifecycle">Request Return</a></td></tr>
+        <tr><td><b>Credit Note or Refund Payable</b><br>Create finance line for returned or expired order.</td><td><code>refunds_payable</code> persists amount, reason code, patient and payment reference, with status update CTA.</td><td><span class="status">Added</span></td><td><a class="btn ghost" href="origin-retail-pharmacy.html#finance-status">Refund Status</a></td></tr>
+        <tr><td><b>Settlement</b><br>Monthly partner pharmacy payout batch.</td><td><code>pharmacy_settlements</code> groups accrued ledger rows and supports invoiced, paid and cancelled status updates.</td><td><span class="status">Added</span></td><td><a class="btn ghost" href="origin-retail-pharmacy.html#finance-status">Settlement Status</a></td></tr>
+      </tbody>
+    </table>
+
+    <section>
+      <div class="acc open"><button type="button"><span><b>What This Prevents</b><br><span style="color:var(--muted)">Financial leaks, stock drift, untraceable pharmacy handover and manual return gaps.</span></span><span class="chev">▼</span></button><div class="acc-body">The system now forces the commercial workflow through evidence-bearing records: payment event, allocation, order item, inventory movement, package custody, ledger, refund, settlement and audit event.</div></div>
+      <div class="acc"><button type="button"><span><b>What Still Needs UAT Sign-Off</b><br><span style="color:var(--muted)">Partner must walk through the live CTAs with real role mapping.</span></span><span class="chev">▼</span></button><div class="acc-body">UAT must confirm pharmacy onboarding, Section 21 controls, audited packing, OTP collection, 21-day expiry, return-to-hub and finance reconciliation using the live Origin control panel.</div></div>
+    </section>
+
+    <footer>Origin Retail - requirements comparison for pharmacy pickup and dispensing partner backend. Generated 20 May 2026.</footer>
+  </main>
+  <script>document.querySelectorAll('.acc button').forEach((btn)=>btn.addEventListener('click',()=>btn.closest('.acc').classList.toggle('open')));</script>
+</body>
+</html>

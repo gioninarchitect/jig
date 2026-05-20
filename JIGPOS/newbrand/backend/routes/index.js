@@ -21,6 +21,7 @@ module.exports = function(app) {
   app.use('/api/v1/modules', require('./modules'));
   app.use('/api/v1/store', require('./drive-through'));
   app.use('/api/v1/branches', require('./branches'));
+  app.use('/api/v1/origin-retail/pharmacy-core', require('./origin-retail'));
 
   // Feature parity routes
   app.use('/api/v1/batches', require('./batch'));
@@ -61,4 +62,10 @@ module.exports = function(app) {
   app.use('/api/v1/risk', require('./risk'));
   app.use('/api/v1/stock', require('./stock-intelligence'));
   app.use('/api/v1/inventory', require('./potency'));
+
+  // Stock Reconciliation (rolling baseline from stocktake)
+  app.use('/api/v1/reconciliation', require('./reconciliation'));
+
+  // NOTE: Cultivation Dashboard runs as its own server (cultivation-server.js)
+  // It is NOT part of the POS system — separate PM2 process on port 3005
 };

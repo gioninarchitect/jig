@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Origin Retail - Stakeholder Summary</title>
+  <link rel="icon" type="image/png" href="images/origin-logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--black:#080807;--panel:#14120f;--line:#342c1b;--gold:#c9a84c;--gold2:#e2c66c;--white:#f7f0e4;--muted:#b7ab94;--green:#22c55e}
+    *{box-sizing:border-box}body{margin:0;background:var(--black);color:var(--white);font-family:Inter,sans-serif;line-height:1.5}a{color:inherit}
+    header{position:sticky;top:0;z-index:10;background:rgba(8,8,7,.95);border-bottom:1px solid var(--line);padding:14px 22px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+    .brand{display:flex;gap:12px;align-items:center}.logo{width:40px;height:40px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-family:Cinzel,serif;font-weight:700}.brand h1{font-family:Cinzel,serif;font-size:1rem;text-transform:uppercase;margin:0;color:var(--gold2)}.brand p{margin:0;color:var(--muted);font-size:.8rem}
+    .btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--gold);background:var(--gold);color:#090807;text-decoration:none;border-radius:7px;padding:10px 13px;font-weight:800;font-size:.82rem}.btn.ghost{background:transparent;color:var(--gold2)}nav{display:flex;gap:10px;flex-wrap:wrap}
+    main{max-width:1160px;margin:0 auto;padding:28px 18px 58px}.hero{min-height:56vh;display:grid;align-items:center;border-bottom:1px solid var(--line)}.eyebrow{color:var(--gold);font-weight:800;text-transform:uppercase;font-size:.75rem;letter-spacing:.08em}.hero h2{font-family:Cinzel,serif;text-transform:uppercase;font-size:clamp(2.1rem,5vw,4.9rem);line-height:.96;margin:10px 0;letter-spacing:0}.hero p{max-width:790px;color:var(--muted);font-size:1.06rem}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0}.tile{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}.tile strong{color:var(--gold2);font-size:1.7rem;display:block}.tile span{color:var(--muted);font-size:.88rem}
+    .section{margin-top:30px}.section h3{font-family:Cinzel,serif;text-transform:uppercase;color:var(--gold2);margin:0 0 12px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px}.panel p{color:var(--muted);margin-top:0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.list{display:grid;gap:10px}.item{display:flex;gap:10px;color:var(--muted)}.dot{width:9px;height:9px;border-radius:999px;background:var(--green);margin-top:8px;flex:0 0 auto}.item b{color:var(--white)}
+    .acc{border:1px solid var(--line);border-radius:8px;background:var(--panel);margin:10px 0;overflow:hidden}.acc button{width:100%;background:transparent;color:var(--white);border:0;text-align:left;padding:16px;display:flex;justify-content:space-between;gap:14px;cursor:pointer}.acc button:hover{background:#19150e}.acc-title{font-weight:800}.acc-meta{color:var(--muted);font-size:.84rem}.acc-body{display:none;padding:0 16px 16px;color:var(--muted)}.acc.open .acc-body{display:block}.chev{color:var(--gold);transition:.18s}.acc.open .chev{transform:rotate(180deg)}
+    .quote{font-size:1.15rem;color:var(--white);border-left:4px solid var(--gold);padding:14px 18px;background:#100e0a;border-radius:8px}.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.step{background:#100e0a;border:1px solid #302719;border-radius:8px;padding:13px}.step b{display:block;color:var(--gold2);margin-bottom:5px}.step span{color:var(--muted);font-size:.86rem}footer{border-top:1px solid var(--line);color:var(--muted);font-size:.82rem;margin-top:34px;padding-top:18px}
+    @media(max-width:850px){header{flex-direction:column;align-items:flex-start}.tiles,.grid,.roadmap{grid-template-columns:1fr}.hero{min-height:auto;padding:38px 0}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><div class="logo">OR</div><div><h1>Origin Retail</h1><p>Stakeholder summary - pharmacy pickup and dispensing partners</p></div></div>
+    <nav><a class="btn" href="origin-retail-uat.html">UAT Pack</a><a class="btn ghost" href="origin-retail-requirements-compare.html">Requirements Compare</a><a class="btn ghost" href="origin-retail-pharmacy.html#order-lifecycle">Control Panel</a><a class="btn ghost" href="admin.html">Admin</a></nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Production Readiness Summary</div>
+        <h2>Auditable Pharmacy Pickup</h2>
+        <p>Origin Retail keeps the Section 21 workflow in place and adds partner pharmacies as controlled pickup and dispensing points. The backend now links online payment, pharmacy handling fees, package custody, central batch inventory, returns, refunds, settlements, and audit evidence.</p>
+        <div class="actions"><a class="btn" href="origin-retail-uat.html">Open UAT Runbook</a><a class="btn ghost" href="origin-retail-requirements-compare.html">Compare Requirements</a><a class="btn ghost" href="origin-retail-pharmacy.html#order-lifecycle">Open Live CTAs</a></div>
+      </div>
+    </section>
+
+    <div class="tiles">
+      <div class="tile"><strong>Immutable</strong><span>Payment, stock, custody, audit and status history are append-only.</span></div>
+      <div class="tile"><strong>Section 21</strong><span>Pharmacy pickup does not bypass existing medical authorization controls.</span></div>
+      <div class="tile"><strong>Reconciled</strong><span>Handling fees, refunds and settlements are tracked from order to payout.</span></div>
+    </div>
+
+    <section class="section">
+      <h3>Value Message</h3>
+      <div class="quote">Origin Retail gives stakeholders one controlled place to manage Section 21 pharmacy pickup, dispensing partner accountability, stock movement, payment evidence and audit readiness without relying on email chains or manual trackers.</div>
+    </section>
+
+    <section class="section grid">
+      <div class="panel">
+        <h3>What Is Now In Scope</h3>
+        <div class="list">
+          <div class="item"><span class="dot"></span><span><b>Partner pharmacy onboarding</b> with required document approval before activation.</span></div>
+          <div class="item"><span class="dot"></span><span><b>Section 21 order controls</b> including prescription and prescriber references.</span></div>
+          <div class="item"><span class="dot"></span><span><b>Batch inventory movement</b> for pack and return-to-hub actions.</span></div>
+          <div class="item"><span class="dot"></span><span><b>OTP collection</b> at the pharmacy counter with named actor and custody event.</span></div>
+          <div class="item"><span class="dot"></span><span><b>Financial ledger</b> for collection fees, settlements and refund tracking.</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>What UAT Must Prove</h3>
+        <div class="list">
+          <div class="item"><span class="dot"></span><span>Every CTA writes to the database.</span></div>
+          <div class="item"><span class="dot"></span><span>No stock adjustment happens without an inventory movement row.</span></div>
+          <div class="item"><span class="dot"></span><span>No pharmacy fee is earned without a ledger row.</span></div>
+          <div class="item"><span class="dot"></span><span>No return is accepted without waybill, refund and custody evidence.</span></div>
+          <div class="item"><span class="dot"></span><span>Auditor review can reconstruct the full order lifecycle.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>Workflow Accordions</h3>
+      <div class="acc open"><button type="button"><span><span class="acc-title">1. Onboard Pharmacy</span><br><span class="acc-meta">Create pharmacy, add documents, approve documents, add responsible pharmacist, activate.</span></span><span class="chev">▼</span></button><div class="acc-body">Production value: prevents unapproved pickup points from receiving Section 21 packages.</div></div>
+      <div class="acc"><button type="button"><span><span class="acc-title">2. Create Section 21 Order</span><br><span class="acc-meta">Capture pharmacy, Section 21 reference, prescription, payment and item lines.</span></span><span class="chev">▼</span></button><div class="acc-body">Production value: keeps the medical authorization workflow as the gate before pharmacy fulfillment.</div></div>
+      <div class="acc"><button type="button"><span><span class="acc-title">3. Pack Against Batch Inventory</span><br><span class="acc-meta">Create batch inventory, load order item, pack and deduct stock through an immutable movement.</span></span><span class="chev">▼</span></button><div class="acc-body">Production value: financial and physical stock records stay aligned.</div></div>
+      <div class="acc"><button type="button"><span><span class="acc-title">4. Dispatch, Arrive, Collect</span><br><span class="acc-meta">Track custody through courier, pharmacy arrival, OTP verification and customer collection.</span></span><span class="chev">▼</span></button><div class="acc-body">Production value: chain of custody is visible for operations, pharmacy partners and auditors.</div></div>
+      <div class="acc"><button type="button"><span><span class="acc-title">5. Expire and Return</span><br><span class="acc-meta">Run 21-day expiry, create return waybill, refund payable, workflow ticket and receive at hub.</span></span><span class="chev">▼</span></button><div class="acc-body">Production value: uncollected orders stop sitting in limbo and reverse logistics becomes auditable.</div></div>
+      <div class="acc"><button type="button"><span><span class="acc-title">6. Reconcile Finance</span><br><span class="acc-meta">Review ledger, create settlement, update payout and refund statuses.</span></span><span class="chev">▼</span></button><div class="acc-body">Production value: partner fees and refunds can be reconciled from immutable source records.</div></div>
+    </section>
+
+    <section class="section">
+      <h3>Readiness Path</h3>
+      <div class="roadmap">
+        <div class="step"><b>1. Deploy</b><span>Origin core, retail proxy, control panel and UAT pages live.</span></div>
+        <div class="step"><b>2. Smoke Test</b><span>Run pharmacy onboarding to collection and return workflow.</span></div>
+        <div class="step"><b>3. UAT Sign-Off</b><span>Partner reviews scenarios, roles, evidence and reports.</span></div>
+        <div class="step"><b>4. Production Gate</b><span>Only proceed when all CTA writes and audit evidence pass.</span></div>
+      </div>
+    </section>
+
+    <footer>Origin Retail - stakeholder summary for Section 21 pharmacy pickup and dispensing partners. Generated 20 May 2026.</footer>
+  </main>
+  <script>
+    document.querySelectorAll('.acc button').forEach((btn)=>btn.addEventListener('click',()=>btn.closest('.acc').classList.toggle('open')));
+  </script>
+</body>
+</html>
