@@ -1,3 +1,13 @@
+# Current Claude Code Handover
+
+For the current Origin Retail POS shop install and pharmacy pickup production queue, start here:
+
+- `docs/pharmacy-pivot/CLAUDE_CODE_HANDOVER_2026-05-27.md`
+
+This current handover supersedes the older March session notes below for immediate execution. Keep Origin Retail separate from `tnt-za`.
+
+---
+
 # Origin by ILCO Farming — Session Handoff
 
 ## Session Date: 2026-03-13

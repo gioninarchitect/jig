@@ -11,6 +11,7 @@ This does not replace the existing Section 21 workflow. Section 21 eligibility, 
 
 ## Documents
 
+- [Claude Code Handover - Origin Retail POS Shop Install](./CLAUDE_CODE_HANDOVER_2026-05-27.md)
 - [Production Readiness](./PRODUCTION_READINESS.md)
 - [Database Schema](./DATABASE_SCHEMA.md)
 - [Workflow Specification](./WORKFLOWS.md)
