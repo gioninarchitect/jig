@@ -196,7 +196,7 @@ async function verifyOTP(e) {
 
         if (data.success) {
             // Check role - must be staff/admin
-            const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager'];
+            const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
             if (!allowedRoles.includes(data.user.role)) {
                 errorDiv.textContent = 'Access denied. Staff access required.';
                 errorDiv.classList.add('show');
@@ -260,6 +260,66 @@ function setupOTPInputs() {
     });
 }
 
+async function loginWithPin(e) {
+    e.preventDefault();
+    const email = document.getElementById('pinEmail').value.trim();
+    const pin = document.getElementById('pinInput').value.trim();
+    const btn = document.getElementById('pinLoginBtn');
+    const errorDiv = document.getElementById('pinError');
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+    errorDiv.classList.remove('show');
+
+    try {
+        const response = await fetch(`${API_URL}/auth/otp/verify-pin`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, pin })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
+            if (!allowedRoles.includes(data.user.role)) {
+                errorDiv.textContent = 'Access denied. Staff access required.';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            setAdminToken(data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            sessionStorage.setItem('user', JSON.stringify(data.user));
+            sessionStorage.setItem('userEmail', data.user.email);
+            sessionStorage.setItem('userRole', data.user.role);
+            showAdminToast('Login Successful', 'Welcome back!', 'success');
+            showAdminDashboard();
+            initAdminDashboard(data.user);
+        } else {
+            errorDiv.textContent = data.message || 'Invalid PIN';
+            errorDiv.classList.add('show');
+        }
+    } catch (error) {
+        errorDiv.textContent = 'Connection error. Please try again.';
+        errorDiv.classList.add('show');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-key"></i> Login with PIN';
+    }
+}
+
+function togglePinVisibility(inputId, toggleBtn) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+        input.type = 'text';
+        toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+    } else {
+        input.type = 'password';
+        toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
+    }
+}
+
 async function checkAdminAuth() {
     if (!adminToken) {
         showAdminLogin();
@@ -275,7 +335,7 @@ async function checkAdminAuth() {
 
         if (data.success && data.user) {
             // Check role
-            const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager'];
+            const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
             if (!allowedRoles.includes(data.user.role)) {
                 clearAdminAuth();
                 showAdminLogin();
@@ -337,6 +397,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupOTPInputs();
     document.getElementById('emailForm').addEventListener('submit', requestOTP);
     document.getElementById('otpForm').addEventListener('submit', verifyOTP);
+    const pinForm = document.getElementById('pinForm');
+    if (pinForm) pinForm.addEventListener('submit', loginWithPin);
     await checkAdminAuth();
 });
 
@@ -345,7 +407,7 @@ const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('
 const userRole = user.role || 'user';
 
 // Allowed roles for admin panel
-const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager'];
+const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
 
 // Role-based access control matrix
 const rolePermissions = {
@@ -383,6 +445,26 @@ const rolePermissions = {
         tabs: ['pos'],
         dashboards: [],
         name: 'Shop Assistant'
+    },
+    'pharmacy_admin': {
+        tabs: ['orders', 'payments', 'inventory', 'users', 'staff', 'leads'],
+        dashboards: ['branch-receiving'],
+        name: 'Pharmacy Admin'
+    },
+    'responsible_pharmacist': {
+        tabs: ['orders', 'payments', 'inventory', 'users', 'staff', 'leads'],
+        dashboards: ['branch-receiving'],
+        name: 'Responsible Pharmacist'
+    },
+    'pharmacist': {
+        tabs: ['orders', 'inventory'],
+        dashboards: ['branch-receiving'],
+        name: 'Pharmacist'
+    },
+    'pharmacy_assistant': {
+        tabs: ['orders'],
+        dashboards: [],
+        name: 'Pharmacy Assistant'
     }
 };
 
