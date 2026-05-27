@@ -1,7 +1,7 @@
 import { useRBAC } from '../../hooks/useRBAC';
 import { useAuth } from '../../hooks/useAuth';
 import { Link, Navigate } from 'react-router-dom';
-import { Grid3X3, Crown, Scissors, Layers, Package, Leaf, CalendarDays, Kanban, TicketCheck, Building2, Dna, Sprout } from 'lucide-react';
+import { Grid3X3, Crown, Scissors, Layers, Package, Leaf, CalendarDays, Kanban, TicketCheck, Building2, Dna, Sprout, ClipboardCheck, ShieldCheck } from 'lucide-react';
 
 // Widgets
 import SetupBannerWidget from './widgets/SetupBannerWidget';
@@ -60,11 +60,14 @@ export default function DashboardPage() {
   // Client → Client Portal
   if (hasRole('CLIENT')) return <Navigate to="/client" replace />;
   // Tenant Admin → Owner Dashboard (not Super Admin — they keep full view)
-  const isOwner = hasMinLevel(4);
+  const isOwner = hasRole('SUPER_ADMIN', 'TENANT_ADMIN');
   if (hasRole('TENANT_ADMIN') && !hasRole('SUPER_ADMIN')) return <Navigate to="/owner" replace />;
   const isFM = hasRole('FACILITY_MANAGER');
+  const isFacilitySupervisor = hasRole('FACILITY_SUPERVISOR');
   const isHeadCult = hasRole('HEAD_OF_CULTIVATION');
   const isProcessingMgr = hasRole('PROCESSING_MANAGER');
+  const isRP = hasRole('RESPONSIBLE_PHARMACIST');
+  const isGmpPartner = hasRole('GMP_PARTNER');
   const isQA = hasRole('QA_INSPECTOR');
   const isMaintenance = hasRole('MAINTENANCE_MANAGER');
   const isNursery = hasRole('NURSERY_MANAGER');
@@ -185,6 +188,61 @@ export default function DashboardPage() {
               <QuickAction to="/tickets" icon={TicketCheck} label="Tickets" color="text-red-400" />
             </div>
           </Section>
+        </>
+      )}
+
+      {/* ═══ FACILITY SUPERVISOR — Floor Oversight ═══ */}
+      {!isOwner && isFacilitySupervisor && (
+        <>
+          <div className="grid grid-cols-3 gap-2">
+            <QuickAction to="/daily-check" icon={ClipboardCheck} label="Daily" color="text-primary" />
+            <QuickAction to="/tasks" icon={TicketCheck} label="Tasks" color="text-amber-400" />
+            <QuickAction to="/tickets" icon={TicketCheck} label="Tickets" color="text-red-400" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <TasksDueWidget />
+            <TicketsWidget />
+          </div>
+
+          <ActivityFeedWidget />
+        </>
+      )}
+
+      {/* ═══ RESPONSIBLE PHARMACIST — Release + SMF/QMS Evidence ═══ */}
+      {!isOwner && isRP && (
+        <>
+          <div className="grid grid-cols-3 gap-2">
+            <QuickAction to="/responsible-pharmacist" icon={ShieldCheck} label="RP" color="text-cyan-400" />
+            <QuickAction to="/site-master-file" icon={Building2} label="SMF" color="text-primary" />
+            <QuickAction to="/qms" icon={TicketCheck} label="QMS" color="text-amber-400" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <ComplianceSummaryWidget />
+            <QAInspectionWidget />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <TasksDueWidget />
+            <TicketsWidget />
+          </div>
+        </>
+      )}
+
+      {/* ═══ GMP PARTNER — Readiness Evidence + Findings ═══ */}
+      {!isOwner && isGmpPartner && (
+        <>
+          <div className="grid grid-cols-3 gap-2">
+            <QuickAction to="/gmp-audit" icon={ShieldCheck} label="GMP" color="text-cyan-400" />
+            <QuickAction to="/site-master-file" icon={Building2} label="SMF" color="text-primary" />
+            <QuickAction to="/audit" icon={TicketCheck} label="Audit" color="text-amber-400" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <ComplianceSummaryWidget />
+            <TicketsWidget />
+          </div>
         </>
       )}
 
@@ -344,6 +402,25 @@ export default function DashboardPage() {
             <PhaseChartWidget />
             <ActivityFeedWidget />
           </div>
+        </>
+      )}
+
+      {/* ═══ EVERYONE ELSE ═══ */}
+      {!isOwner && isManager && !isFM && !isFacilitySupervisor && !isHeadCult && !isProcessingMgr && !isRP && !isGmpPartner && !isQA && !isMaintenance && !isNursery && (
+        <>
+          <div className="grid grid-cols-3 gap-2">
+            <QuickAction to="/tasks" icon={CalendarDays} label="Tasks" color="text-primary" />
+            <QuickAction to="/tickets" icon={TicketCheck} label="Tickets" color="text-red-400" />
+            <QuickAction to="/kanban" icon={Kanban} label="Board" color="text-blue-400" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <TasksDueWidget />
+            <TicketsWidget />
+          </div>
+
+          <ComplianceSummaryWidget />
+          <ActivityFeedWidget />
         </>
       )}
 

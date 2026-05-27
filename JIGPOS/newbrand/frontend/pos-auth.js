@@ -3,6 +3,7 @@
 
 // Roles that can select any branch (not locked to primaryBranch)
 const MULTI_BRANCH_ROLES = ['super_admin', 'owner', 'admin'];
+const POS_ALLOWED_ROLES = ['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant'];
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
@@ -197,6 +198,12 @@ async function posLoginWithPin() {
         const data = await response.json();
 
         if (data.success) {
+            if (!POS_ALLOWED_ROLES.includes(data.user?.role)) {
+                errorDiv.textContent = 'Access denied. POS staff access required.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
             sessionStorage.setItem('adminToken', data.token);
@@ -289,6 +296,12 @@ async function posVerifyOTP() {
         const data = await response.json();
 
         if (data.success) {
+            if (!POS_ALLOWED_ROLES.includes(data.user?.role)) {
+                errorDiv.textContent = 'Access denied. POS staff access required.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
             sessionStorage.setItem('adminToken', data.token);

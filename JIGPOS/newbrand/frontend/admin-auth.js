@@ -196,7 +196,7 @@ async function verifyOTP(e) {
 
         if (data.success) {
             // Check role - must be staff/admin
-            const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
+            const allowedRoles = ['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
             if (!allowedRoles.includes(data.user.role)) {
                 errorDiv.textContent = 'Access denied. Staff access required.';
                 errorDiv.classList.add('show');
@@ -281,7 +281,7 @@ async function loginWithPin(e) {
         const data = await response.json();
 
         if (data.success) {
-            const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
+            const allowedRoles = ['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
             if (!allowedRoles.includes(data.user.role)) {
                 errorDiv.textContent = 'Access denied. Staff access required.';
                 errorDiv.classList.add('show');
@@ -335,7 +335,7 @@ async function checkAdminAuth() {
 
         if (data.success && data.user) {
             // Check role
-            const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
+            const allowedRoles = ['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
             if (!allowedRoles.includes(data.user.role)) {
                 clearAdminAuth();
                 showAdminLogin();
@@ -407,17 +407,22 @@ const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('
 const userRole = user.role || 'user';
 
 // Allowed roles for admin panel
-const allowedRoles = ['owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
+const allowedRoles = ['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant', 'inventory_manager', 'packer', 'dispatch_manager', 'staff_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
 
 // Role-based access control matrix
 const rolePermissions = {
+    'super_admin': {
+        tabs: ['inventory', 'pos', 'payments', 'affiliates', 'vouchers', 'viral', 'orders', 'wholesale', 'users', 'staff', 'payroll', 'smart-ledger', 'leads', 'marketing', 'suppliers', 'purchase-orders', 'menu-boards'],
+        dashboards: ['inventory-manager', 'pnd', 'branch-receiving'],
+        name: 'Super Admin'
+    },
     'owner': {
-        tabs: ['inventory', 'pos', 'payments', 'affiliates', 'vouchers', 'orders', 'users', 'staff', 'leads'],
+        tabs: ['inventory', 'pos', 'payments', 'affiliates', 'vouchers', 'viral', 'orders', 'wholesale', 'users', 'staff', 'payroll', 'smart-ledger', 'leads', 'marketing', 'suppliers', 'purchase-orders', 'menu-boards'],
         dashboards: ['inventory-manager', 'pnd', 'branch-receiving'],
         name: 'Business Owner'
     },
     'admin': {
-        tabs: ['inventory', 'pos', 'payments', 'affiliates', 'vouchers', 'orders', 'users', 'staff', 'leads'],
+        tabs: ['inventory', 'pos', 'payments', 'affiliates', 'vouchers', 'viral', 'orders', 'wholesale', 'users', 'staff', 'payroll', 'smart-ledger', 'leads', 'marketing', 'suppliers', 'purchase-orders', 'menu-boards'],
         dashboards: [],
         name: 'Administrator'
     },
@@ -427,7 +432,7 @@ const rolePermissions = {
         name: 'Store Manager'
     },
     'inventory_manager': {
-        tabs: ['inventory', 'orders'],
+        tabs: ['inventory', 'orders', 'suppliers', 'purchase-orders'],
         dashboards: ['inventory-manager', 'pnd', 'branch-receiving'],
         name: 'Inventory Manager'
     },

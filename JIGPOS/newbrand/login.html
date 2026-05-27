@@ -721,12 +721,17 @@
             const role = user?.role || 'user';
 
             switch(role) {
+                case 'super_admin':
                 case 'owner':
                     sessionStorage.setItem('adminToken', token);
                     window.location.href = 'owner-dashboard.html';
                     break;
                 case 'admin':
                 case 'branch_manager':
+                case 'pharmacy_admin':
+                case 'responsible_pharmacist':
+                case 'pharmacist':
+                case 'pharmacy_assistant':
                     sessionStorage.setItem('adminToken', token);
                     window.location.href = 'admin.html';
                     break;

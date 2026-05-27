@@ -1015,7 +1015,7 @@
                 currentUser = data.user;
 
                 // Check role permissions - only branch_manager, owner, admin can receive
-                const allowedRoles = ['branch_manager', 'owner', 'admin', 'inventory_manager'];
+                const allowedRoles = ['branch_manager', 'owner', 'admin', 'inventory_manager', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist'];
                 if (!allowedRoles.includes(currentUser.role)) {
                     showToast('Access Denied', 'You do not have permission to access Branch Receiving', 'error');
                     setTimeout(() => {
@@ -1038,7 +1038,10 @@
                 'branch_manager': 'Branch Manager',
                 'owner': 'Business Owner',
                 'admin': 'Administrator',
-                'inventory_manager': 'Inventory Manager'
+                'inventory_manager': 'Inventory Manager',
+                'pharmacy_admin': 'Pharmacy Admin',
+                'responsible_pharmacist': 'Responsible Pharmacist',
+                'pharmacist': 'Pharmacist'
             };
             return roleNames[role] || role;
         }
