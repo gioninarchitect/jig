@@ -70,20 +70,20 @@ export default function WholesalePage() {
           <div className="flex items-center gap-3">
             <div className="flex gap-1">
               {['catalog', 'cart', 'orders'].map(v => (
-                <button key={v} onClick={() => setView(v)} className={`px-3 py-1 rounded text-xs font-bold ${view === v ? 'bg-jig-purple text-white' : 'bg-white/10 text-gray-100'}`}>
+                <button key={v} onClick={() => setView(v)} className={`px-3 py-1 rounded text-xs font-bold ${view === v ? 'bg-or-gold text-white' : 'bg-white/10 text-gray-100'}`}>
                   {v.charAt(0).toUpperCase() + v.slice(1)}
-                  {v === 'cart' && cart.length > 0 && <span className="ml-1 px-1 bg-jig-amber text-white rounded text-[10px]">{cartUnits}</span>}
+                  {v === 'cart' && cart.length > 0 && <span className="ml-1 px-1 bg-or-gold text-white rounded text-[10px]">{cartUnits}</span>}
                 </button>
               ))}
             </div>
             <span className="text-sm text-gray-100">{user?.firstName}</span>
-            <button onClick={logout} className="text-jig-amber hover:underline text-xs">Logout</button>
+            <button onClick={logout} className="text-or-gold hover:underline text-xs">Logout</button>
           </div>
         </>
       }
     >
       {loading ? (
-        <div className="flex items-center justify-center h-full"><div className="w-8 h-8 border-3 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>
+        <div className="flex items-center justify-center h-full"><div className="w-8 h-8 border-3 border-or-gold border-t-transparent rounded-full animate-spin" /></div>
       ) : view === 'catalog' ? (
         <CatalogView products={products} onAdd={addToCart} />
       ) : view === 'cart' ? (
@@ -116,10 +116,10 @@ function CatalogView({ products, onAdd }) {
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Search products..."
-          className="flex-1 px-3 py-2 rounded-lg bg-white/10 border border-gray-700 text-gray-100 text-sm placeholder-gray-500 focus:ring-2 focus:ring-jig-purple outline-none"
+          className="flex-1 px-3 py-2 rounded-lg bg-white/10 border border-gray-700 text-gray-100 text-sm placeholder-gray-500 focus:ring-2 focus:ring-or-gold outline-none"
         />
         <select value={category} onChange={e => setCategory(e.target.value)} className="px-3 py-2 rounded-lg bg-white/10 border border-gray-700 text-gray-100 text-sm">
-          {categories.map(c => <option key={c} value={c} className="bg-jig-slate">{c === 'all' ? 'All Categories' : c}</option>)}
+          {categories.map(c => <option key={c} value={c} className="bg-origin-slate">{c === 'all' ? 'All Categories' : c}</option>)}
         </select>
       </div>
 
@@ -156,12 +156,12 @@ function ProductRow({ product, onAdd }) {
       <td className="py-2 px-3 text-gray-100">{product.name}</td>
       <td className="py-2 px-3 text-gray-400">{product.category}</td>
       <td className="py-2 px-3 text-right text-gray-400">{formatCurrency(product.price)}</td>
-      <td className="py-2 px-3 text-right text-jig-amber font-bold">{formatCurrency(wholesale)}</td>
+      <td className="py-2 px-3 text-right text-or-gold font-bold">{formatCurrency(wholesale)}</td>
       <td className="py-2 px-3 text-right text-gray-400">{product.inventory?.quantity ?? '--'}</td>
       <td className="py-2 px-3">
         <div className="flex items-center justify-center gap-1">
           <input type="number" min="1" value={qty} onChange={e => setQty(Number(e.target.value))} className="w-14 px-1 py-1 rounded bg-white/10 border border-gray-700 text-gray-100 text-xs text-center" />
-          <button onClick={() => onAdd(product, qty)} className="px-2 py-1 rounded bg-jig-purple text-white text-[10px] font-bold">Add</button>
+          <button onClick={() => onAdd(product, qty)} className="px-2 py-1 rounded bg-or-gold text-white text-[10px] font-bold">Add</button>
         </div>
       </td>
     </tr>
@@ -188,12 +188,12 @@ function CartView({ cart, cartTotal, customer, setCustomer, updateQuantity, subm
       <h3 className="font-heading text-xl text-gray-100 uppercase">Wholesale Order</h3>
 
       {/* Customer selection */}
-      <div className="p-4 rounded-lg border border-gray-700 bg-jig-slate/20">
+      <div className="p-4 rounded-lg border border-gray-700 bg-origin-slate/20">
         <div className="text-xs text-gray-400 font-bold uppercase mb-2">B2B Customer</div>
         {customer ? (
           <div className="flex items-center justify-between">
             <div className="text-sm text-gray-100">{customer.companyName || `${customer.firstName} ${customer.lastName}`}</div>
-            <button onClick={() => setCustomer(null)} className="text-[10px] text-jig-amber hover:underline">Change</button>
+            <button onClick={() => setCustomer(null)} className="text-[10px] text-or-gold hover:underline">Change</button>
           </div>
         ) : (
           <div>
@@ -230,7 +230,7 @@ function CartView({ cart, cartTotal, customer, setCustomer, updateQuantity, subm
                 onChange={e => updateQuantity(item._id, e.target.value)}
                 className="w-16 px-2 py-1 rounded bg-white/10 border border-gray-700 text-gray-100 text-xs text-center"
               />
-              <div className="text-xs text-jig-amber w-20 text-right">{formatCurrency((item.wholesalePrice || item.price) * item.quantity)}</div>
+              <div className="text-xs text-or-gold w-20 text-right">{formatCurrency((item.wholesalePrice || item.price) * item.quantity)}</div>
             </div>
           </div>
         ))}
@@ -239,12 +239,12 @@ function CartView({ cart, cartTotal, customer, setCustomer, updateQuantity, subm
 
       {/* Total + Submit */}
       {cart.length > 0 && (
-        <div className="p-4 rounded-lg border border-gray-700 bg-jig-slate/20">
+        <div className="p-4 rounded-lg border border-gray-700 bg-origin-slate/20">
           <div className="flex justify-between text-lg font-heading text-gray-100 mb-4">
             <span>Total ({cart.reduce((s, i) => s + i.quantity, 0)} units)</span>
-            <span className="text-jig-amber">{formatCurrency(cartTotal)}</span>
+            <span className="text-or-gold">{formatCurrency(cartTotal)}</span>
           </div>
-          <button onClick={submitOrder} className="w-full py-3 rounded-lg bg-jig-amber text-white text-sm font-bold">
+          <button onClick={submitOrder} className="w-full py-3 rounded-lg bg-or-gold text-white text-sm font-bold">
             Submit Wholesale Order
           </button>
         </div>
@@ -270,13 +270,13 @@ function OrdersView() {
     load();
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center h-full"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-full"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="p-6 space-y-3 overflow-y-auto h-full">
       <h3 className="font-heading text-xl text-gray-100 uppercase mb-4">Wholesale Orders</h3>
       {orders.map(o => (
-        <div key={o._id} className="p-4 rounded-lg border border-gray-700 bg-jig-slate/20 flex items-center justify-between">
+        <div key={o._id} className="p-4 rounded-lg border border-gray-700 bg-origin-slate/20 flex items-center justify-between">
           <div>
             <div className="text-sm font-heading text-gray-100">{o.orderNumber || `#${o._id?.slice(-6)}`}</div>
             <div className="text-[10px] text-gray-400">
@@ -285,7 +285,7 @@ function OrdersView() {
           </div>
           <div className="text-right">
             <Badge status={o.status === 'completed' ? 'active' : o.status === 'cancelled' ? 'error' : 'processing'}>{o.status}</Badge>
-            <div className="text-xs font-bold text-jig-amber mt-1">{formatCurrency(o.total || 0)}</div>
+            <div className="text-xs font-bold text-or-gold mt-1">{formatCurrency(o.total || 0)}</div>
           </div>
         </div>
       ))}

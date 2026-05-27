@@ -4,8 +4,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import api from '../../../services/api';
 import { useToast } from '../../../components/ui/Toast';
-
-const VAT_RATE = 0.15;
+import { VAT_RATE } from '../../../config';
 
 export default function useCart() {
   const [items, setItems] = useState([]);

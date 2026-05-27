@@ -12,8 +12,8 @@ function updateOfflineIndicator() {
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            background: #f59e0b;
-            color: #0A0A0A;
+            background: #F8C242;
+            color: #0E0E0E;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;

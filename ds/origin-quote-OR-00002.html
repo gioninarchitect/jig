@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quote OR-00002 — Cultivation Seed-to-Sale Track & Trace | Origin by ILCO Farming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --or-black: #0A0A0A;
+  --or-dark: #141414;
+  --or-dark-2: #1C1C1C;
+  --or-dark-3: #252525;
+  --or-gold: #C9A84C;
+  --or-gold-bright: #D4B86A;
+  --or-gold-muted: #8B6914;
+  --or-gold-light: #E8D5A3;
+  --or-white: #F5F0E8;
+  --or-grey-1: #C4BBA8;
+  --or-grey-2: #A89F8C;
+  --or-grey-3: #6B6458;
+  --or-grey-4: #3D3830;
+  --or-green: #22C55E;
+  --or-green-dim: rgba(34,197,94,0.12);
+  --font-display: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--font-body);
+  background: #0E0E0E;
+  color: var(--or-grey-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.no-print { margin-bottom: 16px; }
+.print-btn {
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--or-gold);
+  padding: 8px 24px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.print-btn:hover { background: rgba(201,168,76,0.22); border-color: var(--or-gold); }
+
+/* ═══════ INVOICE CONTAINER ═══════ */
+.invoice {
+  width: 100%;
+  max-width: 800px;
+  background: var(--or-black);
+  border: 1px solid var(--or-dark-3);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+}
+
+/* ═══════ HEADER ═══════ */
+.inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 40px 40px 32px;
+  border-bottom: 1px solid var(--or-dark-3);
+}
+
+.inv-logo img {
+  height: 60px;
+  filter: drop-shadow(0 2px 12px rgba(201,168,76,0.15));
+  margin-bottom: 20px;
+}
+
+.inv-from {
+  font-size: 0.85rem;
+  color: var(--or-grey-2);
+  line-height: 1.7;
+}
+
+.inv-from strong {
+  color: var(--or-white);
+  font-weight: 600;
+}
+
+.inv-header-right {
+  text-align: right;
+}
+
+.inv-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--or-white);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.inv-number {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--or-gold);
+  margin-bottom: 20px;
+}
+
+.inv-meta-table {
+  font-size: 0.85rem;
+}
+
+.inv-meta-table tr td {
+  padding: 4px 0;
+}
+
+.inv-meta-table tr td:first-child {
+  color: var(--or-grey-3);
+  padding-right: 20px;
+  text-align: right;
+}
+
+.inv-meta-table tr td:last-child {
+  color: var(--or-white);
+  font-weight: 500;
+}
+
+.inv-balance {
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.inv-balance-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--or-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.inv-balance-amount {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--or-gold-light);
+}
+
+/* ═══════ BILL TO / SHIP TO ═══════ */
+.inv-addresses {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 24px 40px;
+  border-bottom: 1px solid var(--or-dark-3);
+}
+
+.inv-addr-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--or-grey-3);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
+
+.inv-addr-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--or-white);
+}
+
+.inv-addr-detail {
+  font-size: 0.85rem;
+  color: var(--or-grey-2);
+  line-height: 1.7;
+  margin-top: 4px;
+}
+
+/* ═══════ SECTION DIVIDER ═══════ */
+.section-divider {
+  padding: 16px 40px;
+  background: var(--or-dark-2);
+  border-bottom: 1px solid var(--or-dark-3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-divider h3 {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--or-gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.section-divider .badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  background: var(--or-green-dim);
+  color: var(--or-green);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ═══════ LINE ITEMS TABLE ═══════ */
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.inv-table thead th {
+  background: var(--or-dark-2);
+  color: var(--or-gold);
+  padding: 12px 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: left;
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+}
+
+.inv-table thead th:nth-child(2) { text-align: center; width: 80px; }
+.inv-table thead th:nth-child(3) { text-align: right; width: 130px; }
+.inv-table thead th:nth-child(4) { text-align: right; width: 130px; }
+
+.inv-table tbody td {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--or-dark-3);
+  vertical-align: top;
+}
+
+.inv-table tbody td:nth-child(2) { text-align: center; font-family: var(--font-mono); font-size: 0.85rem; color: var(--or-grey-2); white-space: nowrap; }
+.inv-table tbody td:nth-child(3) { text-align: right; font-family: var(--font-mono); font-size: 0.85rem; color: var(--or-grey-2); white-space: nowrap; min-width: 130px; }
+.inv-table tbody td:nth-child(4) { text-align: right; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; color: var(--or-gold); white-space: nowrap; min-width: 130px; }
+
+.line-name {
+  color: var(--or-white);
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.line-desc {
+  color: var(--or-grey-3);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.line-zero { color: var(--or-grey-4) !important; }
+
+/* ═══════ SCOPE BOX ═══════ */
+.scope-box {
+  margin: 0 20px;
+  padding: 20px 24px;
+  background: rgba(34,197,94,0.04);
+  border: 1px solid rgba(34,197,94,0.12);
+  border-radius: 10px;
+}
+
+.scope-box h4 {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--or-green);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.scope-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 24px;
+}
+
+.scope-item {
+  font-size: 0.8rem;
+  color: var(--or-grey-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.scope-item::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--or-green);
+  flex-shrink: 0;
+}
+
+/* ═══════ TIER SELECTOR ═══════ */
+.tier-section {
+  padding: 24px 20px 0;
+}
+
+.tier-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--or-grey-3);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+}
+
+.tier-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.tier-card {
+  background: var(--or-dark-2);
+  border: 1px solid var(--or-dark-3);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  position: relative;
+}
+
+.tier-card.recommended {
+  border-color: var(--or-gold);
+  background: rgba(201,168,76,0.06);
+}
+
+.tier-card.recommended::after {
+  content: 'RECOMMENDED';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--or-black);
+  background: var(--or-gold);
+  padding: 2px 10px;
+  border-radius: 4px;
+}
+
+.tier-name {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--or-white);
+  margin-bottom: 4px;
+  letter-spacing: 0.05em;
+}
+
+.tier-price {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--or-gold);
+}
+
+.tier-period {
+  font-size: 0.7rem;
+  color: var(--or-grey-3);
+  margin-bottom: 10px;
+}
+
+.tier-features {
+  list-style: none;
+  text-align: left;
+  font-size: 0.72rem;
+  color: var(--or-grey-2);
+}
+
+.tier-features li {
+  padding: 3px 0;
+}
+
+.tier-features li::before {
+  content: '\2713  ';
+  color: var(--or-green);
+  font-weight: 700;
+}
+
+/* ═══════ TOTALS ═══════ */
+.inv-totals {
+  padding: 0 20px;
+}
+
+.inv-totals-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 0;
+}
+
+.inv-totals-label {
+  width: 180px;
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--or-grey-2);
+  padding-right: 20px;
+}
+
+.inv-totals-value {
+  width: 130px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--or-white);
+  font-weight: 500;
+}
+
+.inv-totals-row-total {
+  border-top: 2px solid rgba(201,168,76,0.25);
+  padding-top: 14px;
+  margin-top: 6px;
+}
+
+.inv-totals-row-total .inv-totals-label {
+  font-weight: 700;
+  color: var(--or-white);
+  font-size: 0.9rem;
+}
+
+.inv-totals-row-total .inv-totals-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--or-gold-light);
+}
+
+/* ═══════ MONTHLY NOTE ═══════ */
+.monthly-note {
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 20px 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.monthly-note-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(201,168,76,0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.monthly-note-text {
+  font-size: 0.8rem;
+  color: var(--or-grey-2);
+  line-height: 1.5;
+}
+
+.monthly-note-text strong {
+  color: var(--or-gold);
+}
+
+/* ═══════ FOOTER ═══════ */
+.inv-footer {
+  padding: 32px 40px;
+  border-top: 1px solid var(--or-dark-3);
+  margin-top: 24px;
+}
+
+.inv-footer-section {
+  margin-bottom: 20px;
+}
+
+.inv-footer-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--or-grey-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.inv-footer-text {
+  font-size: 0.85rem;
+  color: var(--or-grey-2);
+  line-height: 1.7;
+}
+
+.inv-footer-text strong {
+  color: var(--or-grey-1);
+}
+
+.inv-terms {
+  font-size: 0.8rem;
+  color: var(--or-grey-3);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.inv-stamp {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--or-dark-3);
+  margin-top: 20px;
+}
+
+.inv-stamp-left {
+  font-size: 0.75rem;
+  color: var(--or-grey-4);
+}
+
+.inv-stamp-right {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--or-gold-muted);
+  letter-spacing: 0.1em;
+}
+
+/* ═══════ PRINT ═══════ */
+@page {
+  size: A4;
+  margin: 20mm 15mm 20mm 15mm;
+}
+
+@media print {
+  html, body {
+    background: #fff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  .no-print { display: none !important; }
+
+  .invoice {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+
+  /* Keep dark header for brand impact */
+  .inv-header {
+    background: #0A0A0A !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    border-bottom: 3px solid #C9A84C !important;
+    padding: 30px 30px 24px !important;
+  }
+  .inv-title { color: #F5F0E8 !important; }
+  .inv-number { color: #C9A84C !important; }
+  .inv-from { color: #A89F8C !important; }
+  .inv-from strong { color: #F5F0E8 !important; }
+  .inv-meta-table tr td:first-child { color: #6B6458 !important; }
+  .inv-meta-table tr td:last-child { color: #F5F0E8 !important; }
+  .inv-balance {
+    background: rgba(201,168,76,0.1) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    border-color: #C9A84C !important;
+  }
+  .inv-balance-label { color: #C9A84C !important; }
+  .inv-balance-amount { color: #C9A84C !important; }
+
+  /* Clean white body for readability */
+  .inv-addresses { border-bottom: 1px solid #ddd !important; padding: 20px 30px !important; }
+  .inv-addr-label { color: #8B6914 !important; }
+  .inv-addr-name { color: #222 !important; }
+  .inv-addr-detail { color: #666 !important; }
+
+  /* Scope box */
+  .scope-box {
+    background: #f8fdf8 !important;
+    border-color: #c6ecc6 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    page-break-inside: avoid !important;
+  }
+  .scope-box h4 { color: #166534 !important; }
+  .scope-item { color: #444 !important; }
+  .scope-item::before { background: #22C55E !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  /* Section dividers */
+  .section-divider {
+    background: #F5F0E8 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    border-bottom: 1px solid #ddd !important;
+    page-break-after: avoid !important;
+    padding: 12px 30px !important;
+  }
+  .section-divider h3 { color: #8B6914 !important; }
+  .section-divider .badge {
+    background: #e8f5e9 !important;
+    color: #166534 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Tables */
+  .inv-table { page-break-inside: auto !important; }
+  .inv-table thead { display: table-header-group !important; }
+  .inv-table thead th {
+    background: #F5F0E8 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #8B6914 !important;
+    border-bottom: 2px solid #C9A84C !important;
+    padding: 10px 16px !important;
+  }
+  .inv-table tbody tr {
+    page-break-inside: avoid !important;
+  }
+  .inv-table tbody td {
+    border-bottom: 1px solid #eee !important;
+    padding: 12px 16px !important;
+  }
+  .line-name { color: #222 !important; }
+  .line-desc { color: #777 !important; }
+  .inv-table tbody td:nth-child(2) { color: #666 !important; }
+  .inv-table tbody td:nth-child(3) { color: #666 !important; }
+  .inv-table tbody td:nth-child(4) { color: #8B6914 !important; }
+
+  /* Totals */
+  .inv-totals { page-break-inside: avoid !important; }
+  .inv-totals-label { color: #666 !important; }
+  .inv-totals-value { color: #222 !important; }
+  .inv-totals-row-total { border-top-color: #C9A84C !important; }
+  .inv-totals-row-total .inv-totals-label { color: #222 !important; }
+  .inv-totals-row-total .inv-totals-value { color: #8B6914 !important; }
+
+  /* Monthly note */
+  .monthly-note {
+    background: #fefce8 !important;
+    border-color: #ddd !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    page-break-inside: avoid !important;
+  }
+  .monthly-note-icon { background: #fef3c7 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .monthly-note-text { color: #555 !important; }
+  .monthly-note-text strong { color: #8B6914 !important; }
+
+  /* Summary box */
+  div[style*="rgba(201,168,76,0.06)"] {
+    background: #faf8f2 !important;
+    border-color: #C9A84C !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    page-break-inside: avoid !important;
+  }
+  div[style*="rgba(201,168,76,0.06)"] table td {
+    color: #333 !important;
+  }
+  div[style*="rgba(201,168,76,0.06)"] table td[style*="or-white"],
+  div[style*="rgba(201,168,76,0.06)"] table td[style*="font-weight: 600"] {
+    color: #222 !important;
+  }
+  div[style*="rgba(201,168,76,0.06)"] table td[style*="or-gold-light"] {
+    color: #8B6914 !important;
+    font-size: 1.15rem !important;
+  }
+  div[style*="rgba(201,168,76,0.06)"] table td[style*="or-gold;"] {
+    color: #8B6914 !important;
+  }
+  div[style*="rgba(201,168,76,0.06)"] table tr[style*="border-top"] {
+    border-top: 2px solid #C9A84C !important;
+  }
+
+  /* Footer */
+  .inv-footer {
+    border-top: 2px solid #C9A84C !important;
+    page-break-inside: avoid !important;
+  }
+  .inv-footer-title { color: #8B6914 !important; }
+  .inv-footer-text { color: #555 !important; }
+  .inv-footer-text strong { color: #333 !important; }
+  .inv-terms { color: #777 !important; }
+  .inv-stamp { border-top-color: #ddd !important; }
+  .inv-stamp-left { color: #999 !important; }
+  .inv-stamp-right { color: #8B6914 !important; }
+}
+
+@media (max-width: 600px) {
+  .inv-header { flex-direction: column; gap: 24px; }
+  .inv-header-right { text-align: left; }
+  .inv-addresses { grid-template-columns: 1fr; gap: 20px; }
+  .tier-grid { grid-template-columns: 1fr; }
+  .scope-grid { grid-template-columns: 1fr; }
+  .invoice { border-radius: 0; }
+  body { padding: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</div>
+
+<div class="invoice">
+
+  <!-- HEADER -->
+  <div class="inv-header">
+    <div class="inv-logo">
+      <img src="../public/logo.png" alt="Origin by ILCO Farming">
+      <div class="inv-from">
+        <strong>FloRouter AI</strong><br>
+        Zoete Waters<br>
+        Dana's Place<br>
+        Faerie Glen<br>
+        0081
+      </div>
+    </div>
+    <div class="inv-header-right">
+      <div class="inv-title">Quote</div>
+      <div class="inv-number"># OR-00002</div>
+      <table class="inv-meta-table">
+        <tr><td>Date:</td><td>March 13, 2026</td></tr>
+        <tr><td>Valid Until:</td><td>April 13, 2026</td></tr>
+        <tr><td>Payment Terms:</td><td>50% on Acceptance / 50% on Go-Live</td></tr>
+      </table>
+      <div class="inv-balance">
+        <span class="inv-balance-label">Setup Total:</span>
+        <span class="inv-balance-amount">R 30 000,00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADDRESSES -->
+  <div class="inv-addresses">
+    <div>
+      <div class="inv-addr-label">Bill To</div>
+      <div class="inv-addr-name">ILCO Farming</div>
+      <div class="inv-addr-detail">
+        Origin by ILCO Farming<br>
+        ray@ilcofarming.co.za<br>
+        +27 76 834 7331
+      </div>
+    </div>
+    <div>
+      <div class="inv-addr-label">Project</div>
+      <div class="inv-addr-name">Cultivation Seed-to-Sale Track & Trace</div>
+      <div class="inv-addr-detail">
+        SAHPRA Section 22C compliant cultivation<br>
+        management dashboard add-on module
+      </div>
+    </div>
+  </div>
+
+  <!-- SCOPE -->
+  <div style="padding: 24px 20px 0;">
+    <div class="scope-box">
+      <h4>Deliverables Included</h4>
+      <div class="scope-grid">
+        <div class="scope-item">Cultivation Dashboard (7 sections)</div>
+        <div class="scope-item">Zone & Room Management</div>
+        <div class="scope-item">Batch Lifecycle Kanban (7 phases)</div>
+        <div class="scope-item">Environmental Monitoring & Alerts</div>
+        <div class="scope-item">Harvest Recording & Yield Analytics</div>
+        <div class="scope-item">SAHPRA Compliance Scoring Engine</div>
+        <div class="scope-item">Audit Package Generator</div>
+        <div class="scope-item">Reports with CSV Export</div>
+        <div class="scope-item">5 Backend Data Models</div>
+        <div class="scope-item">18 REST API Endpoints</div>
+        <div class="scope-item">OTP + PIN Staff Authentication</div>
+        <div class="scope-item">Demo Seed Data & Full Training</div>
+        <div class="scope-item">AI Marketing Automation Suite</div>
+        <div class="scope-item">Automated Audits, Email & Social</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: ONE-TIME SETUP -->
+  <div class="section-divider" style="margin-top: 24px;">
+    <h3>One-Time Setup</h3>
+    <span class="badge">Once-Off</span>
+  </div>
+
+  <!-- LINE ITEMS: SETUP -->
+  <table class="inv-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="line-name">Cultivation Dashboard Module — Development & Integration</div>
+          <div class="line-desc">Full seed-to-sale cultivation management platform. Includes zone management, batch lifecycle tracking (propagation through to harvest), environmental monitoring with threshold alerting, and yield analytics. Integrated into existing Origin POS backend.</div>
+        </td>
+        <td>1</td>
+        <td>R 15 000,00</td>
+        <td>R 15 000,00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-name">SAHPRA Compliance Module — Section 22C Track & Trace</div>
+          <div class="line-desc">Compliance scoring engine (5 categories), audit package generator with date-range filtering, document tracker with expiry alerts, environmental breach auto-logging, and full compliance event history. Ready for SAHPRA inspection.</div>
+        </td>
+        <td>1</td>
+        <td>R 5 000,00</td>
+        <td>R 5 000,00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-name">Deployment, Data Migration & Staff Training</div>
+          <div class="line-desc">Production deployment, demo seed data, zone configuration for your facility, role assignment (cultivator, farm manager, compliance officer), and hands-on staff training session.</div>
+        </td>
+        <td>1</td>
+        <td>R 5 000,00</td>
+        <td>R 5 000,00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-name">AI Marketing Automation — Setup & Configuration</div>
+          <div class="line-desc">Automated marketing suite powered by Claude AI. Includes: website marketing audit, SEO analysis, email sequence generation, 30-day social media content calendar, ad copy generation, competitor intelligence, landing page CRO, and client-ready PDF report generation. Configured for Origin by ILCO branding and cannabis industry compliance.</div>
+        </td>
+        <td>1</td>
+        <td>R 5 000,00</td>
+        <td>R 5 000,00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TOTALS: SETUP -->
+  <div class="inv-totals" style="padding-top: 12px;">
+    <div class="inv-totals-row">
+      <div class="inv-totals-label">Setup Subtotal:</div>
+      <div class="inv-totals-value">R 30 000,00</div>
+    </div>
+    <div class="inv-totals-row">
+      <div class="inv-totals-label">Tax (0%):</div>
+      <div class="inv-totals-value">R 0,00</div>
+    </div>
+    <div class="inv-totals-row inv-totals-row-total">
+      <div class="inv-totals-label">One-Time Total:</div>
+      <div class="inv-totals-value">R 30 000,00</div>
+    </div>
+  </div>
+
+  <!-- SECTION: MONTHLY -->
+  <div class="section-divider" style="margin-top: 24px;">
+    <h3>Monthly SaaS Subscription</h3>
+    <span class="badge">Recurring</span>
+  </div>
+
+  <!-- MONTHLY LINE ITEMS -->
+  <table class="inv-table" style="margin-top: 20px;">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="line-name">Cultivation Module — Hosting, Updates & Maintenance</div>
+          <div class="line-desc">Full cultivation dashboard hosting (unlimited zones, compliance suite, audit packages, reports, yield analytics). Includes database storage for environmental readings, batch history, and harvest records. All future feature updates included.</div>
+        </td>
+        <td>1</td>
+        <td>R 500,00</td>
+        <td>R 500,00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-name">AI Marketing Automation — Monthly Operation</div>
+          <div class="line-desc">Ongoing AI-powered marketing: automated website audits, monthly SEO reports, email sequence generation, 30-day social media content calendars, ad copy, competitor monitoring, and performance tracking. Powered by Claude AI marketing suite.</div>
+        </td>
+        <td>1</td>
+        <td>R 999,00</td>
+        <td>R 999,00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-name">24/7 IT Support & Platform SaaS</div>
+          <div class="line-desc">Priority technical support, server monitoring, security patches, database backups, and platform updates. Existing Origin platform fee.</div>
+        </td>
+        <td>1</td>
+        <td>R 999,00</td>
+        <td>R 999,00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="inv-totals" style="padding-top: 12px;">
+    <div class="inv-totals-row inv-totals-row-total">
+      <div class="inv-totals-label">Monthly Total:</div>
+      <div class="inv-totals-value">R 2 498,00</div>
+    </div>
+  </div>
+
+  <!-- MONTHLY NOTE -->
+  <div class="monthly-note">
+    <div class="monthly-note-icon">&#8635;</div>
+    <div class="monthly-note-text">
+      Since ILCO is funding the full custom development (R 30 000 setup), the cultivation module monthly is only <strong>R 500/mo</strong> for hosting and maintenance — not the standard SaaS tier pricing.
+      The AI marketing automation adds <strong>R 999/mo</strong> for ongoing content generation and campaign management.
+      Combined with existing Origin SaaS: <strong>R 2 498/mo total</strong>.
+    </div>
+  </div>
+
+  <!-- SUMMARY BOX -->
+  <div style="margin: 24px 20px 0; background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.18); border-radius: 10px; padding: 20px 24px;">
+    <table style="width: 100%; font-size: 0.9rem;">
+      <tr>
+        <td style="color: var(--or-grey-2); padding: 6px 0;">One-time setup (Cultivation + Marketing + Training)</td>
+        <td style="text-align: right; font-family: var(--font-mono); color: var(--or-white); font-weight: 600;">R 30 000,00</td>
+      </tr>
+      <tr>
+        <td style="color: var(--or-grey-2); padding: 6px 0;">Monthly — Cultivation Hosting & Updates</td>
+        <td style="text-align: right; font-family: var(--font-mono); color: var(--or-white); font-weight: 600;">R 500,00 /mo</td>
+      </tr>
+      <tr>
+        <td style="color: var(--or-grey-2); padding: 6px 0;">Monthly — AI Marketing Automation</td>
+        <td style="text-align: right; font-family: var(--font-mono); color: var(--or-white); font-weight: 600;">R 999,00 /mo</td>
+      </tr>
+      <tr>
+        <td style="color: var(--or-grey-2); padding: 6px 0;">Monthly — Origin Platform (existing)</td>
+        <td style="text-align: right; font-family: var(--font-mono); color: var(--or-grey-3); font-weight: 500;">R 999,00 /mo</td>
+      </tr>
+      <tr style="border-top: 2px solid rgba(201,168,76,0.25);">
+        <td style="color: var(--or-gold); font-weight: 700; padding: 12px 0 6px; font-size: 0.95rem;">First Month Total</td>
+        <td style="text-align: right; font-family: var(--font-mono); color: var(--or-gold-light); font-weight: 700; font-size: 1.15rem; padding: 12px 0 6px;">R 32 498,00</td>
+      </tr>
+      <tr>
+        <td style="color: var(--or-grey-3); font-size: 0.8rem; padding: 2px 0;">Thereafter monthly</td>
+        <td style="text-align: right; font-family: var(--font-mono); color: var(--or-grey-2); font-size: 0.85rem; padding: 2px 0;">R 2 498,00 /mo</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="inv-footer">
+    <div class="inv-footer-section">
+      <div class="inv-footer-title">Banking Details</div>
+      <div class="inv-footer-text">
+        <strong>Bank:</strong> Capitec<br>
+        <strong>Account Holder:</strong> FLOROUTER AI<br>
+        <strong>Account Number:</strong> 2153553365<br>
+        <strong>Branch Code:</strong> 470010
+      </div>
+    </div>
+
+    <div class="inv-footer-section">
+      <div class="inv-footer-title">Terms & Conditions</div>
+      <div class="inv-terms">
+        This quote is valid for 30 days from date of issue. Payment terms: 50% deposit on acceptance, 50% balance on go-live.
+        The monthly subscription begins on the go-live date and is billed on the 1st of each month.
+        Setup fee excludes travel and accommodation if on-site training is required outside Gauteng.
+        All prices exclude VAT. The cultivation module integrates with the existing Origin platform — an active
+        Origin subscription (R 999/mo) is required. AI marketing automation content is generated monthly and
+        requires client approval before publishing. Marketing strategy sessions included quarterly.
+        Cancellation of the monthly subscription requires 60-day written notice.
+      </div>
+    </div>
+
+    <div class="inv-stamp">
+      <div class="inv-stamp-left">Quote OR-00002 &middot; Generated 13 March 2026</div>
+      <div class="inv-stamp-right">FLOROUTER AI</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

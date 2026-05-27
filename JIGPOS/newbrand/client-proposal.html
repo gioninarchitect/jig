@@ -3,39 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PureGro - Cannabis Dispensary Platform Proposal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Origin — Cannabis Collection Point Management Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --primary: #116dff;
-            --primary-dark: #0052cc;
-            --primary-light: #e6f0ff;
-            --dark: #0A0A0A;
-            --dark-secondary: #1E1E1E;
-            --gray-100: #f8fafc;
-            --gray-200: #e2e8f0;
-            --gray-400: #9CA3AF;
-            --gray-600: #3A3A3A;
-            --white: #ffffff;
-            --success: #10b981;
-            --gold: #f59e0b;
+            --pg-black:        #0E0E0E;
+            --pg-dark:         #1A1A1A;
+            --pg-dark-2:       #222222;
+            --pg-dark-3:       #2A2A2A;
+            --pg-dark-4:       #333333;
+            --pg-green:        #C9A84C;
+            --or-gold-bright: #D4B86A;
+            --pg-green-muted:  #8B6914;
+            --pg-green-dim:    #1F6620;
+            --pg-gold:         #C9A84C;
+            --pg-gold-light:   #F8C242;
+            --pg-white:        #FFFFFF;
+            --pg-grey-1:       #CCCCCC;
+            --pg-grey-2:       #999999;
+            --pg-grey-3:       #666666;
+            --pg-grey-4:       #444444;
+            --pg-error:        #E05252;
+            --pg-success:      #C9A84C;
+            --font-display:    'Cinzel', 'Arial Narrow', sans-serif;
+            --font-body:       'Inter', -apple-system, sans-serif;
+            --font-mono:       'JetBrains Mono', 'Courier New', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--white);
-            color: var(--dark);
+            font-family: var(--font-body);
+            background: var(--or-black);
+            color: var(--pg-grey-1);
             line-height: 1.7;
             font-size: 15px;
         }
 
-        /* Cover Page */
+        /* ── COVER ── */
         .cover {
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 50%, var(--primary-dark) 100%);
+            background: var(--or-black);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -49,214 +59,280 @@
         .cover::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(17, 109, 255, 0.15) 0%, transparent 60%);
+            top: -20%;
+            right: -20%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 65%);
             pointer-events: none;
         }
 
         .cover::after {
             content: '';
             position: absolute;
-            bottom: -30%;
-            left: -30%;
-            width: 80%;
-            height: 80%;
-            background: radial-gradient(circle, rgba(17, 109, 255, 0.1) 0%, transparent 50%);
+            bottom: -20%;
+            left: -20%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(240,165,0,0.07) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Decorative grid lines */
+        .cover-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
             pointer-events: none;
         }
 
         .cover-content {
             position: relative;
             z-index: 1;
-            max-width: 700px;
+            max-width: 720px;
         }
 
         .cover-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(17, 109, 255, 0.2);
-            color: var(--primary);
-            padding: 10px 20px;
+            background: rgba(201,168,76,0.1);
+            color: var(--or-gold);
+            padding: 10px 22px;
             border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(17, 109, 255, 0.3);
-        }
-
-        .cover-badge i {
-            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 44px;
+            border: 1px solid rgba(201,168,76,0.25);
         }
 
         .cover-logo {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: var(--white);
-            margin-bottom: 15px;
-            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 32px;
         }
 
-        .cover-logo span {
-            color: var(--primary);
+        .cover-logo img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+        }
+
+        .cover-logo-text {
+            font-family: var(--font-display);
+            font-size: 3.8rem;
+            font-weight: 900;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            line-height: 1;
         }
 
         .cover h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--white);
+            font-family: var(--font-display);
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
             margin-bottom: 20px;
-            line-height: 1.2;
+            line-height: 1.15;
+        }
+
+        .cover h1 span {
+            color: var(--or-gold);
         }
 
         .cover-subtitle {
-            font-size: 1.15rem;
-            color: var(--gray-400);
-            margin-bottom: 50px;
-            max-width: 500px;
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--or-grey-2);
+            margin-bottom: 56px;
+            max-width: 520px;
             margin-left: auto;
             margin-right: auto;
         }
 
+        .cover-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--or-gold), var(--or-gold));
+            margin: 0 auto 40px;
+        }
+
         .cover-meta {
-            color: var(--gray-400);
-            font-size: 14px;
-            line-height: 2;
+            color: var(--or-grey-3);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            line-height: 2.2;
+            letter-spacing: 0.05em;
         }
 
         .cover-meta strong {
-            color: var(--white);
+            color: var(--pg-grey-1);
         }
 
-        /* Page Container */
+        /* ── PAGE ── */
         .page {
-            max-width: 850px;
+            max-width: 860px;
             margin: 0 auto;
             padding: 80px 40px;
         }
 
-        .page-break {
-            page-break-before: always;
-        }
+        .page-break { page-break-before: always; }
 
-        /* Section Headers */
+        /* ── SECTION HEADERS ── */
         .section-header {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 35px;
+            gap: 18px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--pg-dark-3);
         }
 
         .section-number {
-            width: 48px;
-            height: 48px;
-            background: var(--primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--or-gold);
+            letter-spacing: 0.15em;
+            background: rgba(201,168,76,0.08);
+            border: 1px solid rgba(201,168,76,0.2);
+            padding: 8px 14px;
+            border-radius: 6px;
+            white-space: nowrap;
         }
 
         .section-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--dark);
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
 
-        /* Content */
+        /* ── TYPOGRAPHY ── */
         p {
             margin-bottom: 18px;
-            color: var(--gray-600);
+            color: var(--or-grey-2);
+            font-weight: 400;
+            line-height: 1.75;
         }
 
         h3 {
-            font-size: 1.2rem;
+            font-family: var(--font-display);
+            font-size: 1.4rem;
             font-weight: 700;
-            color: var(--dark);
-            margin: 35px 0 18px;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 40px 0 20px;
         }
 
-        /* Feature Grid */
+        strong { color: var(--pg-grey-1); font-weight: 600; }
+
+        /* ── FEATURE GRID ── */
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
+            gap: 16px;
             margin: 30px 0;
         }
 
         .feature-card {
-            background: var(--gray-100);
+            background: var(--or-dark);
             border-radius: 16px;
             padding: 28px;
-            border: 1px solid var(--gray-200);
+            border: 1px solid var(--pg-dark-3);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--or-gold), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-            border-color: var(--primary);
+            border-color: var(--pg-dark-4);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.15);
         }
 
+        .feature-card:hover::before { opacity: 1; }
+
         .feature-card-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 12px;
+            width: 46px;
+            height: 46px;
+            background: rgba(201,168,76,0.1);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--white);
-            font-size: 1.2rem;
+            color: var(--or-gold);
+            font-size: 1.1rem;
             margin-bottom: 18px;
         }
 
         .feature-card h4 {
-            font-size: 1.05rem;
+            font-family: var(--font-display);
+            font-size: 1rem;
             font-weight: 700;
-            color: var(--dark);
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
             margin-bottom: 10px;
         }
 
         .feature-card p {
-            font-size: 14px;
-            color: var(--gray-600);
+            font-size: 13.5px;
+            color: var(--or-grey-3);
             margin: 0;
             line-height: 1.6;
         }
 
-        /* Pricing Cards */
+        /* ── PRICING ── */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
             margin: 30px 0;
         }
 
         .pricing-card {
-            background: var(--white);
+            background: var(--or-dark);
             border-radius: 20px;
-            padding: 35px;
-            border: 2px solid var(--gray-200);
+            padding: 36px;
+            border: 1px solid var(--pg-dark-3);
             position: relative;
             transition: all 0.3s ease;
         }
 
         .pricing-card:hover {
-            border-color: var(--primary);
+            border-color: var(--pg-dark-4);
         }
 
         .pricing-card.featured {
-            border-color: var(--primary);
-            background: linear-gradient(180deg, var(--primary-light) 0%, var(--white) 100%);
+            border-color: var(--or-gold);
+            background: linear-gradient(160deg, rgba(201,168,76,0.08) 0%, var(--or-dark) 60%);
+            box-shadow: 0 0 40px rgba(201,168,76,0.1);
         }
 
         .pricing-card.featured::before {
@@ -265,60 +341,65 @@
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--primary);
-            color: var(--white);
-            padding: 6px 16px;
+            background: var(--or-gold);
+            color: var(--or-black);
+            padding: 5px 16px;
             border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
         }
 
         .pricing-tier {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--primary);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--or-gold);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
         }
 
         .pricing-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--dark);
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
             margin-bottom: 20px;
         }
 
-        .pricing-amount {
-            margin-bottom: 25px;
-        }
+        .pricing-amount { margin-bottom: 28px; }
 
         .pricing-amount .setup {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--dark);
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--or-white);
+            line-height: 1;
         }
 
         .pricing-amount .setup-label {
-            font-size: 14px;
-            color: var(--gray-600);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--or-grey-3);
             display: block;
-            margin-top: 4px;
+            margin-top: 6px;
+            letter-spacing: 0.05em;
         }
 
         .pricing-amount .monthly {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-top: 12px;
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--or-gold);
+            margin-top: 14px;
+            text-transform: uppercase;
         }
 
-        .pricing-features {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
+        .pricing-features { list-style: none; margin: 0; padding: 0; }
 
         .pricing-features li {
             display: flex;
@@ -326,41 +407,51 @@
             gap: 10px;
             padding: 10px 0;
             font-size: 14px;
-            color: var(--gray-600);
-            border-bottom: 1px solid var(--gray-200);
+            color: var(--or-grey-2);
+            border-bottom: 1px solid var(--pg-dark-3);
         }
 
-        .pricing-features li:last-child {
-            border-bottom: none;
-        }
+        .pricing-features li:last-child { border-bottom: none; }
 
         .pricing-features i {
-            color: var(--success);
+            color: var(--or-gold);
             margin-top: 3px;
             flex-shrink: 0;
         }
 
-        /* Included Box */
+        /* ── INCLUDED BOX ── */
         .included-box {
-            background: var(--dark);
+            background: var(--or-dark);
             border-radius: 20px;
-            padding: 35px;
+            padding: 36px;
             margin: 40px 0;
-            color: var(--white);
+            border: 1px solid var(--pg-dark-3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .included-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--or-gold), var(--or-gold));
         }
 
         .included-box h4 {
+            font-family: var(--font-display);
             font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 24px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .included-box h4 i {
-            color: var(--primary);
-        }
+        .included-box h4 i { color: var(--or-gold); }
 
         .included-grid {
             display: grid;
@@ -372,108 +463,116 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 14px;
-            color: var(--gray-400);
+            font-size: 13.5px;
+            color: var(--or-grey-2);
         }
 
-        .included-item i {
-            color: var(--success);
-            font-size: 12px;
-        }
+        .included-item i { color: var(--or-gold); font-size: 11px; }
 
-        /* Timeline */
+        /* ── TIMELINE ── */
         .timeline {
             position: relative;
-            padding-left: 35px;
+            padding-left: 40px;
             margin: 35px 0;
         }
 
         .timeline::before {
             content: '';
             position: absolute;
-            left: 12px;
+            left: 14px;
             top: 8px;
             bottom: 8px;
             width: 2px;
-            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: linear-gradient(180deg, var(--or-gold) 0%, rgba(201,168,76,0.1) 100%);
         }
 
         .timeline-item {
             position: relative;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
 
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
+        .timeline-item:last-child { margin-bottom: 0; }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -30px;
-            top: 6px;
-            width: 12px;
-            height: 12px;
-            background: var(--primary);
+            left: -33px;
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            background: var(--or-gold);
             border-radius: 50%;
-            border: 3px solid var(--white);
-            box-shadow: 0 0 0 3px var(--primary-light);
+            border: 3px solid var(--or-black);
+            box-shadow: 0 0 0 2px var(--or-gold);
         }
 
         .timeline-week {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--primary);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--or-gold);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             margin-bottom: 6px;
         }
 
         .timeline-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
             font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 5px;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
         }
 
         .timeline-desc {
             font-size: 14px;
-            color: var(--gray-600);
+            color: var(--or-grey-3);
+            line-height: 1.6;
         }
 
-        /* Category Tree */
+        /* ── CATEGORY TREE ── */
         .category-tree {
-            background: var(--gray-100);
+            background: var(--or-dark);
             border-radius: 16px;
-            padding: 30px;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
-            font-size: 14px;
+            padding: 32px;
+            font-family: var(--font-mono);
+            font-size: 13px;
             margin: 25px 0;
-            border: 1px solid var(--gray-200);
+            border: 1px solid var(--pg-dark-3);
+            line-height: 2;
         }
 
-        .category-tree .root {
-            color: var(--primary);
-            font-weight: 700;
+        .category-tree .root { color: var(--or-gold); font-weight: 700; }
+        .category-tree .branch { color: var(--or-grey-2); margin-left: 20px; }
+        .category-tree .leaf { color: var(--or-grey-3); margin-left: 40px; }
+
+        /* ── NOTE BOX ── */
+        .note-box {
+            background: rgba(201,168,76,0.06);
+            border-left: 3px solid var(--or-gold);
+            padding: 20px 26px;
+            border-radius: 0 12px 12px 0;
+            margin: 28px 0;
         }
 
-        .category-tree .branch {
-            color: var(--gray-600);
-            margin-left: 20px;
+        .note-box p {
+            margin: 0;
+            color: var(--or-grey-2);
+            font-size: 14px;
         }
 
-        .category-tree .leaf {
-            color: var(--gray-400);
-            margin-left: 40px;
-        }
+        .note-box strong { color: var(--or-gold); }
 
-        /* CTA Section */
+        /* ── CTA SECTION ── */
         .cta-section {
-            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 100%);
-            color: var(--white);
-            padding: 50px;
+            background: var(--or-dark);
+            border: 1px solid var(--pg-dark-3);
+            padding: 60px 50px;
             border-radius: 24px;
             text-align: center;
-            margin: 50px 0;
+            margin: 60px 0;
             position: relative;
             overflow: hidden;
         }
@@ -481,24 +580,36 @@
         .cta-section::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -30%;
-            width: 60%;
-            height: 150%;
-            background: radial-gradient(circle, rgba(17, 109, 255, 0.2) 0%, transparent 60%);
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--or-gold), var(--or-gold), var(--or-gold));
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -20%;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 60%);
             pointer-events: none;
         }
 
         .cta-section h3 {
-            font-size: 1.8rem;
-            color: var(--white);
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
             margin-bottom: 12px;
             position: relative;
         }
 
         .cta-section p {
-            color: var(--gray-400);
-            margin-bottom: 30px;
+            color: var(--or-grey-2);
+            margin-bottom: 36px;
             position: relative;
         }
 
@@ -506,119 +617,293 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: var(--primary);
-            color: var(--white);
-            padding: 16px 36px;
-            border-radius: 12px;
+            background: var(--or-gold);
+            color: var(--or-black);
+            padding: 16px 40px;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
             transition: all 0.3s ease;
             position: relative;
         }
 
         .cta-button:hover {
-            background: var(--primary-dark);
+            background: var(--or-gold-bright);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(17, 109, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(201,168,76,0.3);
         }
 
-        /* Footer */
+        /* ── FOOTER ── */
         .footer {
             text-align: center;
             padding: 40px;
-            color: var(--gray-600);
-            font-size: 14px;
+            border-top: 1px solid var(--pg-dark-3);
+            margin-top: 40px;
         }
 
         .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
         }
 
-        .footer-logo span {
-            color: var(--primary);
+        .footer-logo img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
         }
 
-        /* Note Box */
-        .note-box {
-            background: var(--primary-light);
-            border-left: 4px solid var(--primary);
-            padding: 20px 25px;
-            border-radius: 0 12px 12px 0;
-            margin: 25px 0;
+        .footer-logo-text {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
         }
 
-        .note-box p {
-            margin: 0;
-            color: var(--dark);
-            font-size: 14px;
+        .footer p {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--or-grey-3);
+            margin: 4px 0;
         }
 
-        /* Print Styles */
+        /* ── GOLD ACCENT STAT BOXES ── */
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .stat-box {
+            background: var(--or-dark);
+            border: 1px solid var(--pg-dark-3);
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-box .stat-val {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: var(--or-gold);
+            line-height: 1;
+            display: block;
+        }
+
+        .stat-box .stat-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--or-grey-3);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* ── PRINT / RESPONSIVE ── */
         @media print {
+            body { background: #fff; color: #000; }
             .page { padding: 40px 20px; }
-            .feature-card:hover, .pricing-card:hover { transform: none; box-shadow: none; }
-            .cta-button:hover { transform: none; }
+            .feature-card:hover, .pricing-card:hover { transform: none; }
+        }
+
+        @media (max-width: 900px) {
+            .pricing-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
-            .cover-logo { font-size: 2.5rem; }
             .cover h1 { font-size: 1.8rem; }
-            .page { padding: 50px 25px; }
+            .cover-logo-text { font-size: 2.6rem; }
+            .page { padding: 50px 24px; }
+            .pricing-grid { grid-template-columns: 1fr; }
             .pricing-grid { grid-template-columns: 1fr; }
             .included-grid { grid-template-columns: 1fr; }
+            .stat-row { grid-template-columns: 1fr; }
         }
+
+        /* ── ADD-ONS ── */
+        .addon-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin: 28px 0;
+        }
+
+        .addon-card {
+            background: var(--or-dark);
+            border: 1px solid var(--pg-dark-3);
+            border-radius: 16px;
+            padding: 28px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .addon-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--or-gold), var(--or-gold-light));
+        }
+
+        .addon-card:hover {
+            border-color: rgba(240,165,0,0.3);
+        }
+
+        .addon-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .addon-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(240,165,0,0.1);
+            border: 1px solid rgba(240,165,0,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--or-gold);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .addon-info h4 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 5px;
+        }
+
+        .addon-info p {
+            font-size: 13px;
+            color: var(--or-grey-3);
+            margin: 0;
+            line-height: 1.5;
+            max-width: 460px;
+        }
+
+        .addon-price {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .addon-price .price-val {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--or-gold);
+            line-height: 1;
+            display: block;
+        }
+
+        .addon-price .price-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--or-grey-3);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .addon-badge {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 500;
+            color: var(--or-gold);
+            background: rgba(240,165,0,0.1);
+            border: 1px solid rgba(240,165,0,0.2);
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 6px;
+            display: inline-block;
+        }
+
     </style>
 </head>
 <body>
-    <!-- Cover Page -->
+
+    <!-- COVER PAGE -->
     <section class="cover">
+        <div class="cover-grid"></div>
         <div class="cover-content">
             <div class="cover-badge">
                 <i class="fas fa-file-contract"></i>
                 Solution Proposal
             </div>
-            <div class="cover-logo">Pure<span>Gro</span></div>
-            <h1>Cannabis Collection Point Management Platform</h1>
-            <p class="cover-subtitle">Complete POS, Inventory Management & Compliance Solution for Multi-Location Operations</p>
+            <div class="cover-logo">
+                <img src="data:image/png;base64,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" alt="Origin">
+                <div class="cover-logo-text">Origin</div>
+            </div>
+            <h1>Cannabis Collection Point<br><span>Management Platform</span></h1>
+            <p class="cover-subtitle">Complete POS, Inventory Management &amp; Compliance Solution for Multi-Location Operations</p>
+            <div class="cover-divider"></div>
             <div class="cover-meta">
-                <p><strong>Prepared for:</strong> PureGro Management</p>
+                <p><strong>Prepared for:</strong> Origin Management</p>
                 <p><strong>Date:</strong> February 2026</p>
                 <p><strong>Valid for:</strong> 30 Days</p>
             </div>
         </div>
     </section>
 
-    <!-- Executive Summary -->
+    <!-- 01 EXECUTIVE SUMMARY -->
     <div class="page">
         <div class="section-header">
-            <div class="section-number">01</div>
+            <div class="section-number">01 — OVERVIEW</div>
             <h2 class="section-title">Executive Summary</h2>
         </div>
 
-        <p>
-            We propose a complete, turnkey cannabis dispensary management platform designed specifically
-            for South African compliance requirements. This solution includes Point of Sale, Inventory
-            Management, Stock Take with photo verification, and multi-location support.
-        </p>
+        <p>We propose a complete, turnkey cannabis dispensary management platform designed specifically for South African compliance requirements. This solution includes Point of Sale, Inventory Management, Stock Take with photo verification, and multi-location support.</p>
 
-        <p>
-            The platform is <strong>currently live and operational</strong>, demonstrating proven reliability
-            and real-world functionality across multiple dispensary locations.
-        </p>
+        <p>The platform is <strong>currently live and operational</strong>, demonstrating proven reliability and real-world functionality across multiple dispensary locations.</p>
+
+        <div class="stat-row">
+            <div class="stat-box">
+                <span class="stat-val">9</span>
+                <span class="stat-label">Active Locations</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-val">4+</span>
+                <span class="stat-label">Years Operational</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-val">50+</span>
+                <span class="stat-label">Strains Stocked</span>
+            </div>
+        </div>
 
         <div class="note-box">
             <p><strong>Key Differentiators:</strong> Section 21 compliance built-in, OCR-powered stock take with scale photo verification, real-time inventory sync, mobile-first design, and complete white-label customization with your branding.</p>
         </div>
     </div>
 
-    <!-- Platform Features -->
+    <!-- 02 PLATFORM FEATURES -->
     <div class="page page-break">
         <div class="section-header">
-            <div class="section-number">02</div>
+            <div class="section-number">02 — FEATURES</div>
             <h2 class="section-title">Platform Features</h2>
         </div>
 
@@ -628,31 +913,26 @@
                 <h4>Point of Sale</h4>
                 <p>Fast, intuitive sales interface with category filtering, quick-add buttons, and multiple payment methods including cash, card, and split payments.</p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-card-icon"><i class="fas fa-clipboard-check"></i></div>
                 <h4>Stock Take App</h4>
                 <p>Mobile stock counting with photo verification, OCR scale reading, variance tracking, and manager approval workflow.</p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-card-icon"><i class="fas fa-boxes-stacked"></i></div>
                 <h4>Inventory Management</h4>
                 <p>Real-time stock levels, low stock alerts, multi-location support, and automatic POS sync when stock is updated.</p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-card-icon"><i class="fas fa-chart-pie"></i></div>
                 <h4>Owner Dashboard</h4>
-                <p>Sales analytics, staff performance, inventory overview, and variance reports across all collection points in one view.</p>
+                <p>360° multi-location analytics, staff performance, inventory overview, and variance reports. <em style="color:var(--or-gold);">Available as premium add-on.</em></p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-card-icon"><i class="fas fa-user-shield"></i></div>
                 <h4>Admin Panel</h4>
                 <p>Product management, user roles, branch configuration, and system settings all in one centralized location.</p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-card-icon"><i class="fas fa-prescription-bottle-medical"></i></div>
                 <h4>Section 21 Compliance</h4>
@@ -673,45 +953,44 @@
             <div class="leaf">├── Pre Rolls</div>
             <div class="leaf">├── Pre Packs (3g/5g)</div>
             <div class="leaf">└── Loose Flower</div>
-            <div class="root" style="margin-top: 15px;">EDIBLES | CONCENTRATES | VAPES | ACCESSORIES | CBD</div>
+            <div class="root" style="margin-top:12px;">EDIBLES&nbsp;&nbsp;│&nbsp;&nbsp;CONCENTRATES&nbsp;&nbsp;│&nbsp;&nbsp;VAPES&nbsp;&nbsp;│&nbsp;&nbsp;ACCESSORIES&nbsp;&nbsp;│&nbsp;&nbsp;CBD</div>
         </div>
     </div>
 
-    <!-- Pricing -->
+    <!-- 03 INVESTMENT -->
     <div class="page page-break">
         <div class="section-header">
-            <div class="section-number">03</div>
+            <div class="section-number">03 — PRICING</div>
             <h2 class="section-title">Investment</h2>
         </div>
 
-        <p>Flexible pricing based on your operation size. Both tiers include full platform access, hosting, ongoing support, and all future updates.</p>
+        <p>Flexible pricing based on your operation size. All tiers include full platform access, hosting, ongoing support, and all future updates.</p>
 
         <div class="pricing-grid">
             <div class="pricing-card">
-                <div class="pricing-tier">Tier 1</div>
+                <div class="pricing-tier">TIER 01</div>
                 <div class="pricing-title">Standard</div>
-                <p style="font-size: 14px; margin-bottom: 20px;">For operations with 1-9 collection points</p>
+                <p style="font-size:13px; margin-bottom:20px; color:var(--or-grey-3);">For operations with 1–9 collection points</p>
                 <div class="pricing-amount">
-                    <span class="setup">R10,000</span>
+                    <span class="setup">R15,000</span>
                     <span class="setup-label">Once-off setup fee</span>
-                    <div class="monthly">+ R1,500 /month</div>
+                    <div class="monthly">+ R999 / month</div>
                 </div>
                 <ul class="pricing-features">
                     <li><i class="fas fa-check"></i> Full platform deployment</li>
-                    <li><i class="fas fa-check"></i> Your branding & domain</li>
+                    <li><i class="fas fa-check"></i> Your branding &amp; domain</li>
                     <li><i class="fas fa-check"></i> Staff training included</li>
                     <li><i class="fas fa-check"></i> Ongoing support</li>
                 </ul>
             </div>
-
-            <div class="pricing-card featured">
-                <div class="pricing-tier">Tier 2</div>
+            <div class="pricing-card">
+                <div class="pricing-tier">TIER 02</div>
                 <div class="pricing-title">Enterprise</div>
-                <p style="font-size: 14px; margin-bottom: 20px;">For operations with 10+ collection points</p>
+                <p style="font-size:13px; margin-bottom:20px; color:var(--or-grey-3);">For operations with 10–19 collection points</p>
                 <div class="pricing-amount">
                     <span class="setup">R5,000</span>
                     <span class="setup-label">Once-off setup fee</span>
-                    <div class="monthly">+ R1,350 /month</div>
+                    <div class="monthly">+ R1,350 / month</div>
                 </div>
                 <ul class="pricing-features">
                     <li><i class="fas fa-check"></i> Everything in Standard</li>
@@ -720,12 +999,28 @@
                     <li><i class="fas fa-check"></i> Volume discount</li>
                 </ul>
             </div>
+            <div class="pricing-card featured">
+                <div class="pricing-tier">TIER 03</div>
+                <div class="pricing-title">Scale</div>
+                <p style="font-size:13px; margin-bottom:20px; color:var(--or-grey-3);">For operations with 20+ collection points</p>
+                <div class="pricing-amount">
+                    <span class="setup">R5,000</span>
+                    <span class="setup-label">Once-off setup fee</span>
+                    <div class="monthly">+ R1,000 / branch p/m</div>
+                </div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Everything in Enterprise</li>
+                    <li><i class="fas fa-check"></i> Per-branch SaaS pricing</li>
+                    <li><i class="fas fa-check"></i> Dedicated account manager</li>
+                    <li><i class="fas fa-check"></i> Maximum volume savings</li>
+                </ul>
+            </div>
         </div>
 
         <div class="included-box">
             <h4><i class="fas fa-gift"></i> Included in Every Plan</h4>
             <div class="included-grid">
-                <div class="included-item"><i class="fas fa-check"></i> Full POS, Inventory & Stock Take</div>
+                <div class="included-item"><i class="fas fa-check"></i> Full POS, Inventory &amp; Stock Take</div>
                 <div class="included-item"><i class="fas fa-check"></i> White-label branding</div>
                 <div class="included-item"><i class="fas fa-check"></i> Staff training sessions</div>
                 <div class="included-item"><i class="fas fa-check"></i> Cloud hosting with SSL</div>
@@ -736,15 +1031,47 @@
             </div>
         </div>
 
-        <p style="font-size: 13px; color: var(--gray-400); text-align: center; margin-top: 30px;">
+        <p style="font-family:var(--font-mono); font-size:11px; color:var(--pg-grey-4); text-align:center; margin-top:24px; letter-spacing:0.05em;">
             All prices exclude VAT. No hidden fees. Tech support included in monthly fee.
         </p>
     </div>
 
-    <!-- Timeline -->
+
+    <!-- ADD-ONS -->
+    <div class="page">
+        <div class="section-header">
+            <div class="section-number">03B — ADD-ONS</div>
+            <h2 class="section-title">Optional Add-Ons</h2>
+        </div>
+
+        <p>Enhance your platform with premium features available as monthly add-ons to any tier.</p>
+
+        <div class="addon-grid">
+            <div class="addon-card">
+                <div class="addon-left">
+                    <div class="addon-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="addon-info">
+                        <h4>360° Owner Dashboard</h4>
+                        <p>Full multi-location business intelligence suite — live sales across all branches, staff performance scoring, variance analytics, daily P&amp;L snapshots, and executive reporting. One unified view of your entire operation.</p>
+                        <span class="addon-badge">Premium Feature</span>
+                    </div>
+                </div>
+                <div class="addon-price">
+                    <span class="price-val">R2,500</span>
+                    <span class="price-label">per month</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="note-box">
+            <p><strong>Note:</strong> Add-ons are billed monthly alongside your tier subscription and can be activated or deactivated at any time. No lock-in period on add-ons.</p>
+        </div>
+    </div>
+
+    <!-- 04 TIMELINE -->
     <div class="page page-break">
         <div class="section-header">
-            <div class="section-number">04</div>
+            <div class="section-number">04 — DELIVERY</div>
             <h2 class="section-title">Implementation Timeline</h2>
         </div>
 
@@ -752,25 +1079,22 @@
 
         <div class="timeline">
             <div class="timeline-item">
-                <div class="timeline-week">Week 1</div>
-                <div class="timeline-title">Discovery & Setup</div>
+                <div class="timeline-week">Week 01</div>
+                <div class="timeline-title">Discovery &amp; Setup</div>
                 <div class="timeline-desc">Requirements gathering, branding assets collection, server provisioning, domain configuration</div>
             </div>
-
             <div class="timeline-item">
-                <div class="timeline-week">Week 2</div>
+                <div class="timeline-week">Week 02</div>
                 <div class="timeline-title">Customization</div>
                 <div class="timeline-desc">Apply your branding, configure products and categories, set up user accounts and roles</div>
             </div>
-
             <div class="timeline-item">
-                <div class="timeline-week">Week 3</div>
-                <div class="timeline-title">Data Migration & Testing</div>
+                <div class="timeline-week">Week 03</div>
+                <div class="timeline-title">Data Migration &amp; Testing</div>
                 <div class="timeline-desc">Import existing inventory data, UAT testing with your team, first staff training session</div>
             </div>
-
             <div class="timeline-item">
-                <div class="timeline-week">Week 4</div>
+                <div class="timeline-week">Week 04</div>
                 <div class="timeline-title">Go Live</div>
                 <div class="timeline-desc">Production deployment, final staff training, go-live support, handover documentation</div>
             </div>
@@ -786,18 +1110,16 @@
         <div class="cta-section">
             <h3>Ready to Get Started?</h3>
             <p>Let's schedule a demo and discuss your specific requirements.</p>
-            <a href="mailto:hello@puregro.co.za" class="cta-button">
+            <a href="/cdn-cgi/l/email-protection#bed7d0d8d1fececbccdbd9ccd190ddd190c4df" class="cta-button">
                 <i class="fas fa-calendar-check"></i> Schedule a Demo
             </a>
         </div>
 
         <div class="footer">
-            <div class="footer-logo">Pure<span>Gro</span></div>
-            <p>www.puregro.co.za</p>
-            <p style="margin-top: 15px; font-size: 13px; color: var(--gray-400);">
-                This proposal is confidential and valid for 30 days from the date issued.
-            </p>
-        </div>
-    </div>
-</body>
-</html>
+            <div class="footer-logo">
+                <img src="data:image/png;base64,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" alt="Origin">
+                <div class="footer-logo-text">Origin</div>
+            </div>
+            <p>www.origin.co.za</p>
+            <p style="margin-top:12px;">This proposal is confidential and valid for 30 days from the date issued.</p>
+ 

@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Admin Chat Bot Page
+ * PureGro Premium Cannabis Care - Admin Chat Bot Page
  *
  * Manage Telegram bot settings, view linked users, setup webhook.
  */
@@ -8,8 +8,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { chat as chatApi, type ChatSettings, type ChatLinkedUser } from '../../api';
 
 const STATE_COLORS: Record<string, string> = {
-  linked: 'bg-jig-green/15 text-green-400 border border-jig-green/25',
-  pending_email: 'bg-jig-amber/15 text-amber-400 border border-jig-amber/25',
+  linked: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  pending_email: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
   pending_otp: 'bg-blue-500/15 text-blue-400 border border-blue-500/25',
 };
 
@@ -61,7 +61,7 @@ export default function AdminChatPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-jig-gray-700 border-t-jig-purple" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-pg-gray-700 border-t-pg-green" />
       </div>
     );
   }
@@ -70,15 +70,15 @@ export default function AdminChatPage() {
 
   return (
     <div className="p-6">
-      <h1 className="mb-6 font-heading text-2xl font-bold uppercase tracking-wide text-jig-white">
+      <h1 className="mb-6 font-heading text-2xl font-bold uppercase tracking-wide text-pg-white">
         Chat Bot
       </h1>
 
       {/* Bot Status Card */}
-      <div className="mb-6 rounded-lg border border-white/[0.08] bg-jig-slate p-5">
+      <div className="mb-6 rounded-lg border border-white/[0.08] bg-pg-dark p-5">
         <div className="flex items-center gap-3 mb-4">
-          <div className={`h-3 w-3 rounded-full ${settings?.configured ? 'bg-jig-green' : 'bg-red-500'}`} />
-          <h2 className="font-heading text-sm font-semibold uppercase tracking-wider text-jig-white">
+          <div className={`h-3 w-3 rounded-full ${settings?.configured ? 'bg-puregro-green' : 'bg-red-500'}`} />
+          <h2 className="font-heading text-sm font-semibold uppercase tracking-wider text-pg-white">
             {settings?.configured ? 'Bot Active' : 'Not Configured'}
           </h2>
         </div>
@@ -86,34 +86,34 @@ export default function AdminChatPage() {
         {settings?.configured ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">
+              <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">
                 Bot Username
               </p>
-              <p className="mt-1 text-sm text-jig-white">@{botUsername || 'Unknown'}</p>
+              <p className="mt-1 text-sm text-pg-white">@{botUsername || 'Unknown'}</p>
             </div>
             <div>
-              <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">
+              <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">
                 Webhook
               </p>
-              <p className="mt-1 truncate text-sm text-jig-white">
+              <p className="mt-1 truncate text-sm text-pg-white">
                 {settings.webhook.url || 'Not set'}
               </p>
             </div>
             <div>
-              <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">
+              <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">
                 Linked Users
               </p>
-              <p className="mt-1 text-sm text-jig-white">{settings.stats.linkedUsers}</p>
+              <p className="mt-1 text-sm text-pg-white">{settings.stats.linkedUsers}</p>
             </div>
             <div>
-              <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">
+              <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">
                 Total Messages
               </p>
-              <p className="mt-1 text-sm text-jig-white">{settings.stats.totalMessages}</p>
+              <p className="mt-1 text-sm text-pg-white">{settings.stats.totalMessages}</p>
             </div>
           </div>
         ) : (
-          <p className="text-sm text-jig-gray-500">
+          <p className="text-sm text-pg-gray-500">
             Set TELEGRAM_BOT_TOKEN in your .env file to enable the Telegram bot.
           </p>
         )}
@@ -121,17 +121,17 @@ export default function AdminChatPage() {
 
       {/* Telegram Deep Link */}
       {botUsername && (
-        <div className="mb-6 rounded-lg border border-jig-purple/25 bg-jig-purple/[0.06] p-5">
-          <h3 className="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-jig-purple-light">
+        <div className="mb-6 rounded-lg border border-pg-green/25 bg-pg-green/[0.06] p-5">
+          <h3 className="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-pg-green-light">
             Share with Clients
           </h3>
           <div className="flex items-center gap-3">
-            <code className="flex-1 rounded bg-jig-black/50 px-3 py-2 text-sm text-jig-white">
+            <code className="flex-1 rounded bg-pg-black/50 px-3 py-2 text-sm text-pg-white">
               t.me/{botUsername}?start=connect
             </code>
             <button
               onClick={() => navigator.clipboard.writeText(`https://t.me/${botUsername}?start=connect`)}
-              className="shrink-0 rounded border border-jig-purple/30 bg-jig-purple/15 px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-jig-purple-light transition-all hover:bg-jig-purple/25"
+              className="shrink-0 rounded border border-pg-green/30 bg-pg-green/15 px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-pg-green-light transition-all hover:bg-pg-green/25"
             >
               Copy Link
             </button>
@@ -141,8 +141,8 @@ export default function AdminChatPage() {
 
       {/* Webhook Setup */}
       {settings?.configured && (
-        <div className="mb-6 rounded-lg border border-white/[0.08] bg-jig-slate p-5">
-          <h3 className="mb-3 font-heading text-xs font-semibold uppercase tracking-wider text-jig-white">
+        <div className="mb-6 rounded-lg border border-white/[0.08] bg-pg-dark p-5">
+          <h3 className="mb-3 font-heading text-xs font-semibold uppercase tracking-wider text-pg-white">
             Webhook Setup
           </h3>
           <div className="flex items-center gap-3">
@@ -151,11 +151,11 @@ export default function AdminChatPage() {
               value={webhookUrl}
               onChange={(e) => setWebhookUrl(e.target.value)}
               placeholder="https://jig.cleva-ai.co.za/api/v1/chat/webhook/telegram"
-              className="flex-1 rounded border border-white/[0.12] bg-jig-black/50 px-3 py-2 text-sm text-jig-white placeholder-jig-gray-600 focus:border-jig-purple/50 focus:outline-none"
+              className="flex-1 rounded border border-white/[0.12] bg-pg-black/50 px-3 py-2 text-sm text-pg-white placeholder-puregro-gray-600 focus:border-pg-green/50 focus:outline-none"
             />
             <button
               onClick={handleSetupWebhook}
-              className="shrink-0 rounded bg-jig-purple px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-jig-white transition-all hover:bg-jig-purple-light"
+              className="shrink-0 rounded bg-pg-green px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-pg-white transition-all hover:bg-pg-green-light"
             >
               Set Webhook
             </button>
@@ -169,15 +169,15 @@ export default function AdminChatPage() {
       )}
 
       {/* Connected Users Table */}
-      <div className="rounded-lg border border-white/[0.08] bg-jig-slate">
+      <div className="rounded-lg border border-white/[0.08] bg-pg-dark">
         <div className="border-b border-white/[0.06] px-5 py-4">
-          <h3 className="font-heading text-xs font-semibold uppercase tracking-wider text-jig-white">
+          <h3 className="font-heading text-xs font-semibold uppercase tracking-wider text-pg-white">
             Connected Users ({users.length})
           </h3>
         </div>
 
         {users.length === 0 ? (
-          <div className="px-5 py-8 text-center text-sm text-jig-gray-500">
+          <div className="px-5 py-8 text-center text-sm text-pg-gray-500">
             No users connected yet. Share the bot link with your clients.
           </div>
         ) : (
@@ -189,7 +189,7 @@ export default function AdminChatPage() {
                     (h) => (
                       <th
                         key={h}
-                        className="px-5 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500"
+                        className="px-5 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500"
                       >
                         {h}
                       </th>
@@ -201,30 +201,30 @@ export default function AdminChatPage() {
                 {users.map((u) => (
                   <tr key={u.id} className="border-b border-white/[0.04] hover:bg-white/[0.02]">
                     <td className="px-5 py-3">
-                      <span className="font-heading text-[11px] font-medium uppercase tracking-wider text-jig-gray-400">
+                      <span className="font-heading text-[11px] font-medium uppercase tracking-wider text-puregro-gray-400">
                         {u.platform}
                       </span>
                     </td>
-                    <td className="px-5 py-3 text-sm text-jig-white">
+                    <td className="px-5 py-3 text-sm text-pg-white">
                       {u.platformUsername ? `@${u.platformUsername}` : u.platformDisplayName || u.platformUserId}
                     </td>
-                    <td className="px-5 py-3 text-sm text-jig-white">
+                    <td className="px-5 py-3 text-sm text-pg-white">
                       {u.clientName || (u.clientId ? u.clientId.slice(0, 8) : '-')}
                       {u.clientEmail && (
-                        <span className="ml-2 text-xs text-jig-gray-500">{u.clientEmail}</span>
+                        <span className="ml-2 text-xs text-pg-gray-500">{u.clientEmail}</span>
                       )}
                     </td>
                     <td className="px-5 py-3">
                       <span
                         className={`inline-block rounded px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider ${
-                          STATE_COLORS[u.linkState] || 'bg-white/[0.06] text-jig-gray-500'
+                          STATE_COLORS[u.linkState] || 'bg-white/[0.06] text-pg-gray-500'
                         }`}
                       >
                         {u.linkState.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-5 py-3 text-sm text-jig-gray-400">{u.messageCount}</td>
-                    <td className="px-5 py-3 text-sm text-jig-gray-500">
+                    <td className="px-5 py-3 text-sm text-puregro-gray-400">{u.messageCount}</td>
+                    <td className="px-5 py-3 text-sm text-pg-gray-500">
                       {u.lastMessageAt
                         ? new Date(u.lastMessageAt).toLocaleDateString('en-ZA')
                         : '-'}

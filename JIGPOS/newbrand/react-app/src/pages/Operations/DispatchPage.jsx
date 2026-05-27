@@ -62,7 +62,7 @@ function ReadyTab() {
     } catch { /* handle error */ }
   }
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="space-y-3">
@@ -87,10 +87,10 @@ function ReadyTab() {
             </div>
           )}
           <div className="flex gap-2">
-            <button onClick={() => dispatch(order._id, 'courier')} className="px-3 py-1.5 rounded-lg bg-jig-purple text-white text-xs font-bold">
+            <button onClick={() => dispatch(order._id, 'courier')} className="px-3 py-1.5 rounded-lg bg-or-gold text-white text-xs font-bold">
               Courier Dispatch
             </button>
-            <button onClick={() => dispatch(order._id, 'collection')} className="px-3 py-1.5 rounded-lg bg-jig-amber text-white text-xs font-bold">
+            <button onClick={() => dispatch(order._id, 'collection')} className="px-3 py-1.5 rounded-lg bg-or-gold text-white text-xs font-bold">
               Collection Ready
             </button>
             <button onClick={() => dispatch(order._id, 'drive-through')} className="px-3 py-1.5 rounded-lg border border-gray-300 text-gray-600 text-xs font-bold">
@@ -128,7 +128,7 @@ function DispatchedTab() {
     } catch { /* handle error */ }
   }
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="space-y-3">
@@ -142,7 +142,7 @@ function DispatchedTab() {
             <div className="text-sm font-heading text-white">{order.orderNumber || `#${order._id?.slice(-6)}`}</div>
             <div className="text-[10px] text-gray-400">{order.dispatchMethod || 'courier'} | {new Date(order.updatedAt || order.createdAt).toLocaleString('en-ZA')}</div>
           </div>
-          <button onClick={() => markDelivered(order._id)} className="px-3 py-1.5 rounded-lg bg-jig-purple text-white text-xs font-bold">
+          <button onClick={() => markDelivered(order._id)} className="px-3 py-1.5 rounded-lg bg-or-gold text-white text-xs font-bold">
             Mark Delivered
           </button>
         </div>
@@ -169,7 +169,7 @@ function DeliveredTab() {
     load();
   }, []);
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="space-y-3">
@@ -208,7 +208,7 @@ function DispatchStats() {
     load();
   }, []);
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   const d = stats || {};
   return (

@@ -1,19 +1,21 @@
-// Purchase Order PDF Generator - JIG Craft Cannabis
+// Purchase Order PDF Generator - Origin by ILCO Farming
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
+const config = require('../config');
+const VAT_RATE = config.business.vatRate;
 
 class PurchaseOrderGenerator {
   constructor() {
-    // JIG Brand Colors
+    // Origin Brand Colors
     this.colors = {
-      primary: '#7C3AED',    // JIG Green
-      accent: '#6D28D9',     // JIG Green Dark
-      text: '#0A0A0A',       // JIG Green Deep
-      gold: '#D97706',       // JIG Gold
-      cream: '#0A0A0A',      // JIG Cream
-      red: '#DC2626',        // JIG Red
-      lightGray: '#0A0A0A',  // Cream background
+      primary: '#C9A84C',    // Origin Gold
+      accent: '#8B6914',     // Origin Gold Dark
+      text: '#0A0A0A',       // Origin Black
+      gold: '#C9A84C',       // Origin Gold
+      cream: '#F5F0E8',      // Origin Warm White
+      red: '#DC2626',        // Origin Red
+      lightGray: '#F5F0E8',  // Warm white background
       white: '#FFFFFF'       // White
     };
   }
@@ -66,32 +68,32 @@ class PurchaseOrderGenerator {
   }
 
   addHeader(doc, po) {
-    // Use DBC small logo (no background) for documents
-    const logoPath = path.join(__dirname, '../../images/jig-logo-nobg.png');
+    // Use Origin small logo (no background) for documents
+    const logoPath = path.join(__dirname, '../../images/origin-logo.png');
 
     // Add logo if exists
     if (fs.existsSync(logoPath)) {
       doc.image(logoPath, 50, 25, { width: 90 });
     } else {
-      // Fallback text logo - JIG branding
+      // Fallback text logo - Origin branding
       doc.fontSize(24)
          .fillColor(this.colors.primary)
          .font('Helvetica-Bold')
-         .text('JIG CRAFT CANNABIS', 50, 50);
+         .text('Origin', 50, 50);
       doc.fontSize(10)
          .fillColor(this.colors.gold)
-         .text('Craft Cannabis', 50, 78);
+         .text('Premium Cannabis Care', 50, 78);
     }
 
     // Company details on right
     doc.fontSize(9)
        .fillColor(this.colors.text)
        .font('Helvetica')
-       .text('JIG Craft Cannabis (Pty) Ltd', 350, 50, { align: 'right', width: 195 })
+       .text('Origin by ILCO Farming (Pty) Ltd', 350, 50, { align: 'right', width: 195 })
        .text('123 Main Street, Sandton', 350, 63, { align: 'right', width: 195 })
        .text('Johannesburg, Gauteng 2196', 350, 76, { align: 'right', width: 195 })
        .text('Tel: +27 11 234 5678', 350, 89, { align: 'right', width: 195 })
-       .text('procurement@jig.cleva-ai.co.za', 350, 102, { align: 'right', width: 195 });
+       .text('origin@cleva-ai.co.za', 350, 102, { align: 'right', width: 195 });
 
     // Document title with gold accent
     doc.fontSize(24)
@@ -187,7 +189,7 @@ class PurchaseOrderGenerator {
     // Status with color coding
     const statusColors = {
       draft: '#6B7280',
-      submitted: '#F59E0B',
+      submitted: '#F8C242',
       approved: '#10B981',
       ordered: '#3B82F6',
       partial: '#8B5CF6',
@@ -221,12 +223,12 @@ class PurchaseOrderGenerator {
     const tableTop = 340;
     const itemHeight = 25;
 
-    // Table headers - DBC green background
+    // Table headers - Origin purple background
     doc.fontSize(9)
        .fillColor(this.colors.cream)
        .font('Helvetica-Bold');
 
-    // Header background with DBC green
+    // Header background with Origin purple
     doc.rect(50, tableTop, 495, 25)
        .fill(this.colors.primary);
 
@@ -301,7 +303,7 @@ class PurchaseOrderGenerator {
     }
 
     // VAT
-    doc.text(`VAT (${po.taxRate || 15}%):`, 360, startY + 36)
+    doc.text(`VAT (${po.taxRate || VAT_RATE * 100}%):`, 360, startY + 36)
        .text(`R ${(po.taxAmount || 0).toFixed(2)}`, 460, startY + 36, { width: 80, align: 'right' });
 
     // Shipping if any
@@ -380,11 +382,11 @@ class PurchaseOrderGenerator {
        .text('Authorized By: ____________________________', 50, footerY)
        .text('Date: ______________', 300, footerY);
 
-    // Footer text - JIG branding
+    // Footer text - Origin branding
     doc.fontSize(9)
        .fillColor(this.colors.gold)
        .font('Helvetica-Bold')
-       .text('JIG CRAFT CANNABIS - Cultivating Excellence', 50, footerY + 25, {
+       .text('Origin - Cultivating Excellence', 50, footerY + 25, {
          align: 'center',
          width: 495
        });
@@ -392,7 +394,7 @@ class PurchaseOrderGenerator {
     doc.fillColor(this.colors.accent)
        .fontSize(8)
        .font('Helvetica')
-       .text('www.jig.cleva-ai.co.za | Tel: +27 11 234 5678 | procurement@jig.cleva-ai.co.za', 50, footerY + 40, {
+       .text('origin.cleva-ai.co.za | Tel: +27 11 234 5678 | origin@cleva-ai.co.za', 50, footerY + 40, {
          align: 'center',
          width: 495
        });

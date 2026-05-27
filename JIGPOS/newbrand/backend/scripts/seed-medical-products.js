@@ -6,7 +6,7 @@ require('dotenv').config();
 async function seedMedicalProducts() {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/jig');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/origin');
     console.log('Connected to MongoDB');
 
     const medicalProducts = [
@@ -213,7 +213,7 @@ async function seedMedicalProducts() {
     console.log('========================================');
     console.log('\nTotal: 8 Section 21 medical cannabis products');
     console.log('\n💡 Testing:');
-    console.log('- Login as patient@basothomedicalherbs.ls (has approved Section 21)');
+    console.log('- Login as patient@origin.cleva-ai.co.za (has approved Section 21)');
     console.log('- Navigate to "Medical Cannabis" tab');
     console.log('- View Section 21 status and browse medical products');
     console.log('- Add products to cart (requires prescription)\n');

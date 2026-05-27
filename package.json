@@ -1,7 +1,7 @@
 {
-  "name": "jig-craft-cannabis",
+  "name": "origin",
   "version": "1.0.0",
-  "description": "JIG Craft Cannabis - B2B Wholesale Platform with HEADCASE EVOLVE Intelligence",
+  "description": "Origin by ILCO Farming - B2B Wholesale Platform",
   "private": true,
   "scripts": {
     "build:server": "tsc -p tsconfig.server.json",

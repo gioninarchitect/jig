@@ -23,7 +23,7 @@ const managerLast = args[3];
 if (!branchCode) {
   console.log(`
 ╔══════════════════════════════════════════════════════════════╗
-║           JIG CRAFT CANNABIS - BRANCH SETUP WIZARD                  ║
+║           Origin - BRANCH SETUP WIZARD                  ║
 ╚══════════════════════════════════════════════════════════════╝
 
 Usage: node scripts/setup-new-branch.js <branch-code> <manager-phone> <manager-first> <manager-last>
@@ -31,7 +31,7 @@ Usage: node scripts/setup-new-branch.js <branch-code> <manager-phone> <manager-f
 Example: node scripts/setup-new-branch.js SPR-001 0831234567 John Smith
 
 Available Branch Codes:
-  ORM-001   Ormonde (HQ)
+  ORM-001   Potchefstroom (HQ)
   SPR-001   Spruitview
   RUS-001   Rustenburg
   KLK-001   Klerksdorp
@@ -52,7 +52,7 @@ This script will:
 
 async function setupBranch() {
   try {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
     await mongoose.connect(mongoUri);
 
     const Branch = require('../backend/modules/database/models/Branch');
@@ -62,7 +62,7 @@ async function setupBranch() {
 
     console.log(`
 ╔══════════════════════════════════════════════════════════════╗
-║           JIG CRAFT CANNABIS - BRANCH SETUP                         ║
+║           Origin - BRANCH SETUP                         ║
 ╚══════════════════════════════════════════════════════════════╝
 `);
 
@@ -124,7 +124,7 @@ async function setupBranch() {
         // Create new manager
         const email = `${managerFirst.toLowerCase()}.${managerLast.toLowerCase()}@jig.cleva-ai.co.za`;
         const username = `${managerFirst.toLowerCase()}${managerLast.toLowerCase()}${Date.now().toString().slice(-4)}`;
-        tempPassword = `JIG${Date.now().toString().slice(-6)}!`;
+        tempPassword = `Origin${Date.now().toString().slice(-6)}!`;
         const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
         manager = new User({

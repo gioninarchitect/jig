@@ -1,20 +1,25 @@
 import { prisma } from '../config/db';
 import { SeverityLevel } from '@prisma/client';
 import { eventBus } from './eventBus';
+import { syncSopGovernance } from './sop-governance.service';
 
 // ── SOPs ──
 
 export async function createSOP(data: {
   title: string; content: string; facilityId: string; tenantId: string; userId: string;
+  category?: string; rolesRequired?: string[];
 }) {
   const sop = await prisma.sOP.create({
     data: {
       title: data.title, content: data.content, version: 1,
+      category: data.category || 'GENERAL',
+      rolesRequired: data.rolesRequired || undefined,
       tenantId: data.tenantId, facilityId: data.facilityId, approvedById: data.userId,
     },
   });
   eventBus.emit('SOP_CREATED', { userId: data.userId, tenantId: data.tenantId, entityType: 'SOP', entityId: sop.id });
-  return sop;
+  const governance = await syncSopGovernance(sop.id, data.tenantId, data.userId);
+  return { ...sop, governance };
 }
 
 export async function listSOPs(query: { tenantId: string; facilityId?: string }) {
@@ -30,17 +35,24 @@ export async function listSOPs(query: { tenantId: string; facilityId?: string })
   });
 }
 
-export async function updateSOP(id: string, data: { content: string; tenantId: string; userId: string }) {
+export async function updateSOP(id: string, data: { content: string; tenantId: string; userId: string; category?: string; rolesRequired?: string[] }) {
   const sop = await prisma.sOP.findFirst({ where: { id, tenantId: data.tenantId } });
   if (!sop) throw Object.assign(new Error('SOP not found'), { status: 404 });
 
   const updated = await prisma.sOP.update({
     where: { id },
-    data: { content: data.content, version: sop.version + 1, approvedById: data.userId },
+    data: {
+      content: data.content,
+      category: data.category || sop.category,
+      rolesRequired: data.rolesRequired || sop.rolesRequired || undefined,
+      version: sop.version + 1,
+      approvedById: data.userId,
+    },
   });
 
   eventBus.emit('SOP_UPDATED', { userId: data.userId, tenantId: data.tenantId, entityType: 'SOP', entityId: id });
-  return updated;
+  const governance = await syncSopGovernance(updated.id, data.tenantId, data.userId);
+  return { ...updated, governance };
 }
 
 export async function acknowledgeSOP(sopId: string, data: { userId: string; tenantId: string }) {

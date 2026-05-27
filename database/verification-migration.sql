@@ -1,5 +1,5 @@
 -- ============================================================
--- JIG Craft Cannabis - Client Verification Migration
+-- PureGro Premium Cannabis Care - Client Verification Migration
 -- Adds client_documents table for B2B compliance document uploads
 -- ============================================================
 

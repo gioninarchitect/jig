@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - HEADCASE EVOLVE World Model Types
+ * PureGro Premium Cannabis Care - HEADCASE EVOLVE World Model Types
  *
  * Complete type definitions for the B2B wholesale intelligence platform.
  * Covers entities (Client, Product, Order), domain state slices
@@ -48,7 +48,7 @@ export type OrderStatus =
   | 'delivered'
   | 'cancelled';
 
-/** Product categories carried by JIG */
+/** Product categories carried by PureGro */
 export type ProductCategory =
   | 'flower'
   | 'pre_rolls'
@@ -204,7 +204,7 @@ export interface PriceTier {
   tierName: string;
 }
 
-/** A product in the JIG catalogue */
+/** A product in the PureGro catalogue */
 export interface Product {
   id: string;
   sku: string;
@@ -235,9 +235,9 @@ export interface OrderItem {
   totalPrice: number;
 }
 
-/** A wholesale order (format: JIG-XXXXXX) */
+/** A wholesale order (format: PureGro-XXXXXX) */
 export interface Order {
-  /** Format: JIG-XXXXXX */
+  /** Format: PureGro-XXXXXX */
   id: string;
   clientId: string;
   items: OrderItem[];
@@ -263,6 +263,8 @@ export interface Order {
   deliveredAt?: number;
   createdAt: number;
   updatedAt: number;
+  posTransferId?: string;
+  posTransferNumber?: string;
 }
 
 /** Status of a proof-of-payment upload */

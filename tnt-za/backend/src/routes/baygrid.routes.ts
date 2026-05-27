@@ -164,7 +164,7 @@ router.get('/tickets/:id', requireLevel(0), async (req: AuthRequest, res: Respon
 
 router.patch('/tickets/:id', requireLevel(2), async (req: AuthRequest, res: Response) => {
   try {
-    const ticket = await bg.updateTicket(p(req.params.id), req.body);
+    const ticket = await bg.updateTicket(p(req.params.id), { ...req.body, actorId: req.user!.userId });
     res.json({ success: true, ticket });
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 });

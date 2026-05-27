@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Auth Context
+ * PureGro Premium Cannabis Care - Auth Context
  *
  * Provides authentication state and OTP login flow to the React app.
  * Persists JWT token in localStorage, auto-validates on mount.
@@ -97,12 +97,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { token, clientId } = await authApi.verifyOtp(email, code);
       storeAuth(token, clientId);
 
-      const { client } = await clientsApi.me();
+      // Set authenticated immediately — don't block on /clients/me
       setState({
         status: 'authenticated',
-        client,
-        isAdmin: isAdminEmail(client.email),
+        client: { id: clientId, email } as ClientData,
+        isAdmin: isAdminEmail(email),
       });
+
+      // Fetch full client data in background (non-blocking)
+      clientsApi.me().then(({ client }) => {
+        setState((prev) => ({
+          ...prev,
+          client,
+          isAdmin: isAdminEmail(client.email),
+        }));
+      }).catch(() => {
+        // Token works for verify but /me failed — keep authenticated
+        console.warn('[Auth] Failed to fetch client profile, using minimal data');
+      });
+
       return true;
     } catch {
       return false;

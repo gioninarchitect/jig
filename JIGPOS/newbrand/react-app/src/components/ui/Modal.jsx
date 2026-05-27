@@ -34,7 +34,7 @@ export default function Modal({ open, onClose, title, children, footer, size = '
       {/* Panel — centered on desktop, slide-up on mobile */}
       <div
         className={`
-          relative bg-jig-slate rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.3)] w-[90%]
+          relative bg-origin-slate rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.3)] w-[90%]
           ${widths[size]} animate-[modalSlide_0.25s_ease-out]
           max-h-[90vh] flex flex-col
         `}
@@ -45,7 +45,7 @@ export default function Modal({ open, onClose, title, children, footer, size = '
             <h3 className="font-heading text-2xl text-white uppercase">{title}</h3>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full text-jig-purple-dark hover:bg-jig-purple/10 transition-colors text-xl leading-none"
+              className="w-8 h-8 flex items-center justify-center rounded-full text-or-gold-dark hover:bg-or-gold/10 transition-colors text-xl leading-none"
             >
               &times;
             </button>

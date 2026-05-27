@@ -1,7 +1,7 @@
 // Branches Routes — Thin router, business logic in controllers/branches.controller.js
 const express = require('express');
 const router = express.Router();
-const { authenticateToken, requireRole } = require('../middleware/auth');
+const { authenticateToken, authenticateInternalOrToken, requireRole } = require('../middleware/auth');
 const controller = require('../controllers/branches.controller');
 
 // Public routes
@@ -13,7 +13,7 @@ router.get('/owner-stats', authenticateToken, requireRole(['owner', 'super_admin
 router.get('/:id', controller.getById);
 
 // Branch data (authenticated)
-router.get('/:id/inventory', authenticateToken, controller.getInventory);
+router.get('/:id/inventory', authenticateInternalOrToken, controller.getInventory);
 router.get('/:id/stats', authenticateToken, controller.getStats);
 
 // Branch CRUD (authenticated, admin/owner)

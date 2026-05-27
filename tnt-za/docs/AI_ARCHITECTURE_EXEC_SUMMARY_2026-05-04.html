@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ORIGIN · AI Architecture Executive Summary · 04 May 2026</title>
+<style>
+  :root {
+    --or-gold:        #C9A84C;
+    --or-gold-bright: #D4B86A;
+    --or-gold-light:  #E8D5A3;
+    --or-gold-deep:   #7A5C1A;
+    --or-black:       #0A0A0A;
+    --or-dark:        #141414;
+    --or-dark-2:      #1C1C1C;
+    --or-dark-3:      #252525;
+    --or-dark-4:      #2E2E2E;
+    --or-white:       #F5F0E8;
+    --or-cream:       #E8E0D0;
+    --or-grey-1:      #C4BBA8;
+    --or-grey-2:      #A89F8C;
+    --or-grey-3:      #6B6458;
+    --or-green:       #4A7C3F;
+    --or-red:         #DC2626;
+    --or-amber:       #D4A030;
+    --opus:    #D4A030;
+    --sonnet:  #7BA8DD;
+    --haiku:   #A6C275;
+    --serif: 'Cinzel', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--or-black);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.04) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: var(--or-white);
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 880px; margin: 0 auto; padding: 48px 40px 64px; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--or-dark-3);
+    margin-bottom: 32px;
+  }
+  .brandmark {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--serif);
+    letter-spacing: 0.22em; text-transform: uppercase; font-size: 12px;
+    color: var(--or-gold); font-weight: 600;
+  }
+  .brandmark .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--or-gold); box-shadow: 0 0 16px rgba(201,168,76,0.5);
+  }
+  .stamp {
+    font-family: var(--mono);
+    font-size: 10px; color: var(--or-grey-3); text-align: right; line-height: 1.5;
+  }
+  .stamp b { color: var(--or-grey-1); font-weight: 500; }
+
+  h1.hero {
+    font-family: var(--serif);
+    font-weight: 600; font-size: 38px; line-height: 1.15;
+    margin: 24px 0 12px;
+    color: var(--or-white);
+  }
+  h1.hero .accent {
+    color: var(--or-gold-light);
+    font-style: italic; font-weight: 500;
+    display: block;
+    margin-top: 4px;
+  }
+  .lede {
+    font-size: 15px; max-width: 720px;
+    color: var(--or-grey-1); margin: 0 0 28px; line-height: 1.65;
+  }
+  .lede strong { color: var(--or-white); font-weight: 600; }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 22px; margin: 44px 0 4px;
+    color: var(--or-gold);
+    letter-spacing: 0.01em; font-weight: 600;
+  }
+  h2 .num {
+    color: var(--or-gold-deep);
+    font-family: var(--mono);
+    font-size: 11px; margin-right: 14px; vertical-align: 4px;
+    letter-spacing: 0.06em; font-weight: 500;
+  }
+  h2 + .sub {
+    color: var(--or-grey-3); font-size: 12px;
+    border-bottom: 1px solid var(--or-dark-3);
+    padding-bottom: 14px; margin-bottom: 20px;
+    font-style: italic;
+  }
+  h3 { font-size: 14px; margin: 22px 0 8px; color: var(--or-gold-light); font-weight: 600; }
+  p { margin: 8px 0 12px; color: var(--or-grey-1); }
+  p strong { color: var(--or-white); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 11.5px;
+    background: rgba(201,168,76,0.08); color: var(--or-gold-light);
+    padding: 2px 6px; border-radius: 3px;
+  }
+
+  /* Agent grid */
+  .agent-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 12px; margin: 12px 0 20px;
+  }
+  .agent {
+    border: 1px solid var(--or-dark-3); border-radius: 8px;
+    padding: 16px 18px; background: var(--or-dark);
+    border-left: 3px solid var(--or-gold);
+    break-inside: avoid;
+  }
+  .agent.opus    { border-left-color: var(--opus);   }
+  .agent.sonnet  { border-left-color: var(--sonnet); }
+  .agent.haiku   { border-left-color: var(--haiku);  }
+  .agent.det     { border-left-color: var(--or-green);}
+  .agent .head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .agent h4 {
+    margin: 0; font-family: var(--serif); font-size: 16px;
+    font-weight: 600; color: var(--or-white);
+  }
+  .agent .model {
+    font-family: var(--mono); font-size: 10px;
+    padding: 2px 8px; border-radius: 999px;
+    background: rgba(201,168,76,0.1); color: var(--or-gold-light);
+    letter-spacing: 0.05em; font-weight: 500;
+  }
+  .agent.opus   .model { background: rgba(212,160,48,0.15); color: var(--opus); }
+  .agent.sonnet .model { background: rgba(123,168,221,0.15); color: var(--sonnet); }
+  .agent.haiku  .model { background: rgba(166,194,117,0.15); color: var(--haiku); }
+  .agent.det    .model { background: rgba(74,124,63,0.15); color: var(--or-green); }
+  .agent .role {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--or-grey-3); margin: 4px 0 8px; font-weight: 500;
+  }
+  .agent p {
+    margin: 0; font-size: 12.5px; color: var(--or-grey-1); line-height: 1.55;
+  }
+  .agent .meta {
+    display: flex; gap: 16px; margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--or-dark-3);
+    font-size: 10.5px; color: var(--or-grey-3);
+    font-family: var(--mono);
+  }
+  .agent .meta b { color: var(--or-gold-light); font-weight: 500; }
+
+  /* Diagram container */
+  .diagram {
+    margin: 16px 0 20px;
+    border: 1px solid var(--or-dark-3); border-radius: 8px;
+    padding: 18px; background: var(--or-dark);
+    break-inside: avoid;
+  }
+  .diagram svg { width: 100%; height: auto; display: block; }
+
+  /* Flow steps */
+  .flow { margin: 12px 0 20px; }
+  .flow .step {
+    display: grid; grid-template-columns: 32px 1fr;
+    gap: 14px; margin-bottom: 10px;
+    break-inside: avoid;
+  }
+  .flow .step .num {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--or-gold-bright) 0%, var(--or-gold) 60%, var(--or-gold-deep) 100%);
+    color: var(--or-black);
+    font-family: var(--serif); font-weight: 700; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(201,168,76,0.25);
+  }
+  .flow.drift .step .num {
+    background: linear-gradient(180deg, #FF8B75 0%, #DC2626 60%, #7C2A1A 100%);
+    box-shadow: 0 4px 14px rgba(220,38,38,0.25);
+    color: white;
+  }
+  .flow .body {
+    border: 1px solid var(--or-dark-3); border-radius: 6px;
+    padding: 12px 16px; background: var(--or-dark);
+  }
+  .flow .body .actor {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--or-gold); font-weight: 600; margin-bottom: 4px;
+  }
+  .flow .body .what {
+    font-size: 13px; color: var(--or-grey-1); line-height: 1.6;
+  }
+  .flow .body .what code { font-size: 11px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 12.5px; }
+  table th, table td {
+    text-align: left; padding: 10px 12px;
+    border-bottom: 1px solid var(--or-dark-3); vertical-align: top;
+    color: var(--or-grey-1);
+  }
+  table th {
+    color: var(--or-gold); font-weight: 600;
+    font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    border-bottom: 1px solid var(--or-gold-deep);
+    font-family: var(--serif);
+  }
+  table td.b { font-weight: 600; color: var(--or-white); }
+  table td.tag-opus,
+  table td.tag-sonnet,
+  table td.tag-haiku,
+  table td.tag-det {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+  }
+  td.tag-opus   { color: var(--opus);   }
+  td.tag-sonnet { color: var(--sonnet); }
+  td.tag-haiku  { color: var(--haiku);  }
+  td.tag-det    { color: var(--or-green); }
+
+  /* Footer */
+  .footer {
+    margin-top: 44px; padding-top: 18px;
+    border-top: 1px solid var(--or-dark-3);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--or-grey-3); font-family: var(--mono);
+  }
+  .footer .seal { color: var(--or-gold); font-weight: 600; }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    html, body {
+      background: var(--or-black) !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body { font-size: 11.5px; line-height: 1.5; }
+    .page { padding: 12mm 10mm; max-width: none; margin: 0; background: transparent; }
+    .topbar { padding-bottom: 10px; margin-bottom: 14px; }
+    h1.hero { font-size: 22px; margin: 6px 0 6px; line-height: 1.18; }
+    h1.hero .accent { font-size: 17px; margin-top: 2px; }
+    .lede { font-size: 11.5px; margin-bottom: 12px; max-width: none; }
+    h2 {
+      font-size: 16px; margin: 0 0 2px;
+      break-after: avoid; page-break-after: avoid;
+      break-before: page; page-break-before: always;
+    }
+    h2.no-break { break-before: auto; page-break-before: auto; }
+    h2 + .sub { font-size: 10px; padding-bottom: 8px; margin-bottom: 12px; }
+    .agent, .diagram, .flow .step, table {
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    .page-break { page-break-before: always; }
+    .footer { margin-top: 18px; font-size: 8.5px; padding-top: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brandmark">
+      <span class="dot"></span>
+      ORIGIN <span style="color:var(--or-gold-deep);opacity:.8">·</span> by ILCO Farming
+    </div>
+    <div class="stamp">
+      <div><b>AI ARCHITECTURE · EXEC SUMMARY</b></div>
+      <div>Multi-agent system across the cannabis vertical</div>
+      <div>04 May 2026 · v1.0</div>
+    </div>
+  </header>
+
+  <h1 class="hero">
+    Five agents, one platform <span class="accent">— each with one job, all auditable.</span>
+  </h1>
+
+  <p class="lede">
+    Origin runs a small, specialised agent stack rather than one monolithic AI. A cheap router decides which specialist hears each request; only the agents that need expensive reasoning pay for it. Every call is hash-chained for replay. Every output that matters to the regulator passes a 3-person sign-off chain before it's recorded as fact.
+  </p>
+
+  <h2><span class="num">01</span>The 5 agents</h2>
+  <div class="sub">Each has one job, one model size matched to it, one place it shows up.</div>
+
+  <div class="agent-grid">
+
+    <div class="agent haiku">
+      <div class="head">
+        <h4>Maestro</h4>
+        <span class="model">Haiku 4.5</span>
+      </div>
+      <div class="role">Router · cheap + fast</div>
+      <p>Single job: classify each chat message into one of 6 intents and dispatch to the right specialist. ~1–2 second classification. Returns JSON. Costs less than R0.01 per call.</p>
+      <div class="meta"><span><b>Where:</b> ChatFab → POST /api/chat</span><span><b>SLA:</b> &lt;2s</span></div>
+    </div>
+
+    <div class="agent opus">
+      <div class="head">
+        <h4>Owner Concierge</h4>
+        <span class="model">Opus 4.7 · adaptive</span>
+      </div>
+      <div class="role">Cross-unit synthesis</div>
+      <p>On demand: bundles cannabis state + ticket queues + SMF status + sign-off bottlenecks and produces a 200–350-word morning brief naming actual staff and citing real numbers.</p>
+      <div class="meta"><span><b>Where:</b> Owner Dashboard widget</span><span><b>SLA:</b> ~15s</span></div>
+    </div>
+
+    <div class="agent opus">
+      <div class="head">
+        <h4>SMF Composer</h4>
+        <span class="model">Opus 4.7 · adaptive</span>
+      </div>
+      <div class="role">Regulator-grade prose</div>
+      <p>On demand: takes a stale SMF section + fresh facility data, drafts a revised body in regulator-grade GMP prose. Output never auto-applies — RP reviews, then signs the chain.</p>
+      <div class="meta"><span><b>Where:</b> SMF section modal</span><span><b>SLA:</b> ~14s</span></div>
+    </div>
+
+    <div class="agent sonnet">
+      <div class="head">
+        <h4>General Ops Q&amp;A</h4>
+        <span class="model">Sonnet 4.6</span>
+      </div>
+      <div class="role">Free-form chat answers</div>
+      <p>Handles "what's overdue?", "which sections are stale?", "how is the cultivation team today?". Sees a live state digest; system-prompt-bound to never invent facts.</p>
+      <div class="meta"><span><b>Where:</b> ChatFab default</span><span><b>SLA:</b> ~5–8s</span></div>
+    </div>
+
+    <div class="agent det">
+      <div class="head">
+        <h4>SMF Drift Daemon</h4>
+        <span class="model">deterministic</span>
+      </div>
+      <div class="role">Always-on event listener</div>
+      <p>No LLM. Pure rules. Subscribes to 16 event types. When an event invalidates a signed SMF section (new greenhouse, SOP revision, calibration drift, etc.), it marks the section stale and raises a ticket for the RP.</p>
+      <div class="meta"><span><b>Where:</b> background process</span><span><b>SLA:</b> &lt;200ms</span></div>
+    </div>
+
+    <div class="agent det">
+      <div class="head">
+        <h4>Audit hooks</h4>
+        <span class="model">infrastructure</span>
+      </div>
+      <div class="role">Hash-chained log of every call</div>
+      <p>Two append-only tables, both SHA-256 chained: <code>AuditLog</code> for human + system actions, <code>AICall</code> for every Claude call (prompt, response, sources, tokens, real actor + ghost target).</p>
+      <div class="meta"><span><b>Where:</b> Postgres tables</span><span><b>SLA:</b> instant</span></div>
+    </div>
+
+  </div>
+
+  <h2><span class="num">02</span>System diagram</h2>
+  <div class="sub">How a chat message flows from user through Maestro to a specialist and back, with audit on the side.</div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 820 460" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#C4BBA8"/>
+        </marker>
+        <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#7BB87A"/>
+        </marker>
+        <marker id="arrA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#C9A84C"/>
+        </marker>
+      </defs>
+
+      <g><rect x="20" y="200" width="120" height="60" rx="10" fill="#1C1C1C" stroke="#C4BBA8" stroke-width="1.5"/>
+        <text x="80" y="225" text-anchor="middle" font-size="13" font-weight="700" fill="#F5F0E8" font-family="Cinzel">User</text>
+        <text x="80" y="244" text-anchor="middle" font-size="10" fill="#A89F8C">(any role)</text></g>
+
+      <g><rect x="180" y="180" width="140" height="100" rx="10" fill="#1C1C1C" stroke="#7BB87A" stroke-width="1.5"/>
+        <text x="250" y="205" text-anchor="middle" font-size="12" font-weight="700" fill="#F5F0E8" font-family="Cinzel">Frontend</text>
+        <text x="250" y="225" text-anchor="middle" font-size="10" fill="#A89F8C">ChatFab · Dashboard</text>
+        <text x="250" y="241" text-anchor="middle" font-size="10" fill="#A89F8C">SMF page</text>
+        <text x="250" y="262" text-anchor="middle" font-size="10" fill="#7BB87A" font-style="italic">role-aware widgets</text></g>
+
+      <g><rect x="360" y="180" width="140" height="100" rx="10" fill="#1C1C1C" stroke="#7BB87A" stroke-width="1.5"/>
+        <text x="430" y="205" text-anchor="middle" font-size="12" font-weight="700" fill="#F5F0E8" font-family="Cinzel">Backend</text>
+        <text x="430" y="225" text-anchor="middle" font-size="10" fill="#A89F8C">Express + Prisma</text>
+        <text x="430" y="241" text-anchor="middle" font-size="10" fill="#A89F8C">/api/chat</text>
+        <text x="430" y="262" text-anchor="middle" font-size="10" fill="#7BB87A" font-style="italic">+ ghost middleware</text></g>
+
+      <g><rect x="540" y="100" width="160" height="56" rx="10" fill="#252525" stroke="#A6C275" stroke-width="2"/>
+        <text x="620" y="123" text-anchor="middle" font-size="13" font-weight="700" fill="#A6C275" font-family="Cinzel">Maestro</text>
+        <text x="620" y="141" text-anchor="middle" font-size="10" fill="#A6C275">Haiku 4.5 · classifier</text></g>
+
+      <g><rect x="540" y="180" width="160" height="40" rx="8" fill="#252525" stroke="#D4A030" stroke-width="1.5"/>
+        <text x="620" y="205" text-anchor="middle" font-size="11.5" font-weight="700" fill="#D4A030" font-family="Cinzel">Owner Concierge · Opus 4.7</text></g>
+      <g><rect x="540" y="225" width="160" height="40" rx="8" fill="#252525" stroke="#D4A030" stroke-width="1.5"/>
+        <text x="620" y="250" text-anchor="middle" font-size="11.5" font-weight="700" fill="#D4A030" font-family="Cinzel">SMF Composer · Opus 4.7</text></g>
+      <g><rect x="540" y="270" width="160" height="40" rx="8" fill="#252525" stroke="#7BA8DD" stroke-width="1.5"/>
+        <text x="620" y="295" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7BA8DD" font-family="Cinzel">General Ops · Sonnet 4.6</text></g>
+
+      <g><rect x="360" y="340" width="280" height="48" rx="10" fill="#1C1C1C" stroke="#7BB87A" stroke-width="1.5"/>
+        <text x="500" y="362" text-anchor="middle" font-size="12" font-weight="700" fill="#7BB87A" font-family="Cinzel">SMF Drift Daemon · deterministic</text>
+        <text x="500" y="378" text-anchor="middle" font-size="10" fill="#A89F8C">listens to eventBus · 16 rules · raises tickets</text></g>
+
+      <g><rect x="710" y="180" width="100" height="100" rx="10" fill="#1C1C1C" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="760" y="205" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C9A84C" font-family="Cinzel">Audit</text>
+        <text x="760" y="222" text-anchor="middle" font-size="9.5" fill="#E8D5A3">AuditLog</text>
+        <text x="760" y="237" text-anchor="middle" font-size="9.5" fill="#E8D5A3">AICall</text>
+        <text x="760" y="258" text-anchor="middle" font-size="9" fill="#A89F8C" font-style="italic">SHA-256</text>
+        <text x="760" y="270" text-anchor="middle" font-size="9" fill="#A89F8C" font-style="italic">hash-chained</text></g>
+
+      <g><rect x="360" y="408" width="280" height="38" rx="8" fill="#1C1C1C" stroke="#A89F8C" stroke-width="1"/>
+        <text x="500" y="432" text-anchor="middle" font-size="11" font-weight="600" fill="#F5F0E8">Postgres · live operational state</text></g>
+
+      <line x1="142" y1="230" x2="178" y2="230" stroke="#C4BBA8" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="322" y1="230" x2="358" y2="230" stroke="#C4BBA8" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="500" y1="200" x2="540" y2="135" stroke="#A6C275" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="525" y="172" font-size="9" fill="#A6C275" font-style="italic">classify</text>
+      <line x1="540" y1="155" x2="500" y2="220" stroke="#A6C275" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+      <line x1="500" y1="240" x2="540" y2="200" stroke="#D4A030" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="500" y1="245" x2="540" y2="245" stroke="#D4A030" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="500" y1="250" x2="540" y2="290" stroke="#7BA8DD" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="700" y1="200" x2="710" y2="220" stroke="#C9A84C" stroke-width="1.2" marker-end="url(#arrA)"/>
+      <line x1="700" y1="245" x2="710" y2="240" stroke="#C9A84C" stroke-width="1.2" marker-end="url(#arrA)"/>
+      <line x1="700" y1="290" x2="710" y2="260" stroke="#C9A84C" stroke-width="1.2" marker-end="url(#arrA)"/>
+      <line x1="430" y1="280" x2="430" y2="408" stroke="#C4BBA8" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#arr)"/>
+      <text x="438" y="345" font-size="9" fill="#A89F8C" font-style="italic">read live state</text>
+      <line x1="500" y1="408" x2="500" y2="388" stroke="#7BB87A" stroke-width="1.5" marker-end="url(#arrG)"/>
+      <text x="510" y="403" font-size="9" fill="#7BB87A" font-style="italic">events</text>
+      <line x1="430" y1="340" x2="430" y2="280" stroke="#7BB87A" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrG)"/>
+      <text x="338" y="315" font-size="9" fill="#7BB87A" font-style="italic">raises ticket</text>
+    </svg>
+  </div>
+
+  <h2><span class="num">03</span>Flow A · A user asks a question</h2>
+  <div class="sub">Renae types "What's overdue right now?" into the floating chat. End-to-end, ~7 seconds.</div>
+
+  <div class="flow">
+    <div class="step"><div class="num">1</div><div class="body"><div class="actor">User · Renae</div><div class="what">Types message into ChatFab (floating bubble bottom-right of every dashboard). <code>POST /api/chat</code> with <code>{message: "What's overdue right now?"}</code>.</div></div></div>
+    <div class="step"><div class="num">2</div><div class="body"><div class="actor">Backend · auth + ghost middleware</div><div class="what">JWT verified. Ghost-mode header checked (none here). Request context set with <code>realUserId = renae</code>. Wrapped in AsyncLocalStorage for downstream services.</div></div></div>
+    <div class="step"><div class="num">3</div><div class="body"><div class="actor">Maestro · Haiku 4.5</div><div class="what">~1.5s. Classifies intent: <code>{intent: "TICKETS_QUERY", reason: "User is asking about overdue tickets and assignment status."}</code>. Logs the call to <code>AICall</code>.</div></div></div>
+    <div class="step"><div class="num">4</div><div class="body"><div class="actor">Backend · dispatch</div><div class="what">Switch on intent. <code>TICKETS_QUERY</code> → routes to General Ops with the user's role + name + tenantId.</div></div></div>
+    <div class="step"><div class="num">5</div><div class="body"><div class="actor">General Ops · Sonnet 4.6</div><div class="what">Pulls live state digest from Postgres (cultivation + tickets + SMF + key personnel). System prompt forbids invention. ~5s. Returns markdown answer + sources object. Logs to <code>AICall</code>.</div></div></div>
+    <div class="step"><div class="num">6</div><div class="body"><div class="actor">Frontend · ChatFab</div><div class="what">Renders the markdown answer with route badge ("Tickets Q&amp;A") + sources footer ("50 plants · 1 open ticket · 2 approved sections · 56 drafts · …"). Renae can read the answer AND see the data that grounded it.</div></div></div>
+  </div>
+
+  <div class="page-break"></div>
+  <h2><span class="num">04</span>Flow B · The drift loop (the regulator wow)</h2>
+  <div class="sub">Operational change → automatic stale flag → AI redraft → 3-stage human sign-off → frozen snapshot.</div>
+
+  <div class="flow drift">
+    <div class="step"><div class="num">1</div><div class="body"><div class="actor">User · Renae (Facility Manager)</div><div class="what">Adds a new greenhouse via BayGrid. Backend emits <code>GREENHOUSE_CREATED</code> event onto eventBus.</div></div></div>
+    <div class="step"><div class="num">2</div><div class="body"><div class="actor">SMF Drift Daemon · deterministic</div><div class="what">Listening on eventBus. Rule says <code>GREENHOUSE_CREATED</code> affects sections C.3.1, C.1.6, C.1.6.2. Finds C.3.1 is currently AR_APPROVED (signed) — marks it <code>staleSince = now</code> with the reason. Raises an <code>SMF_DRIFT</code> ticket assigned to RESPONSIBLE_PHARMACIST.</div></div></div>
+    <div class="step"><div class="num">3</div><div class="body"><div class="actor">User · Berne (RP)</div><div class="what">Sees ticket in her queue. Opens SMF page → C.3.1 has a stale amber banner. Clicks <strong>"Draft with AI"</strong>.</div></div></div>
+    <div class="step"><div class="num">4</div><div class="body"><div class="actor">SMF Composer · Opus 4.7 + adaptive</div><div class="what">~14s. Pulls fresh facility data (greenhouses, rooms, equipment, water spec). Drafts revised body in GMP prose. Mentions the new greenhouse by name. Ends with "<em>Outstanding:</em>" line listing what RP still needs to gather. Logs everything to <code>AICall</code>.</div></div></div>
+    <div class="step"><div class="num">5</div><div class="body"><div class="actor">Frontend · SMF section modal</div><div class="what">Renders the draft below the current body in a <strong style="color:#FF8B75;">RED-bordered</strong> card with <strong style="color:#FF8B75;">"AI-GENERATED · NOT YET APPROVED"</strong> banner. Apply / Discard buttons.</div></div></div>
+    <div class="step"><div class="num">6</div><div class="body"><div class="actor">User · Berne reviews + applies</div><div class="what">Reads draft. Confirms accuracy. Clicks <strong>"Apply"</strong>. The draft text is copied into <code>bodyText</code>. <strong>Sign-off chain resets to DRAFT</strong> — all 3 signatures cleared.</div></div></div>
+    <div class="step"><div class="num">7</div><div class="body"><div class="actor">Sign-off chain · RP → DAR → AR</div><div class="what">Berne clicks <strong>"RP Sign"</strong> → status <code>RP_SIGNED</code>. Coenie logs in, clicks <strong>"DAR Sign"</strong> → <code>DAR_SIGNED</code>. Ilse logs in, clicks <strong>"AR Approve &amp; Freeze v"</strong> → <code>AR_APPROVED</code>. New <code>SMFSectionVersion</code> snapshot frozen with all 3 signatory IDs + timestamps.</div></div></div>
+    <div class="step"><div class="num">8</div><div class="body"><div class="actor">System · audit closed</div><div class="what">Drift ticket auto-resolves on next poll. AuditLog captures every step. AICall captures the model calls. Both hash-chained. SAHPRA can later request "show me how C.3.1 v2 was written" and we replay the entire trail.</div></div></div>
+  </div>
+
+  <h2><span class="num">05</span>Capability matrix</h2>
+  <div class="sub">Which agent serves which role, when, and at what cost.</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:18%">Agent</th>
+        <th style="width:14%">Model</th>
+        <th>Used by</th>
+        <th>Triggered when</th>
+        <th style="width:12%">Per call</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="b">Maestro</td><td class="tag-haiku">Haiku 4.5</td><td>Every authed user (chat)</td><td>Every chat message</td><td>~R0.005</td></tr>
+      <tr><td class="b">Owner Concierge</td><td class="tag-opus">Opus 4.7</td><td>Owner trio (Ilse · Coenie · Flo)</td><td>Owner clicks "Generate brief" or chats "morning brief"</td><td>~R8</td></tr>
+      <tr><td class="b">SMF Composer</td><td class="tag-opus">Opus 4.7</td><td>RP + Owner-tier (level 4+)</td><td>"Draft with AI" on a stale section</td><td>~R6</td></tr>
+      <tr><td class="b">General Ops</td><td class="tag-sonnet">Sonnet 4.6</td><td>Every authed user (chat)</td><td>Maestro routes to it</td><td>~R0.50</td></tr>
+      <tr><td class="b">SMF Drift Daemon</td><td class="tag-det">deterministic</td><td>Background — affects RP's queue</td><td>16 event types</td><td>R0</td></tr>
+      <tr><td class="b">Audit hooks</td><td class="tag-det">deterministic</td><td>Inspector + ops</td><td>Every action by every actor</td><td>R0</td></tr>
+    </tbody>
+  </table>
+
+  <p style="color: var(--or-grey-2); font-size: 12px;">
+    <strong style="color: var(--or-gold-light);">Total expected runtime:</strong> ~R1,300–R1,700/month across all agents at projected staff usage. Engineering time, not token cost, was always the constraint.
+  </p>
+
+  <h2><span class="num">06</span>What's deliberately not in the stack yet</h2>
+  <div class="sub">Honest scoping — these slot in next, not tonight.</div>
+
+  <table>
+    <thead>
+      <tr><th style="width:35%">Agent</th><th>Why deferred</th><th>When it lands</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="b">Chicken Biosec Daemon (Sonnet 4.6)</td><td>Waits for chicken module schema + flock data</td><td>Phase 2 — alongside Poultry Master File</td></tr>
+      <tr><td class="b">SAHPRA Section 21 packet generator</td><td>Patient-side workflow not active yet</td><td>When Origin Retail handoff lands</td></tr>
+      <tr><td class="b">RP Auditor agent</td><td>Only meaningful after S21 packet generator ships</td><td>After SAHPRA S21 work</td></tr>
+      <tr><td class="b">Tool-use loop (PTC)</td><td>Current agents need only digest data</td><td>If chat needs cross-system actions</td></tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <div>ORIGIN · by ILCO Farming · TnT-ZA · AI Architecture · Confidential</div>
+    <div class="seal">04 May 2026 · v1.0</div>
+  </div>
+
+</div>
+</body>
+</html>

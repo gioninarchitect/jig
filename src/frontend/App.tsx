@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - App Router
+ * PureGro Premium Cannabis Care - App Router
  *
  * Routes:
  *   /login          - OTP login
@@ -31,6 +31,7 @@ import AdminLeadsPage from './pages/admin/AdminLeadsPage';
 import AdminVerificationsPage from './pages/admin/AdminVerificationsPage';
 import AdminChatPage from './pages/admin/AdminChatPage';
 import AdminN8nPage from './pages/admin/AdminN8nPage';
+import AdminSuppliersPage from './pages/admin/AdminSuppliersPage';
 import VerificationPage from './pages/VerificationPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -50,10 +51,10 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
 
 function LoadingScreen() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-jig-black">
+    <div className="flex min-h-screen items-center justify-center bg-pg-black">
       <div className="text-center">
-        <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-jig-gray-700 border-t-jig-purple" />
-        <p className="text-sm text-jig-gray-500">Loading...</p>
+        <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-pg-gray-700 border-t-pg-green" />
+        <p className="text-sm text-pg-gray-500">Loading...</p>
       </div>
     </div>
   );
@@ -137,6 +138,14 @@ export default function App() {
           element={
             <AdminRoute>
               <AdminN8nPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/suppliers"
+          element={
+            <AdminRoute>
+              <AdminSuppliersPage />
             </AdminRoute>
           }
         />

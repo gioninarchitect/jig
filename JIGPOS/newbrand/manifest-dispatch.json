@@ -1,22 +1,22 @@
 {
-  "name": "JIG Dispatch App",
-  "short_name": "JIG Dispatch",
-  "description": "JIG Craft Cannabis - Dispatch & Delivery App",
+  "name": "Origin Dispatch App",
+  "short_name": "Origin Dispatch",
+  "description": "Origin by ILCO Farming - Dispatch & Delivery App",
   "start_url": "/dispatch-app.html",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#0A0A0A",
-  "theme_color": "#7C3AED",
+  "background_color": "#0E0E0E",
+  "theme_color": "#C9A84C",
   "orientation": "any",
   "icons": [
     {
-      "src": "/images/jig-logo-nobg.png",
+      "src": "/images/origin-logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/images/jig-logo-nobg.png",
+      "src": "/images/origin-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
@@ -27,7 +27,7 @@
     {
       "name": "Dispatch Queue",
       "url": "/dispatch-app.html",
-      "icons": [{"src": "/images/jig-logo-nobg.png", "sizes": "96x96"}],
+      "icons": [{"src": "/images/origin-logo.png", "sizes": "96x96"}],
       "description": "View orders ready for dispatch"
     }
   ],

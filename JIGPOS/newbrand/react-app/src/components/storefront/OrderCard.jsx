@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { formatCurrency } from '../../config';
 
 const STATUS_COLORS = {
-  pending: 'bg-jig-amber text-white',
+  pending: 'bg-or-gold text-white',
   confirmed: 'bg-blue-100 text-blue-700',
-  processing: 'bg-jig-amber text-white',
+  processing: 'bg-or-gold text-white',
   shipped: 'bg-blue-100 text-blue-700',
-  delivered: 'bg-jig-purple text-white',
-  completed: 'bg-jig-purple-dark text-white',
-  cancelled: 'bg-jig-red text-white',
+  delivered: 'bg-or-gold text-white',
+  completed: 'bg-or-gold-dark text-white',
+  cancelled: 'bg-origin-red text-white',
   refunded: 'bg-gray-400 text-white',
 };
 
@@ -74,7 +74,7 @@ export default function OrderCard({ order, onUploadProof }) {
           {(status === 'pending' || status === 'confirmed') && onUploadProof && (
             <button
               onClick={() => onUploadProof(order._id)}
-              className="mt-3 w-full py-2 text-xs font-bold uppercase tracking-wider border-2 border-jig-amber text-jig-amber rounded-xl hover:bg-jig-amber hover:text-gray-900 transition-all"
+              className="mt-3 w-full py-2 text-xs font-bold uppercase tracking-wider border-2 border-or-gold text-or-gold rounded-xl hover:bg-or-gold hover:text-gray-900 transition-all"
             >
               Upload Proof of Payment
             </button>

@@ -1,5 +1,5 @@
 // dash-user.js — User data, stats, purchase limits, profile, account upgrade
-// Depends on: config.js (API_URL), dbc-utils.js (showNotification)
+// Depends on: config.js (API_URL), or-utils.js (showNotification)
 // Depends on: dash-core.js (userData, showConfirmModal)
 
 async function loadUserData() {
@@ -13,8 +13,8 @@ async function loadUserData() {
             return;
         }
 
-        console.log('[Dashboard] Fetching user stats from /api/v1/dashboard/stats');
-        const response = await fetch('/api/v1/dashboard/stats', {
+        console.log('[Dashboard] Fetching user stats from API_URL/dashboard/stats');
+        const response = await fetch(`${API_URL}/dashboard/stats`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -182,7 +182,7 @@ function updatePurchaseLimitsWidget(limits) {
         warningMessage.textContent = dailyPercent >= 80
             ? 'You are approaching your daily purchase limit'
             : 'You are approaching your monthly purchase limit';
-        warningBanner.style.background = 'rgba(217, 119, 6, 0.2)';
+        warningBanner.style.background = 'rgba(240, 165, 0, 0.2)';
         warningBanner.style.borderColor = 'var(--gold)';
     } else {
         warningBanner.style.display = 'none';
@@ -196,9 +196,9 @@ function getProgressBarColor(percent) {
     if (percent >= 100) {
         return 'linear-gradient(90deg, #EF4444, #DC2626)'; // Red - at limit
     } else if (percent >= 80) {
-        return 'linear-gradient(90deg, #F59E0B, #D97706)'; // Orange - approaching limit
+        return 'linear-gradient(90deg, #F8C242, #C9A84C)'; // Orange - approaching limit
     } else if (percent >= 50) {
-        return 'linear-gradient(90deg, #FBBF24, #F59E0B)'; // Yellow - half way
+        return 'linear-gradient(90deg, #FBBF24, #F8C242)'; // Yellow - half way
     } else {
         return 'linear-gradient(90deg, #22C55E, #16A34A)'; // Green - good
     }
@@ -302,7 +302,7 @@ document.getElementById('profileForm')?.addEventListener('submit', async functio
             return;
         }
 
-        const response = await fetch('/api/v1/dashboard/profile', {
+        const response = await fetch(`${API_URL}/dashboard/profile`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -342,7 +342,7 @@ async function upgradeAccount() {
             async function() {
                 try {
                     const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-                    const response = await fetch('/api/v1/dashboard/upgrade-membership', {
+                    const response = await fetch(`${API_URL}/dashboard/upgrade-membership`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

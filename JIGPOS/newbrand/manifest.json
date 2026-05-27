@@ -1,21 +1,21 @@
 {
-  "name": "JIG Craft Cannabis POS",
-  "short_name": "JIG POS",
+  "name": "Origin by ILCO Farming POS",
+  "short_name": "Origin POS",
   "description": "Craft cannabis point of sale system",
-  "start_url": "/pos.html",
+  "start_url": "pos.html",
   "display": "standalone",
-  "background_color": "#0A0A0A",
-  "theme_color": "#7C3AED",
+  "background_color": "#0E0E0E",
+  "theme_color": "#C9A84C",
   "orientation": "any",
   "icons": [
     {
-      "src": "/images/icon-192.png",
+      "src": "images/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/images/icon-512.png",
+      "src": "images/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -26,12 +26,12 @@
   "shortcuts": [
     {
       "name": "Open POS",
-      "url": "/pos.html",
+      "url": "pos.html",
       "description": "Go to Point of Sale"
     },
     {
       "name": "View Sales",
-      "url": "/admin.html#sales",
+      "url": "admin.html#sales",
       "description": "View sales reports"
     }
   ]

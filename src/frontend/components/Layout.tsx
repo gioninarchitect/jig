@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - App Layout
+ * PureGro Premium Cannabis Care - App Layout
  *
  * Responsive sidebar navigation + main content area.
  * Mobile: overlay drawer with backdrop.
@@ -27,6 +27,7 @@ const adminNav = [
   { to: '/admin/verifications', label: 'Verifications', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
   { to: '/admin/chat', label: 'Chat Bot', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' },
   { to: '/admin/n8n', label: 'Automation', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z' },
+  { to: '/admin/suppliers', label: 'Suppliers', icon: 'M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21' },
 ];
 
 function SvgIcon({ path }: { path: string }) {
@@ -61,8 +62,8 @@ function NavItem({
           collapsed ? 'justify-center' : ''
         } ${
           isActive
-            ? 'bg-jig-purple/15 text-jig-purple border border-jig-purple/25'
-            : 'text-jig-gray-500 border border-transparent hover:bg-white/[0.04] hover:text-jig-white'
+            ? 'bg-pg-green/15 text-pg-green border border-pg-green/25'
+            : 'text-pg-gray-500 border border-transparent hover:bg-white/[0.04] hover:text-pg-white'
         }`
       }
     >
@@ -104,7 +105,7 @@ export default function Layout() {
           <>
             <div className="my-4 border-t border-white/[0.06]" />
             {!collapsed && (
-              <p className="mb-2 px-3 font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-purple">
+              <p className="mb-2 px-3 font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-green">
                 Admin
               </p>
             )}
@@ -120,12 +121,12 @@ export default function Layout() {
         {!collapsed ? (
           <>
             <div className="mb-3">
-              <p className="text-sm font-medium text-jig-white">
-                {client?.businessName || 'JIG User'}
+              <p className="text-sm font-medium text-pg-white">
+                {client?.businessName || 'PureGro User'}
               </p>
-              <p className="text-xs text-jig-gray-500">{client?.email}</p>
+              <p className="text-xs text-pg-gray-500">{client?.email}</p>
               {isAdmin ? (
-                <span className="mt-1 inline-block rounded bg-jig-purple/15 px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider text-jig-purple-light border border-jig-purple/25">
+                <span className="mt-1 inline-block rounded bg-pg-green/15 px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider text-pg-green-light border border-pg-green/25">
                   Admin
                 </span>
               ) : client?.tier && (
@@ -138,7 +139,7 @@ export default function Layout() {
             </div>
             <button
               onClick={handleLogout}
-              className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 font-heading text-[11px] font-medium uppercase tracking-wider text-jig-gray-500 transition-all hover:border-white/[0.25] hover:bg-white/[0.08] hover:text-jig-white"
+              className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 font-heading text-[11px] font-medium uppercase tracking-wider text-pg-gray-500 transition-all hover:border-white/[0.25] hover:bg-white/[0.08] hover:text-pg-white"
             >
               Sign Out
             </button>
@@ -147,7 +148,7 @@ export default function Layout() {
           <button
             onClick={handleLogout}
             title="Sign Out"
-            className="flex h-10 w-10 items-center justify-center rounded-md text-jig-gray-500 transition-colors hover:bg-white/[0.06] hover:text-jig-white"
+            className="flex h-10 w-10 items-center justify-center rounded-md text-pg-gray-500 transition-colors hover:bg-white/[0.06] hover:text-pg-white"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -159,18 +160,18 @@ export default function Layout() {
   );
 
   return (
-    <div className="flex min-h-screen bg-jig-black">
+    <div className="flex min-h-screen bg-pg-black">
       {/* Mobile top bar */}
-      <div className="fixed left-0 right-0 top-0 z-40 flex h-14 items-center border-b border-white/[0.06] bg-jig-slate px-3 md:hidden">
+      <div className="fixed left-0 right-0 top-0 z-40 flex h-14 items-center border-b border-white/[0.06] bg-pg-dark px-3 md:hidden">
         <button
           onClick={() => setMobileOpen(true)}
-          className="flex h-10 w-10 items-center justify-center rounded-md text-jig-gray-500 transition-colors hover:bg-white/[0.06] hover:text-jig-white"
+          className="flex h-10 w-10 items-center justify-center rounded-md text-pg-gray-500 transition-colors hover:bg-white/[0.06] hover:text-pg-white"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <img src="/logo.png" alt="JIG" className="ml-2 h-9 w-auto" />
+        <img src="/logo.png" alt="PureGro" className="ml-2 h-9 w-auto" />
       </div>
 
       {/* Mobile sidebar overlay */}
@@ -181,16 +182,16 @@ export default function Layout() {
       >
         <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
         <aside
-          className={`absolute left-0 top-0 flex h-full w-72 flex-col bg-jig-slate transition-transform duration-300 ease-in-out ${
+          className={`absolute left-0 top-0 flex h-full w-72 flex-col bg-pg-dark transition-transform duration-300 ease-in-out ${
             mobileOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
           {/* Mobile header */}
           <div className="flex h-14 items-center justify-between border-b border-white/[0.06] px-3">
-            <img src="/logo.png" alt="JIG" className="h-9 w-auto" />
+            <img src="/logo.png" alt="PureGro" className="h-9 w-auto" />
             <button
               onClick={() => setMobileOpen(false)}
-              className="flex h-10 w-10 items-center justify-center rounded-md text-jig-gray-500 transition-colors hover:bg-white/[0.06] hover:text-jig-white"
+              className="flex h-10 w-10 items-center justify-center rounded-md text-pg-gray-500 transition-colors hover:bg-white/[0.06] hover:text-pg-white"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -203,7 +204,7 @@ export default function Layout() {
 
       {/* Desktop sidebar */}
       <aside
-        className={`hidden md:flex flex-col border-r border-white/[0.06] bg-jig-slate transition-[width] duration-300 ease-in-out ${
+        className={`hidden md:flex flex-col border-r border-white/[0.06] bg-pg-dark transition-[width] duration-300 ease-in-out ${
           desktopCollapsed ? 'w-[68px]' : 'w-64'
         }`}
       >
@@ -211,7 +212,7 @@ export default function Layout() {
         <div className="flex h-16 items-center border-b border-white/[0.06] px-3">
           <button
             onClick={() => setDesktopCollapsed(!desktopCollapsed)}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-jig-gray-500 transition-colors hover:bg-white/[0.06] hover:text-jig-white"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-pg-gray-500 transition-colors hover:bg-white/[0.06] hover:text-pg-white"
             title={desktopCollapsed ? 'Expand menu' : 'Collapse menu'}
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -223,14 +224,14 @@ export default function Layout() {
             </svg>
           </button>
           {!desktopCollapsed && (
-            <img src="/logo.png" alt="JIG Craft Cannabis" className="ml-2 h-12 w-auto" />
+            <img src="/logo.png" alt="PureGro Premium Cannabis Care" className="ml-2 h-12 w-auto" />
           )}
         </div>
         {sidebarContent(desktopCollapsed)}
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto bg-jig-black pt-14 md:pt-0">
+      <main className="flex-1 overflow-y-auto bg-pg-black pt-14 md:pt-0">
         <Outlet />
       </main>
     </div>

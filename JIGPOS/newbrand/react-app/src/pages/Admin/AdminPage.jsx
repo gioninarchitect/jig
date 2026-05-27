@@ -150,7 +150,7 @@ export default function AdminPage() {
 // ─── Overview Tab ───────────────────────────────────────────────
 
 function OverviewTab({ stats, loading, config }) {
-  if (loading) return <div className="flex justify-center py-12"><div className="w-8 h-8 border-3 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-12"><div className="w-8 h-8 border-3 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   const d = stats || {};
   return (
@@ -168,7 +168,7 @@ function OverviewTab({ stats, loading, config }) {
         <StatCard label="Active Branches" value={d.activeBranches ?? '--'} />
       </div>
       {config?.features && (
-        <div className="p-4 rounded-lg border border-jig-purple/20 bg-jig-slate">
+        <div className="p-4 rounded-lg border border-or-gold/20 bg-origin-slate">
           <div className="text-xs text-gray-500 font-bold uppercase mb-2">World Model Features</div>
           <div className="flex flex-wrap gap-2">
             {Object.entries(config.features).map(([key, val]) => (
@@ -201,7 +201,7 @@ function DataListTab({ endpoint, title, columns }) {
     load();
   }, [endpoint]);
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div>
@@ -223,7 +223,7 @@ function DataListTab({ endpoint, title, columns }) {
             </thead>
             <tbody>
               {data.slice(0, 50).map((row, i) => (
-                <tr key={row._id || i} className="border-b border-gray-100 hover:bg-jig-slate/50">
+                <tr key={row._id || i} className="border-b border-gray-100 hover:bg-origin-slate/50">
                   {columns.map(col => (
                     <td key={col} className="py-2 px-3 text-white">{formatCell(row, col)}</td>
                   ))}
@@ -279,7 +279,7 @@ function PaymentsTab() {
     return p.method === filter || p.paymentMethod === filter;
   });
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div>
@@ -294,8 +294,8 @@ function PaymentsTab() {
             onClick={() => setFilter(f.key)}
             className="shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors"
             style={filter === f.key
-              ? { background: '#7C3AED', color: 'white' }
-              : { background: '#0A0A0A', color: '#7C3AED', border: '1px solid #7C3AED' }
+              ? { background: '#C9A84C', color: 'white' }
+              : { background: '#0E0E0E', color: '#C9A84C', border: '1px solid #C9A84C' }
             }
           >
             {f.label}
@@ -318,7 +318,7 @@ function PaymentsTab() {
             </thead>
             <tbody>
               {filtered.slice(0, 50).map((p, i) => (
-                <tr key={p._id || i} className="border-b border-gray-100 hover:bg-jig-slate/50">
+                <tr key={p._id || i} className="border-b border-gray-100 hover:bg-origin-slate/50">
                   <td className="py-2 px-3 text-white">{p.reference || p.saleNumber || '--'}</td>
                   <td className="py-2 px-3 text-white capitalize">{p.method || p.paymentMethod || '--'}</td>
                   <td className="py-2 px-3 text-white">{formatCurrency(p.amount || p.totalAmount || 0)}</td>
@@ -339,12 +339,12 @@ function PaymentsTab() {
 function PlaceholderTab({ title, description, icon }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-jig-slate flex items-center justify-center mb-4" style={{ border: '2px solid rgba(58,95,72,0.2)' }}>
-        <Icon name={icon} className="w-8 h-8 text-jig-purple" />
+      <div className="w-16 h-16 rounded-2xl bg-origin-slate flex items-center justify-center mb-4" style={{ border: '2px solid rgba(58,95,72,0.2)' }}>
+        <Icon name={icon} className="w-8 h-8 text-or-gold" />
       </div>
       <h3 className="font-heading text-xl text-white uppercase mb-2">{title}</h3>
       <p className="text-sm text-gray-500 max-w-md">{description}</p>
-      <div className="mt-4 px-4 py-2 rounded-full bg-jig-slate text-xs text-jig-purple font-semibold" style={{ border: '1px solid rgba(58,95,72,0.2)' }}>
+      <div className="mt-4 px-4 py-2 rounded-full bg-origin-slate text-xs text-or-gold font-semibold" style={{ border: '1px solid rgba(58,95,72,0.2)' }}>
         Coming Soon
       </div>
     </div>
@@ -368,9 +368,9 @@ function ReportsTab() {
       <h3 className="font-heading text-lg text-white uppercase mb-4">Reports</h3>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {reports.map(r => (
-          <div key={r.key} className="p-4 rounded-lg border border-gray-200 hover:border-jig-purple/30 hover:bg-jig-slate/50 transition-colors cursor-pointer group">
+          <div key={r.key} className="p-4 rounded-lg border border-gray-200 hover:border-or-gold/30 hover:bg-origin-slate/50 transition-colors cursor-pointer group">
             <div className="flex items-center gap-2 mb-1">
-              <Icon name="reports" className="w-4 h-4 text-jig-purple group-hover:text-jig-amber transition-colors" />
+              <Icon name="reports" className="w-4 h-4 text-or-gold group-hover:text-or-gold transition-colors" />
               <span className="font-heading text-sm text-white">{r.label}</span>
             </div>
             <div className="text-[11px] text-gray-400">{r.desc}</div>
@@ -396,9 +396,9 @@ function ComplianceTab() {
       <h3 className="font-heading text-lg text-white uppercase">Compliance Overview</h3>
       <div className="grid sm:grid-cols-2 gap-3">
         {items.map((item, i) => (
-          <div key={i} className="p-4 rounded-lg border border-jig-purple/20 bg-jig-slate flex items-start gap-3">
+          <div key={i} className="p-4 rounded-lg border border-or-gold/20 bg-origin-slate flex items-start gap-3">
             <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shrink-0">
-              <Icon name={item.icon} className="w-5 h-5 text-jig-purple" />
+              <Icon name={item.icon} className="w-5 h-5 text-or-gold" />
             </div>
             <div>
               <div className="text-xs text-gray-500 font-bold">{item.title}</div>
@@ -434,9 +434,9 @@ function MarketplaceTab() {
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {modules.map((m, i) => (
-            <div key={m._id || i} className="p-4 rounded-lg border border-gray-200 hover:border-jig-purple/30 transition-colors">
+            <div key={m._id || i} className="p-4 rounded-lg border border-gray-200 hover:border-or-gold/30 transition-colors">
               <div className="flex items-center gap-2 mb-1">
-                <Icon name="marketplace" className="w-4 h-4 text-jig-purple" />
+                <Icon name="marketplace" className="w-4 h-4 text-or-gold" />
                 <span className="font-heading text-sm text-white">{m.name}</span>
               </div>
               <div className="text-xs text-gray-400 mt-1">{m.description}</div>
@@ -458,7 +458,7 @@ function SettingsTab() {
     <div className="space-y-4">
       <h3 className="font-heading text-lg text-white uppercase">Branch Settings</h3>
       <div className="p-4 rounded-lg border border-gray-200 bg-white flex items-start gap-3">
-        <Icon name="settings" className="w-5 h-5 text-jig-purple shrink-0 mt-0.5" />
+        <Icon name="settings" className="w-5 h-5 text-or-gold shrink-0 mt-0.5" />
         <div className="text-sm text-gray-500">Settings are managed per branch via Super Admin Configuration Panel (P30-35)</div>
       </div>
     </div>

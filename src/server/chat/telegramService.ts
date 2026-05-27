@@ -1,5 +1,5 @@
 /**
- * JIG Chat Bot - Telegram Bot API Service
+ * PureGro Chat Bot - Telegram Bot API Service
  *
  * Raw fetch() calls to api.telegram.org (Node 20 native fetch).
  * No npm bot library needed.

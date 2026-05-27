@@ -12,4 +12,7 @@ export const env = {
   SMTP_PASS: process.env.SMTP_PASS || '',
   CORS_ORIGIN: process.env.CORS_ORIGIN || 'http://localhost:5173',
   NODE_ENV: process.env.NODE_ENV || 'development',
+  EMAIL_DELIVERY_ENABLED: process.env.EMAIL_DELIVERY_ENABLED === 'true',
+  ALLOW_STORED_PIN_LOGIN: process.env.ALLOW_STORED_PIN_LOGIN === 'true',
+  LOG_AUTH_PINS: process.env.LOG_AUTH_PINS === 'true',
 };

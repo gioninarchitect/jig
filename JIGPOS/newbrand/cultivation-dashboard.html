@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultivation Dashboard - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/cult-dashboard.css">
+    <link rel="stylesheet" href="css/tablet-optimizations.css">
+</head>
+<body>
+    <!-- OTP Login Screen -->
+    <div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #166534 0%, #15803D 50%, #0A0A0A 100%); z-index: 9999; justify-content: center; align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 2rem 1rem;">
+        <div style="background: #0A0A0A; padding: 2rem; border-radius: 16px; max-width: 400px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); margin: auto;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="images/origin-logo.png" alt="Origin" style="height: 80px; margin-bottom: 10px;">
+                <h3 style="font-family: Cinzel, serif; color: #C9A84C; font-size: 1.2rem; margin: 0;">Cultivation Dashboard</h3>
+                <p style="color: #999; margin: 0; font-size: 14px;">SAHPRA Section 22C Farm Management</p>
+            </div>
+
+            <!-- Step 1: Email -->
+            <div id="step-email">
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #8B6914;">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="your@email.com" style="width: 100%; padding: 14px; border: 2px solid #222222; border-radius: 8px; font-size: 16px; background: #0A0A0A; color: #FAFAFA;" required>
+                </div>
+                <div id="emailError" style="color: #DC2626; margin-bottom: 10px; display: none;"></div>
+                <button type="button" id="requestOTPBtn" onclick="requestOTP()" style="width: 100%; padding: 14px; background: #22C55E; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                    <i class="fas fa-paper-plane"></i> Send Login Code
+                </button>
+
+                <!-- PIN Login -->
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #222222;">
+                    <p style="text-align: center; color: #999; font-size: 13px; margin-bottom: 12px;">Or login with PIN</p>
+                    <form id="pinForm" onsubmit="loginWithPin(event)">
+                        <div style="margin-bottom: 12px;">
+                            <input type="email" id="pinEmail" placeholder="your@email.com" style="width: 100%; padding: 12px; border: 2px solid #222222; border-radius: 8px; font-size: 14px; background: #0A0A0A; color: #FAFAFA;" required>
+                        </div>
+                        <div style="margin-bottom: 12px; position: relative;">
+                            <input type="password" id="pinInput" placeholder="Enter PIN" style="width: 100%; padding: 12px; border: 2px solid #222222; border-radius: 8px; font-size: 14px; background: #0A0A0A; color: #FAFAFA;" required>
+                            <button type="button" onclick="togglePinVisibility('pinInput', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #999; cursor: pointer;"><i class="fas fa-eye"></i></button>
+                        </div>
+                        <div id="pinError" style="color: #DC2626; margin-bottom: 10px; display: none;"></div>
+                        <button type="submit" id="pinLoginBtn" style="width: 100%; padding: 12px; background: #222222; color: #FAFAFA; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                            <i class="fas fa-key"></i> Login with PIN
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Step 2: OTP -->
+            <div id="step-otp" style="display: none;">
+                <p style="text-align: center; color: #9CA3AF; margin-bottom: 20px;">Enter the 6-digit code sent to <strong id="displayEmail"></strong></p>
+                <div id="otpInputs" style="display: flex; gap: 8px; justify-content: center; margin-bottom: 20px;">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 0)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 1)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 2)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 3)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 4)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 5)">
+                </div>
+                <div id="otpError" style="color: #DC2626; margin-bottom: 10px; display: none;"></div>
+                <button type="button" id="verifyOTPBtn" onclick="verifyOTP()" style="width: 100%; padding: 14px; background: #22C55E; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                    <i class="fas fa-check"></i> Verify & Login
+                </button>
+                <p style="text-align: center; margin-top: 15px; font-size: 14px; color: #9CA3AF;">
+                    <span id="timerText">Resend in <strong id="countdown">60</strong>s</span>
+                    <a id="resendLink" style="display: none; color: #22C55E; cursor: pointer;" onclick="resendOTP()">Resend Code</a>
+                </p>
+                <button type="button" onclick="goBackToEmail()" style="width: 100%; padding: 10px; background: transparent; color: #22C55E; border: 1px solid #22C55E; border-radius: 8px; margin-top: 10px; cursor: pointer;">
+                    <i class="fas fa-arrow-left"></i> Change Email
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div id="dashboardContainer" style="display: none;">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+        <!-- Menu Toggle Button -->
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars" id="menuIcon"></i> <span id="menuText">Menu</span>
+        </button>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <button class="sidebar-collapse-btn" onclick="toggleSidebarCollapse()" title="Collapse sidebar">
+                <i class="fas fa-chevron-left" id="collapseIcon"></i>
+            </button>
+            <div class="logo">
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
+                <h3><i class="fas fa-cannabis"></i> Cultivation</h3>
+                <p>SAHPRA 22C Farm Management</p>
+            </div>
+
+            <ul class="nav-menu" style="flex: 1;">
+                <li class="nav-section-label">Dashboard</li>
+                <li class="nav-item">
+                    <a href="#overview" class="nav-link active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Facility Overview</span>
+                    </a>
+                </li>
+
+                <li class="nav-section-label">Operations</li>
+                <li class="nav-item">
+                    <a href="#zones" class="nav-link">
+                        <i class="fas fa-warehouse"></i>
+                        <span>Zones & Rooms</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#batches" class="nav-link">
+                        <i class="fas fa-seedling"></i>
+                        <span>Batch Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#environment" class="nav-link">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span>Environment</span>
+                        <span id="envAlertBadge" class="badge bg-danger ms-auto" style="display: none; font-size: 0.7rem; padding: 3px 7px; border-radius: 10px;">!</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#harvest" class="nav-link">
+                        <i class="fas fa-cut"></i>
+                        <span>Harvest Records</span>
+                    </a>
+                </li>
+
+                <li class="nav-section-label">Compliance & Reporting</li>
+                <li class="nav-item">
+                    <a href="#compliance" class="nav-link">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>SAHPRA Compliance</span>
+                        <span id="complianceBadge" class="badge bg-success ms-auto" style="font-size: 0.7rem; padding: 3px 7px; border-radius: 10px;">OK</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#reports" class="nav-link">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="role-label"><i class="fas fa-user-shield"></i> <span id="userDisplayName">Farm Manager</span></div>
+                <button class="logout-btn" onclick="cultLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="dashboard-header">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div>
+                        <h2 id="sectionTitle">Facility Overview</h2>
+                        <p class="text-muted mb-0" id="sectionSubtitle">Facility KPIs and zone status</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================== -->
+            <!-- SECTION 1: OVERVIEW            -->
+            <!-- ============================== -->
+            <div id="section-overview" class="dashboard-section active">
+                <div id="kpiStrip" class="kpi-strip">
+                    <div class="kpi-card"><div class="kpi-value">—</div><div class="kpi-label">Loading...</div></div>
+                </div>
+                <h4 style="font-family: Inter, sans-serif; color: #ccc; font-size: 0.9rem; margin-bottom: 1rem;">Zone Status</h4>
+                <div id="overviewZoneGrid" class="zone-grid">
+                    <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading zones...</p></div>
+                </div>
+            </div>
+
+            <!-- ============================== -->
+            <!-- SECTION 2: ZONES               -->
+            <!-- ============================== -->
+            <div id="section-zones" class="dashboard-section">
+                <div class="section-toolbar">
+                    <div class="filter-group">
+                        <select class="cult-select" onchange="filterZones(this.value)" style="width: auto;">
+                            <option value="">All Types</option>
+                            <option value="tunnel">Tunnel/Greenhouse</option>
+                            <option value="indoor">Indoor</option>
+                        </select>
+                    </div>
+                    <button class="cult-btn cult-btn-primary" onclick="showAddZoneModal()">
+                        <i class="fas fa-plus"></i> Add Zone
+                    </button>
+                </div>
+                <div id="zonesContent">
+                    <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading zones...</p></div>
+                </div>
+            </div>
+
+            <!-- ============================== -->
+            <!-- SECTION 3: BATCHES             -->
+            <!-- ============================== -->
+            <div id="section-batches" class="dashboard-section">
+                <div class="section-toolbar">
+                    <div class="filter-group">
+                        <div class="batch-view-toggle" style="display: flex; gap: 4px;">
+                            <button class="cult-btn cult-btn-secondary cult-btn-sm active" onclick="toggleBatchView('kanban')"><i class="fas fa-columns"></i> Pipeline</button>
+                            <button class="cult-btn cult-btn-secondary cult-btn-sm" onclick="toggleBatchView('list')"><i class="fas fa-list"></i> List</button>
+                        </div>
+                    </div>
+                    <button class="cult-btn cult-btn-primary" onclick="showAddBatchModal()">
+                        <i class="fas fa-plus"></i> New Batch
+                    </button>
+                </div>
+                <div id="batchesContent">
+                    <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading batches...</p></div>
+                </div>
+            </div>
+
+            <!-- ============================== -->
+            <!-- SECTION 4: ENVIRONMENT         -->
+            <!-- ============================== -->
+            <div id="section-environment" class="dashboard-section">
+                <div class="section-toolbar">
+                    <div class="filter-group">
+                        <select id="envZoneSelector" class="cult-select" onchange="onEnvZoneChange(this.value)" style="width: auto; min-width: 200px;">
+                            <option value="">All Zones</option>
+                        </select>
+                    </div>
+                    <button class="cult-btn cult-btn-primary" onclick="showAddReadingModal()">
+                        <i class="fas fa-plus"></i> Log Reading
+                    </button>
+                </div>
+
+                <div id="envGauges" class="gauge-grid">
+                    <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading readings...</p></div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h4>Temperature & Humidity Trends</h4>
+                        <div id="envTimeToggle" class="time-toggle">
+                            <button class="active" onclick="setEnvPeriod('24h')">24h</button>
+                            <button onclick="setEnvPeriod('7d')">7d</button>
+                            <button onclick="setEnvPeriod('30d')">30d</button>
+                        </div>
+                    </div>
+                    <div style="height: 300px;">
+                        <canvas id="envTrendChart"></canvas>
+                    </div>
+                </div>
+
+                <h4 style="font-family: Inter, sans-serif; color: #ccc; font-size: 0.9rem; margin: 1.5rem 0 1rem;">Alert History</h4>
+                <div id="envAlerts"></div>
+            </div>
+
+            <!-- ============================== -->
+            <!-- SECTION 5: HARVEST             -->
+            <!-- ============================== -->
+            <div id="section-harvest" class="dashboard-section">
+                <div class="section-toolbar">
+                    <div></div>
+                    <button class="cult-btn cult-btn-primary" onclick="showAddHarvestModal()">
+                        <i class="fas fa-plus"></i> Record Harvest
+                    </button>
+                </div>
+
+                <div id="harvestTable">
+                    <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading harvests...</p></div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+                    <div class="chart-container">
+                        <h4 style="font-family: Inter, sans-serif; color: #ccc; font-size: 0.9rem; margin-bottom: 1rem;">Avg Yield by Strain</h4>
+                        <div style="height: 280px;"><canvas id="yieldByStrainChart"></canvas></div>
+                    </div>
+                    <div class="chart-container">
+                        <h4 style="font-family: Inter, sans-serif; color: #ccc; font-size: 0.9rem; margin-bottom: 1rem;">Yield Trend</h4>
+                        <div style="height: 280px;"><canvas id="yieldTrendChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================== -->
+            <!-- SECTION 6: COMPLIANCE          -->
+            <!-- ============================== -->
+            <div id="section-compliance" class="dashboard-section">
+                <div class="section-toolbar">
+                    <div></div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="cult-btn cult-btn-secondary" onclick="showAuditPackageModal()">
+                            <i class="fas fa-file-pdf"></i> Audit Package
+                        </button>
+                        <button class="cult-btn cult-btn-primary" onclick="showAddComplianceLogModal()">
+                            <i class="fas fa-plus"></i> Log Event
+                        </button>
+                    </div>
+                </div>
+
+                <div id="complianceScoreArea">
+                    <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading compliance data...</p></div>
+                </div>
+
+                <h4 style="font-family: Inter, sans-serif; color: #ccc; font-size: 0.9rem; margin: 1.5rem 0 1rem;">Compliance Event Log</h4>
+                <div id="complianceLogsTable"></div>
+
+                <div id="auditResult"></div>
+            </div>
+
+            <!-- ============================== -->
+            <!-- SECTION 7: REPORTS             -->
+            <!-- ============================== -->
+            <div id="section-reports" class="dashboard-section">
+                <div style="background: #141414; border: 1px solid #222; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <h4 style="font-family: Inter, sans-serif; color: #ccc; font-size: 0.9rem; margin-bottom: 1rem;">Generate Report</h4>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: end;">
+                        <div class="cult-form-group" style="margin: 0;">
+                            <label>From</label>
+                            <input type="date" id="reportFrom" class="cult-input" style="width: auto;">
+                        </div>
+                        <div class="cult-form-group" style="margin: 0;">
+                            <label>To</label>
+                            <input type="date" id="reportTo" class="cult-input" style="width: auto;">
+                        </div>
+                        <button class="cult-btn cult-btn-primary" onclick="generateReport('production')"><i class="fas fa-industry"></i> Production</button>
+                        <button class="cult-btn cult-btn-secondary" onclick="generateReport('environmental')"><i class="fas fa-thermometer-half"></i> Environmental</button>
+                        <button class="cult-btn cult-btn-secondary" onclick="generateReport('yield')"><i class="fas fa-chart-bar"></i> Yield</button>
+                        <button class="cult-btn cult-btn-secondary" onclick="generateReport('waste')"><i class="fas fa-trash-alt"></i> Waste</button>
+                    </div>
+                </div>
+                <div id="reportResult"></div>
+            </div>
+
+        </div><!-- /main-content -->
+    </div><!-- /dashboardContainer -->
+
+    <!-- ============================== -->
+    <!-- MODALS                          -->
+    <!-- ============================== -->
+
+    <!-- Zone Modal -->
+    <div id="zoneModal" class="cult-modal-overlay">
+        <div class="cult-modal">
+            <div class="cult-modal-header">
+                <h3 id="zoneModalTitle">Add Cultivation Zone</h3>
+                <button class="cult-modal-close" onclick="hideModal('zoneModal')">&times;</button>
+            </div>
+            <form id="zoneForm" onsubmit="saveZone(event)">
+                <input type="hidden" id="zoneId">
+                <div class="cult-form-group">
+                    <label>Zone Name</label>
+                    <input type="text" id="zoneName" class="cult-input" placeholder="e.g. Tunnel A, Indoor Room 1" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>Zone Type</label>
+                        <select id="zoneType" class="cult-select" required>
+                            <option value="tunnel">Tunnel/Greenhouse</option>
+                            <option value="indoor">Indoor Grow Room</option>
+                        </select>
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Capacity (plants)</label>
+                        <input type="number" id="zoneCapacity" class="cult-input" min="0">
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>Light Type</label>
+                        <select id="zoneLightType" class="cult-select">
+                            <option value="natural">Natural</option>
+                            <option value="supplemental">Supplemental</option>
+                            <option value="full_artificial">Full Artificial</option>
+                        </select>
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Status</label>
+                        <select id="zoneStatus" class="cult-select">
+                            <option value="active">Active</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>Length (m)</label>
+                        <input type="number" id="zoneDimL" class="cult-input" step="0.1" min="0">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Width (m)</label>
+                        <input type="number" id="zoneDimW" class="cult-input" step="0.1" min="0">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Height (m)</label>
+                        <input type="number" id="zoneDimH" class="cult-input" step="0.1" min="0">
+                    </div>
+                </div>
+                <h5 style="color: #777; font-size: 0.8rem; margin: 1rem 0 0.5rem;">Environment Thresholds (SAHPRA Spec)</h5>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>Temp Min (°C)</label>
+                        <input type="number" id="zoneTempMin" class="cult-input" step="0.1" value="21">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Temp Max (°C)</label>
+                        <input type="number" id="zoneTempMax" class="cult-input" step="0.1" value="29.5">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Humidity Min (%)</label>
+                        <input type="number" id="zoneHumMin" class="cult-input" step="1" value="45">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Humidity Max (%)</label>
+                        <input type="number" id="zoneHumMax" class="cult-input" step="1" value="65">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 1rem;">
+                    <button type="button" class="cult-btn cult-btn-secondary" onclick="hideModal('zoneModal')">Cancel</button>
+                    <button type="submit" class="cult-btn cult-btn-primary"><i class="fas fa-save"></i> Save Zone</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Batch Modal -->
+    <div id="batchModal" class="cult-modal-overlay">
+        <div class="cult-modal">
+            <div class="cult-modal-header">
+                <h3 id="batchModalTitle">New Batch</h3>
+                <button class="cult-modal-close" onclick="hideModal('batchModal')">&times;</button>
+            </div>
+            <form id="batchForm" onsubmit="saveBatch(event)">
+                <input type="hidden" id="batchEditId">
+                <div class="cult-form-group">
+                    <label>Strain / Cultivar</label>
+                    <input type="text" id="batchStrain" class="cult-input" placeholder="e.g. White Widow, OG Kush" required>
+                </div>
+                <div class="cult-form-group">
+                    <label>Zone</label>
+                    <select id="batchZone" class="cult-select" required></select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>Plant Count</label>
+                        <input type="number" id="batchPlantCount" class="cult-input" min="1" required>
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Target Yield (kg)</label>
+                        <input type="number" id="batchTargetYield" class="cult-input" step="0.01" min="0">
+                    </div>
+                </div>
+                <div class="cult-form-group">
+                    <label>Projected Harvest Date</label>
+                    <input type="date" id="batchProjHarvest" class="cult-input">
+                </div>
+                <div class="cult-form-group">
+                    <label>Notes</label>
+                    <textarea id="batchNotes" class="cult-textarea" rows="3" placeholder="Optional batch notes..."></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 1rem;">
+                    <button type="button" class="cult-btn cult-btn-secondary" onclick="hideModal('batchModal')">Cancel</button>
+                    <button type="submit" class="cult-btn cult-btn-primary"><i class="fas fa-save"></i> Create Batch</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Batch Detail Modal -->
+    <div id="batchDetailModal" class="cult-modal-overlay">
+        <div class="cult-modal" style="max-width: 700px;">
+            <div id="batchDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- Environment Reading Modal -->
+    <div id="readingModal" class="cult-modal-overlay">
+        <div class="cult-modal">
+            <div class="cult-modal-header">
+                <h3>Log Environmental Reading</h3>
+                <button class="cult-modal-close" onclick="hideModal('readingModal')">&times;</button>
+            </div>
+            <form id="readingForm" onsubmit="saveReading(event)">
+                <div class="cult-form-group">
+                    <label>Zone</label>
+                    <select id="readingZone" class="cult-select" required></select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>Temperature (°C)</label>
+                        <input type="number" id="readingTemp" class="cult-input" step="0.1">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Humidity (%)</label>
+                        <input type="number" id="readingHumidity" class="cult-input" step="1" min="0" max="100">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>CO2 (ppm)</label>
+                        <input type="number" id="readingCO2" class="cult-input" min="0">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Light Hours</label>
+                        <input type="number" id="readingLight" class="cult-input" step="0.5" min="0" max="24">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Soil Moisture (%)</label>
+                        <input type="number" id="readingSoil" class="cult-input" step="1" min="0" max="100">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 1rem;">
+                    <button type="button" class="cult-btn cult-btn-secondary" onclick="hideModal('readingModal')">Cancel</button>
+                    <button type="submit" class="cult-btn cult-btn-primary"><i class="fas fa-save"></i> Save Reading</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Harvest Modal -->
+    <div id="harvestModal" class="cult-modal-overlay">
+        <div class="cult-modal" style="max-width: 650px;">
+            <div class="cult-modal-header">
+                <h3>Record Harvest</h3>
+                <button class="cult-modal-close" onclick="hideModal('harvestModal')">&times;</button>
+            </div>
+            <form id="harvestForm" onsubmit="saveHarvest(event)">
+                <div class="cult-form-group">
+                    <label>Batch (optional — auto-populates strain)</label>
+                    <select id="harvestBatch" class="cult-select" onchange="onHarvestBatchSelect(this)">
+                        <option value="">Select batch...</option>
+                    </select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>Strain</label>
+                        <input type="text" id="harvestStrain" class="cult-input" required>
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Plant Count</label>
+                        <input type="number" id="harvestPlants" class="cult-input" min="1" required>
+                    </div>
+                </div>
+                <div class="cult-form-group">
+                    <label>Harvest Date</label>
+                    <input type="date" id="harvestDate" class="cult-input">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>Wet Weight (g)</label>
+                        <input type="number" id="harvestWet" class="cult-input" step="0.1" min="0" required>
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Dry Weight (g)</label>
+                        <input type="number" id="harvestDry" class="cult-input" step="0.1" min="0">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Trim Weight (g)</label>
+                        <input type="number" id="harvestTrim" class="cult-input" step="0.1" min="0">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Waste Weight (g)</label>
+                        <input type="number" id="harvestWaste" class="cult-input" step="0.1" min="0">
+                    </div>
+                </div>
+                <div class="cult-form-group">
+                    <label>Quality Grade</label>
+                    <select id="harvestGrade" class="cult-select">
+                        <option value="A">A — Premium</option>
+                        <option value="B" selected>B — Standard</option>
+                        <option value="C">C — Below Standard</option>
+                    </select>
+                </div>
+                <div class="cult-form-group">
+                    <label><i class="fas fa-camera"></i> Scale Photo (GMP Compliance)</label>
+                    <input type="file" id="harvestPhoto" class="cult-input" accept="image/jpeg,image/png,image/webp" style="padding: 8px;">
+                    <small style="color: #666; font-size: 0.75rem;">Photo of scale reading for SAHPRA audit trail</small>
+                    <div id="harvestPhotoPreview" style="margin-top: 8px; display: none;">
+                        <img id="harvestPhotoImg" style="max-width: 200px; border-radius: 8px; border: 1px solid #333;">
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>Lab Status</label>
+                        <select id="harvestLabStatus" class="cult-select">
+                            <option value="pending">Pending</option>
+                            <option value="passed">Passed</option>
+                            <option value="failed">Failed</option>
+                            <option value="not_required">Not Required</option>
+                        </select>
+                    </div>
+                    <div class="cult-form-group">
+                        <label>THC %</label>
+                        <input type="number" id="harvestTHC" class="cult-input" step="0.1" min="0" max="40" placeholder="e.g. 18.5">
+                    </div>
+                    <div class="cult-form-group">
+                        <label>CBD %</label>
+                        <input type="number" id="harvestCBD" class="cult-input" step="0.1" min="0" max="40" placeholder="e.g. 0.3">
+                    </div>
+                </div>
+                <div class="cult-form-group">
+                    <label>Notes</label>
+                    <textarea id="harvestNotes" class="cult-textarea" rows="2" placeholder="Harvest observations..."></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 1rem;">
+                    <button type="button" class="cult-btn cult-btn-secondary" onclick="hideModal('harvestModal')">Cancel</button>
+                    <button type="submit" class="cult-btn cult-btn-primary"><i class="fas fa-save"></i> Record Harvest</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Compliance Log Modal -->
+    <div id="complianceLogModal" class="cult-modal-overlay">
+        <div class="cult-modal">
+            <div class="cult-modal-header">
+                <h3>Log Compliance Event</h3>
+                <button class="cult-modal-close" onclick="hideModal('complianceLogModal')">&times;</button>
+            </div>
+            <form id="complianceLogForm" onsubmit="saveComplianceLog(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>Event Type</label>
+                        <select id="logType" class="cult-select" required>
+                            <option value="incident">Incident</option>
+                            <option value="inspection">Inspection</option>
+                            <option value="waste_disposal">Waste Disposal</option>
+                            <option value="document_upload">Document Upload</option>
+                            <option value="environmental_breach">Environmental Breach</option>
+                        </select>
+                    </div>
+                    <div class="cult-form-group">
+                        <label>Severity</label>
+                        <select id="logSeverity" class="cult-select" required>
+                            <option value="info">Info</option>
+                            <option value="warning">Warning</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cult-form-group">
+                    <label>Title</label>
+                    <input type="text" id="logTitle" class="cult-input" placeholder="Brief description..." required>
+                </div>
+                <div class="cult-form-group">
+                    <label>Description</label>
+                    <textarea id="logDescription" class="cult-textarea" rows="3" placeholder="Full details..."></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 1rem;">
+                    <button type="button" class="cult-btn cult-btn-secondary" onclick="hideModal('complianceLogModal')">Cancel</button>
+                    <button type="submit" class="cult-btn cult-btn-primary"><i class="fas fa-save"></i> Log Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Audit Package Modal -->
+    <div id="auditModal" class="cult-modal-overlay">
+        <div class="cult-modal">
+            <div class="cult-modal-header">
+                <h3>Generate SAHPRA Audit Package</h3>
+                <button class="cult-modal-close" onclick="hideModal('auditModal')">&times;</button>
+            </div>
+            <form onsubmit="generateAuditPackage(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="cult-form-group">
+                        <label>From Date</label>
+                        <input type="date" id="auditFrom" class="cult-input" required>
+                    </div>
+                    <div class="cult-form-group">
+                        <label>To Date</label>
+                        <input type="date" id="auditTo" class="cult-input" required>
+                    </div>
+                </div>
+                <p style="color: #777; font-size: 0.8rem; margin: 1rem 0;">
+                    This will generate a comprehensive audit package including: environmental data summaries, batch records, harvest records, compliance events, and waste documentation.
+                </p>
+                <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                    <button type="button" class="cult-btn cult-btn-secondary" onclick="hideModal('auditModal')">Cancel</button>
+                    <button type="submit" class="cult-btn cult-btn-primary"><i class="fas fa-file-pdf"></i> Generate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-utils.js"></script>
+    <script src="frontend/or-auth.js"></script>
+    <script src="frontend/cult-auth.js"></script>
+    <script src="frontend/cult-core.js"></script>
+    <script src="frontend/cult-overview.js"></script>
+    <script src="frontend/cult-zones.js"></script>
+    <script src="frontend/cult-environment.js"></script>
+    <script src="frontend/cult-batches.js"></script>
+    <script src="frontend/cult-harvest.js"></script>
+    <script src="frontend/cult-compliance.js"></script>
+    <script src="frontend/cult-reports.js"></script>
+    <script>
+        // Initialize zone selectors for modals when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lazy-init zone selectors for reading modal
+            const readingModal = document.getElementById('readingModal');
+            if (readingModal) {
+                readingModal.addEventListener('transitionend', function() {
+                    if (readingModal.classList.contains('active')) {
+                        loadZoneSelectorForReading();
+                    }
+                });
+            }
+
+            // Set default report dates
+            const now = new Date();
+            const thirtyDaysAgo = new Date(now - 30 * 24 * 60 * 60 * 1000);
+            const reportFrom = document.getElementById('reportFrom');
+            const reportTo = document.getElementById('reportTo');
+            if (reportFrom) reportFrom.value = thirtyDaysAgo.toISOString().slice(0, 10);
+            if (reportTo) reportTo.value = now.toISOString().slice(0, 10);
+        });
+    </script>
+</body>
+</html>

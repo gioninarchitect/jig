@@ -67,7 +67,7 @@ async function addNewProduct() {
     }
 
     // Generate SKU from name
-    const sku = 'JIG-' + name.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 10) + '-' + Date.now().toString().slice(-4);
+    const sku = 'Origin-' + name.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 10) + '-' + Date.now().toString().slice(-4);
 
     const productData = {
         name,

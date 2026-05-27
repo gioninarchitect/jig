@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Origin - UAT Partner Demo</title>
+<style>
+:root {
+  --black: #0A0A0A;
+  --panel: #111111;
+  --panel-2: #171717;
+  --gold: #C9A84C;
+  --gold-soft: #E8D5A3;
+  --text: #F5F0E8;
+  --muted: rgba(245, 240, 232, 0.62);
+  --line: rgba(201, 168, 76, 0.22);
+  --ok: #4ADE80;
+  --warn: #F59E0B;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+.page { max-width: 1120px; margin: 0 auto; padding: 34px 22px 80px; }
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 13px;
+  font-weight: 800;
+}
+.mark {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-weight: 700;
+}
+.meta { color: var(--muted); font-size: 12px; text-align: right; }
+.hero { padding: 48px 0 30px; display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 26px; align-items: end; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  color: var(--gold-soft);
+  background: rgba(201, 168, 76, 0.08);
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+h1 {
+  margin: 18px 0 14px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(36px, 7vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+.lede { max-width: 760px; color: rgba(245, 240, 232, 0.82); font-size: 18px; }
+.demo-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 18px;
+}
+.demo-card h2 { margin: 0 0 12px; font-size: 14px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.12em; }
+.link-row { display: grid; gap: 8px; }
+a.button {
+  display: block;
+  text-decoration: none;
+  color: var(--black);
+  background: var(--gold);
+  padding: 11px 12px;
+  font-weight: 800;
+  text-align: center;
+}
+a.secondary {
+  color: var(--gold-soft);
+  background: rgba(201, 168, 76, 0.08);
+  border: 1px solid var(--line);
+}
+.pin {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.pin strong { color: var(--text); }
+.grid { display: grid; gap: 14px; }
+.grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+section { margin-top: 28px; }
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+h2 { margin: 0; font-size: 22px; font-family: Georgia, "Times New Roman", serif; color: var(--gold-soft); }
+.section-head span { color: rgba(245, 240, 232, 0.38); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; }
+.card {
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px;
+  min-height: 100%;
+}
+.card.gold { border-color: var(--line); background: rgba(201, 168, 76, 0.055); }
+.card h3 { margin: 0 0 8px; font-size: 15px; color: var(--text); }
+.card p, .card li { color: var(--muted); font-size: 14px; }
+ul, ol { margin: 8px 0 0; padding-left: 20px; }
+li { margin: 5px 0; }
+.flow {
+  counter-reset: step;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+.step {
+  background: var(--panel-2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px;
+  min-height: 92px;
+}
+.step:before {
+  counter-increment: step;
+  content: counter(step);
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-bottom: 10px;
+  color: var(--black);
+  background: var(--gold);
+  font-size: 12px;
+  font-weight: 900;
+}
+.step strong { display: block; font-size: 13px; }
+.step span { color: var(--muted); font-size: 12px; }
+.talk {
+  font-size: 17px;
+  color: rgba(245, 240, 232, 0.86);
+  border-left: 4px solid var(--gold);
+  background: rgba(201, 168, 76, 0.06);
+  padding: 18px 20px;
+}
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.chip {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  padding: 6px 9px;
+  font-size: 12px;
+}
+.chip.ok { color: var(--ok); border-color: rgba(74, 222, 128, 0.25); }
+.chip.warn { color: var(--warn); border-color: rgba(245, 158, 11, 0.25); }
+.footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.08); color: rgba(245, 240, 232, 0.34); font-size: 12px; }
+@media (max-width: 900px) {
+  .hero, .grid.two, .grid.three { grid-template-columns: 1fr; }
+  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .topbar { align-items: flex-start; flex-direction: column; }
+  .meta { text-align: left; }
+}
+@media (max-width: 520px) {
+  .flow { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="topbar">
+    <div class="brand"><div class="mark">O</div><div>Origin</div></div>
+    <div class="meta">UAT partner demo<br>EU GMP as sole source of truth</div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="badge">UAT environment</div>
+      <h1>Partner Demo Flow</h1>
+      <p class="lede">A guided walkthrough of role-based site operations, QMS evidence, approvals, audit history, and the Digital Site Master File as the governed internal record mapped to EU GMP.</p>
+      <div class="status">
+        <span class="chip ok">Frontend build passing</span>
+        <span class="chip ok">Backend build passing</span>
+        <span class="chip ok">Floris super-user enabled</span>
+        <span class="chip warn">UAT, not production</span>
+      </div>
+    </div>
+    <aside class="demo-card">
+      <h2>Demo Access</h2>
+      <div class="link-row">
+        <a class="button" href="http://localhost:5173/auto-login?as=flo&to=/dashboard">Local: sign in as Floris</a>
+        <a class="button secondary" href="https://tntilco.cleva-ai.co.za/auto-login?as=flo&to=/dashboard">Live UAT: sign in as Floris</a>
+        <a class="button secondary" href="uat-proof.html">Role-by-role proof sheet</a>
+      </div>
+      <p class="pin"><strong>Email:</strong> florisolivier7@gmail.com<br><strong>PIN:</strong> 446688<br><strong>Use:</strong> login, then View As to switch dashboards.</p>
+    </aside>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Opening Context</h2><span>1 minute</span></div>
+    <div class="talk">Today I will take you through the UAT version of the system. The purpose is to show how different users interact with the platform, how QMS evidence moves through controlled workflows, and how the Digital Site Master File records evidence against EU GMP, which remains the sole source of truth for compliance requirements.</div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>System Overview</h2><span>What it does</span></div>
+    <div class="grid two">
+      <div class="card gold">
+        <h3>Operational control</h3>
+        <ul>
+          <li>Role-based dashboards for daily work.</li>
+          <li>Workflow tracking for submissions, approvals, and follow-up tasks.</li>
+          <li>Notifications and pending-action queues.</li>
+          <li>Audit trails for who did what, when, and under which role.</li>
+        </ul>
+      </div>
+      <div class="card gold">
+        <h3>Documentation control</h3>
+        <ul>
+          <li>Central document library for site-level records.</li>
+          <li>Version and status visibility.</li>
+          <li>Digital Site Master File as the governed internal evidence record mapped to EU GMP.</li>
+          <li>Export and inspection-readiness views.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>User Roles</h2><span>Explain before clicking</span></div>
+    <div class="grid three">
+      <div class="card"><h3>Sponsor / CRO</h3><p>Oversees study or site activity, reviews submitted documents, and tracks compliance readiness.</p></div>
+      <div class="card"><h3>Site Administrator</h3><p>Manages the site profile and site users, uploads documents, and responds to document requests.</p></div>
+      <div class="card"><h3>PI / Investigator</h3><p>Reviews and signs relevant documents and confirms study or site responsibilities.</p></div>
+      <div class="card"><h3>Study Coordinator</h3><p>Handles daily document collection, missing items, file uploads, updates, and task follow-up.</p></div>
+      <div class="card"><h3>Monitor / CRA</h3><p>Reviews site documentation, flags issues or missing records, and confirms site readiness.</p></div>
+      <div class="card"><h3>Auditor / Inspector</h3><p>Uses controlled read-only access to view documentation and audit trails during review.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Walkthrough Order</h2><span>Full system path</span></div>
+    <div class="flow">
+      <div class="step"><strong>Login and dashboard</strong><span>Use Floris super-user, then View As for each role.</span></div>
+      <div class="step"><strong>Site selection</strong><span>Show facility/site context and operating scope.</span></div>
+      <div class="step"><strong>User roles</strong><span>Open users and explain role-based permissions.</span></div>
+      <div class="step"><strong>Document library</strong><span>Show controlled documents, categories, and statuses.</span></div>
+      <div class="step"><strong>Upload</strong><span>Explain collection, updates, and missing-item handling.</span></div>
+      <div class="step"><strong>Review workflow</strong><span>Move through review, approval, and sign-off.</span></div>
+      <div class="step"><strong>Status tracking</strong><span>Show pending actions, overdue work, and notifications.</span></div>
+      <div class="step"><strong>Audit trail</strong><span>Show accountability and inspection evidence.</span></div>
+      <div class="step"><strong>Reports</strong><span>Show export and readiness views.</span></div>
+      <div class="step"><strong>Digital SMF</strong><span>Position this as the governed EU GMP evidence record.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Digital Site Master File</h2><span>Key value area</span></div>
+    <div class="grid two">
+      <div class="card gold">
+        <h3>How to position it</h3>
+        <p>EU GMP is the sole source of truth for compliance requirements. The Digital Site Master File is the governed internal record that maps site evidence to those EU GMP requirements. QMS, labels, batch records, training, annual medicals, deviations, process validation, signatures, and audit trails feed evidence into it.</p>
+      </div>
+      <div class="card">
+        <h3>Key points</h3>
+        <ul>
+          <li>Stores essential regulatory and operational documents.</li>
+          <li>Organized by site, study, document type, and status.</li>
+          <li>Supports version control and status visibility.</li>
+          <li>Tracks who uploaded, reviewed, approved, or changed each document.</li>
+          <li>Highlights missing, expired, pending, or approved documents.</li>
+          <li>Supports audit and inspection readiness.</li>
+          <li>Generates the Quality Manual / inspection pack from controlled records mapped to EU GMP.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Value Message</h2><span>Use this wording</span></div>
+    <div class="talk">The value of the platform is that EU GMP remains the sole source of truth, while all site evidence feeds one governed Digital Site Master File mapped to those requirements. Instead of relying on email chains, manual trackers, or duplicate quality manuals, each role acts in the workflow while the Digital SMF remains complete, current, and inspection-ready.</div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Close</h2><span>Feedback ask</span></div>
+    <div class="grid two">
+      <div class="card">
+        <h3>Summarize what was shown</h3>
+        <ul>
+          <li>UAT login and dashboards.</li>
+          <li>Role-based navigation and permissions.</li>
+          <li>Document workflows, review, approvals, and audit history.</li>
+          <li>EU GMP source mapping, Digital Site Master File, and readiness reporting.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Ask for feedback</h3>
+        <ul>
+          <li>Which roles need configuration changes?</li>
+          <li>Which document categories are mandatory for pilot?</li>
+          <li>Which approval steps match their operating model?</li>
+          <li>Which integrations should be considered next?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">Origin UAT Partner Demo - prepared for controlled walkthrough and feedback discussion.</div>
+</main>
+</body>
+</html>

@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Database Service
+ * PureGro Premium Cannabis Care - Database Service
  *
  * PostgreSQL connection pool with typed query helpers for all tables.
  * Uses the pg library with parameterised queries to prevent SQL injection.
@@ -165,6 +165,8 @@ function rowToOrder(r: Record<string, unknown>): Order {
     deliveredAt: r.delivered_at ? new Date(r.delivered_at as string).getTime() : undefined,
     createdAt: new Date(r.created_at as string).getTime(),
     updatedAt: new Date(r.updated_at as string).getTime(),
+    posTransferId: (r.pos_transfer_id as string) ?? undefined,
+    posTransferNumber: (r.pos_transfer_number as string) ?? undefined,
   };
 }
 
@@ -556,6 +558,18 @@ export async function assignInvoiceNumber(orderId: string): Promise<string> {
     );
     return invNumber;
   });
+}
+
+/** Link a POS stock transfer to a wholesale order. */
+export async function updateOrderPosTransfer(
+  orderId: string,
+  posTransferId: string,
+  posTransferNumber: string,
+): Promise<void> {
+  await query(
+    'UPDATE orders SET pos_transfer_id = $1, pos_transfer_number = $2 WHERE id = $3',
+    [posTransferId, posTransferNumber, orderId],
+  );
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -999,6 +1013,7 @@ export async function verifyOtp(
   email: string,
   otpCode: string,
 ): Promise<{ valid: boolean; otpId?: string }> {
+  // First try: unused codes
   const { rows } = await query(
     `SELECT id, attempts, max_attempts FROM auth_otp
      WHERE email = $1 AND otp_code = $2 AND is_verified = FALSE AND expires_at > NOW()
@@ -1006,22 +1021,39 @@ export async function verifyOtp(
     [email, otpCode],
   );
 
-  if (rows.length === 0) return { valid: false };
+  if (rows.length > 0) {
+    const row = rows[0] as Record<string, unknown>;
+    const attempts = Number(row.attempts);
+    const maxAttempts = Number(row.max_attempts);
+    const otpId = row.id as string;
 
-  const row = rows[0] as Record<string, unknown>;
-  const attempts = Number(row.attempts);
-  const maxAttempts = Number(row.max_attempts);
-  const otpId = row.id as string;
+    if (attempts >= maxAttempts) return { valid: false };
 
-  if (attempts >= maxAttempts) return { valid: false };
+    // Mark as verified
+    await query(
+      'UPDATE auth_otp SET is_verified = TRUE, verified_at = NOW() WHERE id = $1',
+      [otpId],
+    );
 
-  // Mark as verified
-  await query(
-    'UPDATE auth_otp SET is_verified = TRUE, verified_at = NOW() WHERE id = $1',
-    [otpId],
+    return { valid: true, otpId };
+  }
+
+  // Second try: recently verified codes (handles double-submit within 60s)
+  const { rows: recentRows } = await query(
+    `SELECT id FROM auth_otp
+     WHERE email = $1 AND otp_code = $2 AND is_verified = TRUE
+     AND verified_at > NOW() - INTERVAL '60 seconds'
+     ORDER BY verified_at DESC LIMIT 1`,
+    [email, otpCode],
   );
 
-  return { valid: true, otpId };
+  if (recentRows.length > 0) {
+    console.log(`[AUTH] Code already verified within 60s, allowing re-use for email=${email}`);
+    return { valid: true, otpId: (recentRows[0] as Record<string, unknown>).id as string };
+  }
+
+  console.log(`[AUTH] OTP verify failed: email=${email} code=${otpCode}`);
+  return { valid: false };
 }
 
 export async function incrementOtpAttempts(

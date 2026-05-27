@@ -120,7 +120,7 @@ async function loadOrders() {
 
             html += `
                 <tr>
-                    <td><strong>${order.orderNumber || 'JIG' + index}</strong></td>
+                    <td><strong>${order.orderNumber || 'Origin' + index}</strong></td>
                     <td>${new Date(order.createdAt).toLocaleDateString()}</td>
                     <td>${customerName}</td>
                     <td>${order.items?.length || 0} items</td>
@@ -193,7 +193,7 @@ function viewOrderDetails(order) {
                 ${(() => {
                     const popUrl = order.payment.proofOfPayment.url;
                     const fullUrl = popUrl.startsWith('/') || popUrl.startsWith('http') ? popUrl : '/uploads/' + popUrl;
-                    return `<div style="margin-top: 15px; padding: 15px; background: rgba(124, 58, 237, 0.1); border: 2px solid var(--green); border-radius: 8px; cursor: pointer;" onclick="viewProofModal('${fullUrl}')">
+                    return `<div style="margin-top: 15px; padding: 15px; background: rgba(63, 192, 65, 0.1); border: 2px solid var(--green); border-radius: 8px; cursor: pointer;" onclick="viewProofModal('${fullUrl}')">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                         <h4 style="color: var(--green); margin: 0;"><i class="fas fa-paperclip"></i> Proof of Payment Uploaded</h4>
                         <span style="background: var(--green); color: var(--cream); padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;"><i class="fas fa-eye"></i> View</span>

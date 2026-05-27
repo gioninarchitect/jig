@@ -21,6 +21,23 @@ import QAInspectionWidget from './widgets/QAInspectionWidget';
 import NotificationsWidget from './widgets/NotificationsWidget';
 import ForecastWidget from './widgets/ForecastWidget';
 import GrowCalendarSnapshot from './widgets/GrowCalendarSnapshot';
+import ApprovalsWaitingBanner from '../../components/ApprovalsWaitingBanner';
+import BottleneckRadarWidget from './widgets/BottleneckRadarWidget';
+import FMHeroStatusBar from '../../components/FMHeroStatusBar';
+
+// Lightweight section divider — bold visual grouping for the FM dashboard.
+// Nothing is hidden; we just shepherd the eye through logical zones.
+function Section({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+  return (
+    <div className="space-y-3 pt-2">
+      <div className="flex items-baseline gap-3 border-b border-white/[0.06] pb-1.5">
+        <h2 className="text-[11px] tracking-[0.18em] uppercase text-white/45 font-semibold">{label}</h2>
+        {hint && <span className="text-[10px] text-white/25">{hint}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
 
 // Quick action card for mobile drilldown
 function QuickAction({ to, icon: Icon, label, color }: { to: string; icon: any; label: string; color: string }) {
@@ -66,6 +83,7 @@ export default function DashboardPage() {
 
       <SetupBannerWidget />
       <NotificationsWidget />
+      <ApprovalsWaitingBanner />
       <StatCardsWidget />
 
       {/* ═══ OWNER / ADMIN — 360 Command Centre ═══ */}
@@ -96,6 +114,8 @@ export default function DashboardPage() {
             <TasksDueWidget />
           </div>
 
+          <BottleneckRadarWidget />
+
           <WeightAlertsWidget />
           <QAInspectionWidget />
 
@@ -109,44 +129,62 @@ export default function DashboardPage() {
         </>
       )}
 
-      {/* ═══ FACILITY MANAGER — Operations ═══ */}
+      {/* ═══ FACILITY MANAGER — Operations (sectioned) ═══ */}
       {!isOwner && isFM && (
         <>
-          <div className="grid grid-cols-3 sm:grid-cols-9 gap-1.5">
-            <QuickAction to="/strains" icon={Dna} label="Strain" color="text-purple-400" />
-            <QuickAction to="/mothers" icon={Crown} label="Mother" color="text-amber-400" />
-            <QuickAction to="/plants" icon={Scissors} label="Clone" color="text-emerald-400" />
-            <QuickAction to="/batches" icon={Layers} label="Batch" color="text-blue-400" />
-            <QuickAction to="/baygrid" icon={Grid3X3} label="Greenhouse" color="text-green-400" />
-            <QuickAction to="/baygrid" icon={Sprout} label="Bay" color="text-green-300" />
-            <QuickAction to="/calendar" icon={CalendarDays} label="Grow Cal" color="text-amber-300" />
-            <QuickAction to="/trim" icon={Scissors} label="Trim" color="text-emerald-300" />
-            <QuickAction to="/tickets" icon={TicketCheck} label="Tickets" color="text-red-400" />
-          </div>
+          {/* Hero — 5-second view: status, criticals, top 3 actions */}
+          <FMHeroStatusBar />
 
-          <ForecastWidget />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <BayGridQuickWidget />
+          {/* SECTION · Tickets — primary surface, central to the system */}
+          <Section label="Tickets" hint="Your operational queue · SLA timers visible">
             <TicketsWidget />
-          </div>
+            <BottleneckRadarWidget />
+          </Section>
 
-          <GrowCalendarSnapshot />
+          {/* SECTION · Today — what's happening on the floor right now */}
+          <Section label="Today" hint="What needs your hands today">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <BayGridQuickWidget />
+              <TasksDueWidget />
+            </div>
+            <GrowCalendarSnapshot />
+          </Section>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <TasksDueWidget />
+          {/* SECTION · Compliance — regulator-readiness, drillable */}
+          <Section label="Compliance" hint="SAHPRA Section 22C inspection-ready">
             <ComplianceSummaryWidget />
-          </div>
+            <WeightAlertsWidget />
+          </Section>
 
-          <WeightAlertsWidget />
-          <CloneTraysWidget />
+          {/* SECTION · Insights — performance + activity, glance level */}
+          <Section label="Insights" hint="How the operation is trending">
+            <ForecastWidget />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <PhaseChartWidget />
+              <ActivityFeedWidget />
+            </div>
+            <RiskGaugesWidget />
+          </Section>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <PhaseChartWidget />
-            <ActivityFeedWidget />
-          </div>
+          {/* SECTION · Detail — drilldowns / supporting data */}
+          <Section label="Detail" hint="Supporting views">
+            <CloneTraysWidget />
+          </Section>
 
-          <RiskGaugesWidget />
+          {/* SECTION · Quick tools — moved from top to bottom (still 1-tap reach) */}
+          <Section label="Quick Tools" hint="Jump to any module">
+            <div className="grid grid-cols-3 sm:grid-cols-9 gap-1.5">
+              <QuickAction to="/strains" icon={Dna} label="Strain" color="text-purple-400" />
+              <QuickAction to="/mothers" icon={Crown} label="Mother" color="text-amber-400" />
+              <QuickAction to="/plants" icon={Scissors} label="Clone" color="text-emerald-400" />
+              <QuickAction to="/batches" icon={Layers} label="Batch" color="text-blue-400" />
+              <QuickAction to="/baygrid" icon={Grid3X3} label="Greenhouse" color="text-green-400" />
+              <QuickAction to="/baygrid" icon={Sprout} label="Bay" color="text-green-300" />
+              <QuickAction to="/calendar" icon={CalendarDays} label="Grow Cal" color="text-amber-300" />
+              <QuickAction to="/trim" icon={Scissors} label="Trim" color="text-emerald-300" />
+              <QuickAction to="/tickets" icon={TicketCheck} label="Tickets" color="text-red-400" />
+            </div>
+          </Section>
         </>
       )}
 

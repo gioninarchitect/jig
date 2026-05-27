@@ -1,5 +1,5 @@
 // st-camera.js — Camera capture and photo upload
-// Depends on: config.js (API_URL), dbc-utils.js (showToast), dbc-auth.js (getToken)
+// Depends on: config.js (API_URL), or-utils.js (showToast), or-auth.js (getToken)
 // Depends on: st-auth.js (currentSession, currentItems, currentItemIndex, cameraStream)
 // Depends on: st-counting.js (renderItems, updateProgress)
 
@@ -238,7 +238,7 @@ function showOcrAcceptButton(itemIndex, weight, unit) {
             <div style="font-size: 0.8rem; color: var(--success); margin-bottom: 6px; font-weight: 600;">
                 <i class="fas fa-robot"></i> OCR DETECTED WEIGHT
             </div>
-            <div style="font-family: 'Oswald', sans-serif; font-size: 2.2rem; color: var(--success); margin-bottom: 12px;">
+            <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 2.2rem; color: var(--success); margin-bottom: 12px;">
                 ${weight} ${displayUnit}
             </div>
             <button onclick="acceptOcrAndAdvance(${itemIndex}, ${weight})"
@@ -268,7 +268,7 @@ function showCountAcceptButton(itemIndex, count) {
             <div style="font-size: 0.8rem; color: var(--success); margin-bottom: 6px; font-weight: 600;">
                 <i class="fas fa-robot"></i> DETECTED UNIT COUNT
             </div>
-            <div style="font-family: 'Oswald', sans-serif; font-size: 2.2rem; color: var(--success); margin-bottom: 12px;">
+            <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 2.2rem; color: var(--success); margin-bottom: 12px;">
                 ${count} ${count === 1 ? 'unit' : 'units'}
             </div>
             <button onclick="acceptCountAndAdvance(${itemIndex}, ${count})"

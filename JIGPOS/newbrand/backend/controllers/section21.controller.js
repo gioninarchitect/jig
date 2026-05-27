@@ -62,7 +62,7 @@ const getStatus = async (req, res) => {
   }
 };
 
-// GET /my-status - Simplified status for Ormonde collection point (inline JWT auth)
+// GET /my-status - Simplified status for Potchefstroom collection point (inline JWT auth)
 const getMyStatus = async (req, res) => {
   try {
     // Extract user ID from authorization token

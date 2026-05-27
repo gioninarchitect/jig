@@ -78,6 +78,13 @@ class Database {
     this.models.Ticket = require('./models/Ticket');
     this.models.Transaction = require('./models/Transaction');
     
+    // Cultivation Dashboard models
+    this.models.CultivationZone = require('./models/CultivationZone');
+    this.models.CultivationBatch = require('./models/CultivationBatch');
+    this.models.EnvironmentReading = require('./models/EnvironmentReading');
+    this.models.HarvestRecord = require('./models/HarvestRecord');
+    this.models.ComplianceLog = require('./models/ComplianceLog');
+
     logger.info('✅ Database models initialized');
   }
 
@@ -192,13 +199,13 @@ class Database {
 
       // Create admin user
       const User = this.models.User;
-      const adminExists = await User.findOne({ email: 'admin@loosedraw.co.za' });
-      
+      const adminExists = await User.findOne({ email: 'admin@cleva-ai.co.za' });
+
       if (!adminExists) {
         const admin = new User({
-          email: 'admin@loosedraw.co.za',
+          email: 'admin@cleva-ai.co.za',
           username: 'admin',
-          password: 'LooseDraw2024!', // Will be hashed by pre-save hook
+          password: 'Origin2024!', // Will be hashed by pre-save hook
           firstName: 'Admin',
           lastName: 'User',
           role: 'admin',

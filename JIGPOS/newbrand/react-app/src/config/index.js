@@ -9,17 +9,18 @@ export const API_URL =
 export const DEV_MODE = hostname === 'localhost' || hostname === '127.0.0.1';
 
 export const BRAND = {
-  black: '#0A0A0A',
-  slate: '#1E1E1E',
-  purple: '#7C3AED',
-  purpleDark: '#6D28D9',
-  purpleLight: '#8B5CF6',
-  amber: '#D97706',
-  amberDark: '#B45309',
-  amberLight: '#F59E0B',
-  green: '#15803D',
-  greenDark: '#166534',
-  greenLight: '#22C55E',
+  black: '#0E0E0E',
+  slate: '#1A1A1A',
+  gold: '#C9A84C',
+  goldDark: '#8B6914',
+  goldLight: '#D4B96A',
+  cream: '#F5F0E8',
+  amber: '#C9A84C',
+  amberDark: '#8B6914',
+  amberLight: '#F8C242',
+  green: '#C9A84C',
+  greenDark: '#8B6914',
+  greenLight: '#D4B96A',
   red: '#DC2626',
   redDark: '#B91C1C',
 };
@@ -28,6 +29,8 @@ export const CURRENCY = {
   locale: 'en-ZA',
   symbol: 'R',
 };
+
+export const VAT_RATE = 0.15; // 15% — change here to update everywhere
 
 // Roles from User model (backend/modules/database/models/User.js)
 export const ROLES = {

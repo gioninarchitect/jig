@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quote OR-00001 — Origin by ILCO Farming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --or-black: #0A0A0A;
+  --or-dark: #141414;
+  --or-dark-2: #1C1C1C;
+  --or-dark-3: #252525;
+  --or-gold: #C9A84C;
+  --or-gold-bright: #D4B86A;
+  --or-gold-muted: #8B6914;
+  --or-gold-light: #E8D5A3;
+  --or-white: #F5F0E8;
+  --or-grey-1: #C4BBA8;
+  --or-grey-2: #A89F8C;
+  --or-grey-3: #6B6458;
+  --or-grey-4: #3D3830;
+  --font-display: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--font-body);
+  background: #0E0E0E;
+  color: var(--or-grey-1);
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* ═══════ INVOICE CONTAINER ═══════ */
+.invoice {
+  width: 100%;
+  max-width: 800px;
+  background: var(--or-black);
+  border: 1px solid var(--or-dark-3);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+}
+
+/* ═══════ HEADER ═══════ */
+.inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 40px 40px 32px;
+  border-bottom: 1px solid var(--or-dark-3);
+}
+
+.inv-logo img {
+  height: 60px;
+  filter: drop-shadow(0 2px 12px rgba(201,168,76,0.15));
+  margin-bottom: 20px;
+}
+
+.inv-from {
+  font-size: 0.85rem;
+  color: var(--or-grey-2);
+  line-height: 1.7;
+}
+
+.inv-from strong {
+  color: var(--or-white);
+  font-weight: 600;
+}
+
+.inv-header-right {
+  text-align: right;
+}
+
+.inv-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--or-white);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.inv-number {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--or-gold);
+  margin-bottom: 20px;
+}
+
+.inv-meta-table {
+  font-size: 0.85rem;
+}
+
+.inv-meta-table tr td {
+  padding: 4px 0;
+}
+
+.inv-meta-table tr td:first-child {
+  color: var(--or-grey-3);
+  padding-right: 20px;
+  text-align: right;
+}
+
+.inv-meta-table tr td:last-child {
+  color: var(--or-white);
+  font-weight: 500;
+}
+
+/* Balance due highlight */
+.inv-balance {
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.inv-balance-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--or-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.inv-balance-amount {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--or-gold-light);
+}
+
+/* ═══════ BILL TO / SHIP TO ═══════ */
+.inv-addresses {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 24px 40px;
+  border-bottom: 1px solid var(--or-dark-3);
+}
+
+.inv-addr-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--or-grey-3);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
+
+.inv-addr-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--or-white);
+}
+
+.inv-addr-detail {
+  font-size: 0.85rem;
+  color: var(--or-grey-2);
+  line-height: 1.7;
+  margin-top: 4px;
+}
+
+/* ═══════ LINE ITEMS TABLE ═══════ */
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.inv-table thead th {
+  background: var(--or-dark-2);
+  color: var(--or-gold);
+  padding: 12px 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: left;
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+}
+
+.inv-table thead th:nth-child(2) { text-align: center; width: 80px; }
+.inv-table thead th:nth-child(3) { text-align: right; width: 120px; }
+.inv-table thead th:nth-child(4) { text-align: right; width: 120px; }
+
+.inv-table tbody td {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--or-dark-3);
+  vertical-align: top;
+}
+
+.inv-table tbody td:nth-child(2) { text-align: center; font-family: var(--font-mono); font-size: 0.85rem; color: var(--or-grey-2); white-space: nowrap; }
+.inv-table tbody td:nth-child(3) { text-align: right; font-family: var(--font-mono); font-size: 0.85rem; color: var(--or-grey-2); white-space: nowrap; min-width: 120px; }
+.inv-table tbody td:nth-child(4) { text-align: right; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; color: var(--or-gold); white-space: nowrap; min-width: 120px; }
+
+.line-name {
+  color: var(--or-white);
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.line-desc {
+  color: var(--or-grey-3);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Zero amount */
+.line-zero { color: var(--or-grey-4) !important; }
+
+/* ═══════ TOTALS ═══════ */
+.inv-totals {
+  padding: 0 20px;
+}
+
+.inv-totals-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 0;
+}
+
+.inv-totals-label {
+  width: 140px;
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--or-grey-2);
+  padding-right: 20px;
+}
+
+.inv-totals-value {
+  width: 120px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--or-white);
+  font-weight: 500;
+}
+
+.inv-totals-row-total {
+  border-top: 2px solid rgba(201,168,76,0.25);
+  padding-top: 14px;
+  margin-top: 6px;
+}
+
+.inv-totals-row-total .inv-totals-label {
+  font-weight: 700;
+  color: var(--or-white);
+  font-size: 0.9rem;
+}
+
+.inv-totals-row-total .inv-totals-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--or-gold-light);
+}
+
+/* ═══════ FOOTER ═══════ */
+.inv-footer {
+  padding: 32px 40px;
+  border-top: 1px solid var(--or-dark-3);
+  margin-top: 24px;
+}
+
+.inv-footer-section {
+  margin-bottom: 20px;
+}
+
+.inv-footer-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--or-grey-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.inv-footer-text {
+  font-size: 0.85rem;
+  color: var(--or-grey-2);
+  line-height: 1.7;
+}
+
+.inv-footer-text strong {
+  color: var(--or-grey-1);
+}
+
+.inv-terms {
+  font-size: 0.8rem;
+  color: var(--or-grey-3);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ═══════ MONTHLY NOTE ═══════ */
+.monthly-note {
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 20px 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.monthly-note-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(201,168,76,0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.monthly-note-text {
+  font-size: 0.8rem;
+  color: var(--or-grey-2);
+  line-height: 1.5;
+}
+
+.monthly-note-text strong {
+  color: var(--or-gold);
+}
+
+/* ═══════ PRINT ═══════ */
+@media print {
+  body { background: #fff; padding: 0; }
+  .invoice { border: none; box-shadow: none; border-radius: 0; background: #fff; }
+  .inv-header { border-bottom: 2px solid #C9A84C; }
+  * { color: #222 !important; }
+  .inv-title, .inv-balance-amount, .inv-totals-row-total .inv-totals-value { color: #8B6914 !important; }
+  .inv-table thead th { background: #F5F0E8 !important; color: #8B6914 !important; }
+  .inv-table tbody td:nth-child(4) { color: #8B6914 !important; }
+  .inv-balance { background: #F5F0E8 !important; border-color: #C9A84C !important; }
+}
+
+@media (max-width: 600px) {
+  .inv-header { flex-direction: column; gap: 24px; }
+  .inv-header-right { text-align: left; }
+  .inv-addresses { grid-template-columns: 1fr; gap: 20px; }
+  .invoice { border-radius: 0; }
+  body { padding: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="invoice">
+
+  <!-- HEADER -->
+  <div class="inv-header">
+    <div class="inv-logo">
+      <img src="../public/logo.png" alt="Origin by ILCO Farming">
+      <div class="inv-from">
+        <strong>FloRouter AI</strong><br>
+        Zoete Waters<br>
+        Dana's Place<br>
+        Faerie Glen<br>
+        0081
+      </div>
+    </div>
+    <div class="inv-header-right">
+      <div class="inv-title">Quote</div>
+      <div class="inv-number"># OR-00001</div>
+      <table class="inv-meta-table">
+        <tr><td>Date:</td><td>March 1, 2026</td></tr>
+        <tr><td>Valid Until:</td><td>March 31, 2026</td></tr>
+        <tr><td>Payment Terms:</td><td>On Acceptance</td></tr>
+      </table>
+      <div class="inv-balance">
+        <span class="inv-balance-label">Total Due:</span>
+        <span class="inv-balance-amount">R 29 499,00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADDRESSES -->
+  <div class="inv-addresses">
+    <div>
+      <div class="inv-addr-label">Bill To</div>
+      <div class="inv-addr-name">ILCO Farming</div>
+      <div class="inv-addr-detail">Origin by ILCO Farming</div>
+    </div>
+    <div>
+      <div class="inv-addr-label">Service Location</div>
+      <div class="inv-addr-name">Potchefstroom</div>
+      <div class="inv-addr-detail">Physical collection point + Online store</div>
+    </div>
+  </div>
+
+  <!-- LINE ITEMS -->
+  <table class="inv-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="line-name">Origin Collection Point Management Platform — Setup & Training</div>
+          <div class="line-desc">Integration and setup (1 physical store — Potchefstroom). Includes POS system, stocktake app, inventory manager dashboard, marketing website, one full stocktake, and complete staff training.</div>
+        </td>
+        <td>1</td>
+        <td>R 15 000,00</td>
+        <td>R 15 000,00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-name">Origin Online Store Setup</div>
+          <div class="line-desc">Online collection point with product catalog, ordering capability, and live stock connection to POS.</div>
+        </td>
+        <td>1</td>
+        <td>R 5 000,00</td>
+        <td>R 5 000,00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-name">Section 21 Doctor's Letter</div>
+          <div class="line-desc">Section 21 application (R 5 000) + Doctor's course certification (R 3 500) for lawful collection point operation.</div>
+        </td>
+        <td>1</td>
+        <td>R 8 500,00</td>
+        <td>R 8 500,00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-name">SaaS Monthly Fee + 24/7 IT Support</div>
+          <div class="line-desc">Hosting, platform maintenance, software updates, monitoring, and priority technical support. Billed monthly.</div>
+        </td>
+        <td>1</td>
+        <td>R 999,00</td>
+        <td>R 999,00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-name" style="color:var(--or-grey-3)">Additional store setup (future expansion)</div>
+          <div class="line-desc">Per-store setup fee for additional physical collection points</div>
+        </td>
+        <td class="line-zero">0</td>
+        <td>R 5 000,00</td>
+        <td class="line-zero">R 0,00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TOTALS -->
+  <div class="inv-totals">
+    <div class="inv-totals-row">
+      <div class="inv-totals-label">Subtotal:</div>
+      <div class="inv-totals-value">R 29 499,00</div>
+    </div>
+    <div class="inv-totals-row">
+      <div class="inv-totals-label">Tax (0%):</div>
+      <div class="inv-totals-value">R 0,00</div>
+    </div>
+    <div class="inv-totals-row inv-totals-row-total">
+      <div class="inv-totals-label">Total:</div>
+      <div class="inv-totals-value">R 29 499,00</div>
+    </div>
+  </div>
+
+  <!-- MONTHLY NOTE -->
+  <div class="monthly-note">
+    <div class="monthly-note-icon">&#8635;</div>
+    <div class="monthly-note-text">
+      The <strong>SaaS Monthly Fee of R 999,00</strong> is an ongoing monthly charge that begins after go-live.
+      It covers hosting, maintenance, updates, and 24/7 IT support for all modules.
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="inv-footer">
+    <div class="inv-footer-section">
+      <div class="inv-footer-title">Banking Details</div>
+      <div class="inv-footer-text">
+        <strong>Bank:</strong> Capitec<br>
+        <strong>Account Holder:</strong> FLOROUTER AI<br>
+        <strong>Account Number:</strong> 2153553365<br>
+        <strong>Branch Code:</strong> 470010
+      </div>
+    </div>
+
+    <div class="inv-footer-section">
+      <div class="inv-footer-title">Terms & Conditions</div>
+      <div class="inv-terms">
+        This quote excludes long distance travel and lodging. Additional stores can be added at R 5 000 per store.
+        The monthly SaaS fee is billed separately and begins once the platform goes live.
+        Quote valid for 30 days from date of issue.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

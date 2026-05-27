@@ -176,7 +176,7 @@ async function viewLead(leadId) {
             };
 
             let detailsHTML = `
-                <div style="background: var(--white); padding: 15px; border-radius: 10px;">
+                <div style="background: var(--or-white); padding: 15px; border-radius: 10px;">
                     <p style="margin: 8px 0; color: var(--green-deep);"><strong>Name:</strong> ${lead.name}</p>
                     <p style="margin: 8px 0; color: var(--green-deep);"><strong>Email:</strong> ${lead.email}</p>
                     <p style="margin: 8px 0; color: var(--green-deep);"><strong>Mobile:</strong> ${lead.mobile}</p>

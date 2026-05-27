@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Email Service
+ * PureGro Premium Cannabis Care - Email Service
  *
  * Order notification emails sent to admin for manual processing.
  * Reuses the SMTP transporter from auth.ts.
@@ -9,7 +9,7 @@ import { transporter } from './auth';
 import type { Order, Client } from '../world-model/types';
 
 const ADMIN_EMAIL = () => process.env.ADMIN_EMAILS?.split(',')[0]?.trim() || 'admin@cleva-ai.co.za';
-const FROM = () => `"JIG Craft Cannabis" <${process.env.SMTP_USER || 'otp@cleva-ai.co.za'}>`;
+const FROM = () => `"PureGro Premium Cannabis Care" <${process.env.SMTP_USER || 'otp@cleva-ai.co.za'}>`;
 
 /**
  * Send new order notification to admin.
@@ -73,7 +73,7 @@ export async function sendOrderNotification(order: Order, client: Client): Promi
         order.deliveryNotes ? `Notes:       ${order.deliveryNotes}` : '',
         ``,
         `---`,
-        `To process this order, log in to the JIG admin panel.`,
+        `To process this order, log in to the PureGro admin panel.`,
       ]
         .filter(Boolean)
         .join('\n'),
@@ -149,12 +149,12 @@ export async function sendOrderNotification(order: Order, client: Client): Promi
             ${order.deliveryNotes ? `<p style="font-size: 13px; color: #888; margin: 4px 0;">Notes: ${order.deliveryNotes}</p>` : ''}
 
             <div style="margin-top: 24px; padding: 12px 16px; background: #f0f7f0; border-radius: 6px; font-size: 13px; color: #1a5c2e;">
-              Log in to the <strong>JIG Admin Panel</strong> to confirm this order and generate the invoice.
+              Log in to the <strong>PureGro Admin Panel</strong> to confirm this order and generate the invoice.
             </div>
           </div>
 
           <p style="color: #aaa; font-size: 11px; text-align: center; margin-top: 16px;">
-            JIG Craft Cannabis &mdash; Wholesale Platform
+            PureGro Premium Cannabis Care &mdash; Wholesale Platform
           </p>
         </div>
       `,

@@ -7,40 +7,36 @@ export default {
   theme: {
     extend: {
       colors: {
-        'jig-black': '#0A0A0A',
-        'jig-slate': {
-          DEFAULT: '#1E1E1E',
-          light: '#2A2A2A',
+        'or-black': '#0E0E0E',
+        'origin-slate': {
+          DEFAULT: '#1A1A1A',
+          light: '#222222',
           mid: '#3A3A3A',
         },
-        'jig-purple': {
-          DEFAULT: '#7C3AED',
-          dark: '#6D28D9',
-          light: '#8B5CF6',
+        'or-gold': {
+          DEFAULT: '#C9A84C',
+          dark: '#8B6914',
+          light: '#F8C242',
         },
-        'jig-amber': {
-          DEFAULT: '#D97706',
-          dark: '#B45309',
-          light: '#F59E0B',
+        'origin-gold': {
+          DEFAULT: '#C9A84C',
+          dark: '#8B6914',
+          light: '#D4B96A',
         },
-        'jig-green': {
-          DEFAULT: '#15803D',
-          dark: '#166534',
-          light: '#22C55E',
-        },
-        'jig-red': {
+        'origin-red': {
           DEFAULT: '#DC2626',
           dark: '#B91C1C',
         },
+        'origin-cream': '#F5F0E8',
         success: '#22C55E',
-        warning: '#F59E0B',
+        warning: '#F8C242',
         error: '#EF4444',
         info: '#3B82F6',
       },
       fontFamily: {
-        heading: ['Anton', 'sans-serif'],
-        accent: ['Oswald', 'sans-serif'],
-        body: ['Inter', 'system-ui', 'sans-serif'],
+        heading: ['Barlow Condensed', 'sans-serif'],
+        accent: ['Barlow Condensed', 'sans-serif'],
+        body: ['Barlow', 'system-ui', 'sans-serif'],
       },
     },
   },

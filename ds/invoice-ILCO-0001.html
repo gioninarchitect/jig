@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice ILCO-0001 | FloRouter AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A84C;
+            --gold-muted: #8B6914;
+            --gold-bright: #D4B86A;
+            --gold-light: #E8D5A3;
+            --black: #0A0A0A;
+            --dark: #141414;
+            --dark-2: #1C1C1C;
+            --white: #FAFAFA;
+            --cream: #F5F0E8;
+            --green: #22C55E;
+            --red: #DC2626;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .invoice-page {
+            max-width: 820px;
+            margin: 40px auto;
+            background: var(--dark);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .invoice-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0e0e0e 100%);
+            border-bottom: 3px solid var(--gold);
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .company-info h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .company-info p {
+            color: #888;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .invoice-title {
+            text-align: right;
+        }
+
+        .invoice-title h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--gold);
+            letter-spacing: 4px;
+            font-weight: 700;
+        }
+
+        .invoice-title .invoice-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--gold-bright);
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        /* Meta strip */
+        .meta-strip {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0;
+            background: rgba(201,168,76,0.06);
+            border-bottom: 1px solid rgba(201,168,76,0.15);
+        }
+
+        .meta-item {
+            padding: 20px 30px;
+            border-right: 1px solid rgba(201,168,76,0.1);
+        }
+
+        .meta-item:last-child { border-right: none; }
+
+        .meta-item .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .meta-item .value {
+            font-size: 0.95rem;
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        /* Parties */
+        .parties {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            padding: 0;
+            border-bottom: 1px solid rgba(201,168,76,0.15);
+        }
+
+        .party {
+            padding: 24px 30px;
+        }
+
+        .party:first-child {
+            border-right: 1px solid rgba(201,168,76,0.1);
+        }
+
+        .party .party-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gold-muted);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .party .party-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .party .party-detail {
+            font-size: 0.85rem;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        /* Line items table */
+        .items-section {
+            padding: 30px;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .items-table thead th {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gold-muted);
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .items-table thead th:nth-child(2) { text-align: center; }
+        .items-table thead th:nth-child(3),
+        .items-table thead th:nth-child(4) { text-align: right; }
+
+        .items-table tbody td {
+            padding: 16px;
+            vertical-align: top;
+            border-bottom: 1px solid rgba(201,168,76,0.08);
+        }
+
+        .items-table tbody tr:hover {
+            background: rgba(201,168,76,0.03);
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: var(--white);
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .item-desc {
+            font-size: 0.8rem;
+            color: #777;
+            line-height: 1.5;
+        }
+
+        .items-table tbody td:nth-child(2) {
+            text-align: center;
+            color: #aaa;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .items-table tbody td:nth-child(3),
+        .items-table tbody td:nth-child(4) {
+            text-align: right;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--white);
+            white-space: nowrap;
+        }
+
+        /* Totals */
+        .totals-row {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 30px 30px;
+        }
+
+        .totals-table {
+            width: 300px;
+        }
+
+        .totals-table .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(201,168,76,0.08);
+        }
+
+        .totals-table .row .label {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .totals-table .row .amount {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--white);
+            font-size: 0.9rem;
+        }
+
+        .totals-table .row.total {
+            border-bottom: none;
+            border-top: 2px solid var(--gold);
+            margin-top: 4px;
+            padding-top: 12px;
+        }
+
+        .totals-table .row.total .label {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .totals-table .row.total .amount {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .totals-table .row.balance {
+            background: rgba(201,168,76,0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 8px;
+            border-bottom: none;
+        }
+
+        .totals-table .row.balance .label {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .totals-table .row.balance .amount {
+            color: var(--gold-bright);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Payment info */
+        .payment-section {
+            margin: 0 30px 30px;
+            padding: 24px;
+            background: rgba(201,168,76,0.05);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 12px;
+        }
+
+        .payment-section h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .bank-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .bank-detail {
+            display: flex;
+            gap: 8px;
+        }
+
+        .bank-detail .label {
+            color: #666;
+            font-size: 0.8rem;
+            min-width: 120px;
+        }
+
+        .bank-detail .value {
+            color: var(--white);
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Footer */
+        .invoice-footer {
+            border-top: 1px solid rgba(201,168,76,0.15);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .invoice-footer .left {
+            color: #555;
+            font-size: 0.75rem;
+        }
+
+        .invoice-footer .right {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-muted);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        /* Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .badge-due {
+            background: rgba(220,38,38,0.15);
+            color: #f87171;
+            border: 1px solid rgba(220,38,38,0.3);
+        }
+
+        .badge-paid {
+            background: rgba(34,197,94,0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34,197,94,0.3);
+        }
+
+        /* Recurring note */
+        .recurring-note {
+            font-size: 0.75rem;
+            color: var(--gold-muted);
+            font-style: italic;
+            margin-top: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body { background: white; color: #333; }
+            .invoice-page { border: none; margin: 0; border-radius: 0; background: white; }
+            .invoice-header { background: white; border-bottom-color: #8B6914; }
+            .company-info h1, .invoice-title h2 { color: #8B6914; }
+            .company-info p, .party .party-detail, .item-desc { color: #666; }
+            .meta-strip { background: #f9f7f2; }
+            .meta-item { border-right-color: #ddd; }
+            .meta-item .value, .items-table tbody td:nth-child(3),
+            .items-table tbody td:nth-child(4), .totals-table .row .amount,
+            .bank-detail .value, .item-name, .party .party-name { color: #333; }
+            .items-table thead th { color: #8B6914; border-bottom-color: #8B6914; }
+            .items-table tbody td { border-bottom-color: #eee; }
+            .totals-table .row.total { border-top-color: #8B6914; }
+            .totals-table .row.total .label, .totals-table .row.total .amount,
+            .totals-table .row.balance .label, .totals-table .row.balance .amount { color: #8B6914; }
+            .payment-section { background: #f9f7f2; border-color: #ddd; }
+            .payment-section h3 { color: #8B6914; }
+            .invoice-footer { border-top-color: #ddd; }
+            .no-print { display: none !important; }
+        }
+
+        /* Print button */
+        .print-bar {
+            max-width: 820px;
+            margin: 0 auto 16px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .print-btn {
+            background: rgba(201,168,76,0.15);
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold);
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .print-btn:hover {
+            background: rgba(201,168,76,0.25);
+            border-color: var(--gold);
+        }
+    </style>
+</head>
+<body>
+    <div class="print-bar no-print">
+        <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+
+    <div class="invoice-page">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="company-info">
+                <h1>FLOROUTER AI</h1>
+                <p>
+                    Zoete Waters<br>
+                    Dana's Place<br>
+                    Faerie Glen, 0081
+                </p>
+            </div>
+            <div class="invoice-title">
+                <h2>INVOICE</h2>
+                <div class="invoice-number"># ILCO-0001</div>
+                <div style="margin-top: 10px;">
+                    <span class="status-badge badge-due">Payment Due</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meta strip -->
+        <div class="meta-strip">
+            <div class="meta-item">
+                <div class="label">Date</div>
+                <div class="value">3 March 2026</div>
+            </div>
+            <div class="meta-item">
+                <div class="label">Payment Terms</div>
+                <div class="value">On Receipt</div>
+            </div>
+            <div class="meta-item">
+                <div class="label">Balance Due</div>
+                <div class="value" style="color: var(--gold); font-weight: 700; font-size: 1.1rem;">R 29,499.00</div>
+            </div>
+        </div>
+
+        <!-- Parties -->
+        <div class="parties">
+            <div class="party">
+                <div class="party-label">Bill To</div>
+                <div class="party-name">ILCO Farming</div>
+                <div class="party-detail">Origin by ILCO Farming</div>
+            </div>
+            <div class="party">
+                <div class="party-label">Ship To</div>
+                <div class="party-name">Ray</div>
+                <div class="party-detail">
+                    +27 76 834 7331<br>
+                    ray@ilcofarming.co.za
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Items -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="item-name">Origin by ILCO Collection Point Management Platform — Setup & Training</div>
+                            <div class="item-desc">Integration and setup (1 physical store — Potchefstroom). Includes POS system, stocktake app, inventory manager dashboard, marketing website, one full stocktake, and complete staff training.</div>
+                        </td>
+                        <td>1</td>
+                        <td>R 15,000.00</td>
+                        <td>R 15,000.00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="item-name">Origin by ILCO Online Store Setup</div>
+                            <div class="item-desc">Online collection point with product catalog, ordering capability, and live stock connection to POS.</div>
+                        </td>
+                        <td>1</td>
+                        <td>R 5,000.00</td>
+                        <td>R 5,000.00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="item-name">Section 21 Doctor's Letter</div>
+                            <div class="item-desc">Section 21 application (R 5,000) + Doctor's course certification (R 3,500) for lawful collection point operation.</div>
+                        </td>
+                        <td>1</td>
+                        <td>R 8,500.00</td>
+                        <td>R 8,500.00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="item-name">SaaS Monthly Fee + 24/7 IT Support</div>
+                            <div class="item-desc">Hosting, platform maintenance, software updates, monitoring, and priority technical support. Billed monthly.</div>
+                            <div class="recurring-note">Recurring monthly — first month included</div>
+                        </td>
+                        <td>1</td>
+                        <td>R 999.00</td>
+                        <td>R 999.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totals -->
+        <div class="totals-row">
+            <div class="totals-table">
+                <div class="row">
+                    <span class="label">Subtotal</span>
+                    <span class="amount">R 29,499.00</span>
+                </div>
+                <div class="row">
+                    <span class="label">Tax (0%)</span>
+                    <span class="amount">R 0.00</span>
+                </div>
+                <div class="row total">
+                    <span class="label">Total</span>
+                    <span class="amount">R 29,499.00</span>
+                </div>
+                <div class="row balance">
+                    <span class="label">Balance Due</span>
+                    <span class="amount">R 29,499.00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Info -->
+        <div class="payment-section">
+            <h3>Payment Details</h3>
+            <div class="bank-details">
+                <div class="bank-detail">
+                    <span class="label">Bank</span>
+                    <span class="value">Capitec</span>
+                </div>
+                <div class="bank-detail">
+                    <span class="label">Account Holder</span>
+                    <span class="value">FLOROUTER AI</span>
+                </div>
+                <div class="bank-detail">
+                    <span class="label">Account Number</span>
+                    <span class="value">2153553365</span>
+                </div>
+                <div class="bank-detail">
+                    <span class="label">Branch Code</span>
+                    <span class="value">470010</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="left">
+                Generated 3 March 2026 &middot; Payment due on receipt
+            </div>
+            <div class="right">FLOROUTER AI</div>
+        </div>
+    </div>
+</body>
+</html>

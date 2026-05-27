@@ -7,9 +7,9 @@ import { useWorldModelConfig } from '../world-model/WorldModelContext';
 import { estimateCurrentPotency } from '../world-model/engines/potency';
 
 const CONFIDENCE_STYLES = {
-  high: 'text-jig-purple',
-  medium: 'text-jig-amber-dark',
-  low: 'text-jig-red',
+  high: 'text-or-gold',
+  medium: 'text-or-gold-dark',
+  low: 'text-origin-red',
   none: 'text-gray-400',
 };
 
@@ -53,7 +53,7 @@ export default function PotencyBadge({ batch, compact = false }) {
   }
 
   return (
-    <div className="inline-block rounded-lg border border-jig-purple/20 bg-jig-slate overflow-hidden text-xs">
+    <div className="inline-block rounded-lg border border-or-gold/20 bg-origin-slate overflow-hidden text-xs">
       {/* Lab tested values */}
       <div className="px-3 py-2 flex items-center gap-3">
         {/* THC */}
@@ -80,7 +80,7 @@ export default function PotencyBadge({ batch, compact = false }) {
 
       {/* Estimated current (only if significant change) */}
       {significantDrop && (
-        <div className="px-3 py-1.5 bg-jig-amber/5 border-t border-jig-purple/10 flex items-center gap-3">
+        <div className="px-3 py-1.5 bg-or-gold/5 border-t border-or-gold/10 flex items-center gap-3">
           <div>
             <span className="text-gray-500">Est. current: </span>
             <span className={`font-heading text-sm ${CONFIDENCE_STYLES[potency.confidenceLevel]}`}>
@@ -96,9 +96,9 @@ export default function PotencyBadge({ batch, compact = false }) {
           )}
           <div className="ml-auto">
             <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${
-              potency.confidenceLevel === 'high' ? 'bg-jig-purple/10 text-jig-purple' :
-              potency.confidenceLevel === 'medium' ? 'bg-jig-amber/10 text-jig-amber-dark' :
-              'bg-jig-red/10 text-jig-red'
+              potency.confidenceLevel === 'high' ? 'bg-or-gold/10 text-or-gold' :
+              potency.confidenceLevel === 'medium' ? 'bg-or-gold/10 text-or-gold-dark' :
+              'bg-origin-red/10 text-origin-red'
             }`}>
               {potency.confidenceLevel}
             </span>
@@ -108,21 +108,21 @@ export default function PotencyBadge({ batch, compact = false }) {
 
       {/* Terpene retention */}
       {potency.terpeneRetention < 90 && (
-        <div className="px-3 py-1 bg-white/50 border-t border-jig-purple/5 text-[10px] text-gray-400">
+        <div className="px-3 py-1 bg-white/50 border-t border-or-gold/5 text-[10px] text-gray-400">
           Terpene retention: ~{potency.terpeneRetention}%
         </div>
       )}
 
       {/* Retest warning */}
       {showRetest && (
-        <div className="px-3 py-1.5 bg-jig-amber/10 border-t border-jig-amber/20 text-[10px] font-bold text-jig-amber-dark">
+        <div className="px-3 py-1.5 bg-or-gold/10 border-t border-or-gold/20 text-[10px] font-bold text-or-gold-dark">
           Lab retest recommended ({potency.daysSinceTest} days since last test)
         </div>
       )}
 
       {/* Markdown suggestion */}
       {potency.suggestMarkdown && (
-        <div className="px-3 py-1.5 bg-jig-red/5 border-t border-jig-red/20 text-[10px] font-bold text-jig-red">
+        <div className="px-3 py-1.5 bg-origin-red/5 border-t border-origin-red/20 text-[10px] font-bold text-origin-red">
           Suggest {potency.suggestedMarkdownPercent}% markdown (potency drop: {potency.thcDropPercent}%)
         </div>
       )}

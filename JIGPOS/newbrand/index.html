@@ -3,37 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JIG Craft Cannabis | Medical Cannabis SA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Origin by ILCO Farming | Medical Cannabis SA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -43,7 +52,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -52,24 +61,25 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         a { text-decoration: none; color: inherit; }
@@ -111,27 +121,27 @@
         }
 
         .btn-gold {
-            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
-            color: var(--gray-900);
-            box-shadow: var(--shadow-gold), inset 0 1px 0 rgba(255,255,255,0.3);
+            background: var(--or-grad-brand);
+            color: var(--or-white);
+            box-shadow: var(--or-shadow-gold);
         }
 
         .btn-gold:hover {
             transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(217, 119, 6,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+            box-shadow: 0 20px 50px rgba(201,168,76,0.4);
         }
 
         .btn-outline {
             background: transparent;
             border: 2px solid rgba(255,255,255,0.4);
-            color: var(--white);
+            color: var(--or-white);
             backdrop-filter: blur(10px);
         }
 
         .btn-outline:hover {
-            background: var(--white);
-            border-color: var(--white);
-            color: var(--purple);
+            background: var(--or-white);
+            border-color: var(--or-white);
+            color: var(--or-gold);
             transform: translateY(-4px);
         }
 
@@ -147,11 +157,11 @@
         }
 
         .nav.scrolled {
-            background: rgba(244,240,230,0.98);
+            background: rgba(10,10,10,0.98);
             backdrop-filter: blur(20px);
-            box-shadow: 0 4px 30px rgba(0,0,0,0.15), 0 1px 0 rgba(124, 58, 237,0.1);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.4);
             padding: 0.75rem 0;
-            border-bottom: 2px solid var(--gold);
+            border-bottom: 1px solid rgba(201,168,76,0.3);
         }
 
         .nav-inner {
@@ -169,20 +179,19 @@
         .nav-logo-icon {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            background: transparent;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.25rem;
-            color: var(--green-dark);
-            box-shadow: var(--shadow-sm);
+            color: var(--or-white);
         }
 
         .nav-brand {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.4rem;
-            color: var(--white);
+            color: var(--or-white);
             text-transform: uppercase;
             line-height: 1;
             letter-spacing: 0.02em;
@@ -198,7 +207,7 @@
             margin-top: 2px;
         }
 
-        .nav.scrolled .nav-brand { color: var(--purple); }
+        .nav.scrolled .nav-brand { color: var(--or-gold); }
 
         .nav-links {
             display: flex;
@@ -208,7 +217,7 @@
         .nav-links a {
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--white);
+            color: var(--or-white);
             transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 0.08em;
@@ -222,21 +231,21 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--gold);
+            background: var(--or-gold);
             transition: width 0.3s;
         }
 
         .nav-links a:hover::after { width: 100%; }
-        .nav.scrolled .nav-links a { color: var(--gray-700); }
-        .nav-links a:hover { color: var(--gold); }
+        .nav.scrolled .nav-links a { color: var(--or-grey-2); }
+        .nav-links a:hover { color: var(--or-gold-bright); }
 
         .nav-cta { display: flex; gap: 1rem; align-items: center; }
         .nav-cta .btn { padding: 0.6rem 1.25rem; font-size: 0.75rem; border-radius: 10px; }
         .cart-btn {
             position: relative;
             background: transparent;
-            border: 2px solid var(--cream);
-            color: var(--cream);
+            border: 2px solid var(--or-white);
+            color: var(--or-white);
             width: 44px;
             height: 44px;
             border-radius: 12px;
@@ -246,14 +255,14 @@
             align-items: center;
             justify-content: center;
         }
-        .cart-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--white); }
+        .cart-btn:hover { background: var(--or-gold); border-color: var(--or-gold); color: var(--or-white); }
         .cart-btn .icon { width: 20px; height: 20px; }
         .cart-count {
             position: absolute;
             top: -8px;
             right: -8px;
             background: var(--gold);
-            color: var(--white);
+            color: var(--or-white);
             font-size: 0.7rem;
             font-weight: 700;
             min-width: 20px;
@@ -263,8 +272,8 @@
             align-items: center;
             justify-content: center;
         }
-        .nav.scrolled .cart-btn { border-color: var(--purple); color: var(--purple); }
-        .nav.scrolled .cart-btn:hover { background: var(--green); color: var(--cream); }
+        .nav.scrolled .cart-btn { border-color: var(--or-gold); color: var(--or-gold); }
+        .nav.scrolled .cart-btn:hover { background: var(--or-gold); color: var(--or-white); }
 
         /* Cart Drawer */
         .cart-overlay {
@@ -284,7 +293,7 @@
             width: 450px;
             max-width: 100%;
             height: 100vh;
-            background: var(--black);
+            background: var(--or-black);
             z-index: 9999;
             transition: right 0.3s ease;
             display: flex;
@@ -294,21 +303,21 @@
         .cart-drawer.active { right: 0; }
         .cart-drawer-header {
             padding: 1.5rem;
-            background: var(--green);
-            color: var(--cream);
+            background: var(--or-gold);
+            color: var(--or-white);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .cart-drawer-header h3 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.5rem;
             text-transform: uppercase;
         }
         .cart-close-btn {
             background: transparent;
             border: none;
-            color: var(--cream);
+            color: var(--or-white);
             font-size: 1.5rem;
             cursor: pointer;
         }
@@ -330,14 +339,14 @@
             width: 60px;
             height: 60px;
             border-radius: 8px;
-            background: var(--green-light);
+            background: var(--or-gold);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
         }
         .cart-item-info { flex: 1; }
-        .cart-item-name { font-weight: 600; color: var(--white); margin-bottom: 0.25rem; }
+        .cart-item-name { font-weight: 600; color: var(--or-white); margin-bottom: 0.25rem; }
         .cart-item-price { color: var(--gold-dark); font-weight: 700; }
         .cart-item-qty {
             display: flex;
@@ -348,17 +357,17 @@
         .cart-item-qty button {
             width: 28px;
             height: 28px;
-            border: 1px solid var(--green);
+            border: 1px solid var(--or-gold);
             border-radius: 6px;
             background: transparent;
-            color: var(--purple);
+            color: var(--or-gold);
             cursor: pointer;
         }
-        .cart-item-qty button:hover { background: var(--green); color: white; }
+        .cart-item-qty button:hover { background: var(--or-gold); color: white; }
         .cart-drawer-footer {
             padding: 1.5rem;
             background: #0A0A0A;
-            border-top: 3px solid var(--gold);
+            border-top: 3px solid var(--or-gold);
         }
         .cart-total {
             display: flex;
@@ -367,13 +376,13 @@
             margin-bottom: 1rem;
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--white);
+            color: var(--or-white);
         }
         .cart-checkout-btn {
             width: 100%;
             padding: 1rem;
-            background: var(--gold);
-            color: var(--white);
+            background: var(--or-gold);
+            color: var(--or-white);
             border: none;
             border-radius: 12px;
             font-size: 1rem;
@@ -381,11 +390,11 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        .cart-checkout-btn:hover { background: var(--gold-dark); }
+        .cart-checkout-btn:hover { background: var(--or-gold-muted); }
         .cart-empty {
             text-align: center;
             padding: 3rem;
-            color: var(--green-light);
+            color: var(--or-grey-2);
         }
         .cart-empty .icon { width: 60px; height: 60px; margin-bottom: 1rem; }
 
@@ -394,8 +403,8 @@
             width: 100%;
             padding: 0.75rem;
             margin-top: 1rem;
-            background: var(--gold);
-            color: var(--white);
+            background: var(--or-gold);
+            color: var(--or-white);
             border: none;
             border-radius: 8px;
             font-weight: 600;
@@ -407,20 +416,20 @@
             justify-content: center;
             gap: 0.5rem;
         }
-        .add-to-cart-btn:hover { background: var(--gold-dark); transform: translateY(-2px); }
+        .add-to-cart-btn:hover { background: var(--or-gold-muted); transform: translateY(-2px); }
         .add-to-cart-btn .icon { width: 16px; height: 16px; }
 
         .nav.scrolled .btn-outline {
-            border-color: var(--purple);
-            color: var(--purple);
+            border-color: var(--or-gold);
+            color: var(--or-gold);
         }
         .nav.scrolled .btn-outline:hover {
-            background: var(--green);
-            color: var(--white);
+            background: var(--or-gold);
+            color: var(--or-white);
         }
 
-        .nav-mobile { display: none; background: none; border: none; font-size: 1.5rem; color: var(--white); cursor: pointer; }
-        .nav.scrolled .nav-mobile { color: var(--purple); }
+        .nav-mobile { display: none; background: none; border: none; font-size: 1.5rem; color: var(--or-white); cursor: pointer; }
+        .nav.scrolled .nav-mobile { color: var(--or-gold); }
 
         @media (max-width: 968px) {
             .nav-links {
@@ -429,11 +438,11 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: var(--green-dark);
+                background: rgba(10,10,10,0.98);
                 flex-direction: column;
                 padding: 1rem;
                 gap: 0;
-                border-bottom: 3px solid var(--gold);
+                border-bottom: 2px solid var(--or-gold);
             }
             .nav-links.active {
                 display: flex;
@@ -441,7 +450,7 @@
             .nav-links a {
                 padding: 1rem;
                 border-bottom: 1px solid rgba(255,255,255,0.1);
-                color: var(--cream) !important;
+                color: var(--or-white) !important;
             }
             .nav-links a:last-child {
                 border-bottom: none;
@@ -462,16 +471,18 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background: linear-gradient(160deg, #1E1E1E 0%, #0A0A0A 40%, #0A0A0A 100%);
+            background: url('images/originhero.png') center/cover no-repeat;
         }
-
-        /* Cannabis leaf pattern */
-        .hero-pattern {
+        .hero-bg::after {
+            content: '';
             position: absolute;
             inset: 0;
-            opacity: 0.06;
-            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D4AF37'%3E%3Cpath d='M40 8c0 0-3 12-3 20c0 4 1.5 7 3 7s3-3 3-7c0-8-3-20-3-20z'/%3E%3Cpath d='M40 35c-8-12-22-18-22-18s4 14 12 22c4 4 8 5 10 4c-2-2-2-5 0-8z'/%3E%3Cpath d='M40 35c8-12 22-18 22-18s-4 14-12 22c-4 4-8 5-10 4c2-2 2-5 0-8z'/%3E%3Cpath d='M40 42c-12-6-25-4-25-4s8 12 18 16c5 2 9 1 10-1c-2-3-1-6 0-8c-1-1-2-2-3-3z'/%3E%3Cpath d='M40 42c12-6 25-4 25-4s-8 12-18 16c-5 2-9 1-10-1c2-3 1-6 0-8c1-1 2-2 3-3z'/%3E%3Cpath d='M40 55c0 0-2 8-2 17h4c0-9-2-17-2-17z'/%3E%3C/g%3E%3C/svg%3E");
-            background-size: 100px 100px;
+            background: linear-gradient(160deg, rgba(14,14,14,0.75) 0%, rgba(14,14,14,0.55) 40%, rgba(14,14,14,0.8) 100%);
+        }
+
+        /* Background pattern removed */
+        .hero-pattern {
+            display: none;
         }
 
         /* Gradient orbs */
@@ -485,7 +496,7 @@
         .hero-glow-1 {
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(217, 119, 6,0.25) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(201,168,76,0.2) 0%, transparent 70%);
             top: -200px;
             right: -150px;
             animation: pulse 8s ease-in-out infinite;
@@ -508,7 +519,7 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            color: var(--white);
+            color: var(--or-white);
             max-width: 680px;
             padding: 6rem 0;
         }
@@ -517,7 +528,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
-            background: rgba(217, 119, 6,0.15);
+            background: rgba(201,168,76,0.15);
             backdrop-filter: blur(10px);
             padding: 0.6rem 1.25rem;
             border-radius: 50px;
@@ -526,11 +537,11 @@
             letter-spacing: 0.12em;
             text-transform: uppercase;
             margin-bottom: 2rem;
-            border: 1px solid rgba(217, 119, 6,0.3);
+            border: 1px solid rgba(201,168,76,0.3);
             animation: fadeInUp 0.8s ease-out;
         }
 
-        .hero-badge i { color: var(--gold); font-size: 0.9rem; }
+        .hero-badge i { color: var(--or-gold-bright); font-size: 0.9rem; }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
@@ -538,7 +549,7 @@
         }
 
         .hero h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 5rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -549,15 +560,17 @@
         }
 
         .hero h1 span {
-            color: var(--gold);
-            text-shadow: 0 4px 30px rgba(217, 119, 6,0.4);
+            background: var(--or-grad-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero-tagline {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
             font-size: 1.35rem;
-            color: var(--gold-light);
+            color: var(--or-grey-2);
             margin-bottom: 1.5rem;
             animation: fadeInUp 0.8s ease-out 0.2s both;
         }
@@ -589,11 +602,11 @@
         }
 
         .stat-value {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 3.5rem;
-            color: var(--gold);
+            color: var(--or-gold-bright);
             line-height: 1;
-            text-shadow: 0 4px 20px rgba(217, 119, 6,0.3);
+            text-shadow: 0 4px 20px rgba(201,168,76,0.3);
         }
 
         .stat-label {
@@ -616,11 +629,11 @@
         /* ==================== SECTIONS ==================== */
         .section {
             padding: 6rem 0;
-            background: var(--black);
+            background: var(--or-black);
         }
 
         .section-cream {
-            background: var(--black);
+            background: var(--or-black);
         }
 
         .section-header {
@@ -632,25 +645,25 @@
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.2em;
-            color: var(--gold-dark);
+            color: var(--or-gold-bright);
             text-transform: uppercase;
             margin-bottom: 0.75rem;
         }
 
         .section-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 3.5rem;
             text-transform: uppercase;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 0.5rem;
             letter-spacing: 0.02em;
         }
 
         .section-subtitle {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
             font-size: 1.15rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
         }
 
         /* ==================== 3D STEP CARDS ==================== */
@@ -720,16 +733,15 @@
         }
 
         .step-card {
-            background: var(--white);
+            background: var(--or-dark);
             border-radius: 20px;
             padding: 2.5rem 1.5rem;
             text-align: center;
             position: relative;
             transform-style: preserve-3d;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 
-                0 10px 40px rgba(0,0,0,0.08),
-                0 0 0 1px rgba(0,0,0,0.03);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
         }
 
         .step-card::before {
@@ -737,15 +749,15 @@
             position: absolute;
             inset: 0;
             border-radius: 20px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, transparent 50%);
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 50%);
             pointer-events: none;
         }
 
         .step-card:hover {
             transform: translateY(-12px) rotateX(5deg);
             box-shadow: 
-                0 30px 60px rgba(124, 58, 237,0.15),
-                0 0 0 1px rgba(217, 119, 6,0.2);
+                0 30px 60px rgba(63, 192, 65,0.15),
+                0 0 0 1px rgba(240, 165, 0,0.2);
         }
 
         .step-num {
@@ -755,31 +767,31 @@
             transform: translateX(-50%);
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            color: var(--green-dark);
+            background: linear-gradient(135deg, var(--or-gold-bright), var(--or-gold));
+            color: var(--or-white);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.1rem;
-            box-shadow: 0 8px 20px rgba(217, 119, 6,0.4);
+            box-shadow: 0 8px 20px rgba(201,168,76,0.4);
             z-index: 2;
         }
 
         .step-icon {
             width: 80px;
             height: 80px;
-            background: linear-gradient(145deg, var(--green), var(--green-dark));
+            background: linear-gradient(145deg, var(--or-gold), var(--or-gold-muted));
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0.5rem auto 1.5rem;
             font-size: 2rem;
-            color: var(--white);
-            box-shadow: 
-                0 15px 35px rgba(124, 58, 237,0.3),
+            color: var(--or-white);
+            box-shadow:
+                0 15px 35px rgba(201,168,76,0.3),
                 inset 0 1px 0 rgba(255,255,255,0.1);
             transform: translateZ(20px);
             transition: all 0.4s;
@@ -787,21 +799,21 @@
 
         .step-card:hover .step-icon {
             transform: translateZ(30px) scale(1.05);
-            box-shadow: 0 20px 45px rgba(124, 58, 237,0.4);
+            box-shadow: 0 20px 45px rgba(63, 192, 65,0.4);
         }
 
         .step-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.4rem;
             text-transform: uppercase;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 0.5rem;
             letter-spacing: 0.02em;
         }
 
         .step-desc {
             font-size: 0.9rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             line-height: 1.5;
         }
 
@@ -809,7 +821,7 @@
 
         /* ==================== MENU SECTION ==================== */
         .menu-section {
-            background: linear-gradient(160deg, var(--green) 0%, var(--green-dark) 50%, var(--green-deep) 100%);
+            background: linear-gradient(160deg, var(--or-dark) 0%, var(--or-black) 50%, var(--or-black) 100%);
             position: relative;
             overflow: hidden;
         }
@@ -819,12 +831,12 @@
             position: absolute;
             inset: 0;
             background: 
-                radial-gradient(ellipse at 10% 20%, rgba(217, 119, 6,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 10% 20%, rgba(240, 165, 0,0.08) 0%, transparent 50%),
                 radial-gradient(ellipse at 90% 80%, rgba(220, 38, 38,0.05) 0%, transparent 50%);
         }
 
-        .menu-section .section-label { color: var(--gold-light); }
-        .menu-section .section-title { color: var(--white); }
+        .menu-section .section-label { color: var(--or-gold-bright); }
+        .menu-section .section-title { color: var(--or-white); }
         .menu-section .section-subtitle { color: rgba(255,255,255,0.75); }
 
         /* Tier Headers */
@@ -855,26 +867,26 @@
         .tier-icon {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            background: linear-gradient(135deg, var(--or-gold-bright), var(--or-gold));
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--green-dark);
+            color: var(--or-white);
             font-size: 1.25rem;
-            box-shadow: 0 8px 25px rgba(217, 119, 6,0.35);
+            box-shadow: 0 8px 25px rgba(201,168,76,0.35);
         }
 
         .tier-name {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.6rem;
             text-transform: uppercase;
-            color: var(--white);
+            color: var(--or-white);
             letter-spacing: 0.02em;
         }
 
         .tier-price {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.75rem;
             color: var(--gold);
             background: rgba(0,0,0,0.25);
@@ -899,8 +911,7 @@
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
                 gap: 1rem;
-                padding: 1rem;
-                margin: 0 -1rem;
+                padding: 1rem 0;
                 scrollbar-width: none; /* Firefox */
                 -ms-overflow-style: none; /* IE/Edge */
             }
@@ -947,11 +958,11 @@
             }
             .carousel-wrapper::before {
                 left: 0;
-                background: linear-gradient(to right, var(--cream) 0%, transparent 100%);
+                background: linear-gradient(to right, var(--or-black) 0%, transparent 100%);
             }
             .carousel-wrapper::after {
                 right: 0;
-                background: linear-gradient(to left, var(--cream) 0%, transparent 100%);
+                background: linear-gradient(to left, var(--or-black) 0%, transparent 100%);
             }
 
             /* Scroll hint indicator */
@@ -969,7 +980,7 @@
                 transition: background 0.3s;
             }
             .scroll-hint span.active {
-                background: var(--gold);
+                background: var(--or-gold);
                 width: 24px;
                 border-radius: 4px;
             }
@@ -982,15 +993,14 @@
         }
 
         .product-card {
-            background: var(--white);
+            background: var(--or-dark);
             border-radius: 24px;
             overflow: hidden;
             position: relative;
             transform-style: preserve-3d;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 
-                0 20px 50px rgba(0,0,0,0.15),
-                0 0 0 1px rgba(255,255,255,0.1);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
         }
 
         .product-card::before {
@@ -1000,7 +1010,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--gold), var(--green), var(--gold));
+            background: var(--or-grad-brand);
             opacity: 0;
             transition: opacity 0.3s;
             z-index: 10;
@@ -1012,14 +1022,14 @@
 
         .product-card:hover {
             transform: translateY(-15px) rotateX(5deg) scale(1.02);
-            box-shadow: 
-                0 40px 80px rgba(0,0,0,0.25),
-                0 0 0 2px var(--gold);
+            box-shadow:
+                0 40px 80px rgba(0,0,0,0.4),
+                0 0 0 2px var(--or-gold);
         }
 
         .product-img {
             height: 160px;
-            background: linear-gradient(145deg, var(--green-light), var(--green));
+            background: linear-gradient(145deg, var(--or-gold), var(--or-gold-muted));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1036,7 +1046,7 @@
 
         .product-img i {
             font-size: 4rem;
-            color: var(--white);
+            color: var(--or-white);
             opacity: 0.15;
             transition: all 0.4s;
         }
@@ -1062,17 +1072,17 @@
 
         .product-badge.indica {
             background: linear-gradient(135deg, var(--red), var(--red-dark));
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .product-badge.sativa {
             background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
         }
 
         .product-badge.hybrid {
             background: linear-gradient(135deg, var(--green-light), var(--green));
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .product-content {
@@ -1081,10 +1091,10 @@
         }
 
         .product-name {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.35rem;
             text-transform: uppercase;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 0.25rem;
             letter-spacing: 0.02em;
         }
@@ -1100,7 +1110,7 @@
 
         .product-desc {
             font-size: 0.9rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             margin-bottom: 1.25rem;
             line-height: 1.5;
         }
@@ -1115,29 +1125,29 @@
             flex: 1;
             text-align: center;
             padding: 0.75rem 0.5rem;
-            background: var(--white);
+            background: var(--or-black);
             border-radius: 12px;
             border: 1px solid var(--gray-200);
             transition: all 0.3s;
         }
 
         .product-card:hover .stat-box {
-            background: var(--black);
-            border-color: rgba(217, 119, 6,0.2);
+            background: var(--or-black);
+            border-color: rgba(240, 165, 0,0.2);
         }
 
         .stat-box-label {
             font-size: 0.6rem;
             font-weight: 600;
-            color: var(--gray-400);
+            color: var(--or-grey-3);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .stat-box-value {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.05rem;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-top: 2px;
         }
 
@@ -1149,7 +1159,7 @@
 
         .tag {
             padding: 0.35rem 0.75rem;
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 50px;
             font-size: 0.7rem;
             font-weight: 600;
@@ -1158,8 +1168,8 @@
         }
 
         .product-card:hover .tag {
-            background: var(--green);
-            color: var(--white);
+            background: var(--or-gold);
+            color: var(--or-white);
         }
 
         /* ==================== 3D FEATURE CARDS ==================== */
@@ -1208,7 +1218,7 @@
         }
 
         .feature-card {
-            background: var(--white);
+            background: var(--or-dark);
             border-radius: 20px;
             padding: 2rem 1.5rem;
             text-align: center;
@@ -1216,7 +1226,7 @@
             transform-style: preserve-3d;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: var(--shadow-md);
-            border: 1px solid var(--gray-100);
+            border: 1px solid var(--gray-200);
         }
 
         .feature-card::before {
@@ -1224,49 +1234,49 @@
             position: absolute;
             inset: 0;
             border-radius: 20px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 50%);
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 50%);
             pointer-events: none;
         }
 
         .feature-card:hover {
             transform: translateY(-10px) rotateX(5deg);
             box-shadow: var(--shadow-xl);
-            border-color: var(--gold);
+            border-color: var(--or-gold);
         }
 
         .feature-icon {
             width: 70px;
             height: 70px;
-            background: linear-gradient(145deg, var(--gold-light), var(--gold));
+            background: linear-gradient(145deg, var(--or-gold-bright), var(--or-gold));
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.25rem;
             font-size: 1.75rem;
-            color: var(--green-dark);
-            box-shadow: var(--shadow-gold);
+            color: var(--or-white);
+            box-shadow: var(--or-shadow-gold);
             transform: translateZ(15px);
             transition: all 0.4s;
         }
 
         .feature-card:hover .feature-icon {
             transform: translateZ(25px) scale(1.1);
-            background: linear-gradient(145deg, var(--green-light), var(--green));
-            color: var(--gold);
+            background: linear-gradient(145deg, var(--or-gold), var(--or-gold-muted));
+            color: var(--or-gold);
         }
 
         .feature-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.15rem;
             text-transform: uppercase;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 0.5rem;
         }
 
         .feature-desc {
             font-size: 0.85rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             line-height: 1.5;
         }
 
@@ -1281,7 +1291,7 @@
         }
 
         .location-card {
-            background: var(--white);
+            background: var(--or-dark);
             border-radius: 24px;
             padding: 2.5rem 2rem;
             padding-top: 3rem;
@@ -1291,7 +1301,7 @@
             transform-style: preserve-3d;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: var(--shadow-md);
-            border: 1px solid var(--gray-100);
+            border: 1px solid var(--gray-200);
             overflow: visible;
         }
 
@@ -1302,7 +1312,7 @@
             left: 0;
             right: 0;
             height: 5px;
-            background: linear-gradient(90deg, var(--green), var(--gold), var(--red));
+            background: var(--or-grad-brand);
             transform: scaleX(0);
             transition: transform 0.4s;
         }
@@ -1314,40 +1324,56 @@
         .location-card:hover {
             transform: translateY(-12px) rotateX(5deg);
             box-shadow: var(--shadow-xl);
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         .location-icon {
             width: 70px;
             height: 70px;
-            background: linear-gradient(145deg, var(--green), var(--green-dark));
+            background: linear-gradient(145deg, var(--or-gold), var(--or-gold-muted));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
             font-size: 1.5rem;
-            color: var(--white);
-            box-shadow: var(--shadow-green);
+            color: var(--or-white);
+            box-shadow: var(--or-shadow-gold);
             transform: translateZ(15px);
             transition: all 0.4s;
+        }
+        .location-icon.has-img {
+            width: 100%;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: none;
+            box-shadow: none;
+        }
+        .location-icon.has-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .location-card:hover .location-icon {
             transform: translateZ(25px) scale(1.1);
         }
+        .location-card:hover .location-icon.has-img {
+            transform: translateZ(25px) scale(1.03);
+        }
 
         .location-name {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.5rem;
             text-transform: uppercase;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 0.5rem;
         }
 
         .location-address {
             font-size: 0.95rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             margin-bottom: 1.5rem;
             line-height: 1.5;
         }
@@ -1357,7 +1383,7 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.6rem 1.25rem;
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
@@ -1376,10 +1402,10 @@
 
         /* ==================== CTA ==================== */
         .cta {
-            background: linear-gradient(160deg, var(--green) 0%, var(--green-dark) 50%, var(--green-deep) 100%);
+            background: url('images/origin-site/tall-product-4.jpeg') center/cover no-repeat;
             padding: 6rem 0;
             text-align: center;
-            color: var(--white);
+            color: var(--or-white);
             position: relative;
             overflow: hidden;
         }
@@ -1388,7 +1414,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at center, rgba(217, 119, 6,0.15) 0%, transparent 60%);
+            background: linear-gradient(160deg, rgba(42,140,44,0.85) 0%, rgba(14,14,14,0.8) 100%);
         }
 
         .cta-content {
@@ -1397,7 +1423,7 @@
         }
 
         .cta h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 4rem;
             text-transform: uppercase;
             margin-bottom: 0.5rem;
@@ -1405,10 +1431,10 @@
         }
 
         .cta-tagline {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
             font-size: 1.35rem;
-            color: var(--gold-light);
+            color: var(--or-gold);
             margin-bottom: 1rem;
         }
 
@@ -1421,9 +1447,10 @@
 
         /* ==================== FOOTER ==================== */
         .footer {
-            background: var(--green-deep);
-            color: var(--white);
+            background: var(--or-black);
+            color: var(--or-white);
             padding: 4rem 0 2rem;
+            border-top: 1px solid var(--gray-200);
         }
 
         .footer-grid {
@@ -1443,28 +1470,28 @@
         .footer-logo-icon {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            background: transparent;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.25rem;
-            color: var(--green-dark);
+            color: var(--or-white);
         }
 
         .footer-brand {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.5rem;
             text-transform: uppercase;
         }
 
         .footer-brand span {
             display: block;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
             font-size: 0.85rem;
             font-weight: 400;
-            color: var(--gold-light);
+            color: var(--or-gold);
             text-transform: none;
         }
 
@@ -1493,16 +1520,16 @@
         }
 
         .footer-social a:hover {
-            background: var(--gold);
-            color: var(--green-dark);
+            background: var(--or-gold);
+            color: var(--or-white);
             transform: translateY(-4px);
         }
 
         .footer-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1rem;
             text-transform: uppercase;
-            color: var(--gold);
+            color: var(--or-gold-bright);
             margin-bottom: 1.5rem;
             letter-spacing: 0.05em;
         }
@@ -1518,7 +1545,7 @@
 
         .footer-links a:hover {
             opacity: 1;
-            color: var(--gold);
+            color: var(--or-gold-bright);
             padding-left: 0.5rem;
         }
 
@@ -1537,7 +1564,7 @@
             gap: 2rem;
         }
 
-        .footer-legal a:hover { color: var(--gold); }
+        .footer-legal a:hover { color: var(--or-gold-bright); }
 
         @media (max-width: 968px) {
             .footer-grid { grid-template-columns: 1fr; }
@@ -1552,7 +1579,7 @@
         .age-gate {
             position: fixed;
             inset: 0;
-            background: rgba(21,43,29,0.98);
+            background: rgba(10,10,10,0.98);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1563,14 +1590,14 @@
         .age-gate.hidden { display: none; }
 
         .age-gate-box {
-            background: var(--white);
+            background: var(--or-dark);
             border-radius: 28px;
             padding: 3rem;
             text-align: center;
             max-width: 400px;
             margin: 1rem;
             box-shadow: var(--shadow-xl);
-            border: 3px solid var(--gold);
+            border: 2px solid var(--or-gold);
             transform: translateY(0);
             animation: slideUp 0.5s ease-out;
         }
@@ -1581,29 +1608,24 @@
         }
 
         .age-gate-logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            width: 100px;
+            height: 100px;
             border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: block;
             margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: var(--green-dark);
-            box-shadow: var(--shadow-gold);
+            object-fit: contain;
         }
 
         .age-gate-box h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.75rem;
             text-transform: uppercase;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 0.5rem;
         }
 
         .age-gate-box p {
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             margin-bottom: 2rem;
             font-size: 0.95rem;
         }
@@ -1652,6 +1674,96 @@
             height: 60%;
         }
 
+        /* ==================== SWIPE GESTURE HINT ==================== */
+        .swipe-hint {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            pointer-events: none;
+            opacity: 0;
+            animation: swipeHintIn 0.6s 1.2s ease forwards;
+        }
+        .swipe-hint-inner {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            border: 1px solid rgba(201,168,76,0.3);
+            animation: swipeSlide 2s 1.8s ease-in-out 2;
+        }
+        .swipe-hint svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--or-gold);
+        }
+        .swipe-hint span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--or-grey-2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+        .swipe-hint.fade-out {
+            animation: swipeHintOut 0.4s ease forwards;
+        }
+        @keyframes swipeHintIn {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+            to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        @keyframes swipeSlide {
+            0%, 100% { transform: translateX(0); }
+            50%      { transform: translateX(-20px); }
+        }
+        @keyframes swipeHintOut {
+            to { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+        }
+        @media (min-width: 1025px) {
+            .swipe-hint { display: none; }
+        }
+
+        /* ==================== SCROLL REVEAL ANIMATIONS ==================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-card {
+            opacity: 0;
+            transform: translateY(40px) rotateX(8deg);
+            transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .reveal-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+        /* Stagger children */
+        .reveal-card:nth-child(2) { transition-delay: 0.1s; }
+        .reveal-card:nth-child(3) { transition-delay: 0.2s; }
+        .reveal-card:nth-child(4) { transition-delay: 0.3s; }
+        .reveal-card:nth-child(5) { transition-delay: 0.4s; }
+        .reveal-card:nth-child(6) { transition-delay: 0.5s; }
+
+        /* ==================== SUBTLE FLOAT ON HERO STATS ==================== */
+        @keyframes subtleFloat {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-6px); }
+        }
+        .hero-stat {
+            animation: subtleFloat 4s ease-in-out infinite;
+        }
+        .hero-stat:nth-child(2) { animation-delay: 0.5s; }
+        .hero-stat:nth-child(3) { animation-delay: 1s; }
+
     </style>
 </head>
 <body>
@@ -1659,14 +1771,14 @@
     <!-- Age Gate -->
     <div class="age-gate" id="ageGate">
         <div class="age-gate-box">
-            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" class="age-gate-logo" style="width:100px;height:100px;border-radius:20px;margin:0 auto 1.5rem;">
+            <img src="images/origin-logo.png" alt="Origin by ILCO Farming" class="age-gate-logo" style="width:100px;height:100px;border-radius:20px;margin:0 auto 1.5rem;">
             <h2>Age Verification</h2>
             <p>Please enter your date of birth to verify you are 18 years or older.</p>
             <div style="display: flex; gap: 10px; justify-content: center; margin: 20px 0;">
-                <select id="dobDay" style="padding: 12px; border-radius: 8px; border: 2px solid #ddd; font-size: 16px; min-width: 80px;">
+                <select id="dobDay" style="padding: 12px; border-radius: 8px; border: 1px solid #3A3A3A; font-size: 16px; background: #1A1A1A; color: #FAFAFA; min-width: 80px;">
                     <option value="">Day</option>
                 </select>
-                <select id="dobMonth" style="padding: 12px; border-radius: 8px; border: 2px solid #ddd; font-size: 16px; min-width: 120px;">
+                <select id="dobMonth" style="padding: 12px; border-radius: 8px; border: 1px solid #3A3A3A; font-size: 16px; background: #1A1A1A; color: #FAFAFA; min-width: 120px;">
                     <option value="">Month</option>
                     <option value="1">January</option>
                     <option value="2">February</option>
@@ -1681,7 +1793,7 @@
                     <option value="11">November</option>
                     <option value="12">December</option>
                 </select>
-                <select id="dobYear" style="padding: 12px; border-radius: 8px; border: 2px solid #ddd; font-size: 16px; min-width: 100px;">
+                <select id="dobYear" style="padding: 12px; border-radius: 8px; border: 1px solid #3A3A3A; font-size: 16px; background: #1A1A1A; color: #FAFAFA; min-width: 100px;">
                     <option value="">Year</option>
                 </select>
             </div>
@@ -1689,7 +1801,7 @@
             <button class="btn btn-gold" onclick="verifyAge()" style="width: 100%; padding: 14px; font-size: 16px;">
                 Verify Age
             </button>
-            <p style="margin-top: 15px; font-size: 12px; color: #666;">
+            <p style="margin-top: 15px; font-size: 12px; color: #9CA3AF;">
                 By entering, you confirm you are of legal age to purchase cannabis products in South Africa.
             </p>
         </div>
@@ -1699,11 +1811,7 @@
     <nav class="nav" id="nav">
         <div class="container nav-inner">
             <a href="#" class="nav-logo">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" class="nav-logo-img" style="width:48px;height:48px;border-radius:12px;filter:drop-shadow(0 4px 12px rgba(217, 119, 6,0.3));">
-                <div class="nav-brand">
-                    JIG Craft Cannabis
-                    <span>Craft Cannabis</span>
-                </div>
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming" class="nav-logo-img" style="width:48px;height:48px;border-radius:12px;filter:drop-shadow(0 4px 12px rgba(201,168,76,0.3));">
             </a>
             <div class="nav-links">
                 <a href="#how-it-works">How It Works</a>
@@ -1736,9 +1844,9 @@
                     SAHPRA Compliant · Section 21 Approved
                 </div>
 
-                <h1>De Bud <span>Chef</span></h1>
-                <div class="hero-tagline">"Craft Cannabis · Est. 2026 · Finest Goods"</div>
-                <p>South Africa's trusted medical cannabis collection points. Expert guidance, premium products, and personalised wellness solutions curated by our specialists.</p>
+                <h1>Origin</h1>
+                <div class="hero-tagline">"Premium Cannabis Care · Finest Goods"</div>
+                <p>South Africa's trusted Section 21 medical cannabis brand. Premium cannabis care rooted in agricultural expertise and family values.</p>
                 
                 <div class="hero-buttons">
                     <a href="register.html" class="btn btn-gold">
@@ -1751,16 +1859,16 @@
 
                 <div class="hero-stats">
                     <div class="hero-stat">
-                        <div class="stat-value">8</div>
+                        <div class="stat-value">2</div>
                         <div class="stat-label">Collection Points</div>
                     </div>
                     <div class="hero-stat">
-                        <div class="stat-value">50+</div>
-                        <div class="stat-label">Premium Products</div>
+                        <div class="stat-value">1,000+</div>
+                        <div class="stat-label">Satisfied Customers</div>
                     </div>
                     <div class="hero-stat">
                         <div class="stat-value">100%</div>
-                        <div class="stat-label">Lab Tested</div>
+                        <div class="stat-label">Section 21 Compliant</div>
                     </div>
                 </div>
             </div>
@@ -1775,6 +1883,14 @@
                 <h2 class="section-title">How It Works</h2>
                 <p class="section-subtitle">Access legal medical cannabis in four simple steps</p>
             </div>
+            <div style="position:relative;">
+                <div class="swipe-hint" id="stepsSwipeHint">
+                    <div class="swipe-hint-inner">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM297 377L201 281c-9.4-9.4-9.4-24.6 0-33.9l96-96c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L251.3 264l79.6 79.6c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0z"/></svg>
+                        <span>Swipe to browse</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM215 135l96 96c9.4 9.4 9.4 24.6 0 33.9l-96 96c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l79.6-79.6L181.1 168c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0z"/></svg>
+                    </div>
+                </div>
             <div class="steps-grid">
                 <div class="step-card">
                     <div class="step-num">1</div>
@@ -1797,9 +1913,10 @@
                 <div class="step-card">
                     <div class="step-num">4</div>
                     <div class="step-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M224 24l0 56-56 0c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l56 0 0 56c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-56 56 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-56 0 0-56c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM559.7 392.2c17.8-13.1 21.6-38.1 8.5-55.9s-38.1-21.6-55.9-8.5L392.6 416 272 416c-8.8 0-16-7.2-16-16s7.2-16 16-16l16 0 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0-16 0-78.3 0c-29.1 0-57.3 9.9-80 28L68.8 384 32 384c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l160 0 127.2 0c29.1 0 57.3-9.9 80-28l160.5-118.2z"/></svg></span></div>
-                    <h3 class="step-title">Collect</h3>
-                    <p class="step-desc">Pick up your medicine from any collection point</p>
+                    <h3 class="step-title">Receive</h3>
+                    <p class="step-desc">Get your products delivered to your door nationwide</p>
                 </div>
+            </div>
             </div>
         </div>
     </section>
@@ -1808,7 +1925,7 @@
     <section class="section menu-section" id="menu">
         <div class="container">
             <div class="section-header">
-                <div class="section-label">JIG Craft Cannabis Collection</div>
+                <div class="section-label">Origin by ILCO Farming Collection</div>
                 <h2 class="section-title">Our Products</h2>
                 <p class="section-subtitle">Premium glassware, CBD wellness, and lifestyle accessories</p>
             </div>
@@ -1823,9 +1940,16 @@
                     <div class="tier-price"><a href="products.html" style="color: var(--gold); text-decoration: none;">View All</a></div>
                 </div>
                 <div class="carousel-wrapper">
+                    <div class="swipe-hint" id="productsSwipeHint">
+                        <div class="swipe-hint-inner">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM297 377L201 281c-9.4-9.4-9.4-24.6 0-33.9l96-96c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L251.3 264l79.6 79.6c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0z"/></svg>
+                            <span>Swipe to browse</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM215 135l96 96c9.4 9.4 9.4 24.6 0 33.9l-96 96c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l79.6-79.6L181.1 168c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0z"/></svg>
+                        </div>
+                    </div>
                     <div class="products-grid" id="featuredProductsGrid">
                         <!-- Loading state -->
-                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--purple);">
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--or-gold);">
                             <div style="font-size: 2rem; margin-bottom: 1rem;">Loading products...</div>
                         </div>
                     </div>
@@ -1833,9 +1957,9 @@
                 </div>
             </div>
             <!-- Member Benefits Callout -->
-            <div class="tier-block" style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); border-radius: 20px; padding: 2rem; margin-top: 2rem;">
-                <div style="text-align: center; color: var(--white);">
-                    <h3 style="font-family: 'Oswald', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem; text-transform: uppercase;">Members Get More</h3>
+            <div class="tier-block" style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); border-radius: 20px; padding: 2rem; margin-top: 2rem;">
+                <div style="text-align: center; color: var(--or-white);">
+                    <h3 style="font-family: 'Cinzel', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem; text-transform: uppercase;">Members Get More</h3>
                     <p style="font-size: 1rem; opacity: 0.9; margin-bottom: 1.5rem;">Register for exclusive access to our full product range including medical cannabis (Section 21), member pricing, and loyalty rewards</p>
                     <a href="register.html" style="display: inline-block; background: var(--gold); color: var(--gray-900); padding: 1rem 2.5rem; border-radius: 12px; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; transition: all 0.3s;">Become a Member</a>
                 </div>
@@ -1843,13 +1967,25 @@
         </div>
     </section>
 
-    <!-- Features -->
-    <section class="section" id="about">
-        <div class="container">
+    <!-- About -->
+    <section class="section" id="about" style="position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:url('images/origin-site/gallery-07.jpeg') center/cover no-repeat;opacity:0.12;"></div>
+        <div class="container" style="position:relative;z-index:1;">
             <div class="section-header">
-                <div class="section-label">Why Choose Us</div>
-                <h2 class="section-title">Craft Cannabis</h2>
-                <p class="section-subtitle">Your wellness journey, backed by expertise and compliance</p>
+                <div class="section-label">Our Story</div>
+                <h2 class="section-title">About Origin</h2>
+                <p class="section-subtitle">Premium Cannabis Care, rooted in family and purpose</p>
+            </div>
+            <div style="max-width:800px;margin:0 auto 3rem;text-align:center;">
+                <p style="color:var(--or-grey-2);font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem;">
+                    Origin by ILCO Farming was built on a foundation of agricultural expertise and a genuine passion for plant-based wellness. With deep roots in South Africa's farming sector, <strong style="color:#fff;">ILCO Farming (Pty) Ltd</strong> brings decades of cultivation know-how to the cannabis space.
+                </p>
+                <p style="color:var(--or-grey-2);font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem;">
+                    Our mission is simple: make premium, SAHPRA-compliant medical cannabis accessible and affordable. From our <strong style="color:#fff;">Potchefstroom collection point</strong> and online store, we serve patients across South Africa with lab-tested flower, oils, edibles, and topicals &mdash; all curated with care.
+                </p>
+                <p style="color:var(--or-grey-2);font-size:1.05rem;line-height:1.8;">
+                    At Origin, we believe in growing more than cannabis &mdash; we grow trust, community, and a future where natural medicine is available to all South Africans.
+                </p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
@@ -1863,14 +1999,14 @@
                     <p class="feature-desc">Operating fully within SA legal frameworks</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-96 55.2C54 332.9 0 401.3 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7c0-81-54-149.4-128-171.1l0 50.8c27.6 7.1 48 32.2 48 62l0 40c0 8.8-7.2 16-16 16l-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l0-24c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 24c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0c-8.8 0-16-7.2-16-16l0-40c0-29.8 20.4-54.9 48-62l0-57.1c-6-.6-12.1-.9-18.3-.9l-91.4 0c-6.2 0-12.3 .3-18.3 .9l0 65.4c23.1 6.9 40 28.3 40 53.7c0 30.9-25.1 56-56 56s-56-25.1-56-56c0-25.4 16.9-46.8 40-53.7l0-59.1zM144 448a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/></svg></span></div>
-                    <h3 class="feature-title">Doctor Network</h3>
-                    <p class="feature-desc">Partner cannabinoid prescribers across SA</p>
+                    <div class="feature-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M512 32c0 113.6-84.6 207.5-194.2 222c-7.1-53.4-30.6-101.6-65.3-139.3C290.8 46.3 364 0 448 0h32c17.7 0 32 14.3 32 32zM0 96C0 78.3 14.3 64 32 64H64c123.7 0 224 100.3 224 224v32 96c0 17.7-14.3 32-32 32s-32-14.3-32-32V320C224 196.3 123.7 96 0 96z"/></svg></span></div>
+                    <h3 class="feature-title">Organically Grown</h3>
+                    <p class="feature-desc">Agricultural expertise from the ILCO Farming legacy</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"/></svg></span></div>
-                    <h3 class="feature-title">Secure & Private</h3>
-                    <p class="feature-desc">Your information is protected and confidential</p>
+                    <div class="feature-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V400 352c0-26.5-21.5-48-48-48H272c-26.5 0-48 21.5-48 48v48 120c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg></span></div>
+                    <h3 class="feature-title">Online + In-Store</h3>
+                    <p class="feature-desc">Shop online or visit us in Potchefstroom</p>
                 </div>
             </div>
         </div>
@@ -1881,68 +2017,34 @@
         <div class="container">
             <div class="section-header">
                 <div class="section-label">Find Us</div>
-                <h2 class="section-title">Collection Points</h2>
-                <p class="section-subtitle">Visit us at our 8 locations across South Africa</p>
+                <h2 class="section-title">Our Stores</h2>
+                <p class="section-subtitle">Potchefstroom collection point + nationwide online delivery</p>
             </div>
+
+            <!-- Online Store - Featured -->
+            <div style="display:flex;justify-content:center;margin-bottom:2rem;">
+                <div class="location-card" onclick="window.location.href='products.html'" style="cursor:pointer; border: 2px solid var(--or-gold); box-shadow: 0 0 20px rgba(201,168,76,0.3); max-width: 500px; width:100%; position:relative;">
+                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--or-gold);color:var(--or-white);padding:4px 16px;border-radius:20px;font-size:0.75rem;font-weight:700;text-transform:uppercase;">Shop Online</div>
+                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><path d="M58.9 42.1c3-6.1 9.6-9.6 16.3-8.7L320 64 564.8 33.4c6.7-.8 13.3 2.7 16.3 8.7l41.7 83.4c9 17.9-.6 39.6-19.8 45.1L439.6 217.3c-13.9 4-28.8-1.9-36.2-14.3L320 64 236.6 203c-7.4 12.4-22.3 18.3-36.2 14.3L37 170.6c-19.3-5.5-28.8-27.2-19.8-45.1L58.9 42.1zM321.1 128l54.9 91.4c14.9 24.8 44.6 36.6 72.5 28.6L576 211.6l0 167c0 22-15 41.2-36.4 46.6l-204.1 51c-10.2 2.6-20.9 2.6-31 0l-204.1-51C79 419.7 64 400.5 64 378.5l0-166.9L191.5 248c27.8 8 57.6-3.8 72.5-28.6L318.9 128l2.2 0z"/></svg></span></div>
+                    <h3 class="location-name" style="color:var(--or-gold);">Origin Online Store</h3>
+                    <p class="location-address">Shop from anywhere in South Africa<br>Nationwide Delivery</p>
+                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Open 24/7</div>
+                    <div style="margin-top:1rem;"><span style="background:var(--or-gold);color:var(--or-white);padding:8px 20px;border-radius:8px;font-size:0.85rem;font-weight:600;">Shop Now</span></div>
+                </div>
+            </div>
+
+            <!-- Physical Stores Grid -->
             <div class="locations-grid">
-                <div class="location-card" onclick="window.location.href='ormonde.html'" style="cursor:pointer; border: 2px solid var(--gold); box-shadow: 0 0 20px rgba(217, 119, 6,0.3);">
-                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--green-dark);padding:4px 16px;border-radius:20px;font-size:0.75rem;font-weight:700;text-transform:uppercase;">Now Open</div>
-                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
-                    <h3 class="location-name" style="color:var(--gold);">Ormonde</h3>
-                    <p class="location-address">Ormonde, Johannesburg South<br>Gauteng</p>
-                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
-                    <div style="margin-top:1rem;"><span style="background:var(--green);color:var(--white);padding:8px 20px;border-radius:8px;font-size:0.85rem;font-weight:600;">Shop Now</span></div>
-                </div>
-                <div class="location-card" onclick="window.location.href='spruitview.html'" style="opacity:0.7;cursor:pointer;">
-                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
-                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
-                    <h3 class="location-name">Spruitview</h3>
-                    <p class="location-address">Spruitview, Ekurhuleni<br>Gauteng</p>
-                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
-                </div>
-                <div class="location-card" onclick="window.location.href='rustenburg.html'" style="opacity:0.7;cursor:pointer;">
-                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
-                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
-                    <h3 class="location-name">Rustenburg</h3>
-                    <p class="location-address">Rustenburg<br>North West</p>
-                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
-                </div>
-                <div class="location-card" onclick="window.location.href='klerksdorp.html'" style="opacity:0.7;cursor:pointer;">
-                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
-                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
-                    <h3 class="location-name">Klerksdorp</h3>
-                    <p class="location-address">Klerksdorp<br>North West</p>
-                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
-                </div>
-                <div class="location-card" onclick="window.location.href='mayfair.html'" style="opacity:0.7;cursor:pointer;">
-                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
-                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
-                    <h3 class="location-name">Mayfair</h3>
-                    <p class="location-address">Mayfair, Johannesburg<br>Gauteng</p>
-                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
-                </div>
-                <div class="location-card" onclick="window.location.href='ladybrand.html'" style="opacity:0.7;cursor:pointer;">
-                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
-                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
-                    <h3 class="location-name">Ladybrand</h3>
-                    <p class="location-address">Ladybrand<br>Free State</p>
-                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
-                </div>
-                <div class="location-card" onclick="window.location.href='ficksburg.html'" style="opacity:0.7;cursor:pointer;">
-                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
-                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
-                    <h3 class="location-name">Ficksburg</h3>
-                    <p class="location-address">Ficksburg<br>Free State</p>
-                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
-                </div>
-                <div class="location-card" onclick="window.location.href='wonderboom.html'" style="opacity:0.7;cursor:pointer;">
-                    <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gray-500);color:var(--white);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;">Coming Soon</div>
-                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg></span></div>
-                    <h3 class="location-name">Wonderboom</h3>
-                    <p class="location-address">Wonderboom, Pretoria<br>Gauteng</p>
-                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon - Sat: 9:00 - 17:00</div>
+                <!-- Potchefstroom -->
+                <div class="location-card">
+                    <div class="location-icon"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg></span></div>
+                    <h3 class="location-name">Potchefstroom</h3>
+                    <p class="location-address">Potchefstroom<br>North West 2531</p>
+                    <div class="location-hours"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg></span> Mon-Fri 09:00-19:00 | Sat 09:00-17:00</div>
+                    <p style="color:var(--or-grey-2);font-size:0.8rem;margin-top:0.5rem;">+27 84 796 8457</p>
                 </div>
             </div>
+        </div>
     </section>
 
     <!-- CTA -->
@@ -1950,9 +2052,9 @@
         <div class="container">
             <div class="cta-content">
                 <h2>Begin Your Journey</h2>
-                <div class="cta-tagline">"Craft Cannabis · Finest Goods"</div>
+                <div class="cta-tagline">"Premium Cannabis Care · Finest Goods"</div>
                 <p>Join thousands of South Africans accessing legal medical cannabis. Register today.</p>
-                <a href="#" class="btn btn-gold"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></span> Get Started Today</a>
+                <a href="register.html" class="btn btn-gold"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></span> Get Started Today</a>
             </div>
         </div>
     </section>
@@ -1963,15 +2065,15 @@
             <div class="footer-grid">
                 <div>
                     <div class="footer-logo">
-                        <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="width:50px;height:50px;border-radius:12px;">
-                        <div class="footer-brand">JIG Craft Cannabis<span>"Craft Cannabis"</span></div>
+                        <img src="images/origin-logo.png" alt="Origin by ILCO Farming" style="width:50px;height:50px;border-radius:12px;">
+                        <div class="footer-brand">Origin by ILCO Farming<span>"Premium Cannabis Care"</span></div>
                     </div>
                     <p class="footer-desc">South Africa's trusted medical cannabis wellness destination. Quality products, expert guidance, and compassionate care.</p>
                     <div class="footer-social">
-                        <a href="#"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"/></svg></span></a>
-                        <a href="#"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></span></a>
-                        <a href="#"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></span></a>
-                        <a href="#"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg></span></a>
+                        <a href="https://facebook.com/origincannabis" target="_blank" title="Facebook"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"/></svg></span></a>
+                        <a href="https://instagram.com/origincannabis" target="_blank" title="Instagram"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></span></a>
+                        <a href="https://wa.me/27847968457" target="_blank" title="WhatsApp"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></span></a>
+                        <a href="https://tiktok.com/@origincannabis" target="_blank" title="TikTok"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg></span></a>
                     </div>
                 </div>
                 <div>
@@ -1986,26 +2088,26 @@
                 <div>
                     <h4 class="footer-title">Resources</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Cannabis Education</a></li>
-                        <li><a href="#">Section 21 Guide</a></li>
-                        <li><a href="#">Find a Doctor</a></li>
-                        <li><a href="#">FAQs</a></li>
+                        <li><a href="section21-info.html">Section 21 Guide</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="footer-title">Contact</h4>
                     <ul class="footer-links">
                         <li><a href="/cdn-cgi/l/email-protection#f59d9099999ab59194978091969d9093db969adb8f94"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></span> <span class="__cf_email__" data-cfemail="f69e939a9a99b69297948392959e9390d89599d88c97">[email&#160;protected]</span></a></li>
-                        <li><a href="tel:+27100000000"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg></span> +27 10 000 0000</a></li>
-                        <li><a href="#"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></span> WhatsApp Us</a></li>
+                        <li><a href="tel:+27847968457"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg></span> +27 84 796 8457</a></li>
+                        <li><a href="https://wa.me/27847968457" target="_blank"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg></span> WhatsApp Us</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 JIG Craft Cannabis. All rights reserved.</p>
+                <p>&copy; 2026 Origin by ILCO Farming (Pty) Ltd. All rights reserved.</p>
                 <div class="footer-legal">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
                 </div>
             </div>
         </div>
@@ -2038,8 +2140,8 @@
     </div>
 
     <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <script src="/frontend/or-utils.js"></script>
+    <script src="/frontend/or-auth.js"></script>
     <script>
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
@@ -2208,7 +2310,7 @@
                     const products = data.products || data.data || [];
 
                     if (products.length === 0) {
-                        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--purple);">No products available. Check back soon!</div>';
+                        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--or-gold);">No products available. Check back soon!</div>';
                         return;
                     }
 
@@ -2216,20 +2318,20 @@
                     grid.innerHTML = products.map(product => {
                         const imageUrl = product.images && product.images.length > 0
                             ? product.images[0].url
-                            : '/images/jig-logo-nobg.png';
+                            : '/images/origin-logo.png';
                         const category = product.category || 'Product';
                         const desc = product.shortDescription || product.description || '';
                         const truncatedDesc = desc.length > 100 ? desc.substring(0, 100) + '...' : desc;
 
                         return `
                             <div class="product-card">
-                                <div class="product-img" style="background: linear-gradient(145deg, var(--green), var(--green-dark)); position: relative;">
+                                <div class="product-img" style="background: linear-gradient(145deg, var(--or-gold), var(--or-gold-muted)); position: relative;">
                                     <span class="product-badge" style="background: var(--gold);">${category}</span>
-                                    <img src="${imageUrl}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; padding: 1rem;" onerror="this.src='/images/jig-logo-nobg.png'">
+                                    <img src="${imageUrl}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: contain; padding: 1rem;" onerror="this.src='/images/origin-logo.png'">
                                 </div>
                                 <div class="product-content">
                                     <h3 class="product-name">${product.name}</h3>
-                                    <p class="product-genetics">${product.brand || 'JIG Craft Cannabis'}</p>
+                                    <p class="product-genetics">${product.brand || 'Origin by ILCO Farming'}</p>
                                     <p class="product-desc">${truncatedDesc}</p>
                                     <div class="product-stats">
                                         <div class="stat-box">
@@ -2320,7 +2422,7 @@
                             name: item.name,
                             price: item.price,
                             quantity: item.quantity,
-                            image: item.image || '/images/jig-logo-nobg.png'
+                            image: item.image || '/images/origin-logo.png'
                         }));
                         updateCartUI();
                         return;
@@ -2368,8 +2470,9 @@
                             name: item.name,
                             price: item.price,
                             quantity: item.quantity,
-                            image: item.image || '/images/jig-logo-nobg.png'
+                            image: item.image || '/images/origin-logo.png'
                         }));
+                        localStorage.setItem('cart', JSON.stringify(cart));
                         updateCartUI();
                         toggleCart();
                         showToast('Added to cart', name + ' has been added to your cart');
@@ -2391,7 +2494,7 @@
                     name: name,
                     price: price,
                     quantity: 1,
-                    image: image || '/images/jig-logo-nobg.png'
+                    image: image || '/images/origin-logo.png'
                 });
             }
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -2433,7 +2536,7 @@
                             name: item.name,
                             price: item.price,
                             quantity: item.quantity,
-                            image: item.image || '/images/jig-logo-nobg.png'
+                            image: item.image || '/images/origin-logo.png'
                         }));
                         updateCartUI();
                         return;
@@ -2475,7 +2578,7 @@
                             name: item.name,
                             price: item.price,
                             quantity: item.quantity,
-                            image: item.image || '/images/jig-logo-nobg.png'
+                            image: item.image || '/images/origin-logo.png'
                         }));
                         updateCartUI();
                         return;
@@ -2512,7 +2615,7 @@
                 cartItems.innerHTML = cart.map(item => `
                     <div class="cart-item">
                         <div class="cart-item-img">
-                            <img src="${item.image || '/images/jig-logo-nobg.png'}" alt="${item.name}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.src='/images/jig-logo-nobg.png'">
+                            <img src="${item.image || '/images/origin-logo.png'}" alt="${item.name}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.src='/images/origin-logo.png'">
                         </div>
                         <div class="cart-item-info">
                             <div class="cart-item-name">${item.name}</div>
@@ -2536,6 +2639,50 @@
             }
             window.location.href = 'cart.html';
         }
+
+        // ==================== SCROLL REVEAL ====================
+        (function() {
+            // Add reveal classes to section headers
+            document.querySelectorAll('.section-header').forEach(el => el.classList.add('reveal'));
+            // Add reveal-card to step-card, feature-card, location-card
+            document.querySelectorAll('.step-card, .feature-card, .location-card').forEach(el => el.classList.add('reveal-card'));
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+            document.querySelectorAll('.reveal, .reveal-card').forEach(el => observer.observe(el));
+        })();
+
+        // ==================== SWIPE HINT DISMISSAL ====================
+        (function() {
+            function dismissHint(hintId, scrollEl) {
+                const hint = document.getElementById(hintId);
+                if (!hint) return;
+                const dismiss = () => {
+                    hint.classList.add('fade-out');
+                    setTimeout(() => hint.remove(), 500);
+                    scrollEl.removeEventListener('scroll', dismiss);
+                    scrollEl.removeEventListener('touchstart', dismiss);
+                };
+                scrollEl.addEventListener('scroll', dismiss, { once: true });
+                scrollEl.addEventListener('touchstart', dismiss, { once: true });
+                // Auto-dismiss after 5s
+                setTimeout(() => { if (document.getElementById(hintId)) dismiss(); }, 5000);
+            }
+
+            // Wait for DOM ready, then wire up
+            setTimeout(() => {
+                const stepsGrid = document.querySelector('.steps-grid');
+                if (stepsGrid) dismissHint('stepsSwipeHint', stepsGrid);
+                const productsGrid = document.getElementById('featuredProductsGrid');
+                if (productsGrid) dismissHint('productsSwipeHint', productsGrid);
+            }, 500);
+        })();
 
     </script>
     <style>

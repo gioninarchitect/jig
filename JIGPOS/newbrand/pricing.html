@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --or-black: #0A0A0A;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-dark-3: #252525;
+            --or-gold: #C9A84C;
+            --or-gold-bright: #D4B86A;
+            --or-gold-muted: #8B6914;
+            --or-gold-light: #E8D5A3;
+            --or-white: #F5F0E8;
+            --or-grey: #A89F8C;
+            --or-grey-dark: #6B6458;
+            --or-green: #4A7C3F;
+            --or-red: #B91C1C;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--or-black);
+            color: var(--or-white);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .header {
+            text-align: center;
+            padding: 48px 20px 24px;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            width: 600px; height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
+            top: -300px; right: -200px;
+            pointer-events: none;
+        }
+
+        .header img {
+            height: 64px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 2px 16px rgba(201,168,76,0.15));
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .header h1 span {
+            background: linear-gradient(180deg, #E8D5A3 0%, #C9A84C 50%, #8B6914 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--or-grey);
+            font-size: 1rem;
+            margin-top: 10px;
+            letter-spacing: 0.02em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ── Store Band Toggle ── */
+        .band-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin: 30px auto 40px;
+            background: var(--or-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 500px;
+            border: 1px solid var(--or-dark-3);
+        }
+
+        .band-btn {
+            flex: 1;
+            padding: 14px 24px;
+            background: transparent;
+            color: var(--or-grey);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .band-btn.active {
+            background: var(--or-gold);
+            color: var(--or-black);
+        }
+
+        .band-btn:hover:not(.active) {
+            color: var(--or-white);
+            background: var(--or-dark-2);
+        }
+
+        /* ── Pricing Grid ── */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 900px) {
+            .pricing-grid { grid-template-columns: 1fr; max-width: 450px; margin-left: auto; margin-right: auto; }
+        }
+
+        .tier-card {
+            background: var(--or-dark);
+            border: 1px solid var(--or-dark-3);
+            border-radius: 12px;
+            padding: 0;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+            position: relative;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(201,168,76,0.3);
+        }
+
+        .tier-card.featured {
+            border-color: var(--or-gold);
+        }
+
+        .tier-card.featured::before {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: linear-gradient(135deg, #8B6914, #C9A84C, #E8D5A3);
+            color: var(--or-black);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            padding: 6px 16px;
+            border-bottom-left-radius: 12px;
+        }
+
+        .tier-header {
+            padding: 32px 28px 20px;
+        }
+
+        .tier-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--or-gold);
+            margin-bottom: 8px;
+        }
+
+        .tier-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
+        }
+
+        .tier-desc {
+            color: var(--or-grey);
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        /* ── Pricing Block ── */
+        .pricing-block {
+            padding: 20px 28px;
+            border-top: 1px solid var(--or-dark-3);
+        }
+
+        .pricing-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .pricing-label {
+            font-size: 0.85rem;
+            color: var(--or-grey);
+        }
+
+        .pricing-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--or-white);
+        }
+
+        .pricing-value.highlight {
+            color: var(--or-gold);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .pricing-value small {
+            font-size: 0.65rem;
+            color: var(--or-grey);
+            font-weight: 400;
+        }
+
+        .setup-fee {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--or-grey-dark);
+            margin-top: 4px;
+        }
+
+        /* ── Features List ── */
+        .features-block {
+            padding: 20px 28px 28px;
+            border-top: 1px solid var(--or-dark-3);
+        }
+
+        .features-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--or-gold);
+            margin-bottom: 14px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.88rem;
+            color: var(--or-white);
+        }
+
+        .feature-item i {
+            color: var(--or-gold);
+            font-size: 0.75rem;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .feature-item.addon {
+            color: var(--or-gold-bright);
+            font-weight: 600;
+        }
+
+        /* ── CTA Button ── */
+        .tier-cta {
+            display: block;
+            margin: 0 28px 28px;
+            padding: 14px;
+            text-align: center;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .tier-cta.primary {
+            background: linear-gradient(135deg, #8B6914, #C9A84C, #E8D5A3, #C9A84C);
+            color: var(--or-black);
+        }
+
+        .tier-cta.primary:hover {
+            box-shadow: 0 8px 32px rgba(201,168,76,0.3);
+            transform: translateY(-2px);
+        }
+
+        .tier-cta.outline {
+            background: transparent;
+            color: var(--or-gold);
+            border: 1px solid var(--or-gold);
+        }
+
+        .tier-cta.outline:hover {
+            background: rgba(201,168,76,0.08);
+        }
+
+        /* ── Comparison Table ── */
+        .comparison {
+            margin-top: 20px;
+            margin-bottom: 60px;
+        }
+
+        .comparison h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 30px;
+        }
+
+        .comparison h2 span {
+            color: var(--or-gold);
+        }
+
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--or-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--or-dark-3);
+        }
+
+        .comp-table th {
+            background: var(--or-dark-2);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 14px 16px;
+            text-align: left;
+            color: var(--or-gold);
+            border-bottom: 1px solid rgba(201,168,76,0.15);
+        }
+
+        .comp-table th:not(:first-child) {
+            text-align: center;
+        }
+
+        .comp-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--or-dark-3);
+            font-size: 0.88rem;
+            color: var(--or-white);
+        }
+
+        .comp-table td:not(:first-child) {
+            text-align: center;
+        }
+
+        .comp-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comp-table .check {
+            color: var(--or-gold);
+            font-size: 1.1rem;
+        }
+
+        .comp-table .dash {
+            color: var(--or-dark-3);
+        }
+
+        .comp-table .section-row td {
+            background: var(--or-dark-2);
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--or-gold);
+            padding: 10px 16px;
+        }
+
+        /* ── Summary Cards ── */
+        .summary-section {
+            margin-top: 20px;
+            margin-bottom: 60px;
+        }
+
+        .summary-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 30px;
+        }
+
+        .summary-section h2 span {
+            color: var(--or-gold);
+        }
+
+        .summary-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 700px) {
+            .summary-row { grid-template-columns: 1fr; }
+        }
+
+        .summary-card {
+            background: var(--or-dark);
+            border: 1px solid var(--or-dark-3);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .summary-card-tag {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .summary-card-tag.per-store {
+            background: rgba(201,168,76,0.1);
+            color: var(--or-gold);
+            border: 1px solid rgba(201,168,76,0.2);
+        }
+
+        .summary-card-tag.flat {
+            background: rgba(168,159,140,0.08);
+            color: var(--or-grey);
+            border: 1px solid rgba(168,159,140,0.15);
+        }
+
+        .summary-card-tag.once-off {
+            background: rgba(74,124,63,0.1);
+            color: var(--or-green);
+            border: 1px solid rgba(74,124,63,0.2);
+        }
+
+        .summary-card h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+        }
+
+        .summary-card .price-big {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--or-gold);
+            margin: 12px 0 4px;
+        }
+
+        .summary-card .price-note {
+            font-size: 0.82rem;
+            color: var(--or-grey-dark);
+        }
+
+        .summary-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .example-block {
+            background: var(--or-dark);
+            border: 1px solid var(--or-gold);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 16px;
+        }
+
+        .example-block h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 16px;
+            color: var(--or-white);
+        }
+
+        .example-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--or-dark-3);
+            font-size: 0.9rem;
+        }
+
+        .example-line:last-child { border-bottom: none; }
+
+        .example-line .label {
+            color: var(--or-grey);
+        }
+
+        .example-line .label .tag {
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 6px;
+            vertical-align: middle;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+        }
+
+        .example-line .label .tag.ps {
+            background: rgba(201,168,76,0.1);
+            color: var(--or-gold);
+        }
+
+        .example-line .label .tag.fl {
+            background: rgba(168,159,140,0.08);
+            color: var(--or-grey);
+        }
+
+        .example-line .label .tag.once {
+            background: rgba(74,124,63,0.08);
+            color: var(--or-green);
+        }
+
+        .example-line .calc {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--or-white);
+            text-align: right;
+        }
+
+        .example-line.total {
+            border-top: 2px solid rgba(201,168,76,0.3);
+            border-bottom: none;
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+
+        .example-line.total .label {
+            font-weight: 700;
+            color: var(--or-white);
+            font-size: 1rem;
+        }
+
+        .example-line.total .calc {
+            color: var(--or-gold);
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--or-grey-dark);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--or-dark-3);
+        }
+
+        .footer strong {
+            color: var(--or-gold);
+        }
+
+        /* ── Volume note ── */
+        .volume-note {
+            text-align: center;
+            margin: -10px 0 30px;
+            padding: 16px 24px;
+            background: rgba(201,168,76,0.05);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 10px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 0.9rem;
+        }
+
+        .volume-note i {
+            color: var(--or-gold);
+            margin-right: 6px;
+        }
+
+        .volume-note strong {
+            color: var(--or-gold);
+        }
+
+        /* Band-specific visibility */
+        .band-standard { display: block; }
+        .band-volume { display: none; }
+        body.volume .band-standard { display: none; }
+        body.volume .band-volume { display: block; }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            .header { padding: 32px 16px 16px; }
+            .header h1 { font-size: 1.6rem; }
+            .header p { font-size: 0.88rem; }
+            .container { padding: 12px; }
+            .band-toggle { max-width: 100%; }
+            .band-btn { padding: 12px 10px; font-size: 0.75rem; }
+            .pricing-grid { gap: 16px; margin-bottom: 40px; }
+            .tier-header { padding: 24px 20px 16px; }
+            .tier-name { font-size: 1.3rem; }
+            .pricing-block { padding: 16px 20px; }
+            .features-block { padding: 16px 20px 20px; }
+            .tier-cta { margin: 0 20px 20px; }
+
+            /* Comparison table scroll */
+            .comparison { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .comp-table { min-width: 520px; font-size: 0.82rem; }
+            .comp-table th, .comp-table td { padding: 10px 10px; white-space: nowrap; }
+            .comp-table td:first-child { white-space: normal; min-width: 160px; }
+
+            .summary-section h2, .comparison h2 { font-size: 1.3rem; }
+            .summary-card { padding: 18px; }
+            .summary-card .price-big { font-size: 1.5rem; }
+            .summary-card h3 { font-size: 1rem; }
+
+            .example-block { padding: 18px; }
+            .example-block h3 { font-size: 0.95rem; }
+            .example-line { flex-wrap: wrap; gap: 4px; }
+            .example-line .label { font-size: 0.82rem; }
+            .example-line .calc { font-size: 0.82rem; }
+            .example-line.total .label { font-size: 0.9rem; }
+            .example-line.total .calc { font-size: 1.1rem; }
+
+            .footer { padding: 28px 16px; font-size: 0.78rem; }
+        }
+
+        @media (max-width: 420px) {
+            .header h1 { font-size: 1.35rem; }
+            .tier-name { font-size: 1.15rem; }
+            .pricing-value.highlight { font-size: 1.25rem; }
+            .example-line .label .tag { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="images/origin-logo.png" alt="Origin">
+        <h1>Simple, <span>Transparent</span> Pricing</h1>
+        <p>Everything you need to run your cannabis collection points — one platform, one price.</p>
+    </div>
+
+    <div class="container">
+
+        <!-- Store Band Toggle -->
+        <div class="band-toggle">
+            <button class="band-btn active" onclick="setBand('standard')">1 - 9 Stores</button>
+            <button class="band-btn" onclick="setBand('volume')">10+ Stores</button>
+        </div>
+
+        <!-- Volume Discount Note -->
+        <div class="volume-note band-volume">
+            <i class="fas fa-tags"></i> <strong>Volume discount:</strong> R5,000 setup (save 50%) and R999/mo per store
+        </div>
+
+        <!-- ══════════════════════ PRICING CARDS ══════════════════════ -->
+        <div class="pricing-grid">
+
+            <!-- TIER 1: CORE -->
+            <div class="tier-card featured">
+                <div class="tier-header">
+                    <div class="tier-label">Tier 1</div>
+                    <div class="tier-name">Core</div>
+                    <div class="tier-desc">Everything you need to run your collection points — POS, stock management, inventory dashboard, marketing website, and compliance.</div>
+                </div>
+
+                <div class="pricing-block">
+                    <div class="band-standard">
+                        <div class="pricing-row">
+                            <span class="pricing-label">Monthly per store</span>
+                            <span class="pricing-value highlight">R999<small>/mo</small></span>
+                        </div>
+                        <div class="setup-fee"><i class="fas fa-tools" style="margin-right:4px;"></i> R15,000 setup (first store) / R5,000 per additional</div>
+                    </div>
+                    <div class="band-volume">
+                        <div class="pricing-row">
+                            <span class="pricing-label">Monthly per store</span>
+                            <span class="pricing-value highlight">R999<small>/mo</small></span>
+                        </div>
+                        <div class="setup-fee"><i class="fas fa-tools" style="margin-right:4px;"></i> R5,000 once-off setup per store</div>
+                    </div>
+                </div>
+
+                <div class="features-block">
+                    <div class="features-title">What's included</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Point of Sale (POS) Terminal</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Stock Take App (barcode + camera)</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Inventory Manager Dashboard</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Marketing Website</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Admin Dashboard</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Product Catalog + Storefront</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Staff Management (PIN login)</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Day-End Cash-up + Reports</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Receipt Printing (thermal)</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Shift Management</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Branch Receiving</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Complete Staff Training</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> One Full Stocktake</div>
+                </div>
+
+                <button class="tier-cta primary" onclick="window.location.href='contact.html'">Get Started</button>
+            </div>
+
+            <!-- TIER 2: + WHOLESALE -->
+            <div class="tier-card">
+                <div class="tier-header">
+                    <div class="tier-label">Tier 2 — Add-On</div>
+                    <div class="tier-name">Wholesale Hub</div>
+                    <div class="tier-desc">B2B wholesale ordering portal for your retail clients. Online catalog, PO management, invoicing, and lead tracking.</div>
+                </div>
+
+                <div class="pricing-block">
+                    <div class="pricing-row">
+                        <span class="pricing-label">Flat monthly fee</span>
+                        <span class="pricing-value highlight">R1,000<small>/mo</small></span>
+                    </div>
+                    <div class="setup-fee">One fee covers all your stores</div>
+                </div>
+
+                <div class="features-block">
+                    <div class="features-title">Everything in Core, plus</div>
+                    <div class="feature-item addon"><i class="fas fa-plus-circle"></i> B2B Wholesale Portal</div>
+                    <div class="feature-item addon"><i class="fas fa-plus-circle"></i> Dispatch + Packer Apps</div>
+                    <div class="feature-item addon"><i class="fas fa-plus-circle"></i> Customer Loyalty (Points)</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Online Product Catalog</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Purchase Order Management</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Automated Invoicing (PDF)</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Client Management + CRM</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Lead Tracking Pipeline</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Telegram Bot Notifications</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> OTP Email Authentication</div>
+                </div>
+
+                <button class="tier-cta outline" onclick="window.location.href='contact.html'">Add to Core</button>
+            </div>
+
+            <!-- TIER 3: + 360 OWNER -->
+            <div class="tier-card">
+                <div class="tier-header">
+                    <div class="tier-label">Tier 3 — Add-On</div>
+                    <div class="tier-name">360View Owner</div>
+                    <div class="tier-desc">Multi-branch command center for franchise owners. Real-time visibility, approvals, risk alerts, and AI-powered insights.</div>
+                </div>
+
+                <div class="pricing-block">
+                    <div class="pricing-row">
+                        <span class="pricing-label">Flat monthly fee</span>
+                        <span class="pricing-value highlight">R2,000<small>/mo</small></span>
+                    </div>
+                    <div class="setup-fee">One fee covers all your stores</div>
+                </div>
+
+                <div class="features-block">
+                    <div class="features-title">Everything in Core, plus</div>
+                    <div class="feature-item addon"><i class="fas fa-plus-circle"></i> 360View Owner Dashboard</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Multi-Branch Overview Grid</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Real-Time Stock Health Map</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Risk Heatmap + Trend Charts</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Approval Queue (write-offs, transfers)</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Live Event Stream (all branches)</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Staff Scoreboard</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Cross-Domain Alerts</div>
+                </div>
+
+                <button class="tier-cta outline" onclick="window.location.href='contact.html'">Add to Core</button>
+            </div>
+
+        </div>
+
+        <!-- ══════════════════════ ADDITIONAL SERVICES ══════════════════════ -->
+        <div class="summary-section">
+            <h2>Additional <span>Services</span></h2>
+
+            <div class="summary-row">
+                <div class="summary-card">
+                    <span class="summary-card-tag once-off">Once-Off</span>
+                    <h3>SAHPRA Doctor's Letter</h3>
+                    <div class="price-big">R8,500</div>
+                    <div class="price-note">Section 21 application (R5,000) + Doctor's course certification (R3,500)</div>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-card-tag once-off">Once-Off</span>
+                    <h3>Consulting Fees</h3>
+                    <div class="price-big">R3,000</div>
+                    <div class="price-note">Business operations consulting, compliance advisory, and setup planning</div>
+                </div>
+            </div>
+
+            <div class="summary-row">
+                <div class="summary-card">
+                    <span class="summary-card-tag per-store">Per Store</span>
+                    <h3>Setup & Training</h3>
+                    <div class="price-big band-standard">R15,000</div>
+                    <div class="price-big band-volume">R5,000</div>
+                    <div class="price-note">First store — includes POS, stocktake app, inventory dashboard, marketing website, training & one full stocktake. Additional stores R5,000 each.</div>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-card-tag per-store">Per Store / Month</span>
+                    <h3>Core Subscription</h3>
+                    <div class="price-big band-standard">R999</div>
+                    <div class="price-big band-volume">R999</div>
+                    <div class="price-note">POS, stock, admin, marketing site — per store per month. Includes 24/7 IT support.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════ COMPARISON TABLE ══════════════════════ -->
+        <div class="comparison">
+            <h2>Feature <span>Comparison</span></h2>
+
+            <table class="comp-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Core</th>
+                        <th>+ Wholesale</th>
+                        <th>+ 360View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="section-row"><td colspan="4">Point of Sale</td></tr>
+                    <tr><td>POS Terminal</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Cash-up + Day-End Reports</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Receipt Printing (thermal)</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Shift Management</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+
+                    <tr class="section-row"><td colspan="4">Inventory &amp; Stock</td></tr>
+                    <tr><td>Stock Take App (barcode + camera)</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Inventory Manager Dashboard</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Branch Receiving</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+
+                    <tr class="section-row"><td colspan="4">Admin, Website &amp; Storefront</td></tr>
+                    <tr><td>Admin Dashboard</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Marketing Website</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Staff PIN Login</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Product Catalog + Storefront</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+
+                    <tr class="section-row"><td colspan="4">Wholesale + Operations (Tier 2)</td></tr>
+                    <tr><td>B2B Wholesale Portal</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Dispatch + Packer Apps</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Customer Loyalty Points</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Purchase Order Management</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Automated Invoicing (PDF)</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Client CRM + Lead Tracking</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Telegram Bot Notifications</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td><td class="check"><i class="fas fa-check"></i></td></tr>
+
+                    <tr class="section-row"><td colspan="4">360View Owner (Tier 3)</td></tr>
+                    <tr><td>Multi-Branch Command Center</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Real-Time Stock Health Map</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Risk Heatmap + Trend Charts</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Approval Queue</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Live Event Stream</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td></tr>
+                    <tr><td>Staff Scoreboard</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check"><i class="fas fa-check"></i></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ══════════════════════ EXAMPLE PRICING ══════════════════════ -->
+        <div class="summary-section">
+            <h2>See The <span>Math</span></h2>
+
+            <div class="summary-row">
+                <div class="example-block">
+                    <h3>Origin — Potchefstroom + Online</h3>
+                    <div class="example-line">
+                        <span class="label">Platform setup + training <span class="tag once">ONCE-OFF</span></span>
+                        <span class="calc">R15,000</span>
+                    </div>
+                    <div class="example-line">
+                        <span class="label">Online store setup <span class="tag once">ONCE-OFF</span></span>
+                        <span class="calc">R5,000</span>
+                    </div>
+                    <div class="example-line">
+                        <span class="label">Section 21 Doctor's Letter <span class="tag once">ONCE-OFF</span></span>
+                        <span class="calc">R8,500</span>
+                    </div>
+                    <div class="example-line total">
+                        <span class="label">Total Setup</span>
+                        <span class="calc">R28,500</span>
+                    </div>
+                    <div class="example-line" style="border-bottom:none;margin-top:12px">
+                        <span class="label">Monthly SaaS + 24/7 IT <span class="tag ps">MONTHLY</span></span>
+                        <span class="calc">R999/mo</span>
+                    </div>
+                </div>
+
+                <div class="example-block">
+                    <h3>5 Stores — All Tiers</h3>
+                    <div class="example-line">
+                        <span class="label">Setup: 1st store <span class="tag once">ONCE-OFF</span></span>
+                        <span class="calc">R15,000</span>
+                    </div>
+                    <div class="example-line">
+                        <span class="label">Setup: 4 additional <span class="tag ps">PER STORE</span></span>
+                        <span class="calc">4 x R5,000 = R20,000</span>
+                    </div>
+                    <div class="example-line">
+                        <span class="label">Core <span class="tag ps">PER STORE</span></span>
+                        <span class="calc">5 x R999 = R4,995</span>
+                    </div>
+                    <div class="example-line">
+                        <span class="label">Wholesale Hub <span class="tag fl">FLAT</span></span>
+                        <span class="calc">R1,000</span>
+                    </div>
+                    <div class="example-line">
+                        <span class="label">360View Owner <span class="tag fl">FLAT</span></span>
+                        <span class="calc">R2,000</span>
+                    </div>
+                    <div class="example-line total">
+                        <span class="label">Monthly Total</span>
+                        <span class="calc">R7,995/mo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>All prices in <strong>South African Rand (ZAR)</strong>, excl. VAT. Custom enterprise pricing available for 25+ stores.</p>
+        <p style="margin-top: 8px;"><strong>Origin</strong> by ILCO Farming &copy; 2026. Powered by FloRouter AI.</p>
+    </div>
+
+    <script>
+        function setBand(band) {
+            document.body.classList.toggle('volume', band === 'volume');
+            document.querySelectorAll('.band-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

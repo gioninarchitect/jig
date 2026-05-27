@@ -20,6 +20,7 @@ import BatchesPage from './pages/batches/BatchesPage';
 import BatchDetailPage from './pages/batches/BatchDetailPage';
 import FacilitiesPage from './pages/facilities/FacilitiesPage';
 import AuditPage from './pages/audit/AuditPage';
+import GhostAuditPage from './pages/audit/GhostAuditPage';
 import LabPage from './pages/lab/LabPage';
 import CompliancePage from './pages/compliance/CompliancePage';
 import SecurityPage from './pages/security/SecurityPage';
@@ -119,6 +120,7 @@ export default function App() {
         <Route path="/batches/:id" element={<DashRoute><BatchDetailPage /></DashRoute>} />
         <Route path="/facilities" element={<DashRoute><FacilitiesPage /></DashRoute>} />
         <Route path="/audit" element={<DashRoute><AuditPage /></DashRoute>} />
+        <Route path="/audit/ghost" element={<DashRoute><GhostAuditPage /></DashRoute>} />
         <Route path="/lab" element={<DashRoute><LabPage /></DashRoute>} />
         <Route path="/compliance" element={<DashRoute><CompliancePage /></DashRoute>} />
         <Route path="/security" element={<DashRoute><SecurityPage /></DashRoute>} />

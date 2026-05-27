@@ -126,19 +126,19 @@ export default function PaymentProcessor({ total, items, track, customer, branch
   return (
     <div className="space-y-4">
       {/* Total */}
-      <div className="text-center p-3 bg-jig-slate rounded-lg">
-        <div className="text-xs text-jig-purple-light uppercase">Total Due</div>
+      <div className="text-center p-3 bg-origin-slate rounded-lg">
+        <div className="text-xs text-or-gold-light uppercase">Total Due</div>
         <div className="font-heading text-3xl text-white">{formatCurrency(total)}</div>
       </div>
 
       {/* Payment Tabs */}
-      <div className="flex gap-1 bg-jig-purple/5 rounded-lg p-1">
+      <div className="flex gap-1 bg-or-gold/5 rounded-lg p-1">
         {TABS.map(t => (
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
             className={`flex-1 py-2 rounded text-xs font-bold uppercase transition-colors ${
-              tab === t.key ? 'bg-jig-purple text-white' : 'text-jig-purple-light hover:bg-jig-purple/10'
+              tab === t.key ? 'bg-or-gold text-white' : 'text-or-gold-light hover:bg-or-gold/10'
             }`}
           >
             {t.label}
@@ -157,16 +157,16 @@ export default function PaymentProcessor({ total, items, track, customer, branch
                 type="number"
                 value={cashTendered}
                 onChange={(e) => setCashTendered(e.target.value)}
-                className="w-full px-3 py-3 rounded-lg border border-jig-purple/20 bg-white text-white text-lg font-heading outline-none focus:border-jig-amber"
+                className="w-full px-3 py-3 rounded-lg border border-or-gold/20 bg-white text-white text-lg font-heading outline-none focus:border-or-gold"
                 placeholder="0.00"
                 autoFocus
               />
             </div>
           </div>
           {cashTendered && (
-            <div className={`p-3 rounded-lg text-center ${cashChange >= 0 ? 'bg-jig-purple/10' : 'bg-jig-red/10'}`}>
-              <div className="text-xs text-jig-purple-light uppercase">Change</div>
-              <div className={`font-heading text-2xl ${cashChange >= 0 ? 'text-jig-purple' : 'text-jig-red'}`}>
+            <div className={`p-3 rounded-lg text-center ${cashChange >= 0 ? 'bg-or-gold/10' : 'bg-origin-red/10'}`}>
+              <div className="text-xs text-or-gold-light uppercase">Change</div>
+              <div className={`font-heading text-2xl ${cashChange >= 0 ? 'text-or-gold' : 'text-origin-red'}`}>
                 {formatCurrency(Math.abs(cashChange))}
               </div>
             </div>
@@ -186,7 +186,7 @@ export default function PaymentProcessor({ total, items, track, customer, branch
               type="text"
               value={cardReference}
               onChange={(e) => setCardReference(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-jig-purple/20 bg-white text-white outline-none focus:border-jig-amber"
+              className="w-full px-3 py-2 rounded-lg border border-or-gold/20 bg-white text-white outline-none focus:border-or-gold"
               placeholder="Enter reference from card machine receipt"
               autoFocus
             />
@@ -197,7 +197,7 @@ export default function PaymentProcessor({ total, items, track, customer, branch
               type="text"
               value={cardNotes}
               onChange={(e) => setCardNotes(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-jig-purple/20 bg-white text-white outline-none"
+              className="w-full px-3 py-2 rounded-lg border border-or-gold/20 bg-white text-white outline-none"
               placeholder="Additional notes..."
             />
           </div>
@@ -210,15 +210,15 @@ export default function PaymentProcessor({ total, items, track, customer, branch
       {/* EFT Tab */}
       {tab === 'eft' && (
         <div className="space-y-3">
-          <div className="p-3 bg-jig-slate rounded-lg text-sm text-white">
+          <div className="p-3 bg-origin-slate rounded-lg text-sm text-white">
             <div className="font-bold mb-2">Bank Details</div>
             <div>Bank: Standard Bank</div>
-            <div>Account: JIG Craft Cannabis</div>
+            <div>Account: Origin by ILCO Farming</div>
             <div>Number: 123456789</div>
             <div>Branch: 051001</div>
-            <div className="mt-1 font-bold text-jig-amber-dark">Reference: SALE-{Date.now().toString().slice(-6)}</div>
+            <div className="mt-1 font-bold text-or-gold-dark">Reference: SALE-{Date.now().toString().slice(-6)}</div>
           </div>
-          <p className="text-xs text-jig-purple-light text-center">Payment will be pending admin approval</p>
+          <p className="text-xs text-or-gold-light text-center">Payment will be pending admin approval</p>
           <Button variant="primary" className="w-full" onClick={handleEFT} disabled={submitting}>
             {submitting ? 'Processing...' : 'Submit EFT Payment'}
           </Button>
@@ -233,7 +233,7 @@ export default function PaymentProcessor({ total, items, track, customer, branch
               <select
                 value={split.method}
                 onChange={(e) => updateSplitMethod(i, e.target.value)}
-                className="flex-1 px-2 py-2 rounded-lg border border-jig-purple/20 bg-white text-white text-sm outline-none"
+                className="flex-1 px-2 py-2 rounded-lg border border-or-gold/20 bg-white text-white text-sm outline-none"
               >
                 {PAYMENT_METHODS.map(m => (
                   <option key={m} value={m}>{m.charAt(0).toUpperCase() + m.slice(1).replace('_', ' ')}</option>
@@ -245,23 +245,23 @@ export default function PaymentProcessor({ total, items, track, customer, branch
                   type="number"
                   value={split.amount || ''}
                   onChange={(e) => updateSplitAmount(i, e.target.value)}
-                  className="w-24 px-2 py-2 rounded-lg border border-jig-purple/20 bg-white text-white text-sm outline-none"
+                  className="w-24 px-2 py-2 rounded-lg border border-or-gold/20 bg-white text-white text-sm outline-none"
                   placeholder="0.00"
                   step="0.01"
                 />
               </div>
               {splits.length > 1 && (
-                <button onClick={() => removeSplit(i)} className="p-1 rounded text-jig-red hover:bg-jig-red/10">&times;</button>
+                <button onClick={() => removeSplit(i)} className="p-1 rounded text-origin-red hover:bg-origin-red/10">&times;</button>
               )}
             </div>
           ))}
 
-          <button onClick={addSplit} className="w-full py-2 rounded-lg border border-dashed border-jig-purple/20 text-jig-purple-light text-sm hover:border-jig-amber/50 hover:text-jig-amber transition-colors">
+          <button onClick={addSplit} className="w-full py-2 rounded-lg border border-dashed border-or-gold/20 text-or-gold-light text-sm hover:border-or-gold/50 hover:text-or-gold transition-colors">
             + Add Another Payment
           </button>
 
-          <div className={`p-3 rounded-lg text-center ${splitRemaining <= 0 ? (splitRemaining < 0 ? 'bg-blue-50' : 'bg-jig-purple/10') : 'bg-jig-red/10'}`}>
-            <div className="text-xs uppercase text-jig-purple-light">
+          <div className={`p-3 rounded-lg text-center ${splitRemaining <= 0 ? (splitRemaining < 0 ? 'bg-blue-50' : 'bg-or-gold/10') : 'bg-origin-red/10'}`}>
+            <div className="text-xs uppercase text-or-gold-light">
               {splitRemaining <= 0 ? (splitRemaining < 0 ? 'Overpaid' : 'Fully Paid') : 'Remaining'}
             </div>
             <div className="font-heading text-xl text-white">{formatCurrency(Math.abs(splitRemaining))}</div>
@@ -276,7 +276,7 @@ export default function PaymentProcessor({ total, items, track, customer, branch
       )}
 
       {/* Cancel */}
-      <button onClick={onClose} className="w-full py-2 text-sm text-jig-purple-light hover:text-jig-red transition-colors">
+      <button onClick={onClose} className="w-full py-2 text-sm text-or-gold-light hover:text-origin-red transition-colors">
         Cancel
       </button>
     </div>

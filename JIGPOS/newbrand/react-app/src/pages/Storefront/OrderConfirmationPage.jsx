@@ -12,8 +12,8 @@ export default function OrderConfirmationPage() {
     <div className="max-w-2xl mx-auto px-4 py-16 sm:py-24">
       {/* Success icon */}
       <div className="text-center mb-8">
-        <div className="w-20 h-20 bg-jig-purple/10 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-10 h-10 text-jig-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="w-20 h-20 bg-or-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-10 h-10 text-or-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
@@ -30,14 +30,14 @@ export default function OrderConfirmationPage() {
           </div>
           <div className="text-right">
             <p className="text-xs text-gray-500 uppercase tracking-wider">Total</p>
-            <p className="font-heading text-xl text-jig-amber">{formatCurrency(total)}</p>
+            <p className="font-heading text-xl text-or-gold">{formatCurrency(total)}</p>
           </div>
         </div>
 
         {payment === 'eft' && (
           <div>
             <h3 className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-3">Payment Instructions</h3>
-            <div className="bg-jig-slate rounded-xl p-4 border border-gray-200 space-y-2 text-sm">
+            <div className="bg-origin-slate rounded-xl p-4 border border-gray-200 space-y-2 text-sm">
               <p className="text-gray-600">Please make an EFT payment to the following account:</p>
               <div className="space-y-1 text-gray-700">
                 <p><span className="font-semibold">Bank:</span> Capitec</p>
@@ -47,7 +47,7 @@ export default function OrderConfirmationPage() {
               </div>
               <div className="mt-3 pt-3 border-t border-gray-200">
                 <p className="text-gray-600">After payment, please send proof of payment to:</p>
-                <p className="font-semibold text-gray-700 mt-1">Email: payments@jig.cleva-ai.co.za</p>
+                <p className="font-semibold text-gray-700 mt-1">Email: payments@origin.cleva-ai.co.za</p>
                 <p className="font-semibold text-gray-700">WhatsApp: +27 (0) 60 000 0000</p>
               </div>
             </div>
@@ -59,13 +59,13 @@ export default function OrderConfirmationPage() {
       <div className="flex flex-col sm:flex-row gap-3">
         <Link
           to="/products"
-          className="flex-1 py-3 text-center text-sm font-bold uppercase tracking-wider border-2 border-jig-purple text-jig-purple rounded-xl hover:bg-jig-purple hover:text-white transition-all"
+          className="flex-1 py-3 text-center text-sm font-bold uppercase tracking-wider border-2 border-or-gold text-or-gold rounded-xl hover:bg-or-gold hover:text-white transition-all"
         >
           Back to Shop
         </Link>
         <Link
           to="/my-account"
-          className="flex-1 py-3 text-center text-sm font-bold uppercase tracking-wider bg-gradient-to-br from-jig-amber-light via-jig-amber to-jig-amber-dark text-gray-900 rounded-xl hover:shadow-lg transition-all"
+          className="flex-1 py-3 text-center text-sm font-bold uppercase tracking-wider bg-gradient-to-br from-or-gold-light via-or-gold to-or-gold-dark text-gray-900 rounded-xl hover:shadow-lg transition-all"
         >
           View My Orders
         </Link>

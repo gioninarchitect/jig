@@ -1,14 +1,14 @@
-// JIG Dispatch App Service Worker
-const CACHE_NAME = 'jig-dispatch-v1';
+// Origin Dispatch App Service Worker
+const CACHE_NAME = 'origin-dispatch-v1';
 const OFFLINE_URL = '/dispatch-offline.html';
 
 const ASSETS_TO_CACHE = [
   '/dispatch-app.html',
   '/manifest-dispatch.json',
-  '/images/jig-logo-nobg.png',
+  '/images/origin-logo.png',
   '/css/tablet-optimizations.css',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700&family=Inter:wght@400;500;600;700&display=swap'
+  'https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700&family=Barlow:wght@300;400;500;600:wght@400;500;600;700&display=swap'
 ];
 
 // Install - cache assets

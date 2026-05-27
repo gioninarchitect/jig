@@ -229,6 +229,48 @@ const optionalAuth = (req, res, next) => {
   next();
 };
 
+/**
+ * Authenticate via X-Internal-Key header (server-to-server) OR JWT token.
+ * Used for endpoints that B2B needs to call into POS.
+ */
+const authenticateInternalOrToken = async (req, res, next) => {
+  const internalKey = req.headers['x-internal-key'];
+  const expectedKey = process.env.INTERNAL_API_KEY || 'origin_internal_2026';
+
+  if (internalKey && internalKey === expectedKey) {
+    try {
+      // Find or create the system service account
+      let systemUser = await User.findOne({ email: 'system@origin.internal' });
+      if (!systemUser) {
+        systemUser = await User.create({
+          email: 'system@origin.internal',
+          firstName: 'System',
+          lastName: 'Service',
+          role: 'admin',
+          isActive: true,
+          password: require('crypto').randomBytes(32).toString('hex'),
+        });
+        console.log('[Auth] Created system service account: system@origin.internal');
+      }
+      req.user = {
+        id: systemUser._id.toString(),
+        email: systemUser.email,
+        role: systemUser.role,
+        firstName: systemUser.firstName,
+        lastName: systemUser.lastName,
+        _isInternal: true,
+      };
+      return next();
+    } catch (err) {
+      console.error('[Auth] Internal auth error:', err.message);
+      return res.status(500).json({ success: false, message: 'Internal auth failed' });
+    }
+  }
+
+  // Fall back to normal JWT auth
+  return authenticateToken(req, res, next);
+};
+
 module.exports = {
   authenticateToken,
   requireAdmin,
@@ -237,5 +279,6 @@ module.exports = {
   requireSection21Verification,
   requireBranchAccess,
   requireInventoryRole,
-  optionalAuth
+  optionalAuth,
+  authenticateInternalOrToken
 };

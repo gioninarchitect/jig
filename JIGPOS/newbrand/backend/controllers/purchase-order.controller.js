@@ -4,6 +4,8 @@ const PurchaseOrder = require('../modules/database/models/PurchaseOrder');
 const Batch = require('../modules/database/models/Batch');
 const Supplier = require('../modules/database/models/Supplier');
 const Product = require('../modules/database/models/Product');
+const config = require('../config');
+const VAT_RATE = config.business.vatRate;
 
 // Get all purchase orders with filtering and pagination
 exports.getAll = async (req, res) => {
@@ -178,7 +180,7 @@ exports.create = async (req, res) => {
     const order = new PurchaseOrder({
       supplier,
       items: processedItems,
-      taxRate: taxRate || 15,
+      taxRate: taxRate || VAT_RATE * 100,
       shippingCost: shippingCost || 0,
       discount: discount || 0,
       deliveryBranch,
@@ -703,14 +705,14 @@ exports.sendToSupplier = async (req, res) => {
     const emailService = require('../modules/notification/email');
     await emailService.sendEmail({
       to: order.supplier.email,
-      subject: `Purchase Order ${order.poNumber} from JIG Craft Cannabis`,
+      subject: `Purchase Order ${order.poNumber} from Origin by ILCO Farming`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <div style="background: #7C3AED; padding: 20px; text-align: center;">
-            <h1 style="color: #0A0A0A; margin: 0;">JIG Craft Cannabis</h1>
-            <p style="color: #D97706; margin: 5px 0;">Cultivating Excellence</p>
+          <div style="background: #C9A84C; padding: 20px; text-align: center;">
+            <h1 style="color: #0E0E0E; margin: 0;">Origin by ILCO Farming</h1>
+            <p style="color: #C9A84C; margin: 5px 0;">Cultivating Excellence</p>
           </div>
-          <div style="padding: 30px; background: #0A0A0A;">
+          <div style="padding: 30px; background: #0E0E0E;">
             <p>Dear ${order.supplier.contactPerson || order.supplier.name},</p>
             <p>Please find attached our Purchase Order <strong>${order.poNumber}</strong>.</p>
             ${customMessage ? `<p>${customMessage}</p>` : ''}
@@ -722,10 +724,10 @@ exports.sendToSupplier = async (req, res) => {
               <li>Expected Delivery: ${order.expectedDeliveryDate ? new Date(order.expectedDeliveryDate).toLocaleDateString('en-ZA') : 'TBC'}</li>
             </ul>
             <p>Please confirm receipt of this order and advise on delivery arrangements.</p>
-            <p>Kind regards,<br>Procurement Team<br>JIG Craft Cannabis</p>
+            <p>Kind regards,<br>Procurement Team<br>Origin by ILCO Farming</p>
           </div>
-          <div style="background: #6D28D9; padding: 15px; text-align: center; color: #0A0A0A; font-size: 12px;">
-            <p>www.jig.cleva-ai.co.za | procurement@jig.cleva-ai.co.za | +27 11 234 5678</p>
+          <div style="background: #8B6914; padding: 15px; text-align: center; color: #0E0E0E; font-size: 12px;">
+            <p>origin.cleva-ai.co.za | origin@cleva-ai.co.za | +27 11 234 5678</p>
           </div>
         </div>
       `,

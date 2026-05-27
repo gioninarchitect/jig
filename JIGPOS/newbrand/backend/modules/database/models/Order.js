@@ -346,7 +346,7 @@ orderSchema.index({ status: 1, createdAt: -1 }); // For filtering orders by stat
 // Generate order number before saving
 orderSchema.pre('save', function(next) {
   if (!this.orderNumber) {
-    this.orderNumber = 'JIG' + Date.now() + Math.floor(Math.random() * 1000);
+    this.orderNumber = 'Origin' + Date.now() + Math.floor(Math.random() * 1000);
   }
 
   // Check membership qualification

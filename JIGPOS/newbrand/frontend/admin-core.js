@@ -186,8 +186,8 @@ function showAdminConfirm(title, message, onConfirm, onCancel = null) {
                 to { transform: scale(1) translateY(0); opacity: 1; }
             }
             .admin-modal-box {
-                background: #0A0A0A !important;
-                border: 2px solid #D97706 !important;
+                background: #0E0E0E !important;
+                border: 2px solid #C9A84C !important;
                 border-radius: 16px;
                 padding: 32px;
                 max-width: 420px;
@@ -198,28 +198,28 @@ function showAdminConfirm(title, message, onConfirm, onCancel = null) {
             .admin-modal-icon {
                 width: 48px;
                 height: 48px;
-                background: #D97706 !important;
+                background: #C9A84C !important;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 margin-bottom: 20px;
-                border: 2px solid #B45309;
+                border: 2px solid #C9A84C;
             }
             .admin-modal-icon i {
                 font-size: 20px;
-                color: #0A0A0A !important;
+                color: #0E0E0E !important;
             }
             .admin-modal-title {
                 margin: 0 0 12px 0;
-                color: #0A0A0A !important;
+                color: #0E0E0E !important;
                 font-size: 1.25rem;
                 font-weight: 700;
                 letter-spacing: -0.02em;
             }
             .admin-modal-message {
                 margin: 0 0 28px 0;
-                color: #7C3AED !important;
+                color: #C9A84C !important;
                 font-size: 0.95rem;
                 line-height: 1.5;
             }
@@ -238,19 +238,19 @@ function showAdminConfirm(title, message, onConfirm, onCancel = null) {
                 transition: all 0.15s ease;
             }
             .admin-modal-btn-cancel {
-                background: #7C3AED !important;
-                color: #0A0A0A !important;
-                border: 1px solid #6D28D9;
+                background: #C9A84C !important;
+                color: #0E0E0E !important;
+                border: 1px solid #8B6914;
             }
             .admin-modal-btn-cancel:hover {
-                background: #6D28D9 !important;
+                background: #8B6914 !important;
             }
             .admin-modal-btn-confirm {
-                background: #D97706 !important;
-                color: #0A0A0A !important;
+                background: #C9A84C !important;
+                color: #0E0E0E !important;
             }
             .admin-modal-btn-confirm:hover {
-                background: #B45309 !important;
+                background: #C9A84C !important;
             }
         </style>
         <div class="admin-modal-box">

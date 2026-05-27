@@ -7,6 +7,8 @@ const Product = require('../modules/database/models/Product');
 const Branch = require('../modules/database/models/Branch');
 const invoiceGenerator = require('../services/invoiceGenerator');
 const emailService = require('../services/emailService');
+const config = require('../config');
+const VAT_RATE = config.business.vatRate;
 
 // 1. Check payment status endpoint
 exports.checkPaymentStatus = async (req, res) => {
@@ -838,7 +840,7 @@ exports.createSplitPaymentOrder = async (req, res) => {
 
     // Create order with split payments
     const order = new Order({
-      orderNumber: `JIG-${Date.now()}`,
+      orderNumber: `Origin-${Date.now()}`,
       user: req.user?.id || null,
       customer: {
         firstName: customer.firstName,
@@ -1163,7 +1165,7 @@ exports.updateItems = async (req, res) => {
 
     // Recalculate totals
     const newSubtotal = updatedItems.reduce((sum, item) => sum + (item.subtotal || 0), 0);
-    const taxAmount = newSubtotal * (order.tax?.rate || 0.15);
+    const taxAmount = newSubtotal * (order.tax?.rate || VAT_RATE);
     const newTotal = newSubtotal + (order.shipping?.cost || 0) + taxAmount - (order.discount?.amount || 0);
 
     order.items = updatedItems;
@@ -1333,7 +1335,7 @@ exports.swapItem = async (req, res) => {
 
     // Recalculate order totals
     const orderSubtotal = order.items.reduce((sum, item) => sum + (item.subtotal || 0), 0);
-    const taxAmount = orderSubtotal * (order.tax?.rate || 0.15);
+    const taxAmount = orderSubtotal * (order.tax?.rate || VAT_RATE);
     const orderTotal = orderSubtotal + (order.shipping?.cost || 0) + taxAmount - (order.discount?.amount || 0);
 
     order.subtotal = orderSubtotal;

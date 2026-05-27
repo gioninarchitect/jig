@@ -1,6 +1,6 @@
 #!/bin/bash
 # ──────────────────────────────────────────────
-# JIG Craft Cannabis - Deploy Script
+# PureGro Premium Cannabis Care - Deploy Script
 #
 # Usage:
 #   bash deploy/deploy-now.sh          # Full deploy (build + upload + restart)
@@ -13,12 +13,12 @@ set -euo pipefail
 SERVER="154.66.197.199"
 DOMAIN="jig.cleva-ai.co.za"
 APP_DIR="/var/www/jig"
-PM2_NAME="jig-api"
-TARBALL="/tmp/jig-deploy.tar.gz"
+PM2_NAME="puregro-api"
+TARBALL="/tmp/puregro-deploy.tar.gz"
 MODE="${1:-full}"
 
 echo "========================================"
-echo "  JIG DEPLOY - $(date)"
+echo "  PureGro DEPLOY - $(date)"
 echo "========================================"
 
 
@@ -79,7 +79,7 @@ do_push() {
 
   echo ""
   echo "[1/3] Uploading to $SERVER..."
-  scp "$TARBALL" root@$SERVER:/tmp/jig-deploy.tar.gz
+  scp "$TARBALL" root@$SERVER:/tmp/puregro-deploy.tar.gz
   echo "  Upload complete"
 
   echo ""
@@ -88,12 +88,12 @@ do_push() {
 set -euo pipefail
 
 APP_DIR="/var/www/jig"
-PM2_NAME="jig-api"
+PM2_NAME="puregro-api"
 DB_NAME="jig"
 
 echo "  Extracting..."
 cd "$APP_DIR"
-tar -xzf /tmp/jig-deploy.tar.gz
+tar -xzf /tmp/puregro-deploy.tar.gz
 
 echo "  Installing dependencies..."
 npm install --production --silent 2>/dev/null
@@ -120,7 +120,7 @@ pm2 restart "$PM2_NAME"
 pm2 save
 
 # Cleanup
-rm /tmp/jig-deploy.tar.gz
+rm /tmp/puregro-deploy.tar.gz
 
 echo "  Server deploy complete"
 REMOTE

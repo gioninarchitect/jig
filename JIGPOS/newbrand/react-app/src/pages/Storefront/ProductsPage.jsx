@@ -38,7 +38,7 @@ const SUPPLIER_INFO = {
 };
 
 const PRODUCT_TYPE_INFO = {
-  'pre-roll': { name: 'Pre Rolls', icon: 'fa-joint', color: '#F59E0B' },
+  'pre-roll': { name: 'Pre Rolls', icon: 'fa-joint', color: '#F8C242' },
   'pre-pack': { name: 'Pre Packs', icon: 'fa-box', color: '#3B82F6' },
   'loose': { name: 'Loose', icon: 'fa-cannabis', color: '#22C55E' },
 };
@@ -166,7 +166,7 @@ export default function ProductsPage() {
   return (
     <div>
       {/* Search Section */}
-      <section className="py-8 bg-jig-purple">
+      <section className="py-8 bg-or-gold">
         <div className="max-w-[600px] mx-auto px-4">
           <form onSubmit={handleSearch} className="relative">
             <input
@@ -174,14 +174,14 @@ export default function ProductsPage() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search products..."
-              className="w-full py-4 pl-6 pr-14 bg-jig-slate border-2 border-jig-amber rounded-full text-white placeholder:text-gray-400 focus:outline-none focus:border-jig-amber-light transition-all"
+              className="w-full py-4 pl-6 pr-14 bg-origin-slate border-2 border-or-gold rounded-full text-white placeholder:text-gray-400 focus:outline-none focus:border-or-gold-light transition-all"
               style={{ boxShadow: '0 0 0 0 transparent' }}
               onFocus={(e) => { e.target.style.boxShadow = '0 0 0 3px rgba(212,175,55,0.2)'; }}
               onBlur={(e) => { e.target.style.boxShadow = '0 0 0 0 transparent'; }}
             />
             <button
               type="submit"
-              className="absolute right-[5px] top-1/2 -translate-y-1/2 w-10 h-10 bg-jig-amber rounded-full flex items-center justify-center text-jig-purple-dark hover:bg-jig-amber-dark transition-colors"
+              className="absolute right-[5px] top-1/2 -translate-y-1/2 w-10 h-10 bg-or-gold rounded-full flex items-center justify-center text-or-gold-dark hover:bg-or-gold-dark transition-colors"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -192,7 +192,7 @@ export default function ProductsPage() {
       </section>
 
       {/* Content */}
-      <section className="py-8 sm:py-12 bg-jig-slate">
+      <section className="py-8 sm:py-12 bg-origin-slate">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Sidebar */}
@@ -213,13 +213,13 @@ export default function ProductsPage() {
             <div className="flex-1">
               {/* Sort + count */}
               <div className="flex items-center justify-between mb-8">
-                <h2 className="font-heading text-[1.75rem] text-jig-purple-dark tracking-wide">
+                <h2 className="font-heading text-[1.75rem] text-or-gold-dark tracking-wide">
                   {loading ? 'Loading...' : `${visibleProducts.length} Product${visibleProducts.length !== 1 ? 's' : ''}`}
                 </h2>
                 <select
                   value={sort}
                   onChange={(e) => { setSort(e.target.value); setPage(1); }}
-                  className="px-4 py-2 bg-white border border-jig-purple-light rounded-[5px] text-sm text-white cursor-pointer focus:outline-none focus:border-jig-purple transition-colors"
+                  className="px-4 py-2 bg-white border border-or-gold-light rounded-[5px] text-sm text-white cursor-pointer focus:outline-none focus:border-or-gold transition-colors"
                 >
                   {SORT_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -230,7 +230,7 @@ export default function ProductsPage() {
               {/* Grid */}
               {loading ? (
                 <div className="flex justify-center py-16">
-                  <div className="w-10 h-10 border-3 border-jig-slate border-t-jig-purple rounded-full animate-spin" />
+                  <div className="w-10 h-10 border-3 border-origin-slate border-t-or-gold rounded-full animate-spin" />
                 </div>
               ) : visibleProducts.length === 0 ? (
                 <div className="text-center py-16">
@@ -243,12 +243,12 @@ export default function ProductsPage() {
                   {groupedProducts.map((group) => (
                     <div key={group.category}>
                       {/* Category Header */}
-                      <div className="mt-8 first:mt-0 mb-4 pb-2" style={{ borderBottom: '3px solid #D97706' }}>
+                      <div className="mt-8 first:mt-0 mb-4 pb-2" style={{ borderBottom: '3px solid #F0A500' }}>
                         <h3
                           className="flex items-center gap-3"
-                          style={{ fontFamily: "'Anton', sans-serif", fontSize: '1.75rem', color: '#6D28D9' }}
+                          style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '1.75rem', color: '#8B6914' }}
                         >
-                          <i className={`fas ${group.info.icon}`} style={{ color: '#D97706' }} />
+                          <i className={`fas ${group.info.icon}`} style={{ color: '#F0A500' }} />
                           {group.info.name}
                           <span style={{ fontSize: '0.9rem', color: '#6B7280', fontWeight: 'normal' }}>
                             ({group.count})
@@ -267,7 +267,7 @@ export default function ProductsPage() {
                             >
                               <h4
                                 className="flex items-center gap-2"
-                                style={{ fontFamily: "'Anton', sans-serif", fontSize: '1.35rem', color: sup.info.color }}
+                                style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: '1.35rem', color: sup.info.color }}
                               >
                                 <i className={`fas ${sup.info.icon}`} />
                                 {sup.info.name}
@@ -284,7 +284,7 @@ export default function ProductsPage() {
                                   <h5
                                     className="flex items-center gap-1.5"
                                     style={{
-                                      fontFamily: "'Oswald', sans-serif",
+                                      fontFamily: "'Barlow Condensed', sans-serif",
                                       fontSize: '1rem',
                                       color: typeGroup.info.color,
                                       fontWeight: 600,

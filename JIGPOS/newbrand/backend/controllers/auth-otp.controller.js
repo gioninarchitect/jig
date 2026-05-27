@@ -116,7 +116,7 @@ exports.requestOTP = async (req, res) => {
       userAgent
     );
 
-    // ALWAYS log OTP to console (check pm2 logs dbc)
+    // ALWAYS log OTP to console (check pm2 logs jig)
     console.log('\n========================================');
     console.log('OTP CODE:', code);
     console.log('For email:', email);
@@ -258,7 +258,7 @@ exports.verifyPin = async (req, res) => {
 // Verify OTP code and login
 exports.verifyOTP = async (req, res) => {
   try {
-    const { email, otp_code, otpCode } = req.body;
+    const { email, otp_code, otpCode, purpose = 'login' } = req.body;
     const code = otp_code || otpCode; // Support both naming conventions
 
     // Validate input
@@ -277,6 +277,14 @@ exports.verifyOTP = async (req, res) => {
       });
     }
 
+    const validPurposes = ['login', 'signup', 'reset_password', 'verify_email', 'two_factor'];
+    if (!validPurposes.includes(purpose)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid purpose'
+      });
+    }
+
     // DEV MODE BYPASS - use 123456 for testing
     let verification;
     if (process.env.NODE_ENV !== 'production' && code === '123456') {
@@ -284,7 +292,7 @@ exports.verifyOTP = async (req, res) => {
       verification = { success: true, otp: { purpose: 'login' } };
     } else {
       // Verify OTP
-      verification = await OTPCode.verifyOTP(email.toLowerCase(), code);
+      verification = await OTPCode.verifyOTP(email.toLowerCase(), code, purpose);
     }
 
     if (!verification.success) {

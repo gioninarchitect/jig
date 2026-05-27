@@ -316,31 +316,31 @@ function quickAddPreroll() {
 
         buttons.push(`
             <button onclick="quickPrerollSelect('${v.sku}', ${v.price})" ${outOfStock ? 'disabled' : ''}
-                style="display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;border:2px solid ${outOfStock ? '#ddd' : 'rgba(124, 58, 237,0.2)'};border-radius:12px;background:${outOfStock ? '#f5f5f5' : 'var(--cream,#0A0A0A)'};cursor:${outOfStock ? 'not-allowed' : 'pointer'};text-align:left;transition:all 0.15s;opacity:${outOfStock ? '0.5' : '1'}"
-                ${outOfStock ? '' : 'onmouseenter="this.style.borderColor=\'var(--gold,#D97706)\';this.style.transform=\'scale(1.02)\'" onmouseleave="this.style.borderColor=\'rgba(124, 58, 237,0.2)\';this.style.transform=\'scale(1)\'"'}>
-                <div style="width:48px;height:48px;border-radius:12px;background:${outOfStock ? '#eee' : 'var(--green,#7C3AED)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <i class="fas ${v.icon}" style="color:${outOfStock ? '#999' : 'var(--gold,#D97706)'};font-size:1.2rem;"></i>
+                style="display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;border:2px solid ${outOfStock ? '#333' : 'rgba(63,192,65,0.2)'};border-radius:12px;background:${outOfStock ? '#222' : '#222'};cursor:${outOfStock ? 'not-allowed' : 'pointer'};text-align:left;transition:all 0.15s;opacity:${outOfStock ? '0.5' : '1'}"
+                ${outOfStock ? '' : 'onmouseenter="this.style.borderColor=\'#C9A84C\';this.style.transform=\'scale(1.02)\'" onmouseleave="this.style.borderColor=\'rgba(63,192,65,0.2)\';this.style.transform=\'scale(1)\'"'}>
+                <div style="width:48px;height:48px;border-radius:12px;background:${outOfStock ? '#333' : 'rgba(63,192,65,0.15)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fas ${v.icon}" style="color:${outOfStock ? '#666' : '#C9A84C'};font-size:1.2rem;"></i>
                 </div>
                 <div style="flex:1;">
-                    <div style="font-weight:700;color:var(--green-deep,#6D28D9);font-size:1.05rem;">${v.label}</div>
-                    <div style="font-size:0.8rem;color:#888;margin-top:2px;">${outOfStock ? 'Out of stock' : stock + ' available'}</div>
+                    <div style="font-weight:700;color:#FAFAFA;font-size:1.05rem;">${v.label}</div>
+                    <div style="font-size:0.8rem;color:#999;margin-top:2px;">${outOfStock ? 'Out of stock' : stock + ' available'}</div>
                 </div>
-                <div style="font-weight:800;font-size:1.2rem;color:var(--green,#7C3AED);">R${v.price}</div>
+                <div style="font-weight:800;font-size:1.2rem;color:#C9A84C;">R${v.price}</div>
             </button>
         `);
     }
 
     modal.innerHTML = `
-        <div style="background:#fff;border-radius:16px;width:90%;max-width:380px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-            <div style="background:linear-gradient(135deg,var(--green-deep,#6D28D9),var(--green,#7C3AED));color:#fff;padding:18px 20px;text-align:center;">
-                <div style="font-family:'Oswald', sans-serif;font-size:1.3rem;letter-spacing:1px;">Rolling Papers & Cones</div>
+        <div style="background:#1A1A1A;border-radius:16px;width:90%;max-width:380px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);border:1px solid #333;">
+            <div style="background:linear-gradient(135deg,#8B6914,#C9A84C);color:#fff;padding:18px 20px;text-align:center;">
+                <div style="font-family:'Barlow Condensed', sans-serif;font-size:1.3rem;letter-spacing:1px;">Rolling Papers & Cones</div>
                 <div style="font-size:0.85rem;opacity:0.8;margin-top:4px;">Select type</div>
             </div>
             <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
                 ${buttons.join('')}
             </div>
             <div style="padding:0 16px 16px;">
-                <button onclick="document.getElementById('quickPrerollModal').remove()" style="width:100%;padding:12px;background:var(--cream,#0A0A0A);border:none;border-radius:10px;font-weight:600;color:var(--green-deep,#6D28D9);cursor:pointer;font-size:0.95rem;">Cancel</button>
+                <button onclick="document.getElementById('quickPrerollModal').remove()" style="width:100%;padding:12px;background:#333;border:none;border-radius:10px;font-weight:600;color:#FAFAFA;cursor:pointer;font-size:0.95rem;">Cancel</button>
             </div>
         </div>
     `;
@@ -401,7 +401,7 @@ function show3gPackModal(flowers) {
             <div class="modal-body" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; max-height: 60vh; overflow-y: auto;">
                 ${flowers.map(f => `
                     <div onclick="add3gPackToCart('${f._id}', '${f.name.replace(/'/g, "\\'")}', ${f.price || 0})" style="padding: 15px; background: var(--cream); border-radius: 10px; cursor: pointer; text-align: center; border: 2px solid transparent; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='transparent'">
-                        <div style="font-family: 'Oswald', sans-serif; font-size: 1rem; color: var(--green-deep);">${f.name}</div>
+                        <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: var(--green-deep);">${f.name}</div>
                         <div style="font-size: 0.9rem; color: var(--gold-dark); font-weight: bold;">R${((f.price || 0) * 3).toFixed(0)} (3g)</div>
                     </div>
                 `).join('')}
@@ -472,7 +472,7 @@ function showQuickGramModal() {
             <div class="modal-body" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;">
                 ${flowers.map(f => `
                     <div onclick="addGramItem('${f._id}')" style="padding: 15px; background: var(--cream); border-radius: 10px; cursor: pointer; text-align: center; border: 2px solid transparent; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='transparent'">
-                        <div style="font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: var(--green-deep);">${f.name}</div>
+                        <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; color: var(--green-deep);">${f.name}</div>
                         <div style="font-size: 0.85rem; color: #666;">R${f.price}/g</div>
                         <div style="font-size: 0.8rem; color: ${f.tags?.includes('indoor') ? '#0ea5e9' : '#22c55e'};">${f.tags?.includes('indoor') ? 'Indoor' : f.tags?.includes('greendoor') ? 'Greendoor' : ''}</div>
                     </div>
@@ -495,9 +495,9 @@ function showQuickSelectModal(products, title) {
             </div>
             <div class="modal-body" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;">
                 ${products.map(p => `
-                    <div onclick="quickSelectProduct('${p._id}')" style="padding: 15px; background: var(--cream); border-radius: 10px; cursor: pointer; text-align: center; border: 2px solid transparent; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='transparent'">
-                        <div style="font-family: 'Oswald', sans-serif; font-size: 1rem; color: var(--green-deep);">${p.name}</div>
-                        <div style="font-size: 0.9rem; color: var(--gold-dark); font-weight: bold;">R${p.price}</div>
+                    <div onclick="quickSelectProduct('${p._id}')" style="padding: 15px; background: #222; border-radius: 10px; cursor: pointer; text-align: center; border: 2px solid #333; transition: all 0.2s;" onmouseover="this.style.borderColor='#C9A84C'" onmouseout="this.style.borderColor='#333'">
+                        <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: #FAFAFA;">${p.name}</div>
+                        <div style="font-size: 0.9rem; color: #C9A84C; font-weight: bold;">R${p.price}</div>
                     </div>
                 `).join('')}
             </div>

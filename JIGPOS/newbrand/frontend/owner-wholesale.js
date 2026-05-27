@@ -1,6 +1,6 @@
 // owner-wholesale.js — B2B wholesale orders & customers for owner dashboard
 // Depends on: owner-auth.js (token), owner-core.js (formatTimeAgo)
-// Depends on: config.js (API_URL), dbc-utils.js (showToast)
+// Depends on: config.js (API_URL), or-utils.js (showToast)
 
 // ===== WHOLESALE / B2B FUNCTIONS =====
 let wholesaleOrders = [];
@@ -35,14 +35,14 @@ async function showWholesaleOrders() {
     const content = document.getElementById('approvalsPanelContent');
 
     if (wholesaleOrders.length === 0) {
-        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-500);"><i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem;"></i><p>No B2B orders yet</p><a href="wholesale-pos.html" class="btn-primary" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; text-decoration: none;">Create B2B Order</a></div>';
+        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--or-grey-2);"><i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem;"></i><p>No B2B orders yet</p><a href="wholesale-pos.html" class="btn-primary" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; text-decoration: none;">Create B2B Order</a></div>';
     } else {
         const pending = wholesaleOrders.filter(o => o.status === 'pending' || o.status === 'pending_approval');
         const overdue = wholesaleOrders.filter(o => o.paymentStatus === 'overdue');
 
         content.innerHTML = `
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="background: rgba(217, 119, 6,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
+                <div style="background: rgba(240, 165, 0,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
                     <div style="font-size: 1.5rem; font-weight: 700; color: var(--gold-dark);">${pending.length}</div>
                     <div style="font-size: 0.8rem; color: var(--gray-600);">Pending</div>
                 </div>
@@ -50,7 +50,7 @@ async function showWholesaleOrders() {
                     <div style="font-size: 1.5rem; font-weight: 700; color: var(--red);">${overdue.length}</div>
                     <div style="font-size: 0.8rem; color: var(--gray-600);">Overdue</div>
                 </div>
-                <div style="background: rgba(124, 58, 237,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
+                <div style="background: rgba(63, 192, 65,0.1); padding: 1rem; border-radius: 8px; text-align: center;">
                     <div style="font-size: 1.5rem; font-weight: 700; color: var(--green);">${wholesaleOrders.length}</div>
                     <div style="font-size: 0.8rem; color: var(--gray-600);">Total</div>
                 </div>
@@ -63,12 +63,12 @@ async function showWholesaleOrders() {
                                 <strong>${order.orderNumber || 'WO-' + order._id?.slice(-6)}</strong>
                                 <div style="font-size: 0.85rem; color: var(--gray-600);">${order.customer?.businessName || 'Unknown Customer'}</div>
                             </div>
-                            <span style="padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; background: ${order.status === 'completed' ? 'rgba(34,197,94,0.1)' : order.status === 'pending' ? 'rgba(217, 119, 6,0.1)' : 'rgba(99,102,241,0.1)'}; color: ${order.status === 'completed' ? '#22C55E' : order.status === 'pending' ? 'var(--gold-dark)' : '#6366F1'};">
+                            <span style="padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; background: ${order.status === 'completed' ? 'rgba(34,197,94,0.1)' : order.status === 'pending' ? 'rgba(240, 165, 0,0.1)' : 'rgba(99,102,241,0.1)'}; color: ${order.status === 'completed' ? '#22C55E' : order.status === 'pending' ? 'var(--gold-dark)' : '#6366F1'};">
                                 ${order.status || 'pending'}
                             </span>
                         </div>
                         <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
-                            <span style="color: var(--gray-500);">${formatTimeAgo(order.createdAt)}</span>
+                            <span style="color: var(--or-grey-2);">${formatTimeAgo(order.createdAt)}</span>
                             <strong style="color: var(--green);">R${(order.totalAmount || 0).toLocaleString()}</strong>
                         </div>
                     </div>
@@ -89,7 +89,7 @@ async function showWholesaleCustomers() {
     const content = document.getElementById('approvalsPanelContent');
 
     if (wholesaleCustomers.length === 0) {
-        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-500);"><i class="fas fa-building" style="font-size: 2rem; margin-bottom: 1rem;"></i><p>No B2B customers yet</p><a href="wholesale-pos.html" class="btn-primary" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; text-decoration: none;">Add B2B Customer</a></div>';
+        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--or-grey-2);"><i class="fas fa-building" style="font-size: 2rem; margin-bottom: 1rem;"></i><p>No B2B customers yet</p><a href="wholesale-pos.html" class="btn-primary" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; text-decoration: none;">Add B2B Customer</a></div>';
     } else {
         content.innerHTML = `
             <div style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--gray-600);">${wholesaleCustomers.length} B2B customer(s)</div>
@@ -101,11 +101,11 @@ async function showWholesaleCustomers() {
                                 <strong>${customer.businessName || 'Unnamed'}</strong>
                                 <div style="font-size: 0.85rem; color: var(--gray-600);">${customer.contactPerson || ''} ${customer.contactEmail ? '• ' + customer.contactEmail : ''}</div>
                             </div>
-                            <span style="padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; background: ${customer.status === 'active' ? 'rgba(34,197,94,0.1)' : 'rgba(217, 119, 6,0.1)'}; color: ${customer.status === 'active' ? '#22C55E' : 'var(--gold-dark)'};">
+                            <span style="padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; background: ${customer.status === 'active' ? 'rgba(34,197,94,0.1)' : 'rgba(240, 165, 0,0.1)'}; color: ${customer.status === 'active' ? '#22C55E' : 'var(--gold-dark)'};">
                                 ${customer.status || 'pending'}
                             </span>
                         </div>
-                        <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--gray-500);">
+                        <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--or-grey-2);">
                             Credit: R${(customer.creditLimit || 0).toLocaleString()} • Terms: ${customer.paymentTerms || '30'} days
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Intelligence Summary (Pure Function)
+ * PureGro Premium Cannabis Care - Intelligence Summary (Pure Function)
  *
  * Extracted from ClientWorldContext so it can be used by the
  * server without pulling in React dependencies.

@@ -22,7 +22,7 @@ describe('Retail Store Module', () => {
 
     beforeAll(async () => {
         // Connect to test database
-        await mongoose.connect('mongodb://localhost:27017/jig_test', {
+        await mongoose.connect('mongodb://localhost:27017/origin_test', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });

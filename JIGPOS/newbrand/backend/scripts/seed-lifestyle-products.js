@@ -6,7 +6,7 @@ require('dotenv').config();
 async function seedLifestyleProducts() {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/jig');
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/origin');
     console.log('Connected to MongoDB');
 
     const lifestyleProducts = [
@@ -219,7 +219,7 @@ async function seedLifestyleProducts() {
     console.log('========================================');
     console.log('\nTotal: 9 lifestyle cannabis products');
     console.log('\n💡 Testing:');
-    console.log('- Login as user@basothomedicalherbs.ls');
+    console.log('- Login as user@origin.cleva-ai.co.za');
     console.log('- Navigate to "Lifestyle Cannabis" tab');
     console.log('- Browse and add products to cart\n');
 

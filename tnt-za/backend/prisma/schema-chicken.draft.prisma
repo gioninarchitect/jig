@@ -1,0 +1,243 @@
+// =====================================================================
+// CHICKEN MODULE — DRAFT schema additions (not yet merged into schema.prisma)
+//
+// To apply:
+//   1. Review fields below — confirm match for SA poultry operations
+//   2. Append these models to prisma/schema.prisma
+//   3. Add the new UserRole enum values to existing UserRole enum
+//   4. Add the new TicketCategory values to allowed string list (Ticket.category)
+//   5. Run: pnpm prisma db push  (non-destructive sync)
+//   6. Update seed.ts with sample flock for demo
+//
+// Design notes:
+//   - Every model carries `tenantId` for multi-tenant scoping
+//   - Every model carries `unit` field (default "chicken") so the same
+//     ticket / activity-feed substrate can filter cross-unit queries
+//   - Mortality, vaccination, biosec follow event-sourced pattern
+//     (consistent with TnT-ZA cultivation event model)
+// =====================================================================
+
+
+// ── Add to existing UserRole enum ─────────────────────────────────────
+//
+// enum UserRole {
+//   ... existing cannabis roles ...
+//   POULTRY_MANAGER       // Lead — feed/water/biosec, equivalent to FACILITY_MANAGER for poultry
+//   FLOCK_KEEPER          // Daily ops — counts, mortality, observations
+//   BROILER_HANDLER       // Catching, loading, transport
+//   EGG_GRADER            // Layer-side: collection, washing, candling, grading
+//   VETERINARIAN          // Vacc, post-mortem, disease surveillance — shared with cattle
+// }
+
+
+// ── Core entities ──────────────────────────────────────────────────────
+
+model PoultryHouse {
+  id            String    @id @default(uuid())
+  houseCode     String    // e.g. "H1", "H2A", "Layer-North"
+  houseType     String    // BROILER | LAYER | BREEDER | PULLET
+  capacityBirds Int
+  floorAreaM2   Float
+  ventilationType String  // NATURAL | TUNNEL | CROSS | NEGATIVE_PRESSURE
+  active        Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  tenantId      String
+  facilityId    String
+
+  flocks        Flock[]
+  biosecChecks  BiosecCheck[]
+
+  @@unique([tenantId, houseCode])
+  @@index([tenantId])
+}
+
+model Flock {
+  id              String    @id @default(uuid())
+  flockCode       String    // e.g. "F-2026-001"
+  birdType        String    // BROILER | LAYER | PULLET | BREEDER
+  breedStrain     String    // Ross 308, Cobb 500, Lohmann Brown, etc.
+  placementDate   DateTime
+  placementCount  Int       // Day-old chick count
+  expectedSlaughterDate DateTime?  // Broiler: ~42d, Layer: 18-month cycle
+  status          String    @default("ACTIVE")  // ACTIVE | DEPOPULATED | SLAUGHTERED | CULLED
+
+  // Source traceability
+  hatcheryName    String?
+  hatcherCertRef  String?   // Hatchery dispatch certificate
+  parentFlockRef  String?
+
+  closedAt        DateTime?
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  houseId         String
+  house           PoultryHouse @relation(fields: [houseId], references: [id])
+  tenantId        String
+  facilityId      String
+
+  mortalityLogs   MortalityLog[]
+  vaccinations    VaccinationRecord[]
+  feedDeliveries  FeedDelivery[]
+  dailyRegisters  FlockDailyRegister[]
+
+  @@unique([tenantId, flockCode])
+  @@index([tenantId])
+  @@index([status])
+}
+
+// ── Operational logs ──────────────────────────────────────────────────
+
+model FlockDailyRegister {
+  id              String    @id @default(uuid())
+  date            DateTime  @default(now())
+  ageInDays       Int
+
+  openingCount    Int
+  mortalityCount  Int       @default(0)
+  cullCount       Int       @default(0)
+  closingCount    Int
+
+  feedKg          Float?
+  waterLitres     Float?
+
+  avgWeightG      Int?      // Weekly weighing sample
+  tempC           Float?
+  ammoniaPpm      Float?
+  humidityPct     Float?
+
+  observations    String?
+  signature       String    // stockperson initials/name
+
+  flockId         String
+  flock           Flock     @relation(fields: [flockId], references: [id])
+  recordedById    String    // userId
+  tenantId        String
+
+  @@unique([flockId, date])
+  @@index([tenantId])
+}
+
+model MortalityLog {
+  id              String    @id @default(uuid())
+  date            DateTime  @default(now())
+  count           Int
+  causeCategory   String    // NATURAL | CULL | DISEASE_SUSPECT | INJURY | UNKNOWN
+  diseaseSuspect  String?   // NEWCASTLE | HPAI | IBD | OTHER
+  notifiableSent  Boolean   @default(false)  // State vet notified?
+  notifiableRef   String?
+  postMortemDone  Boolean   @default(false)
+  postMortemNotes String?
+  disposalMethod  String    // INCINERATION | COMPOSTING | RENDERING
+  disposalAt      DateTime?
+
+  flockId         String
+  flock           Flock     @relation(fields: [flockId], references: [id])
+  recordedById    String
+  tenantId        String
+
+  @@index([tenantId])
+  @@index([date])
+}
+
+model VaccinationRecord {
+  id                String    @id @default(uuid())
+  administeredAt    DateTime  @default(now())
+  ageInDays         Int
+
+  vaccineProduct    String    // NDV-LaSota, IB-H120, IBD-Bursaplex, AI-Volvac, etc.
+  vaccineBatch      String
+  vaccineExpiry     DateTime
+  doseUnit          String    // ml, eye-drop, in-water
+  route             String    // SUBCUT | OCULAR | IN_WATER | SPRAY | IN_OVO
+  doseGivenCount    Int       // Birds vaccinated
+
+  // HPAI special: requires DALRRD authorisation
+  dalrrdAuthRef     String?
+  surveillanceDone  Boolean   @default(false)
+  surveillanceResult String?
+
+  // Cold-chain proof
+  coldChainOk       Boolean   @default(true)
+  coldChainNotes    String?
+
+  flockId           String
+  flock             Flock     @relation(fields: [flockId], references: [id])
+  administeredById  String    // userId — VETERINARIAN role
+  tenantId          String
+
+  @@index([tenantId])
+  @@index([vaccineProduct])
+}
+
+model BiosecCheck {
+  id              String    @id @default(uuid())
+  date            DateTime  @default(now())
+  checkType       String    // FOOT_BATH | VEHICLE_WASH | VISITOR_LOG | PEST_BAIT | PERIMETER
+
+  passed          Boolean
+  notes           String?
+  photoUrl        String?
+
+  // Visitor-specific
+  visitorName     String?
+  visitorIdRef    String?
+  lastFarmVisited String?
+  lastVisitDays   Int?      // Days since last poultry farm visit (≥ 72 required)
+
+  houseId         String?
+  house           PoultryHouse? @relation(fields: [houseId], references: [id])
+  performedById   String
+  tenantId        String
+
+  @@index([tenantId])
+  @@index([checkType])
+}
+
+model FeedDelivery {
+  id              String    @id @default(uuid())
+  deliveredAt     DateTime  @default(now())
+  supplier        String
+  feedType        String    // STARTER | GROWER | FINISHER | LAYER_LAYING | LAYER_PRELAY
+  batchRef        String
+  weightKg        Float
+  vehicleReg      String?
+  coaUrl          String?   // Certificate of Analysis from supplier
+  withdrawalDays  Int?      // If medicated, days before slaughter-clear
+
+  flockId         String?
+  flock           Flock?    @relation(fields: [flockId], references: [id])
+  receivedById    String
+  tenantId        String
+
+  @@index([tenantId])
+}
+
+
+// ── Add to allowed Ticket.category strings ────────────────────────────
+//
+// Existing Ticket.category accepts: GENERAL, PEST, MOULD, EQUIPMENT, FEEDING,
+//   ENVIRONMENT, IRRIGATION, MAINTENANCE, REQUISITION_*, COMPLIANCE_APPROVAL,
+//   RP_SIGNOFF, DASHBOARD_BUILD (added by dev seed).
+//
+// Add chicken-specific values:
+//   POULTRY_BIOSEC          // Foot bath fail, biosec breach
+//   POULTRY_MORTALITY       // Mortality spike requiring vet review
+//   POULTRY_DISEASE_SUSPECT // Newcastle, HPAI suspect — state vet notification
+//   POULTRY_VACC_DUE        // Vaccination scheduled or overdue
+//   POULTRY_FEED_QC         // Feed quality issue
+//   POULTRY_VET_SIGNOFF     // Vet sign-off equivalent of RP_SIGNOFF
+//
+// Add chicken-specific ticketType:
+//   VET_SIGNOFF             // Vet decision required (parallel to RP_SIGNOFF)
+
+
+// ── Add to Ticket model (optional) ────────────────────────────────────
+//
+//   unit         String  @default("cannabis")  // cannabis | chicken | mielies | cattle
+//   flockId      String?
+//   houseId      String?
+//
+// (Indexed for cross-unit owner roll-up queries.)

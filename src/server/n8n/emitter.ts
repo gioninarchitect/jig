@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - n8n Webhook Event Emitter
+ * PureGro Premium Cannabis Care - n8n Webhook Event Emitter
  *
  * Fires events to n8n webhook endpoints. Each event type maps to
  * a separate n8n webhook URL derived from the base URL.

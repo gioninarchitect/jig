@@ -6,16 +6,16 @@ import useLiveEvents from './hooks/useLiveEvents';
 
 const SEVERITY_STYLES = {
   info: 'border-l-blue-400 bg-blue-50',
-  success: 'border-l-jig-purple bg-jig-purple/5',
-  warning: 'border-l-jig-amber bg-jig-amber/5',
-  critical: 'border-l-jig-red bg-jig-red/5',
+  success: 'border-l-or-gold bg-or-gold/5',
+  warning: 'border-l-or-gold bg-or-gold/5',
+  critical: 'border-l-origin-red bg-origin-red/5',
 };
 
 const SEVERITY_DOT = {
   info: 'bg-blue-400',
-  success: 'bg-jig-purple',
-  warning: 'bg-jig-amber',
-  critical: 'bg-jig-red animate-pulse',
+  success: 'bg-or-gold',
+  warning: 'bg-or-gold',
+  critical: 'bg-origin-red animate-pulse',
 };
 
 function formatEventType(type) {
@@ -51,7 +51,7 @@ export default function LiveEventStream({ branchFilter = null }) {
             onClick={() => setSeverityFilter(f.key)}
             className={`px-3 py-1 rounded text-xs font-bold transition-colors ${
               severityFilter === f.key
-                ? 'bg-jig-purple text-white'
+                ? 'bg-or-gold text-white'
                 : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
             }`}
           >

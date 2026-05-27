@@ -59,21 +59,21 @@ export default function BranchDrillDown({ branch, onClose }) {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3 rounded-lg bg-jig-purple/5 border border-jig-purple/20">
-          <div className="text-xs text-jig-purple-light">Today Revenue</div>
+        <div className="p-3 rounded-lg bg-or-gold/5 border border-or-gold/20">
+          <div className="text-xs text-or-gold-light">Today Revenue</div>
           <div className="font-heading text-lg text-white">{formatCurrency(stats.todayRevenue || 0)}</div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-purple/5 border border-jig-purple/20">
-          <div className="text-xs text-jig-purple-light">Orders</div>
+        <div className="p-3 rounded-lg bg-or-gold/5 border border-or-gold/20">
+          <div className="text-xs text-or-gold-light">Orders</div>
           <div className="font-heading text-lg text-white">{stats.todayOrders || 0}</div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-purple/5 border border-jig-purple/20">
-          <div className="text-xs text-jig-purple-light">Stock Value</div>
+        <div className="p-3 rounded-lg bg-or-gold/5 border border-or-gold/20">
+          <div className="text-xs text-or-gold-light">Stock Value</div>
           <div className="font-heading text-lg text-white">{formatCurrency(stats.inventoryValue || 0)}</div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-purple/5 border border-jig-purple/20">
-          <div className="text-xs text-jig-purple-light">Low Stock</div>
-          <div className={`font-heading text-lg ${stats.lowStockItems > 2 ? 'text-jig-red' : 'text-white'}`}>
+        <div className="p-3 rounded-lg bg-or-gold/5 border border-or-gold/20">
+          <div className="text-xs text-or-gold-light">Low Stock</div>
+          <div className={`font-heading text-lg ${stats.lowStockItems > 2 ? 'text-origin-red' : 'text-white'}`}>
             {stats.lowStockItems || 0}
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function BranchDrillDown({ branch, onClose }) {
         <div className="space-y-3">
           {/* Revenue breakdown */}
           <div className="p-4 rounded-lg bg-white border border-gray-200">
-            <div className="text-xs text-jig-purple-light font-bold uppercase mb-3">Revenue Period</div>
+            <div className="text-xs text-or-gold-light font-bold uppercase mb-3">Revenue Period</div>
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Today</span>
@@ -119,11 +119,11 @@ export default function BranchDrillDown({ branch, onClose }) {
           {/* World Model risk score */}
           {branchWorldState && (
             <div className="p-4 rounded-lg bg-white border border-gray-200">
-              <div className="text-xs text-jig-purple-light font-bold uppercase mb-3">Risk Scores</div>
+              <div className="text-xs text-or-gold-light font-bold uppercase mb-3">Risk Scores</div>
               <div className="grid grid-cols-3 gap-3">
                 {Object.entries(branchWorldState.riskScore || {}).filter(([k]) => k !== 'overall').map(([domain, score]) => (
                   <div key={domain} className="text-center">
-                    <div className={`font-heading text-lg ${score > 70 ? 'text-jig-red' : score > 40 ? 'text-jig-amber' : 'text-jig-purple'}`}>
+                    <div className={`font-heading text-lg ${score > 70 ? 'text-origin-red' : score > 40 ? 'text-or-gold' : 'text-or-gold'}`}>
                       {score}
                     </div>
                     <div className="text-[10px] text-gray-400 capitalize">{domain}</div>
@@ -136,7 +136,7 @@ export default function BranchDrillDown({ branch, onClose }) {
           {/* Tills */}
           {branch.tills?.length > 0 && (
             <div className="p-4 rounded-lg bg-white border border-gray-200">
-              <div className="text-xs text-jig-purple-light font-bold uppercase mb-2">Tills</div>
+              <div className="text-xs text-or-gold-light font-bold uppercase mb-2">Tills</div>
               <div className="space-y-1">
                 {branch.tills.map(till => (
                   <div key={till.tillNumber} className="flex items-center justify-between text-sm">
@@ -156,21 +156,21 @@ export default function BranchDrillDown({ branch, onClose }) {
         <div className="p-4 rounded-lg bg-white border border-gray-200">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <div className="text-xs text-jig-purple-light">Total SKUs</div>
+              <div className="text-xs text-or-gold-light">Total SKUs</div>
               <div className="font-heading text-xl text-white">{stats.inventoryQuantity || 0}</div>
             </div>
             <div>
-              <div className="text-xs text-jig-purple-light">Stock Value</div>
+              <div className="text-xs text-or-gold-light">Stock Value</div>
               <div className="font-heading text-xl text-white">{formatCurrency(stats.inventoryValue || 0)}</div>
             </div>
             <div>
-              <div className="text-xs text-jig-purple-light">Low Stock Items</div>
-              <div className={`font-heading text-xl ${stats.lowStockItems > 0 ? 'text-jig-red' : 'text-white'}`}>
+              <div className="text-xs text-or-gold-light">Low Stock Items</div>
+              <div className={`font-heading text-xl ${stats.lowStockItems > 0 ? 'text-origin-red' : 'text-white'}`}>
                 {stats.lowStockItems || 0}
               </div>
             </div>
             <div>
-              <div className="text-xs text-jig-purple-light">Active Tills</div>
+              <div className="text-xs text-or-gold-light">Active Tills</div>
               <div className="font-heading text-xl text-white">{stats.activeTills || 0}</div>
             </div>
           </div>
@@ -178,11 +178,11 @@ export default function BranchDrillDown({ branch, onClose }) {
           {/* World Model stock health */}
           {branchWorldState?.stockHealth && (
             <div className="mt-4 pt-4 border-t border-gray-100">
-              <div className="text-xs text-jig-purple-light font-bold uppercase mb-2">Stock Health (World Model)</div>
+              <div className="text-xs text-or-gold-light font-bold uppercase mb-2">Stock Health (World Model)</div>
               <div className="grid grid-cols-5 gap-2 text-center">
                 {Object.entries(branchWorldState.stockHealth).map(([metric, val]) => (
                   <div key={metric}>
-                    <div className={`font-heading text-sm ${val > 70 ? 'text-jig-purple' : val > 40 ? 'text-jig-amber' : 'text-jig-red'}`}>
+                    <div className={`font-heading text-sm ${val > 70 ? 'text-or-gold' : val > 40 ? 'text-or-gold' : 'text-origin-red'}`}>
                       {val}%
                     </div>
                     <div className="text-[10px] text-gray-400 capitalize">{metric}</div>

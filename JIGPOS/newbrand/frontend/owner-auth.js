@@ -1,5 +1,5 @@
 // owner-auth.js — OTP authentication for owner dashboard
-// Depends on: config.js (API_URL, DEV_MODE), dbc-utils.js (showToast)
+// Depends on: config.js (API_URL, DEV_MODE), or-utils.js (showToast)
 
 // Auth state
 let token = localStorage.getItem('ownerToken') || localStorage.getItem('token') || sessionStorage.getItem('adminToken');

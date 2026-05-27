@@ -17,7 +17,7 @@ function closePaymentModal() {
 }
 
 function updatePaymentTotal() {
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * 1.15;
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (1 + VAT_RATE);
     document.getElementById('paymentTotal').textContent = `R ${total.toFixed(2)}`;
 }
 
@@ -45,7 +45,7 @@ function completeCardPayment() {
 
 function copyBankDetails() {
     const details = `Bank: Standard Bank
-Account: JIG Craft Cannabis
+Account: Origin by ILCO Farming
 Number: 123456789
 Branch: 051001
 Reference: SALE-${Date.now()}`;
@@ -76,7 +76,7 @@ let currentCompletedSale = null;
 
 async function completeSale(paymentMethod, reference, paymentNotes = null) {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const vat = subtotal * 0.15;
+    const vat = subtotal * VAT_RATE;
     const total = subtotal + vat;
 
     // Get user's branch from session
@@ -103,7 +103,7 @@ async function completeSale(paymentMethod, reference, paymentNotes = null) {
     };
 
     // Call POS API to create sale
-    fetch('/api/v1/pos/sale', {
+    fetch(`${API_URL}/pos/sale`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -140,12 +140,12 @@ async function completeSale(paymentMethod, reference, paymentNotes = null) {
 
 function downloadReceipt(saleId) {
     const token = sessionStorage.getItem('adminToken') || sessionStorage.getItem('token') || '';
-    window.open(`/api/v1/pos/sale/${saleId}/receipt?download=true&token=${encodeURIComponent(token)}`, '_blank');
+    window.open(`${API_URL}/pos/sale/${saleId}/receipt?download=true&token=${encodeURIComponent(token)}`, '_blank');
 }
 
 function downloadInvoice(saleId) {
     const token = sessionStorage.getItem('adminToken') || sessionStorage.getItem('token') || '';
-    window.open(`/api/v1/pos/sale/${saleId}/invoice?download=true&token=${encodeURIComponent(token)}`, '_blank');
+    window.open(`${API_URL}/pos/sale/${saleId}/invoice?download=true&token=${encodeURIComponent(token)}`, '_blank');
 }
 
 function downloadCurrentReceipt() {
@@ -159,7 +159,7 @@ function printReceipt() {
 
     const token = sessionStorage.getItem('adminToken') || sessionStorage.getItem('token') || '';
     // Open receipt in new window for printing
-    const printWindow = window.open(`/api/v1/pos/sale/${currentCompletedSale._id}/receipt?print=true&token=${encodeURIComponent(token)}`, '_blank');
+    const printWindow = window.open(`${API_URL}/pos/sale/${currentCompletedSale._id}/receipt?print=true&token=${encodeURIComponent(token)}`, '_blank');
 
     // Auto-trigger print dialog when loaded
     if (printWindow) {
@@ -188,7 +188,7 @@ async function sendReceiptEmail() {
     }
 
     try {
-        const response = await fetch(`/api/v1/pos/sale/${currentCompletedSale._id}/email`, {
+        const response = await fetch(`${API_URL}/pos/sale/${currentCompletedSale._id}/email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -225,7 +225,7 @@ function initSplitPayments() {
 }
 
 function renderSplitPayments() {
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * 1.15;
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (1 + VAT_RATE);
     const container = document.getElementById('splitPaymentContainer');
 
     if (!container) return;
@@ -235,7 +235,7 @@ function renderSplitPayments() {
 
     container.innerHTML = `
         <div class="split-payment-container">
-            <h4 style="margin-bottom: 15px; color: var(--green-dark); font-family: 'Oswald', sans-serif; text-transform: uppercase;">
+            <h4 style="margin-bottom: 15px; color: var(--green-dark); font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase;">
                 <i class="fas fa-divide"></i> Split Payment
             </h4>
 
@@ -260,7 +260,7 @@ function renderSplitPayments() {
 
             <div class="payment-balance ${remaining <= 0 ? (remaining < 0 ? 'overpaid' : 'complete') : ''}">
                 <span>${remaining <= 0 ? (remaining < 0 ? 'Overpaid:' : 'Fully Paid:') : 'Remaining:'}</span>
-                <span style="font-family: 'Oswald', sans-serif; font-size: 1.4rem;">R ${Math.abs(remaining).toFixed(2)}</span>
+                <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem;">R ${Math.abs(remaining).toFixed(2)}</span>
             </div>
 
             ${remaining <= 0 ? `
@@ -294,7 +294,7 @@ function updateSplitAmount(index, amount) {
 }
 
 async function completeSplitPayment() {
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * 1.15;
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (1 + VAT_RATE);
     const paidAmount = splitPayments.reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0);
 
     if (paidAmount < total) {
@@ -303,7 +303,7 @@ async function completeSplitPayment() {
     }
 
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const vat = subtotal * 0.15;
+    const vat = subtotal * VAT_RATE;
 
     // Get user's branch from session
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
@@ -330,7 +330,7 @@ async function completeSplitPayment() {
     };
 
     try {
-        const res = await fetch('/api/v1/pos/sale', {
+        const res = await fetch(`${API_URL}/pos/sale`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -370,7 +370,7 @@ function attachCashChangeListener() {
     if (cashInput) {
         cashInput.addEventListener('input', function() {
             const received = parseFloat(this.value) || 0;
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * 1.15;
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (1 + VAT_RATE);
             const change = Math.max(0, received - total);
             document.getElementById('changeDue').textContent = `R ${change.toFixed(2)}`;
         });

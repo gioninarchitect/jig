@@ -282,7 +282,7 @@ const menuItems = [
 async function seedMenu() {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/jig', {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/origin', {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });

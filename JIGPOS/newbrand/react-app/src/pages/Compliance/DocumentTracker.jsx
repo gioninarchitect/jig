@@ -43,7 +43,7 @@ export default function DocumentTracker({ documents, categories }) {
             key={f.key}
             onClick={() => setFilter(f.key)}
             className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${
-              filter === f.key ? 'bg-jig-purple text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+              filter === f.key ? 'bg-or-gold text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
             }`}
           >
             {f.label} ({counts[f.key]})
@@ -64,9 +64,9 @@ export default function DocumentTracker({ documents, categories }) {
 
             return (
               <div key={doc._id || i} className={`p-3 rounded-lg border ${
-                isExpired ? 'border-jig-red/20 bg-jig-red/5' :
-                isCritical ? 'border-jig-red/20 bg-jig-red/5' :
-                isWarning ? 'border-jig-amber/20 bg-jig-amber/5' :
+                isExpired ? 'border-origin-red/20 bg-origin-red/5' :
+                isCritical ? 'border-origin-red/20 bg-origin-red/5' :
+                isWarning ? 'border-or-gold/20 bg-or-gold/5' :
                 'border-gray-200 bg-white'
               }`}>
                 <div className="flex items-center justify-between">
@@ -87,12 +87,12 @@ export default function DocumentTracker({ documents, categories }) {
                   </div>
                   <div className="text-right">
                     {isExpired ? (
-                      <div className="text-xs text-jig-red font-bold">{doc.daysExpired}d expired</div>
+                      <div className="text-xs text-origin-red font-bold">{doc.daysExpired}d expired</div>
                     ) : doc.daysUntilExpiry != null ? (
                       <div className={`text-xs font-bold ${
-                        doc.daysUntilExpiry <= 7 ? 'text-jig-red' :
-                        doc.daysUntilExpiry <= 30 ? 'text-jig-amber-dark' :
-                        'text-jig-purple'
+                        doc.daysUntilExpiry <= 7 ? 'text-origin-red' :
+                        doc.daysUntilExpiry <= 30 ? 'text-or-gold-dark' :
+                        'text-or-gold'
                       }`}>{doc.daysUntilExpiry}d left</div>
                     ) : null}
                     {doc.expiryDate && (

@@ -71,7 +71,7 @@ export default function PotencyDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="w-8 h-8 border-3 border-jig-purple border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-or-gold border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -86,24 +86,24 @@ export default function PotencyDashboard() {
     <div className="space-y-4">
       {/* Stats row */}
       <div className="grid grid-cols-4 gap-3">
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Active Batches</div>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Active Batches</div>
           <div className="font-heading text-xl text-white">{batches.length}</div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Markdown Alerts</div>
-          <div className={`font-heading text-xl ${alerts.filter(a => a.category === 'markdown').length > 0 ? 'text-jig-red' : 'text-white'}`}>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Markdown Alerts</div>
+          <div className={`font-heading text-xl ${alerts.filter(a => a.category === 'markdown').length > 0 ? 'text-origin-red' : 'text-white'}`}>
             {alerts.filter(a => a.category === 'markdown').length}
           </div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Retest Needed</div>
-          <div className={`font-heading text-xl ${alerts.filter(a => a.suggestRetest).length > 0 ? 'text-jig-amber' : 'text-white'}`}>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Retest Needed</div>
+          <div className={`font-heading text-xl ${alerts.filter(a => a.suggestRetest).length > 0 ? 'text-or-gold' : 'text-white'}`}>
             {alerts.filter(a => a.suggestRetest).length}
           </div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Bundle Deals</div>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Bundle Deals</div>
           <div className="font-heading text-xl text-white">{bundles.length}</div>
         </div>
       </div>
@@ -120,7 +120,7 @@ export default function PotencyDashboard() {
           >
             {t.label}
             {t.count > 0 && (
-              <span className="ml-1 px-1.5 py-0.5 rounded-full bg-jig-red/10 text-jig-red text-[10px]">{t.count}</span>
+              <span className="ml-1 px-1.5 py-0.5 rounded-full bg-origin-red/10 text-origin-red text-[10px]">{t.count}</span>
             )}
           </button>
         ))}
@@ -136,7 +136,7 @@ export default function PotencyDashboard() {
               <div
                 key={alert.batchId}
                 className={`p-4 rounded-lg border ${
-                  alert.category === 'markdown' ? 'border-jig-red/30 bg-jig-red/5' : 'border-jig-amber/30 bg-jig-amber/5'
+                  alert.category === 'markdown' ? 'border-origin-red/30 bg-origin-red/5' : 'border-or-gold/30 bg-or-gold/5'
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
@@ -154,7 +154,7 @@ export default function PotencyDashboard() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="font-heading text-lg text-jig-red">{alert.thcDropPercent}%</div>
+                    <div className="font-heading text-lg text-origin-red">{alert.thcDropPercent}%</div>
                     <div className="text-[10px] text-gray-400">potency drop</div>
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export default function PotencyDashboard() {
 
                 {alert.suggestMarkdown && (
                   <div className="mt-3 flex items-center gap-3">
-                    <span className="text-xs text-jig-red font-bold">
+                    <span className="text-xs text-origin-red font-bold">
                       Suggest {suggestMarkdownPercent(alert)}% markdown
                     </span>
                   </div>
@@ -225,16 +225,16 @@ export default function PotencyDashboard() {
                       </td>
                       <td className="py-2 px-2 text-center">{batch.potency.originalTHC}%</td>
                       <td className="py-2 px-2 text-center font-bold">~{batch.potency.estimatedTHC}%</td>
-                      <td className={`py-2 px-2 text-center font-bold ${batch.potency.thcDropPercent >= 15 ? 'text-jig-red' : batch.potency.thcDropPercent >= 5 ? 'text-jig-amber' : 'text-jig-purple'}`}>
+                      <td className={`py-2 px-2 text-center font-bold ${batch.potency.thcDropPercent >= 15 ? 'text-origin-red' : batch.potency.thcDropPercent >= 5 ? 'text-or-gold' : 'text-or-gold'}`}>
                         {batch.potency.thcDropPercent}%
                       </td>
                       <td className="py-2 px-2 text-center text-gray-500">{batch.potency.degradationVelocity}%/d</td>
                       <td className="py-2 px-2 text-center">{batch.remainingQuantity || 0}</td>
                       <td className="py-2 px-2 text-center">
                         <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                          batch.potency.confidenceLevel === 'high' ? 'bg-jig-purple/10 text-jig-purple' :
-                          batch.potency.confidenceLevel === 'medium' ? 'bg-jig-amber/10 text-jig-amber-dark' :
-                          'bg-jig-red/10 text-jig-red'
+                          batch.potency.confidenceLevel === 'high' ? 'bg-or-gold/10 text-or-gold' :
+                          batch.potency.confidenceLevel === 'medium' ? 'bg-or-gold/10 text-or-gold-dark' :
+                          'bg-origin-red/10 text-origin-red'
                         }`}>
                           {batch.potency.confidenceLevel}
                         </span>
@@ -258,7 +258,7 @@ export default function PotencyDashboard() {
             </div>
           ) : (
             bundles.map((bundle, i) => (
-              <div key={i} className="p-4 rounded-lg border border-jig-amber/30 bg-jig-amber/5">
+              <div key={i} className="p-4 rounded-lg border border-or-gold/30 bg-or-gold/5">
                 <div className="flex items-center justify-between mb-3">
                   <span className="font-heading text-sm text-white">{bundle.label}</span>
                   <Badge status="warning">
@@ -269,7 +269,7 @@ export default function PotencyDashboard() {
                   {bundle.items.map(item => (
                     <div key={item.batchId} className="flex items-center justify-between text-xs">
                       <span className="text-gray-600">{item.productName || item.batchId}</span>
-                      <span className="text-jig-red font-bold">{item.thcDropPercent}% drop</span>
+                      <span className="text-origin-red font-bold">{item.thcDropPercent}% drop</span>
                     </div>
                   ))}
                 </div>
@@ -283,8 +283,8 @@ export default function PotencyDashboard() {
 }
 
 const CONFIDENCE_STYLES = {
-  high: 'text-jig-purple',
-  medium: 'text-jig-amber-dark',
-  low: 'text-jig-red',
+  high: 'text-or-gold',
+  medium: 'text-or-gold-dark',
+  low: 'text-origin-red',
   none: 'text-gray-400',
 };

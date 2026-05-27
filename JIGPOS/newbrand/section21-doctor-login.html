@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Login - Section 21 Course</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="frontend/config.js"></script>
+    <style>
+        :root {
+            --bg: #090909;
+            --surface: #141414;
+            --surface-2: #1d1d1d;
+            --gold: #c9a84c;
+            --gold-soft: #e8d5a3;
+            --text: #f5f0e8;
+            --muted: #a89f8c;
+            --line: rgba(201,168,76,0.28);
+            --red: #dc2626;
+            --green: #22c55e;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, sans-serif;
+            background:
+                linear-gradient(90deg, rgba(9,9,9,0.96) 0%, rgba(9,9,9,0.84) 52%, rgba(9,9,9,0.64) 100%),
+                url("images/originhero.png") center/cover no-repeat;
+            color: var(--text);
+        }
+
+        .wrap {
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 22px 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 900;
+        }
+
+        .brand img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .back {
+            color: var(--gold-soft);
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        main {
+            min-height: calc(100vh - 92px);
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 430px;
+            gap: 42px;
+            align-items: center;
+            padding: 44px 0 70px;
+        }
+
+        h1, h2 {
+            font-family: Cinzel, serif;
+            letter-spacing: 0;
+            line-height: 1.14;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--gold);
+            font-size: clamp(2.2rem, 5.6vw, 4.8rem);
+            text-transform: uppercase;
+        }
+
+        .lede {
+            max-width: 660px;
+            color: rgba(245,240,232,0.9);
+            font-size: 1.1rem;
+        }
+
+        .login-card {
+            background: rgba(20,20,20,0.92);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 24px 70px rgba(0,0,0,0.45);
+        }
+
+        .login-card h2 {
+            margin: 0 0 6px;
+            color: var(--gold-soft);
+        }
+
+        .login-card p {
+            color: var(--muted);
+        }
+
+        label {
+            display: block;
+            color: var(--gold-soft);
+            font-weight: 800;
+            margin: 14px 0 7px;
+        }
+
+        input {
+            width: 100%;
+            border: 1px solid var(--line);
+            background: #0f0f0f;
+            color: var(--text);
+            border-radius: 8px;
+            padding: 13px;
+            font: inherit;
+        }
+
+        .otp-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+
+        .otp-grid input {
+            text-align: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            padding: 12px 6px;
+        }
+
+        .btn {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 0;
+            border-radius: 8px;
+            padding: 13px 17px;
+            margin-top: 16px;
+            background: var(--gold);
+            color: #0a0a0a;
+            font-weight: 900;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .btn.secondary {
+            color: var(--gold-soft);
+            background: transparent;
+            border: 1px solid var(--line);
+        }
+
+        .message {
+            display: none;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 14px;
+            font-weight: 700;
+        }
+
+        .message.error {
+            display: block;
+            color: #fecaca;
+            background: rgba(220,38,38,0.14);
+            border: 1px solid rgba(220,38,38,0.38);
+        }
+
+        .message.success {
+            display: block;
+            color: #bbf7d0;
+            background: rgba(34,197,94,0.12);
+            border: 1px solid rgba(34,197,94,0.35);
+        }
+
+        .step { display: none; }
+        .step.active { display: block; }
+
+        .fineprint {
+            font-size: 0.84rem;
+            color: var(--muted);
+            margin-top: 14px;
+        }
+
+        @media (max-width: 860px) {
+            main { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav>
+            <a class="brand" href="section21-doctors-course.html">
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
+                <span>Origin Medical Network</span>
+            </a>
+            <a class="back" href="section21-doctors-course.html"><i class="fas fa-arrow-left"></i> Course Site</a>
+        </nav>
+
+        <main>
+            <div>
+                <h1>Doctor Course Login</h1>
+                <p class="lede">Secure passwordless access for doctors completing the Origin Section 21 Doctors Course. Use your professional email address to receive a one-time code.</p>
+            </div>
+
+            <div class="login-card">
+                <div id="stepEmail" class="step active">
+                    <h2>Request OTP</h2>
+                    <p>Enter the email address you will use for course records and certificate issue.</p>
+                    <form id="requestForm">
+                        <label for="email">Doctor email</label>
+                        <input id="email" type="email" autocomplete="email" placeholder="doctor@example.co.za" required>
+                        <label for="doctorName">Full name</label>
+                        <input id="doctorName" type="text" autocomplete="name" placeholder="Dr Full Name" required>
+                        <label for="hpcsa">HPCSA number</label>
+                        <input id="hpcsa" type="text" placeholder="MP0000000" required>
+                        <button class="btn" id="requestBtn" type="submit"><i class="fas fa-paper-plane"></i> Send OTP</button>
+                    </form>
+                    <div id="requestMessage" class="message"></div>
+                    <p class="fineprint">If this is a new doctor account, the OTP service may create a basic user profile. Final certification still requires CMO governance review.</p>
+                </div>
+
+                <div id="stepOtp" class="step">
+                    <h2>Verify Code</h2>
+                    <p>Enter the 6-digit code sent to <strong id="emailLabel"></strong>.</p>
+                    <form id="verifyForm">
+                        <div class="otp-grid" id="otpGrid">
+                            <input maxlength="1" inputmode="numeric" pattern="[0-9]">
+                            <input maxlength="1" inputmode="numeric" pattern="[0-9]">
+                            <input maxlength="1" inputmode="numeric" pattern="[0-9]">
+                            <input maxlength="1" inputmode="numeric" pattern="[0-9]">
+                            <input maxlength="1" inputmode="numeric" pattern="[0-9]">
+                            <input maxlength="1" inputmode="numeric" pattern="[0-9]">
+                        </div>
+                        <button class="btn" id="verifyBtn" type="submit"><i class="fas fa-unlock"></i> Verify and Continue</button>
+                        <button class="btn secondary" type="button" id="backBtn">Use Different Email</button>
+                    </form>
+                    <div id="verifyMessage" class="message"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentEmail = '';
+
+        const doctorProfile = () => ({
+            name: document.getElementById('doctorName').value.trim(),
+            hpcsa: document.getElementById('hpcsa').value.trim(),
+            email: document.getElementById('email').value.trim().toLowerCase()
+        });
+
+        function showMessage(id, type, text) {
+            const node = document.getElementById(id);
+            node.className = `message ${type}`;
+            node.textContent = text;
+        }
+
+        function switchStep(step) {
+            document.getElementById('stepEmail').classList.toggle('active', step === 'email');
+            document.getElementById('stepOtp').classList.toggle('active', step === 'otp');
+        }
+
+        document.getElementById('requestForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const btn = document.getElementById('requestBtn');
+            const profile = doctorProfile();
+            currentEmail = profile.email;
+            localStorage.setItem('originDoctorProfile', JSON.stringify(profile));
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending';
+
+            try {
+                const response = await fetch(`${API_URL}/auth/otp/request`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentEmail, purpose: 'signup' })
+                });
+                const data = await response.json();
+                if (!data.success) throw new Error(data.message || 'Unable to send OTP');
+                document.getElementById('emailLabel').textContent = currentEmail;
+                showMessage('requestMessage', 'success', 'OTP sent. Check the doctor email inbox.');
+                switchStep('otp');
+                document.querySelector('#otpGrid input').focus();
+            } catch (error) {
+                showMessage('requestMessage', 'error', error.message || 'OTP request failed');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP';
+            }
+        });
+
+        document.getElementById('verifyForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const code = Array.from(document.querySelectorAll('#otpGrid input')).map(input => input.value).join('');
+            const btn = document.getElementById('verifyBtn');
+            if (code.length !== 6) {
+                showMessage('verifyMessage', 'error', 'Enter all 6 digits.');
+                return;
+            }
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying';
+
+            try {
+                const response = await fetch(`${API_URL}/auth/otp/verify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentEmail, otpCode: code, purpose: 'signup' })
+                });
+                const data = await response.json();
+                if (!data.success) throw new Error(data.message || 'Invalid OTP');
+                localStorage.setItem('originDoctorToken', data.token || data.accessToken || '');
+                localStorage.setItem('originDoctorAuthAt', new Date().toISOString());
+                window.location.href = 'doctor-certification-qa.html';
+            } catch (error) {
+                showMessage('verifyMessage', 'error', error.message || 'OTP verification failed');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-unlock"></i> Verify and Continue';
+            }
+        });
+
+        document.getElementById('backBtn').addEventListener('click', () => switchStep('email'));
+
+        document.querySelectorAll('#otpGrid input').forEach((input, index, inputs) => {
+            input.addEventListener('input', () => {
+                input.value = input.value.replace(/\D/g, '').slice(0, 1);
+                if (input.value && inputs[index + 1]) inputs[index + 1].focus();
+            });
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Backspace' && !input.value && inputs[index - 1]) inputs[index - 1].focus();
+            });
+            input.addEventListener('paste', (event) => {
+                event.preventDefault();
+                const pasted = (event.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
+                pasted.split('').forEach((char, pasteIndex) => {
+                    if (inputs[pasteIndex]) inputs[pasteIndex].value = char;
+                });
+                if (pasted.length === 6) document.getElementById('verifyForm').requestSubmit();
+            });
+        });
+    </script>
+</body>
+</html>

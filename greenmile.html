@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Origin Academy — Section 21 Certification</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide-react@0.344.0/dist/umd/lucide-react.js" crossorigin></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+const { useState, useEffect, useRef } = React;
+const {
+  Scale, Dna, FlaskConical, Hospital, User, ClipboardList,
+  Beaker, AlertTriangle, FolderOpen, Telescope, ChevronRight,
+  ChevronLeft, Check, X, Send, BookOpen, Brain, Award,
+  ArrowLeft, Leaf, Sparkles, Lock, Star, CircleCheck,
+  MessageSquare, RotateCcw, Home, GraduationCap, Zap
+} = lucideReact;
+
+// ── PALETTE & TOKENS ──────────────────────────────────────────────────────────
+const T = {
+  bg0:      "#0A0A0A",
+  bg1:      "#0E0E0E",
+  bg2:      "#141414",
+  bg3:      "#1C1C1C",
+  surface:  "rgba(20,20,20,0.85)",
+  surfaceHi:"rgba(28,28,28,0.95)",
+  border:   "rgba(201,168,76,0.18)",
+  borderHi: "rgba(201,168,76,0.45)",
+  gold:     "#C9A84C",
+  goldHi:   "#E8D5A3",
+  goldDim:  "rgba(201,168,76,0.25)",
+  green:    "#C9A84C",
+  greenHi:  "#D4B86A",
+  greenDim: "rgba(201,168,76,0.15)",
+  greenPulse:"rgba(201,168,76,0.08)",
+  text:     "#F5F0E8",
+  textMid:  "#A89F8C",
+  textDim:  "#6B6458",
+  danger:   "#DC2626",
+  dangerDim:"rgba(220,38,38,0.15)",
+};
+
+const GLOBAL_CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: ${T.bg0}; }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: ${T.bg0}; }
+  ::-webkit-scrollbar-thumb { background: ${T.gold}; border-radius: 3px; }
+
+  @keyframes fadeUp   { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+  @keyframes pulse    { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+  @keyframes glow     { 0%,100%{box-shadow:0 0 10px rgba(201,168,76,0.2);} 50%{box-shadow:0 0 28px rgba(201,168,76,0.55), 0 0 60px rgba(201,168,76,0.15);} }
+  @keyframes glowGold { 0%,100%{box-shadow:0 0 8px rgba(201,168,76,0.2);} 50%{box-shadow:0 0 24px rgba(201,168,76,0.55), 0 0 50px rgba(201,168,76,0.12);} }
+  @keyframes scanline { 0%{transform:translateY(-100%);} 100%{transform:translateY(100vh);} }
+  @keyframes borderPulse { 0%,100%{border-color:rgba(201,168,76,0.18);} 50%{border-color:rgba(201,168,76,0.5);} }
+  @keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+  @keyframes shimmer { 0%{background-position:-200% 0;} 100%{background-position:200% 0;} }
+
+  .fadeUp  { animation: fadeUp  0.55s cubic-bezier(.22,.68,0,1.2) forwards; }
+  .fadeIn  { animation: fadeIn  0.4s ease forwards; }
+  .glow    { animation: glow    2.5s ease-in-out infinite; }
+  .glowGold{ animation: glowGold 2.8s ease-in-out infinite; }
+  .pulse   { animation: pulse   2s ease-in-out infinite; }
+  .borderPulse { animation: borderPulse 3s ease-in-out infinite; }
+
+  .btn-green {
+    background: linear-gradient(135deg, #8B6914, #C9A84C);
+    border: 1px solid ${T.borderHi};
+    color: #F5F0E8;
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-green:hover {
+    background: linear-gradient(135deg, #C9A84C, #E8D5A3);
+    box-shadow: 0 0 20px rgba(201,168,76,0.4);
+    transform: translateY(-1px);
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, #5a3c0a, #8a6020);
+    border: 1px solid rgba(201,168,76,0.5);
+    color: ${T.goldHi};
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-gold:hover {
+    background: linear-gradient(135deg, #6a4c10, #aa7828);
+    box-shadow: 0 0 20px rgba(201,168,76,0.4);
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid ${T.border};
+    color: ${T.textMid};
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: ${T.borderHi}; color: ${T.greenHi}; }
+
+  .card {
+    background: ${T.surface};
+    border: 1px solid ${T.border};
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    transition: all 0.25s;
+  }
+  .card:hover { border-color: ${T.borderHi}; }
+  .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(201,168,76,0.18); }
+
+  .opt-btn {
+    display: block; width: 100%;
+    background: rgba(20,20,20,0.6);
+    border: 1px solid ${T.border};
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: ${T.textMid};
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.18s;
+    margin-bottom: 10px;
+  }
+  .opt-btn:hover { border-color: ${T.borderHi}; background: ${T.greenDim}; color: ${T.greenHi}; }
+  .opt-selected { border-color: ${T.gold} !important; background: rgba(201,168,76,0.18) !important; color: ${T.goldHi} !important; box-shadow: 0 0 14px rgba(201,168,76,0.22); }
+  .opt-correct  { border-color: #22C55E !important; background: rgba(34,197,94,0.2) !important; color: #86EFAC !important; }
+  .opt-wrong    { border-color: ${T.danger} !important; background: ${T.dangerDim} !important; color: #f08888 !important; }
+  .opt-gold     { border-color: ${T.gold} !important; background: ${T.goldDim} !important; color: ${T.goldHi} !important; box-shadow: 0 0 14px rgba(201,168,76,0.22); }
+
+  .tab-btn {
+    background: none; border: none; border-bottom: 2px solid transparent;
+    padding: 12px 20px;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all 0.18s;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .tab-active { border-bottom-color: ${T.gold} !important; color: ${T.goldHi} !important; }
+  .tab-btn:not(.tab-active) { color: ${T.textDim}; }
+  .tab-btn:not(.tab-active):hover { color: ${T.textMid}; }
+
+  .input-field {
+    background: rgba(14,14,14,0.8);
+    border: 1px solid ${T.border};
+    border-radius: 12px;
+    padding: 13px 16px;
+    color: ${T.text};
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .input-field:focus { border-color: ${T.borderHi}; box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
+  .input-field::placeholder { color: ${T.textDim}; }
+
+  .progress-bar-bg { background: rgba(201,168,76,0.1); border-radius: 999px; overflow: hidden; }
+  .progress-bar-fill { background: linear-gradient(90deg, #8B6914, #E8D5A3); border-radius: 999px; transition: width 0.7s cubic-bezier(.22,.68,0,1.2); }
+
+  /* Hex grid background */
+  .hex-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52' viewBox='0 0 60 52'%3E%3Cpath d='M30 2 L58 17 L58 35 L30 50 L2 35 L2 17 Z' fill='none' stroke='rgba(201,168,76,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 60px 52px;
+  }
+
+  /* Scanline overlay */
+  .scanline::after {
+    content: '';
+    position: fixed; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(transparent, rgba(201,168,76,0.04), transparent);
+    animation: scanline 6s linear infinite;
+    pointer-events: none; z-index: 0;
+  }
+`;
+
+// ── MODULE DATA ───────────────────────────────────────────────────────────────
+const MOD_ICONS = [Scale, Dna, FlaskConical, Hospital, User, ClipboardList, Beaker, AlertTriangle, FolderOpen, Telescope];
+
+const MODULES = [
+  {
+    id:1, title:"The Legal Landscape", sub:"SA Regulatory Framework & Section 21 Foundations",
+    dur:"45 min", color:"#8B6914",
+    content:[
+      { h:"Medicines and Related Substances Act (Act 101 of 1965)",
+        b:`The cornerstone of medical cannabis regulation in South Africa is the Medicines and Related Substances Act 101 of 1965. This Act governs the registration, scheduling, manufacture, distribution, and prescription of all medicines — including cannabis-based products.
+
+Section 21 creates a critical legal pathway: it permits use of unregistered medicines in exceptional circumstances. Because no cannabis-containing medicine is currently formally registered on the SA market, ALL medical cannabis access flows exclusively through this Section 21 mechanism.
+
+Key definitions under the Act:
+• "Medicine" — any substance used in the diagnosis, treatment, mitigation, modification or prevention of disease
+• "Unregistered medicine" — a medicine not yet on the SA medicines register (all cannabis products fall here)
+• "Complementary medicine" — a separate category; cannabis does NOT fall under this category` },
+      { h:"What Section 21 Actually Authorises",
+        b:`Section 21 is NOT a blanket prescribing licence. It is patient-specific, product-specific, and condition-specific. Each application must:
+
+• Name the individual patient (full name, ID number, DOB)
+• Identify the specific cannabis product: manufacturer, batch, cannabinoid profile
+• Provide clinical justification: conventional treatments have been trialled or are contraindicated
+• Include evidence of patient informed consent
+• Be submitted by an HPCSA-registered medical practitioner
+
+Authorisations are valid for 6-month periods and must be renewed. The prescribing doctor submits on behalf of the patient — the patient has no direct SAHPRA interface.
+
+Critical distinction: Section 21 is a compassionate use pathway, not a formal product registration. It acknowledges clinical need in the absence of a registered alternative.` },
+      { h:"SAHPRA: Mandate & Jurisdiction",
+        b:`The South African Health Products Regulatory Authority (SAHPRA) replaced the Medicines Control Council (MCC) in 2018 under the Medicines and Related Substances Amendment Act. SAHPRA holds full jurisdiction over:
+
+• Section 21 application adjudication (your most important interface)
+• Section 22C(1)(b) cultivation and manufacturing licences
+• GMP compliance auditing of cannabis producers
+• Import/export authorisations for cannabis products
+• Scheduling determinations and reclassification
+
+SAHPRA collaborates with SAPS for enforcement, DAFF for agricultural compliance, and SARS for tax compliance. Processing times for Section 21 applications: typically same-day to 5–10 business days. SAHPRA may request additional information — respond within 30 days.` },
+      { h:"The Cannabis for Private Purposes Act (2024)",
+        b:`Signed by President Ramaphosa on 28 May 2024, codifying the 2018 Constitutional Court ruling (Minister of Justice v Prince). Key provisions:
+
+• Adults may privately cultivate, possess, and use cannabis for personal consumption
+• Public use, commercial sale, and unlicensed distribution remain criminal offences
+• Adults may possess up to 600g dried cannabis; cultivate up to 8 plants per household
+• Cannabis clubs occupy a legal grey area — neither formally recognised nor criminalised
+• This Act does NOT create a recreational market
+• Medical cannabis remains strictly under SAHPRA's Section 21 framework
+
+For prescribers: the 2024 Act is largely irrelevant to your clinical practice. All therapeutic cannabis access remains Section 21–only.` },
+      { h:"Cannabis Scheduling Under SA Law",
+        b:`Scheduling under the Schedules to the Medicines Act:
+
+Schedule 0: CBD ≤20mg/day, <0.001% THC, general wellness claims only — no prescription required. The 2019 SAHPRA exemption created this corridor but explicitly excludes any therapeutic claims.
+
+Schedule 4: Higher-dose CBD exceeding the 2019 exemption thresholds — requires a prescription from an authorised prescriber.
+
+Schedule 6: All THC-containing products — requires a Section 21 authorisation from SAHPRA PLUS a Schedule 6 prescription from an HPCSA-registered prescriber. This is the category covering virtually all clinically meaningful medical cannabis.
+
+Prescriber alert: If you recommend CBD for a specific condition (pain, anxiety, epilepsy), you are operating in Schedule 4 territory minimum — a prescription is required regardless of product dose.` },
+    ],
+    quiz:[
+      { q:"Section 21 authorisations in South Africa are best described as:", opts:["General cannabis prescribing licences for doctors","Patient-specific and product-specific permits issued by SAHPRA","Issued jointly by SAPS and SAHPRA","Valid for 12 months before renewal"], a:1 },
+      { q:"Which regulatory body adjudicates Section 21 applications in South Africa?", opts:["Department of Health directly","SAPS Narcotics Division","SAHPRA","HPCSA"], a:2 },
+      { q:"A THC-containing cannabis product in SA falls under which schedule?", opts:["Schedule 0","Schedule 2","Schedule 4","Schedule 6"], a:3 },
+      { q:"The Cannabis for Private Purposes Act (2024) primarily:", opts:["Created a legal recreational cannabis market","Allows doctors to prescribe cannabis freely","Codified private adult cannabis use rights","Replaced Section 21 as the prescribing pathway"], a:2 },
+      { q:"CBD products sold OTC legally in SA must not exceed a maximum daily dose of:", opts:["50mg CBD","20mg CBD","100mg CBD","5mg CBD"], a:1 },
+    ]
+  },
+  {
+    id:2, title:"Cannabis Pharmacology", sub:"Endocannabinoid System & Cannabinoid Mechanisms",
+    dur:"60 min", color:"#9B7A2A",
+    content:[
+      { h:"The Endocannabinoid System (ECS): Architecture",
+        b:`The endocannabinoid system is one of the most widespread neuromodulatory systems in the human body, present in virtually every tissue type. It comprises three core components:
+
+1. Endogenous ligands (endocannabinoids):
+• Anandamide (AEA) — the 'bliss molecule'; partial CB1 agonist; synthesised on demand
+• 2-Arachidonoylglycerol (2-AG) — full CB1 and CB2 agonist; higher CNS concentration than AEA
+
+2. Cannabinoid receptors:
+• CB1 — predominantly CNS (basal ganglia, cerebellum, hippocampus, prefrontal cortex); also peripheral nervous system, liver, adipose tissue
+• CB2 — predominantly immune cells, spleen, gut, peripheral tissues; significantly upregulated in neuroinflammation
+
+3. Metabolic enzymes:
+• FAAH (fatty acid amide hydrolase) — degrades AEA
+• MAGL (monoacylglycerol lipase) — degrades 2-AG
+
+The ECS operates predominantly via retrograde signalling: postsynaptic neurons release endocannabinoids that travel backward to inhibit presynaptic neurotransmitter release — a fundamentally distinct signalling paradigm from classical neurotransmission.` },
+      { h:"THC: Mechanism of Action & Pharmacokinetics",
+        b:`Δ9-Tetrahydrocannabinol (THC) is the primary psychoactive constituent of Cannabis sativa. It acts as a partial agonist at both CB1 and CB2 receptors with higher CB1 affinity.
+
+CB1 agonism produces:
+• Analgesia (supraspinal and spinal pathways)
+• Antiemesis (dorsal vagal complex and nucleus tractus solitarius)
+• Appetite stimulation (hypothalamic arcuate nucleus)
+• Psychoactive effects (mesolimbic dopamine modulation via VTA)
+• Memory impairment (hippocampal CB1 — clinically significant)
+• Motor coordination effects (cerebellar CB1)
+
+Pharmacokinetics:
+• Inhalation: onset 2–10 min; peak 30 min; duration 2–3 hours; bioavailability 10–35% (variable)
+• Oral: onset 30–90 min; peak 2–4 hours; duration 4–8 hours; bioavailability 4–20% (extensive first-pass)
+• Highly lipophilic — distributes to adipose, brain, liver; apparent volume of distribution ~10 L/kg
+• Half-life: 20–30 hours; terminal elimination up to 13 days in chronic users` },
+      { h:"CBD: Pleiotropic Mechanism of Action",
+        b:`Cannabidiol (CBD) does NOT directly agonise CB1 or CB2 at clinically relevant concentrations. Its mechanism is remarkably pleiotropic:
+
+• Negative allosteric modulator of CB1 — attenuates THC-induced psychoactivity (clinically important)
+• TRPV1 agonist — contributes to analgesic and anti-inflammatory effects
+• 5-HT1A partial agonist — anxiolytic and antidepressant properties
+• GPR55 antagonist — antiproliferative activity in cancer models
+• FAAH inhibitor — raises endogenous anandamide levels
+• PPARγ agonist — anti-inflammatory and neuroprotective
+• Voltage-gated sodium channel modulator — primary anticonvulsant mechanism
+
+Pharmacokinetics:
+• Oral bioavailability: 6–19% (significantly improved with high-fat meal — up to 4-fold increase)
+• Sublingual: faster absorption; bioavailability ~12–35%
+• Half-life: 18–32 hours
+• Hepatic metabolism primarily via CYP2C19 and CYP3A4 — critical for drug interactions` },
+      { h:"The Entourage Effect",
+        b:`The entourage effect (Russo, 2011) proposes that whole-plant cannabis extracts produce superior therapeutic outcomes compared to isolated cannabinoids, due to synergistic interactions between:
+
+• Cannabinoids: THC, CBD, CBG, CBN, THCV, CBDA, CBGA (>100 identified)
+• Terpenes: myrcene, limonene, linalool, β-caryophyllene, α-pinene (>150 identified)
+• Flavonoids: cannflavins, quercetin, kaempferol
+
+Clinically relevant terpene profiles:
+• β-Caryophyllene: selective CB2 agonist; anti-inflammatory; found in black pepper
+• Myrcene: sedative; muscle-relaxant; synergises with THC analgesic effects
+• Limonene: anxiolytic; antidepressant; elevates serotonin, dopamine
+• Linalool: anxiolytic; anticonvulsant (also found in lavender)
+
+Clinical implication: supports prescribing of full-spectrum or broad-spectrum extracts over pure isolates in most indications, though evidence remains largely preclinical. Chemovar selection should consider terpene profiles.` },
+    ],
+    quiz:[
+      { q:"CB1 receptors are predominantly located in:", opts:["Peripheral immune cells and spleen","The CNS — basal ganglia, hippocampus, cerebellum","The liver and adipose tissue exclusively","The gut enteric nervous system"], a:1 },
+      { q:"CBD's anticonvulsant mechanism is primarily attributed to:", opts:["Direct CB1 agonism","FAAH inhibition only","Voltage-gated sodium channel modulation","CB2 full agonism"], a:2 },
+      { q:"Oral THC bioavailability range is approximately:", opts:["60–80%","40–60%","4–20%","80–95%"], a:2 },
+      { q:"β-Caryophyllene is clinically notable because it:", opts:["Is a potent CB1 agonist","Is a selective CB2 agonist with anti-inflammatory properties","Inhibits FAAH enzymatic activity","Blocks 5-HT1A receptors"], a:1 },
+      { q:"The endogenous cannabinoid anandamide (AEA) is primarily degraded by:", opts:["MAGL","CYP3A4","FAAH","GPR55"], a:2 },
+    ]
+  },
+  {
+    id:3, title:"Cannabinoid Pharmacology Deep Dive", sub:"Minor Cannabinoids, Chemovars & Product Science",
+    dur:"50 min", color:"#7A6020",
+    content:[
+      { h:"Minor Cannabinoids: Clinical Profiles",
+        b:`Beyond THC and CBD, over 100 phytocannabinoids exist with distinct pharmacological profiles:
+
+CBG (Cannabigerol):
+• Precursor to all cannabinoids (CBGA is the 'mother cannabinoid')
+• α2-adrenoceptor agonist — potential in IBS, bladder dysfunction
+• Potent antibacterial activity (including MRSA in preclinical models)
+• Non-psychoactive; emerging clinical trial data
+
+CBN (Cannabinol):
+• THC oxidation product — increases in aged or improperly stored cannabis
+• Mild CB1 partial agonist (~10% THC potency)
+• Sedative properties, potentiated by terpenes (myrcene, linalool)
+• Potential in insomnia management; limited RCT data
+
+THCV (Tetrahydrocannabivarin):
+• CB1 antagonist at low doses; agonist at higher doses
+• Appetite suppressant — opposite effect to THC
+• Anticonvulsant properties; potential in type 2 diabetes (Phase 2 trials)
+• Rapid onset, shorter duration than THC
+
+CBDA/CBGA (Acidic precursor forms):
+• COX-1/COX-2 inhibition — anti-inflammatory (similar to NSAIDs mechanism)
+• 5-HT1A agonism — potent antiemetic (relevant in chemotherapy-induced nausea)
+• More bioavailable than decarboxylated forms for some endpoints; destroyed by heat` },
+      { h:"Evidence-Based Chemovar Classification",
+        b:`The traditional Indica/Sativa distinction has NO pharmacological validity and must not be used in clinical practice. Chemotype classification by cannabinoid ratio:
+
+Type I (THC-dominant): THC >0.3%, CBD <0.5%
+• Psychoactive; analgesic; antiemetic; appetite-stimulating
+• Higher adverse effect risk: psychosis precipitation, anxiety, dependence
+• Indicated: severe refractory pain, chemotherapy-induced nausea, MS spasticity
+• Requires Schedule 6 prescription + Section 21
+
+Type II (Balanced THC:CBD): Intermediate ratios (e.g., 1:1 to 1:2 THC:CBD)
+• Entourage effect maximised — CBD attenuates THC psychoactivity
+• Improved tolerability profile; better for treatment-naive patients
+• Indicated: chronic pain, inflammatory conditions, anxiety with pain component
+• Preferred for first-time prescriptions where THC is clinically required
+
+Type III (CBD-dominant): THC <0.3%, CBD predominant
+• Non-psychoactive or minimally psychoactive
+• Anxiolytic, anti-inflammatory, anticonvulsant profile
+• Favourable safety profile; suitable for sensitive populations
+• Indicated: anxiety disorders, paediatric epilepsy, inflammation, sleep` },
+      { h:"Routes of Administration: Clinical Decision Framework",
+        b:`Route selection is a critical prescribing decision affecting onset, duration, bioavailability, and patient adherence:
+
+Sublingual/Oral oils (most common SA format):
+• Sublingual onset: 15–45 min; duration 4–8 hours
+• Swallowed onset: 30–120 min; duration 6–10 hours
+• Dosing precision: excellent with calibrated droppers
+• Preferred for chronic pain, anxiety, sleep disorders
+
+Oral capsules/softgels:
+• Onset: 45–90 min; duration 6–10 hours; more consistent than oils
+• High-fat meal increases absorption up to 4-fold
+• Better adherence for patients who dislike oil taste
+
+Vaporisation (dry herb or concentrate):
+• Onset: 2–10 min; duration 2–3 hours; bioavailability 25–35%
+• Avoids combustion products vs smoking — significantly safer respiratory profile
+• SAHPRA Section 21 can authorise vaporiser devices
+• Indicated: breakthrough pain, acute nausea, rescue dosing
+• Caution in COPD, asthma, other respiratory conditions
+
+Topical/Transdermal:
+• Topicals: minimal systemic absorption; local anti-inflammatory effects only
+• Transdermal patches: systemic delivery, bypass first-pass; limited SA availability` },
+    ],
+    quiz:[
+      { q:"CBGA is pharmacologically significant because:", opts:["It is the most potent psychoactive cannabinoid","It is the biosynthetic precursor to all major cannabinoids","It selectively agonises CB2 receptors only","It inhibits MAGL enzymatic activity"], a:1 },
+      { q:"THCV at low clinical doses acts primarily as a:", opts:["CB1 full agonist","CB2 agonist","CB1 antagonist","5-HT1A agonist"], a:2 },
+      { q:"Type II cannabis chemovar refers to:", opts:["High THC, very low CBD","Balanced THC:CBD ratio","CBD-dominant, minimal THC","CBG-dominant products"], a:1 },
+      { q:"Sublingual cannabis oil onset of action is typically:", opts:["2–5 minutes","15–45 minutes","2–3 hours","90–120 minutes"], a:1 },
+      { q:"The Indica/Sativa classification system:", opts:["Is the gold standard for clinical prescribing","Has been validated in multiple RCTs","Has no pharmacological validity — chemovar typing is evidence-based","Accurately predicts terpene profiles"], a:2 },
+    ]
+  },
+  {
+    id:4, title:"Clinical Indications & Evidence", sub:"Evidence-Based Prescribing for Key Conditions",
+    dur:"70 min", color:"#6B5518",
+    content:[
+      { h:"Chronic Pain — The Strongest Evidence Base",
+        b:`Chronic pain represents the most evidence-rich indication for medical cannabis, with the strongest RCT data:
+
+Neuropathic pain:
+• Multiple RCTs demonstrate moderate efficacy (NNT ~3.5 — comparable to gabapentinoids)
+• Sativex (nabiximols) RCTs: significant reduction in central neuropathic pain in MS
+• Mechanism: CB1-mediated descending inhibition; CB2 peripheral sensitisation reduction
+• GRADE evidence: MODERATE-HIGH for neuropathic pain specifically
+
+Cancer-related pain:
+• Adjuvant role: cannabis reduces opioid requirements (opioid-sparing effect — 27–40% reduction in some trials)
+• THC:CBD combination superior to either alone in RCTs
+• 2019 Cochrane review: moderate-certainty evidence for 30% pain reduction
+
+Chronic non-cancer pain:
+• Lynch & Campbell (2011) systematic review: 15/18 RCTs showed significant pain reduction
+• GRADE evidence: low-to-moderate for non-neuropathic pain
+
+SA Section 21 context: Chronic pain is the most commonly approved SA indication. Justify with VAS/NRS scores, ≥2 prior treatment failures documented with doses and durations.` },
+      { h:"Epilepsy — Highest-Grade Evidence",
+        b:`The strongest evidence for any cannabis-based medicine:
+
+FDA-approved Epidiolex (purified CBD) — 2018:
+• Devinsky et al. (NEJM, 2017): Phase 3 RCT — 39% reduction in convulsive seizures in Dravet Syndrome vs placebo (p<0.001)
+• Lennox-Gastaut Syndrome Phase 3 RCTs: significant reduction in atonic/drop seizures (Thiele et al., 2018)
+• These are the most methodologically rigorous cannabis medicine trials conducted globally
+
+SA prescribing considerations:
+• Epidiolex not registered in SA — requires Section 21 authorisation
+• CBD doses in epilepsy (10–20mg/kg/day) far exceed Schedule 0 and Schedule 4 thresholds
+• Requires paediatric neurology co-involvement for childhood-onset epilepsy
+• Monitor: LFTs (CBD hepatotoxic at high doses); drug interactions below
+• Critical interaction: CBD inhibits CYP2C19 → increased N-desmethylclobazam → sedation risk
+• Valproate increases CBD levels and LFT risk — more frequent monitoring required` },
+      { h:"Cancer Symptoms, PTSD & MS Spasticity",
+        b:`Chemotherapy-Induced Nausea and Vomiting (CINV):
+• Best-established historical use since 1970s (dronabinol/nabilone)
+• THC mechanism: CB1 agonism in dorsal vagal complex and NTS
+• Typically adjuvant after 5-HT3 antagonists and NK1 antagonists
+• SAHPRA Section 21: CINV is a routinely approved indication
+
+MS Spasticity:
+• Sativex (THC:CBD 1:1 oromucosal spray) — most studied cannabis medicine globally
+• Phase 3 RCTs: statistically significant reduction in spasticity NRS scores
+• Responder analysis: ~50% patients achieve ≥30% reduction at 4 weeks
+• Safe concurrent use with baclofen, tizanidine
+
+PTSD:
+• Growing evidence base; no approved cannabis treatment exists
+• THC: reduces nightmare frequency via CB1 amygdala modulation
+• CBD: preclinical anxiolytic data; limited but promising human RCTs
+• GRADE evidence: LOW — small studies, short durations; SA trauma burden makes compassionate use common
+• Caution: THC can exacerbate hypervigilance in some PTSD phenotypes` },
+    ],
+    quiz:[
+      { q:"The NNT (number needed to treat) for cannabis in neuropathic pain is approximately:", opts:["NNT ~1","NNT ~10","NNT ~3.5","NNT ~20"], a:2 },
+      { q:"CBD's anticonvulsant evidence is strongest for:", opts:["Generalised absence epilepsy","Dravet Syndrome and Lennox-Gastaut Syndrome","Temporal lobe epilepsy","Juvenile myoclonic epilepsy"], a:1 },
+      { q:"CBD inhibits CYP2C19, which is clinically significant when co-prescribed with:", opts:["Baclofen","Clobazam","Pregabalin","Amitriptyline"], a:1 },
+      { q:"THC reduces CINV primarily via:", opts:["5-HT3 receptor antagonism","CB1 agonism in the dorsal vagal complex","NK1 receptor blockade","D2 dopamine receptor antagonism"], a:1 },
+      { q:"Chronic use of THC for sleep is problematic because:", opts:["It increases sleep latency","It causes paradoxical insomnia immediately","It suppresses REM sleep with tolerance development","It is contraindicated with all other sleep aids"], a:2 },
+    ]
+  },
+  {
+    id:5, title:"Patient Assessment & Selection", sub:"Contraindications, Risk Stratification & HPCSA Ethics",
+    dur:"55 min", color:"#A8882E",
+    content:[
+      { h:"Absolute Contraindications to Medical Cannabis",
+        b:`The following represent evidence-based absolute contraindications. Section 21 applications for these populations will not be approved and carry significant medico-legal risk:
+
+1. Personal or first-degree family history of schizophrenia/psychotic disorder
+• THC is a well-established precipitant of psychotic episodes in vulnerable individuals
+• Odds ratio for psychosis: OR 1.9 (any cannabis use) up to OR 3.9 (high-potency daily use)
+• CBD does NOT carry this risk — may have antipsychotic properties (clinical trial data: Leweke et al.)
+• Screen with CAPE-P15 before any THC-containing prescription
+
+2. Pregnancy and breastfeeding
+• THC crosses the placenta freely; detected in breast milk for >6 days post-use
+• Associated with IUGR, preterm birth, neonatal neurobehavioural effects, long-term cognitive sequelae
+• No established safe dose; absolute contraindication
+
+3. Current severe cannabis use disorder
+• Paradoxical to treat with the substance of dependence
+• Cannabis use disorder: ~9% lifetime prevalence; ~17% in those initiating in adolescence
+
+4. Age <18 (exception: refractory epilepsy under specialist supervision with CBD only)
+• Adolescent brain especially vulnerable to CB1-mediated hippocampal effects
+• Longitudinal studies: IQ reduction (~8 points), structural hippocampal changes in heavy adolescent users` },
+      { h:"Relative Contraindications & Risk Stratification",
+        b:`Prescribe with caution and enhanced monitoring in:
+
+Anxiety disorders:
+• CBD-dominant Type III products: anxiolytic; safe
+• THC: anxiogenic in naive users and at any dose in anxiety-prone individuals
+• Never initiate THC-containing products in active anxiety disorder
+
+Bipolar disorder:
+• THC may precipitate manic episodes (documented case series and case-control data)
+• If prescribing, CBD-dominant only; psychiatric co-management mandatory
+
+Cardiovascular disease:
+• THC: transient tachycardia (20–50bpm increase) and initial hypertension
+• Absolute contraindication: unstable angina, recent ACS (<3 months), severe arrhythmias
+• Relative contraindication: stable IHD, hypertension — use CBD-dominant only
+
+Hepatic impairment:
+• CBD extensively hepatically metabolised — dose reduction required in Child-Pugh B/C
+• Hepatotoxicity risk at doses >10mg/kg/day — frequent LFT monitoring
+
+Elderly (>65 years):
+• Increased sensitivity to THC; fall risk (orthostatic hypotension + cognitive effects)
+• Start 0.5–1mg THC maximum; titrate extremely slowly; avoid in dementia` },
+      { h:"HPCSA Ethical Obligations & Screening Tools",
+        b:`Validated screening tools for pre-prescribing assessment:
+
+CAPE-P15: Community Assessment of Psychic Experiences
+• 15-item screen for sub-threshold psychotic experiences
+• Positive screen = absolute contraindication to any THC-containing product
+
+CAGE-AID: Adapted for alcohol and drugs
+• ≥2 positive responses = detailed substance use history mandatory
+
+CUDIT-R: Cannabis Use Disorder Identification Test (Revised)
+• Specifically assesses problematic cannabis use history
+• Score >8 = addiction medicine referral before prescribing
+
+PHQ-9 / GAD-7: Depression and anxiety severity
+• GAD-7 >15: use CBD-only products; do not add THC
+
+HPCSA Ethical Framework:
+• Booklet 4 (Informed Consent): written consent documenting evidence limitations, psychoactive effects, driving prohibition, employment implications, cost
+• Booklet 1 (Competence): completing accredited training (this course) demonstrates competence
+• Driving prohibition: THC impairs driving — document this advice; medicolegally critical
+• Conflict of interest: disclose any commercial relationships with cannabis producers` },
+    ],
+    quiz:[
+      { q:"Which is an absolute contraindication to ALL cannabis products including CBD?", opts:["Mild anxiety disorder","Pregnancy","Stable ischaemic heart disease","Mild hepatic impairment"], a:1 },
+      { q:"The CAPE-P15 screening tool assesses for:", opts:["Cannabis use disorder","Anxiety severity","Sub-threshold psychotic experiences","Cognitive impairment"], a:2 },
+      { q:"THC's risk in bipolar disorder primarily relates to:", opts:["Precipitation of depressive episodes only","Induction of manic episodes","Triggering absence seizures","Hepatotoxicity risk"], a:1 },
+      { q:"A Section 21 authorisation for medical cannabis:", opts:["Exempts patients from workplace drug testing","Means patients can legally drive on THC","Does not protect against employment drug policy consequences","Removes all legal risk for the patient"], a:2 },
+      { q:"Cannabis use disorder lifetime prevalence is approximately:", opts:["1–2%","25–30%","~9%","50%"], a:2 },
+    ]
+  },
+  {
+    id:6, title:"The Section 21 Application Process", sub:"Step-by-Step SAHPRA Submission Mastery",
+    dur:"65 min", color:"#B8962C",
+    content:[
+      { h:"Prerequisites & Documentation Required",
+        b:`Before submitting a Section 21 application, ensure:
+
+1. HPCSA registration current and confirmed
+• Your HPCSA registration number is mandatory on the application
+• Lapsed registration invalidates the application — verify at hpcsa.org.za
+
+2. Patient documentation complete
+• Confirmed diagnosis with ICD-10 code
+• Treatment history: document conventional treatments trialled (drug, dose, duration, reason for failure or intolerance) — minimum 2 prior treatments documented
+• Recent clinical notes (within 3 months) demonstrating current clinical status and symptom severity scores
+
+3. Product identification precise
+• Exact product specified: manufacturer name, product name, cannabinoid profile (THC%, CBD%), format (oil, capsule, vaporiser)
+• Product must be from a SAHPRA-licensed OR internationally GMP-certified manufacturer
+• Certificate of Analysis (CoA) from accredited laboratory should be available and can be attached
+
+4. Patient informed consent obtained
+• Written consent (recommended) documenting: evidence limitations, psychoactive effects, driving restrictions, employment implications, cost, storage requirements
+• Signed and witnessed before the application is submitted` },
+      { h:"The SAHPRA Online Submission: Step-by-Step",
+        b:`SAHPRA has significantly streamlined Section 21 applications since 2021. All submissions are online:
+
+Step 1: Access SAHPRA Section 21 portal
+• Navigate to sahpra.org.za → Medicines → Section 21 Authorisations
+• Create a prescriber profile on first application (HPCSA number required for verification)
+
+Step 2: Complete the application form
+• Patient: full name, DOB, SA ID number, contact details, address
+• Clinical: ICD-10 diagnosis code; clinical justification narrative (recommended 300–500 words)
+• Treatment history: prior therapies with dates, doses, durations, outcome/reason for failure
+• Product: exact product name, manufacturer, route, dose, frequency, intended treatment duration
+• Prescriber: full name, HPCSA number, practice address, contact details, signature
+
+Step 3: Attach supporting documents
+• Signed patient consent form
+• Relevant clinical notes or specialist letters
+• Product CoA if available
+
+Step 4: Submit and await authorisation
+• Processing: typically same-day to 5–10 business days
+• SAHPRA may request additional information — respond within 30 days or application lapses
+• Authorisation issued electronically to the prescriber's registered email address` },
+      { h:"Writing the Clinical Justification: Template",
+        b:`The clinical justification is the most critical component. A strong justification includes:
+
+A. Diagnosis with clinical context:
+"Patient presents with ICD-10 G54.2 cervical root disorders causing chronic neuropathic pain (VAS 7/10 at rest, 9/10 on movement) for 3 years post-cervical disc surgery."
+
+B. Treatment failure documentation (specific, not vague):
+"Trialled: gabapentin 1800mg/day × 12 weeks — inadequate response (VAS unchanged); pregabalin 300mg/day × 8 weeks — intolerance due to significant weight gain and cognitive blunting; amitriptyline 75mg/day × 10 weeks — inadequate response and orthostatic hypotension."
+
+C. Evidence base for cannabis in the indication:
+"Published systematic review evidence (Lynch & Campbell, 2011; Aviram & Samuelly-Leichtag, 2017) supports cannabinoid analgesia in chronic neuropathic pain with NNT ~3.5."
+
+D. Product and dose rationale:
+"Requesting Type II balanced THC:CBD oil to leverage the entourage effect while minimising THC-related psychoactivity. Starting THC dose 1mg nocte with planned titration."
+
+E. Monitoring plan:
+"Patient to be reviewed at 2 weeks (tolerability) and 6 weeks (efficacy). VAS scores, functional mobility, adverse effects and CUDIT-R will be monitored."` },
+    ],
+    quiz:[
+      { q:"A Section 21 authorisation is valid for:", opts:["1 year","3 months","6 months","Indefinitely until revoked"], a:2 },
+      { q:"The prescriber's HPCSA number is required on the application:", opts:["Only if the doctor is a specialist","For all Section 21 applications","Only for Schedule 6 products","Only if the patient is a minor"], a:1 },
+      { q:"If SAHPRA requests additional information, the prescriber must respond within:", opts:["7 days","14 days","30 days","60 days"], a:2 },
+      { q:"After Section 21 authorisation, the prescriber must:", opts:["Send patient directly to pharmacy with the authorisation letter","Issue a valid Schedule 6 prescription matching the authorised product exactly","Register the patient on the SAHPRA patient database","Notify SAPS of the prescription"], a:1 },
+      { q:"The clinical justification narrative in a Section 21 application should ideally be:", opts:["50 words","300–500 words","1000+ words","50–100 words"], a:1 },
+    ]
+  },
+  {
+    id:7, title:"Dosing, Titration & Monitoring", sub:"Start Low, Go Slow — Precision Prescribing Protocols",
+    dur:"55 min", color:"#C9A84C",
+    content:[
+      { h:"The Universal Principle: Start Low, Go Slow",
+        b:`Cannabis medicine has no validated universal dosing algorithm. Dose requirements are highly individualised based on:
+• Endocannabinoid system tone (genetic variation in CB1 receptor density, FAAH activity polymorphisms)
+• Prior cannabis exposure and tolerance (naive vs experienced patients)
+• Age, sex, body composition, hepatic function
+• Route of administration (bioavailability variation)
+• Indication and symptom severity
+• Concurrent medications (CYP interactions)
+
+Starting dose recommendations for cannabis-naive patients:
+
+CBD-dominant (Type III):
+• Start: 5–10mg CBD twice daily (morning and evening)
+• Titrate: increase by 5–10mg every 3–5 days
+• Therapeutic range: 15–50mg/day (anxiety, sleep, inflammation)
+• Epilepsy exception: weight-based 2.5mg/kg/day → titrate to 10–20mg/kg/day
+
+THC-containing (Type I or II):
+• Start: 1–2.5mg THC once daily (evening — minimise daytime psychoactivity)
+• Titrate: increase by 1–2.5mg every 5–7 days
+• Many patients achieve therapeutic benefit at 5–15mg THC/day
+• Maximum: titrate to effect; doses >30mg/day THC carry significant adverse effect risk
+• Always initiate evenings; advance to daytime only once tolerability established` },
+      { h:"Titration Protocols by Indication",
+        b:`Chronic Pain:
+• Start CBD-dominant Type III; add THC component if insufficient response at 4–6 weeks
+• Target: ≥30% reduction in VAS/NRS pain score
+• Common therapeutic range: 10–30mg CBD + 2.5–15mg THC/day
+• Consider evening dosing first for pain + sleep disruption
+• Titrate THC slowly: insomnia often resolves early; pain may require weeks
+
+Epilepsy (CBD):
+• Weight-based initiation: 2.5mg/kg/day in 2 divided doses (morning and evening)
+• Increase by 2.5mg/kg/day every 7 days (slower in children, elderly)
+• Target dose for seizure reduction: 10mg/kg/day
+• Maximum studied dose: 20mg/kg/day (Epidiolex Phase 3 trials)
+• Seizure diary mandatory; monitor LFTs at baseline, 4 weeks, 3 months
+
+CINV:
+• THC 2.5mg 1–3 hours before chemotherapy infusion
+• Can increase to 5mg/dose if well tolerated
+• CBD co-administration recommended to reduce psychoactivity in elderly/sensitive patients
+
+Anxiety (CBD only):
+• Initiate: 25–50mg CBD daily (single dose or divided)
+• Some patients require 150–300mg for significant anxiolytic effect (CBD exhibits bell-curve dose-response)
+• Do NOT add THC to anxiety prescriptions — unambiguous anxiogenic risk` },
+      { h:"Monitoring Parameters & Outcome Measures",
+        b:`Establish a structured monitoring framework at the outset of prescribing:
+
+Baseline assessments (document before first prescription):
+• Disease-specific outcome measure: VAS/NRS (pain), MIDAS (migraine), seizure diary, PSQI (sleep), GAD-7 (anxiety)
+• Mental health screen: PHQ-9, GAD-7
+• Liver function tests if high-dose CBD anticipated (>10mg/kg/day)
+• Cognitive function: MoCA if elderly or high-dose THC planned
+• CUDIT-R baseline substance use screen
+
+Follow-up schedule:
+• Week 2: Telehealth acceptable — tolerability, side effects, titration guidance
+• Week 4–6: Formal in-person review — efficacy (outcome measure scores), dose adjustment
+• Month 3: Full clinical review — continue/modify/discontinue decision with documentation
+• Month 6: Renewal review for Section 21 re-application (clinical progress note required)
+
+Efficacy threshold:
+• Meaningful response: ≥30% improvement on primary outcome measure
+• No meaningful response at therapeutic dose after 3 months = trial with different chemovar or discontinue
+• Partial response: consider chemovar adjustment, route change, or dose increase before abandoning` },
+    ],
+    quiz:[
+      { q:"Starting THC dose for a cannabis-naive adult should be:", opts:["10–15mg twice daily","5mg three times daily","1–2.5mg once daily (evening)","2.5mg/kg/day"], a:2 },
+      { q:"A 'meaningful clinical response' to cannabis therapy is defined as:", opts:["Complete symptom resolution","≥50% improvement","≥30% improvement on primary outcome measure","Any subjective improvement reported"], a:2 },
+      { q:"CBD dosing for paediatric epilepsy uses:", opts:["Flat 25mg/day dose","Weight-based: start 2.5mg/kg/day","1mg/kg once daily maximum","5mg fixed starting dose"], a:1 },
+      { q:"LFTs should be monitored when CBD dose exceeds:", opts:["5mg/day","20mg/day","10mg/kg/day","50mg/day"], a:2 },
+      { q:"For anxiety disorders, the prescribing approach should be:", opts:["Titrate THC up slowly from 5mg","Combine THC:CBD for entourage effect","CBD-only products — never add THC in anxiety disorders","High-dose CBD 500mg+ from initiation"], a:2 },
+    ]
+  },
+  {
+    id:8, title:"Drug Interactions & Safety", sub:"CYP450 Interactions, Cardiovascular Risk & Special Populations",
+    dur:"60 min", color:"#D4B86A",
+    content:[
+      { h:"CYP450 Drug Interactions: Critical Pairs",
+        b:`Both THC and CBD are substrates and inhibitors of cytochrome P450 enzymes — creating clinically significant and potentially dangerous interactions:
+
+CBD as CYP inhibitor:
+• CYP2C19 inhibition: ↑ clobazam (N-desmethylclobazam accumulation → sedation)
+• CYP3A4 inhibition: ↑ warfarin, tacrolimus, sirolimus, cyclosporine, statins, macrolides
+• Clinical significance scales with CBD dose: 25mg/day = moderate inhibition; >100mg/day = strong inhibition
+
+THC as CYP substrate:
+• Metabolised by CYP2C9 and CYP3A4 (to active metabolite 11-OH-THC, then to inactive 11-COOH-THC)
+• CYP3A4 inducers (rifampicin, carbamazepine, phenytoin) — significantly ↓ THC levels
+• CYP2C9 inhibitors (fluconazole, amiodarone) — ↑ THC levels → toxicity risk
+
+HIGH-RISK combinations requiring close monitoring:
+
+WARFARIN + CBD: CBD strongly inhibits CYP2C9 → markedly elevated warfarin levels → elevated INR → haemorrhagic risk. Mandatory INR monitoring within 1–2 weeks of initiation; dose reduction likely required.
+
+CLOBAZAM + CBD (epilepsy): N-desmethylclobazam accumulation → excessive sedation. Management: clobazam dose reduction by ~25–50% when CBD initiated.
+
+TACROLIMUS/CYCLOSPORINE + CBD: Marked immunosuppressant level increase → nephrotoxicity, neurotoxicity. Frequent drug level monitoring mandatory in transplant patients.
+
+METHADONE + THC: Additive CNS and respiratory depression; methadone levels may increase via CYP2D6 modulation.` },
+      { h:"Cardiovascular Considerations",
+        b:`THC has dose-dependent cardiovascular effects of direct clinical relevance:
+
+Acute THC cardiovascular effects:
+• Tachycardia: heart rate increase 20–50 bpm within minutes of THC administration
+• Initial hypertension → followed by orthostatic hypotension (with positional changes)
+• Increased myocardial oxygen demand (rate-pressure product increase)
+• Mechanism: CB1 agonism in cardiac tissue + sympathetic nervous system activation
+• Duration: cardiovascular effects parallel psychoactive effects (2–3 hours inhalation)
+
+Absolute cardiovascular contraindications (THC):
+• Unstable angina or recent ACS within 3 months
+• Severe heart failure (EF <30%)
+• Significant arrhythmias — poorly controlled AF, VT history
+• Severe aortic stenosis or hypertrophic obstructive cardiomyopathy
+
+Prescribe cautiously (THC) in:
+• Stable ischaemic heart disease (CBD-dominant strongly preferred; if THC required, very low doses)
+• Hypertension — monitor BP response to initial doses
+• Patients on beta-blockers or rate-controlling agents (additive effect)
+
+CBD cardiovascular profile:
+• No clinically significant tachycardia at therapeutic doses
+• Mild vasodilatory effect at high doses — potential hypotension risk
+• Generally safe in stable cardiac patients compared to THC` },
+      { h:"Special Populations: Dosing Adjustments",
+        b:`Elderly patients (>65 years):
+• Increased pharmacodynamic sensitivity to THC (reduced baseline CB1 tolerance; higher adipose:muscle ratio → accumulation)
+• Significant fall risk: orthostatic hypotension + cognitive impairment + motor effects
+• Cognitive effects: acute THC impairment — contraindicated in dementia (delirium risk)
+• Starting dose: 0.5–1mg THC maximum; titrate over weeks not days
+• CBD: generally well tolerated in elderly at standard doses
+
+Hepatic impairment:
+• Both CBD and THC are primarily hepatically metabolised
+• Child-Pugh A: standard dosing with LFT monitoring
+• Child-Pugh B: reduce CBD dose by 50%; use THC cautiously
+• Child-Pugh C: avoid high-dose CBD; minimal THC only; specialist hepatology input
+
+Renal impairment:
+• Cannabinoids primarily cleared hepatically — renal impairment has proportionally less impact
+• At eGFR <30 mL/min: potential metabolite accumulation; start at lowest doses
+• No specific dose adjustment guidelines validated — err on conservative side
+
+Paediatrics (<18 years):
+• Only evidence-supported indication: refractory epilepsy (Dravet/LGS)
+• CBD (weight-based): evidence supports efficacy; use only
+• THC: absolute contraindication in children — neurodevelopmental harm
+• Mandatory paediatric neurology co-management for all paediatric cases` },
+    ],
+    quiz:[
+      { q:"CBD is a significant inhibitor of which CYP enzyme metabolising clobazam?", opts:["CYP1A2","CYP2D6","CYP2C19","CYP3A4"], a:2 },
+      { q:"The most dangerous drug interaction with CBD in terms of bleeding risk involves:", opts:["Aspirin","Clopidogrel","Warfarin","Heparin"], a:2 },
+      { q:"Acute THC cardiovascular effects include:", opts:["Bradycardia and hypotension","Tachycardia and initial hypertension followed by orthostasis","No significant cardiovascular effect","Arrhythmia only in overdose"], a:1 },
+      { q:"THC is contraindicated within how long after an acute coronary syndrome?", opts:["1 week","1 month","3 months","6 months"], a:2 },
+      { q:"Recommended starting THC dose in elderly patients (>65 years) is:", opts:["5mg twice daily","2.5mg at night","0.5–1mg (maximum) starting dose","10mg nocte"], a:2 },
+    ]
+  },
+  {
+    id:9, title:"Documentation & Medico-Legal", sub:"HPCSA Compliance, Record-Keeping & Consent",
+    dur:"50 min", color:"#8B7530",
+    content:[
+      { h:"Comprehensive Medical Record Requirements",
+        b:`Meticulous documentation is your primary protection against HPCSA complaints and medicolegal liability. Your cannabis prescribing record must include:
+
+At baseline (before first prescription — every element):
+• Full clinical assessment with ICD-10 diagnosis code
+• Comprehensive treatment history: all prior treatments, doses, durations, outcomes — specific, not vague
+• Psychiatric screening results: document the specific tool used (e.g., "CAPE-P15 score 6/75 — no positive screen") and the result
+• Substance use history: CAGE-AID and CUDIT-R scores documented
+• Cardiovascular risk assessment if any THC-containing product planned
+• Baseline outcome measure scores (VAS, NRS, seizure frequency, GAD-7 etc.)
+• Informed consent: written, signed by patient, dated, copy retained in file
+• Rationale for product selection, route, and starting dose
+• Section 21 application reference number
+
+At each follow-up (minimum every 3 months):
+• Current dose, adherence, and any self-adjustments
+• Efficacy: current outcome measure scores vs baseline
+• Adverse effects: type, severity grade, management taken
+• Concurrent medication changes and CYP interaction re-assessment
+• Psychosocial function (work capacity, driving, relationships, cognition)
+• Decision: continue unchanged / dose adjust / chemovar change / discontinue — with documented rationale` },
+      { h:"HPCSA Complaints Exposure & Risk Mitigation",
+        b:`Medical cannabis prescribing has generated a growing number of HPCSA complaints. The most common grounds and specific mitigations:
+
+1. Prescribing without adequate assessment
+Mitigation: Document comprehensive clinical assessment; never prescribe after telehealth-only first consultation for a new patient; in-person baseline assessment is strongly recommended
+
+2. Prescribing despite documented contraindications
+Mitigation: Psychiatric screening documented and dated; contraindication checklist (psychosis risk, pregnancy, age, CVD status) completed and in the clinical record
+
+3. Inadequate informed consent
+Mitigation: Signed written consent form covering all material risks, including driving prohibition and employment implications; not a verbal consent only
+
+4. Failure to monitor appropriately
+Mitigation: Monitoring protocol established at outset; follow-up appointments booked and recorded; outcome measure scores documented at each visit
+
+5. Commercial relationships with cannabis producers
+Mitigation: Declare all relationships to patients (HPCSA Booklet 5 — conflict of interest); do not prescribe exclusively from one supplier unless clinically justified and documented
+
+6. Prescribing outside scope of competence
+Mitigation: GPs: scope covers chronic pain, anxiety, CINV, insomnia with documentation of competence (training completion). Complex psychiatric/neurological indications: document specialist co-management or referral.` },
+      { h:"Patient Consent Form: Required Elements",
+        b:`Your written informed consent document must explicitly cover:
+
+1. Diagnosis and indication: Why cannabis is being recommended for this specific patient
+
+2. Evidence limitations: Cannabis is not a registered medicine in SA; evidence is of variable quality (specify GRADE where relevant to patient's condition)
+
+3. Psychoactive effects (THC-containing products): Intoxication, cognitive impairment, anxiety risk, acute psychosis risk in susceptible individuals
+
+4. Driving prohibition: THC impairs driving ability; operating a motor vehicle after THC use is a criminal offence under the National Road Traffic Act regardless of Section 21 authorisation status
+
+5. Employment implications: Section 21 authorisation does NOT override workplace drug testing policies; patient may test positive on an occupational drug screen; employer is not legally obligated to accommodate cannabis use
+
+6. Dependence risk: ~9% lifetime risk of cannabis use disorder; higher with daily THC use; monitor with CUDIT-R
+
+7. Cost: Not covered by medical aids as of 2025; patient bears full cost (typically R1,500–R5,000+/month for Schedule 6 products)
+
+8. Storage and security: Keep locked; away from children; do not share
+
+9. Reporting obligations: Patient must immediately report any psychiatric symptoms, significant side effects, or changes in seizure frequency` },
+    ],
+    quiz:[
+      { q:"A written informed consent for medical cannabis must include:", opts:["The prescriber's fee schedule only","Driving prohibition, employment implications, dependence risk, and cost","Names of competing cannabis products","Government subsidy availability"], a:1 },
+      { q:"HPCSA complaints about cannabis prescribing most commonly arise from:", opts:["Prescribing too conservatively","Inadequate assessment, insufficient consent, and poor monitoring","Using only internationally approved products","Prescribing CBD without a Section 21"], a:1 },
+      { q:"A Section 21 authorisation protects a patient from:", opts:["Employment drug testing consequences","Criminal prosecution for possession of the specifically authorised product","Traffic department drug tests while driving","Medical aid exclusions"], a:1 },
+      { q:"For Section 21 renewal, the prescriber must submit:", opts:["A complete new patient assessment only","A clinical progress note demonstrating response and updated outcome scores","Only the updated product details","A new patient consent form exclusively"], a:1 },
+      { q:"A GP prescribing medical cannabis for chronic pain is:", opts:["Always outside scope — specialist required","Within scope if competence is demonstrated and documentation is thorough","Required to obtain HPCSA special dispensation","Only allowed to prescribe CBD-dominant products under Schedule 4"], a:1 },
+    ]
+  },
+  {
+    id:10, title:"Emerging Science & Future Landscape", sub:"Pipeline, Registration Trajectory & Global Perspectives",
+    dur:"45 min", color:"#6B5A28",
+    content:[
+      { h:"Cannabis Medicine Registration Pipeline in SA",
+        b:`Section 21 is explicitly a stop-gap measure until registered cannabis medicines become available on the SA market.
+
+Current status (2025):
+• No cannabis-containing medicines are formally registered on the SA medicines register
+• Epidiolex (purified CBD, Jazz Pharmaceuticals) — FDA-approved 2018, EMA-approved 2019 — NOT yet SA-registered
+• Sativex (nabiximols, GW Pharmaceuticals) — EMA-approved, multiple international markets — NOT SA-registered
+• Nabilone and dronabinol (synthetic THC analogues) — not on SA register
+
+Registration pathway:
+• Full registration via SAHPRA requires a complete CTD-format registration dossier (Module 1–5)
+• Requires local or bridging clinical trial data in most cases
+• Post-registration: products can be prescribed on a standard Schedule 6 prescription — no Section 21 needed
+• This would dramatically reduce administrative burden and improve patient access
+
+Anticipated trajectory:
+• Industry consensus: first SA-registered cannabis medicine within 3–5 years (CBD-only most likely first)
+• SA pharmaceutical companies are building regulatory dossiers
+• SAHPRA has signalled willingness to engage with expedited review pathways for medicines with established international registration
+
+Strategic implication for prescribers: Build your competence NOW. Section 21 volume will grow significantly until registration occurs, and your prescribing skills will remain valuable post-registration.` },
+      { h:"Active Clinical Trials & Emerging Indications",
+        b:`The medical cannabis evidence base is expanding rapidly — emerging indications with active clinical trial programmes:
+
+Autism Spectrum Disorder:
+• CBD + low-dose THC in Phase 2 trials for irritability, hyperactivity, anxiety in ASD
+• Bar-Lev Schleider et al. (2019): large Israeli prospective study — significant improvement in ASD symptom scores
+• Phase 3 trials planned in multiple jurisdictions
+
+Inflammatory Bowel Disease:
+• CB2 agonists in ulcerative colitis; CBD in Crohn's disease
+• Phase 2 results: modest but statistically significant improvement in remission rates
+• Mechanism: CB2 immunomodulation in gut-associated lymphoid tissue
+
+Opioid Use Disorder:
+• Hurd et al. (2019, NEJM Evidence): CBD 400mg/800mg — 40% reduction in cue-induced heroin cravings vs placebo in Phase 2 RCT
+• Highly clinically significant given SA's opioid misuse burden
+• Phase 3 trials ongoing
+
+Glioblastoma:
+• Twelves et al. (2021): THC:CBD adjuvant to temozolomide — Phase 2 signal: improved 1-year survival
+• Mechanism: CB1/CB2 anti-tumour effects (anti-angiogenesis, pro-apoptotic)
+
+Endometriosis:
+• CB1 expression in endometrial tissue; CBD analgesic and anti-inflammatory mechanism
+• Phase 2 trials active; significant patient demand in SA` },
+      { h:"International Benchmarks & Ethical Framework",
+        b:`International programme comparisons relevant to SA prescribers:
+
+Israel: Most mature programme globally. >120,000 licensed patients. Structured tiered prescribing (primary care to specialist). Chemovar standardisation mandated by Ministry of Health. The Israeli Medical Cannabis Authority (IMCA) framework is a global model.
+
+Canada: Full recreational and medical legalisation (2018). ACMPR pathway. Physicians provide medical documents (not prescriptions). Patients choose from licensed producer catalogues. >425,000 registered medical patients.
+
+United Kingdom: Cannabis medicines prescribed since 2018 via specialist clinics. Project TWENTY21 — largest observational study globally (>20,000 patients; unpublished final data). NHS very restrictive — most access via private sector.
+
+Germany: Partial legalisation 2024. Medical cannabis available since 2017. GKV (statutory health insurance) reimburses specific indications post-conventional treatment failure.
+
+Ethical framework for SA prescribers:
+• Evidence fidelity: be honest about evidence quality; do not overpromise outcomes
+• Justice: high costs (R1,500–5,000+/month) create health equity concerns; advocate for medical aid coverage
+• Regulatory stewardship: maintain Section 21 framework integrity — prescribing within it preserves programme credibility
+• Continuing education: the evidence base evolves monthly; ethical prescribing requires commitment to staying current` },
+    ],
+    quiz:[
+      { q:"As of 2025, how many cannabis-containing medicines are formally registered on the SA medicines register?", opts:["3 (Epidiolex, Sativex, Dronabinol)","1 (Epidiolex only)","None — all access is via Section 21","5 products are registered"], a:2 },
+      { q:"The Israeli medical cannabis programme is notable because:", opts:["It is the only country with legal medical cannabis","It is the most mature global programme with >120,000 licensed patients","It uses recreational dispensaries for medical patients","It requires no physician involvement"], a:1 },
+      { q:"Hurd et al. (2019) found that CBD reduced heroin cue-induced cravings by approximately:", opts:["10%","40%","70%","90%"], a:1 },
+      { q:"The primary equity concern about medical cannabis access in SA relates to:", opts:["Too many patients accessing cannabis illegally","High product costs (R1,500–5,000+/month) creating inequitable access","SAHPRA approving too many applications","Medical aids covering too many products"], a:1 },
+      { q:"When registered cannabis medicines become available in SA, for registered products the prescriber will:", opts:["Still require Section 21 for all cannabis prescribing","Issue a standard Schedule 6 prescription — no Section 21 needed","Use a new SAHPRA-designed prescribing pathway","Require annual SAHPRA prescriber registration"], a:1 },
+    ]
+  },
+];
+
+const FINAL_EXAM = [
+  { q:"A 45-year-old woman with refractory neuropathic pain post-thoracotomy has a father with schizophrenia. Your approach:", opts:["Prescribe CBD-dominant oil — family history only contraindicates THC","Perform CAPE-P15 screening; based on result, contraindicate any THC-containing product","Prescribe freely — family history is only a remote relative contraindication","Refer to psychiatry before conducting your own assessment"], a:1 },
+  { q:"CBD at 200mg/day is added to clobazam 20mg/day for epilepsy. The expected pharmacokinetic interaction is:", opts:["Reduced clobazam efficacy","N-desmethylclobazam accumulation via CYP2C19 inhibition → excessive sedation","No clinically significant interaction","Increased CBD clearance via clobazam induction"], a:1 },
+  { q:"A patient's Section 21 authorisation expires in 3 weeks. The correct action is:", opts:["Allow it to lapse — patients can purchase OTC after expiry","Submit a renewal application now, including a clinical progress note","Issue a repeat Schedule 6 prescription without re-applying to SAHPRA","Contact SAPS for a temporary bridge authorisation"], a:1 },
+  { q:"Oral THC bioavailability is markedly lower than inhalation because:", opts:["THC is chemically unstable in gastric acid","Extensive first-pass hepatic metabolism reduces systemic bioavailability to 4–20%","GI transit destroys cannabinoid molecules","Oral formulations contain less THC by regulation"], a:1 },
+  { q:"A child aged 8 with Dravet Syndrome has failed 4 antiepileptic drugs. The evidence-based cannabis approach is:", opts:["Balanced THC:CBD oil 5mg/kg/day","CBD-dominant oil, weight-based 2.5mg/kg/day starting dose, with paediatric neurology co-management","Any low-dose cannabis product","Cannabis is never indicated under age 18"], a:1 },
+  { q:"The 'entourage effect' refers to:", opts:["The social aspect of cannabis use in groups","Synergistic interactions between cannabinoids, terpenes, and flavonoids in whole-plant extracts","CB1 receptor upregulation with chronic use","The effect of set and setting on cannabis experience"], a:1 },
+  { q:"Warfarin + CBD interaction risk arises because:", opts:["CBD induces CYP2C9 — reducing warfarin levels","CBD inhibits CYP2C9/CYP3A4 — elevating warfarin levels → raised INR → bleeding risk","Warfarin inhibits CBD oral absorption","There is no clinically significant warfarin-CBD interaction"], a:1 },
+  { q:"THCV at low clinical doses acts as a CB1:", opts:["Full agonist","Partial agonist","Antagonist — appetite-suppressant","Inverse agonist — pro-emetic"], a:2 },
+  { q:"A valid Schedule 6 prescription for cannabis must include:", opts:["SAHPRA authorisation number only","Patient ID, prescriber HPCSA number, exact product matching authorisation, dose, quantity — no repeats without re-authorisation","A specialist co-prescriber letter","CBD content declaration only"], a:1 },
+  { q:"Type II chemovar classification describes:", opts:["High THC, very low CBD (>0.3% THC, <0.1% CBD)","Balanced intermediate THC:CBD ratio","CBD-dominant, minimal THC (<0.3%)","CBG-dominant, no THC"], a:1 },
+  { q:"The Cannabis for Private Purposes Act (2024) is relevant to clinical prescribing practice because:", opts:["It replaced Section 21 as the main medical prescribing pathway","It created a regulated retail cannabis market for doctors to direct patients to","It is NOT relevant — medical cannabis remains exclusively under Section 21/SAHPRA","It abolished SAHPRA's role in cannabis regulation"], a:2 },
+  { q:"68-year-old with stable IHD and chronic lumbar back pain. Correct cannabis approach:", opts:["THC 10mg BD — cardiovascular risk acceptable in chronic stable disease","CBD-dominant Type III; avoid significant THC; monitor cardiovascular parameters closely","Cannabis is absolutely contraindicated in all cardiovascular disease","Prescribe freely — cannabis has no cardiovascular effects"], a:1 },
+  { q:"In the Section 21 clinical justification, documenting treatment failure means:", opts:["Mentioning drug names only is sufficient","Documenting drug, dose, duration of trial, and specific reason for failure or intolerance for each treatment","Stating pain score only","A specialist referral letter substitutes for this documentation"], a:1 },
+  { q:"2-AG (2-arachidonoylglycerol) pharmacological significance lies in:", opts:["Being the most potent exogenous cannabinoid","Being a full CB1 and CB2 agonist present at high CNS concentrations — the primary endocannabinoid","Selectively agonising CB2 with no CB1 activity","Inhibiting FAAH enzymatic activity"], a:1 },
+  { q:"A patient with a Section 21 authorisation for THC is stopped for a roadside sobriety test:", opts:["Is fully legally protected — Section 21 exempts from impaired driving charges","May still face criminal prosecution — Section 21 does not authorise driving under the influence of THC","Shows the certificate and is legally released","Is liable for a fine only, not criminal charges"], a:1 },
+  { q:"Oral THC onset of action is typically:", opts:["2–10 minutes","10–20 minutes","30–90 minutes","4–5 hours minimum"], a:2 },
+  { q:"The most evidence-supported primary indication for medical cannabis in SA is:", opts:["PTSD and sleep disorders","Autism spectrum disorder","Chronic neuropathic pain and cancer-related pain","Inflammatory bowel disease"], a:2 },
+  { q:"High-dose CBD (>10mg/kg/day) requires monitoring of:", opts:["Renal function (eGFR)","Liver function tests (LFTs) — hepatotoxicity risk","Full blood count and haematinics","Thyroid function tests"], a:1 },
+  { q:"HPCSA informed consent requirements for medical cannabis are governed primarily by:", opts:["HPCSA Booklet 9 (HIV management)","HPCSA Booklet 4 (Informed Consent, Confidentiality and Medical Records)","HPCSA Booklet 2 (Telemedicine)","No specific HPCSA booklet — general medical ethics apply only"], a:1 },
+  { q:"Project TWENTY21 is significant in global cannabis medicine because:", opts:["It is South Africa's national cannabis patient registry","It is the UK's largest observational cannabis medicine study with >20,000 patients","It validated recreational cannabis use in clinical populations","It was the first Phase 3 RCT of CBD in epilepsy"], a:1 },
+  { q:"A renal transplant patient on tacrolimus is started on CBD 150mg/day. Primary concern:", opts:["Tacrolimus reduces CBD efficacy","CBD inhibits CYP3A4 → significantly elevated tacrolimus levels → nephrotoxicity and neurotoxicity","No interaction — different metabolic pathways","CBD is absolutely contraindicated post-transplant regardless of dose"], a:1 },
+  { q:"'Start low, go slow' for THC-naive patients recommends an initial dose of:", opts:["5–10mg at night","2.5mg three times daily","1–2.5mg once daily (evening)","10mg BD with food"], a:2 },
+  { q:"CBDA (cannabidiolic acid) is clinically notable for:", opts:["Potent CB1 agonism","COX-1/COX-2 inhibition and 5-HT1A agonism — anti-inflammatory and antiemetic properties","Schedule 6 classification in SA","Psychoactive properties exceeding THC"], a:1 },
+  { q:"SAHPRA Section 21 processing time is typically:", opts:["6–8 weeks","3–6 months","Same-day to 5–10 business days","1–2 business days guaranteed SLA"], a:2 },
+  { q:"The primary reason no cannabis medicine has received full SAHPRA registration as of 2025:", opts:["Cannabis is banned from formal registration under SA law","The full CTD registration dossier process has not been completed for the SA market by any manufacturer","SAHPRA categorically refuses all cannabis registration applications","Cannabis cannot be registered as a plant-derived product"], a:1 },
+];
+
+// ── COMPONENTS ────────────────────────────────────────────────────────────────
+function ScoreRing({ score, max, size = 80 }) {
+  const pct = score / max;
+  const r = (size / 2) - 8;
+  const circ = 2 * Math.PI * r;
+  const dash = circ * pct;
+  const color = pct >= 0.75 ? T.green : pct >= 0.5 ? T.gold : T.danger;
+  return (
+    <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(201,168,76,0.1)" strokeWidth={6} />
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={6}
+        strokeDasharray={`${dash} ${circ}`} strokeLinecap="round"
+        style={{ transition: "stroke-dasharray 1s cubic-bezier(.22,.68,0,1.2)", filter: `drop-shadow(0 0 6px ${color})` }} />
+      <text x={size/2} y={size/2} textAnchor="middle" dominantBaseline="central"
+        fill={color} fontSize={size/4.5} fontWeight="600" fontFamily="Inter,sans-serif"
+        style={{ transform: "rotate(90deg)", transformOrigin: `${size/2}px ${size/2}px` }}>
+        {score}/{max}
+      </text>
+    </svg>
+  );
+}
+
+function PulsingDot({ color = T.green }) {
+  return (
+    <span style={{ display:"inline-block", width:8, height:8, borderRadius:"50%", background:color,
+      boxShadow:`0 0 0 0 ${color}40`, animation:"pulse 1.5s ease-in-out infinite" }} />
+  );
+}
+
+// ── MAIN APP ──────────────────────────────────────────────────────────────────
+function OriginAcademy() {
+  const [screen, setScreen]           = useState("home");
+  const [mod, setMod]                 = useState(null);
+  const [tab, setTab]                 = useState("content");
+  const [secIdx, setSecIdx]           = useState(0);
+  const [qA, setQA]                   = useState({});        // quiz answers
+  const [qSubmit, setQSubmit]         = useState(false);
+  const [progress, setProgress]       = useState({});        // modId → passed
+  const [scores, setScores]           = useState({});        // modId → correct count
+  const [examA, setExamA]             = useState({});
+  const [examDone, setExamDone]       = useState(false);
+  const [examScore, setExamScore]     = useState(0);
+  const [aiQ, setAiQ]                 = useState("");
+  const [aiHist, setAiHist]           = useState([]);
+  const [aiLoading, setAiLoading]     = useState(false);
+  const aiBottom                      = useRef(null);
+
+  const passed     = (id) => !!progress[id];
+  const modScore   = (id) => (scores[id] || 0) * 2;
+  const totalMod   = Object.values(scores).reduce((a,b)=>a+b,0)*2;
+  const done       = Object.keys(progress).filter(k=>progress[k]).length;
+  const canExam    = done >= 8;
+  const totalFinal = examDone ? examScore * 2 : 0;
+  const grandTotal = totalMod + totalFinal;
+  const certified  = examDone && grandTotal >= 75;
+
+  function openModule(m) {
+    setMod(m); setTab("content"); setSecIdx(0);
+    setQA({}); setQSubmit(false);
+    setAiHist([]); setAiQ("");
+    setScreen("module");
+  }
+
+  function submitQuiz() {
+    let c = 0;
+    mod.quiz.forEach((q,i) => { if(qA[i]===q.a) c++; });
+    setScores(s=>({...s,[mod.id]:c}));
+    if(c>=3) setProgress(p=>({...p,[mod.id]:true}));
+    setQSubmit(true);
+  }
+
+  function submitExam() {
+    let c = 0;
+    FINAL_EXAM.forEach((q,i)=>{ if(examA[i]===q.a) c++; });
+    setExamScore(c);
+    setExamDone(true);
+    setScreen("certificate");
+  }
+
+  async function sendAI() {
+    if(!aiQ.trim()) return;
+    const msg = aiQ.trim(); setAiQ(""); setAiLoading(true);
+    const hist = [...aiHist, {role:"user", content:msg}];
+    setAiHist(hist);
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+          model:"claude-sonnet-4-20250514", max_tokens:1000,
+          system:`You are Dr. Origin, an expert AI clinical tutor embedded in the Origin Academy Section 21 Medical Cannabis Certification Course for South African healthcare practitioners. The learner is studying Module ${mod?.id}: "${mod?.title}". Be clinically precise, reference SAHPRA regulations, SA-specific law, and published evidence. Respond concisely in structured paragraphs. Never provide legal advice, but explain regulatory frameworks clearly.`,
+          messages: hist
+        })
+      });
+      const data = await res.json();
+      const reply = data.content?.find(c=>c.type==="text")?.text || "Unable to process query.";
+      setAiHist([...hist, {role:"assistant", content:reply}]);
+    } catch { setAiHist([...hist, {role:"assistant", content:"Connection error — please retry."}]); }
+    setAiLoading(false);
+    setTimeout(()=>aiBottom.current?.scrollIntoView({behavior:"smooth"}),100);
+  }
+
+  // ── RENDER ─────────────────────────────────────────────────────────────────
+  return (
+    <div style={{fontFamily:"'DM Sans',sans-serif", background:T.bg0, minHeight:"100vh", color:T.text}}>
+      <style>{GLOBAL_CSS}</style>
+
+      {/* ── HOME ── */}
+      {screen==="home" && (
+        <div className="hex-bg scanline">
+          {/* Nav */}
+          <nav style={{borderBottom:`1px solid ${T.border}`, padding:"16px 24px",
+            display:"flex", alignItems:"center", justifyContent:"space-between",
+            background:"rgba(6,14,7,0.9)", backdropFilter:"blur(16px)",
+            position:"sticky", top:0, zIndex:100}}>
+            <div style={{display:"flex", alignItems:"center", gap:12}}>
+              <div className="glow" style={{width:38, height:38, borderRadius:10,
+                background:"linear-gradient(135deg,#8B6914,#C9A84C)",
+                border:`1px solid ${T.borderHi}`, display:"flex", alignItems:"center", justifyContent:"center"}}>
+                <Leaf size={18} color={T.greenHi} />
+              </div>
+              <div>
+                <div style={{fontFamily:"'Cinzel',serif", fontSize:20, fontWeight:700,
+                  color:T.goldHi, lineHeight:1}}>Origin Academy</div>
+                <div style={{fontSize:10, color:T.textDim, letterSpacing:2, textTransform:"uppercase"}}>Section 21 Certification</div>
+              </div>
+            </div>
+            <div style={{display:"flex", gap:20, alignItems:"center"}}>
+              {done > 0 && <div style={{fontSize:13, color:T.textMid}}><span style={{color:T.greenHi, fontWeight:600}}>{done}</span>/{MODULES.length} modules</div>}
+              {canExam && !examDone && (
+                <button className="btn-gold" onClick={()=>setScreen("exam")} style={{padding:"8px 20px", fontSize:13}}>
+                  Final Exam
+                </button>
+              )}
+              {certified && (
+                <button className="btn-gold glowGold" onClick={()=>setScreen("certificate")} style={{padding:"8px 20px", fontSize:13}}>
+                  <Award size={14} style={{marginRight:6}} />Certificate
+                </button>
+              )}
+            </div>
+          </nav>
+
+          {/* Hero */}
+          <div style={{maxWidth:1100, margin:"0 auto", padding:"64px 24px 40px"}}>
+            <div className="fadeUp" style={{marginBottom:48}}>
+              <div style={{display:"inline-flex", alignItems:"center", gap:8, padding:"6px 16px",
+                background:T.greenDim, border:`1px solid ${T.border}`, borderRadius:999, marginBottom:20}}>
+                <PulsingDot />
+                <span style={{fontSize:11, letterSpacing:2, color:T.green, textTransform:"uppercase", fontWeight:600}}>
+                  SAHPRA Section 21 · Accredited Training · 2025
+                </span>
+              </div>
+              <h1 style={{fontFamily:"'Cinzel',serif", fontSize:"clamp(36px,6vw,72px)",
+                fontWeight:700, lineHeight:1.1, marginBottom:20}}>
+                <span style={{color:T.text}}>Medical Cannabis</span><br/>
+                <span style={{background:`linear-gradient(135deg,${T.gold},${T.goldHi},${T.greenHi})`,
+                  WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent",
+                  backgroundClip:"text"}}>Prescriber Certification</span>
+              </h1>
+              <p style={{fontSize:17, color:T.textMid, maxWidth:600, lineHeight:1.8, marginBottom:36}}>
+                A rigorous 10-module clinical course for HPCSA-registered practitioners. Master SA law, cannabinoid pharmacology, clinical indications, and complete the Section 21 application process — AI-tutored at every step.
+              </p>
+
+              {/* Stat pills */}
+              <div style={{display:"flex", flexWrap:"wrap", gap:12, marginBottom:36}}>
+                {[
+                  {icon:<BookOpen size={16}/>, label:"10 Modules"},
+                  {icon:<Star size={16}/>, label:"100 Points"},
+                  {icon:<Brain size={16}/>, label:"AI Tutor"},
+                  {icon:<GraduationCap size={16}/>, label:"75% Pass Mark"},
+                  {icon:<Zap size={16}/>, label:"Certificate on Pass"},
+                ].map(({icon,label})=>(
+                  <div key={label} style={{display:"flex", alignItems:"center", gap:8, padding:"8px 16px",
+                    background:T.greenDim, border:`1px solid ${T.border}`, borderRadius:999,
+                    fontSize:13, color:T.textMid}}>
+                    <span style={{color:T.green}}>{icon}</span>{label}
+                  </div>
+                ))}
+              </div>
+
+              {/* Progress bar */}
+              {done > 0 && (
+                <div style={{maxWidth:480, marginBottom:28}}>
+                  <div style={{display:"flex", justifyContent:"space-between", marginBottom:8, fontSize:13}}>
+                    <span style={{color:T.textMid}}>Course Progress</span>
+                    <span style={{color:T.greenHi, fontWeight:600}}>{totalMod}/50 module pts</span>
+                  </div>
+                  <div className="progress-bar-bg" style={{height:8}}>
+                    <div className="progress-bar-fill" style={{height:8, width:`${(done/MODULES.length)*100}%`}} />
+                  </div>
+                </div>
+              )}
+
+              <div style={{display:"flex", gap:12, flexWrap:"wrap"}}>
+                <button className="btn-green glow" onClick={()=>{
+                  const next = MODULES.find(m=>!progress[m.id]) || MODULES[0];
+                  openModule(next);
+                }}>
+                  <Sparkles size={15} style={{marginRight:8}} />
+                  {done>0 ? "Continue Learning" : "Start Course"}
+                </button>
+                {canExam && !examDone && (
+                  <button className="btn-ghost" onClick={()=>setScreen("exam")}>
+                    Take Final Exam →
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Module Grid */}
+            <div style={{marginBottom:16}}>
+              <h2 style={{fontFamily:"'Cinzel',serif", fontSize:28, fontWeight:600,
+                color:T.text, marginBottom:24}}>Course Modules</h2>
+              <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(290px,1fr))", gap:16}}>
+                {MODULES.map((m,i)=>{
+                  const Icon = MOD_ICONS[i];
+                  const isDone = passed(m.id);
+                  const sc = scores[m.id];
+                  return (
+                    <div key={m.id} className={`card card-hover fadeUp`}
+                      onClick={()=>openModule(m)}
+                      style={{padding:24, cursor:"pointer", animationDelay:`${i*0.04}s`,
+                        border:`1px solid ${isDone ? T.borderHi : T.border}`,
+                        position:"relative", overflow:"hidden"}}>
+                      {/* Top accent */}
+                      <div style={{position:"absolute", top:0, left:0, right:0, height:2,
+                        background: isDone
+                          ? `linear-gradient(90deg,${m.color},${T.green},${T.gold})`
+                          : "transparent",
+                        transition:"background 0.4s"}} />
+                      {/* Module number */}
+                      <div style={{position:"absolute", top:16, right:16, fontSize:11,
+                        color:T.textDim, fontWeight:600, letterSpacing:1}}>
+                        {String(m.id).padStart(2,"0")}
+                      </div>
+                      <div style={{display:"flex", alignItems:"flex-start", gap:14, marginBottom:16}}>
+                        <div style={{width:44, height:44, borderRadius:12, flexShrink:0,
+                          background:`${m.color}30`, border:`1px solid ${m.color}60`,
+                          display:"flex", alignItems:"center", justifyContent:"center"}}>
+                          <Icon size={20} color={T.greenHi} />
+                        </div>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:16, fontWeight:600, color:T.text, lineHeight:1.3, marginBottom:4,
+                            fontFamily:"'Cinzel',serif"}}>{m.title}</div>
+                          <div style={{fontSize:12, color:T.textDim, lineHeight:1.4}}>{m.sub}</div>
+                        </div>
+                      </div>
+                      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+                        <div style={{fontSize:12, color:T.textDim, display:"flex", alignItems:"center", gap:5}}>
+                          <Zap size={11} color={T.textDim} />{m.dur}
+                        </div>
+                        {isDone ? (
+                          <div style={{display:"flex", alignItems:"center", gap:6,
+                            background:"rgba(201,168,76,0.15)", border:`1px solid ${T.borderHi}`,
+                            borderRadius:999, padding:"3px 10px"}}>
+                            <CircleCheck size={12} color={T.green} />
+                            <span style={{fontSize:11, color:T.green, fontWeight:600}}>{sc*2} pts</span>
+                          </div>
+                        ) : (
+                          <div style={{fontSize:11, color:T.textDim, display:"flex", alignItems:"center", gap:5}}>
+                            {done >= m.id-1 ? <ChevronRight size={12} color={T.textDim} /> : <Lock size={11} color={T.textDim} />}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Exam CTA */}
+            {canExam && !examDone && (
+              <div className="card glowGold fadeUp" style={{marginTop:32, padding:32, textAlign:"center",
+                border:`1px solid rgba(200,168,75,0.35)`, background:"rgba(10,8,4,0.8)"}}>
+                <div style={{width:56, height:56, borderRadius:16, margin:"0 auto 16px",
+                  background:"rgba(200,168,75,0.15)", border:"1px solid rgba(200,168,75,0.4)",
+                  display:"flex", alignItems:"center", justifyContent:"center"}}>
+                  <GraduationCap size={26} color={T.gold} />
+                </div>
+                <div style={{fontFamily:"'Cinzel',serif", fontSize:26, color:T.goldHi, marginBottom:8}}>
+                  Final Exam Unlocked
+                </div>
+                <div style={{fontSize:14, color:"#9a8860", marginBottom:24}}>
+                  25 clinical scenario questions · 50 points · 75/100 required to pass
+                </div>
+                <button className="btn-gold glowGold" onClick={()=>setScreen("exam")}>
+                  Begin Final Examination →
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ── MODULE SCREEN ── */}
+      {screen==="module" && mod && (() => {
+        const Icon = MOD_ICONS[mod.id-1];
+        const sec = mod.content[secIdx];
+        const quizCorrect = mod.quiz.filter((q,i)=>qA[i]===q.a).length;
+        return (
+          <div>
+            {/* Sticky top bar */}
+            <div style={{position:"sticky", top:0, zIndex:200, backdropFilter:"blur(16px)",
+              background:"rgba(6,14,7,0.95)", borderBottom:`1px solid ${T.border}`}}>
+              <div style={{maxWidth:900, margin:"0 auto", padding:"12px 20px",
+                display:"flex", alignItems:"center", justifyContent:"space-between", gap:12}}>
+                <button onClick={()=>setScreen("home")} style={{display:"flex", alignItems:"center", gap:6,
+                  background:"none", border:`1px solid ${T.border}`, borderRadius:8, padding:"7px 14px",
+                  color:T.textMid, fontSize:13, cursor:"pointer"}}>
+                  <Home size={13} /><span>Home</span>
+                </button>
+                <div style={{display:"flex", alignItems:"center", gap:10}}>
+                  <div style={{width:28, height:28, borderRadius:8, background:`${mod.color}30`,
+                    border:`1px solid ${mod.color}60`, display:"flex", alignItems:"center", justifyContent:"center"}}>
+                    <Icon size={14} color={T.greenHi} />
+                  </div>
+                  <span style={{fontFamily:"'Cinzel',serif", fontSize:16, color:T.text,
+                    display:"none", ['@media(min-width:500px)']:{display:"block"}}}>{mod.title}</span>
+                </div>
+                <div style={{fontSize:12, color:T.textDim}}>
+                  <span style={{color:T.greenHi, fontWeight:600}}>{mod.id}</span>/{MODULES.length}
+                </div>
+              </div>
+              {/* Progress strip */}
+              <div style={{height:2, background:`${T.border}`}}>
+                <div style={{height:2, background:`linear-gradient(90deg,${mod.color},${T.green})`,
+                  width:`${((secIdx+1)/mod.content.length)*100}%`, transition:"width 0.4s"}} />
+              </div>
+            </div>
+
+            <div style={{maxWidth:900, margin:"0 auto", padding:"0 20px 80px"}}>
+              {/* Tabs */}
+              <div style={{display:"flex", borderBottom:`1px solid ${T.border}`, marginTop:24}}>
+                {[
+                  {id:"content", icon:<BookOpen size={14}/>, label:"Content"},
+                  {id:"quiz", icon:<ClipboardList size={14}/>, label:"Quiz"},
+                  {id:"ai", icon:<Brain size={14}/>, label:"AI Tutor"},
+                ].map(({id,icon,label})=>(
+                  <button key={id} className={`tab-btn ${tab===id?"tab-active":""}`} onClick={()=>setTab(id)}>
+                    {icon}<span>{label}</span>
+                    {id==="quiz" && passed(mod.id) && <CircleCheck size={12} color={T.green} style={{marginLeft:4}} />}
+                  </button>
+                ))}
+              </div>
+
+              {/* ── CONTENT ── */}
+              {tab==="content" && (
+                <div className="fadeIn" style={{paddingTop:32}}>
+                  {/* Section nav pills */}
+                  <div style={{display:"flex", gap:8, flexWrap:"wrap", marginBottom:28}}>
+                    {mod.content.map((_,i)=>(
+                      <button key={i} onClick={()=>setSecIdx(i)} style={{
+                        padding:"5px 14px", borderRadius:999, fontSize:12, cursor:"pointer",
+                        background: secIdx===i ? `${mod.color}40` : "transparent",
+                        border:`1px solid ${secIdx===i ? mod.color : T.border}`,
+                        color: secIdx===i ? T.greenHi : T.textDim, transition:"all 0.2s"}}>
+                        {i+1}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Content card */}
+                  <div className="card borderPulse" style={{padding:"36px 36px", marginBottom:24}}>
+                    <h2 style={{fontFamily:"'Cinzel',serif", fontSize:26, fontWeight:600,
+                      color:T.text, marginBottom:24, lineHeight:1.3}}>{sec.h}</h2>
+                    <div style={{fontSize:15, lineHeight:1.95, color:T.textMid}}>
+                      {sec.b.split("\n").map((line,i)=>{
+                        if(!line.trim()) return <div key={i} style={{height:8}} />;
+                        // Bold inline
+                        const parts = line.split(/(\*\*[^*]+\*\*)/);
+                        const rendered = parts.map((p,j)=>
+                          p.startsWith("**")
+                            ? <span key={j} style={{color:T.greenHi, fontWeight:600}}>{p.replace(/\*\*/g,"")}</span>
+                            : p
+                        );
+                        if(line.startsWith("• ") || line.startsWith("· ")) {
+                          return (
+                            <div key={i} style={{display:"flex", gap:10, marginBottom:6, paddingLeft:8}}>
+                              <span style={{color:T.green, flexShrink:0, marginTop:3}}>◆</span>
+                              <span>{rendered}</span>
+                            </div>
+                          );
+                        }
+                        return <p key={i} style={{marginBottom:4}}>{rendered}</p>;
+                      })}
+                    </div>
+                  </div>
+
+                  <div style={{display:"flex", justifyContent:"space-between", gap:12}}>
+                    <button className="btn-ghost" onClick={()=>setSecIdx(Math.max(0,secIdx-1))}
+                      disabled={secIdx===0} style={{opacity:secIdx===0?0.3:1}}>
+                      <ChevronLeft size={14} style={{marginRight:6}} />Previous
+                    </button>
+                    {secIdx < mod.content.length-1
+                      ? <button className="btn-green" onClick={()=>setSecIdx(secIdx+1)}>
+                          Next Section<ChevronRight size={14} style={{marginLeft:6}} />
+                        </button>
+                      : <button className="btn-green glow" onClick={()=>setTab("quiz")}>
+                          Take Module Quiz<ChevronRight size={14} style={{marginLeft:6}} />
+                        </button>
+                    }
+                  </div>
+                </div>
+              )}
+
+              {/* ── QUIZ ── */}
+              {tab==="quiz" && (
+                <div className="fadeIn" style={{paddingTop:32}}>
+                  <div style={{display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:28, flexWrap:"wrap", gap:16}}>
+                    <div>
+                      <h2 style={{fontFamily:"'Cinzel',serif", fontSize:24, color:T.text, marginBottom:4}}>Module Quiz</h2>
+                      <p style={{fontSize:13, color:T.textDim}}>5 questions · 3/5 to pass · Worth 10 points toward certification</p>
+                    </div>
+                    {qSubmit && <ScoreRing score={quizCorrect} max={5} size={72} />}
+                  </div>
+
+                  {mod.quiz.map((q,qi)=>{
+                    const sel = qA[qi];
+                    return (
+                      <div key={qi} className="card" style={{padding:24, marginBottom:16}}>
+                        <div style={{fontFamily:"'Cinzel',serif", fontSize:17, color:T.text,
+                          marginBottom:16, lineHeight:1.4}}>
+                          <span style={{color:T.gold, marginRight:10, fontWeight:600}}>Q{qi+1}.</span>{q.q}
+                        </div>
+                        {q.opts.map((opt,oi)=>{
+                          let cls = "opt-btn";
+                          if(qSubmit) {
+                            if(oi===q.a) cls+=" opt-correct";
+                            else if(oi===sel && sel!==q.a) cls+=" opt-wrong";
+                          } else if(sel===oi) cls+=" opt-selected";
+                          return (
+                            <button key={oi} className={cls} disabled={qSubmit}
+                              onClick={()=>setQA(a=>({...a,[qi]:oi}))}>
+                              <span style={{color:T.gold, marginRight:10, fontWeight:600}}>{["A","B","C","D"][oi]}.</span>
+                              {opt}
+                              {qSubmit && oi===q.a && <Check size={14} style={{marginLeft:8, color:T.green}} />}
+                              {qSubmit && oi===sel && sel!==q.a && <X size={14} style={{marginLeft:8, color:T.danger}} />}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
+
+                  {!qSubmit ? (
+                    <button className="btn-green" onClick={submitQuiz}
+                      disabled={Object.keys(qA).length < mod.quiz.length}
+                      style={{opacity:Object.keys(qA).length < mod.quiz.length ? 0.4 : 1}}>
+                      Submit Quiz
+                    </button>
+                  ) : (
+                    <div className={`card ${quizCorrect>=3?"glow":"borderPulse"}`}
+                      style={{padding:28, textAlign:"center", marginTop:8,
+                        border:`1px solid ${quizCorrect>=3 ? T.borderHi : "rgba(224,85,85,0.4)"}`}}>
+                      <div style={{fontFamily:"'Cinzel',serif", fontSize:28,
+                        color: quizCorrect>=3 ? T.greenHi : T.danger, marginBottom:8}}>
+                        {quizCorrect>=3 ? `${quizCorrect}/5 — Passed ✓` : `${quizCorrect}/5 — Retry`}
+                      </div>
+                      <p style={{color:T.textDim, fontSize:14, marginBottom:20}}>
+                        {quizCorrect>=3
+                          ? `${quizCorrect*2} points added to your certification score.`
+                          : "You need at least 3/5 correct to pass this module."}
+                      </p>
+                      {quizCorrect<3
+                        ? <button className="btn-ghost" onClick={()=>{setQA({});setQSubmit(false);}}>
+                            <RotateCcw size={13} style={{marginRight:6}} />Retry Quiz
+                          </button>
+                        : <button className="btn-green" onClick={()=>setScreen("home")}>
+                            <Home size={13} style={{marginRight:6}} />Back to Course
+                          </button>
+                      }
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ── AI TUTOR ── */}
+              {tab==="ai" && (
+                <div className="fadeIn" style={{paddingTop:32}}>
+                  <div style={{marginBottom:24}}>
+                    <div style={{display:"flex", alignItems:"center", gap:10, marginBottom:6}}>
+                      <div className="glow" style={{width:36, height:36, borderRadius:10,
+                        background:T.greenDim, border:`1px solid ${T.borderHi}`,
+                        display:"flex", alignItems:"center", justifyContent:"center"}}>
+                        <Brain size={18} color={T.greenHi} />
+                      </div>
+                      <div>
+                        <div style={{fontFamily:"'Cinzel',serif", fontSize:20, color:T.text}}>Dr. Origin</div>
+                        <div style={{fontSize:12, color:T.textDim, display:"flex", gap:6, alignItems:"center"}}>
+                          <PulsingDot /><span>AI Clinical Tutor · Powered by Claude</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p style={{fontSize:13, color:T.textDim, paddingLeft:46}}>
+                      Ask about this module, request case scenarios, or test your understanding.
+                    </p>
+                  </div>
+
+                  {/* Suggested prompts */}
+                  <div style={{display:"flex", flexWrap:"wrap", gap:8, marginBottom:20}}>
+                    {[
+                      `Summarise key pharmacology for Module ${mod.id}`,
+                      "Give me a clinical case scenario",
+                      "What are common SAHPRA rejection reasons?",
+                      "Test my knowledge with a question"
+                    ].map(q=>(
+                      <button key={q} onClick={()=>setAiQ(q)}
+                        style={{padding:"6px 14px", background:T.greenDim, border:`1px solid ${T.border}`,
+                          borderRadius:999, color:T.textMid, fontSize:12, cursor:"pointer",
+                          transition:"all 0.15s"}}
+                        onMouseEnter={e=>{e.target.style.borderColor=T.borderHi; e.target.style.color=T.greenHi;}}
+                        onMouseLeave={e=>{e.target.style.borderColor=T.border; e.target.style.color=T.textMid;}}>
+                        {q}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Chat window */}
+                  <div className="card" style={{padding:20, minHeight:220, maxHeight:380,
+                    overflowY:"auto", marginBottom:14}}>
+                    {aiHist.length===0 && (
+                      <div style={{textAlign:"center", paddingTop:50, color:T.textDim, fontSize:14}}>
+                        <MessageSquare size={28} style={{marginBottom:10, opacity:0.4}} />
+                        <div>Ask Dr. Origin anything about this module...</div>
+                      </div>
+                    )}
+                    {aiHist.map((m,i)=>(
+                      <div key={i} style={{marginBottom:16, display:"flex",
+                        justifyContent: m.role==="user" ? "flex-end" : "flex-start", gap:10}}>
+                        {m.role==="assistant" && (
+                          <div style={{width:28, height:28, borderRadius:8, background:T.greenDim,
+                            border:`1px solid ${T.borderHi}`, display:"flex", alignItems:"center",
+                            justifyContent:"center", flexShrink:0, marginTop:2}}>
+                            <Brain size={13} color={T.greenHi} />
+                          </div>
+                        )}
+                        <div style={{maxWidth:"80%", padding:"12px 16px", borderRadius:12,
+                          background: m.role==="user" ? "rgba(201,168,76,0.18)" : "rgba(255,255,255,0.04)",
+                          border:`1px solid ${m.role==="user" ? T.borderHi : T.border}`,
+                          fontSize:14, lineHeight:1.75, color: m.role==="user" ? T.greenHi : T.textMid,
+                          whiteSpace:"pre-wrap"}}>
+                          {m.content}
+                        </div>
+                      </div>
+                    ))}
+                    {aiLoading && (
+                      <div style={{display:"flex", gap:10, alignItems:"center"}}>
+                        <div style={{width:28, height:28, borderRadius:8, background:T.greenDim,
+                          border:`1px solid ${T.borderHi}`, display:"flex", alignItems:"center", justifyContent:"center"}}>
+                          <Brain size={13} color={T.greenHi} />
+                        </div>
+                        <div style={{padding:"10px 16px", background:"rgba(255,255,255,0.04)",
+                          border:`1px solid ${T.border}`, borderRadius:12, color:T.green,
+                          fontSize:13}} className="pulse">Thinking...</div>
+                      </div>
+                    )}
+                    <div ref={aiBottom} />
+                  </div>
+
+                  <div style={{display:"flex", gap:10}}>
+                    <input className="input-field" value={aiQ}
+                      onChange={e=>setAiQ(e.target.value)}
+                      onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&sendAI()}
+                      placeholder="Ask about this module..." />
+                    <button className="btn-green" onClick={sendAI}
+                      disabled={aiLoading || !aiQ.trim()}
+                      style={{flexShrink:0, opacity:aiLoading||!aiQ.trim()?0.4:1}}>
+                      <Send size={15} />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* ── FINAL EXAM ── */}
+      {screen==="exam" && (
+        <div>
+          <div style={{background:"rgba(6,14,7,0.95)", borderBottom:`1px solid rgba(200,168,75,0.3)`,
+            padding:"14px 24px", display:"flex", justifyContent:"space-between", alignItems:"center",
+            position:"sticky", top:0, zIndex:100, backdropFilter:"blur(16px)"}}>
+            <button className="btn-ghost" onClick={()=>setScreen("home")} style={{padding:"7px 14px", fontSize:13}}>
+              <ArrowLeft size={13} style={{marginRight:6}} />Back
+            </button>
+            <div style={{fontFamily:"'Cinzel',serif", fontSize:18, color:T.goldHi,
+              display:"flex", alignItems:"center", gap:10}}>
+              <GraduationCap size={18} color={T.gold} />
+              Final Certification Examination
+            </div>
+            <div style={{fontSize:13, color:"#9a8860"}}>
+              <span style={{color:T.goldHi, fontWeight:600}}>{Object.keys(examA).length}</span>/25
+            </div>
+          </div>
+
+          <div style={{maxWidth:840, margin:"0 auto", padding:"32px 20px 80px"}}>
+            <div className="card glowGold" style={{padding:24, marginBottom:32, textAlign:"center",
+              border:"1px solid rgba(200,168,75,0.35)"}}>
+              <div style={{fontFamily:"'Cinzel',serif", fontSize:22, color:T.goldHi, marginBottom:6}}>
+                25 Clinical Scenario Questions · 50 Points
+              </div>
+              <div style={{fontSize:13, color:"#7a6840"}}>
+                Module quiz points ({totalMod}/50) + exam points (max 50) = total score · 75/100 required
+              </div>
+            </div>
+
+            {FINAL_EXAM.map((q,qi)=>{
+              const sel = examA[qi];
+              return (
+                <div key={qi} className="card" style={{padding:24, marginBottom:14}}>
+                  <div style={{fontFamily:"'Cinzel',serif", fontSize:17, color:T.text, marginBottom:16, lineHeight:1.4}}>
+                    <span style={{color:T.gold, fontWeight:600, marginRight:10}}>Q{qi+1}.</span>{q.q}
+                  </div>
+                  {q.opts.map((opt,oi)=>(
+                    <button key={oi} className={`opt-btn ${sel===oi?"opt-gold":""}`}
+                      onClick={()=>setExamA(a=>({...a,[qi]:oi}))}>
+                      <span style={{color:T.gold, marginRight:10, fontWeight:600}}>{["A","B","C","D"][oi]}.</span>{opt}
+                    </button>
+                  ))}
+                </div>
+              );
+            })}
+
+            <div style={{textAlign:"center", marginTop:32}}>
+              <button className={`btn-gold ${Object.keys(examA).length>=25?"glowGold":""}`}
+                onClick={submitExam} disabled={Object.keys(examA).length<25}
+                style={{opacity:Object.keys(examA).length<25?0.4:1, padding:"16px 48px", fontSize:16}}>
+                {Object.keys(examA).length<25
+                  ? `Answer ${25-Object.keys(examA).length} more question(s)`
+                  : "Submit Final Examination →"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── CERTIFICATE ── */}
+      {screen==="certificate" && (
+        <div style={{minHeight:"100vh", display:"flex", flexDirection:"column",
+          alignItems:"center", justifyContent:"center", padding:"40px 20px",
+          background:`radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.08) 0%, ${T.bg0} 60%)`}}>
+          {certified ? (
+            <div className="fadeUp" style={{maxWidth:680, width:"100%", position:"relative"}}>
+              {/* Outer glow ring */}
+              <div className="glowGold" style={{padding:3, borderRadius:24,
+                background:`linear-gradient(135deg, ${T.gold}, ${T.green}, ${T.gold})`}}>
+                <div style={{background:"linear-gradient(160deg,#0a1a0c,#0f2218)",
+                  borderRadius:22, padding:"52px 44px", textAlign:"center", position:"relative", overflow:"hidden"}}>
+                  {/* Hex bg */}
+                  <div className="hex-bg" style={{position:"absolute", inset:0, opacity:0.4}} />
+                  <div style={{position:"relative", zIndex:1}}>
+                    <div style={{width:72, height:72, borderRadius:20, margin:"0 auto 20px",
+                      background:`linear-gradient(135deg, ${T.gold}30, ${T.green}20)`,
+                      border:`2px solid ${T.gold}60`, display:"flex", alignItems:"center", justifyContent:"center"}}>
+                      <Award size={34} color={T.goldHi} />
+                    </div>
+                    <div style={{fontSize:10, letterSpacing:4, color:T.gold, textTransform:"uppercase",
+                      marginBottom:6, fontWeight:600}}>Certificate of Completion</div>
+                    <div style={{fontFamily:"'Cinzel',serif", fontSize:46, fontWeight:700,
+                      marginBottom:4, background:`linear-gradient(135deg,${T.gold},${T.goldHi},#F5F0E8)`,
+                      WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text"}}>
+                      Origin Academy
+                    </div>
+                    <div style={{fontFamily:"'Cinzel',serif", fontSize:16, color:T.textMid,
+                      marginBottom:28, fontStyle:"italic"}}>Section 21 Medical Cannabis Prescriber Certification</div>
+
+                    <div style={{background:"rgba(201,168,76,0.08)", border:`1px solid ${T.border}`,
+                      borderRadius:16, padding:"20px 28px", marginBottom:28, fontSize:14, lineHeight:1.9,
+                      color:T.textMid}}>
+                      This certifies that the registered healthcare practitioner has demonstrated clinical competency in Section 21 medical cannabis prescribing under the Medicines and Related Substances Act 101 of 1965 (South Africa)
+                    </div>
+
+                    <div style={{display:"flex", justifyContent:"center", gap:40, marginBottom:28}}>
+                      {[
+                        {val:grandTotal, label:"Total Score", color:T.goldHi},
+                        {val:"100", label:"Max Points", color:T.greenHi},
+                        {val:"PASS", label:"Result", color:T.green},
+                      ].map(({val,label,color})=>(
+                        <div key={label}>
+                          <div style={{fontFamily:"'Cinzel',serif", fontSize:36, fontWeight:700,
+                            color, lineHeight:1}}>{val}</div>
+                          <div style={{fontSize:10, color:T.textDim, textTransform:"uppercase",
+                            letterSpacing:1.5, marginTop:4}}>{label}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div style={{display:"flex", justifyContent:"center", gap:12, flexWrap:"wrap",
+                      marginBottom:24}}>
+                      {[
+                        `${MODULES.length} Modules Completed`,
+                        `${totalMod}/50 Module Points`,
+                        `${examScore*2}/50 Exam Points`,
+                      ].map(t=>(
+                        <div key={t} style={{padding:"4px 14px", background:T.greenDim,
+                          border:`1px solid ${T.border}`, borderRadius:999, fontSize:12, color:T.textMid}}>
+                          <CircleCheck size={11} color={T.green} style={{marginRight:6}} />{t}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div style={{fontSize:11, color:T.textDim}}>
+                      Origin by ILCO Farming · {new Date().toLocaleDateString("en-ZA",{year:"numeric",month:"long",day:"numeric"})}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="card fadeUp" style={{maxWidth:520, textAlign:"center", padding:48,
+              border:"1px solid rgba(224,85,85,0.35)"}}>
+              <div style={{width:60, height:60, borderRadius:16, margin:"0 auto 20px",
+                background:T.dangerDim, border:"1px solid rgba(224,85,85,0.4)",
+                display:"flex", alignItems:"center", justifyContent:"center"}}>
+                <GraduationCap size={28} color={T.danger} />
+              </div>
+              <div style={{fontFamily:"'Cinzel',serif", fontSize:30, color:T.danger, marginBottom:8}}>
+                Not Yet Certified
+              </div>
+              <div style={{fontFamily:"'Cinzel',serif", fontSize:24, color:T.text, marginBottom:12}}>
+                Score: {grandTotal}/100
+              </div>
+              <p style={{color:T.textDim, fontSize:14, marginBottom:28}}>
+                75 points required to pass. Review the modules and retake the exam.
+              </p>
+              <div style={{display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap"}}>
+                <button className="btn-green" onClick={()=>setScreen("home")}>Review Modules</button>
+                <button className="btn-ghost" onClick={()=>{setExamA({});setExamDone(false);setScreen("exam");}}>
+                  <RotateCcw size={13} style={{marginRight:6}} />Retake Exam
+                </button>
+              </div>
+            </div>
+          )}
+          <button onClick={()=>setScreen("home")} style={{marginTop:24, background:"none",
+            border:"none", color:T.textDim, fontSize:13, cursor:"pointer", fontFamily:"'DM Sans',sans-serif"}}>
+            ← Return to Course
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<OriginAcademy />);
+  </script>
+</body>
+</html>

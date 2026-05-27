@@ -23,7 +23,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage <= 1}
-        className="px-4 py-2 text-sm font-medium bg-white border border-jig-purple-light rounded-[5px] text-white hover:bg-jig-purple hover:text-gray-100 hover:border-jig-purple disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+        className="px-4 py-2 text-sm font-medium bg-white border border-or-gold-light rounded-[5px] text-white hover:bg-or-gold hover:text-gray-100 hover:border-or-gold disabled:opacity-30 disabled:cursor-not-allowed transition-all"
       >
         Prev
       </button>
@@ -37,8 +37,8 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
             onClick={() => onPageChange(p)}
             className={`px-4 py-2 text-sm font-medium rounded-[5px] border transition-all ${
               p === currentPage
-                ? 'bg-jig-purple text-gray-100 border-jig-purple'
-                : 'bg-white text-white border-jig-purple-light hover:bg-jig-purple hover:text-gray-100 hover:border-jig-purple'
+                ? 'bg-or-gold text-gray-100 border-or-gold'
+                : 'bg-white text-white border-or-gold-light hover:bg-or-gold hover:text-gray-100 hover:border-or-gold'
             }`}
           >
             {p}
@@ -49,7 +49,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage >= totalPages}
-        className="px-4 py-2 text-sm font-medium bg-white border border-jig-purple-light rounded-[5px] text-white hover:bg-jig-purple hover:text-gray-100 hover:border-jig-purple disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+        className="px-4 py-2 text-sm font-medium bg-white border border-or-gold-light rounded-[5px] text-white hover:bg-or-gold hover:text-gray-100 hover:border-or-gold disabled:opacity-30 disabled:cursor-not-allowed transition-all"
       >
         Next
       </button>

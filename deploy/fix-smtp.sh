@@ -23,6 +23,6 @@ except Exception as e:
     print(f'SMTP LOGIN: FAILED - {e}')
 "
 
-pm2 restart jig-api
+pm2 restart puregro-api
 sleep 2
 curl -s http://127.0.0.1:3002/health

@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Onboarding - Medical Cannabis Consultation | JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Patient Onboarding - Medical Cannabis Consultation | Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -45,7 +54,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -54,13 +63,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -71,14 +80,14 @@
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             min-height: 100vh;
         }
 
         /* Hero */
         .hero {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 60px 20px 80px;
             text-align: center;
             position: relative;
@@ -91,7 +100,7 @@
             left: 0;
             right: 0;
             height: 60px;
-            background: var(--black);
+            background: var(--or-black);
             clip-path: ellipse(60% 100% at 50% 100%);
         }
 
@@ -99,7 +108,7 @@
             width: 100px;
             height: 100px;
             margin: 0 auto 20px;
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -114,7 +123,7 @@
         }
 
         .hero h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2.8rem;
             color: var(--cream);
             text-transform: uppercase;
@@ -122,7 +131,7 @@
         }
 
         .hero .tagline {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.4rem;
             color: var(--gold-light);
             font-style: italic;
@@ -145,9 +154,9 @@
 
         /* Journey Steps */
         .journey-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2.2rem;
-            color: var(--purple);
+            color: var(--or-gold);
             text-align: center;
             text-transform: uppercase;
             margin-bottom: 40px;
@@ -177,7 +186,7 @@
         .step-number {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -185,7 +194,7 @@
             flex-shrink: 0;
             z-index: 1;
             border: 4px solid var(--cream);
-            box-shadow: 0 4px 15px rgba(124, 58, 237,0.3);
+            box-shadow: 0 4px 15px rgba(63, 192, 65,0.3);
         }
 
         .step-number i {
@@ -199,33 +208,33 @@
             margin-left: 20px;
             padding: 25px;
             border-radius: 12px;
-            border: 2px solid rgba(124, 58, 237,0.15);
+            border: 2px solid rgba(63, 192, 65,0.15);
             transition: all 0.3s;
         }
 
         .step-content:hover {
             border-color: var(--gold);
-            box-shadow: 0 5px 20px rgba(217, 119, 6,0.15);
+            box-shadow: 0 5px 20px rgba(240, 165, 0,0.15);
         }
 
         .step-content h3 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.5rem;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 10px;
             text-transform: uppercase;
         }
 
         .step-content p {
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             line-height: 1.6;
             margin-bottom: 10px;
         }
 
         .step-content .duration {
             display: inline-block;
-            background: var(--black);
-            color: var(--green-dark);
+            background: var(--or-black);
+            color: var(--or-gold-muted);
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -234,7 +243,7 @@
 
         /* CTA Section */
         .cta-section {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 50px 30px;
             border-radius: 20px;
             text-align: center;
@@ -243,7 +252,7 @@
         }
 
         .cta-section h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2rem;
             color: var(--cream);
             text-transform: uppercase;
@@ -260,7 +269,7 @@
         .cta-btn {
             display: inline-block;
             background: var(--gold);
-            color: var(--white);
+            color: var(--or-white);
             padding: 15px 40px;
             border-radius: 50px;
             font-weight: 700;
@@ -272,7 +281,7 @@
         .cta-btn:hover {
             background: var(--gold-light);
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(217, 119, 6,0.4);
+            box-shadow: 0 8px 25px rgba(240, 165, 0,0.4);
         }
 
         .cta-btn i {
@@ -299,7 +308,7 @@
             padding: 25px;
             border-radius: 12px;
             text-align: center;
-            border: 2px solid rgba(124, 58, 237,0.15);
+            border: 2px solid rgba(63, 192, 65,0.15);
             transition: all 0.3s;
         }
 
@@ -310,17 +319,17 @@
 
         .benefit-card i {
             font-size: 2.5rem;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 15px;
         }
 
         .benefit-card h4 {
-            color: var(--white);
+            color: var(--or-white);
             margin-bottom: 10px;
         }
 
         .benefit-card p {
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             font-size: 0.95rem;
         }
 
@@ -329,13 +338,13 @@
             background: #0A0A0A;
             padding: 40px;
             border-radius: 16px;
-            border: 2px solid rgba(124, 58, 237,0.15);
+            border: 2px solid rgba(63, 192, 65,0.15);
         }
 
         .conditions-section h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.8rem;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
             margin-bottom: 25px;
             text-align: center;
@@ -348,17 +357,17 @@
         }
 
         .condition-tag {
-            background: var(--black);
+            background: var(--or-black);
             padding: 12px 20px;
             border-radius: 8px;
             text-align: center;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             font-weight: 500;
             transition: all 0.3s;
         }
 
         .condition-tag:hover {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
         }
 
@@ -369,9 +378,9 @@
 
         /* FAQ */
         .faq-section h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.8rem;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
             margin-bottom: 25px;
             text-align: center;
@@ -381,7 +390,7 @@
             background: #0A0A0A;
             margin-bottom: 15px;
             border-radius: 10px;
-            border: 1px solid rgba(124, 58, 237,0.15);
+            border: 1px solid rgba(63, 192, 65,0.15);
             overflow: hidden;
         }
 
@@ -391,12 +400,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: var(--white);
+            color: var(--or-white);
             font-weight: 600;
         }
 
         .faq-question:hover {
-            background: var(--black);
+            background: var(--or-black);
         }
 
         .faq-question i {
@@ -413,7 +422,7 @@
             max-height: 0;
             overflow: hidden;
             transition: all 0.3s;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
         }
 
         .faq-item.open .faq-answer {
@@ -425,11 +434,11 @@
         .footer {
             text-align: center;
             padding: 40px 20px;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
         }
 
         .footer a {
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* Mobile */
@@ -462,7 +471,7 @@
     <!-- Hero -->
     <div class="hero">
         <div class="logo">
-            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
+            <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
         </div>
         <h1>Your Wellness Journey Starts Here</h1>
         <p class="tagline">Medical Cannabis Consultation & Authorization</p>
@@ -641,7 +650,7 @@
 
     <!-- Footer -->
     <div class="footer">
-        <p><strong>JIG Craft Cannabis</strong> | Craft Cannabis</p>
+        <p><strong>Origin by ILCO Farming</strong> | Premium Cannabis Care</p>
         <p style="margin-top: 10px;"><a href="index.html">Home</a> | <a href="section21-info.html">Section 21 Info</a> | <a href="contact.html">Contact Us</a></p>
         <p style="margin-top: 20px; font-size: 0.85rem; opacity: 0.8;">This page is for informational purposes about our consultation service. Medical cannabis products require a valid Section 21 authorization.</p>
     </div>

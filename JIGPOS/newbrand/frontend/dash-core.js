@@ -1,5 +1,5 @@
 // dash-core.js — Core dashboard initialization, tabs, confirm modal, logout, menus
-// Depends on: config.js (API_URL), dbc-utils.js (showNotification)
+// Depends on: config.js (API_URL), or-utils.js (showNotification)
 
 // Dashboard functionality
 let userData = null;
@@ -141,7 +141,7 @@ function toggleUserMenu() {
     userMenu.classList.toggle('active');
 }
 
-// showNotification provided by /frontend/dbc-utils.js (aliases to showToast)
+// showNotification provided by /frontend/or-utils.js (aliases to showToast)
 
 // Add animation styles
 const animationStyles = `

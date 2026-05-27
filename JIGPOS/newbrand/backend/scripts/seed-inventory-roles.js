@@ -1,6 +1,6 @@
 /**
  * Seed Inventory Management Roles
- * Creates users for each inventory role at JIG Craft Cannabis branches
+ * Creates users for each inventory role at Origin by ILCO Farming branches
  * Run: node backend/scripts/seed-inventory-roles.js
  */
 
@@ -9,12 +9,12 @@ const mongoose = require('mongoose');
 const User = require('../modules/database/models/User');
 const Branch = require('../modules/database/models/Branch');
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
 
 // Inventory role users to seed
 const inventoryUsers = [
   {
-    email: 'owner@jig.cleva-ai.co.za',
+    email: 'owner@cleva-ai.co.za',
     username: 'jigowner',
     password: 'Owner123!',
     firstName: 'Business',
@@ -27,7 +27,7 @@ const inventoryUsers = [
     }
   },
   {
-    email: 'inventory@jig.cleva-ai.co.za',
+    email: 'inventory@cleva-ai.co.za',
     username: 'invmanager',
     password: 'Inventory123!',
     firstName: 'Inventory',
@@ -38,10 +38,10 @@ const inventoryUsers = [
       workSchedule: 'full-time',
       canAccessAllBranches: false
     },
-    branchCode: 'ORM' // Assigned to Ormonde HQ
+    branchCode: 'OR-POT' // Assigned to Potchefstroom
   },
   {
-    email: 'packer@jig.cleva-ai.co.za',
+    email: 'packer@cleva-ai.co.za',
     username: 'jigpacker',
     password: 'Packer123!',
     firstName: 'Pack',
@@ -52,10 +52,10 @@ const inventoryUsers = [
       workSchedule: 'full-time',
       canAccessAllBranches: false
     },
-    branchCode: 'ORM' // Assigned to Ormonde HQ
+    branchCode: 'OR-POT' // Assigned to Potchefstroom
   },
   {
-    email: 'dispatch@jig.cleva-ai.co.za',
+    email: 'dispatch@cleva-ai.co.za',
     username: 'jigdispatch',
     password: 'Dispatch123!',
     firstName: 'Dispatch',
@@ -66,10 +66,10 @@ const inventoryUsers = [
       workSchedule: 'full-time',
       canAccessAllBranches: false
     },
-    branchCode: 'ORM' // Assigned to Ormonde HQ
+    branchCode: 'OR-POT' // Assigned to Potchefstroom
   },
   {
-    email: 'storemanager@jig.cleva-ai.co.za',
+    email: 'storemanager@cleva-ai.co.za',
     username: 'storemanager',
     password: 'StoreManager123!',
     firstName: 'Store',
@@ -80,10 +80,10 @@ const inventoryUsers = [
       workSchedule: 'full-time',
       canAccessAllBranches: false
     },
-    branchCode: 'SPV' // Assigned to Spruitview
+    branchCode: 'OR-POT' // Assigned to Potchefstroom
   },
   {
-    email: 'assistant@jig.cleva-ai.co.za',
+    email: 'assistant@cleva-ai.co.za',
     username: 'storeassistant',
     password: 'Assistant123!',
     firstName: 'Store',
@@ -94,7 +94,7 @@ const inventoryUsers = [
       workSchedule: 'full-time',
       canAccessAllBranches: false
     },
-    branchCode: 'SPV' // Assigned to Spruitview
+    branchCode: 'OR-POT' // Assigned to Potchefstroom
   }
 ];
 

@@ -3,42 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Section 21 Information - JIG Craft Cannabis</title>
+    <title>Section 21 Information - Origin by ILCO Farming</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/globals.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -48,7 +57,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -57,24 +66,24 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         body {
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
         }
 
         nav {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 1rem 5%;
             border-bottom: 3px solid var(--gold);
         }
@@ -96,31 +105,31 @@
         }
 
         h1 {
-            font-family: 'Oswald', sans-serif;
-            color: var(--purple);
+            font-family: 'Cinzel', sans-serif;
+            color: var(--or-gold);
             margin-bottom: 0.5rem;
             text-transform: uppercase;
             font-size: 2.5rem;
         }
 
         .subtitle {
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             margin-bottom: 2rem;
             font-size: 1.1rem;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
         }
 
         h2 {
-            font-family: 'Oswald', sans-serif;
-            color: var(--purple);
+            font-family: 'Cinzel', sans-serif;
+            color: var(--or-gold);
             margin-top: 2rem;
             margin-bottom: 1rem;
             text-transform: uppercase;
         }
 
         h3 {
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             margin-top: 1.5rem;
             margin-bottom: 0.5rem;
         }
@@ -135,7 +144,7 @@
         }
 
         a {
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         a:hover {
@@ -143,7 +152,7 @@
         }
 
         .info-box {
-            background: rgba(124, 58, 237, 0.1);
+            background: rgba(63, 192, 65, 0.1);
             border-left: 4px solid var(--green);
             padding: 1.5rem;
             margin: 1.5rem 0;
@@ -151,7 +160,7 @@
         }
 
         .warning-box {
-            background: rgba(217, 119, 6, 0.1);
+            background: rgba(240, 165, 0, 0.1);
             border-left: 4px solid var(--gold);
             padding: 1.5rem;
             margin: 1.5rem 0;
@@ -160,7 +169,7 @@
 
         .step {
             background: #0A0A0A;
-            border: 1px solid rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(63, 192, 65, 0.2);
             padding: 1.5rem;
             margin: 1rem 0;
             border-radius: 12px;
@@ -170,7 +179,7 @@
             display: inline-block;
             width: 40px;
             height: 40px;
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
             border-radius: 50%;
             text-align: center;
@@ -181,7 +190,7 @@
 
         .cta-button {
             display: inline-block;
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
             padding: 1rem 2rem;
             border-radius: 8px;
@@ -194,7 +203,7 @@
         .cta-button:hover {
             background: var(--green-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+            box-shadow: 0 4px 12px rgba(63, 192, 65, 0.3);
             color: var(--cream);
         }
     </style>
@@ -209,7 +218,7 @@
         <p class="subtitle">Your comprehensive guide to accessing medical cannabis in South Africa</p>
 
         <!-- CONSULTATION JOURNEY - THIS CAN BE MARKETED -->
-        <div style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); border-radius: 16px; padding: 2.5rem; margin-bottom: 2rem; text-align: center; border: 3px solid var(--gold);">
+        <div style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); border-radius: 16px; padding: 2.5rem; margin-bottom: 2rem; text-align: center; border: 3px solid var(--gold);">
             <h2 style="color: var(--cream); margin-top: 0; font-size: 2rem;">Start Your Wellness Journey</h2>
             <p style="color: var(--cream); font-size: 1.2rem; margin-bottom: 1.5rem; opacity: 0.95;">Connect with a licensed healthcare provider who understands medical cannabis</p>
 
@@ -231,7 +240,7 @@
                 </div>
             </div>
 
-            <a href="#consultation-form" class="cta-button" style="background: var(--gold); color: var(--white); font-size: 1.1rem; padding: 1rem 2.5rem;">
+            <a href="#consultation-form" class="cta-button" style="background: var(--gold); color: var(--or-white); font-size: 1.1rem; padding: 1rem 2.5rem;">
                 <i class="fas fa-calendar-check"></i> Book Your Consultation
             </a>
             <p style="color: var(--cream); opacity: 0.8; font-size: 0.85rem; margin-top: 1rem;">Consultation fee: R350 | Includes eligibility assessment</p>
@@ -268,7 +277,7 @@
         </div>
 
         <div class="step">
-            <h3><span class="step-number">3</span>Register with JIG Craft Cannabis</h3>
+            <h3><span class="step-number">3</span>Register with Origin by ILCO Farming</h3>
             <p>Create an account on our platform:</p>
             <ul>
                 <li>Provide accurate personal information</li>
@@ -411,28 +420,28 @@
 
         <!-- CONSULTATION BOOKING FORM - MARKETABLE -->
         <div id="consultation-form" style="background: #0A0A0A; border: 2px solid var(--green); border-radius: 16px; padding: 2rem; margin: 2rem 0;">
-            <h2 style="text-align: center; color: var(--purple);"><i class="fas fa-calendar-plus"></i> Book Your Doctor Consultation</h2>
-            <p style="text-align: center; color: var(--green-dark); margin-bottom: 2rem;">Take the first step on your medical cannabis journey</p>
+            <h2 style="text-align: center; color: var(--or-gold);"><i class="fas fa-calendar-plus"></i> Book Your Doctor Consultation</h2>
+            <p style="text-align: center; color: var(--or-gold-muted); margin-bottom: 2rem;">Take the first step on your medical cannabis journey</p>
 
             <form id="consultationForm" style="max-width: 600px; margin: 0 auto;">
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; color: var(--green-dark); font-weight: 600; margin-bottom: 0.5rem;">Full Name *</label>
+                    <label style="display: block; color: var(--or-gold-muted); font-weight: 600; margin-bottom: 0.5rem;">Full Name *</label>
                     <input type="text" name="fullName" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--green); border-radius: 8px; font-size: 1rem;">
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                     <div>
-                        <label style="display: block; color: var(--green-dark); font-weight: 600; margin-bottom: 0.5rem;">Email *</label>
+                        <label style="display: block; color: var(--or-gold-muted); font-weight: 600; margin-bottom: 0.5rem;">Email *</label>
                         <input type="email" name="email" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--green); border-radius: 8px; font-size: 1rem;">
                     </div>
                     <div>
-                        <label style="display: block; color: var(--green-dark); font-weight: 600; margin-bottom: 0.5rem;">Phone *</label>
+                        <label style="display: block; color: var(--or-gold-muted); font-weight: 600; margin-bottom: 0.5rem;">Phone *</label>
                         <input type="tel" name="phone" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--green); border-radius: 8px; font-size: 1rem;">
                     </div>
                 </div>
 
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; color: var(--green-dark); font-weight: 600; margin-bottom: 0.5rem;">What condition would you like to discuss? *</label>
+                    <label style="display: block; color: var(--or-gold-muted); font-weight: 600; margin-bottom: 0.5rem;">What condition would you like to discuss? *</label>
                     <select name="condition" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--green); border-radius: 8px; font-size: 1rem; background: #0A0A0A;">
                         <option value="">Select a condition...</option>
                         <option value="chronic-pain">Chronic Pain</option>
@@ -448,12 +457,12 @@
                 </div>
 
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; color: var(--green-dark); font-weight: 600; margin-bottom: 0.5rem;">Additional Information (optional)</label>
+                    <label style="display: block; color: var(--or-gold-muted); font-weight: 600; margin-bottom: 0.5rem;">Additional Information (optional)</label>
                     <textarea name="notes" rows="3" style="width: 100%; padding: 0.75rem; border: 1px solid var(--green); border-radius: 8px; font-size: 1rem; resize: vertical;" placeholder="Tell us more about your condition or any questions you have..."></textarea>
                 </div>
 
                 <div style="margin-bottom: 1.5rem;">
-                    <label style="display: flex; align-items: flex-start; gap: 0.5rem; color: var(--green-dark); cursor: pointer;">
+                    <label style="display: flex; align-items: flex-start; gap: 0.5rem; color: var(--or-gold-muted); cursor: pointer;">
                         <input type="checkbox" name="consent" required style="margin-top: 3px;">
                         <span style="font-size: 0.9rem;">I consent to being contacted about my consultation request and understand that this is an enquiry only, not a medical consultation.</span>
                     </label>
@@ -463,15 +472,15 @@
                     <i class="fas fa-paper-plane"></i> Request Consultation
                 </button>
 
-                <p style="text-align: center; color: var(--green-dark); font-size: 0.85rem; margin-top: 1rem;">
+                <p style="text-align: center; color: var(--or-gold-muted); font-size: 0.85rem; margin-top: 1rem;">
                     <i class="fas fa-shield-alt"></i> Your information is secure and confidential
                 </p>
             </form>
 
             <div id="consultationSuccess" style="display: none; text-align: center; padding: 2rem;">
-                <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--purple); margin-bottom: 1rem;"></i>
-                <h3 style="color: var(--purple);">Consultation Request Received!</h3>
-                <p style="color: var(--green-dark);">Our medical team will contact you within 24-48 hours to schedule your consultation.</p>
+                <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--or-gold); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--or-gold);">Consultation Request Received!</h3>
+                <p style="color: var(--or-gold-muted);">Our medical team will contact you within 24-48 hours to schedule your consultation.</p>
             </div>
         </div>
 
@@ -495,9 +504,9 @@
             <h3>Need Help?</h3>
             <p>Our team is here to assist you:</p>
             <ul>
-                <li><strong>Medical Consultations:</strong> consultations@jig.cleva-ai.co.za</li>
-                <li><strong>Medical Verification Team:</strong> section21@jig.cleva-ai.co.za</li>
-                <li><strong>General Support:</strong> support@jig.cleva-ai.co.za</li>
+                <li><strong>Medical Consultations:</strong> consultations@cleva-ai.co.za</li>
+                <li><strong>Medical Verification Team:</strong> section21@cleva-ai.co.za</li>
+                <li><strong>General Support:</strong> support@cleva-ai.co.za</li>
             </ul>
             <p style="margin-top: 1rem;">
                 <a href="/login.html" class="cta-button">Create Account</a>
@@ -529,7 +538,7 @@
         </p>
 
         <p style="color: var(--text-muted); margin-top: 2rem;">
-            &copy; 2025 JIG Craft Cannabis. All rights reserved.
+            &copy; 2025 Origin by ILCO Farming. All rights reserved.
         </p>
     </div>
     <!-- UAT Bug Reporter -->

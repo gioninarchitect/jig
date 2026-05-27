@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/jig');
+mongoose.connect('mongodb://localhost:27017/origin');
 const { Module } = require('./backend/modules/database/models/Module');
 
 async function seedModules() {
@@ -66,11 +66,11 @@ async function seedModules() {
                 },
                 status: 'coming-soon',
                 icon: 'fa-car',
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/retail-store',
-                supportEmail: 'support@basothomedicalherbs.ls',
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/retail-store',
+                supportEmail: 'support@cleva-ai.co.za',
                 vendor: {
-                    name: 'Basotho Medical Herbs',
-                    website: 'https://basothomedicalherbs.ls'
+                    name: 'Origin by ILCO Farming',
+                    website: 'https://origin.cleva-ai.co.za'
                 },
                 tags: ['operations', 'medical-cannabis', 'compliance', '24-7']
             },
@@ -114,11 +114,11 @@ async function seedModules() {
                 },
                 status: 'available',
                 icon: 'fa-users',
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/affiliates',
-                supportEmail: 'support@basothomedicalherbs.ls',
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/affiliates',
+                supportEmail: 'support@cleva-ai.co.za',
                 vendor: {
-                    name: 'Basotho Medical Herbs',
-                    website: 'https://basothomedicalherbs.ls'
+                    name: 'Origin by ILCO Farming',
+                    website: 'https://origin.cleva-ai.co.za'
                 },
                 tags: ['marketing', 'affiliates', 'commissions', 'influencers']
             },
@@ -162,11 +162,11 @@ async function seedModules() {
                 },
                 status: 'available',
                 icon: 'fa-bullhorn',
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/viral-campaigns',
-                supportEmail: 'support@basothomedicalherbs.ls',
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/viral-campaigns',
+                supportEmail: 'support@cleva-ai.co.za',
                 vendor: {
-                    name: 'Basotho Medical Herbs',
-                    website: 'https://basothomedicalherbs.ls'
+                    name: 'Origin by ILCO Farming',
+                    website: 'https://origin.cleva-ai.co.za'
                 },
                 tags: ['marketing', 'viral', 'influencers', 'social-media']
             },
@@ -210,11 +210,11 @@ async function seedModules() {
                 },
                 status: 'available',
                 icon: 'fa-gamepad',
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/gamification',
-                supportEmail: 'support@basothomedicalherbs.ls',
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/gamification',
+                supportEmail: 'support@cleva-ai.co.za',
                 vendor: {
-                    name: 'Basotho Medical Herbs',
-                    website: 'https://basothomedicalherbs.ls'
+                    name: 'Origin by ILCO Farming',
+                    website: 'https://origin.cleva-ai.co.za'
                 },
                 tags: ['engagement', 'loyalty', 'rewards', 'points']
             },
@@ -258,11 +258,11 @@ async function seedModules() {
                 },
                 status: 'beta',
                 icon: 'fa-chart-pie',
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/analytics-pro',
-                supportEmail: 'support@basothomedicalherbs.ls',
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/analytics-pro',
+                supportEmail: 'support@cleva-ai.co.za',
                 vendor: {
-                    name: 'Basotho Medical Herbs',
-                    website: 'https://basothomedicalherbs.ls'
+                    name: 'Origin by ILCO Farming',
+                    website: 'https://origin.cleva-ai.co.za'
                 },
                 tags: ['analytics', 'reporting', 'business-intelligence', 'forecasting']
             },
@@ -306,11 +306,11 @@ async function seedModules() {
                 },
                 status: 'available',
                 icon: 'fa-store-alt',
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/multi-branch',
-                supportEmail: 'support@basothomedicalherbs.ls',
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/multi-branch',
+                supportEmail: 'support@cleva-ai.co.za',
                 vendor: {
-                    name: 'Basotho Medical Herbs',
-                    website: 'https://basothomedicalherbs.ls'
+                    name: 'Origin by ILCO Farming',
+                    website: 'https://origin.cleva-ai.co.za'
                 },
                 tags: ['operations', 'multi-branch', 'inventory', 'franchise']
             }

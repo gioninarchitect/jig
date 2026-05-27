@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Verification Routes
+ * PureGro Premium Cannabis Care - Verification Routes
  *
  * Client document upload and admin review for B2B compliance verification.
  *

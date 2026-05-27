@@ -16,7 +16,7 @@ const FAQS = [
   { q: 'When do I get paid?', a: 'Commissions are paid out monthly via EFT, with a minimum threshold of R100.' },
   { q: 'Can anyone become an affiliate?', a: 'Yes! Anyone over 18 can apply. We review all applications within 48 hours.' },
   { q: 'How do I track my referrals?', a: 'Your affiliate dashboard shows real-time data on clicks, conversions, and commission earned.' },
-  { q: 'Is there a cost to join?', a: 'No. The JIG Craft Cannabis affiliate program is completely free to join.' },
+  { q: 'Is there a cost to join?', a: 'No. The Origin by ILCO Farming affiliate program is completely free to join.' },
 ];
 
 export default function AffiliatePage() {
@@ -73,16 +73,16 @@ export default function AffiliatePage() {
   return (
     <div>
       {/* Hero */}
-      <section style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', borderBottom: '4px solid #D97706' }} className="py-16 sm:py-20 text-center">
+      <section style={{ background: 'linear-gradient(135deg, #C9A84C 0%, #8B6914 100%)', borderBottom: '4px solid #F0A500' }} className="py-16 sm:py-20 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Logo circle */}
-          <div className="w-[120px] h-[120px] mx-auto mb-8 bg-jig-slate rounded-full flex items-center justify-center" style={{ border: '4px solid #D97706', boxShadow: '0 0 40px rgba(212,175,55,0.4)' }}>
-            <span className="font-heading text-3xl text-jig-purple">JIG</span>
+          <div className="w-[120px] h-[120px] mx-auto mb-8 bg-origin-slate rounded-full flex items-center justify-center" style={{ border: '4px solid #F0A500', boxShadow: '0 0 40px rgba(212,175,55,0.4)' }}>
+            <span className="font-heading text-3xl text-or-gold">Origin</span>
           </div>
 
           <h1
             className="font-heading text-[3rem] uppercase mb-5"
-            style={{ background: 'linear-gradient(45deg, #0A0A0A, #E8C45A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '3px' }}
+            style={{ background: 'linear-gradient(45deg, #0E0E0E, #E8C45A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '3px' }}
           >
             Affiliate Program
           </h1>
@@ -93,14 +93,14 @@ export default function AffiliatePage() {
           {/* Commission badge */}
           <div
             className="inline-block px-8 py-4 rounded-full text-[1.8rem] font-bold text-gray-100 mb-8"
-            style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', boxShadow: '0 10px 30px rgba(212,175,55,0.3)' }}
+            style={{ background: 'linear-gradient(135deg, #C9A84C 0%, #8B6914 100%)', boxShadow: '0 10px 30px rgba(212,175,55,0.3)' }}
           >
             15% Commission
           </div>
 
           {mode === 'hero' && (
             <div className="flex flex-wrap justify-center gap-4">
-              <button onClick={() => setMode('form')} className="px-10 py-4 font-bold uppercase tracking-wider rounded-full text-gray-100 hover:scale-105 transition-all" style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', boxShadow: '0 10px 30px rgba(212,175,55,0.4)' }}>
+              <button onClick={() => setMode('form')} className="px-10 py-4 font-bold uppercase tracking-wider rounded-full text-gray-100 hover:scale-105 transition-all" style={{ background: 'linear-gradient(135deg, #C9A84C 0%, #8B6914 100%)', boxShadow: '0 10px 30px rgba(212,175,55,0.4)' }}>
                 Join Now
               </button>
               <button onClick={() => { setMode('form'); setFormTab('login'); }} className="px-10 py-4 font-bold uppercase tracking-wider border-2 border-white/30 text-white rounded-full hover:bg-white/10 transition-all">
@@ -120,8 +120,8 @@ export default function AffiliatePage() {
               {BENEFITS.map((b) => (
                 <div
                   key={b.title}
-                  className="rounded-[15px] p-8 text-center border-2 border-jig-purple transition-all hover:-translate-y-1"
-                  style={{ background: 'linear-gradient(135deg, #fff, #0A0A0A)', boxShadow: '0 4px 15px rgba(58,95,72,0.08)' }}
+                  className="rounded-[15px] p-8 text-center border-2 border-or-gold transition-all hover:-translate-y-1"
+                  style={{ background: 'linear-gradient(135deg, #fff, #0E0E0E)', boxShadow: '0 4px 15px rgba(58,95,72,0.08)' }}
                   onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 10px 30px rgba(212,175,55,0.3)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 15px rgba(58,95,72,0.08)'; }}
                 >
@@ -137,15 +137,15 @@ export default function AffiliatePage() {
 
       {success && (
         <div className="max-w-xl mx-auto px-4 mt-8">
-          <div className="rounded-[8px] p-4 text-sm text-center" style={{ background: 'rgba(16,185,129,0.2)', border: '1px solid #7C3AED', color: '#1E1E1E' }}>{success}</div>
+          <div className="rounded-[8px] p-4 text-sm text-center" style={{ background: 'rgba(16,185,129,0.2)', border: '1px solid #C9A84C', color: '#1A1A1A' }}>{success}</div>
         </div>
       )}
 
       {/* Form (signup/login tabs) */}
       {mode === 'form' && (
-        <section className="py-16 bg-jig-slate">
+        <section className="py-16 bg-origin-slate">
           <div className="max-w-[600px] mx-auto px-4">
-            <div className="rounded-[20px] p-10" style={{ background: 'linear-gradient(135deg, #fff, #0A0A0A)', border: '3px solid #D97706' }}>
+            <div className="rounded-[20px] p-10" style={{ background: 'linear-gradient(135deg, #fff, #0E0E0E)', border: '3px solid #F0A500' }}>
               {/* Tabs */}
               <div className="flex justify-center gap-3 mb-8">
                 {[{ key: 'signup', label: 'Sign Up' }, { key: 'login', label: 'Login' }].map((t) => (
@@ -154,10 +154,10 @@ export default function AffiliatePage() {
                     onClick={() => { setFormTab(t.key); setError(''); }}
                     className="px-8 py-3 rounded-full font-semibold text-sm transition-all"
                     style={{
-                      background: formTab === t.key ? '#D97706' : '#0A0A0A',
-                      borderColor: formTab === t.key ? '#1E1E1E' : '#e8e8e8',
+                      background: formTab === t.key ? '#F0A500' : '#0E0E0E',
+                      borderColor: formTab === t.key ? '#1A1A1A' : '#e8e8e8',
                       border: '2px solid',
-                      color: formTab === t.key ? '#1E1E1E' : '#737373',
+                      color: formTab === t.key ? '#1A1A1A' : '#737373',
                     }}
                   >
                     {t.label}
@@ -170,44 +170,44 @@ export default function AffiliatePage() {
               {formTab === 'signup' && (
                 <form onSubmit={handleSignup} className="space-y-5">
                   <div>
-                    <label className="block text-jig-purple-dark text-sm uppercase tracking-wide mb-2">Full Name *</label>
-                    <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} required className="w-full px-3 py-3 bg-jig-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-jig-slate" />
+                    <label className="block text-or-gold-dark text-sm uppercase tracking-wide mb-2">Full Name *</label>
+                    <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} required className="w-full px-3 py-3 bg-origin-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-origin-slate" />
                   </div>
                   <div>
-                    <label className="block text-jig-purple-dark text-sm uppercase tracking-wide mb-2">Email *</label>
-                    <input type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} required className="w-full px-3 py-3 bg-jig-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-jig-slate" />
+                    <label className="block text-or-gold-dark text-sm uppercase tracking-wide mb-2">Email *</label>
+                    <input type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} required className="w-full px-3 py-3 bg-origin-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-origin-slate" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-jig-purple-dark text-sm uppercase tracking-wide mb-2">Phone</label>
-                      <input type="tel" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} className="w-full px-3 py-3 bg-jig-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-jig-slate" />
+                      <label className="block text-or-gold-dark text-sm uppercase tracking-wide mb-2">Phone</label>
+                      <input type="tel" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} className="w-full px-3 py-3 bg-origin-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-origin-slate" />
                     </div>
                     <div>
-                      <label className="block text-jig-purple-dark text-sm uppercase tracking-wide mb-2">Website</label>
-                      <input value={form.website} onChange={(e) => setForm((f) => ({ ...f, website: e.target.value }))} className="w-full px-3 py-3 bg-jig-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-jig-slate" />
+                      <label className="block text-or-gold-dark text-sm uppercase tracking-wide mb-2">Website</label>
+                      <input value={form.website} onChange={(e) => setForm((f) => ({ ...f, website: e.target.value }))} className="w-full px-3 py-3 bg-origin-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-origin-slate" />
                     </div>
                   </div>
-                  <button type="submit" disabled={submitting} className="w-full py-4 text-white font-bold uppercase tracking-wider rounded-full hover:scale-105 transition-all disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', boxShadow: '0 10px 30px rgba(212,175,55,0.4)' }}>
+                  <button type="submit" disabled={submitting} className="w-full py-4 text-white font-bold uppercase tracking-wider rounded-full hover:scale-105 transition-all disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #C9A84C 0%, #8B6914 100%)', boxShadow: '0 10px 30px rgba(212,175,55,0.4)' }}>
                     {submitting ? 'Submitting...' : 'Apply Now'}
                   </button>
-                  <button type="button" onClick={() => setMode('hero')} className="w-full text-center text-sm text-gray-400 hover:text-jig-purple">Cancel</button>
+                  <button type="button" onClick={() => setMode('hero')} className="w-full text-center text-sm text-gray-400 hover:text-or-gold">Cancel</button>
                 </form>
               )}
 
               {formTab === 'login' && (
                 <form onSubmit={handleLogin} className="space-y-5">
                   <div>
-                    <label className="block text-jig-purple-dark text-sm uppercase tracking-wide mb-2">Email</label>
-                    <input type="email" value={loginForm.email} onChange={(e) => setLoginForm((f) => ({ ...f, email: e.target.value }))} required className="w-full px-3 py-3 bg-jig-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-jig-slate" />
+                    <label className="block text-or-gold-dark text-sm uppercase tracking-wide mb-2">Email</label>
+                    <input type="email" value={loginForm.email} onChange={(e) => setLoginForm((f) => ({ ...f, email: e.target.value }))} required className="w-full px-3 py-3 bg-origin-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-origin-slate" />
                   </div>
                   <div>
-                    <label className="block text-jig-purple-dark text-sm uppercase tracking-wide mb-2">Password</label>
-                    <input type="password" value={loginForm.password} onChange={(e) => setLoginForm((f) => ({ ...f, password: e.target.value }))} className="w-full px-3 py-3 bg-jig-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-jig-slate" />
+                    <label className="block text-or-gold-dark text-sm uppercase tracking-wide mb-2">Password</label>
+                    <input type="password" value={loginForm.password} onChange={(e) => setLoginForm((f) => ({ ...f, password: e.target.value }))} className="w-full px-3 py-3 bg-origin-slate border border-gray-200 rounded-[8px] text-white focus:outline-none focus:border-origin-slate" />
                   </div>
-                  <button type="submit" disabled={submitting} className="w-full py-4 text-white font-bold uppercase tracking-wider rounded-full hover:scale-105 transition-all disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', boxShadow: '0 10px 30px rgba(212,175,55,0.4)' }}>
+                  <button type="submit" disabled={submitting} className="w-full py-4 text-white font-bold uppercase tracking-wider rounded-full hover:scale-105 transition-all disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #C9A84C 0%, #8B6914 100%)', boxShadow: '0 10px 30px rgba(212,175,55,0.4)' }}>
                     {submitting ? 'Logging in...' : 'Login'}
                   </button>
-                  <button type="button" onClick={() => setMode('hero')} className="w-full text-center text-sm text-gray-400 hover:text-jig-purple">Cancel</button>
+                  <button type="button" onClick={() => setMode('hero')} className="w-full text-center text-sm text-gray-400 hover:text-or-gold">Cancel</button>
                 </form>
               )}
             </div>
@@ -217,13 +217,13 @@ export default function AffiliatePage() {
 
       {/* Dashboard */}
       {mode === 'dashboard' && dashboard && (
-        <section className="py-12 bg-jig-slate">
+        <section className="py-12 bg-origin-slate">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="rounded-[20px] p-8" style={{ background: 'linear-gradient(135deg, #fff, #0A0A0A)' }}>
+            <div className="rounded-[20px] p-8" style={{ background: 'linear-gradient(135deg, #fff, #0E0E0E)' }}>
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6" style={{ borderBottom: '2px solid #e8e8e8' }}>
                 <h2 className="font-heading text-2xl text-white uppercase">Your Dashboard</h2>
                 {dashboard.referralCode && (
-                  <div className="bg-jig-amber px-5 py-2.5 rounded-[10px] font-mono text-[1.2rem] font-bold">{dashboard.referralCode}</div>
+                  <div className="bg-or-gold px-5 py-2.5 rounded-[10px] font-mono text-[1.2rem] font-bold">{dashboard.referralCode}</div>
                 )}
               </div>
 
@@ -234,7 +234,7 @@ export default function AffiliatePage() {
                   { label: 'Commission Earned', value: formatCurrency(dashboard.totalEarned || 0) },
                   { label: 'Pending Payout', value: formatCurrency(dashboard.pendingPayout || 0) },
                 ].map((s) => (
-                  <div key={s.label} className="rounded-[10px] p-5 text-center" style={{ background: 'rgba(58,95,72,0.1)', border: '1px solid #7C3AED' }}>
+                  <div key={s.label} className="rounded-[10px] p-5 text-center" style={{ background: 'rgba(58,95,72,0.1)', border: '1px solid #C9A84C' }}>
                     <div className="text-[2.5rem] font-bold text-white">{s.value}</div>
                     <div className="text-sm text-gray-500 mt-1">{s.label}</div>
                   </div>
@@ -246,7 +246,7 @@ export default function AffiliatePage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm mt-5">
                     <thead>
-                      <tr className="bg-jig-amber text-white">
+                      <tr className="bg-or-gold text-white">
                         <th className="px-4 py-3 text-left">Date</th>
                         <th className="px-4 py-3 text-left">Order</th>
                         <th className="px-4 py-3 text-left">Amount</th>
@@ -261,7 +261,7 @@ export default function AffiliatePage() {
                           <td className="px-4 py-3 font-bold text-white">{formatCurrency(c.amount || 0)}</td>
                           <td className="px-4 py-3">
                             <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                              c.status === 'paid' ? 'bg-blue-500 text-white' : 'bg-jig-amber text-white'
+                              c.status === 'paid' ? 'bg-blue-500 text-white' : 'bg-or-gold text-white'
                             }`}>
                               {c.status || 'pending'}
                             </span>

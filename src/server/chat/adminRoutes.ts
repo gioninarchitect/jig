@@ -1,5 +1,5 @@
 /**
- * JIG Chat Bot - Admin Routes
+ * PureGro Chat Bot - Admin Routes
  *
  * Protected endpoints for managing the chat bot.
  * All routes require requireAuth + requireAdmin.

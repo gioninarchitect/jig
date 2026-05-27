@@ -1,5 +1,5 @@
 // inv-reorder.js — Auto reorder rules for inventory manager dashboard
-// Depends on: config.js (API_URL), dbc-utils.js (showToast), dbc-auth.js (getToken)
+// Depends on: config.js (API_URL), or-utils.js (showToast), or-auth.js (getToken)
 
 // ========================================
 // AUTO REORDER FUNCTIONS
@@ -398,7 +398,7 @@ async function editReorderRule(ruleId) {
 }
 
 function triggerReorder(ruleId) {
-    _dbcShowConfirm('Create a purchase order for this product now?', async function() {
+    _originShowConfirm('Create a purchase order for this product now?', async function() {
         try {
             const response = await fetch(`${API_URL}/reorder-rules/${ruleId}/trigger`, {
                 method: 'POST',
@@ -418,7 +418,7 @@ function triggerReorder(ruleId) {
 }
 
 function deleteReorderRule(ruleId) {
-    _dbcShowConfirm('Are you sure you want to delete this reorder rule?', async function() {
+    _originShowConfirm('Are you sure you want to delete this reorder rule?', async function() {
         try {
             const response = await fetch(`${API_URL}/reorder-rules/${ruleId}`, {
                 method: 'DELETE',
@@ -469,6 +469,6 @@ async function quickCreateReorderRule(productId) {
     }
 }
 
-console.log('JIG Craft Cannabis Inventory Manager Dashboard initialized');
+console.log('Origin by ILCO Farming Inventory Manager Dashboard initialized');
 console.log('MDC Custodian Role: Full control over product catalog and branch distribution');
 console.log('Supply Chain: Farmer -> QA -> Inventory -> PND (Packaging & Distribution) -> Stores');

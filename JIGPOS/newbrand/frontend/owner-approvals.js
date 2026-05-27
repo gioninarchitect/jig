@@ -1,6 +1,6 @@
 // owner-approvals.js — Pending approvals for owner dashboard
 // Depends on: owner-auth.js (token), owner-core.js (formatTimeAgo)
-// Depends on: config.js (API_URL), dbc-utils.js (showToast)
+// Depends on: config.js (API_URL), or-utils.js (showToast)
 
 // ===== PENDING APPROVALS FUNCTIONS =====
 
@@ -65,14 +65,14 @@ function showPendingPOs() {
     const content = document.getElementById('approvalsPanelContent');
 
     if (pendingPOs.length === 0) {
-        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-500);"><i class="fas fa-check-circle" style="font-size: 2rem; color: #22C55E; margin-bottom: 1rem;"></i><p>No purchase orders awaiting approval</p></div>';
+        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--or-grey-2);"><i class="fas fa-check-circle" style="font-size: 2rem; color: #22C55E; margin-bottom: 1rem;"></i><p>No purchase orders awaiting approval</p></div>';
     } else {
         content.innerHTML = pendingPOs.map(po => `
             <div style="background: var(--gray-50); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; border: 1px solid var(--gray-200);">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
                     <div>
                         <strong style="color: var(--green-dark);">${po.poNumber || 'PO-' + po._id?.slice(-6)}</strong>
-                        <p style="color: var(--gray-500); font-size: 0.85rem; margin: 0.25rem 0;">Supplier: ${po.supplier?.name || 'Unknown'}</p>
+                        <p style="color: var(--or-grey-2); font-size: 0.85rem; margin: 0.25rem 0;">Supplier: ${po.supplier?.name || 'Unknown'}</p>
                     </div>
                     <span style="background: var(--gold); color: var(--green-deep); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">R${(po.total || 0).toFixed(2)}</span>
                 </div>
@@ -94,14 +94,14 @@ function showPendingSuppliers() {
     const content = document.getElementById('approvalsPanelContent');
 
     if (pendingSuppliers.length === 0) {
-        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-500);"><i class="fas fa-check-circle" style="font-size: 2rem; color: #22C55E; margin-bottom: 1rem;"></i><p>No suppliers pending verification</p></div>';
+        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--or-grey-2);"><i class="fas fa-check-circle" style="font-size: 2rem; color: #22C55E; margin-bottom: 1rem;"></i><p>No suppliers pending verification</p></div>';
     } else {
         content.innerHTML = pendingSuppliers.map(supplier => `
             <div style="background: var(--gray-50); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; border: 1px solid var(--gray-200);">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
                     <div>
                         <strong style="color: var(--green-dark);">${supplier.name}</strong>
-                        <p style="color: var(--gray-500); font-size: 0.85rem; margin: 0.25rem 0;">Type: ${supplier.license?.type || 'Unknown'}</p>
+                        <p style="color: var(--or-grey-2); font-size: 0.85rem; margin: 0.25rem 0;">Type: ${supplier.license?.type || 'Unknown'}</p>
                     </div>
                     <span style="background: var(--gold); color: var(--green-deep); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">${supplier.license?.number || 'No License'}</span>
                 </div>
@@ -126,14 +126,14 @@ function showPendingBatches() {
     const content = document.getElementById('approvalsPanelContent');
 
     if (pendingBatches.length === 0) {
-        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-500);"><i class="fas fa-check-circle" style="font-size: 2rem; color: #22C55E; margin-bottom: 1rem;"></i><p>No batches pending QA review</p></div>';
+        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--or-grey-2);"><i class="fas fa-check-circle" style="font-size: 2rem; color: #22C55E; margin-bottom: 1rem;"></i><p>No batches pending QA review</p></div>';
     } else {
         content.innerHTML = pendingBatches.map(batch => `
             <div style="background: var(--gray-50); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; border: 1px solid var(--gray-200);">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
                     <div>
                         <strong style="color: var(--green-dark);">${batch.batchId || 'BATCH-' + batch._id?.slice(-6)}</strong>
-                        <p style="color: var(--gray-500); font-size: 0.85rem; margin: 0.25rem 0;">Product: ${batch.product?.name || 'Unknown'}</p>
+                        <p style="color: var(--or-grey-2); font-size: 0.85rem; margin: 0.25rem 0;">Product: ${batch.product?.name || 'Unknown'}</p>
                     </div>
                     <span style="background: var(--green); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">${batch.remainingQuantity || 0} ${batch.unitOfMeasure || 'units'}</span>
                 </div>
@@ -158,14 +158,14 @@ function showPendingStockTakes() {
     const content = document.getElementById('approvalsPanelContent');
 
     if (pendingStockTakes.length === 0) {
-        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-500);"><i class="fas fa-check-circle" style="font-size: 2rem; color: #22C55E; margin-bottom: 1rem;"></i><p>No stock takes pending approval</p></div>';
+        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--or-grey-2);"><i class="fas fa-check-circle" style="font-size: 2rem; color: #22C55E; margin-bottom: 1rem;"></i><p>No stock takes pending approval</p></div>';
     } else {
         content.innerHTML = pendingStockTakes.map(session => `
             <div style="background: var(--gray-50); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; border: 1px solid var(--gray-200);">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
                     <div>
                         <strong style="color: var(--green-dark);">${session.branchId?.name || 'Unknown Branch'}</strong>
-                        <p style="color: var(--gray-500); font-size: 0.85rem; margin: 0.25rem 0;">Type: ${session.stockTakeType || 'Full'} Stock Take</p>
+                        <p style="color: var(--or-grey-2); font-size: 0.85rem; margin: 0.25rem 0;">Type: ${session.stockTakeType || 'Full'} Stock Take</p>
                     </div>
                     <span style="background: #8B5CF6; color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">${session.lineItems?.length || 0} items</span>
                 </div>
@@ -200,10 +200,10 @@ function showSystemAlerts() {
     if (pendingStockTakes.length > 0) alerts.push({ type: 'warning', icon: 'clipboard-list', message: `${pendingStockTakes.length} stock take(s) pending approval` });
 
     if (alerts.length === 0) {
-        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--gray-500);"><i class="fas fa-check-circle" style="font-size: 2rem; color: #22C55E; margin-bottom: 1rem;"></i><p>All systems operational - no alerts</p></div>';
+        content.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--or-grey-2);"><i class="fas fa-check-circle" style="font-size: 2rem; color: #22C55E; margin-bottom: 1rem;"></i><p>All systems operational - no alerts</p></div>';
     } else {
         content.innerHTML = alerts.map(alert => `
-            <div style="background: ${alert.type === 'warning' ? 'rgba(217, 119, 6,0.1)' : 'rgba(99,102,241,0.1)'}; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border-left: 4px solid ${alert.type === 'warning' ? 'var(--gold)' : '#6366F1'};">
+            <div style="background: ${alert.type === 'warning' ? 'rgba(240, 165, 0,0.1)' : 'rgba(99,102,241,0.1)'}; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border-left: 4px solid ${alert.type === 'warning' ? 'var(--gold)' : '#6366F1'};">
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
                     <i class="fas fa-${alert.icon}" style="color: ${alert.type === 'warning' ? 'var(--gold-dark)' : '#6366F1'};"></i>
                     <span>${alert.message}</span>
@@ -235,10 +235,10 @@ function showConfirmModal(title, message, onConfirm, options = {}) {
     modal.id = 'ownerConfirmModal';
     modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1200;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s;';
     modal.innerHTML = `
-        <div style="background:var(--white);border-radius:16px;width:90%;max-width:420px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+        <div style="background:var(--or-white);border-radius:16px;width:90%;max-width:420px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
             <div style="background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;">
                 <i class="fas fa-shield-alt" style="color:var(--gold);font-size:1.2rem;"></i>
-                <h3 style="color:var(--cream);margin:0;font-family:'Oswald', sans-serif;font-size:1.2rem;">${title}</h3>
+                <h3 style="color:var(--cream);margin:0;font-family:'Barlow Condensed', sans-serif;font-size:1.2rem;">${title}</h3>
             </div>
             <div style="padding:1.25rem;">
                 <p style="color:var(--gray-700);margin-bottom:1rem;line-height:1.5;">${message}</p>
@@ -343,10 +343,10 @@ function viewPODetails(poId) {
         </div>
         <h4 style="color: var(--green-dark); margin-bottom: 1rem;">${po.poNumber || 'PO-' + po._id?.slice(-6)}</h4>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
-            <div><small style="color: var(--gray-500);">Supplier</small><div style="font-weight: 600;">${po.supplier?.name || 'Unknown'}</div></div>
-            <div><small style="color: var(--gray-500);">Total</small><div style="font-weight: 700; color: var(--green);">R${(po.total || 0).toFixed(2)}</div></div>
-            <div><small style="color: var(--gray-500);">Expected Delivery</small><div>${po.expectedDeliveryDate ? new Date(po.expectedDeliveryDate).toLocaleDateString() : 'TBD'}</div></div>
-            <div><small style="color: var(--gray-500);">Submitted</small><div>${formatTimeAgo(po.submittedAt || po.createdAt)}</div></div>
+            <div><small style="color: var(--or-grey-2);">Supplier</small><div style="font-weight: 600;">${po.supplier?.name || 'Unknown'}</div></div>
+            <div><small style="color: var(--or-grey-2);">Total</small><div style="font-weight: 700; color: var(--green);">R${(po.total || 0).toFixed(2)}</div></div>
+            <div><small style="color: var(--or-grey-2);">Expected Delivery</small><div>${po.expectedDeliveryDate ? new Date(po.expectedDeliveryDate).toLocaleDateString() : 'TBD'}</div></div>
+            <div><small style="color: var(--or-grey-2);">Submitted</small><div>${formatTimeAgo(po.submittedAt || po.createdAt)}</div></div>
         </div>
         <h5 style="color: var(--green); margin: 1rem 0 0.5rem;"><i class="fas fa-list"></i> Line Items (${po.items?.length || 0})</h5>
         <div style="background: var(--gray-50); border-radius: 8px; padding: 0.75rem;">
@@ -356,7 +356,7 @@ function viewPODetails(poId) {
                 <span style="color: var(--green);">R${(po.total || 0).toFixed(2)}</span>
             </div>
         </div>
-        ${po.deliveryNotes ? `<div style="margin-top: 0.75rem;"><small style="color: var(--gray-500);">Delivery Notes:</small><p style="font-size: 0.9rem;">${po.deliveryNotes}</p></div>` : ''}
+        ${po.deliveryNotes ? `<div style="margin-top: 0.75rem;"><small style="color: var(--or-grey-2);">Delivery Notes:</small><p style="font-size: 0.9rem;">${po.deliveryNotes}</p></div>` : ''}
         <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
             <button onclick="approvePO('${po._id}')" style="flex: 1; padding: 0.75rem; background: #22C55E; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;"><i class="fas fa-check"></i> Approve</button>
             <button onclick="rejectPO('${po._id}')" style="flex: 1; padding: 0.75rem; background: var(--red); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;"><i class="fas fa-times"></i> Reject</button>
@@ -423,19 +423,19 @@ async function viewSupplierDocs(supplierId) {
         </div>
         <h4 style="color: var(--green-dark); margin-bottom: 1rem;">${supplier.name}</h4>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
-            <div><small style="color: var(--gray-500);">Email</small><div>${supplier.email || 'N/A'}</div></div>
-            <div><small style="color: var(--gray-500);">Phone</small><div>${supplier.phone || 'N/A'}</div></div>
-            <div><small style="color: var(--gray-500);">Address</small><div>${supplier.address?.city || ''} ${supplier.address?.province || ''}</div></div>
-            <div><small style="color: var(--gray-500);">Payment Terms</small><div>${supplier.paymentTerms || 'N/A'}</div></div>
+            <div><small style="color: var(--or-grey-2);">Email</small><div>${supplier.email || 'N/A'}</div></div>
+            <div><small style="color: var(--or-grey-2);">Phone</small><div>${supplier.phone || 'N/A'}</div></div>
+            <div><small style="color: var(--or-grey-2);">Address</small><div>${supplier.address?.city || ''} ${supplier.address?.province || ''}</div></div>
+            <div><small style="color: var(--or-grey-2);">Payment Terms</small><div>${supplier.paymentTerms || 'N/A'}</div></div>
         </div>
         <hr>
         <h5 style="color: var(--green); margin: 1rem 0 0.5rem;"><i class="fas fa-certificate"></i> License & Compliance</h5>
         <div style="background: var(--gray-50); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                <div><small style="color: var(--gray-500);">License Type</small><div style="font-weight: 600;">${supplier.license?.type || 'Not specified'}</div></div>
-                <div><small style="color: var(--gray-500);">License Number</small><div style="font-weight: 600;">${supplier.license?.number || 'Not provided'}</div></div>
-                <div><small style="color: var(--gray-500);">Expiry Date</small><div style="font-weight: 600; color: ${supplier.license?.expiryDate && new Date(supplier.license.expiryDate) < new Date() ? 'var(--red)' : 'var(--green)'};">${supplier.license?.expiryDate ? new Date(supplier.license.expiryDate).toLocaleDateString() : 'N/A'}</div></div>
-                <div><small style="color: var(--gray-500);">Compliance Status</small><div style="font-weight: 600;">${supplier.complianceStatus || 'Pending'}</div></div>
+                <div><small style="color: var(--or-grey-2);">License Type</small><div style="font-weight: 600;">${supplier.license?.type || 'Not specified'}</div></div>
+                <div><small style="color: var(--or-grey-2);">License Number</small><div style="font-weight: 600;">${supplier.license?.number || 'Not provided'}</div></div>
+                <div><small style="color: var(--or-grey-2);">Expiry Date</small><div style="font-weight: 600; color: ${supplier.license?.expiryDate && new Date(supplier.license.expiryDate) < new Date() ? 'var(--red)' : 'var(--green)'};">${supplier.license?.expiryDate ? new Date(supplier.license.expiryDate).toLocaleDateString() : 'N/A'}</div></div>
+                <div><small style="color: var(--or-grey-2);">Compliance Status</small><div style="font-weight: 600;">${supplier.complianceStatus || 'Pending'}</div></div>
             </div>
         </div>
         ${supplier.categories?.length ? `
@@ -444,7 +444,7 @@ async function viewSupplierDocs(supplierId) {
                 ${supplier.categories.map(c => `<span style="background: var(--green); color: var(--cream); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">${c}</span>`).join('')}
             </div>
         ` : ''}
-        ${supplier.notes ? `<div style="margin-top: 0.75rem;"><small style="color: var(--gray-500);">Notes:</small><p style="font-size: 0.9rem;">${supplier.notes}</p></div>` : ''}
+        ${supplier.notes ? `<div style="margin-top: 0.75rem;"><small style="color: var(--or-grey-2);">Notes:</small><p style="font-size: 0.9rem;">${supplier.notes}</p></div>` : ''}
         <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
             <button onclick="verifySupplier('${supplier._id}')" style="flex: 1; padding: 0.75rem; background: #22C55E; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;"><i class="fas fa-check"></i> Verify Supplier</button>
             <button onclick="suspendSupplier('${supplier._id}')" style="flex: 1; padding: 0.75rem; background: var(--red); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;"><i class="fas fa-ban"></i> Suspend</button>
@@ -515,10 +515,10 @@ function viewBatchDetails(batchId) {
         </div>
         <h4 style="color: var(--green-dark); margin-bottom: 1rem;">${batch.batchId || 'BATCH-' + batch._id?.slice(-6)}</h4>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
-            <div><small style="color: var(--gray-500);">Product</small><div style="font-weight: 600;">${batch.product?.name || 'Unknown'}</div></div>
-            <div><small style="color: var(--gray-500);">Supplier</small><div>${batch.supplier?.name || 'Direct'}</div></div>
-            <div><small style="color: var(--gray-500);">Quantity</small><div style="font-weight: 600;">${batch.remainingQuantity || 0} ${batch.unitOfMeasure || 'units'}</div></div>
-            <div><small style="color: var(--gray-500);">Expiry</small><div>${batch.expiryDate ? new Date(batch.expiryDate).toLocaleDateString() : 'N/A'}</div></div>
+            <div><small style="color: var(--or-grey-2);">Product</small><div style="font-weight: 600;">${batch.product?.name || 'Unknown'}</div></div>
+            <div><small style="color: var(--or-grey-2);">Supplier</small><div>${batch.supplier?.name || 'Direct'}</div></div>
+            <div><small style="color: var(--or-grey-2);">Quantity</small><div style="font-weight: 600;">${batch.remainingQuantity || 0} ${batch.unitOfMeasure || 'units'}</div></div>
+            <div><small style="color: var(--or-grey-2);">Expiry</small><div>${batch.expiryDate ? new Date(batch.expiryDate).toLocaleDateString() : 'N/A'}</div></div>
         </div>
         <hr>
         <h5 style="color: var(--green); margin: 1rem 0 0.5rem;"><i class="fas fa-flask"></i> Cannabinoid Profile</h5>
@@ -540,7 +540,7 @@ function viewBatchDetails(batchId) {
                 <small>CBN</small>
             </div>
         </div>
-        ${batch.harvestDate ? `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;"><div><small style="color: var(--gray-500);">Harvest Date:</small> ${new Date(batch.harvestDate).toLocaleDateString()}</div><div><small style="color: var(--gray-500);">Test Date:</small> ${batch.testDate ? new Date(batch.testDate).toLocaleDateString() : 'N/A'}</div></div>` : ''}
+        ${batch.harvestDate ? `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;"><div><small style="color: var(--or-grey-2);">Harvest Date:</small> ${new Date(batch.harvestDate).toLocaleDateString()}</div><div><small style="color: var(--or-grey-2);">Test Date:</small> ${batch.testDate ? new Date(batch.testDate).toLocaleDateString() : 'N/A'}</div></div>` : ''}
         ${batch.labCertificateUrl ? `<div style="margin-bottom: 1rem;"><a href="${batch.labCertificateUrl}" target="_blank" style="color: var(--green); text-decoration: none;"><i class="fas fa-file-pdf"></i> View Lab Certificate</a></div>` : ''}
         <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
             <button onclick="approveBatch('${batch._id}')" style="flex: 1; padding: 0.75rem; background: #22C55E; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;"><i class="fas fa-check"></i> Approve</button>
@@ -617,20 +617,20 @@ function viewStockTakeDetails(sessionId) {
             <button onclick="showPendingStockTakes()" style="background: var(--gray-200); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer;"><i class="fas fa-arrow-left"></i> Back</button>
         </div>
         <h4 style="color: var(--green-dark); margin-bottom: 1rem;">${session.branchId?.name || 'Unknown Branch'} - ${session.stockTakeType || 'Full'} Stock Take</h4>
-        <p style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 1rem;">Submitted by ${session.submittedBy?.firstName || ''} ${session.submittedBy?.lastName || 'Staff'} on ${new Date(session.submittedAt || session.startedAt).toLocaleString()}</p>
+        <p style="font-size: 0.85rem; color: var(--or-grey-2); margin-bottom: 1rem;">Submitted by ${session.submittedBy?.firstName || ''} ${session.submittedBy?.lastName || 'Staff'} on ${new Date(session.submittedAt || session.startedAt).toLocaleString()}</p>
     `;
 
     if (discrepancies.length > 0) {
         html += `<h5 style="color: var(--gold); margin: 1rem 0 0.5rem;"><i class="fas fa-exclamation-triangle"></i> Discrepancies (${discrepancies.length})</h5>`;
         html += discrepancies.map(li => `
-            <div style="background: rgba(217, 119, 6,0.1); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem; border-left: 3px solid var(--gold);">
+            <div style="background: rgba(240, 165, 0,0.1); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem; border-left: 3px solid var(--gold);">
                 <strong>${li.productId?.name || li.productName || 'Unknown Product'}</strong>
                 <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-top: 0.25rem;">
                     <span>Expected: <strong>${li.expectedQty}</strong></span>
                     <span>Counted: <strong style="color: ${li.actualQty > li.expectedQty ? '#22C55E' : 'var(--red)'};">${li.actualQty}</strong></span>
                     <span>Variance: <strong style="color: ${li.actualQty > li.expectedQty ? '#22C55E' : 'var(--red)'};">${li.actualQty - li.expectedQty > 0 ? '+' : ''}${li.actualQty - li.expectedQty}</strong></span>
                 </div>
-                ${li.notes ? `<p style="font-size: 0.8rem; color: var(--gray-500); margin-top: 0.25rem;"><i class="fas fa-sticky-note"></i> ${li.notes}</p>` : ''}
+                ${li.notes ? `<p style="font-size: 0.8rem; color: var(--or-grey-2); margin-top: 0.25rem;"><i class="fas fa-sticky-note"></i> ${li.notes}</p>` : ''}
             </div>
         `).join('');
     }

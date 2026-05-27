@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   root: '.',
   publicDir: 'public',
+  base: '/b2b/',
   build: {
     outDir: 'dist/frontend',
     emptyOutDir: true,

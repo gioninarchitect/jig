@@ -1,6 +1,6 @@
 #!/bin/bash
 # ──────────────────────────────────────────────
-# JIG - Server Fix Script
+# PureGro - Server Fix Script
 # Run ON the server: bash /tmp/fix-server.sh
 # ──────────────────────────────────────────────
 
@@ -8,12 +8,12 @@ set -euo pipefail
 
 APP_DIR="/var/www/jig"
 DB_NAME="jig"
-DB_USER="jig_app"
+DB_USER="puregro_app"
 PORT=3002
 DOMAIN="jig.cleva-ai.co.za"
 
 echo "========================================"
-echo "  JIG SERVER FIX - $(date)"
+echo "  PureGro SERVER FIX - $(date)"
 echo "========================================"
 
 # ── 1. Database user ─────────────────────────
@@ -146,8 +146,8 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
-    access_log /var/log/nginx/jig-access.log;
-    error_log /var/log/nginx/jig-error.log;
+    access_log /var/log/nginx/puregro-access.log;
+    error_log /var/log/nginx/puregro-error.log;
 }
 NGINXCONF
 
@@ -170,7 +170,7 @@ chown -R www-data:www-data "$APP_DIR"
 chmod -R 755 "$APP_DIR"
 
 cd "$APP_DIR"
-pm2 delete jig-api 2>/dev/null || true
+pm2 delete puregro-api 2>/dev/null || true
 pm2 start ecosystem.config.js
 pm2 save > /dev/null
 echo "  PM2 started"
@@ -191,7 +191,7 @@ if curl -sf "http://127.0.0.1:$PORT/health" 2>/dev/null; then
   echo "  API is HEALTHY"
 else
   echo "  API not responding - checking logs:"
-  pm2 logs jig-api --lines 15 --nostream 2>&1
+  pm2 logs puregro-api --lines 15 --nostream 2>&1
 fi
 
 echo ""
@@ -209,5 +209,5 @@ echo ""
 echo "  REMAINING:"
 echo "  1. Set SMTP password: nano $APP_DIR/.env"
 echo "  2. Get SSL: certbot --nginx -d $DOMAIN"
-echo "  3. Restart after SMTP: pm2 restart jig-api"
+echo "  3. Restart after SMTP: pm2 restart puregro-api"
 echo "========================================"

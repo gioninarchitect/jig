@@ -8,15 +8,15 @@ export default function ProductFilters({ categories = [], category, onCategoryCh
     <div className="space-y-8">
       {/* Category */}
       <div>
-        <h3 className="font-heading text-[1.25rem] text-jig-purple-dark tracking-wide mb-3">Category</h3>
+        <h3 className="font-heading text-[1.25rem] text-or-gold-dark tracking-wide mb-3">Category</h3>
         <div className="space-y-1.5">
           <label className="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="category" checked={!category} onChange={() => onCategoryChange('')} className="accent-jig-purple" />
+            <input type="radio" name="category" checked={!category} onChange={() => onCategoryChange('')} className="accent-or-gold" />
             <span className="text-sm text-white">All Categories</span>
           </label>
           {categories.map((cat) => (
             <label key={cat} className="flex items-center gap-2 cursor-pointer">
-              <input type="radio" name="category" checked={category === cat} onChange={() => onCategoryChange(cat)} className="accent-jig-purple" />
+              <input type="radio" name="category" checked={category === cat} onChange={() => onCategoryChange(cat)} className="accent-or-gold" />
               <span className="text-sm text-white capitalize">{cat}</span>
             </label>
           ))}
@@ -25,14 +25,14 @@ export default function ProductFilters({ categories = [], category, onCategoryCh
 
       {/* Price Range */}
       <div>
-        <h3 className="font-heading text-[1.25rem] text-jig-purple-dark tracking-wide mb-3">Price Range</h3>
+        <h3 className="font-heading text-[1.25rem] text-or-gold-dark tracking-wide mb-3">Price Range</h3>
         <div className="flex gap-2 items-center text-white">
           <input
             type="number"
             placeholder="Min"
             value={minPrice}
             onChange={(e) => onPriceChange(e.target.value, maxPrice)}
-            className="w-20 px-2 py-2 bg-jig-slate border border-jig-purple-light rounded-[5px] text-sm text-white focus:outline-none focus:border-jig-purple"
+            className="w-20 px-2 py-2 bg-origin-slate border border-or-gold-light rounded-[5px] text-sm text-white focus:outline-none focus:border-or-gold"
           />
           <span className="text-gray-400">-</span>
           <input
@@ -40,7 +40,7 @@ export default function ProductFilters({ categories = [], category, onCategoryCh
             placeholder="Max"
             value={maxPrice}
             onChange={(e) => onPriceChange(minPrice, e.target.value)}
-            className="w-20 px-2 py-2 bg-jig-slate border border-jig-purple-light rounded-[5px] text-sm text-white focus:outline-none focus:border-jig-purple"
+            className="w-20 px-2 py-2 bg-origin-slate border border-or-gold-light rounded-[5px] text-sm text-white focus:outline-none focus:border-or-gold"
           />
         </div>
       </div>
@@ -48,7 +48,7 @@ export default function ProductFilters({ categories = [], category, onCategoryCh
       {/* In Stock */}
       <div>
         <label className="flex items-center gap-2 cursor-pointer">
-          <input type="checkbox" checked={inStockOnly} onChange={(e) => onStockChange(e.target.checked)} className="accent-jig-purple w-4 h-4" />
+          <input type="checkbox" checked={inStockOnly} onChange={(e) => onStockChange(e.target.checked)} className="accent-or-gold w-4 h-4" />
           <span className="text-sm text-white">In Stock Only</span>
         </label>
       </div>
@@ -69,7 +69,7 @@ export default function ProductFilters({ categories = [], category, onCategoryCh
       <div className="lg:hidden">
         <button
           onClick={() => setOpen(!open)}
-          className="w-full flex items-center justify-between px-4 py-3 bg-white rounded-[10px] text-sm font-semibold text-jig-purple-dark"
+          className="w-full flex items-center justify-between px-4 py-3 bg-white rounded-[10px] text-sm font-semibold text-or-gold-dark"
           style={{ boxShadow: '0 4px 15px rgba(58,95,72,0.08)', border: '1px solid rgba(58,95,72,0.1)' }}
         >
           <span>Filters</span>

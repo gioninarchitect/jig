@@ -40,9 +40,9 @@
                 html += `
                     <tr>
                         <td>
-                            <img src="${product.image || '/images/jig-logo-nobg.png'}"
+                            <img src="${product.image || '/images/origin-logo.png'}"
                                  style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; border: 1px solid var(--green);"
-                                 onerror="this.src='/images/jig-logo-nobg.png'">
+                                 onerror="this.src='/images/origin-logo.png'">
                         </td>
                         <td>${product.name}</td>
                         <td>${product.sku || 'N/A'}</td>
@@ -122,7 +122,7 @@
                                 <label style="display: block; margin-bottom: 5px; color: var(--green-light);">Category *</label>
                                 <select name="category" required style="width: 100%; padding: 10px; background: white; border: 1px solid var(--green); border-radius: 5px; color: var(--green-deep);">
                                     <option value="">Select Category</option>
-                                    <option value="lifestyle-cbd">JIG Wellness</option>
+                                    <option value="lifestyle-cbd">Origin Wellness</option>
                                     <option value="flower">Flower (Medical)</option>
                                     <option value="oils">Oils</option>
                                     <option value="edibles">Edibles</option>
@@ -178,7 +178,7 @@
                 category: formData.get('category'),
                 price: parseFloat(formData.get('price')),
                 stock: parseInt(formData.get('stock')),
-                image: formData.get('image') || '/images/jig-logo-nobg.png',
+                image: formData.get('image') || '/images/origin-logo.png',
                 featured: formData.get('featured') === 'on'
             };
 
@@ -209,7 +209,7 @@
         async function editProduct(productId) {
             try {
                 const token = sessionStorage.getItem('adminToken');
-                const response = await fetch(`/api/v1/products/${productId}`, {
+                const response = await fetch(`${API_URL}/products/${productId}`, {
                     headers: token ? { 'Authorization': `Bearer ${token}` } : {}
                 });
                 if (!response.ok) {
@@ -250,7 +250,7 @@
                                 <div>
                                     <label style="display: block; margin-bottom: 5px; color: var(--green-light);">Category *</label>
                                     <select name="category" required style="width: 100%; padding: 10px; background: white; border: 1px solid var(--green); border-radius: 5px; color: var(--green-deep);">
-                                        <option value="lifestyle-cbd" ${product.category === 'lifestyle-cbd' ? 'selected' : ''}>JIG Wellness</option>
+                                        <option value="lifestyle-cbd" ${product.category === 'lifestyle-cbd' ? 'selected' : ''}>Origin Wellness</option>
                                         <option value="flower" ${product.category === 'flower' ? 'selected' : ''}>Flower (Medical)</option>
                                         <option value="oils" ${product.category === 'oils' ? 'selected' : ''}>Oils</option>
                                         <option value="edibles" ${product.category === 'edibles' ? 'selected' : ''}>Edibles</option>
@@ -310,7 +310,7 @@
             };
 
             try {
-                const response = await fetch(`/api/v1/products/${productId}`, {
+                const response = await fetch(`${API_URL}/products/${productId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -340,7 +340,7 @@
                 async () => {
                     try {
                         const token = sessionStorage.getItem('adminToken');
-                        const response = await fetch(`/api/v1/products/${productId}`, {
+                        const response = await fetch(`${API_URL}/products/${productId}`, {
                             method: 'DELETE',
                             headers: {
                                 'Authorization': `Bearer ${token}`
@@ -364,7 +364,7 @@
 
         // ===== PRODUCT CSV BULK UPLOAD =====
         function downloadCSVTemplate() {
-            window.open('/api/v1/products/template', '_blank');
+            window.open(`${API_URL}/products/template`, '_blank');
         }
 
         async function handleCSVUpload(event) {
@@ -417,7 +417,7 @@
         async function exportProducts() {
             try {
                 const token = sessionStorage.getItem('adminToken');
-                window.open(`/api/v1/products/export?token=${token}`, '_blank');
+                window.open(`${API_URL}/products/export?token=${token}`, '_blank');
             } catch (error) {
                 console.error('Export error:', error);
                 showAdminToast('Export Failed', 'Error exporting products', 'error');

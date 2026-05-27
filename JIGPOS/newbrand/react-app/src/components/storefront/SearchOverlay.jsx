@@ -59,7 +59,7 @@ export default function SearchOverlay({ open, onClose }) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[100000] bg-jig-slate/95 flex items-start justify-center pt-24 px-4 animate-[fadeIn_0.15s_ease-out]" onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="fixed inset-0 z-[100000] bg-origin-slate/95 flex items-start justify-center pt-24 px-4 animate-[fadeIn_0.15s_ease-out]" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="w-full max-w-2xl">
         {/* Search input */}
         <div className="relative">
@@ -79,7 +79,7 @@ export default function SearchOverlay({ open, onClose }) {
           <div className="mt-4 bg-white rounded-2xl shadow-2xl overflow-hidden">
             {loading ? (
               <div className="p-6 text-center">
-                <div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin mx-auto" />
+                <div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin mx-auto" />
               </div>
             ) : (
               <div>
@@ -88,7 +88,7 @@ export default function SearchOverlay({ open, onClose }) {
                     key={product._id}
                     to={`/products/${product._id}`}
                     onClick={onClose}
-                    className="flex items-center gap-4 px-6 py-4 hover:bg-jig-slate transition-colors border-b border-gray-100 last:border-0"
+                    className="flex items-center gap-4 px-6 py-4 hover:bg-origin-slate transition-colors border-b border-gray-100 last:border-0"
                   >
                     <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0">
                       {(product.images?.[0] || product.image) ? (
@@ -101,13 +101,13 @@ export default function SearchOverlay({ open, onClose }) {
                       <p className="text-sm font-semibold text-gray-900 truncate">{product.name}</p>
                       {product.category && <p className="text-xs text-gray-400 capitalize">{product.category}</p>}
                     </div>
-                    <span className="text-sm font-bold text-jig-amber shrink-0">{formatCurrency(product.price)}</span>
+                    <span className="text-sm font-bold text-or-gold shrink-0">{formatCurrency(product.price)}</span>
                   </Link>
                 ))}
                 <Link
                   to={`/products?search=${encodeURIComponent(query)}`}
                   onClick={onClose}
-                  className="block px-6 py-3 text-center text-sm font-semibold text-jig-amber hover:bg-jig-slate transition-colors"
+                  className="block px-6 py-3 text-center text-sm font-semibold text-or-gold hover:bg-origin-slate transition-colors"
                 >
                   View all results &rarr;
                 </Link>

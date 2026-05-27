@@ -1,5 +1,5 @@
 // owner-reports.js — Reports modal and data for owner dashboard
-// Depends on: owner-auth.js (token), config.js (API_URL), dbc-utils.js (showToast)
+// Depends on: owner-auth.js (token), config.js (API_URL), or-utils.js (showToast)
 
 // ===== REPORTS MODAL =====
 function showReportsModal(activeTab) {

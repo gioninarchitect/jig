@@ -2,15 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { CheckSquare, ArrowRight, AlertTriangle, Clock } from 'lucide-react';
 import api from '../../../services/api';
+import { useAuthStore } from '../../../stores/authStore';
 
 const PRIORITY_DOT: Record<string, string> = {
   CRITICAL: 'bg-red-500', HIGH: 'bg-amber-500', MEDIUM: 'bg-blue-500', LOW: 'bg-white/30',
 };
 
 export default function TasksDueWidget() {
+  const user = useAuthStore(s => s.user);
+  const isOversightRole = ['SUPER_ADMIN', 'TENANT_ADMIN', 'FACILITY_MANAGER'].includes(user?.role || '');
+
   const { data: tasks } = useQuery({
-    queryKey: ['tasks', 'PENDING', true],
-    queryFn: () => api.get('/tasks', { params: { status: 'PENDING', mine: true } }).then(r => r.data.tasks),
+    queryKey: ['tasks', 'PENDING', isOversightRole ? 'all' : 'mine'],
+    queryFn: () => api.get('/tasks', { params: { status: 'PENDING', mine: isOversightRole ? undefined : true } }).then(r => r.data.tasks),
   });
 
   const pending = tasks || [];
@@ -21,7 +25,7 @@ export default function TasksDueWidget() {
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <CheckSquare size={16} className={overdue.length > 0 ? 'text-amber-400' : 'text-primary'} />
-          <h2 className="text-sm font-semibold text-white/60">My Tasks</h2>
+          <h2 className="text-sm font-semibold text-white/60">{isOversightRole ? 'Department Tasks' : 'My Tasks'}</h2>
           {pending.length > 0 && (
             <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${overdue.length > 0 ? 'bg-amber-500 text-black' : 'bg-white/10 text-white/50'}`}>
               {pending.length}

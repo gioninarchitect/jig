@@ -10,14 +10,14 @@ import { API_URL } from '../../config';
 
 // ─── Theme Constants (vanilla CSS vars) ───────────────────────────
 const C = {
-  bgDark:    '#1E1E1E',
-  bgCard:    '#6D28D9',
-  bgInput:   '#7C3AED',
-  primary:   '#7C3AED',
-  primaryDk: '#6D28D9',
-  gold:      '#D97706',
+  bgDark:    '#1A1A1A',
+  bgCard:    '#8B6914',
+  bgInput:   '#C9A84C',
+  primary:   '#C9A84C',
+  primaryDk: '#8B6914',
+  gold:      '#F0A500',
   goldDark:  '#B8922D',
-  cream:     '#0A0A0A',
+  cream:     '#0E0E0E',
   danger:    '#DC2626',
   success:   '#22c55e',
   border:    '#4A7A5D',

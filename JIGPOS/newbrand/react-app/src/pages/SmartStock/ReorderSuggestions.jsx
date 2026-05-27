@@ -7,8 +7,8 @@ import Badge from '../../components/ui/Badge';
 import api from '../../services/api';
 
 const URGENCY_CONFIG = {
-  critical: { badge: 'error', border: 'border-jig-red/30 bg-jig-red/5', label: 'Critical' },
-  urgent: { badge: 'warning', border: 'border-jig-amber/30 bg-jig-amber/5', label: 'Urgent' },
+  critical: { badge: 'error', border: 'border-origin-red/30 bg-origin-red/5', label: 'Critical' },
+  urgent: { badge: 'warning', border: 'border-or-gold/30 bg-or-gold/5', label: 'Urgent' },
   soon: { badge: 'info', border: 'border-blue-200 bg-blue-50', label: 'Soon' },
   healthy: { badge: 'active', border: 'border-gray-200 bg-white', label: 'Healthy' },
 };
@@ -60,7 +60,7 @@ export default function ReorderSuggestions({ suggestions, autoReorderEnabled }) 
             onClick={() => setFilter(f)}
             className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${
               filter === f
-                ? 'bg-jig-purple text-white'
+                ? 'bg-or-gold text-white'
                 : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
             }`}
           >
@@ -100,16 +100,16 @@ export default function ReorderSuggestions({ suggestions, autoReorderEnabled }) 
                   </div>
                   <div>
                     <div className="text-gray-400">Days of Stock</div>
-                    <div className={`font-bold ${s.daysOfStock <= 3 ? 'text-jig-red' : s.daysOfStock <= 7 ? 'text-jig-amber-dark' : 'text-white'}`}>
+                    <div className={`font-bold ${s.daysOfStock <= 3 ? 'text-origin-red' : s.daysOfStock <= 7 ? 'text-or-gold-dark' : 'text-white'}`}>
                       {s.daysOfStock} days
                     </div>
                   </div>
                   <div>
                     <div className="text-gray-400">Confidence</div>
                     <div className={`font-bold ${
-                      s.confidence.level === 'high' ? 'text-jig-purple' :
-                      s.confidence.level === 'medium' ? 'text-jig-amber-dark' :
-                      'text-jig-red'
+                      s.confidence.level === 'high' ? 'text-or-gold' :
+                      s.confidence.level === 'medium' ? 'text-or-gold-dark' :
+                      'text-origin-red'
                     }`}>{s.confidence.level}</div>
                   </div>
                 </div>
@@ -129,7 +129,7 @@ export default function ReorderSuggestions({ suggestions, autoReorderEnabled }) 
                 <button
                   onClick={() => handleCreatePO(s)}
                   disabled={creating === s.productId}
-                  className="mt-2 px-3 py-1.5 rounded-lg bg-jig-purple text-white text-xs font-bold hover:bg-jig-purple-dark transition-colors disabled:opacity-50"
+                  className="mt-2 px-3 py-1.5 rounded-lg bg-or-gold text-white text-xs font-bold hover:bg-or-gold-dark transition-colors disabled:opacity-50"
                 >
                   {creating === s.productId ? 'Creating...' : 'Draft PO'}
                 </button>
@@ -143,7 +143,7 @@ export default function ReorderSuggestions({ suggestions, autoReorderEnabled }) 
                   <span
                     key={j}
                     className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                      adj.impact > 1 ? 'bg-jig-amber/10 text-jig-amber-dark' : 'bg-blue-50 text-blue-600'
+                      adj.impact > 1 ? 'bg-or-gold/10 text-or-gold-dark' : 'bg-blue-50 text-blue-600'
                     }`}
                   >
                     {adj.factor}: {adj.impact > 1 ? '+' : ''}{Math.round((adj.impact - 1) * 100)}%
@@ -156,7 +156,7 @@ export default function ReorderSuggestions({ suggestions, autoReorderEnabled }) 
       })}
 
       {autoReorderEnabled && (
-        <div className="text-center text-xs text-jig-purple font-bold py-2">
+        <div className="text-center text-xs text-or-gold font-bold py-2">
           Auto-reorder is enabled — draft POs will be created automatically for critical items
         </div>
       )}

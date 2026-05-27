@@ -1,5 +1,5 @@
 /**
- * JIG Chat Bot - Database Queries
+ * PureGro Chat Bot - Database Queries
  *
  * Follows the same pattern as src/server/db.ts:
  * parameterized queries with row mappers.

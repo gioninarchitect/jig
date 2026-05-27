@@ -5,9 +5,9 @@ import api from '../../services/api';
 import Badge from '../../components/ui/Badge';
 
 const RESULT_CONFIG = {
-  BLOCKED: { badge: 'error', label: 'Blocked', color: 'border-jig-red/20 bg-jig-red/5' },
-  WARNING: { badge: 'warning', label: 'Warning', color: 'border-jig-amber/20 bg-jig-amber/5' },
-  PASSED: { badge: 'active', label: 'Passed', color: 'border-jig-purple/20 bg-jig-purple/5' },
+  BLOCKED: { badge: 'error', label: 'Blocked', color: 'border-origin-red/20 bg-origin-red/5' },
+  WARNING: { badge: 'warning', label: 'Warning', color: 'border-or-gold/20 bg-or-gold/5' },
+  PASSED: { badge: 'active', label: 'Passed', color: 'border-or-gold/20 bg-or-gold/5' },
 };
 
 export default function ComplianceTimeline() {
@@ -42,7 +42,7 @@ export default function ComplianceTimeline() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -61,7 +61,7 @@ export default function ComplianceTimeline() {
             key={f.key}
             onClick={() => setFilter(f.key)}
             className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${
-              filter === f.key ? 'bg-jig-purple text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+              filter === f.key ? 'bg-or-gold text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
             }`}
           >
             {f.label} ({counts[f.key]})
@@ -87,9 +87,9 @@ export default function ComplianceTimeline() {
               <div key={log._id || i} className="relative pl-10 pb-4">
                 {/* Timeline dot */}
                 <div className={`absolute left-2.5 top-2 w-3 h-3 rounded-full border-2 border-white ${
-                  log.result === 'BLOCKED' ? 'bg-jig-red' :
-                  log.result === 'WARNING' ? 'bg-jig-amber' :
-                  'bg-jig-purple'
+                  log.result === 'BLOCKED' ? 'bg-origin-red' :
+                  log.result === 'WARNING' ? 'bg-or-gold' :
+                  'bg-or-gold'
                 }`} />
 
                 {/* Entry card */}
@@ -108,7 +108,7 @@ export default function ComplianceTimeline() {
                   {log.blocks?.length > 0 && (
                     <div className="mt-1 space-y-0.5">
                       {log.blocks.map((block, j) => (
-                        <div key={j} className="text-xs text-jig-red">
+                        <div key={j} className="text-xs text-origin-red">
                           {block.type}: {block.message}
                         </div>
                       ))}
@@ -119,7 +119,7 @@ export default function ComplianceTimeline() {
                   {log.warnings?.length > 0 && (
                     <div className="mt-1 space-y-0.5">
                       {log.warnings.map((warning, j) => (
-                        <div key={j} className="text-xs text-jig-amber-dark">
+                        <div key={j} className="text-xs text-or-gold-dark">
                           {warning.type}: {warning.message}
                         </div>
                       ))}

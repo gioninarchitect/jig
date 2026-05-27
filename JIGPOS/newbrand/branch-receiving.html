@@ -3,38 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Branch Receiving - JIG Craft Cannabis</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Branch Receiving - Origin by ILCO Farming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Barlow:wght@300;400;500;600:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -44,7 +53,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -53,13 +62,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -70,9 +79,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--black);
+            background: #0A0A0A;
             min-height: 100vh;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         /* Top Navigation */
@@ -98,7 +107,7 @@
         }
 
         .nav-brand h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             color: var(--cream);
             font-size: 1.5rem;
             font-weight: 600;
@@ -132,7 +141,7 @@
 
         .btn-back {
             background: var(--gold);
-            color: var(--white);
+            color: var(--or-white);
             border: none;
             padding: 0.5rem 1rem;
             border-radius: 6px;
@@ -161,14 +170,14 @@
         }
 
         .page-header h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2rem;
-            color: var(--white);
+            color: var(--or-white);
             margin-bottom: 0.5rem;
         }
 
         .page-header p {
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* Stats Cards */
@@ -200,13 +209,13 @@
         }
 
         .stat-icon.incoming {
-            background: rgba(217, 119, 6, 0.2);
+            background: rgba(240, 165, 0, 0.2);
             color: var(--gold-dark);
         }
 
         .stat-icon.pending {
-            background: rgba(124, 58, 237, 0.2);
-            color: var(--purple);
+            background: rgba(63, 192, 65, 0.2);
+            color: var(--or-gold);
         }
 
         .stat-icon.received {
@@ -222,12 +231,12 @@
         .stat-info h3 {
             font-size: 1.75rem;
             font-weight: 700;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .stat-info p {
             font-size: 0.875rem;
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* Section Cards */
@@ -240,7 +249,7 @@
         }
 
         .section-header {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
             padding: 1rem 1.5rem;
             display: flex;
@@ -249,7 +258,7 @@
         }
 
         .section-header h3 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.25rem;
             display: flex;
             align-items: center;
@@ -268,7 +277,7 @@
         }
 
         .shipment-card {
-            background: var(--black);
+            background: var(--or-black);
             border: 2px solid var(--green);
             border-radius: 10px;
             padding: 1.25rem;
@@ -277,12 +286,12 @@
 
         .shipment-card:hover {
             border-color: var(--gold);
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+            box-shadow: 0 4px 12px rgba(63, 192, 65, 0.15);
         }
 
         .shipment-card.urgent {
             border-color: var(--gold);
-            background: rgba(217, 119, 6, 0.1);
+            background: rgba(240, 165, 0, 0.1);
         }
 
         .shipment-header {
@@ -294,7 +303,7 @@
 
         .shipment-id {
             font-weight: 700;
-            color: var(--white);
+            color: var(--or-white);
             font-size: 1.1rem;
         }
 
@@ -307,18 +316,18 @@
         }
 
         .status-incoming {
-            background: rgba(217, 119, 6, 0.2);
+            background: rgba(240, 165, 0, 0.2);
             color: var(--gold-dark);
         }
 
         .status-arrived {
-            background: rgba(124, 58, 237, 0.2);
-            color: var(--purple);
+            background: rgba(63, 192, 65, 0.2);
+            color: var(--or-gold);
         }
 
         .status-received {
             background: rgba(74, 122, 93, 0.3);
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
         }
 
         .status-discrepancy {
@@ -341,14 +350,14 @@
 
         .detail-label {
             font-size: 0.75rem;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
             font-weight: 600;
         }
 
         .detail-value {
             font-weight: 600;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .shipment-items {
@@ -360,7 +369,7 @@
 
         .shipment-items h4 {
             font-size: 0.875rem;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 0.75rem;
             font-weight: 600;
         }
@@ -379,7 +388,7 @@
 
         .item-name {
             font-weight: 500;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .item-qty {
@@ -389,12 +398,12 @@
         }
 
         .qty-expected {
-            color: var(--purple);
+            color: var(--or-gold);
             font-weight: 600;
         }
 
         .qty-received {
-            background: var(--black);
+            background: var(--or-black);
             border: 2px solid var(--green);
             border-radius: 6px;
             padding: 0.25rem 0.5rem;
@@ -404,7 +413,7 @@
         }
 
         .qty-match {
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .qty-mismatch {
@@ -433,7 +442,7 @@
         }
 
         .btn-primary {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
         }
 
@@ -443,7 +452,7 @@
 
         .btn-gold {
             background: var(--gold);
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .btn-gold:hover {
@@ -453,11 +462,11 @@
         .btn-outline {
             background: transparent;
             border: 2px solid var(--green);
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .btn-outline:hover {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
         }
 
@@ -474,7 +483,7 @@
         .empty-state {
             text-align: center;
             padding: 3rem;
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .empty-state i {
@@ -506,7 +515,7 @@
         }
 
         .modal-content {
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 16px;
             width: 90%;
             max-width: 600px;
@@ -516,7 +525,7 @@
         }
 
         .modal-header {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
             padding: 1rem 1.5rem;
             display: flex;
@@ -525,7 +534,7 @@
         }
 
         .modal-header h3 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
         }
 
         .modal-close {
@@ -579,7 +588,7 @@
         .form-group label {
             display: block;
             font-weight: 600;
-            color: var(--white);
+            color: var(--or-white);
             margin-bottom: 0.5rem;
         }
 
@@ -630,7 +639,7 @@
         .verification-item input[type="checkbox"] {
             width: 20px;
             height: 20px;
-            accent-color: var(--purple);
+            accent-color: var(--or-gold);
         }
 
         .verification-item label {
@@ -663,7 +672,7 @@
         }
 
         .toast.success {
-            border-left-color: var(--purple);
+            border-left-color: var(--or-gold);
         }
 
         .toast.error {
@@ -718,9 +727,9 @@
     <!-- Top Navigation -->
     <nav class="top-nav">
         <div class="nav-brand">
-            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" onerror="this.style.display='none'">
+            <img src="images/origin-logo.png" alt="Origin by ILCO Farming" onerror="this.style.display='none'">
             <div>
-                <h1>JIG Craft Cannabis</h1>
+                <h1>Origin by ILCO Farming</h1>
                 <span>Branch Receiving</span>
             </div>
         </div>
@@ -968,9 +977,9 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-utils.js"></script>
+    <script src="frontend/or-auth.js"></script>
     <script>
         let currentUser = null;
         let currentShipment = null;
@@ -1228,8 +1237,8 @@
             // Populate shipment info
             document.getElementById('receiveShipmentInfo').innerHTML = `
                 <div style="background: #0A0A0A; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                    <h4 style="margin-bottom: 0.5rem; color: var(--purple);">${currentShipment.id}</h4>
-                    <p style="margin: 0; color: var(--white);">From: ${currentShipment.fromBranch} | Courier: ${currentShipment.courier}</p>
+                    <h4 style="margin-bottom: 0.5rem; color: var(--or-gold);">${currentShipment.id}</h4>
+                    <p style="margin: 0; color: var(--or-white);">From: ${currentShipment.fromBranch} | Courier: ${currentShipment.courier}</p>
                 </div>
             `;
 

@@ -3,38 +3,47 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Coming Soon - JIG Craft Cannabis</title>
-        <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-        <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <title>Coming Soon - Origin by ILCO Farming</title>
+        <link rel="icon" type="image/png" href="images/origin-logo.png">
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
         <style>
             :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -44,7 +53,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -53,13 +62,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
             * {
@@ -70,7 +79,7 @@
 
             body {
                 font-family: 'Inter', -apple-system, sans-serif;
-                background: linear-gradient(160deg, #1E1E1E 0%, #0A0A0A 40%, #0A0A0A 100%);
+                background: linear-gradient(160deg, #1A1A1A 0%, #0E0E0E 40%, #0E0E0E 100%);
                 color: var(--cream);
                 min-height: 100vh;
                 overflow-x: hidden;
@@ -95,7 +104,7 @@
             }
 
             .logo-text {
-                font-family: 'Oswald', sans-serif;
+                font-family: 'Cinzel', sans-serif;
                 font-size: clamp(2rem, 5vw, 3.5rem);
                 font-weight: 800;
                 letter-spacing: 2px;
@@ -111,7 +120,7 @@
                 font-size: clamp(1.5rem, 4vw, 2.5rem);
                 font-weight: 300;
                 letter-spacing: 1px;
-                color: #2A2A2A;
+                color: #222222;
                 margin-bottom: 10px;
             }
 
@@ -213,7 +222,7 @@
                 display: block;
                 margin-bottom: 8px;
                 font-size: 1rem;
-                color: #2A2A2A;
+                color: #222222;
                 font-weight: 500;
             }
 
@@ -429,7 +438,7 @@
             }
 
             .modal-content {
-                background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+                background: linear-gradient(135deg, #1a1a1a 0%, #0E0E0E 100%);
                 border: 2px solid #17d9c3;
                 border-radius: 20px;
                 padding: 40px;
@@ -524,7 +533,7 @@
         <div class="container">
             <!-- Header Section -->
             <header class="header">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="width:100%;height:100%;object-fit:contain;" class="logo">
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming" style="width:100%;height:100%;object-fit:contain;" class="logo">
                 <div class="tagline">Welcome to the Future</div>
                 <div class="subtitle">of Wellness</div>
             </header>
@@ -557,7 +566,7 @@
                 <h2 class="section-title">Be the First to Know</h2>
                 <p class="section-description">
                     Join our exclusive waiting list and get early access to
-                    premium DBC wellness products. Receive special launch offers
+                    premium Origin wellness products. Receive special launch offers
                     and wellness tips delivered to your inbox.
                 </p>
                 <form id="leadForm">
@@ -610,7 +619,7 @@
                 <div class="exclusive-badge">EXCLUSIVE OPPORTUNITY</div>
                 <h2 class="franchise-title">Join Our Franchise Network</h2>
                 <p class="franchise-description">
-                    Become part of Lesotho's leading DBC wellness
+                    Become part of Lesotho's leading Origin wellness
                     franchise.
                 </p>
                 <p class="franchise-description">
@@ -625,7 +634,7 @@
                         >Apply Now</a
                     >
                     <a
-                        href="mailto:hello@jig.cleva-ai.co.za?subject=Franchise%20Opportunity%20Inquiry%20-%20Basotho%20Medical%20Herbs&body=Dear%20Basotho%20Medical%20Herbs%20Team%2C%0D%0A%0D%0AI%20am%20interested%20in%20learning%20more%20about%20your%20franchise%20opportunities.%20Please%20provide%20me%20with%20information%20about%3A%0D%0A%0D%0A-%20Franchise%20requirements%20and%20qualifications%0D%0A-%20Initial%20investment%20and%20ongoing%20costs%0D%0A-%20Training%20and%20support%20provided%0D%0A-%20Available%20territories%2Flocations%0D%0A-%20Expected%20timeline%20and%20next%20steps%0D%0A%0D%0AThank%20you%20for%20your%20time.%0D%0A%0D%0ABest%20regards%2C"
+                        href="mailto:info@cleva-ai.co.za?subject=Franchise%20Opportunity%20Inquiry%20-%20Basotho%20Medical%20Herbs&body=Dear%20Basotho%20Medical%20Herbs%20Team%2C%0D%0A%0D%0AI%20am%20interested%20in%20learning%20more%20about%20your%20franchise%20opportunities.%20Please%20provide%20me%20with%20information%20about%3A%0D%0A%0D%0A-%20Franchise%20requirements%20and%20qualifications%0D%0A-%20Initial%20investment%20and%20ongoing%20costs%0D%0A-%20Training%20and%20support%20provided%0D%0A-%20Available%20territories%2Flocations%0D%0A-%20Expected%20timeline%20and%20next%20steps%0D%0A%0D%0AThank%20you%20for%20your%20time.%0D%0A%0D%0ABest%20regards%2C"
                         class="cta-button cta-secondary"
                         >Email Us</a
                     >
@@ -640,7 +649,7 @@
             >
                 <h2 class="section-title">Franchise Application</h2>
                 <p class="section-description">
-                    Take the first step towards owning your DBC wellness
+                    Take the first step towards owning your Origin wellness
                     franchise. Complete the form below and our team will contact
                     you within 24 hours.
                 </p>
@@ -718,14 +727,14 @@
             <!-- Footer -->
             <footer class="footer">
                 <p>
-                    &copy; 2025 JIG Craft Cannabis. All rights reserved. | EST. 2025
+                    &copy; 2025 Origin by ILCO Farming. All rights reserved. | EST. 2025
                 </p>
             </footer>
         </div>
 
         <script src="/frontend/config.js"></script>
-        <script src="/frontend/jig-utils.js"></script>
-        <script src="/frontend/jig-auth.js"></script>
+        <script src="/frontend/or-utils.js"></script>
+        <script src="/frontend/or-auth.js"></script>
         <script>
 
             // Countdown Timer - Set to Friday, November 28, 2025
@@ -925,7 +934,7 @@
 
             // Console message for developers
             console.log(
-                "%cJIG Craft Cannabis",
+                "%cOrigin by ILCO Farming",
                 "color: #17d9c3; font-size: 20px; font-weight: bold;",
             );
             console.log(

@@ -19,7 +19,13 @@ export async function listSOPs(req: AuthRequest, res: Response) {
 
 export async function updateSOP(req: AuthRequest, res: Response) {
   try {
-    const sop = await qms.updateSOP(p(req.params.id), { content: req.body.content, tenantId: req.user!.tenantId, userId: req.user!.userId });
+    const sop = await qms.updateSOP(p(req.params.id), {
+      content: req.body.content,
+      category: req.body.category,
+      rolesRequired: req.body.rolesRequired,
+      tenantId: req.user!.tenantId,
+      userId: req.user!.userId,
+    });
     res.json({ success: true, sop });
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 }

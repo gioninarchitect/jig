@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { AuthRequest } from '../middleware/auth';
 import { p } from '../utils/params';
 import * as batchService from '../services/batch.service';
+import { ensureBatchCultivationRecord } from '../services/bcr.service';
 import { createTicket } from '../services/baygrid.service';
 
 export async function create(req: AuthRequest, res: Response) {
@@ -30,6 +31,13 @@ export async function getById(req: AuthRequest, res: Response) {
   try {
     const batch = await batchService.getBatch(p(req.params.id), req.user!.tenantId);
     res.json({ success: true, batch });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}
+
+export async function syncBcr(req: AuthRequest, res: Response) {
+  try {
+    const record = await ensureBatchCultivationRecord(p(req.params.id), req.user!.tenantId, req.user!.userId);
+    res.json({ success: true, bcr: record });
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 }
 

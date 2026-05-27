@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Vision API - Cost Calculator for Stocktake</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { font-size: 1.6rem; margin-bottom: 8px; color: #0E0E0E; }
+        h2 { font-size: 1.2rem; margin: 24px 0 12px; color: #1A1A1A; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
+        h3 { font-size: 1rem; margin: 16px 0 8px; color: #0f3460; }
+        .subtitle { color: #6B7280; font-size: 0.9rem; margin-bottom: 24px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 20px;
+            font-size: 0.85rem;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background: #0E0E0E;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        tr:nth-child(even) { background: #f1f5f9; }
+        tr:hover { background: #e2e8f0; }
+        .money { font-family: 'SF Mono', 'Fira Code', monospace; font-weight: 600; }
+        .highlight { background: #dbeafe !important; }
+        .note { font-size: 0.8rem; color: #6B7280; font-style: italic; margin: 8px 0; }
+
+        .card {
+            background: #0E0E0E;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .calc-section {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+        .calc-section label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: #374151;
+        }
+        .calc-section input, .calc-section select {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 12px;
+        }
+        .calc-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        .calc-row > div { flex: 1; min-width: 150px; }
+
+        .result-box {
+            background: linear-gradient(135deg, #0E0E0E, #1A1A1A);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            text-align: center;
+        }
+        .result-box .big-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+        .result-box .label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .result-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .result-card .value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+        .result-card .desc {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .savings {
+            background: #ecfdf5;
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .savings h3 { color: #059669; }
+
+        @media (max-width: 600px) {
+            .calc-row { flex-direction: column; gap: 8px; }
+            .result-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Claude Vision API - Cost Calculator</h1>
+        <p class="subtitle">Stocktake photo scanning costs for scale weight reading and unit counting</p>
+
+        <!-- How it works -->
+        <div class="card">
+            <h2 style="margin-top:0;">How Claude Vision is Used</h2>
+            <p style="font-size:0.9rem;">Each stocktake photo is sent to Claude Haiku 4.5 which:</p>
+            <ul style="font-size:0.85rem; margin: 8px 0 0 20px;">
+                <li><strong>Scale photos</strong> - Reads the weight displayed on the digital scale (e.g. "4.2 g")</li>
+                <li><strong>Unit photos</strong> - Counts individual items visible in the photo (e.g. "7 units")</li>
+            </ul>
+            <p class="note">Model used: claude-haiku-4-5-20251001 (cheapest vision-capable model)</p>
+        </div>
+
+        <!-- Pricing Reference -->
+        <h2>Claude Haiku 4.5 Pricing</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Price</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Input tokens (text)</td>
+                    <td class="money">$0.80 / 1M tokens</td>
+                    <td>Prompt text sent with each image</td>
+                </tr>
+                <tr>
+                    <td>Input tokens (image)</td>
+                    <td class="money">$0.80 / 1M tokens</td>
+                    <td>Images tokenized at (width x height) / 750</td>
+                </tr>
+                <tr>
+                    <td>Output tokens</td>
+                    <td class="money">$4.00 / 1M tokens</td>
+                    <td>Response: ~10-30 tokens per request</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Image Token Calculation -->
+        <h2>Image Token Costs by Phone Camera Resolution</h2>
+        <p class="note">Photos captured via mobile camera are JPEG compressed at 85% quality. Claude resizes images larger than 1568px on any side.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Phone Camera</th>
+                    <th>Capture Resolution</th>
+                    <th>After Claude Resize</th>
+                    <th>Image Tokens</th>
+                    <th>Cost / Photo</th>
+                    <th>Cost / 100 Photos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Budget phone (8MP)</td>
+                    <td>3264 x 2448</td>
+                    <td>1568 x 1176</td>
+                    <td>~2,459</td>
+                    <td class="money">$0.0021</td>
+                    <td class="money">$0.21</td>
+                </tr>
+                <tr>
+                    <td>Mid-range (12MP)</td>
+                    <td>4000 x 3000</td>
+                    <td>1568 x 1176</td>
+                    <td>~2,459</td>
+                    <td class="money">$0.0021</td>
+                    <td class="money">$0.21</td>
+                </tr>
+                <tr class="highlight">
+                    <td>Standard phone (16MP)</td>
+                    <td>4608 x 3456</td>
+                    <td>1568 x 1176</td>
+                    <td>~2,459</td>
+                    <td class="money">$0.0021</td>
+                    <td class="money">$0.21</td>
+                </tr>
+                <tr>
+                    <td>Flagship (48MP)</td>
+                    <td>8000 x 6000</td>
+                    <td>1568 x 1176</td>
+                    <td>~2,459</td>
+                    <td class="money">$0.0021</td>
+                    <td class="money">$0.21</td>
+                </tr>
+                <tr>
+                    <td>Pro (108MP)</td>
+                    <td>12000 x 9000</td>
+                    <td>1568 x 1176</td>
+                    <td>~2,459</td>
+                    <td class="money">$0.0021</td>
+                    <td class="money">$0.21</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="note">Key insight: All phone cameras produce the SAME cost because Claude automatically resizes images above 1568px. The maximum image size is 1568 x 1176 = ~2,459 tokens regardless of camera resolution.</p>
+
+        <!-- Per-request breakdown -->
+        <h2>Cost Per Single Stocktake Photo</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Tokens</th>
+                    <th>Rate</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Image (resized to 1568x1176)</td>
+                    <td>~2,459</td>
+                    <td>$0.80/1M</td>
+                    <td class="money">$0.00197</td>
+                </tr>
+                <tr>
+                    <td>Prompt text (~50 tokens)</td>
+                    <td>~50</td>
+                    <td>$0.80/1M</td>
+                    <td class="money">$0.00004</td>
+                </tr>
+                <tr>
+                    <td>Response (~15 tokens)</td>
+                    <td>~15</td>
+                    <td>$4.00/1M</td>
+                    <td class="money">$0.00006</td>
+                </tr>
+                <tr style="font-weight: 700; background: #dbeafe;">
+                    <td>TOTAL per photo</td>
+                    <td>~2,524</td>
+                    <td></td>
+                    <td class="money">$0.00207</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Interactive Calculator -->
+        <h2>Your Stocktake Cost Calculator</h2>
+        <div class="calc-section">
+            <div class="calc-row">
+                <div>
+                    <label>Products per branch</label>
+                    <input type="number" id="productsPerBranch" value="150" min="1" oninput="calculate()">
+                </div>
+                <div>
+                    <label>Number of branches</label>
+                    <input type="number" id="numBranches" value="1" min="1" oninput="calculate()">
+                </div>
+                <div>
+                    <label>Stocktakes per month</label>
+                    <input type="number" id="stocktakesPerMonth" value="4" min="1" oninput="calculate()">
+                </div>
+                <div>
+                    <label>USD/ZAR exchange rate</label>
+                    <input type="number" id="exchangeRate" value="18.50" step="0.01" min="1" oninput="calculate()">
+                </div>
+            </div>
+        </div>
+
+        <div class="result-box" id="results">
+            <div class="label">Estimated Monthly Cost</div>
+            <div class="big-number" id="monthlyCostZAR">R23.05</div>
+            <div style="font-size: 0.85rem; opacity: 0.8; margin-top: 4px;">
+                <span id="monthlyCostUSD">($1.24)</span>
+            </div>
+            <div class="result-grid">
+                <div class="result-card">
+                    <div class="value" id="photosPerMonth">600</div>
+                    <div class="desc">Photos / month</div>
+                </div>
+                <div class="result-card">
+                    <div class="value" id="costPerPhoto">R0.038</div>
+                    <div class="desc">Per photo (ZAR)</div>
+                </div>
+                <div class="result-card">
+                    <div class="value" id="tokensPerMonth">1.5M</div>
+                    <div class="desc">Tokens / month</div>
+                </div>
+                <div class="result-card">
+                    <div class="value" id="costPerStocktake">R5.76</div>
+                    <div class="desc">Per stocktake session</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario Table -->
+        <h2>Monthly Cost Scenarios (ZAR)</h2>
+        <table id="scenarioTable">
+            <thead>
+                <tr>
+                    <th>Scenario</th>
+                    <th>Products</th>
+                    <th>Branches</th>
+                    <th>Frequency</th>
+                    <th>Photos/Month</th>
+                    <th>USD Cost</th>
+                    <th>ZAR Cost</th>
+                </tr>
+            </thead>
+            <tbody id="scenarioBody"></tbody>
+        </table>
+
+        <!-- Comparison -->
+        <div class="savings">
+            <h3>Why This is Extremely Cheap</h3>
+            <table style="margin:8px 0;">
+                <thead>
+                    <tr>
+                        <th>Comparison</th>
+                        <th>Cost/Month</th>
+                        <th>vs Claude Vision</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Manual counting (staff time - 2 hours @ R50/hr)</td>
+                        <td class="money">R400+</td>
+                        <td>17x more expensive</td>
+                    </tr>
+                    <tr>
+                        <td>Google Cloud Vision API (similar usage)</td>
+                        <td class="money">R45-90</td>
+                        <td>2-4x more expensive</td>
+                    </tr>
+                    <tr>
+                        <td>AWS Rekognition (similar usage)</td>
+                        <td class="money">R55-110</td>
+                        <td>2-5x more expensive</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>Claude Haiku Vision (our solution)</strong></td>
+                        <td class="money"><strong id="comparisonCost">~R23</strong></td>
+                        <td><strong>Cheapest + smartest</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note">Claude Haiku is the cheapest option AND the most accurate - it actually understands what it's looking at (scale display, item arrangement) vs basic OCR/object detection.</p>
+        </div>
+
+        <!-- Technical Details -->
+        <h2>Technical Details</h2>
+        <div class="card">
+            <h3>Image Processing Pipeline</h3>
+            <ol style="font-size: 0.85rem; margin-left: 20px;">
+                <li>Staff captures photo via mobile camera (any resolution)</li>
+                <li>Frontend compresses to JPEG 85% quality via HTML Canvas</li>
+                <li>Photo uploaded to server as multipart form data</li>
+                <li>Server reads file, converts to base64</li>
+                <li>Base64 image sent to Claude Haiku via HTTPS</li>
+                <li>Claude reads the scale display or counts items</li>
+                <li>Response returned in &lt;2 seconds</li>
+                <li>If API fails, Tesseract OCR used as free fallback (scale only)</li>
+            </ol>
+
+            <h3 style="margin-top: 16px;">Claude's Auto-Resize Rules</h3>
+            <ul style="font-size: 0.85rem; margin-left: 20px;">
+                <li>Max dimension: 1568px (either side)</li>
+                <li>Aspect ratio preserved</li>
+                <li>A 4000x3000 photo becomes 1568x1176 (~1.84 MP)</li>
+                <li>Token formula: (width x height) / 750</li>
+                <li>Result: ~2,459 tokens per photo regardless of original size</li>
+            </ul>
+
+            <h3 style="margin-top: 16px;">Fallback Strategy</h3>
+            <ul style="font-size: 0.85rem; margin-left: 20px;">
+                <li><strong>If ANTHROPIC_API_KEY not set:</strong> Tesseract OCR for scale reading (free, less accurate)</li>
+                <li><strong>If Claude Vision fails:</strong> Automatic fallback to Tesseract</li>
+                <li><strong>If both fail:</strong> Staff enters value manually</li>
+                <li><strong>Unit counting:</strong> Claude Vision only (no free fallback - manual count if API unavailable)</li>
+            </ul>
+        </div>
+
+        <p class="note" style="margin-top: 24px; text-align: center;">
+            Pricing based on Anthropic's published rates as of February 2026. Rates subject to change.
+            Exchange rate is configurable above.
+        </p>
+    </div>
+
+    <script>
+        const COST_PER_PHOTO_USD = 0.00207;
+
+        function calculate() {
+            const products = parseInt(document.getElementById('productsPerBranch').value) || 150;
+            const branches = parseInt(document.getElementById('numBranches').value) || 1;
+            const frequency = parseInt(document.getElementById('stocktakesPerMonth').value) || 4;
+            const rate = parseFloat(document.getElementById('exchangeRate').value) || 18.50;
+
+            const photosPerMonth = products * branches * frequency;
+            const monthlyCostUSD = photosPerMonth * COST_PER_PHOTO_USD;
+            const monthlyCostZAR = monthlyCostUSD * rate;
+            const costPerPhotoZAR = COST_PER_PHOTO_USD * rate;
+            const tokensPerMonth = photosPerMonth * 2524;
+            const costPerStocktake = (products * COST_PER_PHOTO_USD) * rate;
+
+            document.getElementById('monthlyCostZAR').textContent = 'R' + monthlyCostZAR.toFixed(2);
+            document.getElementById('monthlyCostUSD').textContent = '($' + monthlyCostUSD.toFixed(2) + ')';
+            document.getElementById('photosPerMonth').textContent = photosPerMonth.toLocaleString();
+            document.getElementById('costPerPhoto').textContent = 'R' + costPerPhotoZAR.toFixed(3);
+            document.getElementById('tokensPerMonth').textContent = (tokensPerMonth / 1000000).toFixed(1) + 'M';
+            document.getElementById('costPerStocktake').textContent = 'R' + costPerStocktake.toFixed(2);
+            document.getElementById('comparisonCost').textContent = '~R' + monthlyCostZAR.toFixed(0);
+
+            // Scenario table
+            const scenarios = [
+                { name: 'Small (1 branch, weekly)', products: 50, branches: 1, freq: 4 },
+                { name: 'Ormonde launch', products: 150, branches: 1, freq: 4 },
+                { name: '3 branches, weekly', products: 150, branches: 3, freq: 4 },
+                { name: '5 branches, weekly', products: 150, branches: 5, freq: 4 },
+                { name: '9 branches, weekly', products: 150, branches: 9, freq: 4 },
+                { name: '9 branches, daily', products: 150, branches: 9, freq: 30 },
+            ];
+
+            const tbody = document.getElementById('scenarioBody');
+            tbody.innerHTML = scenarios.map(s => {
+                const photos = s.products * s.branches * s.freq;
+                const usd = photos * COST_PER_PHOTO_USD;
+                const zar = usd * rate;
+                const isActive = s.products === products && s.branches === branches && s.freq === frequency;
+                return `<tr ${isActive ? 'class="highlight"' : ''}>
+                    <td>${s.name}</td>
+                    <td>${s.products}</td>
+                    <td>${s.branches}</td>
+                    <td>${s.freq}x/month</td>
+                    <td>${photos.toLocaleString()}</td>
+                    <td class="money">$${usd.toFixed(2)}</td>
+                    <td class="money">R${zar.toFixed(2)}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        calculate();
+    </script>
+</body>
+</html>

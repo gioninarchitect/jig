@@ -54,15 +54,15 @@ const menuBoardSchema = new mongoose.Schema({
   },
   backgroundColor: {
     type: String,
-    default: '#0A0A0A'
+    default: '#0E0E0E'
   },
   textColor: {
     type: String,
-    default: '#0A0A0A'
+    default: '#0E0E0E'
   },
   accentColor: {
     type: String,
-    default: '#D97706'
+    default: '#C9A84C'
   },
   // Rotation settings
   rotationEnabled: {

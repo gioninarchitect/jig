@@ -83,7 +83,7 @@ exports.createFromBranch = async (req, res) => {
       return res.json({ success: true, data: existing, message: 'Customer already exists for this branch' });
     }
     const customer = new WholesaleCustomer({
-      businessName: `JIG ${branch.name}`, customerType: 'internal_branch',
+      businessName: `Origin ${branch.name}`, customerType: 'internal_branch',
       linkedBranch: branch._id,
       contactPerson: { name: 'Branch Manager', email: branch.email, phone: branch.phone },
       billingAddress: branch.address, deliveryAddress: branch.address,
@@ -348,7 +348,7 @@ exports.createResupply = async (req, res) => {
         return res.status(404).json({ success: false, message: 'Branch not found' });
       }
       customer = new WholesaleCustomer({
-        businessName: `JIG ${branch.name}`, customerType: 'internal_branch',
+        businessName: `Origin ${branch.name}`, customerType: 'internal_branch',
         linkedBranch: branch._id,
         contactPerson: { name: 'Branch Manager', email: branch.email, phone: branch.phone },
         paymentTerms: 'cod', priceTier: 'platinum', status: 'active', createdBy: req.user.id

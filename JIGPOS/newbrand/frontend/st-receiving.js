@@ -1,5 +1,5 @@
 // st-receiving.js — Stock receiving module (embedded tab in stocktake-app)
-// Depends on: config.js (API_URL), dbc-utils.js (showToast, getToken)
+// Depends on: config.js (API_URL), or-utils.js (showToast, getToken)
 // Depends on: st-auth.js (currentUser)
 
 let recvItems = [];
@@ -65,7 +65,8 @@ function recvAddProduct(productId) {
         productId: product._id,
         name: product.name,
         sku: product.sku || '',
-        receivedQty: null
+        receivedQty: null,
+        lotId: ''
     });
 
     document.getElementById('recvProductSearch').value = '';
@@ -99,6 +100,13 @@ function recvRenderItems() {
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
+            <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                <label style="font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap;">Lot/Batch:</label>
+                <input type="text" value="${item.lotId || ''}"
+                    onchange="recvUpdateLotId(${idx}, this.value)" placeholder="e.g. LOT-2026-0322"
+                    style="flex: 1; padding: 0.6rem; background: var(--bg-input); border: 1px solid ${item.lotId ? 'var(--success)' : 'var(--warning)'}; border-radius: 8px; color: var(--text-primary); font-size: 0.9rem;">
+                ${!item.lotId ? '<i class="fas fa-exclamation-triangle" style="color: var(--warning); font-size: 0.8rem;" title="Lot ID recommended for traceability"></i>' : '<i class="fas fa-check-circle" style="color: var(--success); font-size: 0.8rem;"></i>'}
+            </div>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
                 <label style="font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap;">Qty (g):</label>
                 <input type="number" step="0.01" value="${item.receivedQty || ''}"
@@ -111,6 +119,11 @@ function recvRenderItems() {
     document.getElementById('recvItemCount').textContent = `${recvItems.length} items`;
     const allFilled = recvItems.every(i => i.receivedQty !== null && i.receivedQty > 0);
     document.getElementById('recvSubmitBtn').disabled = !allFilled;
+}
+
+function recvUpdateLotId(index, value) {
+    recvItems[index].lotId = value.trim();
+    recvRenderItems();
 }
 
 function recvUpdateQty(index, value) {
@@ -147,7 +160,8 @@ async function recvSubmitReceiving() {
                 branchId,
                 items: recvItems.map(item => ({
                     productId: item.productId,
-                    quantity: item.receivedQty
+                    quantity: item.receivedQty,
+                    lotId: item.lotId || null
                 })),
                 notes: 'Quick add receiving'
             })

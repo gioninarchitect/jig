@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Event Routes
+ * PureGro Premium Cannabis Care - Event Routes
  *
  * POST /events/order-placed       - Emit ORDER_PLACED event
  * POST /events/order-confirmed    - Emit ORDER_CONFIRMED event

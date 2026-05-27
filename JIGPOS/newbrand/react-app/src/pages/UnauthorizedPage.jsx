@@ -7,9 +7,9 @@ export default function UnauthorizedPage() {
   const { getRedirectPath, isAuthenticated } = useAuth();
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-jig-slate">
+    <div className="flex items-center justify-center min-h-screen bg-origin-slate">
       <div className="text-center max-w-md px-6">
-        <h1 className="font-heading text-6xl text-jig-red uppercase mb-4">403</h1>
+        <h1 className="font-heading text-6xl text-origin-red uppercase mb-4">403</h1>
         <h2 className="font-heading text-2xl text-white uppercase mb-2">Access Denied</h2>
         <p className="text-sm text-gray-500 mb-8">
           You don't have permission to access this page. Contact your administrator if you believe this is an error.

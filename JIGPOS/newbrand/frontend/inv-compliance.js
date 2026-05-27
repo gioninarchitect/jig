@@ -1,5 +1,5 @@
 // inv-compliance.js — Section 21 Compliance module for inventory manager dashboard
-// Depends on: config.js (API_URL), dbc-utils.js (showToast, getToken, apiCall)
+// Depends on: config.js (API_URL), or-utils.js (showToast, getToken, apiCall)
 
 // ==================== COMPLIANCE ====================
 
@@ -85,7 +85,7 @@ async function loadPendingSection21() {
             const expiryDate = doc.expiryDate ? new Date(doc.expiryDate).toLocaleDateString() : 'N/A';
 
             return `
-                <div style="border:1px solid rgba(124, 58, 237,0.15);border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid var(--red);">
+                <div style="border:1px solid rgba(63, 192, 65,0.15);border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid var(--red);">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <strong style="color:var(--green-dark);">${userName}</strong>
@@ -334,7 +334,7 @@ async function viewSection21Document(docId) {
         modal.innerHTML = `
             <div style="background:#fff;border-radius:12px;width:100%;max-width:550px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
                 <div style="background:var(--red);color:white;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
-                    <h5 style="margin:0;font-family:'Oswald', sans-serif;font-size:1.2rem;"><i class="fas fa-file-medical"></i> Section 21 Document</h5>
+                    <h5 style="margin:0;font-family:'Barlow Condensed', sans-serif;font-size:1.2rem;"><i class="fas fa-file-medical"></i> Section 21 Document</h5>
                     <button onclick="document.getElementById('compDocModal').remove()" style="background:none;border:none;color:white;font-size:1.3rem;cursor:pointer;"><i class="fas fa-times"></i></button>
                 </div>
                 <div style="padding:20px;">
@@ -391,7 +391,7 @@ function _compPrompt(title, message) {
         modal.innerHTML = `
             <div style="background:#fff;border-radius:12px;width:100%;max-width:450px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
                 <div style="background:var(--green);color:var(--cream);padding:14px 20px;">
-                    <h5 style="margin:0;font-family:'Oswald', sans-serif;font-size:1.1rem;">${title}</h5>
+                    <h5 style="margin:0;font-family:'Barlow Condensed', sans-serif;font-size:1.1rem;">${title}</h5>
                 </div>
                 <div style="padding:20px;">
                     <p style="margin:0 0 12px;font-size:0.9rem;color:#666;">${message}</p>

@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JIG Inventory Management System | JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Origin Inventory Management System | Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -45,7 +54,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -54,13 +63,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -71,8 +80,8 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             line-height: 1.6;
         }
 
@@ -111,7 +120,7 @@
         }
 
         .header h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
             letter-spacing: 3px;
@@ -134,7 +143,7 @@
 
         /* Section */
         .section {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 16px;
             padding: 30px;
             margin-bottom: 30px;
@@ -159,15 +168,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--white);
+            color: var(--or-white);
             font-size: 1.4rem;
         }
 
         .section-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.6rem;
             font-weight: 700;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -182,7 +191,7 @@
         }
 
         .flow-step {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             color: var(--cream);
             padding: 20px 25px;
             border-radius: 12px;
@@ -198,7 +207,7 @@
         }
 
         .flow-step h4 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -220,7 +229,7 @@
         }
 
         .system-card {
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 12px;
             padding: 25px;
             border: 2px solid transparent;
@@ -242,7 +251,7 @@
         .system-card-icon {
             width: 45px;
             height: 45px;
-            background: var(--green);
+            background: var(--or-gold);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -252,14 +261,14 @@
         }
 
         .system-card h3 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.3rem;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
         }
 
         .system-card p {
-            color: var(--white);
+            color: var(--or-white);
             font-size: 0.95rem;
             margin-bottom: 15px;
         }
@@ -274,7 +283,7 @@
             padding-left: 25px;
             position: relative;
             font-size: 0.9rem;
-            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+            border-bottom: 1px solid rgba(63, 192, 65, 0.1);
         }
 
         .system-card li:last-child {
@@ -298,11 +307,11 @@
         }
 
         .data-table th {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
             padding: 15px;
             text-align: left;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -338,7 +347,7 @@
 
         /* Highlight Box */
         .highlight-box {
-            background: linear-gradient(135deg, rgba(217, 119, 6, 0.15) 0%, rgba(217, 119, 6, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(240, 165, 0, 0.15) 0%, rgba(240, 165, 0, 0.05) 100%);
             border: 2px solid var(--gold);
             border-radius: 12px;
             padding: 25px;
@@ -346,7 +355,7 @@
         }
 
         .highlight-box h4 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.2rem;
             color: var(--gold-dark);
             margin-bottom: 15px;
@@ -377,19 +386,19 @@
             width: 36px;
             height: 36px;
             background: var(--gold);
-            color: var(--white);
+            color: var(--or-white);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.1rem;
             flex-shrink: 0;
         }
 
         .step-content h4 {
             font-weight: 600;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 5px;
         }
 
@@ -413,7 +422,7 @@
         }
 
         .footer-logo {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.5rem;
             color: var(--gold);
             margin-bottom: 10px;
@@ -450,9 +459,9 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" class="logo">
+            <img src="images/origin-logo.png" alt="Origin by ILCO Farming" class="logo">
             <h1>Inventory Management System</h1>
-            <p>Complete Stock Control for Ormonde Branch</p>
+            <p>Complete Stock Control</p>
         </div>
     </header>
 
@@ -467,7 +476,7 @@
             </div>
 
             <p style="font-size: 1.05rem; margin-bottom: 20px;">
-                The JIG Inventory Management System connects four integrated applications to provide
+                The Origin Inventory Management System connects four integrated applications to provide
                 complete stock control, from product creation to point of sale.
             </p>
 
@@ -697,12 +706,12 @@
                 Flower products are organized in a 3-level hierarchy for easy filtering across all systems:
             </p>
 
-            <div style="background: var(--black); border-radius: 12px; padding: 25px; font-family: monospace;">
-                <div style="color: var(--purple); font-weight: bold; font-size: 1.1rem;">
+            <div style="background: var(--or-black); border-radius: 12px; padding: 25px; font-family: monospace;">
+                <div style="color: var(--or-gold); font-weight: bold; font-size: 1.1rem;">
                     <i class="fas fa-cannabis" style="color: var(--gold);"></i> FLOWER
                 </div>
                 <div style="margin-left: 30px; margin-top: 15px;">
-                    <div style="color: var(--green-dark); font-weight: 600;">
+                    <div style="color: var(--or-gold-muted); font-weight: 600;">
                         <i class="fas fa-warehouse" style="color: var(--gold);"></i> Indoor
                     </div>
                     <div style="margin-left: 30px; color: #666; margin-top: 8px;">
@@ -712,7 +721,7 @@
                     </div>
                 </div>
                 <div style="margin-left: 30px; margin-top: 15px;">
-                    <div style="color: var(--green-dark); font-weight: 600;">
+                    <div style="color: var(--or-gold-muted); font-weight: 600;">
                         <i class="fas fa-door-open" style="color: var(--gold);"></i> Greendoor
                     </div>
                     <div style="margin-left: 30px; color: #666; margin-top: 8px;">
@@ -737,7 +746,7 @@
                 <div class="system-card">
                     <div class="system-card-header">
                         <div class="system-card-icon" style="background: var(--gold);">
-                            <i class="fas fa-shield-alt" style="color: var(--white);"></i>
+                            <i class="fas fa-shield-alt" style="color: var(--or-white);"></i>
                         </div>
                         <h3>Accuracy</h3>
                     </div>
@@ -747,7 +756,7 @@
                 <div class="system-card">
                     <div class="system-card-header">
                         <div class="system-card-icon" style="background: var(--gold);">
-                            <i class="fas fa-clock" style="color: var(--white);"></i>
+                            <i class="fas fa-clock" style="color: var(--or-white);"></i>
                         </div>
                         <h3>Real-Time</h3>
                     </div>
@@ -757,7 +766,7 @@
                 <div class="system-card">
                     <div class="system-card-header">
                         <div class="system-card-icon" style="background: var(--gold);">
-                            <i class="fas fa-chart-pie" style="color: var(--white);"></i>
+                            <i class="fas fa-chart-pie" style="color: var(--or-white);"></i>
                         </div>
                         <h3>Visibility</h3>
                     </div>
@@ -767,7 +776,7 @@
                 <div class="system-card">
                     <div class="system-card-header">
                         <div class="system-card-icon" style="background: var(--gold);">
-                            <i class="fas fa-ban" style="color: var(--white);"></i>
+                            <i class="fas fa-ban" style="color: var(--or-white);"></i>
                         </div>
                         <h3>No Overselling</h3>
                     </div>
@@ -779,9 +788,9 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-logo">JIG Craft Cannabis</div>
-        <p>Craft Cannabis | Ormonde Branch</p>
-        <p style="margin-top: 10px; font-size: 0.8rem;">app.jig.cleva-ai.co.za</p>
+        <div class="footer-logo">Origin by ILCO Farming</div>
+        <p>Premium Cannabis Care</p>
+        <p style="margin-top: 10px; font-size: 0.8rem;">origin.cleva-ai.co.za</p>
     </footer>
 </body>
 </html>

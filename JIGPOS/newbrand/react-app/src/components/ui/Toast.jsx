@@ -24,17 +24,17 @@ const icons = {
 };
 
 const bgColors = {
-  success: 'bg-jig-purple',
-  error: 'bg-jig-red-dark',
+  success: 'bg-or-gold',
+  error: 'bg-origin-red-dark',
   warning: 'bg-[#7A6520]',
-  info: 'bg-jig-slate',
+  info: 'bg-origin-slate',
 };
 
 const borderColors = {
-  success: 'border-l-jig-amber',
-  error: 'border-l-jig-red',
-  warning: 'border-l-jig-amber',
-  info: 'border-l-jig-purple',
+  success: 'border-l-or-gold',
+  error: 'border-l-origin-red',
+  warning: 'border-l-or-gold',
+  info: 'border-l-or-gold',
 };
 
 // Single toast item

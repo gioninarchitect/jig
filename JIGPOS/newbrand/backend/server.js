@@ -18,7 +18,7 @@ const swaggerSpec = require('./swagger');
 const app = express();
 app.set('trust proxy', 1); // Trust first proxy (nginx)
 const server = http.createServer(app);
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3001;
 
 // Initialize WebSocket
 const websocket = require('./modules/websocket');
@@ -104,7 +104,7 @@ app.use(helmet({
       ],
       connectSrc: [
         "'self'",
-        "http://localhost:3002", // Development API
+        "http://localhost:3001", // Development API
         "https://api.coingecko.com", // Bitcoin price API
         "https://api.coincap.io", // Bitcoin price fallback
         "https://api.exchangerate-api.com", // USD to ZAR conversion
@@ -114,7 +114,7 @@ app.use(helmet({
         "https://www.instapay.co.za", // InstaPay payment gateway
         "https://api.instapay.co.za", // InstaPay API
         "wss:", // WebSocket connections
-        "ws://localhost:3002" // Development WebSocket
+        "ws://localhost:3001" // Development WebSocket
       ],
       fontSrc: [
         "'self'",
@@ -153,24 +153,22 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
       // Development
-      'http://localhost:3002',
+      'http://localhost:3001',
       'http://localhost:3002',
       'http://localhost:3003',
-      'http://127.0.0.1:3002',
+      'http://127.0.0.1:3001',
       'http://127.0.0.1:3002',
       'http://127.0.0.1:3003',
       'http://localhost:5500', // Live Server
       'http://127.0.0.1:5500',
-      'http://localhost:5173', // P35: Vite React dev server
+      'http://localhost:5173', // Vite React dev server
       'http://127.0.0.1:5173',
-      // JIG Production domains
-      'https://app.jig.cleva-ai.co.za',
-      'http://app.jig.cleva-ai.co.za',
-      'https://jig.cleva-ai.co.za',
-      'http://jig.cleva-ai.co.za',
-      'https://www.jig.cleva-ai.co.za',
-      'http://www.jig.cleva-ai.co.za',
-      // JIG Production IP
+      // Origin Production domains
+      'https://origin.cleva-ai.co.za',
+      'http://origin.cleva-ai.co.za',
+      'https://www.origin.cleva-ai.co.za',
+      'http://www.origin.cleva-ai.co.za',
+      // Production IP
       'http://154.66.197.199',
       'https://154.66.197.199'
     ];
@@ -219,7 +217,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 // API Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: 'Basotho Medical Herbs API Docs',
+  customSiteTitle: 'Origin by ILCO Farming API Docs',
   customfavIcon: '/images/favicon.ico'
 }));
 
@@ -233,7 +231,7 @@ app.get('/api-docs.json', (req, res) => {
 mountRoutes(app);
 
 // MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
 
 mongoose.connect(MONGODB_URI).then(() => {
   logger.info('Connected to MongoDB', { uri: MONGODB_URI.replace(/:[^:]*@/, ':****@') });
@@ -772,7 +770,7 @@ async function seedDatabase() {
   try {
     const productCount = await Product.countDocuments();
     if (productCount === 0) {
-      logger.info('Seeding Basotho Medical Herbs products...');
+      logger.info('Seeding Origin by ILCO Farming products...');
 
       const sampleProducts = [
         // ===== PUBLIC ACCESSORIES (No Section 21 Required) =====
@@ -949,7 +947,7 @@ async function seedDatabase() {
       ];
 
       await Product.insertMany(sampleProducts);
-      logger.info('Basotho Medical Herbs products seeded successfully', { count: sampleProducts.length });
+      logger.info('Origin by ILCO Farming products seeded successfully', { count: sampleProducts.length });
     }
 
     // Admin user is created via seed-test-users.js script

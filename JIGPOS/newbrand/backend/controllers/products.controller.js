@@ -24,8 +24,15 @@ exports.getAll = async (req, res) => {
 
         // Check if user is authenticated (optional auth)
         let isAuthenticated = false;
+
+        // Internal service-to-service key (B2B wholesale proxy)
+        const internalKey = process.env.INTERNAL_API_KEY || 'origin_internal_2026';
+        if (req.headers['x-internal-key'] === internalKey) {
+            isAuthenticated = true;
+        }
+
         const authHeader = req.headers.authorization;
-        if (authHeader && authHeader.startsWith('Bearer ')) {
+        if (!isAuthenticated && authHeader && authHeader.startsWith('Bearer ')) {
             try {
                 const token = authHeader.split(' ')[1];
                 const jwt = require('jsonwebtoken');
@@ -240,7 +247,7 @@ exports.getTemplate = (req, res) => {
         });
     }
 
-    res.download(templatePath, 'dbc-product-upload-template.csv', (err) => {
+    res.download(templatePath, 'origin-product-upload-template.csv', (err) => {
         if (err && !res.headersSent) {
             console.error('Template download error:', err);
             res.status(500).json({

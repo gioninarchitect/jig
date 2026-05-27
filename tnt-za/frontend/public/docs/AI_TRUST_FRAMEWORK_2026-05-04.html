@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ORIGIN · AI Trust Framework · 04 May 2026</title>
+<style>
+  :root {
+    --or-gold:        #C9A84C;
+    --or-gold-bright: #D4B86A;
+    --or-gold-light:  #E8D5A3;
+    --or-gold-deep:   #7A5C1A;
+    --or-black:       #0A0A0A;
+    --or-dark:        #141414;
+    --or-dark-2:      #1C1C1C;
+    --or-dark-3:      #252525;
+    --or-dark-4:      #2E2E2E;
+    --or-white:       #F5F0E8;
+    --or-cream:       #E8E0D0;
+    --or-grey-1:      #C4BBA8;
+    --or-grey-2:      #A89F8C;
+    --or-grey-3:      #6B6458;
+    --or-green:       #4A7C3F;
+    --or-red:         #DC2626;
+    --or-amber:       #D4A030;
+    --serif: 'Cinzel', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--or-black);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.04) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: var(--or-white);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.6;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 820px; margin: 0 auto; padding: 48px 40px 64px; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--or-dark-3);
+    margin-bottom: 32px;
+  }
+  .brandmark {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--serif);
+    letter-spacing: 0.22em; text-transform: uppercase; font-size: 12px;
+    color: var(--or-gold); font-weight: 600;
+  }
+  .brandmark .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--or-gold); box-shadow: 0 0 16px rgba(201,168,76,0.5);
+  }
+  .stamp {
+    font-family: var(--mono);
+    font-size: 10px; color: var(--or-grey-3); text-align: right; line-height: 1.5;
+  }
+  .stamp b { color: var(--or-grey-1); font-weight: 500; }
+
+  h1.hero {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 38px; line-height: 1.15;
+    margin: 24px 0 12px;
+    letter-spacing: 0.005em;
+    color: var(--or-white);
+  }
+  h1.hero .accent {
+    color: var(--or-gold-light);
+    font-style: italic; font-weight: 500;
+    display: block;
+    margin-top: 4px;
+  }
+  .lede {
+    font-size: 15px; max-width: 700px;
+    color: var(--or-grey-1);
+    margin: 0 0 28px;
+    line-height: 1.65;
+  }
+  .lede strong { color: var(--or-white); font-weight: 600; }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 22px; margin: 44px 0 4px;
+    color: var(--or-gold);
+    letter-spacing: 0.01em; font-weight: 600;
+  }
+  h2 .num {
+    color: var(--or-gold-deep);
+    font-family: var(--mono);
+    font-size: 11px; margin-right: 14px; vertical-align: 4px;
+    letter-spacing: 0.06em; font-weight: 500;
+  }
+  h2 + .sub {
+    color: var(--or-grey-3); font-size: 12px;
+    border-bottom: 1px solid var(--or-dark-3);
+    padding-bottom: 14px; margin-bottom: 20px;
+    font-style: italic;
+  }
+  h3 { font-size: 14px; margin: 22px 0 8px; color: var(--or-gold-light); font-weight: 600; }
+  p { margin: 8px 0 12px; color: var(--or-grey-1); }
+  p strong { color: var(--or-white); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 11.5px;
+    background: rgba(201,168,76,0.08); color: var(--or-gold-light);
+    padding: 2px 6px; border-radius: 3px;
+  }
+
+  /* Layer cards */
+  .layer {
+    display: grid; grid-template-columns: 40px 1fr; gap: 14px;
+    border: 1px solid var(--or-dark-3); border-left: 3px solid var(--or-gold);
+    border-radius: 6px; padding: 14px 16px;
+    margin-bottom: 8px;
+    background: var(--or-dark);
+    break-inside: avoid;
+  }
+  .layer .num {
+    font-family: var(--mono); font-size: 18px;
+    color: var(--or-gold); font-weight: 700; line-height: 1.2;
+  }
+  .layer h4 {
+    margin: 0 0 4px; font-size: 13.5px; font-weight: 600;
+    color: var(--or-white); font-family: var(--sans);
+  }
+  .layer p { margin: 0; font-size: 12.5px; color: var(--or-grey-2); }
+  .layer .pill {
+    margin-left: 8px;
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.1em; padding: 2px 8px; border-radius: 999px;
+    text-transform: uppercase; font-weight: 600;
+    background: rgba(74,124,63,0.18); color: #7BB87A;
+    vertical-align: 1px;
+  }
+  .layer .pill.muted { background: var(--or-dark-3); color: var(--or-grey-2); }
+
+  /* Talk Q&A */
+  .talk {
+    border: 1px solid var(--or-dark-3); border-radius: 6px;
+    padding: 14px 18px; margin: 8px 0 10px;
+    background: var(--or-dark); break-inside: avoid;
+  }
+  .talk .q {
+    color: var(--or-gold); font-weight: 600;
+    font-size: 13px; margin-bottom: 6px;
+    font-family: var(--serif); letter-spacing: 0.005em;
+  }
+  .talk .a { color: var(--or-grey-1); font-size: 13px; line-height: 1.6; }
+  .talk .a strong { color: var(--or-white); }
+
+  /* Don't claim panel */
+  .donts {
+    background: rgba(220,38,38,0.06);
+    border: 1px solid rgba(220,38,38,0.25);
+    border-radius: 6px; padding: 14px 18px;
+    margin: 12px 0; break-inside: avoid;
+  }
+  .donts p { margin: 6px 0; color: var(--or-grey-1); }
+  .donts .x {
+    color: var(--or-red); font-weight: 700; margin-right: 8px;
+    font-family: var(--mono);
+  }
+  .donts strong { color: var(--or-white); }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 12.5px; }
+  table th, table td {
+    text-align: left; padding: 10px 12px;
+    border-bottom: 1px solid var(--or-dark-3); vertical-align: top;
+    color: var(--or-grey-1);
+  }
+  table th {
+    color: var(--or-gold); font-weight: 600;
+    font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    border-bottom: 1px solid var(--or-gold-deep);
+    font-family: var(--serif);
+  }
+  table td.b { font-weight: 600; color: var(--or-white); }
+
+  /* Demo block — CRITICAL: white-space: pre preserves the ASCII art */
+  .demo {
+    background: #050505;
+    color: var(--or-grey-1);
+    border: 1px solid var(--or-dark-3); border-radius: 6px;
+    padding: 16px 18px;
+    font-family: var(--mono); font-size: 11.5px;
+    line-height: 1.55;
+    margin: 10px 0;
+    overflow-x: auto;
+    white-space: pre;
+    tab-size: 2;
+    break-inside: avoid;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+  }
+  .demo .green { color: #7BB87A; }
+  .demo .gold { color: var(--or-gold-light); }
+  .demo .red { color: #FF6B5C; }
+  .demo .muted { color: var(--or-grey-3); }
+  .demo .white { color: var(--or-white); }
+
+  /* Closer — structured for "read verbatim in the meeting" */
+  .closer {
+    border-left: 3px solid var(--or-gold);
+    padding: 22px 26px; margin: 18px 0;
+    color: var(--or-cream);
+    background: var(--or-dark); border-radius: 6px;
+    break-inside: avoid;
+    font-family: var(--sans);
+  }
+  .closer .lead {
+    font-family: var(--serif);
+    font-size: 16px; color: var(--or-gold-light);
+    font-style: italic; font-weight: 500;
+    margin: 0 0 14px;
+    line-height: 1.5;
+  }
+  .closer ol {
+    margin: 0 0 14px; padding-left: 22px;
+    counter-reset: closer;
+  }
+  .closer ol li {
+    margin: 8px 0; font-size: 14px;
+    line-height: 1.65; color: var(--or-cream);
+  }
+  .closer ol li strong {
+    color: var(--or-gold-light); font-weight: 600;
+  }
+  .closer .punch {
+    margin: 16px 0 0; padding-top: 14px;
+    border-top: 1px solid var(--or-dark-3);
+    font-family: var(--serif); font-style: italic; font-weight: 500;
+    font-size: 16px; color: var(--or-gold);
+    text-align: center; letter-spacing: 0.005em;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 44px; padding-top: 18px;
+    border-top: 1px solid var(--or-dark-3);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--or-grey-3); font-family: var(--mono);
+  }
+  .footer .seal { color: var(--or-gold); font-weight: 600; }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    html, body {
+      background: var(--or-black) !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body { font-size: 11.5px; line-height: 1.5; }
+    .page { padding: 12mm 10mm; max-width: none; margin: 0; background: transparent; }
+    .topbar { padding-bottom: 10px; margin-bottom: 14px; }
+    h1.hero { font-size: 22px; margin: 6px 0 6px; line-height: 1.18; }
+    h1.hero .accent { font-size: 17px; margin-top: 2px; }
+    .lede { font-size: 11.5px; margin-bottom: 12px; max-width: none; }
+    h2 {
+      font-size: 16px; margin: 0 0 2px;
+      break-after: avoid; page-break-after: avoid;
+      break-before: page; page-break-before: always;
+    }
+    h2.no-break { break-before: auto; page-break-before: auto; }
+    h2 + .sub { font-size: 10px; padding-bottom: 8px; margin-bottom: 12px; }
+    .demo, .layer, .talk, .donts, .closer, table {
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    .page-break { page-break-before: always; }
+    .footer { margin-top: 18px; font-size: 8.5px; padding-top: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brandmark">
+      <span class="dot"></span>
+      ORIGIN <span style="color:var(--or-gold-deep);opacity:.8">·</span> by ILCO Farming
+    </div>
+    <div class="stamp">
+      <div><b>AI TRUST FRAMEWORK</b></div>
+      <div>For the regulator, the auditor, the room</div>
+      <div>04 May 2026 · v1.0</div>
+    </div>
+  </header>
+
+  <h1 class="hero">
+    Why we trust the AI <span class="accent">— and why a SAHPRA inspector should too.</span>
+  </h1>
+
+  <p class="lede">
+    The honest answer: <strong>AI can hallucinate, so we built the system assuming it does.</strong>
+    Every layer assumes the AI might be wrong, and every regulated artefact passes a 3-person sign-off
+    chain before it counts. The AI accelerates the work; the named humans on the licence stay accountable.
+  </p>
+
+  <h2><span class="num">01</span>How we tell fake from real</h2>
+  <div class="sub">Every AI output is visibly marked, separately stored, and signature-gated.</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:32%">Asked</th>
+        <th>What the system shows you</th>
+        <th style="width:24%">Where it lives</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="b">Is this section the real SMF yet?</td>
+        <td>A green <code>AR_APPROVED</code> badge plus RP/DAR/AR signatures dated. Anything else is provisional. AR-approved sections are frozen as a <code>SMFSectionVersion</code> snapshot.</td>
+        <td>Status badge on every section</td>
+      </tr>
+      <tr>
+        <td class="b">Is this AI-generated?</td>
+        <td>A bold red <strong>"AI-GENERATED · NOT YET APPROVED"</strong> banner with red border. Lives in a separate <code>composedDraft</code> field — never in the canonical <code>bodyText</code> until a human clicks Apply (which resets the entire 3-stage sign-off chain).</td>
+        <td>SMF section modal · only when draft exists</td>
+      </tr>
+      <tr>
+        <td class="b">Is this number the AI made up?</td>
+        <td>Below every chat reply, a <strong>"Grounded in live data"</strong> footer lists the exact DB facts that fed the answer (e.g. <em>50 plants · 2 active batches · 1 open ticket · 56 SMF drafts · 2 approved sections</em>).</td>
+        <td>Floating chat panel (every dashboard)</td>
+      </tr>
+      <tr>
+        <td class="b">Was this ticket created by the system?</td>
+        <td>Tickets carry a <code>ticketType</code> tag — <code>SMF_DRIFT</code> means raised by the deterministic drift daemon; <code>ISSUE</code> means a human created it; <code>RP_SIGNOFF</code> requires regulatory action.</td>
+        <td>Ticket card + filters</td>
+      </tr>
+      <tr>
+        <td class="b">Who actually clicked sign?</td>
+        <td>Every audit row carries <code>userId</code> (real actor) AND <code>ghostAsUserId</code> (when an owner was viewing-as someone else). Hash-chained — tampering breaks the chain on next verify.</td>
+        <td>AuditLog table + /audit/ghost</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="num">02</span>The 7-layer defence</h2>
+  <div class="sub">Every layer is live and verifiable in browser tonight.</div>
+
+  <div class="layer">
+    <div class="num">1</div>
+    <div>
+      <h4>Grounded context, not free generation <span class="pill">live</span></h4>
+      <p>Each agent receives a live DB digest as its only context. System prompt explicitly forbids invention: <em>"Do not invent facts. If the bundle doesn't support a claim, do not make it."</em></p>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="num">2</div>
+    <div>
+      <h4>Anti-fabrication system prompts <span class="pill">live</span></h4>
+      <p>Composer ends with explicit <em>"Outstanding: &lt;list of fields the RP still needs to gather&gt;"</em> when data is thin — uncertainty is visible, not hidden.</p>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="num">3</div>
+    <div>
+      <h4>Read-only architecture <span class="pill">live</span></h4>
+      <p>No AI agent can mutate the database. Composer drafts go to a separate field. Concierge briefs are informational. Chat is read-only. Mutations require explicit human action with role-gated buttons.</p>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="num">4</div>
+    <div>
+      <h4>Three-person sign-off on every regulated artefact <span class="pill">live</span></h4>
+      <p>RP (Berne) → DAR (Coenie) → AR (Ilse). Each name recorded with timestamp. AR approval freezes a versioned snapshot for the regulator PDF. If the AI hallucinated, RP catches it; DAR is the second gate; AR is the third.</p>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="num">5</div>
+    <div>
+      <h4>Hash-chained AuditLog (operational actions) <span class="pill">live</span></h4>
+      <p>Every operational action — by human, by system, by ghost actor — chained via SHA-256. <code>verifyHashChain()</code> exists; tampering breaks the chain on next verification.</p>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="num">6</div>
+    <div>
+      <h4>Hash-chained AICall log (every AI call) <span class="pill">live</span></h4>
+      <p>Every Claude API call is logged: prompt, response, model, sources used, token usage, real actor + ghost target. Hash-chained. SAHPRA can pull this and reproduce any AI-generated artefact byte-for-byte.</p>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="num">7</div>
+    <div>
+      <h4>Visible provenance — UI never hides AI involvement <span class="pill">live</span></h4>
+      <p>Sources footer in chat. Red watermark on AI drafts. Adaptive-thinking summary toggle on Concierge brief. The user always knows when an AI touched it and what it saw.</p>
+    </div>
+  </div>
+
+  <h2><span class="num">03</span>Live evidence — three things to click</h2>
+  <div class="sub">Run these in the browser to demonstrate, not just describe.</div>
+
+  <h3>1 · Open the chat (bottom-right bubble) and ask anything</h3>
+<div class="demo"><span class="muted"># Ask: "What's overdue right now?"</span>
+
+<span class="green">Reply:</span> The single open ticket is the SMF C.3.1 drift flag,
+       priority HIGH, age 11 hours. Renae owns the floor-plan
+       refresh; Berne re-signs after applying the AI redraft.
+
+<span class="gold">Grounded in live data</span>
+50 <span class="muted">plants</span> · 2 <span class="muted">active batches</span> · 1 <span class="muted">open ticket</span>
+{AR_APPROVED:2, DRAFT:56} <span class="muted">smf sections by status</span>
+1 <span class="muted">smf stale</span> · 11 <span class="muted">key personnel</span>
+2222222 <span class="muted">licence</span> · 263 <span class="muted">days to expiry</span></div>
+
+  <h3>2 · Open SMF → any signed section → click "Draft with AI"</h3>
+<div class="demo"><span class="red">┌──────────────────────────────────────────────────────────┐
+│ AI-GENERATED  ·  NOT YET APPROVED                        │
+│ Opus 4.7 proposal · review carefully before applying     │
+│ all 3 sign-offs reset on Apply  ·  drafted 14:38 today   │
+└──────────────────────────────────────────────────────────┘</span>
+
+The IF facility, operated by ILCO Farms at Hardus Farm,
+Viljoenskroon, comprises a single contiguous site dedicated
+to medicinal cannabis cultivation and primary processing...
+
+<span class="muted">[ Apply (resets sign-off chain) ]   [ Discard ]</span></div>
+
+  <h3>3 · Query the AICall audit table</h3>
+<div class="demo">$ <span class="green">psql -d tntza -c "SELECT agent, model, \"durationMs\",
+                       \"outputTokens\", LEFT(\"hashChain\",12)
+                       FROM \"AICall\" ORDER BY timestamp DESC LIMIT 5;"</span>
+
+agent       | model              | durationMs | outputTokens | hashChain
+------------+--------------------+------------+--------------+--------------
+GENERAL_OPS | claude-sonnet-4-6  |       6800 |          412 | 2b798e5fb72e
+MAESTRO     | claude-haiku-4-5   |        920 |           38 | a50b96dd0581
+CONCIERGE   | claude-opus-4-7    |      15700 |          776 | 7c9e4f1a2b03
+COMPOSER    | claude-opus-4-7    |      14200 |          776 | 5d8c2a1f9e4b
+
+<span class="muted">→ Inspector says: "Show me the C.3.1 redraft from Tuesday."
+   We replay the row: who, what model, what data, what came back.</span></div>
+
+  <div class="page-break"></div>
+  <h2><span class="num">04</span>Talking points for the meeting</h2>
+  <div class="sub">When asked the hard question, give these in order.</div>
+
+  <div class="talk">
+    <div class="q">"How do you know the AI isn't lying?"</div>
+    <div class="a">It can't write to the regulated record. Every AI output is a <em>proposal</em>. Three humans must sign off — RP (Berne), DAR (Coenie), AR (Ilse) — before anything becomes the SMF.</div>
+  </div>
+
+  <div class="talk">
+    <div class="q">"How do you know it isn't making numbers up?"</div>
+    <div class="a">It only sees real data, not training data. We feed each agent a live snapshot from the actual database, and the system prompt explicitly forbids fabrication. The chat shows the exact facts that grounded each answer.</div>
+  </div>
+
+  <div class="talk">
+    <div class="q">"Can you reproduce a decision later if SAHPRA asks?"</div>
+    <div class="a">Every AI call is logged with prompt, response, sources, model, token usage, hash chain. We can replay any answer the AI gave on any day, byte-for-byte, and show what data fed it.</div>
+  </div>
+
+  <div class="talk">
+    <div class="q">"What if the AI says we're compliant and we're not?"</div>
+    <div class="a">It doesn't make compliance claims. The AI <em>proposes draft text</em>, the RP <em>verifies and signs</em>, the DAR <em>verifies and signs</em>, the AR <em>approves and freezes the snapshot</em>. The signature is the truth, not the AI text.</div>
+  </div>
+
+  <div class="talk">
+    <div class="q">"Who is accountable when the AI is wrong?"</div>
+    <div class="a">The named human signatories on the regulated artefact. Berne for clinical / SMF content; Ilse + Coenie for owner-level decisions; Renae for facility ops. The AI accelerates the work; the licences they hold carry the accountability.</div>
+  </div>
+
+  <div class="talk">
+    <div class="q">"What stops a staff member trusting the AI blindly?"</div>
+    <div class="a">Every AI-generated draft has a bold red "AI-GENERATED · NOT YET APPROVED" banner. Sources visible below every chat answer. Status badges show DRAFT vs RP_SIGNED vs AR_APPROVED. There is no UI surface where AI text is presented as an established fact.</div>
+  </div>
+
+  <h2><span class="num">05</span>What we explicitly do <span style="color:var(--or-red)">not</span> claim</h2>
+  <div class="sub">If anyone tries to put these words in your mouth, push back.</div>
+
+  <div class="donts">
+    <p><span class="x">✗</span><strong>"The AI never hallucinates."</strong> It can. We assume it does. The 7 layers are designed for that reality.</p>
+    <p><span class="x">✗</span><strong>"The AI replaces the RP."</strong> It assists. RP signs. The signature is what counts to SAHPRA.</p>
+    <p><span class="x">✗</span><strong>"The AI is bound by SAHPRA regulations."</strong> Models don't have legal awareness — humans do. The AI has prompts about regulatory tone; legal compliance is the RP's signature.</p>
+    <p><span class="x">✗</span><strong>"The system is autonomous."</strong> Every regulated action requires a named human signatory. There is no auto-publish path.</p>
+    <p><span class="x">✗</span><strong>"Drift catches every event."</strong> 16 specific event types covered. Comprehensive but not omniscient.</p>
+  </div>
+
+  <h2><span class="num">06</span>Footprint &amp; cost</h2>
+  <div class="sub">For the budget question, before it's asked.</div>
+
+  <table>
+    <thead>
+      <tr><th>Component</th><th>Per call</th><th>Indicative monthly</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="b">Owner Concierge (Opus 4.7)</td><td>~R8 per brief</td><td>~R600 (assumes daily generation)</td></tr>
+      <tr><td class="b">SMF Composer (Opus 4.7)</td><td>~R6 per draft</td><td>~R400 (5–10 redrafts/month)</td></tr>
+      <tr><td class="b">Maestro router (Haiku 4.5)</td><td>~R0.005 per message</td><td>~R30</td></tr>
+      <tr><td class="b">General Ops chat (Sonnet 4.6)</td><td>~R0.50 per question</td><td>~R200–R600 (usage-driven)</td></tr>
+      <tr><td class="b">AICall + audit logging</td><td>~3–15KB DB write each</td><td>negligible</td></tr>
+      <tr><th colspan="2" style="text-align:right; color:var(--or-gold-light);">Total at expected volume</th><th style="color:var(--or-gold);">~R1,300–R1,700/month</th></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="num">07</span>The honest closer</h2>
+  <div class="sub">Read this verbatim if you have the floor for sixty seconds.</div>
+
+  <div class="closer">
+    <p class="lead">From day one, we assumed the AI might be wrong. So we built four hard answers into the system itself.</p>
+
+    <ol>
+      <li><strong>It cannot write to the regulated record.</strong> Every AI output is a proposal that lands in front of a named human — Berne for SMF sections, Ilse for owner decisions, Renae for facility calls.</li>
+
+      <li><strong>The audit log records everything.</strong> What the AI saw, what it said, who looked at it, who approved it. All hash-chained. All replayable.</li>
+
+      <li><strong>If SAHPRA asks "how was C.3.5 written?"</strong> we show them the original PDF excerpt, the live data digest the AI received, the model output, the RP's review note, the DAR's verification, and the AR's signature — all timestamped and tamper-evident.</li>
+
+      <li><strong>The accountability stays with the people who hold the licences.</strong> The AI accelerates the work. The signature is what counts.</li>
+    </ol>
+
+    <p class="punch">AI accelerates. Humans remain accountable.</p>
+  </div>
+
+  <div class="footer">
+    <div>ORIGIN · by ILCO Farming · TnT-ZA · Confidential</div>
+    <div class="seal">04 May 2026 · v1.0</div>
+  </div>
+
+</div>
+</body>
+</html>

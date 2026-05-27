@@ -26,7 +26,7 @@ export default function ShiftManager({ shift, onBreak, onClockIn, onClockOut, on
       <button
         onClick={shift ? onClockOut : onClockIn}
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
-          shift ? 'bg-jig-purple text-white' : 'bg-jig-amber text-white'
+          shift ? 'bg-or-gold text-white' : 'bg-or-gold text-white'
         }`}
         title={shift ? 'Clock Out' : 'Clock In'}
       >
@@ -46,7 +46,7 @@ export default function ShiftManager({ shift, onBreak, onClockIn, onClockOut, on
         <button
           onClick={onToggleBreak}
           className={`p-1.5 rounded-lg text-xs transition-colors ${
-            onBreak ? 'bg-jig-amber text-white' : 'bg-white/15 text-white/70 hover:bg-white/25'
+            onBreak ? 'bg-or-gold text-white' : 'bg-white/15 text-white/70 hover:bg-white/25'
           }`}
           title={onBreak ? 'End Break' : 'Take Break'}
         >

@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collection Points - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <title>Collection Points - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -45,7 +54,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -54,13 +63,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -71,8 +80,8 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             line-height: 1.6;
         }
 
@@ -81,7 +90,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 16px 5%;
             display: flex;
             justify-content: space-between;
@@ -91,11 +100,11 @@
         }
 
         .logo {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 24px;
             font-weight: 700;
             letter-spacing: 1px;
-            color: var(--white);
+            color: var(--or-white);
             text-transform: uppercase;
         }
 
@@ -110,7 +119,7 @@
         }
 
         .nav-links a {
-            color: var(--white);
+            color: var(--or-white);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -134,7 +143,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 30% 20%, rgba(217, 119, 6,0.15) 0%, transparent 50%);
+            background: radial-gradient(ellipse at 30% 20%, rgba(240, 165, 0,0.15) 0%, transparent 50%);
             pointer-events: none;
         }
 
@@ -144,17 +153,17 @@
         }
 
         .hero h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 56px;
             font-weight: 700;
-            color: var(--white);
+            color: var(--or-white);
             text-transform: uppercase;
             letter-spacing: 0.02em;
             margin-bottom: 16px;
         }
 
         .hero p {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 20px;
             color: rgba(255,255,255,0.85);
             max-width: 600px;
@@ -164,7 +173,7 @@
         .hero .badge {
             display: inline-block;
             background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            color: var(--white);
+            color: var(--or-white);
             padding: 8px 20px;
             border-radius: 25px;
             font-size: 14px;
@@ -182,7 +191,7 @@
         .search-container input {
             width: 100%;
             padding: 16px 50px 16px 24px;
-            background: var(--white);
+            background: var(--or-white);
             border: 2px solid var(--gray-200);
             border-radius: 12px;
             color: var(--gray-700);
@@ -193,11 +202,11 @@
         .search-container input:focus {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(217, 119, 6,0.2);
+            box-shadow: 0 0 0 4px rgba(240, 165, 0,0.2);
         }
 
         .search-container input::placeholder {
-            color: var(--gray-500);
+            color: var(--or-grey-2);
         }
 
         .search-container i {
@@ -205,7 +214,7 @@
             right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* Locations Section */
@@ -223,7 +232,7 @@
 
         .province-filter h3 {
             font-size: 16px;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 16px;
             font-weight: 600;
         }
@@ -237,7 +246,7 @@
 
         .filter-btn {
             padding: 10px 20px;
-            background: var(--white);
+            background: var(--or-white);
             border: 2px solid var(--gray-200);
             border-radius: 8px;
             font-size: 14px;
@@ -248,9 +257,9 @@
         }
 
         .filter-btn:hover, .filter-btn.active {
-            background: var(--green);
-            border-color: var(--purple);
-            color: var(--white);
+            background: var(--or-gold);
+            border-color: var(--or-gold);
+            color: var(--or-white);
         }
 
         /* Locations Grid */
@@ -261,7 +270,7 @@
         }
 
         .location-card {
-            background: var(--white);
+            background: var(--or-white);
             border: 2px solid var(--gray-200);
             border-radius: 16px;
             padding: 28px;
@@ -270,13 +279,13 @@
 
         .location-card:hover {
             transform: translateY(-5px);
-            border-color: var(--purple);
+            border-color: var(--or-gold);
             box-shadow: var(--shadow-green);
         }
 
         .location-card.flagship {
             border-color: var(--gold);
-            background: linear-gradient(135deg, var(--white) 0%, rgba(217, 119, 6,0.05) 100%);
+            background: linear-gradient(135deg, var(--or-white) 0%, rgba(240, 165, 0,0.05) 100%);
         }
 
         .location-header {
@@ -287,34 +296,34 @@
         }
 
         .location-name {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 26px;
             font-weight: 700;
-            color: var(--white);
+            color: var(--or-white);
             text-transform: uppercase;
             letter-spacing: 0.02em;
         }
 
         .location-subtitle {
             font-size: 13px;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             margin-top: 4px;
         }
 
         .location-type {
             display: inline-block;
-            background: rgba(124, 58, 237, 0.1);
+            background: rgba(63, 192, 65, 0.1);
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
         }
 
         .location-type.hq {
             background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .location-status {
@@ -322,7 +331,7 @@
             align-items: center;
             gap: 8px;
             font-size: 13px;
-            color: var(--purple);
+            color: var(--or-gold);
             font-weight: 500;
         }
 
@@ -330,7 +339,7 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--green);
+            background: var(--or-gold);
             animation: pulse 2s infinite;
         }
 
@@ -353,7 +362,7 @@
         }
 
         .info-row i {
-            color: var(--purple);
+            color: var(--or-gold);
             width: 18px;
             flex-shrink: 0;
             margin-top: 2px;
@@ -379,19 +388,19 @@
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 10px;
-            color: var(--white);
+            color: var(--or-white);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .location-hours h4 i {
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .hours-list {
             font-size: 13px;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
         }
 
         .hours-list div {
@@ -423,8 +432,8 @@
         }
 
         .btn-primary {
-            background: var(--green);
-            color: var(--white);
+            background: var(--or-gold);
+            color: var(--or-white);
         }
 
         .btn-primary:hover {
@@ -434,35 +443,35 @@
 
         .btn-secondary {
             background: transparent;
-            color: var(--purple);
+            color: var(--or-gold);
             border: 2px solid var(--green);
         }
 
         .btn-secondary:hover {
-            background: var(--green);
-            color: var(--white);
+            background: var(--or-gold);
+            color: var(--or-white);
         }
 
         /* CTA Section */
         .cta-section {
             margin-top: 60px;
             text-align: center;
-            background: var(--white);
+            background: var(--or-white);
             padding: 50px 40px;
             border-radius: 20px;
             border: 2px solid var(--gray-200);
         }
 
         .cta-section h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 36px;
-            color: var(--white);
+            color: var(--or-white);
             text-transform: uppercase;
             margin-bottom: 16px;
         }
 
         .cta-section p {
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             max-width: 500px;
             margin: 0 auto 30px;
             font-size: 16px;
@@ -494,7 +503,7 @@
 
         footer .tagline {
             color: var(--gold);
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
         }
 
@@ -533,7 +542,7 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="logo">De Bud <span>Chef</span></div>
+        <div class="logo">Origin <span>Cannabis</span></div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
@@ -548,7 +557,7 @@
         <div class="hero-content">
             <span class="badge">8 Locations Across SA</span>
             <h1>Our Collection Points</h1>
-            <p>Find a JIG Craft Cannabis collection point near you. Premium cannabis wellness products across Gauteng, North West, and Free State.</p>
+            <p>Find a Origin by ILCO Farming collection point near you. Premium cannabis wellness products across Gauteng, North West, and Free State.</p>
             <div class="search-container">
                 <input type="text" id="locationSearch" placeholder="Search by city, area, or province..." onkeyup="filterLocations()">
                 <i class="fas fa-search"></i>
@@ -571,11 +580,11 @@
 
         <!-- Locations Grid -->
         <div class="locations-grid" id="locationsGrid">
-            <!-- Ormonde HQ - Warehouse & Section 21 -->
-            <div class="location-card flagship" data-name="Ormonde HQ" data-area="Ormonde Johannesburg South Gauteng">
+            <!-- Potchefstroom HQ - Warehouse & Section 21 -->
+            <div class="location-card flagship" data-name="Potchefstroom HQ" data-area="Potchefstroom Johannesburg South Gauteng">
                 <div class="location-header">
                     <div>
-                        <div class="location-name">Ormonde HQ</div>
+                        <div class="location-name">Potchefstroom HQ</div>
                         <div class="location-subtitle">Johannesburg South, Gauteng</div>
                     </div>
                     <span class="location-type hq">HQ + Section 21</span>
@@ -583,7 +592,7 @@
                 <div class="location-info">
                     <div class="info-row">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>123 Main Road, Ormonde, Johannesburg South, 2091</span>
+                        <span>123 Main Road, Potchefstroom, Johannesburg South, 2091</span>
                     </div>
                     <div class="info-row">
                         <i class="fas fa-phone"></i>
@@ -591,7 +600,7 @@
                     </div>
                     <div class="info-row">
                         <i class="fas fa-envelope"></i>
-                        <span>ormonde@jig.cleva-ai.co.za</span>
+                        <span>potchefstroom@cleva-ai.co.za</span>
                     </div>
                     <div class="info-row medical">
                         <i class="fas fa-prescription-bottle-medical"></i>
@@ -606,7 +615,7 @@
                     </div>
                 </div>
                 <div class="location-actions">
-                    <a href="https://maps.google.com/?q=Ormonde+Johannesburg+South" target="_blank" class="btn btn-primary">
+                    <a href="https://maps.google.com/?q=Potchefstroom+Johannesburg+South" target="_blank" class="btn btn-primary">
                         <i class="fas fa-directions"></i> Get Directions
                     </a>
                     <a href="tel:+27111234567" class="btn btn-secondary">
@@ -635,7 +644,7 @@
                     </div>
                     <div class="info-row">
                         <i class="fas fa-envelope"></i>
-                        <span>spruitview@jig.cleva-ai.co.za</span>
+                        <span>spruitview@cleva-ai.co.za</span>
                     </div>
                 </div>
                 <div class="location-hours">
@@ -675,7 +684,7 @@
                     </div>
                     <div class="info-row">
                         <i class="fas fa-envelope"></i>
-                        <span>rustenburg@jig.cleva-ai.co.za</span>
+                        <span>rustenburg@cleva-ai.co.za</span>
                     </div>
                 </div>
                 <div class="location-hours">
@@ -715,7 +724,7 @@
                     </div>
                     <div class="info-row">
                         <i class="fas fa-envelope"></i>
-                        <span>klerksdorp@jig.cleva-ai.co.za</span>
+                        <span>klerksdorp@cleva-ai.co.za</span>
                     </div>
                 </div>
                 <div class="location-hours">
@@ -755,7 +764,7 @@
                     </div>
                     <div class="info-row">
                         <i class="fas fa-envelope"></i>
-                        <span>mayfair@jig.cleva-ai.co.za</span>
+                        <span>mayfair@cleva-ai.co.za</span>
                     </div>
                 </div>
                 <div class="location-hours">
@@ -795,7 +804,7 @@
                     </div>
                     <div class="info-row">
                         <i class="fas fa-envelope"></i>
-                        <span>ladybrand@jig.cleva-ai.co.za</span>
+                        <span>ladybrand@cleva-ai.co.za</span>
                     </div>
                 </div>
                 <div class="location-hours">
@@ -835,7 +844,7 @@
                     </div>
                     <div class="info-row">
                         <i class="fas fa-envelope"></i>
-                        <span>ficksburg@jig.cleva-ai.co.za</span>
+                        <span>ficksburg@cleva-ai.co.za</span>
                     </div>
                 </div>
                 <div class="location-hours">
@@ -875,7 +884,7 @@
                     </div>
                     <div class="info-row">
                         <i class="fas fa-envelope"></i>
-                        <span>wonderboom@jig.cleva-ai.co.za</span>
+                        <span>wonderboom@cleva-ai.co.za</span>
                     </div>
                 </div>
                 <div class="location-hours">
@@ -899,7 +908,7 @@
         <!-- CTA Section -->
         <div class="cta-section">
             <h2>Expand With Us</h2>
-            <p>Interested in becoming a JIG Craft Cannabis driver or opening a franchise collection point? Join our growing network across South Africa.</p>
+            <p>Interested in becoming a Origin by ILCO Farming driver or opening a franchise collection point? Join our growing network across South Africa.</p>
             <div class="cta-buttons">
                 <a href="contact.html?interest=driver" class="btn btn-primary">
                     <i class="fas fa-truck"></i> Become a Driver
@@ -913,7 +922,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 JIG Craft Cannabis. All rights reserved. | <span class="tagline">Craft Cannabis</span></p>
+        <p>&copy; 2026 Origin by ILCO Farming. All rights reserved. | <span class="tagline">Premium Cannabis Care</span></p>
     </footer>
 
     <script>

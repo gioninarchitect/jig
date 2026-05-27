@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Express Middleware
+ * PureGro Premium Cannabis Care - Express Middleware
  *
  * - JWT authentication middleware
  * - Rate limiter for OTP requests

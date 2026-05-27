@@ -64,7 +64,7 @@ async function create(req, res) {
         }
 
         // Get HQ/main branch as source (or user's branch)
-        const hqBranch = await Branch.findOne({ branchCode: 'ORM' }); // Ormonde HQ
+        const hqBranch = await Branch.findOne({ branchCode: 'ORM' }); // Potchefstroom HQ
         if (!hqBranch) {
             return res.status(400).json({ success: false, message: 'Source branch not found' });
         }
@@ -347,6 +347,7 @@ async function quickReceive(req, res) {
                 balanceBefore: balanceBefore,
                 balanceAfter: newQty,
                 reference: `QR-${Date.now()}`,
+                lotId: item.lotId || null,
                 notes: notes || 'Quick receive',
                 performedBy: req.user.id,
                 timestamp: new Date()
@@ -356,6 +357,7 @@ async function quickReceive(req, res) {
             results.push({
                 productId: item.productId,
                 quantityAdded: item.quantity,
+                lotId: item.lotId || null,
                 newBalance: newQty
             });
         }
@@ -371,6 +373,42 @@ async function quickReceive(req, res) {
     }
 }
 
+// POST /:id/approve - Owner approves a pending transfer
+async function approve(req, res) {
+    try {
+        const transfer = await InterBranchTransfer.findById(req.params.id);
+        if (!transfer) {
+            return res.status(404).json({ success: false, message: 'Transfer not found' });
+        }
+        if (transfer.status !== 'pending') {
+            return res.status(400).json({ success: false, message: 'Only pending transfers can be approved' });
+        }
+        await transfer.approve(req.user.id, req.body.notes || '');
+        res.json({ success: true, message: 'Transfer approved' });
+    } catch (error) {
+        console.error('Error approving transfer:', error);
+        res.status(500).json({ success: false, message: 'Failed to approve transfer' });
+    }
+}
+
+// POST /:id/reject - Owner rejects a pending transfer
+async function reject(req, res) {
+    try {
+        const transfer = await InterBranchTransfer.findById(req.params.id);
+        if (!transfer) {
+            return res.status(404).json({ success: false, message: 'Transfer not found' });
+        }
+        if (transfer.status !== 'pending') {
+            return res.status(400).json({ success: false, message: 'Only pending transfers can be rejected' });
+        }
+        await transfer.reject(req.user.id, req.body.reason || 'Rejected');
+        res.json({ success: true, message: 'Transfer rejected' });
+    } catch (error) {
+        console.error('Error rejecting transfer:', error);
+        res.status(500).json({ success: false, message: 'Failed to reject transfer' });
+    }
+}
+
 module.exports = {
     getAll,
     create,
@@ -378,5 +416,7 @@ module.exports = {
     markDelivered,
     cancel,
     getById,
-    quickReceive
+    quickReceive,
+    approve,
+    reject
 };

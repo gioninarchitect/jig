@@ -3,7 +3,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '../../.env') }
 const mongoose = require('mongoose');
 const Product = require('../modules/database/models/Product');
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
 
 const newProducts = [
   {

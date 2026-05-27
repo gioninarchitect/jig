@@ -22,7 +22,7 @@ class OfflineManager {
     // Register service worker
     if ('serviceWorker' in navigator) {
       try {
-        const registration = await navigator.serviceWorker.register('/sw.js');
+        const registration = await navigator.serviceWorker.register('sw.js');
         console.log('[Offline] Service worker registered:', registration.scope);
 
         // Listen for sync completion messages
@@ -42,7 +42,7 @@ class OfflineManager {
 
   openDB() {
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open('JIGOffline', 1);
+      const request = indexedDB.open('OriginOffline', 1);
 
       request.onerror = () => reject(request.error);
       request.onsuccess = () => resolve(request.result);
@@ -134,7 +134,7 @@ class OfflineManager {
 
     for (const sale of pending) {
       try {
-        const response = await fetch('/api/v1/pos/sale/offline-sync', {
+        const response = await fetch(`${API_URL}/pos/sale/offline-sync`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(sale)

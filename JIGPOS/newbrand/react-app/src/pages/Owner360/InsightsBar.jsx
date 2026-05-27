@@ -1,13 +1,13 @@
 // P22 — Cross-Branch Insights Bar for 360View
 // Uses World Model cross-branch intelligence to surface actionable insights
 
-import { useDBCWorldModel } from '../../world-model/WorldModelContext';
+import { useOriginWorldModel } from '../../world-model/WorldModelContext';
 
 const SEVERITY_STYLES = {
   low: 'border-l-blue-400 bg-blue-50 text-blue-800',
-  medium: 'border-l-jig-amber bg-jig-amber/10 text-jig-amber-dark',
-  high: 'border-l-jig-red bg-jig-red/5 text-jig-red',
-  critical: 'border-l-jig-red bg-jig-red/10 text-jig-red-dark',
+  medium: 'border-l-or-gold bg-or-gold/10 text-or-gold-dark',
+  high: 'border-l-origin-red bg-origin-red/5 text-origin-red',
+  critical: 'border-l-origin-red bg-origin-red/10 text-origin-red-dark',
 };
 
 const SEVERITY_ICON = {
@@ -18,7 +18,7 @@ const SEVERITY_ICON = {
 };
 
 export default function InsightsBar() {
-  const { riskAlerts, crossDomainInsights, crossBranchInsights } = useDBCWorldModel();
+  const { riskAlerts, crossDomainInsights, crossBranchInsights } = useOriginWorldModel();
 
   // Combine all insights, prioritize by severity
   const allInsights = [
@@ -39,11 +39,11 @@ export default function InsightsBar() {
 
   if (allInsights.length === 0) {
     return (
-      <div className="p-4 rounded-lg bg-jig-purple/5 border border-jig-purple/20 text-center">
-        <svg className="w-8 h-8 mx-auto mb-2 text-jig-purple/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="p-4 rounded-lg bg-or-gold/5 border border-or-gold/20 text-center">
+        <svg className="w-8 h-8 mx-auto mb-2 text-or-gold/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <div className="text-sm text-jig-purple-light">All clear across the network</div>
+        <div className="text-sm text-or-gold-light">All clear across the network</div>
       </div>
     );
   }

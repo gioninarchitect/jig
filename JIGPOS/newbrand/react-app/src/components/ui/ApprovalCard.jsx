@@ -35,7 +35,7 @@ export default function ApprovalCard({ title, subtitle, meta, children, onApprov
             onChange={(e) => setReason(e.target.value)}
             placeholder="Reason for rejection..."
             rows={2}
-            className="w-full px-3 py-2 text-sm border-2 border-gray-200 rounded-xl focus:outline-none focus:border-jig-red resize-none font-body"
+            className="w-full px-3 py-2 text-sm border-2 border-gray-200 rounded-xl focus:outline-none focus:border-origin-red resize-none font-body"
           />
         </div>
       )}

@@ -85,11 +85,11 @@ const campaignSchema = new mongoose.Schema({
     preheader: String, // Preview text
     fromName: {
       type: String,
-      default: 'Basotho Medical Herbs'
+      default: 'Origin by ILCO Farming'
     },
     fromEmail: {
       type: String,
-      default: 'noreply@basothomedicalherbs.ls'
+      default: 'origin@cleva-ai.co.za'
     },
     replyTo: String,
     body: String, // HTML content

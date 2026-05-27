@@ -4,10 +4,10 @@
 import { useState, useMemo } from 'react';
 
 const URGENCY_COLORS = {
-  critical: 'bg-jig-red',
-  urgent: 'bg-jig-amber',
+  critical: 'bg-origin-red',
+  urgent: 'bg-or-gold',
   soon: 'bg-blue-400',
-  healthy: 'bg-jig-purple',
+  healthy: 'bg-or-gold',
 };
 
 export default function DemandChart({ predictions, inventory }) {
@@ -63,7 +63,7 @@ export default function DemandChart({ predictions, inventory }) {
               key={s.key}
               onClick={() => setSortBy(s.key)}
               className={`px-3 py-1 rounded text-xs font-bold transition-colors ${
-                sortBy === s.key ? 'bg-jig-purple text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                sortBy === s.key ? 'bg-or-gold text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
               }`}
             >
               {s.label}
@@ -85,18 +85,18 @@ export default function DemandChart({ predictions, inventory }) {
       {/* Legend */}
       <div className="flex items-center gap-4 text-[10px] text-gray-500">
         <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded bg-jig-purple/60" />
+          <div className="w-3 h-3 rounded bg-or-gold/60" />
           <span>Daily Demand</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded bg-jig-slate/30" />
+          <div className="w-3 h-3 rounded bg-origin-slate/30" />
           <span>Current Stock (scaled)</span>
         </div>
         <div className="flex items-center gap-3 ml-auto">
-          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-jig-red" />Critical</span>
-          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-jig-amber" />Urgent</span>
+          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-origin-red" />Critical</span>
+          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-or-gold" />Urgent</span>
           <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-blue-400" />Soon</span>
-          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-jig-purple" />Healthy</span>
+          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-or-gold" />Healthy</span>
         </div>
       </div>
 
@@ -121,9 +121,9 @@ export default function DemandChart({ predictions, inventory }) {
                   <span>{item.dailyDemand}/day</span>
                   <span>{item.currentStock} units</span>
                   <span className={`font-bold ${
-                    item.daysOfStock <= 3 ? 'text-jig-red' :
-                    item.daysOfStock <= 7 ? 'text-jig-amber-dark' :
-                    'text-jig-purple'
+                    item.daysOfStock <= 3 ? 'text-origin-red' :
+                    item.daysOfStock <= 7 ? 'text-or-gold-dark' :
+                    'text-or-gold'
                   }`}>{item.daysOfStock}d</span>
                 </div>
               </div>
@@ -133,14 +133,14 @@ export default function DemandChart({ predictions, inventory }) {
                 {/* Demand bar */}
                 <div className="h-3 bg-gray-100 rounded overflow-hidden">
                   <div
-                    className="h-full bg-jig-purple/60 rounded transition-all duration-500"
+                    className="h-full bg-or-gold/60 rounded transition-all duration-500"
                     style={{ width: `${Math.max(demandWidth, 1)}%` }}
                   />
                 </div>
                 {/* Stock bar */}
                 <div className="h-3 bg-gray-100 rounded overflow-hidden">
                   <div
-                    className="h-full bg-jig-slate/30 rounded transition-all duration-500"
+                    className="h-full bg-origin-slate/30 rounded transition-all duration-500"
                     style={{ width: `${Math.max(stockWidth, 1)}%` }}
                   />
                 </div>
@@ -150,7 +150,7 @@ export default function DemandChart({ predictions, inventory }) {
               {item.adjustments?.length > 0 && (
                 <div className="hidden group-hover:flex flex-wrap gap-1 pl-4 mt-0.5">
                   {item.adjustments.map((adj, j) => (
-                    <span key={j} className="px-1.5 py-0.5 rounded text-[9px] bg-jig-amber/10 text-jig-amber-dark">
+                    <span key={j} className="px-1.5 py-0.5 rounded text-[9px] bg-or-gold/10 text-or-gold-dark">
                       {adj.factor}: {adj.impact > 1 ? '+' : ''}{Math.round((adj.impact - 1) * 100)}%
                     </span>
                   ))}

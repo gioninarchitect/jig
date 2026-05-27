@@ -1,0 +1,2385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Operating Procedures - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --or-black: #0A0A0A;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-bright: #D4B86A;
+            --or-gold-muted: #8B6914;
+            --or-white: #F5F0E8;
+            --or-gold-light: #E8D5A3;
+            --or-red: #EF4444;
+            --or-blue: #3B82F6;
+            --gray-300: #333333;
+            --gray-400: #444444;
+            --gray-500: #666666;
+            --gray-600: #888888;
+            --gray-700: #AAAAAA;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--or-black);
+            color: var(--or-white);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER */
+        .page-header {
+            background: linear-gradient(160deg, #1A1A1A 0%, #0E0E0E 100%);
+            border-bottom: 2px solid var(--or-gold);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .header-logo {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 0.75rem;
+        }
+        .header-brand {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--or-gold);
+        }
+        .header-subtitle {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-top: 0.25rem;
+        }
+        .header-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-top: 1rem;
+            color: var(--or-white);
+        }
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .header-meta span {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+        .header-meta span strong {
+            color: var(--or-gold);
+        }
+
+        /* NAVIGATION TABS */
+        .nav-tabs {
+            display: flex;
+            overflow-x: auto;
+            background: var(--or-dark);
+            border-bottom: 1px solid var(--or-dark-2);
+            padding: 0 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            -webkit-overflow-scrolling: touch;
+        }
+        .nav-tab {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--gray-600);
+            background: none;
+            border: none;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .nav-tab:hover { color: var(--or-white); }
+        .nav-tab.active {
+            color: var(--or-gold);
+            border-bottom-color: var(--or-gold);
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* TAB CONTENT */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* SECTION HEADERS */
+        .section-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--or-dark-2);
+        }
+        .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--or-gold);
+            margin-bottom: 0.5rem;
+        }
+        .section-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .section-desc {
+            color: var(--gray-600);
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* SOP CARD */
+        .sop-card {
+            background: var(--or-dark);
+            border: 1px solid var(--or-dark-2);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .sop-header {
+            display: flex;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            gap: 1rem;
+            user-select: none;
+        }
+        .sop-header:hover { background: rgba(255,255,255,0.02); }
+        .sop-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            background: rgba(201,168,76,0.1);
+            color: var(--or-gold);
+        }
+        .sop-title-wrapper { flex: 1; }
+        .sop-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .sop-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.25rem;
+            flex-wrap: wrap;
+        }
+        .sop-meta-item {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+        .sop-meta-item i { margin-right: 0.25rem; }
+        .sop-tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .sop-tag.daily { background: rgba(201,168,76,0.15); color: var(--or-gold); }
+        .sop-tag.weekly { background: rgba(59,130,246,0.15); color: var(--or-blue); }
+        .sop-tag.monthly { background: rgba(248,194,66,0.15); color: var(--or-gold); }
+        .sop-tag.event { background: rgba(168,85,247,0.15); color: #A855F7; }
+        .sop-arrow {
+            color: var(--gray-500);
+            transition: transform 0.3s ease;
+            font-size: 0.85rem;
+        }
+        .sop-card.active { border-color: var(--or-gold); }
+        .sop-card.active .sop-arrow {
+            transform: rotate(180deg);
+            color: var(--or-gold);
+        }
+        .sop-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .sop-card.active .sop-content {
+            max-height: 8000px;
+        }
+        .sop-body {
+            padding: 0 1.5rem 1.5rem;
+            border-top: 1px solid var(--or-dark-2);
+            padding-top: 1.5rem;
+        }
+
+        /* STEP LIST */
+        .step-list {
+            list-style: none;
+            padding: 0;
+            counter-reset: sop-step;
+        }
+        .step-item {
+            counter-increment: sop-step;
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            align-items: flex-start;
+        }
+        .step-item:last-child { border-bottom: none; }
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(201,168,76,0.1);
+            border: 2px solid var(--or-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--or-gold);
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+        .step-number::after { content: counter(sop-step); }
+        .step-content { flex: 1; }
+        .step-action {
+            font-weight: 600;
+            color: var(--or-white);
+            font-size: 0.95rem;
+        }
+        .step-detail {
+            color: var(--gray-600);
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+        .step-system {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            color: var(--or-gold);
+            background: rgba(201,168,76,0.08);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-top: 0.35rem;
+        }
+
+        /* CHECKLIST */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .checklist li:last-child { border-bottom: none; }
+        .check-box {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-400);
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .check-box.checked {
+            background: var(--or-gold);
+            border-color: var(--or-gold);
+        }
+        .check-box.checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 0.6rem;
+            color: var(--or-black);
+        }
+        .checklist li.checked-item { text-decoration: line-through; color: var(--gray-500); }
+
+        /* INFO BOXES */
+        .info-box {
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        .info-box.green { background: rgba(201,168,76,0.08); border-left: 4px solid var(--or-gold); }
+        .info-box.red { background: rgba(239,68,68,0.08); border-left: 4px solid var(--or-red); }
+        .info-box.gold { background: rgba(248,194,66,0.08); border-left: 4px solid var(--or-gold); }
+        .info-box.blue { background: rgba(59,130,246,0.08); border-left: 4px solid var(--or-blue); }
+        .info-box strong { color: var(--or-white); }
+        .info-box p { color: var(--gray-700); margin-top: 0.25rem; }
+
+        /* SUB-SECTIONS */
+        h3.sub-heading {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--or-gold);
+            margin: 1.5rem 0 0.75rem;
+        }
+        h3.sub-heading:first-child { margin-top: 0; }
+
+        p.body-text {
+            color: var(--gray-700);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* QUICK REFERENCE TABLE */
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .ref-table th {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--or-gold);
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: rgba(201,168,76,0.05);
+            border-bottom: 1px solid var(--or-dark-2);
+        }
+        .ref-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--or-dark-2);
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            vertical-align: top;
+        }
+        .ref-table tr:last-child td { border-bottom: none; }
+
+        /* PRINT */
+        @media print {
+            body { background: white; color: #111; }
+            .nav-tabs { display: none; }
+            .tab-content { display: block !important; page-break-before: always; }
+            .tab-content:first-child { page-break-before: auto; }
+            .sop-content { max-height: none !important; }
+            .sop-card, .info-box { border-color: #ccc; background: #f9f9f9; }
+            .check-box { border-color: #999; }
+        }
+
+        /* MOBILE HAMBURGER */
+        .mobile-header {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.25rem;
+            background: var(--or-dark);
+            border-bottom: 1px solid var(--or-dark-2);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+        .mobile-header-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--or-gold);
+        }
+        .hamburger {
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: 1px solid var(--gray-400);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 0;
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--or-white);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 300;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .nav-overlay.open { opacity: 1; }
+        .nav-drawer {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100%;
+            background: var(--or-dark);
+            border-left: 1px solid var(--or-dark-2);
+            z-index: 301;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .nav-drawer.open { right: 0; }
+        .nav-drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.25rem 1rem;
+            border-bottom: 1px solid var(--or-dark-2);
+        }
+        .nav-drawer-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--or-gold);
+        }
+        .nav-drawer-close {
+            width: 36px;
+            height: 36px;
+            background: none;
+            border: 1px solid var(--gray-400);
+            border-radius: 8px;
+            color: var(--or-white);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-drawer-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            cursor: pointer;
+            transition: background 0.2s;
+            color: var(--gray-600);
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .nav-drawer-item:hover, .nav-drawer-item.active {
+            background: rgba(201,168,76,0.05);
+            color: var(--or-gold);
+        }
+        .nav-drawer-item i { width: 20px; text-align: center; font-size: 0.85rem; }
+        .nav-drawer-links {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--or-dark-2);
+        }
+        .nav-drawer-link {
+            display: block;
+            padding: 0.6rem 0;
+            color: var(--gray-500);
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+        .nav-drawer-link i { margin-right: 0.4rem; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .mobile-header { display: flex; }
+            .nav-tabs { display: none; }
+            .page-header { padding: 1.5rem 1rem; }
+            .header-brand { font-size: 1.5rem; }
+            .header-title { font-size: 1.25rem; }
+            .container { padding: 1.5rem 1rem 3rem; }
+            .section-title { font-size: 1.35rem; }
+            .sop-header { padding: 1rem; }
+            .sop-body { padding: 0 1rem 1rem; padding-top: 1rem; }
+            .step-item { gap: 0.75rem; }
+            .sop-meta { gap: 0.5rem; }
+            .checklist li { font-size: 0.85rem; }
+            .info-box { padding: 1rem; }
+            .ref-table { font-size: 0.8rem; }
+            .ref-table th, .ref-table td { padding: 0.4rem; }
+        }
+
+        /* BACK TO TOP */
+        .back-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            background: var(--or-gold);
+            color: var(--or-black);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99;
+            box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+            transition: transform 0.2s;
+        }
+        .back-top:hover { transform: translateY(-2px); }
+        .back-top.visible { display: flex; }
+
+        /* FOOTER */
+        .page-footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-top: 1px solid var(--or-dark-2);
+            color: var(--gray-500);
+            font-size: 0.8rem;
+        }
+        .page-footer a { color: var(--or-gold); text-decoration: none; }
+
+        /* SOP INDEX GRID */
+        .sop-index {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .sop-index-card {
+            background: var(--or-dark);
+            border: 1px solid var(--or-dark-2);
+            border-radius: 10px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .sop-index-card:hover {
+            border-color: var(--or-gold);
+            transform: translateY(-2px);
+        }
+        .sop-index-icon {
+            font-size: 1.5rem;
+            color: var(--or-gold);
+            margin-bottom: 0.75rem;
+        }
+        .sop-index-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .sop-index-desc {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MOBILE HEADER -->
+    <div class="mobile-header">
+        <div class="mobile-header-title" id="mobileTabLabel">Daily Operations</div>
+        <button class="hamburger" id="hamburger" onclick="toggleDrawer()">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <!-- SLIDE-IN DRAWER -->
+    <div class="nav-overlay" id="navOverlay" onclick="toggleDrawer()"></div>
+    <div class="nav-drawer" id="navDrawer">
+        <div class="nav-drawer-header">
+            <div class="nav-drawer-title">SOPs</div>
+            <button class="nav-drawer-close" onclick="toggleDrawer()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="nav-drawer-item active" data-tab="daily" onclick="mobileNav(this)"><i class="fas fa-door-open"></i> Daily Operations</div>
+        <div class="nav-drawer-item" data-tab="pos" onclick="mobileNav(this)"><i class="fas fa-cart-shopping"></i> POS &amp; Sales</div>
+        <div class="nav-drawer-item" data-tab="cash" onclick="mobileNav(this)"><i class="fas fa-money-bill-wave"></i> Cash Handling</div>
+        <div class="nav-drawer-item" data-tab="stock" onclick="mobileNav(this)"><i class="fas fa-truck-ramp-box"></i> Stock &amp; Receiving</div>
+        <div class="nav-drawer-item" data-tab="stocktake" onclick="mobileNav(this)"><i class="fas fa-clipboard-check"></i> Stocktake</div>
+        <div class="nav-drawer-item" data-tab="incidents" onclick="mobileNav(this)"><i class="fas fa-triangle-exclamation"></i> Incidents</div>
+        <div class="nav-drawer-links">
+            <a class="nav-drawer-link" href="staff-handbook.html"><i class="fas fa-book"></i> Staff Handbook</a>
+            <a class="nav-drawer-link" href="training-hub.html"><i class="fas fa-graduation-cap"></i> Training Hub</a>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="page-header">
+        <img src="images/origin-logo.png" alt="Origin" class="header-logo" onerror="this.style.display='none'">
+        <div class="header-brand">Origin</div>
+        <div class="header-subtitle">Premium Cannabis Care</div>
+        <div class="header-title">Standard Operating Procedures</div>
+        <div class="header-meta">
+            <span>Version <strong>1.0</strong></span>
+            <span>Effective <strong>March 2026</strong></span>
+            <span>Classification <strong>Internal - All Staff</strong></span>
+        </div>
+    </header>
+
+    <!-- ACTION BAR -->
+    <div style="display:flex;justify-content:center;gap:1rem;padding:0.75rem 1rem;background:var(--or-dark);border-bottom:1px solid var(--or-dark-2);flex-wrap:wrap;">
+        <button onclick="window.print()" style="font-family:'Cinzel',sans-serif;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--or-white);background:var(--or-gold);border:none;padding:0.6rem 1.25rem;border-radius:6px;cursor:pointer;"><i class="fas fa-print" style="margin-right:0.4rem"></i>Print / Save PDF</button>
+        <a href="staff-handbook.html" style="font-family:'Cinzel',sans-serif;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--or-white);background:var(--or-dark-2);border:1px solid var(--gray-400);padding:0.6rem 1.25rem;border-radius:6px;cursor:pointer;text-decoration:none;display:inline-block;"><i class="fas fa-book" style="margin-right:0.4rem"></i>Staff Handbook</a>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="daily">Daily Operations</button>
+        <button class="nav-tab" data-tab="pos">POS &amp; Sales</button>
+        <button class="nav-tab" data-tab="cash">Cash Handling</button>
+        <button class="nav-tab" data-tab="stock">Stock &amp; Receiving</button>
+        <button class="nav-tab" data-tab="stocktake">Stocktake</button>
+        <button class="nav-tab" data-tab="incidents">Incidents</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- ================================================================ -->
+        <!-- TAB 1: DAILY OPERATIONS -->
+        <!-- ================================================================ -->
+        <div class="tab-content active" id="tab-daily">
+
+            <div class="section-header">
+                <div class="section-label">SOP-001 to SOP-003</div>
+                <div class="section-title">Daily Operations</div>
+                <div class="section-desc">Opening, running, and closing the branch. These procedures are performed every trading day without exception.</div>
+            </div>
+
+            <!-- SOP-001: BRANCH OPENING -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-door-open"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-001: Branch Opening Procedure</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Branch Manager / Senior Staff</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 15-20 minutes</span>
+                            <span class="sop-tag daily">Daily</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To ensure the branch is properly prepared for trading, all systems are operational, and the opening cash float is verified before the first customer is served.</p>
+
+                        <h3 class="sub-heading">Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Arrive 30 minutes before trading hours</div>
+                                    <div class="step-detail">Unlock the premises, disarm the alarm, do a visual walk-through for security.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Power on all POS terminals and check internet connectivity</div>
+                                    <div class="step-detail">Verify the POS loads correctly. If offline, the system will operate in offline mode &mdash; continue as normal.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Log in to the POS system with your PIN</div>
+                                    <div class="step-detail">Use your personal PIN. Never share PINs or log in as another user.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Enter PIN &rarr; Select "Start Shift"</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Count the opening cash float</div>
+                                    <div class="step-detail">Physically count all notes and coins in the till. The standard float is set per branch (typically R500-R1,000). Count every denomination.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Record the float in the POS system</div>
+                                    <div class="step-detail">Enter the exact amount counted. The system compares this to the expected float from the previous close.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Shift Management &rarr; Record Float</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Check the product display and restock if needed</div>
+                                    <div class="step-detail">Ensure all products are displayed, priced correctly, and nothing is expired. Restock from the backroom as needed.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Review any overnight orders or notifications</div>
+                                    <div class="step-detail">Check for online orders that need fulfilment, inter-branch transfer requests, or system notifications.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Dashboard &rarr; Notifications</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Branch is ready to trade</div>
+                                    <div class="step-detail">Open doors at the scheduled trading time. Not before, not after.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box red">
+                            <strong>Do Not Skip the Float Count</strong>
+                            <p>If the opening float doesn't match the expected amount, record the actual amount and immediately notify the Branch Manager or Owner. Do not adjust the number to match.</p>
+                        </div>
+
+                        <h3 class="sub-heading">Opening Checklist</h3>
+                        <ul class="checklist" id="checklist-open">
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Premises unlocked, alarm disarmed</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> POS terminals powered on and operational</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Logged in with personal PIN</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Shift started in the system</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Cash float counted and recorded</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Product display checked and restocked</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Notifications reviewed</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Branch open at scheduled time</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-002: SHIFT HANDOVER -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-people-arrows"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-002: Shift Handover Procedure</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> All Staff</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 10 minutes</span>
+                            <span class="sop-tag daily">Daily (if applicable)</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To ensure a clean, accountable handover between shifts. The outgoing staff member closes their session, and the incoming staff member starts fresh with a verified state.</p>
+
+                        <h3 class="sub-heading">Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Outgoing staff: Complete all pending transactions</div>
+                                    <div class="step-detail">Do not hand over mid-sale. Finish any sale in progress and ensure the receipt is printed/sent.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Outgoing staff: Count the cash in the till</div>
+                                    <div class="step-detail">Count every denomination. Record the total in the system as a mid-shift count.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Shift Management &rarr; Mid-Shift Count</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Both staff: Verify the cash together</div>
+                                    <div class="step-detail">The incoming staff member independently counts the cash. Both totals must match. If they don't, recount.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Outgoing staff: End your shift in the system</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Shift Management &rarr; End Shift</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Incoming staff: Log in with your PIN and start your shift</div>
+                                    <div class="step-detail">Record the opening cash amount (which should match what the outgoing staff counted).</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Enter PIN &rarr; Start Shift &rarr; Record Float</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Verbal briefing: Any issues to know about</div>
+                                    <div class="step-detail">Customer complaints, low stock items, pending orders, system issues &mdash; share anything the incoming person needs to know.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box gold">
+                            <strong>Both Staff Are Present for the Count</strong>
+                            <p>If there's a cash discrepancy later, both the outgoing and incoming staff are involved. The joint count protects both parties. Never hand over without both people counting.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-003: BRANCH CLOSING -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-door-closed"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-003: Branch Closing &amp; Day-End Procedure</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Branch Manager / Closing Staff</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 20-30 minutes</span>
+                            <span class="sop-tag daily">Daily</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To close the trading day with an accurate financial reconciliation, secure the premises, and leave the branch ready for the next trading day.</p>
+
+                        <h3 class="sub-heading">Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Stop accepting new customers at closing time</div>
+                                    <div class="step-detail">Complete any customer currently being served. Lock the door to prevent new entries.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Complete all pending transactions</div>
+                                    <div class="step-detail">No outstanding sales, layaways, or held orders. Everything must be finalised or voided.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Print or view the day's sales summary</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Reports &rarr; Daily Sales Summary</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Count all cash in the till</div>
+                                    <div class="step-detail">Count every note and coin denomination. Write down the total before entering it in the system. This prevents "adjusting" to match.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Perform the cashup in the POS system</div>
+                                    <div class="step-detail">Enter the actual cash counted. The system will calculate expected vs actual and show the variance.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Cashup &rarr; Enter Denomination Counts &rarr; Submit</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Investigate any variance over R20</div>
+                                    <div class="step-detail">If the difference between expected and actual exceeds R20, check for: missed transactions, incorrect change given, refunds not processed, or miscounted cash. Document the finding.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Separate the float from the takings</div>
+                                    <div class="step-detail">Leave the standard float in the till for tomorrow. All excess cash is the day's takings &mdash; secure in the safe or prepare for banking.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">End your shift in the system</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Shift Management &rarr; End Shift</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Secure the premises</div>
+                                    <div class="step-detail">Lock the safe, turn off unnecessary equipment, set the alarm, lock all doors.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box red">
+                            <strong>The Cashup Is NOT Optional</strong>
+                            <p>Every trading day ends with a completed cashup. There is no "I'll do it tomorrow" or "it was quiet so I didn't bother." An incomplete cashup means the day's finances are unverified. This is a KPI for the Branch Manager.</p>
+                        </div>
+
+                        <h3 class="sub-heading">Closing Checklist</h3>
+                        <ul class="checklist" id="checklist-close">
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> All customers served, door locked</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> All transactions completed or voided</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Daily sales summary reviewed</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Cash counted (before entering in system)</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Cashup submitted in POS</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Variance investigated (if > R20)</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Float separated, takings secured</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Shift ended in system</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Safe locked, alarm set, premises secured</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- TAB 2: POS & SALES -->
+        <!-- ================================================================ -->
+        <div class="tab-content" id="tab-pos">
+
+            <div class="section-header">
+                <div class="section-label">SOP-004 to SOP-006</div>
+                <div class="section-title">POS &amp; Sales Procedures</div>
+                <div class="section-desc">Processing sales, handling customers, refunds, and loyalty. Every sale goes through the POS &mdash; no exceptions.</div>
+            </div>
+
+            <!-- SOP-004: PROCESSING A SALE -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-cart-shopping"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-004: Processing a Sale</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Sales Assistant / Budtender</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 2-3 minutes per transaction</span>
+                            <span class="sop-tag daily">Every Transaction</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To process every customer transaction accurately through the POS system, ensuring proper payment recording, inventory adjustment, and receipt generation.</p>
+
+                        <h3 class="sub-heading">Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Greet the customer</div>
+                                    <div class="step-detail">Professional greeting. Ask if they're a returning customer (check loyalty). If medical, verify their Section 21 authorization.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Search or select the customer (if registered)</div>
+                                    <div class="step-detail">Search by name, phone, or email. This links the sale to their profile for loyalty points and purchase history. If walk-in, proceed as guest.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Customer Search &rarr; Select or "Guest Sale"</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Add products to the cart</div>
+                                    <div class="step-detail">Search by name, category, or scan barcode. Verify the product and quantity with the customer. The system shows available stock &mdash; do not sell more than what's in stock.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Product Browser &rarr; Add to Cart</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Review the cart with the customer</div>
+                                    <div class="step-detail">Read back the items and total. Confirm this is what they want. Apply any discounts or loyalty redemptions if applicable.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Select payment method and process</div>
+                                    <div class="step-detail"><strong>Cash:</strong> Enter the amount tendered, system calculates change. <strong>Card:</strong> Process through the card terminal, wait for approval. <strong>EFT:</strong> Confirm payment received.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Checkout &rarr; Select Payment &rarr; Complete</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Issue the receipt</div>
+                                    <div class="step-detail">Print or send digitally (SMS/email). Every sale gets a receipt. The receipt is proof of the transaction for both the customer and the business.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Thank the customer</div>
+                                    <div class="step-detail">Offer to sign them up for loyalty if they're not registered. Mention any active promotions.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box red">
+                            <strong>Zero Tolerance: Off-System Sales</strong>
+                            <p>Any sale not processed through the POS is considered an unauthorized transaction. This includes: accepting cash without ringing it up, using a personal calculator and a notebook, or giving product on an "IOU" basis. All of these are disciplinary offences.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-005: REFUNDS & VOIDS -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-rotate-left"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-005: Refunds &amp; Void Transactions</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Branch Manager (approval required)</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 5 minutes</span>
+                            <span class="sop-tag event">As Needed</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To handle refunds and voided transactions through the proper approval process, maintaining a clear audit trail.</p>
+
+                        <h3 class="sub-heading">Refund Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Customer requests a refund</div>
+                                    <div class="step-detail">Ask for the receipt (digital or printed). Verify the original transaction in the POS system.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Verify the refund is eligible</div>
+                                    <div class="step-detail">Check the return policy: product is unopened/sealed, within the return window, and the purchase is confirmed in the system.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Request Branch Manager approval</div>
+                                    <div class="step-detail">Sales Assistants cannot process refunds alone. The Branch Manager must approve the refund in the system.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Orders &rarr; Find Transaction &rarr; Request Refund</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Branch Manager reviews and approves</div>
+                                    <div class="step-detail">Manager verifies the reason, checks the product, and approves or denies in the system. Reason must be documented.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Process the refund</div>
+                                    <div class="step-detail">Refund in the same payment method as the original purchase. Cash refund = cash out of till. Card refund = reverse on terminal.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Return product to inventory (if applicable)</div>
+                                    <div class="step-detail">If the product is resalable, the system adds it back to stock. If damaged, mark as waste/shrinkage.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box gold">
+                            <strong>Void vs Refund</strong>
+                            <p><strong>Void:</strong> Cancels a transaction <em>before</em> it's completed (wrong item scanned, customer changed mind before paying). <strong>Refund:</strong> Reverses a <em>completed</em> transaction (customer returning product after purchase). Both require manager approval and both appear on the daily report.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-006: CUSTOMER REGISTRATION -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-user-plus"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-006: Customer Registration &amp; Loyalty</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Sales Assistant</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 2 minutes</span>
+                            <span class="sop-tag daily">Every New Customer</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To register new customers in the system for loyalty tracking, purchase history, and compliance (Section 21 patients).</p>
+
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Ask the customer if they'd like to register</div>
+                                    <div class="step-detail">"Would you like to join our loyalty program? You'll earn points on every purchase." For medical patients, registration is required.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Collect their details</div>
+                                    <div class="step-detail">Name, phone number, and email (optional). For Section 21 patients: also their authorization number and prescribing doctor.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Customers &rarr; New Customer</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Enter details in the POS system</div>
+                                    <div class="step-detail">Fill in all required fields. Double-check the phone number &mdash; it's their primary lookup method.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Link the current sale to the new profile</div>
+                                    <div class="step-detail">They start earning points from this purchase.</div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- TAB 3: CASH HANDLING -->
+        <!-- ================================================================ -->
+        <div class="tab-content" id="tab-cash">
+
+            <div class="section-header">
+                <div class="section-label">SOP-007 to SOP-008</div>
+                <div class="section-title">Cash Handling &amp; Reconciliation</div>
+                <div class="section-desc">Cash is the highest-risk area in branch operations. These procedures exist to protect the business AND the staff.</div>
+            </div>
+
+            <div class="info-box gold">
+                <strong>Why Cash Control Matters</strong>
+                <p>Without proper cash procedures, it's impossible to know if money is missing, miscounted, or stolen. The system removes guesswork: every rand in and out is tracked. Staff who follow these procedures are protected from false accusations. Staff who don't follow them become the first suspect when cash goes missing.</p>
+            </div>
+
+            <!-- SOP-007: CASH HANDLING RULES -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-007: Cash Handling Rules</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> All Staff Handling Cash</span>
+                            <span class="sop-tag daily">Always</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <h3 class="sub-heading">Golden Rules of Cash Handling</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Never leave the till drawer open unattended</div>
+                                    <div class="step-detail">Open the drawer only during a transaction. Close it immediately after making change.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Count change back to the customer</div>
+                                    <div class="step-detail">Place the notes and coins on the counter and count aloud. This prevents disputes about incorrect change.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Never put personal money in the till or take till money out for personal use</div>
+                                    <div class="step-detail">Not even temporarily. Not even "I'll put it back." This is treated as theft regardless of intent.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Report suspected counterfeit notes immediately</div>
+                                    <div class="step-detail">Do not accept the note. Politely tell the customer and ask for an alternative. Notify the Branch Manager.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Cash drops: move excess cash to the safe regularly</div>
+                                    <div class="step-detail">If the till has more than the safe maximum (set per branch), do a cash drop. Record the drop in the POS.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Cash In/Out &rarr; Cash Drop to Safe</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">All cash movements through the POS</div>
+                                    <div class="step-detail">Cash in (float top-up), cash out (petty cash), cash drops &mdash; everything is recorded. No off-system cash movements.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box red">
+                            <strong>No IOUs, No Tabs, No "I'll Pay Later"</strong>
+                            <p>The system does not support credit sales at branch level. If a customer can't pay, they can't take the product. No staff member has authority to extend credit. This protects staff from being held responsible for unpaid debts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-008: DAILY CASHUP -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-calculator"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-008: Daily Cashup &amp; Reconciliation</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Branch Manager</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 10-15 minutes</span>
+                            <span class="sop-tag daily">Every Trading Day</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To verify that the cash in the till matches what the system expects based on the day's transactions. This is the single most important daily control.</p>
+
+                        <h3 class="sub-heading">Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Open the Cashup module in the POS</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Cashup</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Count every denomination physically</div>
+                                    <div class="step-detail">
+                                        Count and record each denomination separately:<br>
+                                        R200 notes &times; ___ = R___<br>
+                                        R100 notes &times; ___ = R___<br>
+                                        R50 notes &times; ___ = R___<br>
+                                        R20 notes &times; ___ = R___<br>
+                                        R10 notes &times; ___ = R___<br>
+                                        R5 coins &times; ___ = R___<br>
+                                        R2 coins &times; ___ = R___<br>
+                                        R1 coins &times; ___ = R___<br>
+                                        Smaller coins &times; ___ = R___<br>
+                                        <strong>Total = R___</strong>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Enter the denomination counts in the POS</div>
+                                    <div class="step-detail">The system calculates the total. It also shows what it expected based on: opening float + cash sales &minus; cash refunds &minus; cash drops.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Cashup &rarr; Enter Denominations</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Review the variance</div>
+                                    <div class="step-detail">
+                                        <strong>Variance = Actual Cash &minus; Expected Cash</strong><br>
+                                        Positive = more cash than expected (overage)<br>
+                                        Negative = less cash than expected (shortage)<br>
+                                        Target: within R20 (minor rounding from change).
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">If variance > R20: investigate before submitting</div>
+                                    <div class="step-detail">Check: Were all sales rung up? Any cash drops not recorded? Change given incorrectly? Was there a refund? Document the finding in the notes field.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Submit the cashup</div>
+                                    <div class="step-detail">Once satisfied with the count (recount if needed), submit. This locks the day's financial record. It cannot be edited after submission.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Cashup &rarr; Submit</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Escalate persistent variances</div>
+                                    <div class="step-detail">If the same till shows shortages on 3+ consecutive days, report to the Owner and implementation partner for investigation.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <h3 class="sub-heading">Variance Response Guide</h3>
+                        <table class="ref-table">
+                            <thead>
+                                <tr>
+                                    <th>Variance Amount</th>
+                                    <th>Action</th>
+                                    <th>Escalate To</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>R0 &ndash; R20</td>
+                                    <td>Normal rounding. Submit as-is.</td>
+                                    <td>No escalation</td>
+                                </tr>
+                                <tr>
+                                    <td>R21 &ndash; R100</td>
+                                    <td>Recount. Check for unrecorded transactions. Document finding.</td>
+                                    <td>Branch Manager notes</td>
+                                </tr>
+                                <tr>
+                                    <td>R101 &ndash; R500</td>
+                                    <td>Recount. Full transaction audit. Written report required.</td>
+                                    <td>Owner notification same day</td>
+                                </tr>
+                                <tr>
+                                    <td>R500+</td>
+                                    <td>Do not submit. Recount with witness. Full investigation.</td>
+                                    <td>Owner + implementation partner immediately</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- TAB 4: STOCK & RECEIVING -->
+        <!-- ================================================================ -->
+        <div class="tab-content" id="tab-stock">
+
+            <div class="section-header">
+                <div class="section-label">SOP-009 to SOP-011</div>
+                <div class="section-title">Stock Management &amp; Receiving</div>
+                <div class="section-desc">Every product that enters or leaves the branch must be recorded in the system. No exceptions.</div>
+            </div>
+
+            <!-- SOP-009: RECEIVING STOCK -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-truck-ramp-box"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-009: Receiving Stock Deliveries</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Branch Manager / Inventory Manager</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 15-30 minutes per delivery</span>
+                            <span class="sop-tag event">Per Delivery</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To verify that what was ordered matches what was delivered, record it in the system accurately, and update inventory levels.</p>
+
+                        <h3 class="sub-heading">Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Receive the delivery note from the driver</div>
+                                    <div class="step-detail">Check the delivery note matches a pending purchase order in the system. If there's no matching PO, do not accept the delivery &mdash; contact the Inventory Manager.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Open the Stock Receiving module</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> POS &rarr; Stock Receiving &rarr; Select Purchase Order</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Count and verify every item physically</div>
+                                    <div class="step-detail">Open every box. Count every unit. Check batch numbers if applicable. Do NOT trust the delivery note quantity &mdash; count yourself. Compare physical count to the PO quantity.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Enter received quantities in the system</div>
+                                    <div class="step-detail">For each product: enter the quantity you actually received (not what the PO says, not what the delivery note says &mdash; what you physically counted).</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> Stock Receiving &rarr; Enter Qty per Item &rarr; Note discrepancies</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Record any discrepancies</div>
+                                    <div class="step-detail">If you received fewer (or more) items than the PO, record the actual amount. The system flags the discrepancy. Take photos of damaged goods.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Sign the delivery note and submit in the system</div>
+                                    <div class="step-detail">Only sign after verification is complete. The system updates inventory levels automatically upon submission.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Store products properly</div>
+                                    <div class="step-detail">Place received stock in the correct storage location. Rotate stock (FIFO &mdash; first in, first out). Move older stock to the front.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box red">
+                            <strong>Never Sign Before Counting</strong>
+                            <p>Once you sign the delivery note, you've accepted responsibility for the stated quantities. If there's a shortage and you already signed, the business absorbs the loss. Always count first, sign after.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-010: INTER-BRANCH TRANSFERS -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-arrows-rotate"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-010: Inter-Branch Stock Transfers</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Inventory Manager / Branch Manager</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 10-20 minutes</span>
+                            <span class="sop-tag event">As Needed</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To move stock between branches in a tracked, approved, and verified manner.</p>
+
+                        <h3 class="sub-heading">Sending Branch Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Create a transfer request in the system</div>
+                                    <div class="step-detail">Select the destination branch, products, and quantities.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> Inventory &rarr; Transfers &rarr; New Transfer</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Wait for approval</div>
+                                    <div class="step-detail">The Inventory Manager or Owner must approve the transfer before stock moves.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Pick and pack the transfer items</div>
+                                    <div class="step-detail">Once approved, physically pick the items. Count them against the transfer document. Pack securely.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Mark as dispatched in the system</div>
+                                    <div class="step-detail">The sending branch's stock levels are reduced at this point.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> Transfers &rarr; Mark Dispatched</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <h3 class="sub-heading">Receiving Branch Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Receive notification of incoming transfer</div>
+                                    <div class="step-detail">The system notifies you when stock is en route.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Physically count received items</div>
+                                    <div class="step-detail">Same as receiving a supplier delivery &mdash; count every item, don't trust the paperwork.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Confirm receipt in the system</div>
+                                    <div class="step-detail">Enter actual quantities received. The system updates your branch inventory. Any discrepancy is flagged.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> Transfers &rarr; Confirm Receipt</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box gold">
+                            <strong>The Transfer Must Exist in the System</strong>
+                            <p>No stock should move between branches without a system-tracked transfer. If someone brings product from another branch without a transfer record, do not accept it &mdash; escalate to the Inventory Manager. Untracked movement makes reconciliation impossible.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-011: STOCK DISCREPANCY -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-magnifying-glass-chart"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-011: Stock Discrepancy Investigation</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Branch Manager / Inventory Manager</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> Varies</span>
+                            <span class="sop-tag event">When Discrepancy Found</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To investigate and resolve differences between the system's expected stock levels and the actual physical count.</p>
+
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Identify the discrepancy</div>
+                                    <div class="step-detail">Discrepancies are surfaced by: stocktake results, cashup reconciliation, spot checks, or the system's auto-reconciliation report.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Recount the affected products</div>
+                                    <div class="step-detail">Before assuming the count is wrong, recount. Check all storage locations (shelf, backroom, under counter, display).</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Check the transaction history</div>
+                                    <div class="step-detail">Review the product's history in the system: sales, receiving, transfers, returns, waste. Look for: missed scan during sale, receiving not recorded, unrecorded transfer.</div>
+                                    <div class="step-system"><i class="fas fa-desktop"></i> Inventory &rarr; Product &rarr; Transaction History</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Document the finding</div>
+                                    <div class="step-detail">Write up: what product, how many units difference, probable cause (if identified), and recommended action. Submit through the system.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Adjust stock if authorized</div>
+                                    <div class="step-detail">Stock adjustments require Inventory Manager or Owner approval. Adjustments are logged permanently with the reason and approver. This is the last resort, not the first step.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box red">
+                            <strong>Never Adjust Without Investigation</strong>
+                            <p>The correct flow is: identify &rarr; recount &rarr; investigate &rarr; document &rarr; adjust (with approval). Never jump straight to adjusting the system to match the physical count without understanding why they don't match.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- TAB 5: STOCKTAKE -->
+        <!-- ================================================================ -->
+        <div class="tab-content" id="tab-stocktake">
+
+            <div class="section-header">
+                <div class="section-label">SOP-012 to SOP-013B</div>
+                <div class="section-title">Tiered Stocktake Procedures</div>
+                <div class="section-desc">Origin operates a three-tier stocktake schedule to protect high-value inventory. Daily cycle counts for flower, pre-rolls &amp; concentrates. Weekly medium-value counts. Monthly full branch counts.</div>
+            </div>
+
+            <!-- TIER SCHEDULE OVERVIEW -->
+            <div class="info-box red" style="margin-bottom: 24px;">
+                <strong><i class="fas fa-fire"></i> Mandatory Stocktake Schedule</strong>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 12px;">
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <span style="background: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; white-space: nowrap;">TIER A &mdash; DAILY</span>
+                        <span>Flower (loose &amp; pre-rolls), Concentrates (dabs, rosin, wax) &mdash; counted at close of business every day</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <span style="background: #f59e0b; color: #0E0E0E; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; white-space: nowrap;">TIER B &mdash; WEEKLY</span>
+                        <span>Edibles, Oils, Vapes &mdash; counted every Monday morning before trading</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <span style="background: #C9A84C; color: #0E0E0E; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; white-space: nowrap;">TIER C &mdash; MONTHLY</span>
+                        <span>Full branch stocktake (all categories including accessories, lifestyle, merch) &mdash; first week of each month</span>
+                    </div>
+                </div>
+                <p style="margin-top: 12px; font-size: 0.9rem;"><i class="fas fa-lock"></i> <strong>Enforcement:</strong> Day-end cashup submission is blocked until the daily high-value count is completed and submitted. The system will not let you close the day without counting Tier A stock.</p>
+            </div>
+
+            <!-- SOP-012A: DAILY HIGH-VALUE COUNT (NEW) -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon" style="background: rgba(239,68,68,0.2); color: #ef4444;"><i class="fas fa-fire"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-012A: Daily High-Value Stock Count (Tier A)</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Shift Lead / Branch Assistant</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 15-30 minutes</span>
+                            <span class="sop-tag" style="background: #ef4444; color: white;">DAILY</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To count all high-value cannabis products (flower, pre-rolls, concentrates including dabs and rosin) at close of business every day. This is the primary shrinkage prevention control. Day-end cashup is blocked until this count is submitted.</p>
+
+                        <div class="info-box red">
+                            <strong><i class="fas fa-lock"></i> System Enforcement</strong>
+                            <p>The POS system will NOT allow day-end cashup submission until the daily high-value count is completed. If you try to submit the cashup without doing the count, you will see a blocking screen directing you to the Stocktake App.</p>
+                        </div>
+
+                        <h3 class="sub-heading">Categories to Count</h3>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                            <span style="padding: 6px 14px; background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.4); border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #C9A84C;">Flower (Loose)</span>
+                            <span style="padding: 6px 14px; background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.4); border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #C9A84C;">Pre-Rolls</span>
+                            <span style="padding: 6px 14px; background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.4); border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #C9A84C;">Concentrates (Dabs, Rosin, Wax)</span>
+                        </div>
+
+                        <h3 class="sub-heading">Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Open the Stocktake App at close of business</div>
+                                    <div class="step-detail">Do this 30 minutes before end of shift, after the last customer is served. Do not count while customers are in the store.</div>
+                                    <div class="step-system"><i class="fas fa-mobile-screen-button"></i> Stocktake App &rarr; New Session</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Select the "Daily High-Value" quick template</div>
+                                    <div class="step-detail">The system will automatically load only Flower, Pre-Rolls and Concentrates. You do not need to count accessories, edibles or other categories.</div>
+                                    <div class="step-system"><i class="fas fa-mobile-screen-button"></i> New Session &rarr; Quick Templates &rarr; <strong>Daily High-Value</strong></div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Count every product in the session</div>
+                                    <div class="step-detail">
+                                        <strong>Loose flower:</strong> Weigh on the scale, photograph the scale reading, enter the weight.<br>
+                                        <strong>Pre-rolls &amp; pre-packs:</strong> Count physically, enter the number of units.<br>
+                                        <strong>Concentrates:</strong> Count units (jars, syringes, cartridges).<br>
+                                        Use <strong>Batch Mode</strong> for faster entry: tap the list icon to switch to batch entry.
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Review variances before submitting</div>
+                                    <div class="step-detail">The app highlights items with variance in red. If any variance exceeds 5% (flower) or any units (pre-rolls), add a note explaining why &mdash; breakage, sample given, packaging error, etc.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Submit the count</div>
+                                    <div class="step-detail">Once all items are counted, submit the session. This unlocks the day-end cashup. The branch manager will review the results the next morning.</div>
+                                    <div class="step-system"><i class="fas fa-mobile-screen-button"></i> Stocktake App &rarr; Review &rarr; Submit</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Proceed with day-end cashup</div>
+                                    <div class="step-detail">Return to the POS and complete the day-end cashup as per SOP-008. The system now allows submission.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box gold">
+                            <strong><i class="fas fa-lightbulb"></i> Why Daily?</strong>
+                            <p>Flower, pre-rolls and concentrates are the highest-value products. Monthly stocktakes only catch theft or errors after weeks of accumulation. Daily counts catch discrepancies within 24 hours &mdash; making investigation easier and deterring pilferage. A 10g variance is easy to trace today; after a month it becomes impossible.</p>
+                        </div>
+
+                        <h3 class="sub-heading">Daily High-Value Count Checklist</h3>
+                        <ul class="checklist" id="checklist-daily-hv">
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Last customer served, shop floor clear</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Stocktake App open, "Daily High-Value" template selected</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> All loose flower weighed with scale photo</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> All pre-rolls and pre-packs counted</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> All concentrates counted</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Variances noted with explanations</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Session submitted</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Day-end cashup completed</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-012B: WEEKLY MEDIUM-VALUE COUNT (NEW) -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon" style="background: rgba(245,158,11,0.2); color: #f59e0b;"><i class="fas fa-calendar-week"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-012B: Weekly Medium-Value Count (Tier B)</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Branch Manager</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 20-40 minutes</span>
+                            <span class="sop-tag" style="background: #f59e0b; color: #0E0E0E;">WEEKLY</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To count medium-value product categories once per week (every Monday), supplementing the daily high-value counts and the monthly full stocktake.</p>
+
+                        <h3 class="sub-heading">Categories to Count</h3>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                            <span style="padding: 6px 14px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #f59e0b;">Edibles</span>
+                            <span style="padding: 6px 14px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #f59e0b;">Oils</span>
+                            <span style="padding: 6px 14px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 8px; font-weight: 600; font-size: 0.85rem; color: #f59e0b;">Vapes</span>
+                        </div>
+
+                        <h3 class="sub-heading">Procedure</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Open the Stocktake App on Monday morning before trading</div>
+                                    <div class="step-detail">This should be the first task on Monday, completed before the shop opens.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Select the "Weekly Medium" quick template</div>
+                                    <div class="step-system"><i class="fas fa-mobile-screen-button"></i> New Session &rarr; Quick Templates &rarr; <strong>Weekly Medium</strong></div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Count all edibles, oils, and vapes</div>
+                                    <div class="step-detail">These are all unit-counted products. Use Batch Mode for speed. Enter the count for each item.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Submit the count</div>
+                                    <div class="step-detail">Review variances, add notes where needed, and submit.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <h3 class="sub-heading">Weekly Count Checklist</h3>
+                        <ul class="checklist" id="checklist-weekly-mv">
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Monday morning before trading</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> "Weekly Medium" template selected</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> All edibles counted</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> All oils counted</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> All vapes counted</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Session submitted</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-012: FULL STOCKTAKE (UPDATED - NOW TIER C) -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-012: Full Branch Stocktake (Tier C)</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Branch Manager + Stocktake Team</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 2-4 hours (depending on branch size)</span>
+                            <span class="sop-tag monthly">Monthly</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To count every product in the branch and compare to the system's expected stock levels. This is the ultimate check on stock accuracy and integrity.</p>
+
+                        <h3 class="sub-heading">Before the Stocktake</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Schedule the stocktake in advance</div>
+                                    <div class="step-detail">Notify all staff at least 1 week in advance. Stocktakes happen before or after trading hours, or on a non-trading day. No counting while selling.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Assign counting zones</div>
+                                    <div class="step-detail">Divide the branch into zones: sales floor, backroom, display cases, safe, etc. Assign 1-2 people per zone. Each person counts their zone only.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Ensure all receiving and transfers are processed</div>
+                                    <div class="step-detail">Any pending stock receiving or transfers must be completed in the system before counting begins. Otherwise, the comparison will be wrong.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Open a stocktake session in the Stocktake App</div>
+                                    <div class="step-system"><i class="fas fa-mobile-screen-button"></i> Stocktake App &rarr; New Session &rarr; Full Stocktake</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <h3 class="sub-heading">During the Stocktake</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Count every item physically</div>
+                                    <div class="step-detail">Pick up, count, record. Do not estimate. Do not skip items. Do not "assume" a sealed box has the right number &mdash; open and count. If a product is in multiple locations, count all locations.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Enter counts in the Stocktake App</div>
+                                    <div class="step-detail">Search or scan each product. Enter the physical count. The app does NOT show the expected quantity during counting (blind count) to prevent bias.</div>
+                                    <div class="step-system"><i class="fas fa-mobile-screen-button"></i> Stocktake App &rarr; Search Product &rarr; Enter Count</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Do not adjust counts to match expectations</div>
+                                    <div class="step-detail">If you count 47, enter 47 &mdash; even if the system expects 50. The discrepancy report is the whole point of stocktaking.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Flag damaged, expired, or unknown products</div>
+                                    <div class="step-detail">Mark items that can't be sold in the app: expired, damaged, or products that don't match any catalog entry.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <h3 class="sub-heading">After the Stocktake</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Submit the stocktake session</div>
+                                    <div class="step-detail">Review totals before submitting. Once submitted, the system generates a variance report.</div>
+                                    <div class="step-system"><i class="fas fa-mobile-screen-button"></i> Stocktake App &rarr; Review &rarr; Submit</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Review the variance report</div>
+                                    <div class="step-detail">The system shows: expected vs actual for every product. Focus on items with significant variances (> 5% or > 3 units).</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Investigate discrepancies per SOP-011</div>
+                                    <div class="step-detail">Follow the Stock Discrepancy Investigation procedure for all material variances.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Report results to the Owner</div>
+                                    <div class="step-detail">The stocktake summary (total stock value, variance percentage, key discrepancies) is sent to the owner as part of the monthly report.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <h3 class="sub-heading">Full Stocktake Checklist</h3>
+                        <ul class="checklist" id="checklist-stocktake">
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Staff notified 1 week in advance</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Counting zones assigned</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> All receiving and transfers processed</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Trading paused during count</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Stocktake session opened in app</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> All items physically counted (blind count)</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Damaged/expired items flagged</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Session reviewed and submitted</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Variance report reviewed</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Discrepancies investigated</li>
+                            <li><div class="check-box" onclick="toggleCheck(this)"></div> Results reported to Owner</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-013: SPOT CHECK -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-magnifying-glass"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-013: Random Spot Check (Ad-hoc)</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> Branch Manager / Owner</span>
+                            <span class="sop-meta-item"><i class="fas fa-clock"></i> 10-20 minutes</span>
+                            <span class="sop-tag" style="background: #818cf8; color: white;">AD-HOC</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> Unannounced random checks of specific products to verify stock accuracy and deter theft. Spot checks can be triggered at any time &mdash; by the owner, branch manager, or during surprise audits. These supplement the scheduled Tier A/B/C counts.</p>
+
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Select 10-15 products to spot-check</div>
+                                    <div class="step-detail">Focus on: best-sellers, high-value items, products that had previous discrepancies, and random selections. Vary the selection each week.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Open a spot-check session in the Stocktake App</div>
+                                    <div class="step-system"><i class="fas fa-mobile-screen-button"></i> Stocktake App &rarr; New Session &rarr; Spot Check</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Count the selected products and enter in the app</div>
+                                    <div class="step-detail">Same rules as full stocktake: physical count, blind (don't look at expected first), enter actual.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Submit and review variances</div>
+                                    <div class="step-detail">If any product shows a significant variance, investigate immediately per SOP-011.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box green">
+                            <strong>The Power of Spot Checks</strong>
+                            <p>Random spot checks complement the scheduled daily/weekly/monthly counts. Their power is in unpredictability &mdash; staff never know when one is coming, which deters pilferage far more effectively than scheduled counts alone. The owner can trigger a spot check remotely at any time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- TAB 6: INCIDENTS -->
+        <!-- ================================================================ -->
+        <div class="tab-content" id="tab-incidents">
+
+            <div class="section-header">
+                <div class="section-label">SOP-014 to SOP-016</div>
+                <div class="section-title">Incident &amp; Exception Handling</div>
+                <div class="section-desc">Procedures for when things go wrong &mdash; system outages, customer complaints, security incidents.</div>
+            </div>
+
+            <!-- SOP-014: SYSTEM OUTAGE -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-014: System Outage / Offline Operations</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> All Staff</span>
+                            <span class="sop-tag event">When System Down</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To ensure the branch can continue trading during internet outages or system issues, and that all transactions are properly captured when the system recovers.</p>
+
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Check if the POS is in offline mode</div>
+                                    <div class="step-detail">The POS app detects connectivity loss automatically and switches to offline mode. A banner appears at the top of the screen. Sales continue as normal &mdash; they are saved locally.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Continue processing sales in offline mode</div>
+                                    <div class="step-detail">Products, prices, and customer data are cached locally. Process sales as normal. The system will sync when connectivity returns.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Card payments: use the card terminal independently</div>
+                                    <div class="step-detail">If the card terminal has its own connectivity, process card payments on the terminal. Record the amount in the POS manually if the POS is fully down.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Report the outage</div>
+                                    <div class="step-detail">WhatsApp/call the implementation partner to report the outage. Note the time it started.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">When connectivity returns: verify sync</div>
+                                    <div class="step-detail">The POS auto-syncs queued transactions. Verify that all offline sales appear in the dashboard. If anything is missing, report to the implementation partner.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="info-box green">
+                            <strong>Offline Mode Is NOT an Excuse to Go Manual</strong>
+                            <p>The POS works offline. The Stocktake App works offline. There is no scenario where "the internet is down" means "use paper." The apps save locally and sync later. Continue using the system.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-015: CUSTOMER COMPLAINT -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-comment-dots"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-015: Customer Complaint Handling</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> All Staff (escalate to Branch Manager)</span>
+                            <span class="sop-tag event">As Needed</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Listen fully without interrupting</div>
+                                    <div class="step-detail">Let the customer explain the issue completely. Acknowledge their frustration. Do not argue or become defensive.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Apologize and take ownership</div>
+                                    <div class="step-detail">"I'm sorry you've had this experience. Let me see what I can do to help." You're not admitting fault; you're showing you care.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Assess if you can resolve it immediately</div>
+                                    <div class="step-detail">Wrong product? Exchange it. Overcharged? Process a partial refund (with manager approval per SOP-005). Simple questions? Answer them.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">If you can't resolve it: escalate to the Branch Manager</div>
+                                    <div class="step-detail">Do not make promises you can't keep. Say: "Let me get my manager to help you with this." Never tell a customer "there's nothing I can do."</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Record the complaint</div>
+                                    <div class="step-detail">Log it in the system with: date, customer name, issue, resolution, and who handled it. This is reviewed in the weekly report.</div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP-016: SECURITY INCIDENT -->
+            <div class="sop-card">
+                <div class="sop-header" onclick="toggleSOP(this)">
+                    <div class="sop-icon"><i class="fas fa-shield-halved"></i></div>
+                    <div class="sop-title-wrapper">
+                        <div class="sop-title">SOP-016: Security Incident Procedure</div>
+                        <div class="sop-meta">
+                            <span class="sop-meta-item"><i class="fas fa-user"></i> All Staff</span>
+                            <span class="sop-tag event">Emergency</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down sop-arrow"></i>
+                </div>
+                <div class="sop-content">
+                    <div class="sop-body">
+                        <p class="body-text"><strong>Purpose:</strong> To handle theft, robbery, break-ins, or any security threat. Staff safety comes first.</p>
+
+                        <h3 class="sub-heading">During a Security Incident</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Your safety comes first</div>
+                                    <div class="step-detail">Do not confront, chase, or physically engage with anyone. No product is worth your safety. Comply with demands if threatened.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Activate the panic button / alert security</div>
+                                    <div class="step-detail">Use the branch's emergency system. Call security or SAPS (10111) as soon as it is safe to do so.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Try to remember details</div>
+                                    <div class="step-detail">Number of people, appearance, direction they left, vehicle if applicable. Do this after they leave &mdash; do not draw attention during the incident.</div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <h3 class="sub-heading">After a Security Incident</h3>
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Ensure all staff and customers are safe</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Call the Branch Owner and implementation partner</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Do not touch anything if it's a crime scene</div>
+                                    <div class="step-detail">Preserve evidence for SAPS. Do not clean up, move things, or review camera footage until police arrive.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">Conduct an emergency stock count once cleared</div>
+                                    <div class="step-detail">After police have cleared the scene, perform a spot check (SOP-013) to identify what was taken. Compare to the system's current stock levels.</div>
+                                </div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-number"></div>
+                                <div class="step-content">
+                                    <div class="step-action">File a complete incident report</div>
+                                    <div class="step-detail">Include: date, time, description, items taken (from stock count), SAPS case number, and witness statements.</div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BACK TO TOP -->
+    <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- FOOTER -->
+    <footer class="page-footer">
+        <p>Origin by ILCO Farming &mdash; Standard Operating Procedures v1.0 &mdash; Effective March 2026</p>
+        <p style="margin-top:0.5rem">
+            <a href="staff-handbook.html">Staff Handbook</a> &bull;
+            <a href="training-hub.html">Training Hub</a> &bull;
+            <a href="pos-training.html">POS Training</a> &bull;
+            <a href="training-stocktake.html">Stocktake Training</a>
+        </p>
+        <p style="margin-top:0.5rem">&copy; 2026 Origin. Confidential &mdash; Internal Use Only.</p>
+    </footer>
+
+    <script>
+        const tabLabels = {
+            daily: 'Daily Operations',
+            pos: 'POS & Sales',
+            cash: 'Cash Handling',
+            stock: 'Stock & Receiving',
+            stocktake: 'Stocktake',
+            incidents: 'Incidents'
+        };
+
+        // Tab Navigation (desktop)
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => { switchTab(tab.dataset.tab); });
+        });
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-drawer-item').forEach(d => d.classList.remove('active'));
+            const dt = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
+            if (dt) dt.classList.add('active');
+            const di = document.querySelector(`.nav-drawer-item[data-tab="${tabId}"]`);
+            if (di) di.classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('mobileTabLabel').textContent = tabLabels[tabId] || tabId;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile drawer
+        function toggleDrawer() {
+            const drawer = document.getElementById('navDrawer');
+            const overlay = document.getElementById('navOverlay');
+            const burger = document.getElementById('hamburger');
+            const isOpen = drawer.classList.contains('open');
+            if (isOpen) {
+                drawer.classList.remove('open');
+                overlay.classList.remove('open');
+                burger.classList.remove('open');
+                setTimeout(() => { overlay.style.display = 'none'; }, 300);
+            } else {
+                overlay.style.display = 'block';
+                requestAnimationFrame(() => {
+                    drawer.classList.add('open');
+                    overlay.classList.add('open');
+                    burger.classList.add('open');
+                });
+            }
+        }
+
+        function mobileNav(el) {
+            switchTab(el.dataset.tab);
+            toggleDrawer();
+        }
+
+        // SOP Accordion Toggle
+        function toggleSOP(header) {
+            const card = header.parentElement;
+            const wasActive = card.classList.contains('active');
+            card.closest('.tab-content').querySelectorAll('.sop-card').forEach(c => c.classList.remove('active'));
+            if (!wasActive) card.classList.add('active');
+        }
+
+        // Checklist Toggle
+        function toggleCheck(box) {
+            box.classList.toggle('checked');
+            box.parentElement.classList.toggle('checked-item');
+        }
+
+        // Back to Top
+        window.addEventListener('scroll', () => {
+            document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+        });
+    </script>
+
+</body>
+</html>

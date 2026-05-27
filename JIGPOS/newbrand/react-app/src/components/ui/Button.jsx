@@ -2,13 +2,13 @@ import { forwardRef } from 'react';
 
 const variants = {
   primary:
-    'bg-gradient-to-br from-jig-amber-light via-jig-amber to-jig-amber-dark text-gray-900 shadow-[0_15px_40px_rgba(212,175,55,0.3)] hover:shadow-[0_20px_50px_rgba(212,175,55,0.4)] hover:-translate-y-1 hover:scale-[1.02]',
+    'bg-gradient-to-br from-or-gold-light via-or-gold to-or-gold-dark text-gray-900 shadow-[0_15px_40px_rgba(212,175,55,0.3)] hover:shadow-[0_20px_50px_rgba(212,175,55,0.4)] hover:-translate-y-1 hover:scale-[1.02]',
   secondary:
-    'bg-gradient-to-br from-jig-purple-light via-jig-purple to-jig-purple-dark text-white shadow-[0_15px_40px_rgba(58,95,72,0.3)] hover:shadow-[0_20px_50px_rgba(58,95,72,0.4)] hover:-translate-y-1 hover:scale-[1.02]',
+    'bg-gradient-to-br from-or-gold-light via-or-gold to-or-gold-dark text-white shadow-[0_15px_40px_rgba(58,95,72,0.3)] hover:shadow-[0_20px_50px_rgba(58,95,72,0.4)] hover:-translate-y-1 hover:scale-[1.02]',
   danger:
-    'bg-gradient-to-br from-jig-red to-jig-red-dark text-white shadow-[0_15px_40px_rgba(166,52,41,0.3)] hover:shadow-[0_20px_50px_rgba(166,52,41,0.4)] hover:-translate-y-1',
+    'bg-gradient-to-br from-origin-red to-origin-red-dark text-white shadow-[0_15px_40px_rgba(166,52,41,0.3)] hover:shadow-[0_20px_50px_rgba(166,52,41,0.4)] hover:-translate-y-1',
   ghost:
-    'bg-transparent border-2 border-jig-purple text-jig-purple hover:bg-jig-purple hover:text-white hover:-translate-y-1',
+    'bg-transparent border-2 border-or-gold text-or-gold hover:bg-or-gold hover:text-white hover:-translate-y-1',
 };
 
 const sizes = {

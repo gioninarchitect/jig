@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ORIGIN · SOP Digitisation · Inclusive Action Plan · 04 May 2026</title>
+<style>
+  :root {
+    --or-gold:        #C9A84C;
+    --or-gold-bright: #D4B86A;
+    --or-gold-light:  #E8D5A3;
+    --or-gold-deep:   #7A5C1A;
+    --or-black:       #0A0A0A;
+    --or-dark:        #141414;
+    --or-dark-2:      #1C1C1C;
+    --or-dark-3:      #252525;
+    --or-dark-4:      #2E2E2E;
+    --or-white:       #F5F0E8;
+    --or-cream:       #E8E0D0;
+    --or-grey-1:      #C4BBA8;
+    --or-grey-2:      #A89F8C;
+    --or-grey-3:      #6B6458;
+    --or-green:       #4A7C3F;
+    --or-green-light: #7BC9A6;
+    --or-amber:       #D4A030;
+    --or-red:         #DC2626;
+    --or-red-light:   #FF8B75;
+    --serif: 'Cinzel', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--or-black);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.04) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: var(--or-white);
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 920px; margin: 0 auto; padding: 48px 40px 64px; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--or-dark-3);
+    margin-bottom: 28px;
+  }
+  .brandmark {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--serif);
+    letter-spacing: 0.22em; text-transform: uppercase; font-size: 12px;
+    color: var(--or-gold); font-weight: 600;
+  }
+  .brandmark .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--or-gold); box-shadow: 0 0 16px rgba(201,168,76,0.5);
+  }
+  .stamp {
+    font-family: var(--mono);
+    font-size: 10px; color: var(--or-grey-3); text-align: right; line-height: 1.5;
+  }
+  .stamp b { color: var(--or-grey-1); font-weight: 500; }
+
+  h1.hero {
+    font-family: var(--serif);
+    font-weight: 600; font-size: 32px; line-height: 1.18;
+    margin: 18px 0 10px;
+    color: var(--or-white);
+    letter-spacing: -0.005em;
+  }
+  h1.hero .accent {
+    color: var(--or-gold-light);
+    font-style: italic; font-weight: 500;
+    display: block;
+    margin-top: 4px;
+  }
+  .lede {
+    font-size: 14px; max-width: 760px;
+    color: var(--or-grey-1); margin: 0 0 14px; line-height: 1.65;
+  }
+  .lede strong { color: var(--or-white); font-weight: 600; }
+
+  .alert {
+    border: 1px solid var(--or-red);
+    background: rgba(220,38,38,0.08);
+    border-left: 3px solid var(--or-red-light);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0 22px;
+    font-size: 12.5px;
+    color: var(--or-grey-1);
+    line-height: 1.55;
+  }
+  .alert strong { color: var(--or-red-light); font-weight: 600; }
+  .alert .label {
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--or-red-light); letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 600;
+    display: block; margin-bottom: 4px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 22px; margin: 0 0 4px;
+    color: var(--or-gold); letter-spacing: 0.01em; font-weight: 600;
+  }
+  h2 .num {
+    color: var(--or-gold-deep);
+    font-family: var(--mono);
+    font-size: 11px; margin-right: 14px; vertical-align: 4px;
+    letter-spacing: 0.06em; font-weight: 500;
+  }
+  h2 + .sub {
+    color: var(--or-grey-3); font-size: 12px;
+    border-bottom: 1px solid var(--or-dark-3);
+    padding-bottom: 12px; margin-bottom: 18px;
+    font-style: italic;
+  }
+  h3 {
+    font-size: 14px; margin: 18px 0 8px;
+    color: var(--or-gold-light); font-weight: 600;
+    font-family: var(--serif);
+    letter-spacing: 0.01em;
+  }
+  p { margin: 8px 0 12px; color: var(--or-grey-1); }
+  p strong { color: var(--or-white); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 11.5px;
+    background: rgba(201,168,76,0.08); color: var(--or-gold-light);
+    padding: 2px 6px; border-radius: 3px;
+  }
+
+  /* Big-number cards */
+  .stat-row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 12px; margin: 14px 0 24px;
+  }
+  .stat {
+    border: 1px solid var(--or-dark-3); border-radius: 8px;
+    padding: 14px 16px; background: var(--or-dark);
+    border-left: 3px solid var(--or-gold);
+  }
+  .stat .label {
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--or-grey-3); letter-spacing: 0.1em;
+    text-transform: uppercase; font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .stat .number {
+    font-family: var(--serif); font-size: 28px; font-weight: 700;
+    color: var(--or-gold); line-height: 1;
+    margin: 0 0 4px;
+  }
+  .stat .caption {
+    font-size: 11px; color: var(--or-grey-2);
+    line-height: 1.4;
+  }
+  .stat.amber { border-left-color: var(--or-amber); }
+  .stat.amber .number { color: var(--or-amber); }
+  .stat.red { border-left-color: var(--or-red-light); }
+  .stat.red .number { color: var(--or-red-light); }
+  .stat.green { border-left-color: var(--or-green-light); }
+  .stat.green .number { color: var(--or-green-light); }
+
+  /* Tables */
+  table {
+    width: 100%; border-collapse: collapse;
+    margin: 6px 0 16px; font-size: 12px;
+  }
+  table th, table td {
+    text-align: left; padding: 9px 10px;
+    border-bottom: 1px solid var(--or-dark-3); vertical-align: top;
+    color: var(--or-grey-1);
+  }
+  table th {
+    color: var(--or-gold); font-weight: 600;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    border-bottom: 1px solid var(--or-gold-deep);
+    font-family: var(--serif);
+  }
+  table td.b { color: var(--or-white); font-weight: 600; }
+  table td.center { text-align: center; }
+
+  /* Phase cards */
+  .phase {
+    margin: 14px 0;
+    border: 1px solid var(--or-dark-3); border-radius: 10px;
+    background: var(--or-dark);
+    overflow: hidden;
+    break-inside: avoid;
+  }
+  .phase .head {
+    display: grid; grid-template-columns: 60px 1fr auto;
+    gap: 14px; align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--or-dark-3);
+    background: linear-gradient(180deg, rgba(201,168,76,0.08) 0%, transparent 100%);
+  }
+  .phase .num-circle {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--or-gold-bright) 0%, var(--or-gold) 60%, var(--or-gold-deep) 100%);
+    color: var(--or-black);
+    font-family: var(--serif); font-weight: 700; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 18px rgba(201,168,76,0.25);
+    flex-shrink: 0;
+    text-align: center; line-height: 1.1;
+  }
+  .phase .num-circle .small {
+    font-size: 9px; letter-spacing: 0.05em;
+    text-transform: uppercase; opacity: 0.7;
+    display: block;
+  }
+  .phase .head .meta .name {
+    font-family: var(--serif);
+    font-size: 17px; font-weight: 600; color: var(--or-white);
+    margin: 0 0 2px;
+  }
+  .phase .head .meta .why {
+    font-size: 12px; color: var(--or-grey-2); margin: 0;
+    line-height: 1.45;
+  }
+  .phase .head .pill {
+    font-family: var(--mono); font-size: 9.5px;
+    background: rgba(201,168,76,0.12); color: var(--or-gold-light);
+    padding: 4px 10px; border-radius: 999px;
+    letter-spacing: 0.06em; font-weight: 500;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .phase .body { padding: 14px 18px 18px; }
+  .phase .body table { margin: 4px 0 0; }
+
+  /* Flag pills (PAPER/SCHEDULED/...) */
+  .flag {
+    display: inline-block;
+    font-family: var(--mono); font-size: 9px; font-weight: 600;
+    padding: 2px 7px; border-radius: 999px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-right: 4px; margin-bottom: 2px;
+    white-space: nowrap;
+  }
+  .flag.paper       { background: rgba(168,159,140,0.15); color: var(--or-grey-1); }
+  .flag.scheduled   { background: rgba(123,168,221,0.15); color: #7BA8DD; }
+  .flag.event       { background: rgba(232,133,94,0.15); color: #E8855E; }
+  .flag.signed      { background: rgba(212,160,48,0.15); color: var(--or-amber); }
+  .flag.logbook     { background: rgba(123,201,166,0.15); color: var(--or-green-light); }
+
+  /* Status dots */
+  .status {
+    display: inline-block; width: 9px; height: 9px;
+    border-radius: 50%; margin-right: 6px;
+    vertical-align: middle;
+  }
+  .status.green { background: var(--or-green-light); box-shadow: 0 0 8px rgba(123,201,166,0.4); }
+  .status.amber { background: var(--or-amber);      box-shadow: 0 0 8px rgba(212,160,48,0.4);  }
+  .status.red   { background: var(--or-red-light);  box-shadow: 0 0 8px rgba(255,139,117,0.4); }
+
+  /* Decisions list */
+  .decisions {
+    border: 1px solid var(--or-gold-deep); border-radius: 10px;
+    background: linear-gradient(180deg, rgba(201,168,76,0.05) 0%, transparent 100%);
+    padding: 18px 22px;
+    margin: 16px 0;
+  }
+  .decisions h3 {
+    margin-top: 0; color: var(--or-gold);
+    font-family: var(--serif); font-size: 16px;
+  }
+  .decisions ol { margin: 8px 0 0; padding-left: 22px; }
+  .decisions li {
+    margin-bottom: 10px; color: var(--or-grey-1);
+    font-size: 13px; line-height: 1.55;
+  }
+  .decisions li strong { color: var(--or-white); font-weight: 600; }
+
+  /* Footer */
+  .footer {
+    margin-top: 36px; padding-top: 16px;
+    border-top: 1px solid var(--or-dark-3);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--or-grey-3); font-family: var(--mono);
+  }
+  .footer .seal { color: var(--or-gold); font-weight: 600; }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    html, body {
+      background: var(--or-black) !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body { font-size: 11.5px; line-height: 1.5; }
+    .page { padding: 12mm 10mm; max-width: none; margin: 0; background: transparent; }
+    .topbar { padding-bottom: 10px; margin-bottom: 14px; }
+    h1.hero { font-size: 22px; margin: 6px 0 6px; line-height: 1.18; }
+    h1.hero .accent { font-size: 17px; margin-top: 2px; }
+    .lede { font-size: 11.5px; margin-bottom: 10px; max-width: none; }
+    .alert { font-size: 10.5px; padding: 10px 14px; margin: 10px 0 14px; }
+    h2 {
+      font-size: 16px; margin: 0 0 2px;
+      break-after: avoid; page-break-after: avoid;
+      break-before: page; page-break-before: always;
+    }
+    h2.no-break { break-before: auto; page-break-before: auto; }
+    h2 + .sub { font-size: 10px; padding-bottom: 8px; margin-bottom: 12px; }
+    h3 { font-size: 12.5px; margin: 12px 0 6px; }
+    .stat-row { gap: 8px; margin: 10px 0 16px; }
+    .stat { padding: 10px 12px; }
+    .stat .number { font-size: 22px; }
+    .stat .label { font-size: 8.5px; }
+    .stat .caption { font-size: 10px; }
+    table { font-size: 10.5px; }
+    table th, table td { padding: 6px 8px; }
+    table th { font-size: 9px; }
+    .phase { margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+    .phase .head { padding: 10px 14px; gap: 12px; grid-template-columns: 48px 1fr auto; }
+    .phase .num-circle { width: 44px; height: 44px; font-size: 14px; }
+    .phase .num-circle .small { font-size: 8px; }
+    .phase .head .meta .name { font-size: 14px; }
+    .phase .head .meta .why { font-size: 11px; }
+    .phase .head .pill { font-size: 8.5px; padding: 3px 8px; }
+    .phase .body { padding: 10px 14px 12px; }
+    .flag { font-size: 8px; padding: 1px 6px; }
+    .decisions { padding: 12px 16px; margin: 10px 0; }
+    .decisions h3 { font-size: 13px; }
+    .decisions li { font-size: 11px; margin-bottom: 6px; }
+    .footer { margin-top: 18px; font-size: 8.5px; padding-top: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brandmark">
+      <span class="dot"></span>
+      ORIGIN <span style="color:var(--or-gold-deep);opacity:.8">·</span> by ILCO Farming
+    </div>
+    <div class="stamp">
+      <div><b>SOP DIGITISATION · ACTION PLAN</b></div>
+      <div>Inclusive plan grounded in the 04 May 2026 SOP scan</div>
+      <div>04 May 2026 · v1.0</div>
+    </div>
+  </header>
+
+  <h1 class="hero">
+    76 SOPs, 5 chapters, 14 roles <span class="accent">— one platform, one sign-off chain, one schedule.</span>
+  </h1>
+
+  <p class="lede">
+    Source: the freshly scanned <strong>ILCO SOPs digital scan</strong> (04 May 2026) covering documentation handling, legal compliance, cannabis cultivation, general facility &amp; product handling, and security. This plan maps every SOP to the role that owns it, flags the digital gap, and sequences a 4-phase build that turns paper procedures into tap-and-sign workflows in TnT-ZA.
+  </p>
+
+  <div class="alert">
+    <span class="label">⚠ Source-of-truth conflict to resolve before any artefact ships</span>
+    The 2020 SOP cover sheets list <strong>Authoriser: Coenraad Venter · Approver: Ilse Venter</strong>. Current canonical roster (<code>seed-real-staff.ts</code>): <strong>Ilse = AR · Coenie = DAR · Berne Swart = RP</strong>. Either the 2020 SOPs use generic "authoriser/approver" labels (not regulatory AR/RP titles), or the role assignment has flipped since 2020 and the SOP footers are stale. <strong>Confirm</strong>; we re-issue or re-map accordingly.
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="label">SOPs in scope</div><div class="number">76</div><div class="caption">across 5 chapters</div></div>
+    <div class="stat green"><div class="label">Already digital</div><div class="number">~21</div><div class="caption">all of Chapter 3 Cultivation</div></div>
+    <div class="stat amber"><div class="label">Half-built</div><div class="number">3</div><div class="caption">primitives need generalising</div></div>
+    <div class="stat red"><div class="label">Still paper</div><div class="number">~52</div><div class="caption">Ch 2, Ch 4 events, Ch 5/6 logs</div></div>
+  </div>
+
+  <h2 class="no-break"><span class="num">01</span>Five primitives every SOP reuses</h2>
+  <div class="sub">Build these once in Phase 0 → every form below inherits them. Without these, every SOP re-implements the wheel.</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:24%">Primitive</th>
+        <th>What it does</th>
+        <th style="width:18%">Reused by</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="b">Sign-off chain widget</td>
+        <td>3-row chain: Compiler → Authoriser → Approver. Locks on signature, hash-chained to <code>AuditLog</code>. Already exists for SMF sections — generalise to any SOP record.</td>
+        <td><span class="flag signed">76 / 76</span></td>
+      </tr>
+      <tr>
+        <td class="b">Form 6.1 · Amendment History</td>
+        <td>Append-only revision table on every SOP: revision no, what changed, who, when, why.</td>
+        <td><span class="flag signed">76 / 76</span></td>
+      </tr>
+      <tr>
+        <td class="b">Form 6.2 · Distribution List</td>
+        <td>Numbered authorised-copy roster with "AUTHORISED COPY" green stamp + retrieve-on-supersession hook.</td>
+        <td><span class="flag signed">76 / 76</span></td>
+      </tr>
+      <tr>
+        <td class="b">Logbook primitive</td>
+        <td>Append-only entry stream with optional dual-sign + photo + per-entry hash. One component, many tables.</td>
+        <td><span class="flag logbook">18 SOPs</span></td>
+      </tr>
+      <tr>
+        <td class="b">Schedule engine</td>
+        <td>Cron + ticket spawner with SLA. Cadence becomes a row in <code>ScheduleRule</code>; firing creates a ticket; Maestro surfaces it as "due / overdue / coming up".</td>
+        <td><span class="flag scheduled">15 SOPs</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="num">02</span>Per-role digital UX · what each person taps</h2>
+  <div class="sub">One row per role. Aligned to the canonical roster from <code>seed-real-staff.ts</code> + the agent's per-SOP responsibility map.</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:22%">Role · Person</th>
+        <th style="width:30%">Owns / signs</th>
+        <th>Tap actions in chat (no typing)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="b">AR · Ilse Venter</td>
+        <td>All 2-LEG-* approvals · 4-FPH-007 / 012 / 028 (witness) · 1-DOC-001 / 002 / 003 final approve</td>
+        <td>What's waiting on AR? · Approve &amp; freeze · SAHPRA licence T-90 · Annual director declaration</td>
+      </tr>
+      <tr>
+        <td class="b">DAR · Coenie Venter</td>
+        <td>2-LEG-009 deputy duties · co-signs 2-LEG-003 / 006 / 011 in AR absence</td>
+        <td>DAR queue · Drift triage · Ghost-act as RP · Escalations to AR</td>
+      </tr>
+      <tr>
+        <td class="b">RP · Berne Swart</td>
+        <td>2-LEG-010 / 015 · 4-FPH-015 FP release · 4-FPH-025 S6 register · 4-FPH-027 month-end · 4-FPH-028 / 029</td>
+        <td>Stale SMF sections · Draft with AI · FP release queue · S6 in/out today · ADR · raise · Month-end checklist</td>
+      </tr>
+      <tr>
+        <td class="b">HoC · Lourens Eksteen</td>
+        <td>All 3-CUL-001..010 · 3-INV-008 / 011 · IPM scouting</td>
+        <td>Today's plant tasks · Harvest window 14d · IPM weekly scout · Log feed / pH</td>
+      </tr>
+      <tr>
+        <td class="b">FM · Renae Purdon</td>
+        <td>4-FPH-008 / 009 / 010 / 021 / 026 · 4-SEC-009 / 010 · co-signs 2-LEG-001</td>
+        <td>Greenhouse status · Overdue maintenance · Probe health · Genset weekly test · Monthly expiry sweep</td>
+      </tr>
+      <tr>
+        <td class="b">ProcMgr · Jeanette Ferreira</td>
+        <td>4-FPH-013 / 015 / 017 / 018 / 019 / 020 · signs trim / dry / cure / pack stage records</td>
+        <td>Batches by stage · Today's trim queue · Dry-room weights · Cure jar rotation · Stability pulls due</td>
+      </tr>
+      <tr>
+        <td class="b">QA Inspector · Keke</td>
+        <td>4-FPH-002 / 003 / 005 / 014 / 015 / 017 / 020 / 022 / 023 · signs all 3-CUL stage records</td>
+        <td>Open deviations · COAs awaiting review · Open CAPAs by age · Trend last 30d · Raise deviation</td>
+      </tr>
+      <tr>
+        <td class="b">Security · Sipho<sup style="color:var(--or-amber);font-size:9px;">⚠</sup></td>
+        <td>6-SEC-001 / 002 / 003 / 005 · 4-SEC-006 / 007 / 008</td>
+        <td>Overnight access events · Perimeter status · Log perimeter walk · Visitor sign-in · CCTV / alarm weekly test</td>
+      </tr>
+      <tr>
+        <td class="b">IT · Calvin Green</td>
+        <td>6-SEC-004 only (information-system security)</td>
+        <td>IT ticket queue · Quarterly access review due · Printer queue · Network health</td>
+      </tr>
+      <tr>
+        <td class="b">Admin / HR · Loraine</td>
+        <td>2-LEG-011 / 012 / 013 / 014 · 1-DOC-004 organogram</td>
+        <td>Training expiries 30d · Today's absences · Onboarding pipeline · Archive-purge candidates (5y)</td>
+      </tr>
+      <tr>
+        <td class="b">Trimmer (1 of 25)</td>
+        <td>3-CUL-010 execution + per-batch trim log</td>
+        <td>Today's job · Log weight · Raise issue · End shift</td>
+      </tr>
+      <tr>
+        <td class="b">Cultivator / Nursery / Irrigation</td>
+        <td>3-CUL-001..009 execution + 3-INV-008 / 011 logs</td>
+        <td>Today's plant tasks · Log nutrient mix · Logtag download · Raise pest sighting</td>
+      </tr>
+      <tr>
+        <td class="b">Compiler (unmapped)</td>
+        <td>Compiler signature on every SOP (76 / 76) · 1-DOC-001 / 002 / 003 ownership</td>
+        <td>SOPs due for 3-yr review · New SOP request queue · Distribution list audit</td>
+      </tr>
+      <tr>
+        <td class="b">SAHPRA Inspector</td>
+        <td>Reads everything · writes nothing</td>
+        <td>Show current SMF · Replay how a section was written · Verify audit hash chain · Export section + sign-offs</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:11px;color:var(--or-grey-3);margin-top:8px;"><sup style="color:var(--or-amber);">⚠</sup> Sipho appears in the previous staff memory but not in the current <code>seed-real-staff.ts</code>. Verify before going live.</p>
+
+  <h2><span class="num">03</span>Per-SOP digital readiness · the gap map</h2>
+  <div class="sub">Five non-exclusive flags per SOP. Most regulated forms carry 2-3 flags simultaneously.</div>
+
+  <p style="margin-bottom:14px;">
+    <span class="flag paper">Paper</span> still pen-on-form ·
+    <span class="flag scheduled">Scheduled</span> daily / weekly / monthly cadence ·
+    <span class="flag event">Event</span> triggered by deviation / scan / sample ·
+    <span class="flag signed">Signed</span> regulated signature chain ·
+    <span class="flag logbook">Logbook</span> append-only continuous log
+  </p>
+
+  <table>
+    <thead>
+      <tr><th style="width:14%">Chapter</th><th style="width:14%">SOP count</th><th>Dominant pattern</th><th style="width:30%">Flag mix</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="b">1 · Documentation</td>
+        <td class="center">4</td>
+        <td>SOP lifecycle (create / distribute / version / organogram)</td>
+        <td><span class="flag paper">Paper</span><span class="flag signed">Signed</span><span class="flag event">Event</span></td>
+      </tr>
+      <tr>
+        <td class="b">2 · Legal &amp; QMS</td>
+        <td class="center">17</td>
+        <td>Heavyweight regulator-facing forms (TQCRF, Recall, SIA, ADR, SMF, training matrix)</td>
+        <td><span class="flag signed">Signed</span><span class="flag scheduled">Scheduled</span><span class="flag event">Event</span></td>
+      </tr>
+      <tr>
+        <td class="b">3 · Cultivation</td>
+        <td class="center">17</td>
+        <td>Per-stage plant lifecycle + Logtag T &amp; H + nutrients · <strong style="color:var(--or-green-light);">already digital</strong></td>
+        <td><span class="flag event">Event</span><span class="flag logbook">Logbook</span><span class="flag signed">Signed</span></td>
+      </tr>
+      <tr>
+        <td class="b">4 · Facility &amp; Product Handling</td>
+        <td class="center">28</td>
+        <td>Deviation / CAPA spine + monthly cadences (expiry, month-end, pest) + S6 register</td>
+        <td><span class="flag event">Event</span><span class="flag scheduled">Scheduled</span><span class="flag signed">Signed</span><span class="flag logbook">Logbook</span></td>
+      </tr>
+      <tr>
+        <td class="b">5 / 6 · Security</td>
+        <td class="center">10</td>
+        <td>Daily / weekly logbooks (perimeter, vault, visitor, genset) + IT access review</td>
+        <td><span class="flag logbook">Logbook</span><span class="flag scheduled">Scheduled</span><span class="flag signed">Signed</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="num">04</span>Build sequence · 4 phases, ROI-ordered</h2>
+  <div class="sub">Each phase ships independently. Phase 0 is mandatory; Phases 1–4 can be re-ordered if business priority changes.</div>
+
+  <div class="phase">
+    <div class="head">
+      <div class="num-circle">P0<span class="small">found</span></div>
+      <div class="meta">
+        <div class="name">Phase 0 · Foundation</div>
+        <div class="why">The 5 platform primitives. Everything downstream inherits these. Without Phase 0, every form re-builds the wheel.</div>
+      </div>
+      <div class="pill">1 sprint</div>
+    </div>
+    <div class="body">
+      <table>
+        <thead><tr><th style="width:35%">Deliverable</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td class="b">Prisma models</td><td><code>SopRecord</code> · <code>SopVersion</code> · <code>SopDistribution</code> · <code>SopSignature</code> · <code>LogbookEntry</code> · <code>ScheduleRule</code></td></tr>
+          <tr><td class="b">React widget</td><td><code>&lt;SignOffChain&gt;</code> · 3-row Compiler / Authoriser / Approver with signature lock</td></tr>
+          <tr><td class="b">React widget</td><td><code>&lt;AmendmentHistory&gt;</code> + <code>&lt;DistributionList&gt;</code> auto-attached to every SOP entity</td></tr>
+          <tr><td class="b">React widget</td><td><code>&lt;Logbook&gt;</code> with append-only enforcement, dual-sign + photo support</td></tr>
+          <tr><td class="b">Schedule engine</td><td>Cron daemon writes tickets · Maestro picks them up · "due / overdue" surfaces in chat</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="head">
+      <div class="num-circle">P1<span class="small">log</span></div>
+      <div class="meta">
+        <div class="name">Phase 1 · High-volume LOGBOOK wins</div>
+        <div class="why">Biggest daily-friction wins. Replaces pen-and-clipboard on the highest-touch logs.</div>
+      </div>
+      <div class="pill">1 sprint</div>
+    </div>
+    <div class="body">
+      <table>
+        <thead><tr><th style="width:24%">SOP</th><th style="width:38%">Surface</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td class="b">4-FPH-025 · S6 register</td><td>Tap-to-log in / out · dual sign · QR on jar</td><td>RP</td></tr>
+          <tr><td class="b">6-SEC-005 · Vault entry</td><td>Tap-to-log entry / exit · dual sign · CCTV link</td><td>Security</td></tr>
+          <tr><td class="b">4-SEC-007 · Visitor book</td><td>iPad sign-in at gate · photo · auto-leave on exit</td><td>Security</td></tr>
+          <tr><td class="b">4-FPH-019 · Cold chain</td><td>Logtag CSV auto-ingest · breach → ticket</td><td>ProcMgr</td></tr>
+          <tr><td class="b">3-INV-008 · Logtag T &amp; H</td><td>Same Logtag pipeline · breach → SMF drift</td><td>HoC + RP</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="head">
+      <div class="num-circle">P2<span class="small">event</span></div>
+      <div class="meta">
+        <div class="name">Phase 2 · Event-driven core</div>
+        <div class="why">The regulated event spine — every other form chains off these.</div>
+      </div>
+      <div class="pill">2 sprints</div>
+    </div>
+    <div class="body">
+      <table>
+        <thead><tr><th style="width:24%">SOP</th><th style="width:38%">Surface</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td class="b">4-FPH-002 · Deviation</td><td>"Raise deviation" button on every screen · auto-classify · ticket</td><td>All</td></tr>
+          <tr><td class="b">4-FPH-003 · CAPA</td><td>Linked from any deviation · root cause + closure SLA</td><td>QA</td></tr>
+          <tr><td class="b">4-FPH-005 · T &amp; H breach</td><td>Auto-spawned from Logtag breach (Phase 1)</td><td>RP</td></tr>
+          <tr><td class="b">4-FPH-007 · Change control</td><td>Form + AR final approval · feeds 1-DOC-003</td><td>AR</td></tr>
+          <tr><td class="b">2-LEG-003 · TQCRF</td><td>Dedicated complaints form · quarantine link · quarterly review widget</td><td>AR</td></tr>
+          <tr><td class="b">2-LEG-004 · Recall</td><td>18-field post-recall form · class I / II / III workflow · SAHPRA notify</td><td>AR + RP</td></tr>
+          <tr><td class="b">2-LEG-015 · ADR</td><td>Pharmacovigilance form · SAHPRA timeline tracker</td><td>RP</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="head">
+      <div class="num-circle">P3<span class="small">cron</span></div>
+      <div class="meta">
+        <div class="name">Phase 3 · Scheduled cadence</div>
+        <div class="why">Calendar engine pays off. Daily / weekly / monthly / annual cadences become tickets, not memory tax.</div>
+      </div>
+      <div class="pill">1 sprint</div>
+    </div>
+    <div class="body">
+      <table>
+        <thead><tr><th style="width:14%">Cadence</th><th style="width:46%">SOPs</th><th>Surface</th></tr></thead>
+        <tbody>
+          <tr><td class="b">Daily</td><td>6-SEC-001 perimeter · 4-FPH-009 hygiene log</td><td>Mobile checklist</td></tr>
+          <tr><td class="b">Weekly</td><td>6-SEC-002 CCTV / alarm · 4-SEC-010 genset · 4-FPH-008 housekeeping</td><td>Friday widget</td></tr>
+          <tr><td class="b">Monthly</td><td>4-FPH-010 pest · 4-FPH-021 expiry sweep · 4-FPH-026 spillage kit · 4-FPH-027 month-end · 4-FPH-018 stability pull</td><td>Monthly cockpit</td></tr>
+          <tr><td class="b">Quarterly</td><td>2-LEG-003 complaints review · 6-SEC-004 IT access review</td><td>RP / IT widget</td></tr>
+          <tr><td class="b">Annual</td><td>2-LEG-006 SIA · 2-LEG-005 vendor · 2-LEG-007 courier · 4-FPH-004 risk · 4-SEC-009 fire · 2-LEG-001 director declaration</td><td>Year-plan widget</td></tr>
+          <tr><td class="b">Periodic</td><td>1-DOC-001 3-yr SOP review · 1-DOC-003 5-yr archive purge · 2-LEG-001 90-day licence renewal</td><td>Compiler cockpit</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="head">
+      <div class="num-circle">P4<span class="small">heavy</span></div>
+      <div class="meta">
+        <div class="name">Phase 4 · Heavyweight regulator forms</div>
+        <div class="why">The 5 SOPs that carry 80% of regulated event flow. Polish + dedicated wizards.</div>
+      </div>
+      <div class="pill">2 sprints</div>
+    </div>
+    <div class="body">
+      <table>
+        <thead><tr><th style="width:30%">SOP</th><th>Why heavyweight</th></tr></thead>
+        <tbody>
+          <tr><td class="b">2-LEG-006 · SIA</td><td>9-section, 59-page audit checklist · digital wizard with section-by-section sign-off · 5-yr retention</td></tr>
+          <tr><td class="b">2-LEG-004 · Recall</td><td>18-field post-recall form + class I / II / III decision tree + SAHPRA notify chain</td></tr>
+          <tr><td class="b">2-LEG-003 · TQCRF</td><td>Full complaints form with quarantine + RCA + CAPA threading + quarterly review</td></tr>
+          <tr><td class="b">4-FPH-002 / 003 · Deviation + CAPA</td><td>From Phase 2 · gets full polish: trend analytics, SLA escalation, cross-batch linking</td></tr>
+          <tr><td class="b">4-FPH-015 · FP release</td><td>Per-batch RP release with COA gate · S6 register integration · destruction handoff</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2><span class="num">05</span>What's already done · status check</h2>
+  <div class="sub">Honest baseline before we cut Phase 0 tickets.</div>
+
+  <h3><span class="status green"></span>Already built</h3>
+  <table>
+    <tbody>
+      <tr><td class="b" style="width:40%">Cultivation surfaces (Ch 3)</td><td>21 SOPs digitised across the cultivation dashboard</td></tr>
+      <tr><td class="b">RP / DAR / AR / QA dashboards</td><td>Sign-off queue · SMF drift · stale-section radar</td></tr>
+      <tr><td class="b">SMF Composer (Opus 4.7)</td><td>Drafts regulator-grade text with hash-chained audit</td></tr>
+      <tr><td class="b">SMF Drift Daemon</td><td>Catches operational changes that invalidate signed sections</td></tr>
+      <tr><td class="b">Tickets system</td><td>Substrate for everything · the operating layer</td></tr>
+      <tr><td class="b">AuditLog + AICall</td><td>Hash-chained log of every action and every Claude call</td></tr>
+    </tbody>
+  </table>
+
+  <h3><span class="status amber"></span>Half-built · needs generalising in Phase 0</h3>
+  <table>
+    <tbody>
+      <tr><td class="b" style="width:40%">Sign-off chain</td><td>Works for SMF sections; not yet generalised to all SOPs</td></tr>
+      <tr><td class="b">Logbook primitive</td><td>Cultivation logs done; not generalised to S6 / vault / visitor / cold chain</td></tr>
+      <tr><td class="b">Schedule engine</td><td>Drift daemon exists; cadence-based scheduler not yet</td></tr>
+    </tbody>
+  </table>
+
+  <h3><span class="status red"></span>Not built · the meat of Phases 1–4</h3>
+  <table>
+    <tbody>
+      <tr><td class="b" style="width:40%">All 18 LOGBOOK SOPs</td><td>Need the generalised Logbook primitive (Phase 0) + per-SOP wiring (Phase 1)</td></tr>
+      <tr><td class="b">All 25 EVENT-DRIVEN SOPs</td><td>Need the deviation / CAPA event spine (Phase 2)</td></tr>
+      <tr><td class="b">All 15 SCHEDULED SOPs</td><td>Need the cron + ticket engine (Phase 3)</td></tr>
+      <tr><td class="b">Chapter 2 Legal forms</td><td>TQCRF, Recall, SIA, ADR, training matrix wizards (Phase 4)</td></tr>
+      <tr><td class="b">Compiler's SOP-version cockpit</td><td>3-yr review queue, distribution list audit, change control feed</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="num">06</span>Five decisions before sprint 1</h2>
+  <div class="sub">Lock these and Phase 0 tickets get cut today.</div>
+
+  <div class="decisions">
+    <h3>Owner sign-off needed on:</h3>
+    <ol>
+      <li><strong>AR / RP / DAR mapping conflict.</strong> 2020 SOPs say Coenie = Authoriser, Ilse = Approver. Current canonical: Ilse = AR, Coenie = DAR, Berne = RP. Confirm so we re-issue or re-map.</li>
+      <li><strong>Compiler line on the SOP cover sheet</strong> — provision a dedicated user, or assign an existing role-holder to wear that hat?</li>
+      <li><strong>Sipho on Security</strong> — confirm still on staff, then add to <code>seed-real-staff.ts</code>.</li>
+      <li><strong>Phase ordering</strong> — Phase 1 (logbook wins) before Phase 2 (event spine) is the proposal. Or do regulator-grade event forms (TQCRF / Recall / SIA) come first?</li>
+      <li><strong>Verbatim SOP body reads</strong> — for SOPs beyond the 6 read in this audit, flags are inferred from titles + the universal template. Want a verbatim read of the remaining 54 PDFs before tickets get cut?</li>
+    </ol>
+  </div>
+
+  <div class="footer">
+    <div>ORIGIN · by ILCO Farming · TnT-ZA · SOP Digitisation Action Plan · Confidential</div>
+    <div class="seal">04 May 2026 · v1.0</div>
+  </div>
+
+</div>
+</body>
+</html>

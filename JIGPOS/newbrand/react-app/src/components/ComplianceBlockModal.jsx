@@ -42,9 +42,9 @@ export default function ComplianceBlockModal({ open, onClose, blocks, warnings, 
       <div className="space-y-4">
         {/* Status header */}
         <div className={`p-3 rounded-lg text-center ${
-          hasBlocks ? 'bg-jig-red/10 border border-jig-red/20' : 'bg-jig-amber/10 border border-jig-amber/20'
+          hasBlocks ? 'bg-origin-red/10 border border-origin-red/20' : 'bg-or-gold/10 border border-or-gold/20'
         }`}>
-          <div className={`font-heading text-lg ${hasBlocks ? 'text-jig-red' : 'text-jig-amber-dark'}`}>
+          <div className={`font-heading text-lg ${hasBlocks ? 'text-origin-red' : 'text-or-gold-dark'}`}>
             {hasBlocks ? 'SALE BLOCKED' : 'WARNINGS DETECTED'}
           </div>
           <div className="text-xs text-gray-500 mt-1">
@@ -58,13 +58,13 @@ export default function ComplianceBlockModal({ open, onClose, blocks, warnings, 
         {/* Blocks */}
         {hasBlocks && (
           <div className="space-y-2">
-            <div className="text-xs text-jig-red font-bold uppercase">Blocking Issues</div>
+            <div className="text-xs text-origin-red font-bold uppercase">Blocking Issues</div>
             {blocks.map((block, i) => {
               const cfg = BLOCK_TYPE_CONFIG[block.type] || { label: block.type };
               const canRemove = block.action === 'REMOVE_ITEM' || block.action === 'BLOCK_MEDICAL_ITEMS';
 
               return (
-                <div key={i} className="p-3 rounded-lg border border-jig-red/20 bg-jig-red/5">
+                <div key={i} className="p-3 rounded-lg border border-origin-red/20 bg-origin-red/5">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
@@ -78,7 +78,7 @@ export default function ComplianceBlockModal({ open, onClose, blocks, warnings, 
                     {canRemove && block.itemId && onRemoveItem && (
                       <button
                         onClick={() => onRemoveItem(block.itemId)}
-                        className="px-3 py-1.5 rounded-lg bg-jig-red text-white text-xs font-bold hover:bg-red-700 transition-colors shrink-0"
+                        className="px-3 py-1.5 rounded-lg bg-origin-red text-white text-xs font-bold hover:bg-red-700 transition-colors shrink-0"
                       >
                         Remove
                       </button>
@@ -93,12 +93,12 @@ export default function ComplianceBlockModal({ open, onClose, blocks, warnings, 
         {/* Warnings */}
         {hasWarnings && (
           <div className="space-y-2">
-            <div className="text-xs text-jig-amber-dark font-bold uppercase">Warnings</div>
+            <div className="text-xs text-or-gold-dark font-bold uppercase">Warnings</div>
             {warnings.map((warning, i) => {
               const cfg = BLOCK_TYPE_CONFIG[warning.type] || { label: warning.type };
 
               return (
-                <div key={i} className="p-3 rounded-lg border border-jig-amber/20 bg-jig-amber/5">
+                <div key={i} className="p-3 rounded-lg border border-or-gold/20 bg-or-gold/5">
                   <div className="flex items-center gap-2 mb-1">
                     <Badge status="warning">{cfg.label}</Badge>
                   </div>
@@ -120,7 +120,7 @@ export default function ComplianceBlockModal({ open, onClose, blocks, warnings, 
           {!hasBlocks && hasWarnings && onProceedWithWarnings && (
             <button
               onClick={onProceedWithWarnings}
-              className="flex-1 py-2.5 rounded-lg bg-jig-amber text-white text-sm font-bold hover:bg-jig-amber-dark transition-colors"
+              className="flex-1 py-2.5 rounded-lg bg-or-gold text-white text-sm font-bold hover:bg-or-gold-dark transition-colors"
             >
               Proceed with Warnings
             </button>

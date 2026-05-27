@@ -1,13 +1,14 @@
 #!/usr/bin/env node
-// Quick script to add stock to all products for testing
+// Seed stock for all branches — updates Product inventory AND creates BranchInventory records
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Product = require('./backend/modules/database/models/Product');
+const Branch = require('./backend/modules/database/models/Branch');
+const BranchInventory = require('./backend/modules/database/models/BranchInventory');
 
 async function seedStock() {
     try {
-        // Connect to MongoDB
-        const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+        const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
         await mongoose.connect(mongoURI);
         console.log('Connected to MongoDB');
 
@@ -24,22 +25,49 @@ async function seedStock() {
                 }
             }
         );
+        console.log(`Updated ${result.modifiedCount} products with stock`);
 
-        console.log(`✅ Updated ${result.modifiedCount} products with stock`);
-        console.log('All products now have 50 units in stock');
+        // Get all branches and products
+        const branches = await Branch.find({ isActive: true });
+        const products = await Product.find({});
+        console.log(`\nAllocating stock: ${products.length} products x ${branches.length} branches`);
 
-        // Show some products
-        const products = await Product.find({}).limit(5).select('name sku inventory.quantity category');
-        console.log('\nSample products:');
-        products.forEach(p => {
-            console.log(`- ${p.name} (${p.sku}): ${p.inventory.quantity} units [${p.category}]`);
-        });
+        // Clear existing branch inventory
+        await BranchInventory.deleteMany({});
+
+        // Create BranchInventory for every product at every branch
+        const records = [];
+        for (const branch of branches) {
+            for (const product of products) {
+                records.push({
+                    branchId: branch._id,
+                    productId: product._id,
+                    quantity: 50,
+                    reserved: 0,
+                    lowStockThreshold: 10,
+                    reorderPoint: 20,
+                    reorderQuantity: 50
+                });
+            }
+        }
+
+        if (records.length > 0) {
+            await BranchInventory.insertMany(records);
+        }
+
+        console.log(`Created ${records.length} branch inventory records`);
+
+        // Show summary
+        for (const branch of branches) {
+            const count = await BranchInventory.countDocuments({ branchId: branch._id, quantity: { $gt: 0 } });
+            console.log(`  [${branch.branchCode}] ${branch.name}: ${count} products in stock`);
+        }
 
         await mongoose.disconnect();
-        console.log('\n✅ Stock seeded successfully!');
+        console.log('\nStock seeded successfully!');
         process.exit(0);
     } catch (error) {
-        console.error('❌ Error seeding stock:', error);
+        console.error('Error seeding stock:', error);
         process.exit(1);
     }
 }

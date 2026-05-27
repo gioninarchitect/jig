@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Origin Staff Handbook &amp; KPI Framework - Document</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 18mm 25mm 18mm;
+        }
+
+        :root {
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --text-primary: #111111;
+            --text-secondary: #444444;
+            --text-muted: #666666;
+            --border: #D1D5DB;
+            --border-light: #E5E7EB;
+            --bg-light: #F9FAFB;
+            --bg-green-light: #F0FDF4;
+            --bg-red-light: #FEF2F2;
+            --bg-gold-light: #FFFBEB;
+            --bg-blue-light: #EFF6FF;
+            --red: #DC2626;
+            --gold: #D97706;
+            --blue: #2563EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: var(--text-primary);
+            line-height: 1.65;
+            font-size: 11pt;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* PRINT TOOLBAR - hidden on print */
+        .toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #111;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+        .toolbar-btn {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .toolbar-btn.primary { background: var(--or-gold); color: #fff; }
+        .toolbar-btn.secondary { background: #333; color: #fff; border: 1px solid #555; }
+
+        @media print {
+            .toolbar { display: none !important; }
+            body { padding-top: 0; }
+            .page-break { page-break-before: always; }
+            .no-break { page-break-inside: avoid; }
+        }
+        @media screen {
+            body { padding-top: 60px; }
+        }
+
+        /* DOCUMENT LAYOUT */
+        .doc {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* COVER PAGE */
+        .cover {
+            text-align: center;
+            padding: 80px 0 60px;
+            border-bottom: 3px solid var(--or-gold);
+            margin-bottom: 2rem;
+        }
+        .cover-logo { width: 80px; height: 80px; margin-bottom: 1rem; }
+        .cover-brand {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--or-gold);
+            letter-spacing: 0.05em;
+        }
+        .cover-tagline {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+        .cover-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 2rem;
+            letter-spacing: 0.02em;
+        }
+        .cover-meta {
+            margin-top: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .cover-meta-row {
+            margin: 0.25rem 0;
+        }
+        .cover-meta-row strong { color: var(--text-primary); }
+        .cover-classification {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.4rem 1.5rem;
+            border: 2px solid var(--red);
+            color: var(--red);
+            font-family: 'Cinzel', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.8rem;
+        }
+
+        /* TABLE OF CONTENTS */
+        .toc {
+            padding: 1.5rem 0;
+            margin-bottom: 1rem;
+        }
+        .toc h2 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            color: var(--or-gold);
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            border-bottom: 1px dotted var(--border-light);
+            font-size: 0.95rem;
+        }
+        .toc-item.section {
+            font-family: 'Cinzel', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+            border-bottom: none;
+            color: var(--or-gold-muted);
+        }
+        .toc-num { color: var(--text-muted); }
+
+        /* SECTION HEADER */
+        .sec-header {
+            margin: 2.5rem 0 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--or-gold);
+        }
+        .sec-number {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--or-gold);
+        }
+        .sec-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-top: 0.25rem;
+        }
+
+        /* SUB-HEADING */
+        h3 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--or-gold-muted);
+            margin: 1.5rem 0 0.75rem;
+        }
+        h4 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin: 1rem 0 0.5rem;
+        }
+
+        p { margin-bottom: 0.6rem; color: var(--text-secondary); }
+
+        /* MANDATE BOX */
+        .mandate {
+            border: 2px solid var(--or-gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        .mandate-label {
+            position: absolute;
+            top: -0.6rem;
+            left: 1rem;
+            background: #fff;
+            padding: 0 0.5rem;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--or-gold);
+        }
+        .mandate h3 { margin-top: 0; }
+        .hl { color: var(--or-gold); font-weight: 600; }
+        .sig-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        .sig-line { border-bottom: 1px solid var(--text-secondary); margin-bottom: 0.3rem; min-height: 2rem; }
+        .sig-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+        /* LISTS */
+        ul.check-list {
+            list-style: none;
+            padding: 0;
+        }
+        ul.check-list li {
+            padding: 0.35rem 0 0.35rem 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        ul.check-list li::before {
+            content: '\2713';
+            position: absolute;
+            left: 0;
+            color: var(--or-gold);
+            font-weight: 700;
+        }
+        ol.num-list {
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+        ol.num-list li {
+            padding: 0.3rem 0;
+        }
+
+        /* INFO BOXES */
+        .box {
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-left: 4px solid;
+            font-size: 0.9rem;
+        }
+        .box.green { background: var(--bg-green-light); border-color: var(--or-gold); }
+        .box.red { background: var(--bg-red-light); border-color: var(--red); }
+        .box.gold { background: var(--bg-gold-light); border-color: var(--gold); }
+        .box.blue { background: var(--bg-blue-light); border-color: var(--blue); }
+        .box strong { color: var(--text-primary); display: block; margin-bottom: 0.25rem; }
+        .box p { margin: 0; }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        th {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--or-gold-muted);
+            text-align: left;
+            padding: 0.6rem 0.75rem;
+            background: var(--bg-light);
+            border-bottom: 2px solid var(--border);
+        }
+        td {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            vertical-align: top;
+        }
+        .target { color: var(--or-gold-muted); font-weight: 600; }
+        .critical { color: var(--red); font-weight: 600; }
+
+        /* ROLE CARD */
+        .role {
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .role-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .role-icon-doc {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-green-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--or-gold);
+        }
+        .role-name {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .role-reports { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* TIMELINE */
+        .timeline-item-doc {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .timeline-item-doc:last-child { border-bottom: none; }
+        .phase-num {
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--or-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--or-gold);
+            flex-shrink: 0;
+        }
+        .phase-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+        .phase-tag.coaching { background: var(--bg-green-light); color: var(--or-gold-muted); }
+        .phase-tag.enforce { background: var(--bg-red-light); color: var(--red); }
+
+        /* ESCALATION */
+        .esc-level {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: var(--bg-light);
+            border-radius: 4px;
+        }
+        .esc-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .esc-num.yellow { background: #FEF3C7; color: var(--gold); }
+        .esc-num.orange { background: #FEE2E2; color: #F87171; }
+        .esc-num.red { background: #FEE2E2; color: var(--red); }
+        .esc-title {
+            font-family: 'Cinzel', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        .esc-desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+        /* FOOTER */
+        .doc-footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        @media print {
+            .doc { padding: 0; max-width: none; }
+            .cover { padding: 60px 0 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOOLBAR (hidden on print) -->
+    <div class="toolbar">
+        <button class="toolbar-btn primary" onclick="window.print()"><i class="fas fa-print"></i> Print / Save as PDF</button>
+        <a class="toolbar-btn secondary" href="staff-handbook.html"><i class="fas fa-desktop"></i> Interactive Version</a>
+        <a class="toolbar-btn secondary" href="sop-operations-doc.html"><i class="fas fa-clipboard-list"></i> SOP Document</a>
+    </div>
+
+    <div class="doc">
+
+        <!-- COVER PAGE -->
+        <div class="cover">
+            <img src="images/origin-logo.png" alt="Origin" class="cover-logo" onerror="this.style.display='none'">
+            <div class="cover-brand">Origin</div>
+            <div class="cover-tagline">Premium Cannabis Care</div>
+            <div class="cover-title">Staff Handbook &amp;<br>KPI Framework</div>
+            <div class="cover-meta">
+                <div class="cover-meta-row">Version <strong>1.0</strong> &mdash; Effective <strong>March 2026</strong></div>
+                <div class="cover-meta-row">Prepared by: <strong>Implementation Partner</strong></div>
+                <div class="cover-meta-row">Approved by: <strong>___________________________</strong> (Branch Owner)</div>
+            </div>
+            <div class="cover-classification">Confidential &mdash; Internal Use Only</div>
+        </div>
+
+        <!-- TABLE OF CONTENTS -->
+        <div class="toc page-break">
+            <h2>Table of Contents</h2>
+            <div class="toc-item section">Section 1: Owner Mandate</div>
+            <div class="toc-item"><span>1.1 Mandate to Implement</span><span class="toc-num">3</span></div>
+            <div class="toc-item"><span>1.2 Owner Commitments</span><span class="toc-num">3</span></div>
+            <div class="toc-item"><span>1.3 Implementation Partner Commitments</span><span class="toc-num">4</span></div>
+            <div class="toc-item section">Section 2: Change Management</div>
+            <div class="toc-item"><span>2.1 Addressing Staff Objections</span><span class="toc-num">5</span></div>
+            <div class="toc-item"><span>2.2 Transition Timeline</span><span class="toc-num">6</span></div>
+            <div class="toc-item"><span>2.3 System Champion Strategy</span><span class="toc-num">7</span></div>
+            <div class="toc-item section">Section 3: Roles &amp; KPIs</div>
+            <div class="toc-item"><span>3.1 Sales Assistant / Budtender</span><span class="toc-num">8</span></div>
+            <div class="toc-item"><span>3.2 Branch Manager</span><span class="toc-num">9</span></div>
+            <div class="toc-item"><span>3.3 Inventory Manager</span><span class="toc-num">10</span></div>
+            <div class="toc-item"><span>3.4 Owner / Operations Director</span><span class="toc-num">11</span></div>
+            <div class="toc-item"><span>3.5 Stocktake Operator</span><span class="toc-num">12</span></div>
+            <div class="toc-item"><span>3.6 Dispatch Operator / Packer</span><span class="toc-num">12</span></div>
+            <div class="toc-item section">Section 4: Accountability</div>
+            <div class="toc-item"><span>4.1 Escalation Framework</span><span class="toc-num">13</span></div>
+            <div class="toc-item"><span>4.2 Non-Compliance Categories</span><span class="toc-num">14</span></div>
+            <div class="toc-item"><span>4.3 Compliance Reporting</span><span class="toc-num">14</span></div>
+            <div class="toc-item section">Section 5: Training &amp; Support</div>
+            <div class="toc-item"><span>5.1 Training Resources</span><span class="toc-num">15</span></div>
+            <div class="toc-item"><span>5.2 New Staff Schedule</span><span class="toc-num">15</span></div>
+            <div class="toc-item"><span>5.3 Getting Help</span><span class="toc-num">16</span></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SECTION 1: OWNER MANDATE -->
+        <!-- ============================================================ -->
+        <div class="page-break">
+            <div class="sec-header">
+                <div class="sec-number">Section 1</div>
+                <div class="sec-title">Owner Mandate &amp; System Authorization</div>
+            </div>
+
+            <div class="mandate no-break">
+                <div class="mandate-label">Official Mandate</div>
+                <h3 style="margin-top:0.5rem">Mandate to Implement Origin Digital Operating System</h3>
+
+                <p>I, <span class="hl">___________________________</span> (Branch Owner / Director), hereby authorize and mandate the implementation of the <span class="hl">Origin Digital Operating System</span> across all branch operations effective <span class="hl">___________________________</span> (date).</p>
+
+                <p>I appoint <span class="hl">___________________________</span> (Implementation Partner) as the authorized third party responsible for:</p>
+
+                <ul class="check-list">
+                    <li>Full deployment and configuration of the Origin POS, Inventory, Stocktake, and Management systems</li>
+                    <li>Training of all branch staff on system procedures and Standard Operating Procedures (SOPs)</li>
+                    <li>Enforcement of compliance with digital processes as outlined in this handbook</li>
+                    <li>Reporting of non-compliance directly to the branch owner</li>
+                    <li>Making system changes and updates as required for operational efficiency</li>
+                </ul>
+
+                <p><strong>I understand and agree that:</strong></p>
+                <ul class="check-list">
+                    <li>All manual processes will be phased out according to the transition timeline in this document</li>
+                    <li>Staff compliance with the digital system is <strong>mandatory, not optional</strong></li>
+                    <li>The Implementation Partner has authority to escalate non-compliance to me for disciplinary action</li>
+                    <li>No branch staff may revert to manual processes without written approval from the Owner</li>
+                    <li>KPIs outlined in this handbook form part of each role's performance assessment</li>
+                </ul>
+
+                <div class="box red">
+                    <strong>Non-Negotiable</strong>
+                    <p>Once the transition deadline passes, manual processes are no longer accepted. Any staff member who refuses to use the system will be subject to the escalation procedure outlined in Section 4.</p>
+                </div>
+
+                <div class="sig-grid">
+                    <div>
+                        <div class="sig-line"></div>
+                        <div class="sig-label">Branch Owner / Director &mdash; Name &amp; Signature</div>
+                        <br>
+                        <div class="sig-line"></div>
+                        <div class="sig-label">Date</div>
+                    </div>
+                    <div>
+                        <div class="sig-line"></div>
+                        <div class="sig-label">Implementation Partner &mdash; Name &amp; Signature</div>
+                        <br>
+                        <div class="sig-line"></div>
+                        <div class="sig-label">Date</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>1.2 What the Owner Commits To</h3>
+            <ul class="check-list">
+                <li><strong>Back the mandate publicly</strong> &mdash; tell your staff in person that this is happening and it is non-negotiable</li>
+                <li><strong>Attend the kickoff meeting</strong> &mdash; be present when the system is introduced to show your commitment</li>
+                <li><strong>Review weekly reports</strong> &mdash; the implementation partner will send you compliance reports; read them</li>
+                <li><strong>Act on escalations</strong> &mdash; when non-compliance is reported, follow through with the consequence</li>
+                <li><strong>Do not override the system</strong> &mdash; if a staff member asks you for an exception, redirect them to the process</li>
+            </ul>
+
+            <h3>1.3 What the Implementation Partner Commits To</h3>
+            <ul class="check-list">
+                <li><strong>Thorough training</strong> &mdash; every staff member will receive hands-on training before being expected to use the system</li>
+                <li><strong>Patience during the learning curve</strong> &mdash; mistakes are expected in week 1-2; coaching comes before consequences</li>
+                <li><strong>Clear documentation</strong> &mdash; all SOPs are available as professional, step-by-step guides accessible from any device</li>
+                <li><strong>Responsive support</strong> &mdash; questions and issues will be addressed within 24 hours during the transition period</li>
+                <li><strong>Fair reporting</strong> &mdash; compliance reports will be factual and include context, not just complaints</li>
+            </ul>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SECTION 2: CHANGE MANAGEMENT -->
+        <!-- ============================================================ -->
+        <div class="page-break">
+            <div class="sec-header">
+                <div class="sec-number">Section 2</div>
+                <div class="sec-title">Change Management Framework</div>
+            </div>
+
+            <div class="box gold">
+                <strong>The Real Problem</strong>
+                <p>Staff don't resist technology &mdash; they resist change and loss of control. The old manual system, however inefficient, is familiar and comfortable. Our strategy addresses the emotional resistance, not just the technical rollout.</p>
+            </div>
+
+            <h3>2.1 Addressing Staff Objections</h3>
+
+            <h4>"The old way works fine"</h4>
+            <p>The old way works &mdash; until someone makes a counting mistake, forgets to write something down, or a dispute comes up with no record. The system doesn't replace your skill; it protects you from blame. Every sale, every stock count, every cashup is recorded and timestamped. If there's ever a question, the system has your back.</p>
+
+            <h4>"It takes too long / slows me down"</h4>
+            <p>Yes, it's slower right now because it's new. After 2 weeks of daily use, you'll be faster on the system than you ever were manually. Average staff proficiency reaches 80% within 10 working days. By week 3, most staff report the system is faster than manual.</p>
+
+            <h4>"You're just trying to spy on us"</h4>
+            <p>The system tracks transactions, not people. It records what happens at the till, in the stockroom, and in the delivery chain. If you're doing your job well, the system makes that visible. If there's a problem, it helps find the cause instead of blaming the nearest person.</p>
+
+            <h4>"What if the system goes down?"</h4>
+            <p>The POS and Stocktake apps work offline. If the internet drops, sales and counts are saved locally and sync automatically when the connection returns. We've built the system for South African conditions &mdash; load-shedding, intermittent connectivity, all of it.</p>
+
+            <h4>"Are you trying to replace us?"</h4>
+            <p>No. The system handles paperwork, not customer service. You still greet the customers, advise them, build relationships, and run the branch. Staff who master the system become more valuable, not less.</p>
+
+            <h3>2.2 Transition Timeline</h3>
+
+            <div class="timeline-item-doc">
+                <div class="phase-num">1</div>
+                <div>
+                    <h4 style="margin-top:0">Week 1 &mdash; Foundation &amp; Kickoff</h4>
+                    <p>Owner signs mandate. Staff meeting to announce the change. System accounts created. One-on-one training sessions (30-60 min per person). Dual-run: system alongside manual processes.</p>
+                    <span class="phase-tag coaching">Coaching Only &mdash; No Consequences</span>
+                </div>
+            </div>
+            <div class="timeline-item-doc">
+                <div class="phase-num">2</div>
+                <div>
+                    <h4 style="margin-top:0">Week 2 &mdash; Supervised Operation</h4>
+                    <p>System is primary method, manual as backup. Implementation partner on-site or on-call. Daily quick check-ins (5 min). First compliance report generated.</p>
+                    <span class="phase-tag coaching">Coaching + Gentle Correction</span>
+                </div>
+            </div>
+            <div class="timeline-item-doc">
+                <div class="phase-num">3</div>
+                <div>
+                    <h4 style="margin-top:0">Week 3 &mdash; System Primary</h4>
+                    <p>Manual processes are the exception. Staff expected to complete all SOPs through the system. Non-compliance documented and reported. Refresher training for anyone struggling.</p>
+                    <span class="phase-tag enforce">Compliance Expected</span>
+                </div>
+            </div>
+            <div class="timeline-item-doc">
+                <div class="phase-num">4</div>
+                <div>
+                    <h4 style="margin-top:0">Week 4 &mdash; Full Enforcement</h4>
+                    <p>Manual processes officially retired. All operations through the system. KPI tracking begins formally. Non-compliance triggers escalation. Go-live report to owner.</p>
+                    <span class="phase-tag enforce">Full Enforcement &mdash; No Manual Fallback</span>
+                </div>
+            </div>
+
+            <h3>2.3 The "Champion" Strategy</h3>
+            <p>Identify one tech-comfortable staff member per branch. Train them first and deeper. Give them the title of <strong>"System Champion"</strong>. They become the first point of contact for other staff's system questions, help troubleshoot before escalating, and receive a small incentive. Staff trust their peers more than outsiders &mdash; a champion saying "it's actually easier" is 10x more convincing than the implementation partner saying the same.</p>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SECTION 3: ROLES & KPIs -->
+        <!-- ============================================================ -->
+        <div class="page-break">
+            <div class="sec-header">
+                <div class="sec-number">Section 3</div>
+                <div class="sec-title">Role Definitions &amp; Performance KPIs</div>
+            </div>
+
+            <!-- 3.1 SALES ASSISTANT -->
+            <div class="role no-break">
+                <div class="role-header">
+                    <div class="role-icon-doc"><i class="fas fa-cash-register"></i></div>
+                    <div>
+                        <div class="role-name">3.1 Sales Assistant / Budtender</div>
+                        <div class="role-reports">Reports to: Branch Manager</div>
+                    </div>
+                </div>
+
+                <p>The Sales Assistant is the front-line representative of Origin. They process customer transactions, provide product advice, maintain the sales floor, and ensure every interaction is captured accurately in the POS system.</p>
+
+                <h4>Core Responsibilities</h4>
+                <ul class="check-list">
+                    <li>Log in to the POS at every shift start using assigned PIN</li>
+                    <li>Process all sales through the POS &mdash; no manual sales, no off-system transactions</li>
+                    <li>Verify customer identity and Section 21 status where required</li>
+                    <li>Apply correct payment method and issue system-generated receipt</li>
+                    <li>Count physical cash at shift start and end (system-recorded)</li>
+                    <li>Report stock discrepancies immediately</li>
+                    <li>Participate in stocktake when scheduled using the Stocktake App</li>
+                    <li>Upsell loyalty program registration to new customers</li>
+                </ul>
+
+                <h4>Performance KPIs</h4>
+                <table>
+                    <thead><tr><th>KPI</th><th>Target</th><th>Measured By</th><th>Frequency</th></tr></thead>
+                    <tbody>
+                        <tr><td>Till Accuracy (Cash)</td><td class="target">Within R20</td><td>POS cashup report</td><td>Per shift</td></tr>
+                        <tr><td>All sales on system</td><td class="target">100%</td><td>POS audit log</td><td>Daily</td></tr>
+                        <tr><td>Avg transaction time</td><td class="target">&lt; 3 minutes</td><td>POS timestamps</td><td>Weekly</td></tr>
+                        <tr><td>Shift start/end recorded</td><td class="target">100%</td><td>POS shift log</td><td>Per shift</td></tr>
+                        <tr><td>Stocktake participation</td><td class="target">100% when scheduled</td><td>Stocktake App</td><td>As scheduled</td></tr>
+                        <tr><td>Customer complaints</td><td class="target">&lt; 2 per month</td><td>Complaint register</td><td>Monthly</td></tr>
+                        <tr><td>Loyalty sign-ups</td><td class="target">5+ per week</td><td>POS customer creation</td><td>Weekly</td></tr>
+                    </tbody>
+                </table>
+                <div class="box red"><strong>Critical:</strong><p>Any sale processed outside the POS system is a disciplinary offence. No exceptions.</p></div>
+            </div>
+
+            <!-- 3.2 BRANCH MANAGER -->
+            <div class="role no-break page-break">
+                <div class="role-header">
+                    <div class="role-icon-doc"><i class="fas fa-store"></i></div>
+                    <div>
+                        <div class="role-name">3.2 Branch Manager</div>
+                        <div class="role-reports">Reports to: Owner / Operations Director</div>
+                    </div>
+                </div>
+
+                <p>The Branch Manager is accountable for daily operations, staff performance, stock integrity, and financial accuracy. They are the system's primary enforcer on the ground.</p>
+
+                <h4>Core Responsibilities</h4>
+                <ul class="check-list">
+                    <li>Open and close branch using system daily open/close procedures</li>
+                    <li>Verify opening float count in POS before first sale</li>
+                    <li>Perform or supervise daily cashup &mdash; reconcile expected vs actual</li>
+                    <li>Investigate and document any till variance exceeding R20</li>
+                    <li>Approve or escalate refunds and voids through the POS</li>
+                    <li>Ensure all staff log in and complete shift close procedures</li>
+                    <li>Conduct weekly spot stock counts using Stocktake App</li>
+                    <li>Receive stock deliveries using Stock Receiving module</li>
+                    <li>Submit daily branch report via the system</li>
+                    <li>Escalate system issues to implementation partner within 2 hours</li>
+                </ul>
+
+                <h4>Performance KPIs</h4>
+                <table>
+                    <thead><tr><th>KPI</th><th>Target</th><th>Measured By</th><th>Frequency</th></tr></thead>
+                    <tbody>
+                        <tr><td>Daily cashup completed</td><td class="target">100%</td><td>POS cashup log</td><td>Daily</td></tr>
+                        <tr><td>Cashup accuracy</td><td class="target">Within R50/month</td><td>Reconciliation report</td><td>Monthly</td></tr>
+                        <tr><td>Stock accuracy (spot)</td><td class="target">&gt; 95% match</td><td>Stocktake App</td><td>Weekly</td></tr>
+                        <tr><td>Staff system compliance</td><td class="target">100%</td><td>Shift logs, audit trail</td><td>Weekly</td></tr>
+                        <tr><td>Stock receiving on system</td><td class="target">100%</td><td>Receiving module</td><td>Per delivery</td></tr>
+                        <tr><td>Issue escalation time</td><td class="target">&lt; 2 hours</td><td>Support log</td><td>Per incident</td></tr>
+                        <tr><td>Full stocktake completion</td><td class="target">Monthly, on schedule</td><td>Stocktake sessions</td><td>Monthly</td></tr>
+                    </tbody>
+                </table>
+                <div class="box red"><strong>Critical:</strong><p>Three missed cashups in a month triggers a formal warning.</p></div>
+            </div>
+
+            <!-- 3.3 INVENTORY MANAGER -->
+            <div class="role no-break page-break">
+                <div class="role-header">
+                    <div class="role-icon-doc"><i class="fas fa-boxes-stacked"></i></div>
+                    <div>
+                        <div class="role-name">3.3 Inventory Manager</div>
+                        <div class="role-reports">Reports to: Owner / Operations Director</div>
+                    </div>
+                </div>
+
+                <p>Oversees stock across all branches &mdash; procurement, receiving, inter-branch transfers, reorder levels, and compliance with batch tracking requirements.</p>
+
+                <h4>Core Responsibilities</h4>
+                <ul class="check-list">
+                    <li>Maintain product catalog &mdash; products, pricing, categories, batch numbers</li>
+                    <li>Set and maintain reorder levels per branch</li>
+                    <li>Create and manage purchase orders through the system</li>
+                    <li>Verify all inbound stock against POs and supplier invoices</li>
+                    <li>Manage inter-branch stock transfers</li>
+                    <li>Investigate stock discrepancies from stocktakes/reconciliation</li>
+                    <li>Maintain batch tracking and expiry date records</li>
+                    <li>Generate weekly stock reports for the owner</li>
+                </ul>
+
+                <h4>Performance KPIs</h4>
+                <table>
+                    <thead><tr><th>KPI</th><th>Target</th><th>Measured By</th><th>Frequency</th></tr></thead>
+                    <tbody>
+                        <tr><td>Overall stock accuracy</td><td class="target">&gt; 97%</td><td>Stocktake variance</td><td>Monthly</td></tr>
+                        <tr><td>Out-of-stock incidents</td><td class="target">&lt; 5% of SKUs</td><td>Inventory dashboard</td><td>Weekly</td></tr>
+                        <tr><td>POs on system</td><td class="target">100%</td><td>PO module</td><td>Per order</td></tr>
+                        <tr><td>Receiving within 24h</td><td class="target">100%</td><td>Receiving timestamps</td><td>Per delivery</td></tr>
+                        <tr><td>Transfer fulfilment</td><td class="target">&lt; 48 hours</td><td>Transfer module</td><td>Per transfer</td></tr>
+                        <tr><td>Expired stock on shelf</td><td class="target">Zero</td><td>Batch expiry reports</td><td>Weekly</td></tr>
+                        <tr><td>Weekly report submitted</td><td class="target">Monday by 10:00</td><td>Report log</td><td>Weekly</td></tr>
+                        <tr><td>Shrinkage rate</td><td class="target">&lt; 2%</td><td>Reconciliation</td><td>Monthly</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 3.4 OWNER -->
+            <div class="role no-break page-break">
+                <div class="role-header">
+                    <div class="role-icon-doc"><i class="fas fa-crown"></i></div>
+                    <div>
+                        <div class="role-name">3.4 Owner / Operations Director</div>
+                        <div class="role-reports">Reports to: Business stakeholders</div>
+                    </div>
+                </div>
+
+                <p>Oversees all branches through the Owner 360 Dashboard. Monitors KPIs, approves high-value actions, and ensures managers meet targets.</p>
+
+                <h4>Monitoring KPIs</h4>
+                <table>
+                    <thead><tr><th>KPI</th><th>Target</th><th>Where to Check</th><th>Frequency</th></tr></thead>
+                    <tbody>
+                        <tr><td>Daily revenue per branch</td><td class="target">Meet target</td><td>Owner 360 Dashboard</td><td>Daily</td></tr>
+                        <tr><td>Cashup completion rate</td><td class="target">100%</td><td>Owner 360 &rarr; Compliance</td><td>Daily</td></tr>
+                        <tr><td>Stock shrinkage</td><td class="target">&lt; 2%</td><td>Owner 360 &rarr; Stock Health</td><td>Monthly</td></tr>
+                        <tr><td>Approval queue response</td><td class="target">&lt; 4 hours</td><td>Owner 360 &rarr; Approvals</td><td>As needed</td></tr>
+                        <tr><td>B2B order fulfilment</td><td class="target">&lt; 48 hours</td><td>B2B Portal</td><td>Per order</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 3.5 STOCKTAKE + 3.6 DISPATCH -->
+            <div class="role no-break page-break">
+                <div class="role-header">
+                    <div class="role-icon-doc"><i class="fas fa-clipboard-check"></i></div>
+                    <div>
+                        <div class="role-name">3.5 Stocktake Operator</div>
+                        <div class="role-reports">Reports to: Branch Manager / Inventory Manager</div>
+                    </div>
+                </div>
+                <p>Conducts physical stock counts using the Stocktake App. Count every item physically &mdash; do not estimate, do not assume, do not copy from the system.</p>
+                <table>
+                    <thead><tr><th>KPI</th><th>Target</th><th>Measured By</th><th>Frequency</th></tr></thead>
+                    <tbody>
+                        <tr><td>Count completion</td><td class="target">100% of items</td><td>Stocktake App</td><td>Per session</td></tr>
+                        <tr><td>Count accuracy</td><td class="target">&gt; 98% on recount</td><td>Supervisor spot-check</td><td>Per session</td></tr>
+                        <tr><td>Submitted on time</td><td class="target">Within window</td><td>App timestamps</td><td>Per session</td></tr>
+                    </tbody>
+                </table>
+                <div class="box red"><strong>Critical:</strong><p>Adjusting a count to match the system instead of reporting the actual count is fraud.</p></div>
+            </div>
+
+            <div class="role no-break">
+                <div class="role-header">
+                    <div class="role-icon-doc"><i class="fas fa-truck-fast"></i></div>
+                    <div>
+                        <div class="role-name">3.6 Dispatch Operator / Packer</div>
+                        <div class="role-reports">Reports to: Branch Manager</div>
+                    </div>
+                </div>
+                <p>Picks, packs, and dispatches orders using the Dispatch and Packer apps. Every order tracked from start to finish.</p>
+                <table>
+                    <thead><tr><th>KPI</th><th>Target</th><th>Measured By</th><th>Frequency</th></tr></thead>
+                    <tbody>
+                        <tr><td>Order accuracy</td><td class="target">&gt; 99%</td><td>Returns/complaints</td><td>Weekly</td></tr>
+                        <tr><td>Pack-to-dispatch time</td><td class="target">&lt; 30 min</td><td>App timestamps</td><td>Per order</td></tr>
+                        <tr><td>All dispatches on system</td><td class="target">100%</td><td>Dispatch audit log</td><td>Daily</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SECTION 4: ACCOUNTABILITY -->
+        <!-- ============================================================ -->
+        <div class="page-break">
+            <div class="sec-header">
+                <div class="sec-number">Section 4</div>
+                <div class="sec-title">Accountability &amp; Escalation Framework</div>
+            </div>
+
+            <div class="box gold">
+                <strong>Principle: Progressive Discipline</strong>
+                <p>Coaching comes first, warnings second, consequences last. The framework protects good-faith staff and holds accountable those who refuse to adapt.</p>
+            </div>
+
+            <h3>4.1 Escalation Levels</h3>
+
+            <div class="esc-level">
+                <div class="esc-num yellow">1</div>
+                <div>
+                    <div class="esc-title">Verbal Coaching</div>
+                    <div class="esc-desc">First occurrence or during transition (weeks 1-2). Explain the correct procedure, demonstrate, confirm understanding. Documented informally.</div>
+                </div>
+            </div>
+            <div class="esc-level">
+                <div class="esc-num yellow">2</div>
+                <div>
+                    <div class="esc-title">Written Notice</div>
+                    <div class="esc-desc">Repeated non-compliance after coaching, or same issue 3+ times. Written notice documenting issue, expected behavior, consequence. Staff signs. Copy to owner.</div>
+                </div>
+            </div>
+            <div class="esc-level">
+                <div class="esc-num orange">3</div>
+                <div>
+                    <div class="esc-title">Formal Warning</div>
+                    <div class="esc-desc">Continued non-compliance after written notice, or a single serious offence. Meeting with owner + manager + implementation partner. Performance improvement plan may be issued.</div>
+                </div>
+            </div>
+            <div class="esc-level">
+                <div class="esc-num red">4</div>
+                <div>
+                    <div class="esc-title">Final Warning / Disciplinary Hearing</div>
+                    <div class="esc-desc">Persistent refusal or repeated serious offences. Per company disciplinary procedure and SA labour law. May result in suspension, demotion, or termination.</div>
+                </div>
+            </div>
+
+            <h3>4.2 Non-Compliance Categories</h3>
+
+            <h4>Serious Offences (Immediate Level 3)</h4>
+            <ul class="check-list">
+                <li>Off-system sales &mdash; processing a sale without the POS</li>
+                <li>Falsifying stocktake counts &mdash; entering system numbers instead of counting</li>
+                <li>Sharing PINs or logging in as another user</li>
+                <li>Deleting or altering transaction records</li>
+                <li>Refusing a direct instruction to use the system (post-transition)</li>
+            </ul>
+
+            <h4>Standard Offences (Start at Level 1)</h4>
+            <ul class="check-list">
+                <li>Not logging shift start/end</li>
+                <li>Skipping the cashup procedure</li>
+                <li>Not using Stock Receiving module for deliveries</li>
+                <li>Manual workarounds (paper instead of system)</li>
+                <li>Not reporting stock discrepancies</li>
+                <li>Late stocktake submission</li>
+            </ul>
+
+            <h3>4.3 Compliance Reporting</h3>
+            <p>The implementation partner generates a weekly compliance report covering: system usage metrics, cashup completion, stock accuracy, outstanding issues, and positive highlights. Staff who consistently hit KPIs should be publicly recognized.</p>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SECTION 5: TRAINING & SUPPORT -->
+        <!-- ============================================================ -->
+        <div class="page-break">
+            <div class="sec-header">
+                <div class="sec-number">Section 5</div>
+                <div class="sec-title">Training &amp; Support Resources</div>
+            </div>
+
+            <h3>5.1 Available Training Materials</h3>
+            <table>
+                <thead><tr><th>Resource</th><th>Content</th><th>Access</th></tr></thead>
+                <tbody>
+                    <tr><td>Training Hub</td><td>Central portal, all role-based modules</td><td>training-hub.html</td></tr>
+                    <tr><td>POS Training Guide</td><td>Sales, cashups, refunds, shifts</td><td>pos-training.html</td></tr>
+                    <tr><td>Inventory Manager Training</td><td>Stock, POs, suppliers, MDC</td><td>training-inventory-manager.html</td></tr>
+                    <tr><td>Stocktake Training</td><td>Counting procedures, app usage</td><td>training-stocktake.html</td></tr>
+                    <tr><td>SOPs</td><td>Step-by-step daily procedures</td><td>sop-operations.html</td></tr>
+                </tbody>
+            </table>
+
+            <h3>5.2 New Staff Training Schedule</h3>
+            <table>
+                <thead><tr><th>Day</th><th>Topic</th><th>Duration</th><th>Method</th></tr></thead>
+                <tbody>
+                    <tr><td>Day 1</td><td>System overview, login, dashboard</td><td>1 hour</td><td>On-site with trainer</td></tr>
+                    <tr><td>Day 1</td><td>Core SOP: shift start, basic sales (shadow)</td><td>2 hours</td><td>Shadowing</td></tr>
+                    <tr><td>Day 2</td><td>Full POS: sales, payments, receipts, returns</td><td>2 hours</td><td>Hands-on</td></tr>
+                    <tr><td>Day 3</td><td>Cashup, shift close, stock awareness</td><td>1 hour</td><td>Hands-on</td></tr>
+                    <tr><td>Day 4-5</td><td>Supervised independent operation</td><td>Full shift</td><td>Independent + check-ins</td></tr>
+                    <tr><td>Week 2</td><td>Stocktake App, advanced features</td><td>1 hour</td><td>On-site</td></tr>
+                    <tr><td>Week 2</td><td>Assessment: full shift independently</td><td>Full shift</td><td>Observed assessment</td></tr>
+                </tbody>
+            </table>
+
+            <div class="box blue">
+                <strong>Training Sign-Off</strong>
+                <p>New staff must complete all modules and pass the observed assessment before operating independently. After sign-off, the staff member is expected to meet all KPIs.</p>
+            </div>
+
+            <h3>5.3 Getting Help</h3>
+            <ol class="num-list">
+                <li><strong>Check the SOP / Training Guide</strong> &mdash; most questions are answered in the docs. Open on your phone and follow the steps.</li>
+                <li><strong>Ask your System Champion</strong> &mdash; each branch has a designated champion with extra training.</li>
+                <li><strong>Contact the Implementation Partner</strong> &mdash; via WhatsApp or support channel. Response within 2 hours during business hours.</li>
+            </ol>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="doc-footer">
+            <p><strong>Origin by ILCO Farming</strong> &mdash; Staff Handbook v1.0 &mdash; Effective March 2026</p>
+            <p>Confidential &mdash; Internal Use Only</p>
+            <p style="margin-top:0.5rem">Companion document: <strong>Standard Operating Procedures (SOP)</strong> &mdash; sop-operations-doc.html</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

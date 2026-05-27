@@ -1,8 +1,8 @@
-// Da Bud Chef POS - Service Worker for Offline Mode
-const CACHE_VERSION = 'dbc-pos-v1';
+// Origin by ILCO Farming POS - Service Worker for Offline Mode
+const CACHE_VERSION = 'origin-pos-v1';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DYNAMIC_CACHE = `${CACHE_VERSION}-dynamic`;
-const OFFLINE_QUEUE = 'dbc-offline-queue';
+const OFFLINE_QUEUE = 'origin-offline-queue';
 
 // Files to cache for offline use
 const STATIC_ASSETS = [
@@ -164,7 +164,7 @@ async function queueOfflineSale(saleData) {
 // Open IndexedDB
 function openOfflineDB() {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open('JIGOffline', 1);
+    const request = indexedDB.open('OriginOffline', 1);
 
     request.onerror = () => reject(request.error);
     request.onsuccess = () => resolve(request.result);

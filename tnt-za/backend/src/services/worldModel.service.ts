@@ -3,7 +3,22 @@ import { AnomalyType } from '@prisma/client';
 
 interface TnTWorldState {
   facility: { totalPlants: number; plantsByPhase: Record<string, number>; activeBatches: number; quotaUsedPercent: number; gmpStatus: string };
-  compliance: { openAnomalies: number; criticalAlerts: number; pendingDestructions: number; permitExpiringDays: number | null };
+  compliance: {
+    openAnomalies: number;
+    criticalAlerts: number;
+    pendingDestructions: number;
+    permitExpiringDays: number | null;
+    // ── FM Compliance enhancements ─────────────────────
+    licenceNumber: string | null;
+    licenceType: string | null;
+    licenceExpiringDays: number | null;
+    openDeviations: number;
+    oldestDeviationDays: number | null;
+    calibrationOverdue: number;
+    calibrationDueSoon: number;
+    sopsDueForReview: number;
+    sopsTotal: number;
+  };
   containers: { activeContainers: number; containersWithVariance: number; staleContainers: number };
   lab: { pendingTests: number; failedBatches: number; issuedCOAs: number; quarantinedBatches: number };
   risk: { diversionRiskScore: number; complianceScore: number; weightIntegrityScore: number };
@@ -15,6 +30,7 @@ export async function computeState(tenantId: string): Promise<TnTWorldState> {
     facility, openAnomalies, criticalAlerts, pendingDestructions,
     activeContainers, varianceAnomalies, staleAnomalies,
     issuedCOAs, failedBatches,
+    openDeviations, oldestDeviation, calibrations, sopsList,
   ] = await Promise.all([
     prisma.plant.count({ where: { tenantId } }),
     prisma.plant.groupBy({ by: ['phase'], where: { tenantId }, _count: true }),
@@ -29,6 +45,21 @@ export async function computeState(tenantId: string): Promise<TnTWorldState> {
     prisma.anomaly.count({ where: { tenantId, type: AnomalyType.CONTAINER_STALE, resolvedAt: null } }),
     prisma.cOA.count({ where: { batch: { tenantId }, valid: true } }),
     prisma.batch.count({ where: { tenantId, status: 'QUARANTINED' } }),
+    // ── FM Compliance additions ──────────────────────────
+    prisma.deviation.count({ where: { facility: { tenantId }, closedAt: null } }),
+    prisma.deviation.findFirst({
+      where: { facility: { tenantId }, closedAt: null },
+      orderBy: { createdAt: 'asc' },
+      select: { createdAt: true },
+    }),
+    prisma.equipmentCalibration.findMany({
+      where: { facility: { tenantId } },
+      select: { nextDue: true },
+    }),
+    prisma.sOP.findMany({
+      where: { tenantId, active: true },
+      select: { updatedAt: true },
+    }),
   ]);
 
   const plantsByPhase: Record<string, number> = {};
@@ -37,13 +68,44 @@ export async function computeState(tenantId: string): Promise<TnTWorldState> {
   const quotaUsedPercent = facility && facility.quotaAllocated > 0
     ? (facility.quotaUsed / facility.quotaAllocated) * 100 : 0;
 
-  // Nearest expiring permit
+  // Nearest expiring permit (any type)
   const nearestPermit = await prisma.permit.findFirst({
     where: { facility: { tenantId }, expiryDate: { gt: new Date() } },
     orderBy: { expiryDate: 'asc' },
   });
   const permitExpiringDays = nearestPermit
     ? Math.floor((nearestPermit.expiryDate.getTime() - Date.now()) / 86400000)
+    : null;
+
+  // SAHPRA Section 22C cultivation licence — explicitly tracked separately
+  const sahpraLicence = await prisma.permit.findFirst({
+    where: { facility: { tenantId }, type: 'SECTION_22C' },
+    orderBy: { expiryDate: 'desc' },
+  });
+  const licenceNumber = sahpraLicence?.permitNumber ?? null;
+  const licenceType = sahpraLicence ? String(sahpraLicence.type) : null;
+  const licenceExpiringDays = sahpraLicence
+    ? Math.floor((sahpraLicence.expiryDate.getTime() - Date.now()) / 86400000)
+    : null;
+
+  // Calibration windows
+  const nowMs = Date.now();
+  const fourteenDays = 14 * 86400000;
+  const calibrationOverdue = calibrations.filter(
+    c => c.nextDue && c.nextDue.getTime() < nowMs,
+  ).length;
+  const calibrationDueSoon = calibrations.filter(
+    c => c.nextDue && c.nextDue.getTime() >= nowMs && c.nextDue.getTime() < nowMs + fourteenDays,
+  ).length;
+
+  // SOPs due for review — active SOPs not updated in 365+ days (proxy for review interval)
+  const yearAgoMs = nowMs - 365 * 86400000;
+  const sopsDueForReview = sopsList.filter(s => s.updatedAt.getTime() < yearAgoMs).length;
+  const sopsTotal = sopsList.length;
+
+  // Oldest open deviation age
+  const oldestDeviationDays = oldestDeviation
+    ? Math.floor((nowMs - oldestDeviation.createdAt.getTime()) / 86400000)
     : null;
 
   // Count batches missing tests
@@ -60,7 +122,13 @@ export async function computeState(tenantId: string): Promise<TnTWorldState> {
 
   return {
     facility: { totalPlants, plantsByPhase, activeBatches, quotaUsedPercent, gmpStatus: facility?.gmpStatus || 'UNKNOWN' },
-    compliance: { openAnomalies, criticalAlerts, pendingDestructions, permitExpiringDays },
+    compliance: {
+      openAnomalies, criticalAlerts, pendingDestructions, permitExpiringDays,
+      licenceNumber, licenceType, licenceExpiringDays,
+      openDeviations, oldestDeviationDays,
+      calibrationOverdue, calibrationDueSoon,
+      sopsDueForReview, sopsTotal,
+    },
     containers: { activeContainers, containersWithVariance: varianceAnomalies, staleContainers: staleAnomalies },
     lab: { pendingTests, failedBatches, issuedCOAs, quarantinedBatches },
     risk,

@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section 21 Doctors Course Player - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --panel: #141414;
+            --panel-2: #1d1d1d;
+            --panel-3: #242424;
+            --line: rgba(201,168,76,0.24);
+            --line-soft: rgba(201,168,76,0.12);
+            --gold: #c9a84c;
+            --gold-soft: #e8d5a3;
+            --text: #f5f0e8;
+            --muted: #a89f8c;
+            --green: #22c55e;
+            --red: #dc2626;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Inter, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .topbar {
+            height: 72px;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: grid;
+            grid-template-columns: 320px 1fr auto;
+            align-items: center;
+            gap: 18px;
+            padding: 0 18px;
+            background: rgba(10,10,10,0.96);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(14px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .brand strong {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .brand span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .top-title {
+            min-width: 0;
+        }
+
+        .top-title h1 {
+            margin: 0;
+            font-family: Cinzel, serif;
+            color: var(--gold);
+            font-size: 1.15rem;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .top-title p {
+            margin: 4px 0 0;
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            border: 0;
+            border-radius: 8px;
+            padding: 11px 14px;
+            background: var(--gold);
+            color: #0a0a0a;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .btn.secondary {
+            color: var(--gold-soft);
+            background: transparent;
+            border: 1px solid var(--line);
+        }
+
+        .btn.ghost {
+            color: var(--text);
+            background: transparent;
+        }
+
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 320px minmax(0, 1fr) 320px;
+            min-height: calc(100vh - 72px);
+        }
+
+        .sidebar {
+            border-right: 1px solid var(--line);
+            background: #101010;
+            min-height: calc(100vh - 72px);
+            position: sticky;
+            top: 72px;
+            align-self: start;
+            max-height: calc(100vh - 72px);
+            overflow: auto;
+        }
+
+        .side-head {
+            padding: 18px;
+            border-bottom: 1px solid var(--line-soft);
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-weight: 800;
+            font-size: 0.84rem;
+            margin-bottom: 8px;
+        }
+
+        .progress-track {
+            height: 9px;
+            background: #2a2a2a;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--gold);
+            transition: width 0.25s;
+        }
+
+        .lesson-list {
+            padding: 10px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .lesson-tab {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 34px 1fr auto;
+            gap: 10px;
+            align-items: center;
+            text-align: left;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text);
+            padding: 11px;
+            cursor: pointer;
+        }
+
+        .lesson-tab:hover {
+            background: rgba(201,168,76,0.08);
+        }
+
+        .lesson-tab.active {
+            background: rgba(201,168,76,0.12);
+            border-color: var(--line);
+        }
+
+        .lesson-num {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: var(--panel-3);
+            color: var(--gold-soft);
+            font-weight: 900;
+            font-size: 0.84rem;
+        }
+
+        .lesson-tab.done .lesson-num {
+            background: rgba(34,197,94,0.18);
+            color: #bbf7d0;
+        }
+
+        .lesson-name {
+            display: block;
+            font-weight: 900;
+            font-size: 0.88rem;
+        }
+
+        .lesson-time {
+            display: block;
+            color: var(--muted);
+            font-size: 0.76rem;
+            margin-top: 2px;
+        }
+
+        .player {
+            min-width: 0;
+            background: var(--bg);
+        }
+
+        .video-frame {
+            min-height: 385px;
+            background:
+                linear-gradient(135deg, rgba(9,9,9,0.86), rgba(9,9,9,0.62)),
+                url("images/originhero.png") center/cover no-repeat;
+            display: grid;
+            place-items: center;
+            border-bottom: 1px solid var(--line);
+            padding: 28px;
+        }
+
+        .video-inner {
+            text-align: center;
+            max-width: 760px;
+        }
+
+        .play-icon {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            display: inline-grid;
+            place-items: center;
+            background: var(--gold);
+            color: #0a0a0a;
+            font-size: 2rem;
+            box-shadow: 0 18px 54px rgba(0,0,0,0.45);
+        }
+
+        .video-inner h2 {
+            margin: 18px 0 8px;
+            font-family: Cinzel, serif;
+            color: var(--gold);
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            line-height: 1.12;
+        }
+
+        .video-inner p {
+            margin: 0 auto;
+            max-width: 640px;
+            color: rgba(245,240,232,0.88);
+        }
+
+        .content {
+            padding: 24px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .lesson-toolbar {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 7px 10px;
+            color: var(--gold-soft);
+            font-weight: 800;
+            font-size: 0.8rem;
+        }
+
+        .lesson-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 16px;
+        }
+
+        .lesson-card h3 {
+            margin: 0 0 10px;
+            font-family: Cinzel, serif;
+            color: var(--gold-soft);
+            font-size: 1.25rem;
+        }
+
+        .lesson-card p,
+        .lesson-card li {
+            color: rgba(245,240,232,0.88);
+        }
+
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .rightbar {
+            border-left: 1px solid var(--line);
+            background: #101010;
+            min-height: calc(100vh - 72px);
+            position: sticky;
+            top: 72px;
+            align-self: start;
+            max-height: calc(100vh - 72px);
+            overflow: auto;
+            padding: 18px;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .panel h3 {
+            margin: 0 0 10px;
+            color: var(--gold-soft);
+            font-size: 1rem;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat {
+            background: var(--panel-2);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .stat strong {
+            display: block;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        .stat span {
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--line-soft);
+            color: rgba(245,240,232,0.9);
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .resource-link:last-child {
+            border-bottom: 0;
+        }
+
+        .exam-lock {
+            display: none;
+            border-left: 4px solid var(--red);
+        }
+
+        .exam-lock.show {
+            display: block;
+        }
+
+        .exam-area {
+            display: none;
+        }
+
+        .exam-area.show {
+            display: block;
+        }
+
+        .quiz-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 14px;
+        }
+
+        .quiz-card strong {
+            color: var(--gold-soft);
+        }
+
+        label {
+            display: block;
+            margin: 8px 0;
+            color: rgba(245,240,232,0.9);
+        }
+
+        input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            border: 1px solid var(--line);
+            background: #0f0f0f;
+            color: var(--text);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .result {
+            display: none;
+            margin-top: 18px;
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            background: var(--panel-2);
+        }
+
+        .result.pass { border-color: rgba(34,197,94,0.5); }
+        .result.fail { border-color: rgba(220,38,38,0.55); }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 1100px) {
+            .app {
+                grid-template-columns: 280px minmax(0, 1fr);
+            }
+
+            .rightbar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 820px) {
+            .topbar {
+                grid-template-columns: 1fr auto;
+            }
+
+            .top-title {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: inline-flex;
+            }
+
+            .app {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+                position: fixed;
+                inset: 72px 0 auto 0;
+                z-index: 30;
+                max-height: calc(100vh - 72px);
+            }
+
+            .sidebar.open {
+                display: block;
+            }
+
+            .columns {
+                grid-template-columns: 1fr;
+            }
+
+            .video-frame {
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="section21-doctors-course.html">
+            <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
+            <span>
+                <strong>Origin Medical Network</strong>
+                <span>Section 21 Doctors Course</span>
+            </span>
+        </a>
+        <div class="top-title">
+            <h1 id="topLessonTitle">Regulatory Framework</h1>
+            <p id="topLessonMeta">Module 1 of 10 · 18 min</p>
+        </div>
+        <div class="top-actions">
+            <button class="btn secondary mobile-menu" id="mobileMenuBtn" type="button"><i class="fas fa-bars"></i></button>
+            <a class="btn secondary" href="section21-doctors-course.html">Course Site</a>
+            <button class="btn ghost" id="logoutBtn" type="button"><i class="fas fa-right-from-bracket"></i></button>
+        </div>
+    </header>
+
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="side-head">
+                <div class="progress-label">
+                    <span>Course Progress</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+            </div>
+            <div class="lesson-list" id="lessonList"></div>
+        </aside>
+
+        <main class="player">
+            <section id="authNotice" class="content" style="display:none;">
+                <div class="lesson-card" style="border-left:4px solid var(--red);">
+                    <h3>Doctor Login Required</h3>
+                    <p>Use OTP login before accessing the course player, assessment, and certificate workflow.</p>
+                    <a class="btn" href="section21-doctor-login.html"><i class="fas fa-key"></i> Doctor Login</a>
+                </div>
+            </section>
+
+            <section class="video-frame">
+                <div class="video-inner">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                    <h2 id="lessonHeroTitle">Regulatory Framework</h2>
+                    <p id="lessonHeroSummary">Section 21 purpose, named-patient applications, SAHPRA decision-making, and the limits of Origin's role.</p>
+                </div>
+            </section>
+
+            <section class="content">
+                <div class="lesson-toolbar">
+                    <div class="badge-row">
+                        <span class="badge"><i class="fas fa-layer-group"></i> <span id="moduleBadge">Module 1</span></span>
+                        <span class="badge"><i class="fas fa-clock"></i> <span id="timeBadge">18 min</span></span>
+                        <span class="badge"><i class="fas fa-shield-halved"></i> CMO governed</span>
+                    </div>
+                    <div class="badge-row">
+                        <button class="btn secondary" id="prevBtn" type="button"><i class="fas fa-arrow-left"></i> Previous</button>
+                        <button class="btn" id="completeBtn" type="button"><i class="fas fa-check"></i> Mark Complete</button>
+                        <button class="btn secondary" id="nextBtn" type="button">Next <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <div id="lessonContent"></div>
+
+                <section id="examSection">
+                    <div class="lesson-card exam-lock" id="examLock">
+                        <h3><i class="fas fa-lock"></i> Final Assessment Locked</h3>
+                        <p>Complete all lessons to unlock the multiple-choice assessment. A score of 75% or higher unlocks the course completion certificate for CMO/delegate review.</p>
+                    </div>
+
+                    <div class="exam-area" id="examArea">
+                        <div class="lesson-card">
+                            <h3>Final Multiple-Choice Assessment</h3>
+                            <p>Complete all questions. A score of 75% or higher generates a course completion certificate. Final certification is not automatic and remains subject to CMO/delegate review.</p>
+                            <div class="field-row">
+                                <input id="doctorName" type="text" placeholder="Doctor full name">
+                                <input id="hpcsaNumber" type="text" placeholder="HPCSA number">
+                            </div>
+                        </div>
+                        <form id="quizForm">
+                            <div id="quiz"></div>
+                            <button class="btn" type="submit"><i class="fas fa-check"></i> Submit Assessment</button>
+                        </form>
+                        <div id="result" class="result"></div>
+                    </div>
+                </section>
+            </section>
+        </main>
+
+        <aside class="rightbar">
+            <div class="panel">
+                <h3>Doctor Status</h3>
+                <div class="stat-grid">
+                    <div class="stat"><strong id="doneStat">0/10</strong><span>Lessons done</span></div>
+                    <div class="stat"><strong>75%</strong><span>Pass mark</span></div>
+                    <div class="stat"><strong id="scoreStat">-</strong><span>Best score</span></div>
+                    <div class="stat"><strong>Pending</strong><span>CMO sign-off</span></div>
+                </div>
+            </div>
+            <div class="panel">
+                <h3>Course Resources</h3>
+                <a class="resource-link" href="DOCTOR_CERTIFICATION_QA_PACK.md"><span><i class="fas fa-file-lines"></i> Governance Pack</span><i class="fas fa-arrow-up-right-from-square"></i></a>
+                <a class="resource-link" href="section21-info.html"><span><i class="fas fa-book-medical"></i> Patient Section 21 Guide</span><i class="fas fa-arrow-up-right-from-square"></i></a>
+                <a class="resource-link" href="section21-doctors-course.html"><span><i class="fas fa-globe"></i> Course Marketing Site</span><i class="fas fa-arrow-up-right-from-square"></i></a>
+            </div>
+            <div class="panel">
+                <h3>Certificate Rule</h3>
+                <p style="color:var(--muted);margin:0;">Course completion certificate unlocks only after all lessons are complete and the assessment score is 75% or higher. It records completion for review; activation requires CMO/delegate sign-off.</p>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const lessons = [
+            {
+                title: 'Regulatory Framework',
+                time: '18 min',
+                summary: 'Section 21 purpose, named-patient applications, SAHPRA decision-making, and the limits of Origin support.',
+                outcomes: [
+                    'Explain Section 21 as a regulated access pathway for unregistered medicines or unregistered uses.',
+                    'Distinguish named-patient and multiple-patient applications.',
+                    'Explain that SAHPRA can approve, reject, or request additional information.',
+                    'Confirm Origin staff may support logistics but may not make medical decisions.'
+                ],
+                key: [
+                    'Section 21 is not a retail permission slip and not a guaranteed access route.',
+                    'Clinical decisions stay with the treating practitioner.',
+                    'Authorisation conditions must be followed exactly.'
+                ],
+                caseStudy: 'A patient arrives at a branch with no consultation record and asks staff to arrange immediate access. The correct response is to route the patient to an independent doctor consultation and avoid any promise of SAHPRA approval.'
+            },
+            {
+                title: 'Clinical Independence and Patient Selection',
+                time: '22 min',
+                summary: 'Appropriateness, risk screening, clinical rationale, refusal duties, and commercial-pressure controls.',
+                outcomes: [
+                    'Take a defensible history covering diagnosis, medicines, allergies, mental-health risk, substance-use risk, pregnancy/lactation, and safety-sensitive work.',
+                    'Consider registered alternatives and standard care.',
+                    'Decline or defer when evidence, safety, consent, or documentation is inadequate.',
+                    'Avoid guaranteed-outcome language and therapeutic overclaiming.'
+                ],
+                key: [
+                    'Stock availability must never drive a clinical recommendation.',
+                    'Patient pressure does not replace a clinical assessment.',
+                    'High-risk patients may need specialist input or non-approval.'
+                ],
+                caseStudy: 'A patient with previous psychosis requests high-THC flower. The doctor should treat this as high risk, consider specialist input, document the risk screen, and avoid simplistic approval.'
+            },
+            {
+                title: 'Informed Consent and Patient Communication',
+                time: '20 min',
+                summary: 'Specific, voluntary, documented consent in language the patient understands.',
+                outcomes: [
+                    'Explain diagnosis, options, risks, benefits, costs, alternatives, uncertainty, impairment risk, and responsibilities.',
+                    'Confirm capacity and voluntary participation.',
+                    'Make clear that SAHPRA approval is not automatic.',
+                    'Document the patient questions and consent conversation.'
+                ],
+                key: [
+                    'Consent is a process, not a signature only.',
+                    'Costs and third-party roles must be disclosed before service.',
+                    'Patient communication must avoid coercive or misleading claims.'
+                ],
+                caseStudy: 'A patient says they only wants the cheapest route and does not want a risk discussion. The doctor should pause and complete informed consent before any application support.'
+            },
+            {
+                title: 'Documentation Standard',
+                time: '24 min',
+                summary: 'Audit-ready consultation records, rationale, consent notes, and follow-up plans.',
+                outcomes: [
+                    'Record identity, consultation date and modality, doctor identity, and HPCSA number.',
+                    'Capture diagnosis, history, medicines, allergies, risk screen, prior therapies, rationale, consent, and follow-up.',
+                    'Record Section 21 submission reference and outcome where available.',
+                    'Separate clinical records from retail records where appropriate.'
+                ],
+                key: [
+                    'If it is not documented, it is difficult to defend.',
+                    'Records must be accurate, contemporaneous, attributable, secure, and retrievable.',
+                    'Clinical records should not be treated as branch sales notes.'
+                ],
+                caseStudy: 'Five files show identical rationale and no consent note. This is a QA concern requiring remediation, broader audit, and possible CMO escalation.'
+            },
+            {
+                title: 'SAHPRA Submission Workflow',
+                time: '26 min',
+                summary: 'Applicant details, product information, supporting rationale, requests for information, and outcome tracking.',
+                outcomes: [
+                    'Understand applicant, co-applicant, importer, patient, medicine, and supporting-document fields.',
+                    'Ensure clinical rationale and patient details are complete before submission support.',
+                    'Track requests for more information, authorisation outcomes, and conditions.',
+                    'Avoid presenting payment or submission as approval.'
+                ],
+                key: [
+                    'Submission is not approval.',
+                    'Authorisation is patient- and condition-specific.',
+                    'Requests for information and refusals must be documented.'
+                ],
+                caseStudy: 'A patient paid an application fee and expects immediate collection. The doctor and branch must explain that payment does not equal SAHPRA authorisation.'
+            },
+            {
+                title: 'Product, Quality, and Supply Boundaries',
+                time: '23 min',
+                summary: 'Traceability, COA, authorisation alignment, substitution rules, and advertising restrictions.',
+                outcomes: [
+                    'Confirm product identity, route, quantity, batch, COA, and quality records align with authorisation.',
+                    'Pause fulfilment for expired, recalled, untraceable, forged, or mismatched documents.',
+                    'Require clinical review before substitution.',
+                    'Avoid advertising unregistered medicines, therapeutic outcomes, strains, discounts, or lifestyle use.'
+                ],
+                key: [
+                    'Product substitution is not a stock-room decision.',
+                    'Medical access must not become lifestyle retail marketing.',
+                    'Fulfilment must align with valid authorisation.'
+                ],
+                caseStudy: 'The authorised product is out of stock and a branch suggests a substitute strain. The doctor must review the clinical and authorisation implications before any change.'
+            },
+            {
+                title: 'Patient Monitoring and Follow-Up',
+                time: '18 min',
+                summary: 'Response, tolerability, non-response, renewal, reassessment, and patient safety.',
+                outcomes: [
+                    'Set a follow-up plan before access is supported.',
+                    'Monitor effect, tolerability, adherence, impairment risk, and adverse events.',
+                    'Reassess after changes in medicines, pregnancy status, psychiatric risk, work risk, or clinical condition.',
+                    'Treat renewal as a new clinical decision, not an automatic repeat.'
+                ],
+                key: [
+                    'Renewal is not automatic.',
+                    'Follow-up intervals should match patient risk.',
+                    'Non-response and adverse effects must be documented.'
+                ],
+                caseStudy: 'A patient reports sedation and drives for work. The doctor must reassess impairment risk, give safety counselling, and document the plan.'
+            },
+            {
+                title: 'Pharmacovigilance and Escalation',
+                time: '24 min',
+                summary: 'Adverse events, misuse, diversion, medication errors, urgent escalation, and reporting timelines.',
+                outcomes: [
+                    'Identify serious adverse events, severe psychiatric symptoms, medication errors, misuse, dependence, diversion, and safeguarding concerns.',
+                    'Escalate forged documents, data breaches, pregnancy exposure, paediatric requests, and safety-sensitive work concerns.',
+                    'Report unexpected adverse medicine reactions within 15 days after awareness if not fatal or life-threatening.',
+                    'Report fatal or life-threatening unexpected adverse medicine reactions within seven days after awareness.'
+                ],
+                key: [
+                    'Escalation must be documented with actions and follow-up.',
+                    'Product and batch details should be captured where available.',
+                    'Fatal or life-threatening unexpected reactions have a shorter reporting timeline.'
+                ],
+                caseStudy: 'A patient is hospitalised after use. The doctor records event details, product/batch information if available, patient advice, reporting status, and escalates to CMO/regional governance.'
+            },
+            {
+                title: 'Ethics, Privacy, and Conflicts',
+                time: '24 min',
+                summary: 'Confidentiality, data minimisation, conflicts, fee disclosure, telehealth boundaries, and professional communication.',
+                outcomes: [
+                    'Limit medical information access to authorised personnel with legitimate need.',
+                    'Avoid volume incentives, product-push behaviour, misleading claims, or lifestyle marketing.',
+                    'Disclose fees, third-party roles, and process limits before services are rendered.',
+                    'For telehealth, confirm identity, location, privacy, consent to remote care, and emergency escalation route.'
+                ],
+                key: [
+                    'Privacy is not optional in branch workflows.',
+                    'Telehealth must acknowledge its limitations.',
+                    'Professional independence includes resisting commercial pressure.'
+                ],
+                caseStudy: 'A branch requests patient diagnosis details for marketing segmentation. The correct response is to refuse inappropriate sharing and escalate privacy concerns.'
+            },
+            {
+                title: 'Origin Medical Network Governance',
+                time: '20 min',
+                summary: 'Provider activation, regional QA, remediation, suspension, course completion certificates, and CMO sign-off.',
+                outcomes: [
+                    'Understand provider status: pending, active, suspended, inactive.',
+                    'Understand compliance flags: SAHPRA approved, Section 21 certified, last audit date, and audit status.',
+                    'Apply QA outcomes: pass, conditional pass, fail, remediation, suspension, and CMO review.',
+                    'Understand that course completion certificates do not equal final certification or activation.'
+                ],
+                key: [
+                    'Patient portal visibility is a business setting, not a clinical endorsement.',
+                    'Regional practitioners review files and escalate unsafe practice.',
+                    'Final certification requires CMO or delegate sign-off.'
+                ],
+                caseStudy: 'A doctor passes the MCQ but has a critical file-review failure. The doctor is not activated until CMO review and remediation are complete.'
+            },
+            {
+                title: 'Advanced Clinical Case Practicum',
+                time: '60 min',
+                summary: 'A structured practicum using complex Section 21 cases to test clinical reasoning, documentation, consent, risk management, and referral decisions.',
+                outcomes: [
+                    'Apply the Section 21 pathway to complex chronic pain, psychiatric-risk, polypharmacy, oncology/palliative, and safety-sensitive work scenarios.',
+                    'Identify when to decline, defer, refer, or request additional evidence.',
+                    'Write a defensible clinical rationale that includes alternatives, risk controls, consent, and follow-up.',
+                    'Separate patient-centred clinical reasoning from product availability or commercial pressure.'
+                ],
+                key: [
+                    'Complex cases require documented reasoning, not template approvals.',
+                    'Psychiatric, pregnancy, paediatric, substance-use, and safety-sensitive work risks need higher scrutiny.',
+                    'Referral or non-approval is an appropriate clinical outcome when risk is not controlled.'
+                ],
+                caseStudy: 'A patient has chronic neuropathic pain, uses sedating medicines, drives professionally, and requests same-day access. The doctor must assess interaction and impairment risk, discuss alternatives, document consent, and defer if safety cannot be managed.'
+            },
+            {
+                title: 'CPD Portfolio, Audit, and Quality Improvement Practicum',
+                time: '60 min',
+                summary: 'A practical module for CPD-quality evidence, audit readiness, regional QA review, improvement actions, and defensible completion records.',
+                outcomes: [
+                    'Prepare a CPD-ready completion record with learner identity, HPCSA number, completion date, module progress, assessment score, and certificate ID.',
+                    'Perform a structured QA review of consultation files using pass, conditional pass, fail, and critical-failure categories.',
+                    'Design a remediation plan for repeated consent, documentation, adverse-event, or branch-pressure failures.',
+                    'Complete a reflective practice note and course evaluation suitable for CPD evidence and CMO review.'
+                ],
+                key: [
+                    'CPD accreditation requires measurable outcomes and auditable evidence.',
+                    'Completion certificates are not CPD certificates unless accreditation is granted and the provider/activity details are recorded.',
+                    'Quality improvement must show what changed in practice, not only that a course was viewed.'
+                ],
+                caseStudy: 'A regional practitioner reviews 12 files and finds three missing consent notes, one expired authorisation, and repeated product-led rationale. The correct response is targeted remediation, additional audit sampling, documented feedback, and escalation of the expired-authorisation failure.'
+            }
+        ];
+
+        const questions = [
+            { q: 'What is the core purpose of a Section 21 application?', a: ['To bypass medical consultation', 'To request regulated access to an unregistered medicine or use under specific circumstances', 'To let retail staff approve medical access', 'To replace clinical records'], correct: 1 },
+            { q: 'Who must make the clinical decision that a patient is appropriate for the pathway?', a: ['Retail manager', 'Marketing team', 'Treating practitioner', 'Patient portal'], correct: 2 },
+            { q: 'Which statement is correct?', a: ['Section 21 approval is automatic once payment is made', 'SAHPRA may authorise, deny, or request further information', 'Origin can override SAHPRA if the doctor agrees', 'Consent is only needed after product collection'], correct: 1 },
+            { q: 'A named-patient application generally requires:', a: ['Patient clinical details and a rationale', 'Only branch address', 'Only product marketing material', 'No practitioner details'], correct: 0 },
+            { q: 'A patient refuses to disclose current medication. The doctor should:', a: ['Approve anyway', 'Defer or decline until adequate clinical information is available', 'Ask retail staff to decide', 'Use the highest available strength'], correct: 1 },
+            { q: 'A patient has an expired authorisation letter. The correct action is:', a: ['Supply if the patient is known to the branch', 'Supply if stock is available', 'Do not supply until valid access is confirmed', 'Apply a discount to compensate for delay'], correct: 2 },
+            { q: 'Consent must include:', a: ['Benefits only', 'Diagnosis, options, risks, costs, alternatives, uncertainty, and patient responsibilities', 'Brand preference only', 'A signature without explanation'], correct: 1 },
+            { q: 'Which is a conflict-of-interest risk?', a: ['Documenting clinical rationale', 'Disclosing fees', 'Paying a doctor based on product volume prescribed', 'Referring a high-risk patient for specialist care'], correct: 2 },
+            { q: 'Which record is required for a defensible consultation?', a: ['Only WhatsApp confirmation', 'Clinical history, diagnosis, risk screen, rationale, consent, and follow-up plan', 'Only product SKU', 'Only payment proof'], correct: 1 },
+            { q: 'A serious adverse event after product use must be:', a: ['Ignored if the patient signed consent', 'Escalated and documented according to pharmacovigilance procedures', 'Handled by marketing', 'Deleted from the system'], correct: 1 },
+            { q: 'Patient portal visibility means:', a: ['The provider has passed all audits forever', 'The provider is shown to patients according to business settings', 'The provider can ignore licensing fields', 'The provider can supply without authorisation'], correct: 1 },
+            { q: 'A doctor may not:', a: ['Decline a clinically inappropriate request', 'Document reasons for approval', 'Guarantee SAHPRA approval to a patient', 'Explain costs before consultation'], correct: 2 },
+            { q: 'Which scenario requires escalation?', a: ['Routine renewal reminder', 'Suspected forged authorisation', 'Patient asks for appointment time', 'Patient updates phone number'], correct: 1 },
+            { q: 'Substitution of product should occur:', a: ['Whenever branch stock is low', 'Only after appropriate clinical and authorisation review', 'At cashier discretion', 'To clear expiring inventory'], correct: 1 },
+            { q: 'Regional Medical Practitioners must be able to:', a: ['Run branch promotions', 'Conduct QA file reviews and escalate unsafe practice', 'Override consent requirements', 'Replace SAHPRA'], correct: 1 },
+            { q: 'Data minimisation means:', a: ['Store all patient details in every branch file', 'Collect and share only what is necessary for lawful care and operations', 'Publish patient status for staff convenience', 'Avoid records completely'], correct: 1 },
+            { q: 'A patient in safety-sensitive work should trigger:', a: ['No discussion', 'Clear counselling and risk documentation', 'Automatic approval', 'Retail upsell'], correct: 1 },
+            { q: 'Which should be disclosed before service?', a: ['Fees and likely process steps', 'Only product photographs', 'Nothing until after payment', 'Branch stock margin'], correct: 0 },
+            { q: 'If documentation is incomplete, QA should:', a: ['Pass by default', 'Apply conditional pass or fail depending on severity, with remediation', 'Hide it from audit', 'Convert it to a marketing lead'], correct: 1 },
+            { q: 'Retail staff may make medical eligibility decisions.', a: ['True', 'False'], correct: 1 },
+            { q: 'Advertising or marketing an unregistered medicine accessed through Section 21 authorisation is:', a: ['Allowed if the patient has consented', 'Allowed if no price is shown', 'Strictly prohibited', 'A branch manager decision'], correct: 2 },
+            { q: 'Unexpected adverse medicine reactions that are not fatal or life-threatening must be reported within:', a: ['24 hours', 'Seven days', '15 days after becoming aware of the information', 'Only at renewal'], correct: 2 },
+            { q: 'Fatal or life-threatening unexpected adverse medicine reactions must be reported within:', a: ['Seven days after becoming aware of the information', '15 days', '30 days', 'Only if SAHPRA asks'], correct: 0 },
+            { q: 'A telehealth consultation should include:', a: ['No identity check', 'Patient identity, location, privacy, consent to remote care, and emergency escalation route', 'Only a product preference', 'A branch stock check only'], correct: 1 },
+            { q: 'The certificate generated after the quiz means:', a: ['The doctor is automatically activated', 'SAHPRA approval has been granted', 'Course completion is recorded for CMO/delegate review', 'The doctor may ignore QA review'], correct: 2 }
+        ];
+
+        const state = {
+            currentLesson: Number(localStorage.getItem('originDoctorCurrentLesson') || 0),
+            completed: JSON.parse(localStorage.getItem('originDoctorCourseCompleted') || '[]'),
+            bestScore: localStorage.getItem('originDoctorBestScore') || ''
+        };
+
+        const profile = JSON.parse(localStorage.getItem('originDoctorProfile') || '{}');
+        const token = localStorage.getItem('originDoctorToken');
+
+        const lessonList = document.getElementById('lessonList');
+        const lessonContent = document.getElementById('lessonContent');
+        const progressText = document.getElementById('progressText');
+        const progressFill = document.getElementById('progressFill');
+        const doneStat = document.getElementById('doneStat');
+        const scoreStat = document.getElementById('scoreStat');
+
+        function saveProgress() {
+            localStorage.setItem('originDoctorCurrentLesson', String(state.currentLesson));
+            localStorage.setItem('originDoctorCourseCompleted', JSON.stringify(state.completed));
+        }
+
+        function isComplete(index) {
+            return state.completed.includes(index);
+        }
+
+        function completionPercent() {
+            return Math.round((state.completed.length / lessons.length) * 100);
+        }
+
+        function renderSidebar() {
+            lessonList.innerHTML = lessons.map((lesson, index) => `
+                <button class="lesson-tab ${index === state.currentLesson ? 'active' : ''} ${isComplete(index) ? 'done' : ''}" type="button" data-index="${index}">
+                    <span class="lesson-num">${isComplete(index) ? '<i class="fas fa-check"></i>' : String(index + 1).padStart(2, '0')}</span>
+                    <span>
+                        <span class="lesson-name">${lesson.title}</span>
+                        <span class="lesson-time">${lesson.time}</span>
+                    </span>
+                    <i class="fas fa-chevron-right" style="color:var(--muted);font-size:.8rem;"></i>
+                </button>
+            `).join('');
+
+            document.querySelectorAll('.lesson-tab').forEach((tab) => {
+                tab.addEventListener('click', () => {
+                    state.currentLesson = Number(tab.dataset.index);
+                    saveProgress();
+                    render();
+                    document.getElementById('sidebar').classList.remove('open');
+                });
+            });
+        }
+
+        function renderLesson() {
+            const lesson = lessons[state.currentLesson];
+            document.getElementById('topLessonTitle').textContent = lesson.title;
+            document.getElementById('topLessonMeta').textContent = `Module ${state.currentLesson + 1} of ${lessons.length} · ${lesson.time}`;
+            document.getElementById('lessonHeroTitle').textContent = lesson.title;
+            document.getElementById('lessonHeroSummary').textContent = lesson.summary;
+            document.getElementById('moduleBadge').textContent = `Module ${state.currentLesson + 1}`;
+            document.getElementById('timeBadge').textContent = lesson.time;
+
+            lessonContent.innerHTML = `
+                <div class="columns">
+                    <article class="lesson-card">
+                        <h3>Learning Outcomes</h3>
+                        <ul>${lesson.outcomes.map(item => `<li>${item}</li>`).join('')}</ul>
+                    </article>
+                    <article class="lesson-card">
+                        <h3>Key Clinical Standards</h3>
+                        <ul>${lesson.key.map(item => `<li>${item}</li>`).join('')}</ul>
+                    </article>
+                </div>
+                <article class="lesson-card">
+                    <h3>Case Application</h3>
+                    <p>${lesson.caseStudy}</p>
+                </article>
+            `;
+
+            document.getElementById('prevBtn').disabled = state.currentLesson === 0;
+            document.getElementById('nextBtn').disabled = state.currentLesson === lessons.length - 1;
+            document.getElementById('completeBtn').innerHTML = isComplete(state.currentLesson)
+                ? '<i class="fas fa-check-double"></i> Completed'
+                : '<i class="fas fa-check"></i> Mark Complete';
+        }
+
+        function renderProgress() {
+            const percent = completionPercent();
+            progressText.textContent = `${percent}%`;
+            progressFill.style.width = `${percent}%`;
+            doneStat.textContent = `${state.completed.length}/${lessons.length}`;
+            scoreStat.textContent = state.bestScore ? `${state.bestScore}%` : '-';
+            document.getElementById('examLock').classList.toggle('show', state.completed.length < lessons.length);
+            document.getElementById('examArea').classList.toggle('show', state.completed.length === lessons.length);
+        }
+
+        function renderQuiz() {
+            const quiz = document.getElementById('quiz');
+            quiz.innerHTML = questions.map((item, index) => `
+                <div class="quiz-card">
+                    <strong>${index + 1}. ${item.q}</strong>
+                    ${item.a.map((answer, answerIndex) => `
+                        <label><input type="radio" name="q${index}" value="${answerIndex}" required> ${answer}</label>
+                    `).join('')}
+                </div>
+            `).join('');
+        }
+
+        function render() {
+            renderSidebar();
+            renderLesson();
+            renderProgress();
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (state.currentLesson > 0) {
+                state.currentLesson -= 1;
+                saveProgress();
+                render();
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (state.currentLesson < lessons.length - 1) {
+                state.currentLesson += 1;
+                saveProgress();
+                render();
+            }
+        });
+
+        document.getElementById('completeBtn').addEventListener('click', () => {
+            if (!isComplete(state.currentLesson)) {
+                state.completed.push(state.currentLesson);
+                state.completed.sort((a, b) => a - b);
+                saveProgress();
+            }
+            if (state.currentLesson < lessons.length - 1) state.currentLesson += 1;
+            saveProgress();
+            render();
+        });
+
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        document.getElementById('quizForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const form = new FormData(event.currentTarget);
+            let correct = 0;
+
+            questions.forEach((item, index) => {
+                if (Number(form.get(`q${index}`)) === item.correct) correct += 1;
+            });
+
+            const score = Math.round((correct / questions.length) * 100);
+            if (!state.bestScore || score > Number(state.bestScore)) {
+                state.bestScore = String(score);
+                localStorage.setItem('originDoctorBestScore', state.bestScore);
+            }
+
+            const passed = score >= 75;
+            const name = document.getElementById('doctorName').value.trim() || 'Doctor';
+            const hpcsa = document.getElementById('hpcsaNumber').value.trim() || 'Pending';
+            const certificateUrl = `section21-doctor-certificate.html?name=${encodeURIComponent(name)}&hpcsa=${encodeURIComponent(hpcsa)}&score=${score}&date=${encodeURIComponent(new Date().toISOString().slice(0, 10))}`;
+            const result = document.getElementById('result');
+
+            result.style.display = 'block';
+            result.className = `result ${passed ? 'pass' : 'fail'}`;
+            result.innerHTML = passed
+                ? `<h3 style="color: var(--green); margin-top: 0;">Assessment Passed: ${score}%</h3><p>You reached the 75% pass mark. Generate the course completion certificate for CMO/delegate review. Final certification is not automatic.</p><a class="btn" href="${certificateUrl}"><i class="fas fa-certificate"></i> Generate Completion Certificate</a>`
+                : `<h3 style="color: var(--red); margin-top: 0;">Assessment Not Yet Passed: ${score}%</h3><p>The minimum pass mark is 75%. Review the lessons and retake the assessment before certification review.</p>`;
+            renderProgress();
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('originDoctorToken');
+            localStorage.removeItem('originDoctorAuthAt');
+            window.location.href = 'section21-doctor-login.html';
+        });
+
+        if (profile.name) document.getElementById('doctorName').value = profile.name;
+        if (profile.hpcsa) document.getElementById('hpcsaNumber').value = profile.hpcsa;
+        if (!token) document.getElementById('authNotice').style.display = 'block';
+
+        renderQuiz();
+        render();
+    </script>
+</body>
+</html>

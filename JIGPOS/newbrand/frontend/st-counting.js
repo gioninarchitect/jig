@@ -1,5 +1,5 @@
 // st-counting.js — Data loading, rendering, category filtering, progress, batch mode
-// Depends on: config.js (API_URL), dbc-utils.js (showToast)
+// Depends on: config.js (API_URL), or-utils.js (showToast)
 // Depends on: st-auth.js (currentUser, currentSession, currentItems, currentFilter)
 
 // ============================================
@@ -337,7 +337,7 @@ function renderCardMode(filteredItems, container) {
                         <div class="photo-accordion-header" onclick="event.stopPropagation(); togglePhotoAccordion(${actualIndex})" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:8px 0;">
                             <label style="pointer-events:none;margin:0;display:flex;align-items:center;gap:6px;">
                                 <i class="fas fa-camera"></i> ${photoLabel}
-                                ${hasPhoto ? '<span style="color:var(--gold,#D97706);font-size:0.75rem;margin-left:4px;"><i class="fas fa-check-circle"></i> Captured</span>' : ''}
+                                ${hasPhoto ? '<span style="color:var(--gold,#C9A84C);font-size:0.75rem;margin-left:4px;"><i class="fas fa-check-circle"></i> Captured</span>' : ''}
                             </label>
                             <i class="fas fa-chevron-down photo-accordion-icon" id="photo-icon-${actualIndex}" style="transition:transform 0.2s;font-size:0.8rem;color:#8faa97;"></i>
                         </div>
@@ -378,8 +378,8 @@ function renderCardMode(filteredItems, container) {
 
                     ${!item.isCountable ? `
                     <!-- Container / Tare Weight -->
-                    <div class="detail-section" style="background:rgba(217, 119, 6,0.08);border-radius:8px;padding:10px;margin-bottom:4px;">
-                        <label style="font-size:0.8rem;color:var(--gold,#D97706);"><i class="fas fa-jar"></i> Container (Tare) Weight</label>
+                    <div class="detail-section" style="background:rgba(240, 165, 0,0.08);border-radius:8px;padding:10px;margin-bottom:4px;">
+                        <label style="font-size:0.8rem;color:var(--gold,#C9A84C);"><i class="fas fa-jar"></i> Container (Tare) Weight</label>
                         <div style="display:flex;gap:8px;align-items:center;">
                             <div class="weight-input-container" style="flex:1;">
                                 <input type="number"
@@ -393,12 +393,12 @@ function renderCardMode(filteredItems, container) {
                                        onchange="updateTareWeight(${actualIndex}, this.value)">
                                 <span class="unit-label">g</span>
                             </div>
-                            <button onclick="openContainerCamera(${actualIndex})" style="padding:8px 12px;background:var(--gold,#D97706);color:var(--green-deep,#6D28D9);border:none;border-radius:6px;font-size:0.8rem;cursor:pointer;white-space:nowrap;">
+                            <button onclick="openContainerCamera(${actualIndex})" style="padding:8px 12px;background:var(--gold,#C9A84C);color:var(--green-deep,#8B6914);border:none;border-radius:6px;font-size:0.8rem;cursor:pointer;white-space:nowrap;">
                                 <i class="fas fa-camera"></i> Jar Photo
                             </button>
                         </div>
                         ${item.containerPhoto ? `<img src="${item.containerPhoto}" alt="Container" style="width:60px;height:60px;object-fit:cover;border-radius:6px;margin-top:6px;">` : ''}
-                        ${item.tareWeight ? `<div style="font-size:0.75rem;color:var(--gold,#D97706);margin-top:4px;"><i class="fas fa-info-circle"></i> Gross weight on scale minus ${item.tareWeight}g jar = net product weight</div>` : ''}
+                        ${item.tareWeight ? `<div style="font-size:0.75rem;color:var(--gold,#C9A84C);margin-top:4px;"><i class="fas fa-info-circle"></i> Gross weight on scale minus ${item.tareWeight}g jar = net product weight</div>` : ''}
                     </div>
                     ` : ''}
 
@@ -417,7 +417,7 @@ function renderCardMode(filteredItems, container) {
                             <span class="unit-label">${item.unit}</span>
                         </div>
                         ${!item.isCountable && item.tareWeight && item.grossWeight ? `
-                            <div style="background:var(--cream,#0A0A0A);padding:8px 10px;border-radius:6px;margin-top:6px;font-size:0.85rem;">
+                            <div style="background:var(--cream,#0E0E0E);padding:8px 10px;border-radius:6px;margin-top:6px;font-size:0.85rem;">
                                 <strong>Net Weight: ${(item.grossWeight - item.tareWeight).toFixed(2)}g</strong>
                                 <span style="color:#888;margin-left:8px;">(${item.grossWeight}g - ${item.tareWeight}g jar)</span>
                             </div>

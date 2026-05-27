@@ -1,5 +1,5 @@
 // owner-branches.js — Branch management for owner dashboard
-// Depends on: owner-auth.js (token), config.js (API_URL), dbc-utils.js (showToast)
+// Depends on: owner-auth.js (token), config.js (API_URL), or-utils.js (showToast)
 
 // Global branch map for live feed name resolution
 window._ownerBranchMap = {};
@@ -31,7 +31,7 @@ async function loadOwnerBranchStats() {
 
         if (branches.length === 0) {
             grid.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--gray-500);">
+                <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--or-grey-2);">
                     <i class="fas fa-store" style="font-size: 3rem; margin-bottom: 1rem; color: var(--gray-200);"></i>
                     <p>No branches found. <a href="admin.html" style="color: var(--gold);">Add your first branch</a></p>
                 </div>
@@ -58,7 +58,7 @@ async function loadOwnerBranchStats() {
         grid.innerHTML = branches.map(branch => {
             const tillIndicator = branch.openTills > 0
                 ? `<span style="color: #22C55E;"><i class="fas fa-circle" style="font-size: 0.5rem;"></i> ${branch.openTills} till${branch.openTills > 1 ? 's' : ''} open</span>`
-                : `<span style="color: var(--gray-500);"><i class="fas fa-circle" style="font-size: 0.5rem;"></i> No tills open</span>`;
+                : `<span style="color: var(--or-grey-2);"><i class="fas fa-circle" style="font-size: 0.5rem;"></i> No tills open</span>`;
 
             const cashupBadge = branch.pendingCashups > 0
                 ? `<span style="background: var(--gold); color: var(--green-deep); padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 700;">${branch.pendingCashups} cashup</span>`
@@ -93,13 +93,13 @@ async function loadOwnerBranchStats() {
                         ${tillIndicator}
                         ${cashupBadge}
                     </div>
-                    <div class="branch-month-stat" style="font-size: 0.8rem; color: var(--gray-500); padding: 0.25rem 0;">
+                    <div class="branch-month-stat" style="font-size: 0.8rem; color: var(--or-grey-2); padding: 0.25rem 0;">
                         <i class="fas fa-calendar"></i> Month: R${fmt(branch.monthSales)} (${branch.monthTransactions} txns) | Stock value: R${fmt(branch.stockValue)}
                     </div>
                     <div class="branch-status">
                         <span class="status-dot ${branch.isActive ? 'active' : 'inactive'}"></span>
                         <span>${branch.isActive ? 'Open' : 'Closed'}</span>
-                        ${branch.address ? `<span style="margin-left: auto; color: var(--gray-500); font-size: 0.8rem;"><i class="fas fa-map-marker-alt"></i> ${branch.address.suburb || branch.address.city || ''}</span>` : ''}
+                        ${branch.address ? `<span style="margin-left: auto; color: var(--or-grey-2); font-size: 0.8rem;"><i class="fas fa-map-marker-alt"></i> ${branch.address.suburb || branch.address.city || ''}</span>` : ''}
                     </div>
                     <div class="branch-actions">
                         <button class="branch-btn primary" onclick="viewBranch('${branch._id}')">

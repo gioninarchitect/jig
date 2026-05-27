@@ -11,7 +11,7 @@ export function useAuth() {
   async function requestPin(email: string) {
     setLoading(true);
     try {
-      const { data } = await api.post('/auth/request-pin', { email });
+      const { data } = await api.post('/auth/request-pin', { email: email.trim().toLowerCase() });
       addToast('success', 'PIN sent to your email');
       return data;
     } catch (err: any) {
@@ -23,7 +23,7 @@ export function useAuth() {
   async function verifyPin(email: string, pin: string) {
     setLoading(true);
     try {
-      const { data } = await api.post('/auth/verify-pin', { email, pin });
+      const { data } = await api.post('/auth/verify-pin', { email: email.trim().toLowerCase(), pin: pin.trim() });
       login(data.token, data.user);
       addToast('success', `Welcome, ${data.user.name}`);
       return data;

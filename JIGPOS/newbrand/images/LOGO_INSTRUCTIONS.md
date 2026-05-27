@@ -2,7 +2,7 @@
 
 ## Where to Place Your Logo
 
-Save your Basotho Medical Herbs logo as:
+Save your PureGro Premium Cannabis Care logo as:
 `/Users/florisolivier/BMH/images/cbd-wellness-logo.png`
 
 ## Recommended Specifications

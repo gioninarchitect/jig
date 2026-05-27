@@ -1,4 +1,4 @@
-// Seed Test Users for Basotho Medical Herbs
+// Seed Test Users for Origin by ILCO Farming
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('../modules/database/models/User');
@@ -8,7 +8,7 @@ require('dotenv').config();
 async function seedTestUsers() {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/jig', {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/origin', {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
@@ -31,59 +31,25 @@ async function seedTestUsers() {
           country: 'South Africa'
         },
         phone: '+27 11 123 4567',
-        email: 'main@basothomedicalherbs.ls',
+        email: 'info@cleva-ai.co.za',
         isActive: true,
         isMainBranch: true
       });
     }
 
+    const PIN = '123456';
+    const hashedPin = await bcrypt.hash(PIN, 10);
+
     const testUsers = [
-      // 1. Admin User
+      // Customer — lifestyle products only
       {
-        email: 'admin@basothomedicalherbs.ls',
-        password: 'Admin123!',
-        username: 'admin',
-        firstName: 'Admin',
-        lastName: 'User',
-        role: 'admin',
-        phone: '+27 11 111 1111'
-      },
-
-      // 2. Store Owner / Manager
-      {
-        email: 'manager@basothomedicalherbs.ls',
-        password: 'Manager123!',
-        username: 'manager',
-        firstName: 'Sarah',
-        lastName: 'Johnson',
-        role: 'branch_manager',
-        phone: '+27 11 222 2222',
-        branch: mainBranch._id,
-        permissions: ['manageBranch', 'manageInventory', 'manageStaff', 'manageSales', 'viewReports', 'manageSuppliers']
-      },
-
-      // 3. Staff Assistant (Bartender/Assistant)
-      {
-        email: 'assistant@basothomedicalherbs.ls',
-        password: 'Assistant123!',
-        username: 'assistant',
-        firstName: 'John',
-        lastName: 'Smith',
-        role: 'branch_assistant',
-        phone: '+27 11 333 3333',
-        branch: mainBranch._id,
-        permissions: ['manageSales']
-      },
-
-      // 4. Regular User (Customer - No Section 21)
-      {
-        email: 'user@basothomedicalherbs.ls',
-        password: 'User123!',
-        username: 'user',
+        email: 'customer@cleva-ai.co.za',
+        username: 'customer',
         firstName: 'Michael',
         lastName: 'Williams',
         role: 'user',
         phone: '+27 82 111 2222',
+        permanentPin: PIN,
         dateOfBirth: new Date('1990-05-15'),
         address: {
           street: '456 Oak Avenue',
@@ -94,35 +60,15 @@ async function seedTestUsers() {
         }
       },
 
-      // 5. User with Pending Section 21
+      // Patient — Section 21 approved, medical access
       {
-        email: 'pending@basothomedicalherbs.ls',
-        password: 'Pending123!',
-        username: 'pending',
-        firstName: 'Emma',
-        lastName: 'Davis',
-        role: 'user',
-        phone: '+27 82 333 4444',
-        dateOfBirth: new Date('1985-08-20'),
-        address: {
-          street: '789 Pine Street',
-          city: 'Cape Town',
-          province: 'Western Cape',
-          postalCode: '8001',
-          country: 'South Africa'
-        },
-        section21Status: 'pending'
-      },
-
-      // 6. Patient (User with Approved Section 21)
-      {
-        email: 'patient@basothomedicalherbs.ls',
-        password: 'Patient123!',
+        email: 'patient@cleva-ai.co.za',
         username: 'patient',
         firstName: 'David',
         lastName: 'Brown',
-        role: 'user', // Note: Role stays 'user', Section 21 status determines patient access
+        role: 'user',
         phone: '+27 82 555 6666',
+        permanentPin: PIN,
         dateOfBirth: new Date('1978-12-10'),
         address: {
           street: '321 Elm Road',
@@ -137,7 +83,7 @@ async function seedTestUsers() {
           doctorName: 'Dr. Jane Wilson',
           practiceNumber: 'MP-123456',
           issueDate: new Date('2024-06-01'),
-          expiryDate: new Date('2024-12-01'),
+          expiryDate: new Date('2025-12-01'),
           conditions: ['Chronic Pain', 'Anxiety'],
           approvedBy: 'System Admin',
           approvedDate: new Date('2024-06-02')
@@ -157,49 +103,30 @@ async function seedTestUsers() {
       const existing = await User.findOne({ email: userData.email });
 
       if (existing) {
-        console.log(`⚠️  User ${userData.email} already exists - updating password...`);
-
-        // Update password directly - hash it properly
-        const hashedPassword = await bcrypt.hash(userData.password, 10);
+        console.log(`  User ${userData.email} exists - updating PIN...`);
         await User.updateOne(
           { email: userData.email },
-          { $set: { password: hashedPassword } }
+          { $set: { permanentPin: hashedPin, isActive: true, isEmailVerified: true } }
         );
-        console.log(`✅ Updated ${userData.email}`);
+        console.log(`  Updated ${userData.email}`);
       } else {
-        // Create new user - don't hash password here, User model pre-save hook will hash it
         await User.create({
           ...userData,
+          permanentPin: hashedPin,
           isActive: true,
-          emailVerified: true
+          isEmailVerified: true
         });
 
         console.log(`✅ Created ${userData.email}`);
       }
     }
 
-    // Display summary
-    console.log('\n📊 Test Users Summary:');
-    console.log('=====================================');
-    console.log('Role              | Email                           | Password');
-    console.log('------------------|----------------------------------|-------------');
-    console.log('Admin             | admin@basothomedicalherbs.ls       | Admin123!');
-    console.log('Store Manager     | manager@basothomedicalherbs.ls     | Manager123!');
-    console.log('Staff Assistant   | assistant@basothomedicalherbs.ls   | Assistant123!');
-    console.log('Regular User      | user@basothomedicalherbs.ls        | User123!');
-    console.log('Pending S21       | pending@basothomedicalherbs.ls     | Pending123!');
-    console.log('Patient (S21)     | patient@basothomedicalherbs.ls     | Patient123!');
-    console.log('=====================================\n');
-
-    console.log('💡 Testing Guide:');
-    console.log('=====================================');
-    console.log('1. Admin: Full system access - admin.html');
-    console.log('2. Store Manager: Branch management, staff, inventory, POS');
-    console.log('3. Staff Assistant: POS access, bartender/assistant duties');
-    console.log('4. Regular User: Lifestyle products, can upload Section 21');
-    console.log('5. Pending S21: Section 21 under review');
-    console.log('6. Patient: Access to medical cannabis products');
-    console.log('=====================================\n');
+    console.log('\nCustomer Test Accounts (all PIN: 123456):');
+    console.log('==========================================');
+    console.log('  customer@cleva-ai.co.za  — Regular customer (lifestyle)');
+    console.log('  patient@cleva-ai.co.za   — Patient (Section 21 approved)');
+    console.log('==========================================');
+    console.log('Login via OTP at /login.html or PIN on staff dashboards\n');
 
     mongoose.connection.close();
     console.log('✅ Database connection closed');

@@ -1,5 +1,5 @@
 // st-sessions.js — Session management (load, select, create, start)
-// Depends on: config.js (API_URL), dbc-utils.js (showToast), dbc-auth.js (getToken)
+// Depends on: config.js (API_URL), or-utils.js (showToast), or-auth.js (getToken)
 // Depends on: st-auth.js (currentUser, currentSession)
 
 // ============================================
@@ -76,6 +76,20 @@ async function showSessionModal() {
     } catch (error) {
         list.innerHTML = '<p style="text-align: center; color: var(--danger);">Error loading sessions</p>';
     }
+
+    // Reset template state
+    selectedTemplate = null;
+    document.querySelectorAll('[id^="tpl-"]').forEach(btn => {
+        btn.style.opacity = '1';
+        btn.style.transform = 'scale(1)';
+    });
+    const catInput = document.getElementById('newSessionCategories');
+    if (catInput) catInput.value = '';
+    const typeSelect = document.getElementById('newSessionType');
+    if (typeSelect) typeSelect.value = 'full';
+
+    // Load compliance status
+    loadComplianceStatus();
 }
 
 function closeSessionModal() {
@@ -151,7 +165,7 @@ async function startSession() {
 async function detectBranchFromEmail(email) {
     if (!email) return null;
 
-    // Extract branch prefix from email (e.g., "ormonde.assistant@..." -> "ormonde")
+    // Extract branch prefix from email (e.g., "potchefstroom.assistant@..." -> "potchefstroom")
     const emailPrefix = email.split('@')[0].split('.')[0].toLowerCase();
 
     try {
@@ -246,7 +260,7 @@ function showBranchPicker(branches) {
 
     list.innerHTML = `
         <div style="text-align: center; margin-bottom: 16px;">
-            <h3 style="color: var(--gold); font-family: 'Oswald', sans-serif;">Select Your Branch</h3>
+            <h3 style="color: var(--gold); font-family: 'Barlow Condensed', sans-serif;">Select Your Branch</h3>
         </div>
         ${branches.map(b => `
             <div class="session-option" onclick="pickBranch('${b._id}', '${b.name.replace(/'/g, "\\'")}')">
@@ -333,7 +347,7 @@ function searchProductsToAdd(query) {
                 const tagsStr = (p.tags || []).join(', ');
                 const inSession = p.alreadyInSession;
                 return `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 8px; background: ${inSession ? 'rgba(34,197,94,0.1)' : 'var(--bg-card, #6D28D9)'}; border-radius: 8px; border: 1px solid ${inSession ? 'rgba(34,197,94,0.3)' : 'var(--border, #A855F7)'};">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 8px; background: ${inSession ? 'rgba(34,197,94,0.1)' : 'var(--bg-card, #8B6914)'}; border-radius: 8px; border: 1px solid ${inSession ? 'rgba(34,197,94,0.3)' : 'var(--border, #D4B86A)'};">
                         <div style="flex: 1;">
                             <div style="font-weight: 600; font-size: 0.95rem;">${p.name}</div>
                             <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">
@@ -342,7 +356,7 @@ function searchProductsToAdd(query) {
                         </div>
                         ${inSession
                             ? '<span style="padding: 6px 12px; background: rgba(34,197,94,0.2); color: #22c55e; border-radius: 6px; font-size: 0.8rem; font-weight: 600; white-space: nowrap;"><i class="fas fa-check"></i> In Session</span>'
-                            : `<button onclick="addProductToSession('${p._id}', this)" style="padding: 8px 14px; background: var(--gold, #D97706); color: var(--primary-dark, #6D28D9); border: none; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; white-space: nowrap;"><i class="fas fa-plus"></i> Add</button>`
+                            : `<button onclick="addProductToSession('${p._id}', this)" style="padding: 8px 14px; background: var(--gold, #C9A84C); color: var(--primary-dark, #8B6914); border: none; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; white-space: nowrap;"><i class="fas fa-plus"></i> Add</button>`
                         }
                     </div>
                 `;
@@ -407,6 +421,8 @@ async function confirmCreateSession() {
         || currentUser?.branch
         || localStorage.getItem('selectedBranch');
     const stockTakeType = document.getElementById('newSessionType').value;
+    const categoriesInput = document.getElementById('newSessionCategories');
+    const categories = categoriesInput ? JSON.parse(categoriesInput.value || '[]') : [];
 
     closeCreateSessionModal();
     showToast('Creating stock take...', 'info');
@@ -420,7 +436,8 @@ async function confirmCreateSession() {
             },
             body: JSON.stringify({
                 branchId,
-                stockTakeType
+                stockTakeType,
+                categories
             })
         });
 
@@ -434,5 +451,139 @@ async function confirmCreateSession() {
         }
     } catch (error) {
         showToast('Error creating session', 'error');
+    }
+}
+
+// ============================================
+// QUICK COUNT TEMPLATES
+// ============================================
+
+const STOCKTAKE_TIERS = {
+    'daily-high-value': {
+        type: 'cycle',
+        categories: ['flower', 'pre-rolls', 'concentrates'],
+        label: 'Daily High-Value Count'
+    },
+    'weekly-medium': {
+        type: 'cycle',
+        categories: ['edibles', 'oils', 'vapes'],
+        label: 'Weekly Medium-Value Count'
+    },
+    'full-count': {
+        type: 'full',
+        categories: [],
+        label: 'Full Branch Count'
+    },
+    'spot-check': {
+        type: 'spot',
+        categories: [],
+        label: 'Spot Check'
+    }
+};
+
+let selectedTemplate = null;
+
+function selectQuickTemplate(templateId) {
+    selectedTemplate = STOCKTAKE_TIERS[templateId];
+
+    // Update visual state of template buttons
+    document.querySelectorAll('[id^="tpl-"]').forEach(btn => {
+        btn.style.opacity = '0.5';
+        btn.style.transform = 'scale(0.97)';
+    });
+    const selected = document.getElementById('tpl-' + templateId);
+    if (selected) {
+        selected.style.opacity = '1';
+        selected.style.transform = 'scale(1.02)';
+    }
+
+    // Update the type dropdown to match
+    const typeSelect = document.getElementById('newSessionType');
+    if (typeSelect) typeSelect.value = selectedTemplate.type;
+
+    // Update hidden categories
+    const catInput = document.getElementById('newSessionCategories');
+    if (catInput) catInput.value = JSON.stringify(selectedTemplate.categories);
+}
+
+// ============================================
+// COMPLIANCE STATUS
+// ============================================
+
+async function loadComplianceStatus() {
+    const branchId = currentUser?.branchId
+        || currentUser?.primaryBranch?._id
+        || currentUser?.primaryBranch
+        || currentUser?.branch?._id
+        || currentUser?.branch
+        || localStorage.getItem('selectedBranch');
+
+    if (!branchId) return;
+
+    const banner = document.getElementById('complianceBanner');
+    if (!banner) return;
+
+    try {
+        const response = await fetch(`${API_URL}/stocktake/compliance/${branchId}`, {
+            headers: { 'Authorization': `Bearer ${getToken()}` }
+        });
+        const data = await response.json();
+
+        if (!data.success) return;
+
+        const c = data.compliance;
+        const items = [];
+
+        // Daily high-value
+        if (!c.dailyHighValue.completedToday) {
+            items.push(`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">
+                <i class="fas fa-exclamation-circle" style="color:#ef4444;"></i>
+                <span><strong>Daily high-value count</strong> not done today</span>
+            </div>`);
+        } else {
+            items.push(`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">
+                <i class="fas fa-check-circle" style="color:#22c55e;"></i>
+                <span><strong>Daily high-value count</strong> completed</span>
+            </div>`);
+        }
+
+        // Weekly medium
+        if (!c.weeklyMedium.completedThisWeek) {
+            const day = new Date().getDay();
+            if (day >= 3) { // Wednesday or later — getting urgent
+                items.push(`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">
+                    <i class="fas fa-exclamation-triangle" style="color:#f59e0b;"></i>
+                    <span><strong>Weekly medium count</strong> not done this week</span>
+                </div>`);
+            }
+        }
+
+        // Monthly full
+        if (!c.monthlyFull.completedThisMonth) {
+            const dayOfMonth = new Date().getDate();
+            if (dayOfMonth >= 15) {
+                items.push(`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">
+                    <i class="fas fa-calendar-times" style="color:#f59e0b;"></i>
+                    <span><strong>Monthly full count</strong> not done this month</span>
+                </div>`);
+            }
+        }
+
+        if (items.length > 0) {
+            const allGood = items.every(i => i.includes('#22c55e'));
+            banner.style.display = 'block';
+            banner.style.background = allGood ? 'rgba(34,197,94,0.1)' : 'rgba(220,38,38,0.1)';
+            banner.style.border = allGood ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(220,38,38,0.3)';
+            banner.innerHTML = `
+                <div style="font-weight:700;font-size:0.85rem;margin-bottom:6px;color:${allGood ? '#22c55e' : '#ef4444'};">
+                    <i class="fas fa-${allGood ? 'shield-check' : 'shield-exclamation'}"></i> Compliance Status
+                </div>
+                ${items.join('')}
+            `;
+        } else {
+            banner.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Compliance check error:', error);
     }
 }

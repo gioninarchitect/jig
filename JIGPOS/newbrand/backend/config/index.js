@@ -105,7 +105,7 @@ module.exports = {
 
   // Database
   database: {
-    uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/jig',
+    uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/origin',
     options: {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -194,7 +194,7 @@ module.exports = {
     port: process.env.REDIS_PORT || 6379,
     password: process.env.REDIS_PASSWORD,
     db: process.env.REDIS_DB || 0,
-    keyPrefix: 'jig:',
+    keyPrefix: 'origin:',
     ttl: 3600 // 1 hour default
   },
   
@@ -209,7 +209,7 @@ module.exports = {
   // Security
   security: {
     corsOrigins: process.env.CORS_ORIGINS?.split(',') || ['http://localhost:3000', 'http://localhost:8080'],
-    sessionSecret: process.env.SESSION_SECRET || 'jig-session-secret',
+    sessionSecret: process.env.SESSION_SECRET || 'origin-session-secret',
     cookieMaxAge: 24 * 60 * 60 * 1000, // 24 hours
     enableHelmet: true,
     enableCompression: true

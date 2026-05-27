@@ -4,39 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>Owner Dashboard - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Owner Dashboard - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -46,7 +55,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -55,13 +64,22 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
+            /* Surface / Dark Theme tokens */
+            --surface-bg: #0E0E0E;
+            --surface-card: #1A1A1A;
+            --surface-elevated: #222222;
+            --surface-hover: #2A2A2A;
+            --text-primary: #FAFAFA;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --border-dark: #2A2A2A;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -110,14 +128,14 @@
         }
 
         .nav-logo-text .brand-name {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.8rem;
             text-transform: uppercase;
             letter-spacing: 0.02em;
         }
 
         .nav-logo-text .brand-tagline {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
             font-size: 0.9rem;
             color: var(--gold);
@@ -125,14 +143,14 @@
 
         .owner-badge {
             background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
-            color: var(--white);
+            color: var(--or-white);
             padding: 0.5rem 1.5rem;
             border-radius: 25px;
             font-weight: 700;
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+            box-shadow: 0 4px 15px rgba(240, 165, 0, 0.4);
         }
 
         .nav-actions {
@@ -185,7 +203,7 @@
 
         /* Welcome Header */
         .welcome-header {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             border-radius: 20px;
             padding: 2rem 2.5rem;
             margin-bottom: 2rem;
@@ -206,7 +224,7 @@
         }
 
         .welcome-header h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2.5rem;
             color: var(--cream);
             text-transform: uppercase;
@@ -258,7 +276,7 @@
         }
 
         .stat-card.revenue::before { background: var(--gold); }
-        .stat-card.orders::before { background: var(--green); }
+        .stat-card.orders::before { background: var(--or-gold); }
         .stat-card.inventory::before { background: #6366F1; }
         .stat-card.branches::before { background: var(--red); }
 
@@ -273,8 +291,8 @@
             margin-bottom: 1rem;
         }
 
-        .stat-card.revenue .stat-icon { background: rgba(217, 119, 6,0.15); color: var(--gold); }
-        .stat-card.orders .stat-icon { background: rgba(124, 58, 237,0.2); color: var(--green-light); }
+        .stat-card.revenue .stat-icon { background: rgba(240, 165, 0,0.15); color: var(--gold); }
+        .stat-card.orders .stat-icon { background: rgba(63, 192, 65,0.2); color: var(--green-light); }
         .stat-card.inventory .stat-icon { background: rgba(99,102,241,0.15); color: #818CF8; }
         .stat-card.branches .stat-icon { background: rgba(220, 38, 38,0.15); color: #EF6461; }
 
@@ -305,7 +323,7 @@
 
         /* Branches Section */
         .section-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.8rem;
             color: var(--text-primary);
             text-transform: uppercase;
@@ -340,7 +358,7 @@
         }
 
         .branch-header {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 1.25rem 1.5rem;
             display: flex;
             justify-content: space-between;
@@ -355,7 +373,7 @@
 
         .branch-code {
             background: var(--gold);
-            color: var(--white);
+            color: var(--or-white);
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
             font-size: 0.75rem;
@@ -409,7 +427,7 @@
         }
 
         .status-dot.active { background: #22C55E; }
-        .status-dot.inactive { background: var(--gray-500); }
+        .status-dot.inactive { background: var(--or-grey-2); }
 
         .branch-actions {
             display: flex;
@@ -434,7 +452,7 @@
 
         .branch-btn.primary {
             background: var(--gold);
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .branch-btn.primary:hover {
@@ -694,7 +712,7 @@
             top: -4px;
             right: -4px;
             background: var(--gold);
-            color: var(--white);
+            color: var(--or-white);
             font-size: 0.7rem;
             font-weight: 700;
             width: 18px;
@@ -763,7 +781,7 @@
 
         .sidebar-logo-text {
             color: var(--cream);
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.3rem;
             text-transform: uppercase;
         }
@@ -805,7 +823,7 @@
         }
 
         .sidebar-menu-item.active {
-            background: rgba(217, 119, 6, 0.15);
+            background: rgba(240, 165, 0, 0.15);
             border-left-color: var(--gold);
         }
 
@@ -902,7 +920,7 @@
         }
 
         .cart-header h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.5rem;
             text-transform: uppercase;
         }
@@ -964,7 +982,7 @@
         }
 
         .cart-item-price {
-            color: var(--purple);
+            color: var(--or-gold);
             font-weight: 700;
         }
 
@@ -979,7 +997,8 @@
             width: 28px;
             height: 28px;
             border: 1px solid var(--gray-200);
-            background: var(--white);
+            background: #222222;
+            color: #FAFAFA;
             border-radius: 4px;
             cursor: pointer;
             display: flex;
@@ -989,9 +1008,9 @@
         }
 
         .qty-btn:hover {
-            background: var(--green);
+            background: var(--or-gold);
             color: white;
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         .cart-item-remove {
@@ -1019,15 +1038,15 @@
         }
 
         .cart-total-value {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.5rem;
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .checkout-btn {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -1039,7 +1058,7 @@
 
         .checkout-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+            box-shadow: 0 4px 15px rgba(63, 192, 65, 0.4);
         }
 
         @media (max-width: 480px) {
@@ -1102,7 +1121,7 @@
         }
 
         .reports-modal-header {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 1rem 1.5rem;
             display: flex;
             justify-content: space-between;
@@ -1116,7 +1135,7 @@
         .reports-modal-header h2 {
             color: var(--cream);
             margin: 0;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.4rem;
         }
 
@@ -1202,7 +1221,7 @@
         }
 
         .report-section-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.2rem;
             color: var(--text-primary);
             margin-bottom: 1rem;
@@ -1246,7 +1265,7 @@
         }
 
         .report-stat.success {
-            border-left: 3px solid rgba(124, 58, 237, 0.8);
+            border-left: 3px solid rgba(63, 192, 65, 0.8);
         }
 
         .report-stat.danger {
@@ -1257,7 +1276,7 @@
             font-size: 1.6rem;
             font-weight: 700;
             color: var(--text-primary);
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             line-height: 1.2;
         }
 
@@ -1310,7 +1329,7 @@
 
         .category-badge {
             background: var(--gold);
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
             font-size: 0.75rem;
@@ -1368,9 +1387,9 @@
         }
 
         .report-btn-primary {
-            background: var(--green);
-            color: var(--white);
-            border-color: var(--purple);
+            background: var(--or-gold);
+            color: var(--or-white);
+            border-color: var(--or-gold);
         }
 
         .report-btn-primary:hover {
@@ -1438,38 +1457,41 @@
             height: 100%;
             background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%);
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             z-index: 9999;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 2rem 1rem;
         }
 
         .login-card {
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 16px;
-            padding: 2.5rem;
+            padding: 2rem;
             width: 100%;
             max-width: 420px;
-            margin: 1rem;
+            margin: auto;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
         .login-card h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2rem;
-            color: var(--white);
+            color: var(--or-white);
             text-transform: uppercase;
             margin-bottom: 0.25rem;
         }
 
         .login-card .tagline {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
             color: var(--gold);
             margin-bottom: 0.5rem;
         }
 
         .login-card .subtitle {
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             font-size: 0.9rem;
             margin-bottom: 2rem;
         }
@@ -1481,7 +1503,7 @@
         .login-form-group label {
             display: block;
             font-weight: 600;
-            color: var(--white);
+            color: var(--or-white);
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
         }
@@ -1493,18 +1515,20 @@
             border-radius: 8px;
             font-size: 1rem;
             transition: all 0.3s;
+            background: #0A0A0A;
+            color: #FAFAFA;
         }
 
         .login-form-group input:focus {
             outline: none;
-            border-color: var(--purple);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+            border-color: var(--or-gold);
+            box-shadow: 0 0 0 3px rgba(63, 192, 65, 0.15);
         }
 
         .login-btn {
             width: 100%;
             padding: 1rem;
-            background: var(--green);
+            background: var(--or-gold);
             color: white;
             border: none;
             border-radius: 8px;
@@ -1524,20 +1548,20 @@
         }
 
         .login-btn:disabled {
-            background: var(--gray-500);
+            background: var(--or-grey-2);
             cursor: not-allowed;
             transform: none;
         }
 
         .login-btn-secondary {
             background: transparent;
-            color: var(--purple);
+            color: var(--or-gold);
             border: 2px solid var(--green);
             margin-top: 1rem;
         }
 
         .login-btn-secondary:hover {
-            background: rgba(124, 58, 237, 0.1);
+            background: rgba(63, 192, 65, 0.1);
         }
 
         .login-message {
@@ -1559,8 +1583,8 @@
         }
 
         .login-message.success {
-            background: rgba(124, 58, 237, 0.1);
-            color: var(--purple);
+            background: rgba(63, 192, 65, 0.1);
+            color: var(--or-gold);
             border: 1px solid var(--green);
         }
 
@@ -1580,12 +1604,14 @@
             border: 2px solid var(--gray-200);
             border-radius: 10px;
             transition: all 0.3s;
+            background: #0A0A0A;
+            color: #FAFAFA;
         }
 
         .otp-inputs input:focus {
             outline: none;
-            border-color: var(--purple);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+            border-color: var(--or-gold);
+            box-shadow: 0 0 0 3px rgba(63, 192, 65, 0.15);
         }
 
         .otp-step {
@@ -1600,11 +1626,11 @@
             text-align: center;
             margin-top: 1rem;
             font-size: 0.9rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
         }
 
         .resend-link {
-            color: var(--purple);
+            color: var(--or-gold);
             cursor: pointer;
             text-decoration: none;
             font-weight: 600;
@@ -1619,12 +1645,12 @@
             padding-top: 1rem;
             border-top: 1px solid var(--gray-200);
             font-size: 0.8rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             text-align: center;
         }
 
         .dev-hint strong {
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* Hide dashboard content when not logged in */
@@ -1658,8 +1684,8 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: linear-gradient(90deg, transparent, rgba(124, 58, 237,0.6), transparent);
-            box-shadow: 0 0 15px rgba(124, 58, 237,0.4);
+            background: linear-gradient(90deg, transparent, rgba(63, 192, 65,0.6), transparent);
+            box-shadow: 0 0 15px rgba(63, 192, 65,0.4);
             animation: cameraScan 4s linear infinite;
             z-index: 2;
         }
@@ -1679,7 +1705,7 @@
 
         .camera-pulse-icon {
             font-size: 2rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             animation: cameraPulse 2.5s ease-in-out infinite;
         }
 
@@ -1692,7 +1718,7 @@
             font-size: 0.7rem;
             font-weight: 700;
             letter-spacing: 0.15em;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             text-transform: uppercase;
         }
 
@@ -1884,9 +1910,7 @@
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <div style="text-align: center;">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="height: 100px; margin: 0 auto 15px; display: block;">
-                <h1>JIG Craft Cannabis</h1>
-                <p class="tagline"></p>
+                <img src="images/origin-logo.png" alt="Origin" style="height: 80px; margin: 0 auto 10px; display: block;">
                 <p class="subtitle">Owner Dashboard</p>
             </div>
 
@@ -1911,14 +1935,14 @@
 
                 <div style="text-align: center; margin-top: 1rem;">
                     <div style="display: flex; align-items: center; gap: 10px; margin: 12px 0;">
-                        <hr style="flex: 1; border: none; border-top: 1px solid #2A2A2A;">
+                        <hr style="flex: 1; border: none; border-top: 1px solid #222222;">
                         <span style="color: #999; font-size: 0.8rem;">or login with PIN</span>
-                        <hr style="flex: 1; border: none; border-top: 1px solid #2A2A2A;">
+                        <hr style="flex: 1; border: none; border-top: 1px solid #222222;">
                     </div>
                     <form id="pinForm" onsubmit="loginWithPin(event)" style="display: flex; flex-direction: column; gap: 8px;">
-                        <input type="email" id="pinEmail" required placeholder="your@email.com" autocomplete="email" style="padding: 10px 14px; border: 2px solid #2A2A2A; border-radius: 10px; font-size: 0.95rem; font-family: 'Inter', sans-serif;">
+                        <input type="email" id="pinEmail" required placeholder="your@email.com" autocomplete="email" style="padding: 10px 14px; background: #0A0A0A; color: #FAFAFA; border: 2px solid #222222; border-radius: 10px; font-size: 0.95rem; font-family: 'Inter', sans-serif;">
                         <div style="position: relative;">
-                            <input type="password" id="pinInput" required placeholder="Enter PIN" inputmode="numeric" pattern="[0-9]*" style="padding: 10px 14px; padding-right: 44px; border: 2px solid #2A2A2A; border-radius: 10px; font-size: 0.95rem; font-family: 'Inter', sans-serif; letter-spacing: 4px; text-align: center; width: 100%; box-sizing: border-box;">
+                            <input type="password" id="pinInput" required placeholder="Enter PIN" inputmode="numeric" pattern="[0-9]*" style="padding: 10px 14px; padding-right: 44px; background: #0A0A0A; color: #FAFAFA; border: 2px solid #222222; border-radius: 10px; font-size: 0.95rem; font-family: 'Inter', sans-serif; letter-spacing: 4px; text-align: center; width: 100%; box-sizing: border-box;">
                             <button type="button" onclick="togglePinVisibility('pinInput', this)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #999; font-size: 1.1rem; padding: 4px;" title="Show/Hide PIN">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -1936,10 +1960,10 @@
                 <div class="login-message error" id="otpError"></div>
                 <div class="login-message success" id="otpSuccess"></div>
 
-                <p style="text-align: center; color: var(--gray-500); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                <p style="text-align: center; color: var(--or-grey-2); margin-bottom: 0.5rem; font-size: 0.9rem;">
                     Enter the 6-digit code sent to
                 </p>
-                <p style="text-align: center; color: var(--white); font-weight: 600; margin-bottom: 1.5rem;" id="displayEmail"></p>
+                <p style="text-align: center; color: var(--or-white); font-weight: 600; margin-bottom: 1.5rem;" id="displayEmail"></p>
 
                 <form id="otpForm">
                     <div class="otp-inputs" id="otpInputs">
@@ -1976,8 +2000,8 @@
     <div class="sidebar-drawer" id="sidebarDrawer">
         <div class="sidebar-header">
             <div class="sidebar-logo">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
-                <span class="sidebar-logo-text">JIG Craft Cannabis</span>
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
+                <span class="sidebar-logo-text">Origin</span>
             </div>
             <button class="sidebar-close" onclick="toggleSidebar()">
                 <i class="fas fa-times"></i>
@@ -2111,9 +2135,9 @@
                 <i class="fas fa-bars"></i>
             </button>
             <a href="index.html" class="nav-logo">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
                 <div class="nav-logo-text">
-                    <div class="brand-name">JIG Craft Cannabis</div>
+                    <div class="brand-name">Origin</div>
                     <div class="brand-tagline"></div>
                 </div>
             </a>
@@ -2192,19 +2216,66 @@
                         <option value="all">All Branches</option>
                     </select>
                     <div style="display: flex; align-items: center; gap: 0.4rem;">
-                        <div id="liveFeedStatusDot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--gray-500);"></div>
-                        <span id="liveFeedStatusText" style="font-size: 0.75rem; color: var(--gray-500);">Connecting...</span>
+                        <div id="liveFeedStatusDot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--or-grey-2);"></div>
+                        <span id="liveFeedStatusText" style="font-size: 0.75rem; color: var(--or-grey-2);">Connecting...</span>
                     </div>
                 </div>
             </div>
             <div id="liveFeedList" style="background: var(--surface-card); border-radius: 12px; border: 1px solid var(--border-dark); max-height: 300px; overflow-y: auto;">
-                <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                <div style="text-align: center; padding: 2rem; color: var(--or-grey-2);">
                     <i class="fas fa-satellite-dish" style="font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4;"></i>
                     <p>Waiting for live activity...</p>
                     <p style="font-size: 0.8rem; margin-top: 0.25rem;">Events will appear here as they happen</p>
                 </div>
             </div>
         </div>
+
+        <!-- B2B Wholesale Stats -->
+        <div style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h2 class="section-title" style="margin-bottom: 0;"><i class="fas fa-handshake" style="color: var(--or-gold);"></i> B2B Wholesale</h2>
+            </div>
+            <div id="b2bStatsPanel" style="background: var(--surface-card); border-radius: 16px; border: 1px solid var(--border-dark); padding: 20px;">
+                <div style="text-align: center; padding: 1rem; color: var(--or-grey-2);">
+                    <i class="fas fa-spinner fa-spin" style="margin-right: 6px;"></i> Loading B2B stats...
+                </div>
+            </div>
+        </div>
+
+        <!-- 360 Command Centre -->
+        <div id="section360" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h2 class="section-title" style="margin-bottom: 0;"><i class="fas fa-radar" style="color: var(--or-gold);"></i> 360 Command Centre</h2>
+            </div>
+            <div style="background: var(--surface-card); border-radius: 16px; border: 1px solid var(--border-dark); overflow: hidden;">
+                <!-- Tab bar -->
+                <div style="display: flex; border-bottom: 1px solid var(--border-dark); overflow-x: auto;">
+                    <button class="view360-tab active" data-tab="risk" onclick="switch360Tab('risk')" style="flex: 1; padding: 0.75rem 1rem; background: none; border: none; color: var(--text-secondary); font-weight: 600; font-size: 0.85rem; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                        <i class="fas fa-chart-area"></i> Risk Heatmap
+                    </button>
+                    <button class="view360-tab" data-tab="staff" onclick="switch360Tab('staff')" style="flex: 1; padding: 0.75rem 1rem; background: none; border: none; color: var(--text-secondary); font-weight: 600; font-size: 0.85rem; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                        <i class="fas fa-trophy"></i> Staff Board
+                    </button>
+                    <button class="view360-tab" data-tab="alerts" onclick="switch360Tab('alerts')" style="flex: 1; padding: 0.75rem 1rem; background: none; border: none; color: var(--text-secondary); font-weight: 600; font-size: 0.85rem; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                        <i class="fas fa-exclamation-triangle"></i> Alerts <span id="alertsBadge360" style="display:none; background: var(--red); color: white; font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 10px; margin-left: 0.25rem; font-weight: 700;"></span>
+                    </button>
+                    <button class="view360-tab" data-tab="transfers" onclick="switch360Tab('transfers')" style="flex: 1; padding: 0.75rem 1rem; background: none; border: none; color: var(--text-secondary); font-weight: 600; font-size: 0.85rem; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                        <i class="fas fa-exchange-alt"></i> Transfers <span id="transfersBadge360" style="display:none; background: var(--or-gold); color: white; font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 10px; margin-left: 0.25rem; font-weight: 700;"></span>
+                    </button>
+                </div>
+                <!-- Tab content -->
+                <div id="view360Content" style="padding: 1.25rem; min-height: 200px;">
+                    <div style="text-align: center; padding: 2rem; color: var(--or-grey-2);">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; color: var(--or-gold); margin-bottom: 0.75rem;"></i>
+                        <p>Loading 360 data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            .view360-tab.active { color: var(--or-gold) !important; border-bottom-color: var(--or-gold) !important; }
+            .view360-tab:hover:not(.active) { color: var(--text-primary) !important; background: var(--surface-hover) !important; }
+        </style>
 
         <!-- Quick Actions -->
         <h2 class="section-title"><i class="fas fa-bolt"></i> Quick Actions</h2>
@@ -2237,13 +2308,13 @@
 
         <!-- Monthly Budget Section -->
         <h2 class="section-title"><i class="fas fa-chart-pie"></i> Monthly Budget vs Actual</h2>
-        <div class="budget-widget" style="background: var(--white); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+        <div class="budget-widget" style="background: var(--surface-card); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid var(--border-dark);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
                 <div>
-                    <span style="font-size: 0.85rem; color: var(--gray-500);">Current Month</span>
-                    <h3 id="budgetMonth" style="font-family: 'Oswald', sans-serif; color: var(--white); font-size: 1.5rem; margin: 0;">Loading...</h3>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Current Month</span>
+                    <h3 id="budgetMonth" style="font-family: 'Cinzel', sans-serif; color: var(--text-primary); font-size: 1.5rem; margin: 0;">Loading...</h3>
                 </div>
-                <select id="budgetBranchSelect" onchange="loadBudgetData()" style="padding: 0.5rem 1rem; border: 1px solid var(--gray-200); border-radius: 8px; background: var(--white);">
+                <select id="budgetBranchSelect" onchange="loadBudgetData()" style="padding: 0.5rem 1rem; border: 1px solid var(--border-dark); border-radius: 8px; background: var(--surface-elevated); color: var(--text-primary);">
                     <option value="all">All Branches</option>
                 </select>
             </div>
@@ -2253,13 +2324,13 @@
                 <!-- Revenue Target -->
                 <div class="budget-item">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span style="font-weight: 600; color: var(--white);">Revenue Target</span>
+                        <span style="font-weight: 600; color: var(--text-primary);">Revenue Target</span>
                         <span id="revenueProgress" style="font-weight: 600; color: var(--gold-dark);">R0 / R0</span>
                     </div>
                     <div style="background: var(--gray-100); border-radius: 10px; height: 12px; overflow: hidden;">
                         <div id="revenueBar" style="background: linear-gradient(90deg, var(--gold), var(--gold-light)); height: 100%; width: 0%; border-radius: 10px; transition: width 0.5s ease;"></div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.75rem; color: var(--gray-500);">
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.75rem; color: var(--or-grey-2);">
                         <span id="revenuePercent">0%</span>
                         <span id="revenueDaysLeft">-- days left</span>
                     </div>
@@ -2268,13 +2339,13 @@
                 <!-- Expenses -->
                 <div class="budget-item">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span style="font-weight: 600; color: var(--white);">Expenses Budget</span>
+                        <span style="font-weight: 600; color: var(--text-primary);">Expenses Budget</span>
                         <span id="expensesProgress" style="font-weight: 600; color: var(--red);">R0 / R0</span>
                     </div>
                     <div style="background: var(--gray-100); border-radius: 10px; height: 12px; overflow: hidden;">
                         <div id="expensesBar" style="background: linear-gradient(90deg, var(--green), var(--green-light)); height: 100%; width: 0%; border-radius: 10px; transition: width 0.5s ease;"></div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.75rem; color: var(--gray-500);">
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.75rem; color: var(--or-grey-2);">
                         <span id="expensesPercent">0%</span>
                         <span id="expensesStatus">On track</span>
                     </div>
@@ -2283,13 +2354,13 @@
                 <!-- Gross Profit -->
                 <div class="budget-item">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span style="font-weight: 600; color: var(--white);">Gross Profit</span>
-                        <span id="profitProgress" style="font-weight: 600; color: var(--purple);">R0 / R0</span>
+                        <span style="font-weight: 600; color: var(--text-primary);">Gross Profit</span>
+                        <span id="profitProgress" style="font-weight: 600; color: var(--or-gold);">R0 / R0</span>
                     </div>
                     <div style="background: var(--gray-100); border-radius: 10px; height: 12px; overflow: hidden;">
                         <div id="profitBar" style="background: linear-gradient(90deg, #10B981, #34D399); height: 100%; width: 0%; border-radius: 10px; transition: width 0.5s ease;"></div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.75rem; color: var(--gray-500);">
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.25rem; font-size: 0.75rem; color: var(--or-grey-2);">
                         <span id="profitPercent">0%</span>
                         <span id="profitMargin">-- margin</span>
                     </div>
@@ -2297,23 +2368,23 @@
             </div>
 
             <!-- Category Breakdown -->
-            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">
-                <h4 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 1rem; font-size: 1.1rem;">Expense Categories</h4>
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-dark);">
+                <h4 style="font-family: 'Cinzel', sans-serif; color: var(--text-primary); margin-bottom: 1rem; font-size: 1.1rem;">Expense Categories</h4>
                 <div id="expenseCategories" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
                     <!-- Categories loaded dynamically -->
                     <div style="text-align: center; padding: 1rem; background: var(--gray-50); border-radius: 8px;">
-                        <i class="fas fa-spinner fa-spin" style="color: var(--gray-400);"></i>
-                        <p style="font-size: 0.8rem; color: var(--gray-500); margin-top: 0.5rem;">Loading...</p>
+                        <i class="fas fa-spinner fa-spin" style="color: var(--or-grey-3);"></i>
+                        <p style="font-size: 0.8rem; color: var(--or-grey-2); margin-top: 0.5rem;">Loading...</p>
                     </div>
                 </div>
             </div>
 
             <!-- Actions -->
             <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-                <button onclick="openBudgetModal()" style="padding: 0.75rem 1.5rem; background: var(--green); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                <button onclick="openBudgetModal()" style="padding: 0.75rem 1.5rem; background: var(--or-gold); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
                     <i class="fas fa-edit"></i> Edit Budget
                 </button>
-                <button onclick="viewBudgetHistory()" style="padding: 0.75rem 1.5rem; background: var(--white); color: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; font-weight: 600; cursor: pointer;">
+                <button onclick="viewBudgetHistory()" style="padding: 0.75rem 1.5rem; background: var(--surface-elevated); color: var(--text-primary); border: 1px solid var(--border-dark); border-radius: 8px; font-weight: 600; cursor: pointer;">
                     <i class="fas fa-history"></i> View History
                 </button>
             </div>
@@ -2323,7 +2394,7 @@
         <h2 class="section-title"><i class="fas fa-clipboard-check"></i> Pending Approvals</h2>
         <div class="stats-grid" style="margin-bottom: 1.5rem;">
             <div class="stat-card" style="cursor: pointer;" onclick="showPendingPOs()">
-                <div class="stat-icon" style="background: rgba(217, 119, 6,0.15); color: var(--gold-dark);"><i class="fas fa-file-invoice-dollar"></i></div>
+                <div class="stat-icon" style="background: rgba(240, 165, 0,0.15); color: var(--gold-dark);"><i class="fas fa-file-invoice-dollar"></i></div>
                 <div class="stat-label">Purchase Orders</div>
                 <div class="stat-value" id="pendingPOCount">0</div>
                 <div class="stat-change">Awaiting your approval</div>
@@ -2335,7 +2406,7 @@
                 <div class="stat-change">Pending compliance review</div>
             </div>
             <div class="stat-card" style="cursor: pointer;" onclick="showPendingBatches()">
-                <div class="stat-icon" style="background: rgba(124, 58, 237,0.15); color: var(--purple);"><i class="fas fa-box"></i></div>
+                <div class="stat-icon" style="background: rgba(63, 192, 65,0.15); color: var(--or-gold);"><i class="fas fa-box"></i></div>
                 <div class="stat-label">Batch QA Reviews</div>
                 <div class="stat-value" id="pendingBatchCount">0</div>
                 <div class="stat-change">Ready for final approval</div>
@@ -2345,6 +2416,12 @@
                 <div class="stat-label">Stock Takes</div>
                 <div class="stat-value" id="pendingStockTakeCount">0</div>
                 <div class="stat-change">Submitted for approval</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer;" onclick="switch360Tab('transfers'); document.getElementById('section360').scrollIntoView({behavior:'smooth'});">
+                <div class="stat-icon" style="background: rgba(59,130,246,0.15); color: #3B82F6;"><i class="fas fa-exchange-alt"></i></div>
+                <div class="stat-label">Stock Transfers</div>
+                <div class="stat-value" id="pendingTransferCount">0</div>
+                <div class="stat-change">Pending transfer approvals</div>
             </div>
             <div class="stat-card" style="cursor: pointer;" onclick="showSystemAlerts()">
                 <div class="stat-icon" style="background: rgba(99,102,241,0.15); color: #6366F1;"><i class="fas fa-bell"></i></div>
@@ -2356,13 +2433,26 @@
 
         <!-- Approvals Panel -->
         <div id="approvalsPanel" style="display: none; margin-bottom: 2rem;">
-            <div style="background: var(--white); border-radius: 16px; border: 2px solid var(--gold); overflow: hidden;">
-                <div style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="color: var(--cream); margin: 0; font-family: 'Oswald', sans-serif; text-transform: uppercase;" id="approvalsPanelTitle">Pending Approvals</h3>
+            <div style="background: var(--surface-card); border-radius: 16px; border: 2px solid var(--gold); overflow: hidden;">
+                <div style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="color: var(--cream); margin: 0; font-family: 'Cinzel', sans-serif; text-transform: uppercase;" id="approvalsPanelTitle">Pending Approvals</h3>
                     <button onclick="hideApprovalsPanel()" style="background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer;"><i class="fas fa-times"></i></button>
                 </div>
                 <div style="padding: 1.5rem; max-height: 400px; overflow-y: auto;" id="approvalsPanelContent">
                     <!-- Content loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Stocktake Compliance -->
+        <div class="card" style="margin-bottom: 16px; background: var(--surface-card); border-radius: 16px; border: 1px solid var(--border-dark); overflow: hidden;">
+            <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--border-dark);">
+                <h3 style="margin:0;font-size:1rem;"><i class="fas fa-shield-alt" style="color:#C9A84C;margin-right:8px;"></i>Stock Count Compliance</h3>
+                <span class="badge" style="background:rgba(239,68,68,0.2);color:#ef4444;padding:4px 10px;border-radius:20px;font-size:0.75rem;font-weight:600;">LIVE</span>
+            </div>
+            <div id="stocktakeComplianceContent" style="padding:12px;">
+                <div style="text-align:center;padding:20px;color:#888;">
+                    <i class="fas fa-spinner fa-spin"></i> Loading compliance...
                 </div>
             </div>
         </div>
@@ -2385,7 +2475,7 @@
         <div id="cameraSection"></div>
         <h2 class="section-title"><i class="fas fa-video"></i> Branch Surveillance</h2>
         <div id="cameraGrid" class="camera-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem;">
-            <div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--gray-500);">
+            <div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--or-grey-2);">
                 <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem;"></i>
                 <p style="margin-top: 0.5rem;">Loading camera feeds...</p>
             </div>
@@ -2395,7 +2485,7 @@
         <h2 class="section-title"><i class="fas fa-users"></i> Staff Overview</h2>
         <div class="stats-grid" style="margin-bottom: 2rem;">
             <div class="stat-card">
-                <div class="stat-icon" style="background: rgba(124, 58, 237,0.15); color: var(--purple);"><i class="fas fa-user-tie"></i></div>
+                <div class="stat-icon" style="background: rgba(63, 192, 65,0.15); color: var(--or-gold);"><i class="fas fa-user-tie"></i></div>
                 <div class="stat-label">Total Staff</div>
                 <div class="stat-value" id="totalStaffCount">0</div>
             </div>
@@ -2405,7 +2495,7 @@
                 <div class="stat-value" id="activeStaffCount">0</div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon" style="background: rgba(217, 119, 6,0.15); color: var(--gold-dark);"><i class="fas fa-user-clock"></i></div>
+                <div class="stat-icon" style="background: rgba(240, 165, 0,0.15); color: var(--gold-dark);"><i class="fas fa-user-clock"></i></div>
                 <div class="stat-label" id="breakStaffLabel">On Break</div>
                 <div class="stat-value" id="breakStaffCount">0</div>
             </div>
@@ -2419,40 +2509,40 @@
 
     <!-- Add Branch Modal -->
     <div id="branchModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-        <div style="background: var(--white); border-radius: 16px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;">
-            <div style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
-                <h3 style="color: var(--cream); margin: 0; font-family: 'Oswald', sans-serif;"><i class="fas fa-store"></i> Add New Branch</h3>
+        <div style="background: var(--surface-bg); border-radius: 16px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-dark);">
+            <div style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
+                <h3 style="color: var(--cream); margin: 0; font-family: 'Cinzel', sans-serif;"><i class="fas fa-store"></i> Add New Branch</h3>
                 <button onclick="hideBranchModal()" style="background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer;"><i class="fas fa-times"></i></button>
             </div>
             <form id="branchForm" style="padding: 1.5rem;">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div style="grid-column: span 2;">
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Branch Name *</label>
-                        <input type="text" id="branchName" required style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Branch Name *</label>
+                        <input type="text" id="branchName" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-dark); border-radius: 8px; font-size: 1rem; background: var(--surface-elevated); color: var(--text-primary);">
                     </div>
                     <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Branch Code *</label>
-                        <input type="text" id="branchCode" required placeholder="e.g. JIG-JHB-01" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Branch Code *</label>
+                        <input type="text" id="branchCode" required placeholder="e.g. Origin-JHB-01" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-dark); border-radius: 8px; font-size: 1rem; background: var(--surface-elevated); color: var(--text-primary);">
                     </div>
                     <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Phone</label>
-                        <input type="tel" id="branchPhone" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Phone</label>
+                        <input type="tel" id="branchPhone" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-dark); border-radius: 8px; font-size: 1rem; background: var(--surface-elevated); color: var(--text-primary);">
                     </div>
                     <div style="grid-column: span 2;">
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Email</label>
-                        <input type="email" id="branchEmail" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Email</label>
+                        <input type="email" id="branchEmail" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-dark); border-radius: 8px; font-size: 1rem; background: var(--surface-elevated); color: var(--text-primary);">
                     </div>
                     <div style="grid-column: span 2;">
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Street Address</label>
-                        <input type="text" id="branchStreet" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Street Address</label>
+                        <input type="text" id="branchStreet" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-dark); border-radius: 8px; font-size: 1rem; background: var(--surface-elevated); color: var(--text-primary);">
                     </div>
                     <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">City</label>
-                        <input type="text" id="branchCity" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">City</label>
+                        <input type="text" id="branchCity" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-dark); border-radius: 8px; font-size: 1rem; background: var(--surface-elevated); color: var(--text-primary);">
                     </div>
                     <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Province</label>
-                        <select id="branchProvince" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Province</label>
+                        <select id="branchProvince" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-dark); border-radius: 8px; font-size: 1rem; background: var(--surface-elevated); color: var(--text-primary);">
                             <option value="">Select Province</option>
                             <option value="Gauteng">Gauteng</option>
                             <option value="Western Cape">Western Cape</option>
@@ -2466,20 +2556,20 @@
                         </select>
                     </div>
                     <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Postal Code</label>
-                        <input type="text" id="branchPostal" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Postal Code</label>
+                        <input type="text" id="branchPostal" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-dark); border-radius: 8px; font-size: 1rem; background: var(--surface-elevated); color: var(--text-primary);">
                     </div>
                     <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--green-dark);">Status</label>
-                        <select id="branchStatus" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Status</label>
+                        <select id="branchStatus" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-dark); border-radius: 8px; font-size: 1rem; background: var(--surface-elevated); color: var(--text-primary);">
                             <option value="true">Active (Open)</option>
                             <option value="false">Inactive (Closed)</option>
                         </select>
                     </div>
                 </div>
                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
-                    <button type="button" onclick="hideBranchModal()" style="padding: 0.75rem 1.5rem; background: var(--gray-200); border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Cancel</button>
-                    <button type="submit" style="padding: 0.75rem 1.5rem; background: var(--gold); color: var(--green-dark); border: none; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-save"></i> Save Branch</button>
+                    <button type="button" onclick="hideBranchModal()" style="padding: 0.75rem 1.5rem; background: var(--surface-elevated); color: var(--text-secondary); border: 1px solid var(--border-dark); border-radius: 8px; cursor: pointer; font-weight: 600;">Cancel</button>
+                    <button type="submit" style="padding: 0.75rem 1.5rem; background: var(--gold); color: #0E0E0E; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-save"></i> Save Branch</button>
                 </div>
             </form>
         </div>
@@ -2656,22 +2746,23 @@
     <!-- Socket.IO Client (for live feed) -->
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 
-    <!-- JIG Shared Libraries -->
-    <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <!-- Origin Shared Libraries -->
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-utils.js"></script>
+    <script src="frontend/or-auth.js"></script>
 
     <!-- Owner modules — auth first, then core, then rest in any order -->
-    <script src="/frontend/owner-auth.js"></script>
-    <script src="/frontend/owner-core.js"></script>
-    <script src="/frontend/owner-branches.js"></script>
-    <script src="/frontend/owner-livefeed.js"></script>
-    <script src="/frontend/owner-cameras.js"></script>
-    <script src="/frontend/owner-reports.js"></script>
-    <script src="/frontend/owner-approvals.js"></script>
-    <script src="/frontend/owner-wholesale.js"></script>
-    <script src="/frontend/owner-budget.js"></script>
-    <script src="/frontend/owner-stock.js"></script>
+    <script src="frontend/owner-auth.js"></script>
+    <script src="frontend/owner-core.js"></script>
+    <script src="frontend/owner-branches.js"></script>
+    <script src="frontend/owner-livefeed.js"></script>
+    <script src="frontend/owner-cameras.js"></script>
+    <script src="frontend/owner-reports.js"></script>
+    <script src="frontend/owner-approvals.js"></script>
+    <script src="frontend/owner-wholesale.js"></script>
+    <script src="frontend/owner-budget.js"></script>
+    <script src="frontend/owner-stock.js"></script>
+    <script src="frontend/owner-360view.js"></script>
     <script>
     function scrollToSection(name) {
         const el = document.getElementById('section' + name.charAt(0).toUpperCase() + name.slice(1));

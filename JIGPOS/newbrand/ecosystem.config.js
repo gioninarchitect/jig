@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: 'jig-pos',
+    name: 'origin-pos',
     script: 'backend/server.js',
     cwd: '/var/www/jig',
     instances: 1,

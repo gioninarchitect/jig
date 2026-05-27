@@ -1,5 +1,5 @@
 // dash-points.js — Wellness points, tiers, history, redemption
-// Depends on: config.js (API_URL), dbc-utils.js (showNotification)
+// Depends on: config.js (API_URL), or-utils.js (showNotification)
 
 // ============================================================================
 // WELLNESS POINTS FUNCTIONS

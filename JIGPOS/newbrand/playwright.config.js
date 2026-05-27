@@ -1,4 +1,4 @@
-// Playwright Configuration for Basotho Medical Herbs
+// Playwright Configuration for Origin by ILCO Farming
 const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({

@@ -17,7 +17,7 @@ const Branch = require('../modules/database/models/Branch');
 async function seedPNDOrders() {
   try {
     // Connect to MongoDB
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
     await mongoose.connect(mongoUri);
     console.log('Connected to MongoDB');
 
@@ -28,10 +28,10 @@ async function seedPNDOrders() {
       process.exit(1);
     }
 
-    // Get Ormonde branch
+    // Get Potchefstroom branch
     const branch = await Branch.findOne({ branchCode: 'ORM' });
     if (!branch) {
-      console.log('Ormonde branch not found');
+      console.log('Potchefstroom branch not found');
     }
 
     // Get a packer user (or any user)

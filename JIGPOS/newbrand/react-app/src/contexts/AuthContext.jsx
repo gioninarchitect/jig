@@ -183,8 +183,8 @@ export function ProtectedRoute({ children, roles, permission }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-jig-slate">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-jig-purple border-t-transparent" />
+      <div className="flex items-center justify-center min-h-screen bg-origin-slate">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-or-gold border-t-transparent" />
       </div>
     );
   }

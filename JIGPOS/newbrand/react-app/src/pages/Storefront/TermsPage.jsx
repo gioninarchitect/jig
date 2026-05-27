@@ -2,7 +2,7 @@
 export default function TermsPage() {
   return (
     <div>
-      <section className="bg-gradient-to-br from-jig-slate via-jig-purple-dark to-jig-purple py-16 sm:py-20">
+      <section className="bg-gradient-to-br from-origin-slate via-or-gold-dark to-or-gold py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="font-heading text-4xl sm:text-5xl text-white uppercase">Terms & Conditions</h1>
         </div>
@@ -12,7 +12,7 @@ export default function TermsPage() {
           <p className="text-sm text-gray-500 mb-6">Last updated: February 2026</p>
 
           <h2 className="font-heading text-xl text-white uppercase mt-8 mb-3">1. Acceptance of Terms</h2>
-          <p className="text-sm text-gray-600 leading-relaxed">By accessing and using the JIG Craft Cannabis website and services, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use our services.</p>
+          <p className="text-sm text-gray-600 leading-relaxed">By accessing and using the Origin by ILCO Farming website and services, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use our services.</p>
 
           <h2 className="font-heading text-xl text-white uppercase mt-8 mb-3">2. Age Requirement</h2>
           <p className="text-sm text-gray-600 leading-relaxed">You must be at least 18 years of age to use this website and purchase products. By using our services, you confirm that you meet this age requirement.</p>
@@ -30,10 +30,10 @@ export default function TermsPage() {
           <p className="text-sm text-gray-600 leading-relaxed">Due to the nature of our products, returns are only accepted for damaged or incorrect items. Contact our support team within 48 hours of receiving your order.</p>
 
           <h2 className="font-heading text-xl text-white uppercase mt-8 mb-3">7. Limitation of Liability</h2>
-          <p className="text-sm text-gray-600 leading-relaxed">JIG Craft Cannabis shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or services.</p>
+          <p className="text-sm text-gray-600 leading-relaxed">Origin by ILCO Farming shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or services.</p>
 
           <h2 className="font-heading text-xl text-white uppercase mt-8 mb-3">8. Contact</h2>
-          <p className="text-sm text-gray-600 leading-relaxed">For questions about these terms, contact us at info@jig.cleva-ai.co.za.</p>
+          <p className="text-sm text-gray-600 leading-relaxed">For questions about these terms, contact us at info@origin.cleva-ai.co.za.</p>
         </div>
       </section>
     </div>

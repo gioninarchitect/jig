@@ -1,5 +1,5 @@
 /**
- * JIG Chat Bot - Intent Detection
+ * PureGro Chat Bot - Intent Detection
  *
  * Uses Claude Haiku for NLP intent classification.
  * Falls back to keyword matching when the API is unavailable.
@@ -22,7 +22,7 @@ function getClient(): Anthropic | null {
 
 // ── System Prompt ────────────────────────────────────────────
 
-const SYSTEM_PROMPT = `You are an intent classifier for JIG Craft Cannabis, a B2B wholesale cannabis platform in South Africa.
+const SYSTEM_PROMPT = `You are an intent classifier for PureGro Premium Cannabis Care, a B2B wholesale cannabis platform in South Africa.
 
 Given a user message, classify the intent and extract entities. Respond with ONLY valid JSON.
 
@@ -83,7 +83,7 @@ const KEYWORD_MAP: Array<{ patterns: RegExp[]; intent: ChatIntent }> = [
   { patterns: [/^\/verification$/i, /verification.*status/i, /my.*documents/i, /am i verified/i, /doc.*status/i], intent: 'verification_status' },
   { patterns: [/order.*\d+.*unit/i, /want to order/i, /place.*order/i, /^\/order$/i, /new.*order/i], intent: 'order_create' },
   { patterns: [/my orders/i, /recent orders/i, /show.*orders/i, /list.*orders/i, /^\/orders$/i], intent: 'order_list' },
-  { patterns: [/order.*status/i, /where.*order/i, /track.*order/i, /PO-\d+/i, /JIG-\d+/i], intent: 'order_status' },
+  { patterns: [/order.*status/i, /where.*order/i, /track.*order/i, /PO-\d+/i, /PureGro-\d+/i], intent: 'order_status' },
   { patterns: [/price/i, /how much/i, /cost/i, /pricing/i, /^\/prices?$/i], intent: 'product_price' },
   { patterns: [/product/i, /strain/i, /indica/i, /sativa/i, /hybrid/i, /what.*have/i, /catalog/i, /menu/i, /^\/products$/i], intent: 'product_search' },
   { patterns: [/invoice/i, /^\/invoice/i], intent: 'invoice_view' },
@@ -101,7 +101,7 @@ function detectWithKeywords(text: string): IntentResult {
         const qtyMatch = text.match(/(\d+)\s*(unit|kg|g|gram)/i);
         if (qtyMatch) entities.quantity = Number(qtyMatch[1]);
 
-        const poMatch = text.match(/(PO|JIG)-(\d+)/i);
+        const poMatch = text.match(/(PO|PureGro)-(\d+)/i);
         if (poMatch) entities.orderId = `${poMatch[1].toUpperCase()}-${poMatch[2]}`;
 
         return { intent, entities, confidence: 0.6 };

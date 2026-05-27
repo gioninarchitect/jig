@@ -1,0 +1,367 @@
+{
+  "$schema": "internal/poultry-sops-v1",
+  "version": "1.0.0",
+  "country": "ZA",
+  "regulators": [
+    {
+      "code": "DALRRD",
+      "name": "Department of Agriculture, Land Reform and Rural Development",
+      "scope": "Farm registration, Animal Diseases Act 35/1984, controlled disease reporting, vaccine approvals (Act 36)"
+    },
+    {
+      "code": "SAPA",
+      "name": "South African Poultry Association",
+      "scope": "Industry standards, biosecurity, husbandry guidelines, technical committees on health/welfare/food compliance"
+    },
+    {
+      "code": "MEAT_SAFETY_ACT",
+      "name": "Meat Safety Act 40 of 2000",
+      "scope": "Slaughter facilities, transport to abattoir, withdrawal periods"
+    },
+    {
+      "code": "ANIMAL_WELFARE_ACT",
+      "name": "Animals Protection Act 71 of 1962 + welfare guidance",
+      "scope": "Humane handling, culling, density, transport stress"
+    },
+    {
+      "code": "STATE_VET",
+      "name": "State Veterinary Service",
+      "scope": "Outbreak reporting (HPAI, Newcastle), movement permits, surveillance"
+    }
+  ],
+  "audit_pain_points_observed": [
+    "Poor sanitation stations (foot baths empty / contaminated)",
+    "Missing daily flock register entries",
+    "Weak access control (no visitor log, no last-farm-visited declaration)",
+    "Cross-contamination between houses (shared equipment, PPE re-use)",
+    "Improper carcass disposal",
+    "Vaccine cold-chain breaks (storage temperature unrecorded)"
+  ],
+  "sops": [
+    {
+      "id": "POULTRY-BIO-01",
+      "title": "Biosecurity & Site Access Control",
+      "category": "BIOSECURITY",
+      "regulator_codes": ["DALRRD", "SAPA"],
+      "responsible_role": "POULTRY_MANAGER",
+      "frequency": "EVENT",
+      "key_records": [
+        "Visitor log (name, ID, time-in/out, last farm visited, reason for visit)",
+        "Vehicle wash log (registration, time, disinfectant used)",
+        "Foot bath chemistry log (chemical, concentration, refresh time, signature)",
+        "PPE issue log (type, recipient, batch reference)"
+      ],
+      "failure_modes": [
+        "Foot bath empty or expired chemistry",
+        "Visitor entered without last-farm-visited declaration <72h",
+        "Vehicle entered without wash record"
+      ]
+    },
+    {
+      "id": "POULTRY-CHK-02",
+      "title": "Day-Old Chick Reception & Brooding",
+      "category": "HUSBANDRY",
+      "regulator_codes": ["SAPA", "ANIMAL_WELFARE_ACT"],
+      "responsible_role": "FLOCK_KEEPER",
+      "frequency": "BATCH",
+      "key_records": [
+        "Hatchery dispatch certificate (batch, parent flock, hatch date, vaccination status)",
+        "Reception count and DOA tally",
+        "Brooder temperature curve (hourly first 24h)",
+        "Light schedule (lux, hours)",
+        "Water and feed consumption per 1000 birds"
+      ],
+      "failure_modes": [
+        "Brooder temperature below 32 °C in first 7 days",
+        "Photoperiod schedule deviation > 1h",
+        "First-week mortality > 1%"
+      ]
+    },
+    {
+      "id": "POULTRY-VAC-03",
+      "title": "Vaccination Programme",
+      "category": "HEALTH",
+      "regulator_codes": ["DALRRD", "STATE_VET"],
+      "responsible_role": "VETERINARIAN",
+      "frequency": "SCHEDULED",
+      "key_records": [
+        "Vaccine register (product, batch, expiry, supplier)",
+        "Cold-chain log (storage temperature continuous)",
+        "Administration register (date, age in days, route, dose, administrator)",
+        "Adverse event log (mortality post-vac, anaphylaxis)",
+        "HPAI vaccination — DALRRD authorisation reference + weekly surveillance result"
+      ],
+      "diseases_covered": [
+        "Newcastle Disease (NDV) — La Sota / Mukteswar / clone strains",
+        "Infectious Bronchitis (IB)",
+        "Infectious Bursal Disease (IBD/Gumboro)",
+        "Marek's Disease (in ovo or day-old subcutaneous)",
+        "Highly Pathogenic Avian Influenza H5 — only on DALRRD-approved farms (3 vaccines registered SA, 2025)"
+      ],
+      "failure_modes": [
+        "Cold-chain break > 8 °C ambient for > 30 min",
+        "Vaccine expired at point of administration",
+        "Vaccinated bird not surveilled per DALRRD weekly requirement"
+      ]
+    },
+    {
+      "id": "POULTRY-MOR-04",
+      "title": "Mortality Recording & Carcass Disposal",
+      "category": "HEALTH",
+      "regulator_codes": ["DALRRD", "STATE_VET"],
+      "responsible_role": "FLOCK_KEEPER",
+      "frequency": "DAILY",
+      "key_records": [
+        "Daily mortality count per house (cull vs natural)",
+        "Cumulative mortality % vs SAPA benchmark (0.04%/day broiler, 0.02%/day layer)",
+        "Post-mortem trigger threshold (2σ above rolling mean OR > 0.5% in single day)",
+        "Disposal method and timestamp (incineration / composting / rendering)",
+        "Notifiable disease reporting log (state vet contact, case ref)"
+      ],
+      "reporting_thresholds": {
+        "newcastle_suspect": "Immediate state-vet notification — controlled disease",
+        "hpai_suspect": "Immediate state-vet notification — controlled disease",
+        "spike": "Mortality > 2× 7-day rolling mean → flag for vet review same day"
+      },
+      "failure_modes": [
+        "Disposal not completed within 24h",
+        "Notifiable disease suspect not reported same day",
+        "Daily count missing for any house"
+      ]
+    },
+    {
+      "id": "POULTRY-FED-05",
+      "title": "Feed Management & Withdrawal",
+      "category": "FEED",
+      "regulator_codes": ["MEAT_SAFETY_ACT", "DALRRD"],
+      "responsible_role": "POULTRY_MANAGER",
+      "frequency": "DAILY",
+      "key_records": [
+        "Feed delivery register (supplier, batch, vehicle, weight, COA)",
+        "Daily consumption per house (kg/1000 birds)",
+        "Feed conversion ratio (FCR) calculation per batch",
+        "Withdrawal period log (last medicated feed date, abattoir-clear date)",
+        "Supplier audit cycle (annual, last audit date)"
+      ],
+      "failure_modes": [
+        "Medicated feed used inside withdrawal window prior to slaughter",
+        "FCR > 1.8 broiler / > 2.2 layer (review nutrition + house environment)",
+        "Feed batch traceability gap"
+      ]
+    },
+    {
+      "id": "POULTRY-WAT-06",
+      "title": "Water Quality & Sanitation",
+      "category": "FACILITY",
+      "regulator_codes": ["DALRRD"],
+      "responsible_role": "FLOCK_KEEPER",
+      "frequency": "DAILY",
+      "key_records": [
+        "Water meter reading per house (litres/1000 birds, vs feed intake ratio ~1.8:1)",
+        "Chlorination log (free chlorine ppm at line end)",
+        "Line sanitation between batches (chemical, contact time, flush volume)",
+        "6-monthly external water test (E. coli, total coliforms, nitrate, hardness)"
+      ],
+      "failure_modes": [
+        "Water:feed ratio < 1.6 → birds dehydrated",
+        "Free chlorine > 5 ppm (palatability) or < 0.5 ppm (no efficacy)",
+        "External water test overdue"
+      ]
+    },
+    {
+      "id": "POULTRY-LIT-07",
+      "title": "Litter Management",
+      "category": "FACILITY",
+      "regulator_codes": ["SAPA"],
+      "responsible_role": "FLOCK_KEEPER",
+      "frequency": "WEEKLY",
+      "key_records": [
+        "Initial litter depth (cm) per house",
+        "Turning schedule and timestamp",
+        "Moisture % spot-check (< 25% target)",
+        "Change-out date and disposal method"
+      ],
+      "failure_modes": [
+        "Wet litter > 30% moisture (footpad dermatitis risk)",
+        "Caking around drinkers (ammonia spike)",
+        "Disposal not biosecure (wind-spread risk)"
+      ]
+    },
+    {
+      "id": "POULTRY-ENV-08",
+      "title": "Lighting & Ventilation Programme",
+      "category": "FACILITY",
+      "regulator_codes": ["SAPA", "ANIMAL_WELFARE_ACT"],
+      "responsible_role": "POULTRY_MANAGER",
+      "frequency": "DAILY",
+      "key_records": [
+        "Photoperiod by age (hours light:dark)",
+        "Lux measurement at bird height",
+        "Ammonia (NH₃) reading — must be < 25 ppm at bird level",
+        "House temperature curve by age",
+        "Static pressure (negative-pressure ventilation tightness check)"
+      ],
+      "failure_modes": [
+        "Ammonia > 25 ppm",
+        "Temperature deviation > 3 °C from age target",
+        "Static pressure indicates leakage"
+      ]
+    },
+    {
+      "id": "POULTRY-EGG-09",
+      "title": "Egg Collection, Sanitation & Grading",
+      "category": "PRODUCTION",
+      "regulator_codes": ["MEAT_SAFETY_ACT"],
+      "responsible_role": "EGG_GRADER",
+      "frequency": "DAILY",
+      "key_records": [
+        "Collections per day (target 4-5x for layer)",
+        "Floor egg count (deviation from nest)",
+        "Egg wash chemistry (chlorine ppm, temperature, contact time)",
+        "Candling reject count (cracks, blood spots, double yolk)",
+        "Grade tally (jumbo / extra-large / large / medium / small)"
+      ],
+      "failure_modes": [
+        "Eggs collected < 3x/day (contamination + breakage risk)",
+        "Wash water cooler than egg surface (bacteria pulled inward)",
+        "Floor egg count > 2% (nest box training issue)"
+      ]
+    },
+    {
+      "id": "POULTRY-CAT-10",
+      "title": "Catching, Loading & Transport to Abattoir",
+      "category": "PRODUCTION",
+      "regulator_codes": ["MEAT_SAFETY_ACT", "ANIMAL_WELFARE_ACT"],
+      "responsible_role": "POULTRY_MANAGER",
+      "frequency": "BATCH",
+      "key_records": [
+        "Feed withdrawal time (target 8-12h pre-catch)",
+        "Catch crew composition and PPE issue",
+        "Crate loading density (kg/m² per Animal Welfare guidance)",
+        "Transport duration and ambient temperature",
+        "Mortality on arrival (DOA) — abattoir feedback"
+      ],
+      "failure_modes": [
+        "Feed withdrawal < 6h (gut contamination at slaughter) or > 14h (welfare)",
+        "Loading density exceeds welfare limits",
+        "DOA > 0.3% — investigate catch handling"
+      ]
+    },
+    {
+      "id": "POULTRY-CLN-11",
+      "title": "Cleaning & Disinfection Between Batches",
+      "category": "BIOSECURITY",
+      "regulator_codes": ["DALRRD", "SAPA"],
+      "responsible_role": "POULTRY_MANAGER",
+      "frequency": "BATCH",
+      "key_records": [
+        "Dry clean (manure removal) — date, signature",
+        "Wet clean (high-pressure water + detergent) — chemical, contact time",
+        "Disinfection (DALRRD-approved disinfectant) — product, dilution, contact time",
+        "Down-time period (target 14 days minimum)",
+        "Pre-placement swab test result (Salmonella, E. coli, total bacteria)"
+      ],
+      "failure_modes": [
+        "Down-time < 10 days",
+        "Pre-placement swab fails (re-clean required, batch start delayed)",
+        "Disinfectant not on DALRRD-approved list"
+      ]
+    },
+    {
+      "id": "POULTRY-PST-12",
+      "title": "Pest & Rodent Control",
+      "category": "BIOSECURITY",
+      "regulator_codes": ["DALRRD"],
+      "responsible_role": "POULTRY_MANAGER",
+      "frequency": "WEEKLY",
+      "key_records": [
+        "Bait station map and inspection log",
+        "Wild bird sighting log (HPAI vector control)",
+        "Insect monitoring (red mite count for layer)",
+        "Contract pest-control service visit log"
+      ],
+      "failure_modes": [
+        "Bait stations empty / chewed but not refilled",
+        "Wild birds inside house perimeter (HPAI risk)",
+        "Red mite count rising (anaemia + production drop)"
+      ]
+    },
+    {
+      "id": "POULTRY-CUL-13",
+      "title": "Humane Culling Protocol",
+      "category": "WELFARE",
+      "regulator_codes": ["ANIMAL_WELFARE_ACT", "DALRRD"],
+      "responsible_role": "POULTRY_MANAGER",
+      "frequency": "EVENT",
+      "key_records": [
+        "Cull justification (sick, injured, depopulation, biosecurity)",
+        "Method used (cervical dislocation < 3kg / captive bolt > 3kg / CO₂ gassing for mass)",
+        "Operator name and competency record",
+        "Verified death (no breathing, no corneal reflex)"
+      ],
+      "failure_modes": [
+        "Method inappropriate for bird weight",
+        "Operator without documented competency",
+        "Mass cull without DALRRD/state-vet sign-off"
+      ]
+    },
+    {
+      "id": "POULTRY-REG-14",
+      "title": "Daily Flock Register & Record-Keeping",
+      "category": "RECORDS",
+      "regulator_codes": ["DALRRD", "SAPA"],
+      "responsible_role": "FLOCK_KEEPER",
+      "frequency": "DAILY",
+      "primary_audit_doc": true,
+      "key_records": [
+        "Date, house number, age in days",
+        "Opening count, mortality, culls, closing count",
+        "Feed consumption (kg)",
+        "Water consumption (litres)",
+        "Average bird weight (weekly weighing sample)",
+        "Environment readings (temp, NH₃, humidity)",
+        "Observations (behaviour, abnormalities, treatments given)",
+        "Signature of stockperson"
+      ],
+      "failure_modes": [
+        "Missing days (DALRRD audit fails immediately)",
+        "Closing count doesn't reconcile (opening - mortality - culls = close)",
+        "No signature"
+      ]
+    },
+    {
+      "id": "POULTRY-VIS-15",
+      "title": "Visitor & Contractor Protocol",
+      "category": "BIOSECURITY",
+      "regulator_codes": ["DALRRD", "SAPA"],
+      "responsible_role": "POULTRY_MANAGER",
+      "frequency": "EVENT",
+      "key_records": [
+        "Pre-visit declaration (last farm visited, date, species)",
+        "72-hour exclusion enforced if last visit was poultry",
+        "PPE issued (overalls, boots, hairnet, mask)",
+        "Shower-in / shower-out compliance",
+        "Sign-out time and equipment returned"
+      ],
+      "failure_modes": [
+        "Visitor entered with < 72h since last poultry farm",
+        "No PPE issue record",
+        "Vehicles not parked in designated visitor zone"
+      ]
+    }
+  ],
+  "next_steps_for_master_file": [
+    "Map each SOP to a Poultry Master File chapter (mirror cannabis SMF v4.6 structure: General Info / Personnel / Premises / Documentation / Production / QC)",
+    "Define Prisma models: Flock, PoultryHouse, Batch (poultry-specific), MortalityLog, VaccinationRecord, BiosecCheck, FeedDelivery, WaterTest",
+    "Wire DALRRD reportable-disease event → state vet notification ticket (RP_SIGNOFF equivalent for vet sign-off)",
+    "Build Chicken Biosec Drift Daemon (Sonnet 4.6) — watches mortality patterns, vacc due dates, biosec checklist completion"
+  ],
+  "sources": [
+    "https://www.sapoultry.co.za/",
+    "https://www.sapoultry.co.za/pdf-docs/sapa-industry-profile.pdf",
+    "https://sappo.org/wp-content/uploads/2023/05/Task-team-on-animal-biosecurity_Final-report.pdf",
+    "https://www.thepoultrysite.com/news/2025/06/south-africa-greenlights-bird-flu-vaccine-rollout",
+    "https://www.poultryworld.net/health-nutrition/health/south-africas-poultry-sector-prepares-for-mass-avian-influenza-vaccination/",
+    "https://www.ecowize.co.za/farm-biosecurity-south-africa/"
+  ]
+}

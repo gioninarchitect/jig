@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ORIGIN · Plain-English Guide for the FM · 04 May 2026</title>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-soft: #E5C97A;
+    --green: #0D6B3D;
+    --green-deep: #07401E;
+    --ink: #0B0F0C;
+    --paper: #FAF7EE;
+    --line: rgba(11,15,12,0.10);
+    --muted: rgba(11,15,12,0.55);
+    --rose: #B43E25;
+    --warm: #F8F2D8;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, system-ui, sans-serif;
+    line-height: 1.6;
+    font-size: 14.5px;
+  }
+  .page { max-width: 760px; margin: 0 auto; padding: 40px 36px 56px; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 16px; border-bottom: 2px solid var(--gold); margin-bottom: 28px;
+  }
+  .brandmark {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Iowan Old Style', Georgia, serif;
+    letter-spacing: 0.18em; text-transform: uppercase; font-size: 12px;
+    color: var(--green-deep); font-weight: 600;
+  }
+  .brandmark .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--gold); box-shadow: 0 0 0 4px rgba(201,168,76,0.18);
+  }
+  .stamp {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 10px; color: var(--muted); text-align: right; line-height: 1.4;
+  }
+  .stamp b { color: var(--ink); }
+
+  h1.hero {
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-weight: 600; font-size: 36px; line-height: 1.1;
+    margin: 18px 0 10px; color: var(--green-deep);
+  }
+  h1.hero .accent { color: var(--gold); font-style: italic; font-weight: 400; }
+
+  .lede {
+    font-size: 16px; max-width: 640px; margin: 0 0 24px;
+    color: rgba(11,15,12,0.78);
+  }
+  .lede strong { color: var(--green-deep); }
+
+  /* Friendly hello card */
+  .hello {
+    background: var(--warm);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin: 16px 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hello .pic {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--green); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px;
+    flex-shrink: 0;
+  }
+  .hello .body { font-size: 14.5px; line-height: 1.5; color: var(--ink); }
+  .hello .body strong { color: var(--green-deep); }
+
+  h2 {
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-size: 22px; margin: 36px 0 6px; color: var(--green-deep);
+  }
+  h2 .num {
+    color: var(--gold);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12px; margin-right: 12px; vertical-align: 4px;
+  }
+  h2 + .sub {
+    color: var(--muted); font-size: 13px;
+    border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 18px;
+  }
+  h3 { font-size: 15px; margin: 18px 0 6px; color: var(--green-deep); font-weight: 600; }
+  p { margin: 8px 0 12px; }
+  ul, ol { margin: 6px 0 14px; padding-left: 22px; }
+  li { margin: 6px 0; }
+
+  code {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12px; background: rgba(13,107,61,0.08);
+    color: var(--green-deep); padding: 1px 6px; border-radius: 3px;
+  }
+
+  /* What you see card */
+  .youll-see {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--green);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 10px 0 14px;
+    background: rgba(255,255,255,0.5);
+    break-inside: avoid;
+  }
+  .youll-see .what {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--green-deep); font-weight: 700; margin-bottom: 4px;
+  }
+  .youll-see .body { font-size: 14px; color: rgba(11,15,12,0.78); }
+
+  /* Try this box */
+  .try {
+    background: rgba(13,107,61,0.06);
+    border-left: 4px solid var(--green);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 10px 0 14px;
+    font-size: 13.5px;
+    color: rgba(11,15,12,0.8);
+  }
+  .try strong { color: var(--green-deep); }
+  .try .verb { color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 11px; }
+
+  /* Pretend chat bubble */
+  .chat-demo {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 10px 0 14px;
+    background: white;
+    max-width: 460px;
+    break-inside: avoid;
+  }
+  .chat-demo .you {
+    text-align: right;
+    margin-bottom: 8px;
+  }
+  .chat-demo .you .bubble {
+    display: inline-block;
+    background: rgba(13,107,61,0.12);
+    color: var(--ink);
+    padding: 8px 12px;
+    border-radius: 14px 14px 4px 14px;
+    font-size: 13px;
+    max-width: 80%;
+  }
+  .chat-demo .ai .badge {
+    display: inline-block;
+    font-size: 9.5px; padding: 2px 7px; border-radius: 999px;
+    background: rgba(74,111,165,0.15); color: #4A6FA5;
+    font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .chat-demo .ai .bubble {
+    background: rgba(11,15,12,0.04);
+    color: var(--ink);
+    padding: 10px 12px;
+    border-radius: 14px 14px 14px 4px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .chat-demo .ai .sources {
+    font-size: 10.5px;
+    color: var(--muted);
+    background: rgba(201,168,76,0.08);
+    padding: 4px 8px;
+    margin-top: 4px;
+    border-radius: 6px;
+  }
+
+  /* Compliance card row */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 10px 0 16px;
+  }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: white;
+  }
+  .card.danger { background: rgba(180,62,37,0.05); border-color: rgba(180,62,37,0.25); }
+  .card.warn { background: rgba(201,168,76,0.07); border-color: rgba(201,168,76,0.3); }
+  .card .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 2px; }
+  .card .value { font-size: 18px; font-weight: 700; font-family: ui-monospace, 'SF Mono', Menlo, monospace; color: var(--ink); }
+  .card.danger .value { color: var(--rose); }
+  .card.warn .value { color: #7B3F00; }
+  .card .sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  /* When-this-happens table */
+  .when {
+    width: 100%; border-collapse: collapse; margin: 8px 0 14px;
+  }
+  .when th, .when td { text-align: left; padding: 10px 12px; vertical-align: top; }
+  .when th {
+    background: rgba(13,107,61,0.06);
+    color: var(--green-deep); font-weight: 700;
+    font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase;
+    border-bottom: 2px solid var(--gold);
+  }
+  .when td { border-bottom: 1px solid var(--line); font-size: 13px; }
+  .when td.b { font-weight: 600; color: var(--green-deep); width: 38%; }
+
+  .tip {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 13.5px;
+  }
+  .tip strong { color: #7B3F00; }
+  .tip::before {
+    content: '💡 ';
+    margin-right: 4px;
+  }
+
+  .footer {
+    margin-top: 36px; padding-top: 16px;
+    border-top: 2px solid var(--gold);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  }
+  .footer .seal { color: var(--green-deep); font-weight: 700; }
+
+  @media print {
+    body { background: white; }
+    .page { padding: 24px; max-width: none; }
+    .youll-see, .try, .chat-demo, .when, .tip { break-inside: avoid; }
+    h2 { break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brandmark">
+      <span class="dot"></span>
+      ORIGIN <span style="color:var(--gold);opacity:.6">·</span> by ILCO Farming
+    </div>
+    <div class="stamp">
+      <div><b>FACILITY MANAGER GUIDE</b></div>
+      <div>Plain English · what's new, what to click</div>
+      <div>04 May 2026 · v1.0</div>
+    </div>
+  </header>
+
+  <h1 class="hero">
+    Renae, this is your daily driver. <span class="accent">Here's what changed.</span>
+  </h1>
+
+  <p class="lede">
+    Same farm, same Berne, same Lourens. But your dashboard now <strong>does more of the
+    thinking for you</strong>. Less scrolling, fewer chase-ups, no more guessing what's overdue.
+    This guide walks through what you'll see when you log in tomorrow morning, and what each
+    new bit is for. <strong>No tech jargon.</strong>
+  </p>
+
+  <div class="hello">
+    <div class="pic">R</div>
+    <div class="body">
+      <strong>Login URL:</strong> open the browser, go to your dashboard.
+      It already knows you're Renae the Facility Manager. Your screen is set up
+      around your job — operations, tickets, today's work. You won't see Berne's
+      sign-off queue or Ilse's owner brief. You see <strong>your stuff</strong>.
+    </div>
+  </div>
+
+  <!-- ═══ Section 1 ═══ -->
+  <h2><span class="num">01</span>What you'll see at the top</h2>
+  <div class="sub">First thing on the screen — the bits that matter today.</div>
+
+  <h3>1 · Greeting + the time</h3>
+  <p>
+    Just "Good morning, Renae" with the clock. Confirms it's logged in as you.
+  </p>
+
+  <h3>2 · Status bar — "is anything on fire?"</h3>
+  <p>
+    A coloured stripe right under your name. Three things it might say:
+  </p>
+  <ul>
+    <li><strong style="color: var(--green);">"ALL CLEAR"</strong> — green. Nothing critical, nothing past deadline. You can take your coffee.</li>
+    <li><strong style="color: #7B3F00;">"2 SLA BREACH"</strong> — amber. Tickets have been sitting too long. Worth a look but not yet a fire.</li>
+    <li><strong style="color: var(--rose);">"1 CRITICAL · 2 SLA BREACH"</strong> — red. Something needs attention now. The stripe also tells you how many open tickets and anomalies there are.</li>
+  </ul>
+
+  <h3>3 · Top 3 action cards</h3>
+  <p>
+    The 3 most urgent things you can act on today. Critical first, then anything past
+    its time-to-resolve. Click any of them to jump into the ticket.
+  </p>
+
+  <!-- ═══ Section 2 ═══ -->
+  <h2><span class="num">02</span>The chat bubble (bottom-right)</h2>
+  <div class="sub">Click the green bubble. Ask anything in plain words.</div>
+
+  <p>
+    There's a small green chat circle in the corner of every page. It's like asking a colleague
+    who knows everything about the farm — but they answer in 5–10 seconds, day or night.
+  </p>
+
+  <h3>What you can ask</h3>
+  <ul>
+    <li>"What's overdue right now?"</li>
+    <li>"Who hasn't signed off on the C.3.5 water section?"</li>
+    <li>"How many plants are in the flowering phase?"</li>
+    <li>"What does Lou have on his plate today?"</li>
+    <li>"Which calibrations are due this week?"</li>
+  </ul>
+
+  <div class="chat-demo">
+    <div class="you">
+      <span class="bubble">What's overdue right now?</span>
+    </div>
+    <div class="ai">
+      <span class="badge">🎫 Tickets Q&amp;A</span>
+      <div class="bubble">
+        There's <strong>1 open ticket</strong>: SMF C.3.1 floor plan
+        flagged stale 11 hours ago. <strong>You</strong> own the floor-plan
+        refresh; <strong>Berne</strong> re-signs after.
+      </div>
+      <div class="sources">
+        <strong>Grounded in live data:</strong> 50 plants · 1 open ticket ·
+        2 approved sections · 56 drafts · 11 staff
+      </div>
+    </div>
+  </div>
+
+  <p>
+    The little badge at the top of every reply tells you <em>which AI</em> answered.
+    The "Grounded in live data" line tells you <em>which numbers it used</em> — so you can
+    trust them, not guess.
+  </p>
+
+  <div class="tip">
+    <strong>Try it once:</strong> open the chat, type "what's burning today?", hit send.
+    First answer comes back in about 6 seconds. After that you'll wonder how you
+    managed without it.
+  </div>
+
+  <!-- ═══ Section 3 ═══ -->
+  <h2><span class="num">03</span>Tickets — your operational queue</h2>
+  <div class="sub">Same place as before, but now smarter.</div>
+
+  <h3>SLA timer (the little clock next to each ticket)</h3>
+  <p>
+    Every ticket has a maximum time it should stay open before someone acts on it:
+  </p>
+  <ul>
+    <li><strong>Critical</strong> — 4 hours</li>
+    <li><strong>High</strong> — 24 hours</li>
+    <li><strong>Medium</strong> — 3 days</li>
+    <li><strong>Low</strong> — 1 week</li>
+  </ul>
+  <p>
+    If a ticket is past its deadline, the timer turns <strong style="color: var(--rose);">red with a 🔥 flame icon</strong>. No more digging through old tickets — they call out for you.
+  </p>
+
+  <h3>Three tabs at the top — All / Mine / Reported</h3>
+  <ul>
+    <li><strong>All</strong> — every open ticket on the farm</li>
+    <li><strong>Mine</strong> — only the ones assigned to you (badge shows the count)</li>
+    <li><strong>Reported</strong> — only the ones you raised (good for tracking your own follow-ups)</li>
+  </ul>
+
+  <h3>"Assign to person OR department"</h3>
+  <p>
+    When you create a new ticket, the assignee dropdown now has two sections:
+  </p>
+  <ul>
+    <li><strong>👤 Specific person</strong> — pick Lou, Sipho, JR, anyone</li>
+    <li><strong>🏢 Department / role</strong> — pick "any Cultivator" or "any Trimmer". Whoever in that role picks it up first owns it.</li>
+  </ul>
+
+  <div class="tip">
+    Use <strong>department assignment</strong> when you don't care who does it as long as
+    someone in that team picks it up. Use <strong>person assignment</strong> when you specifically
+    need that person.
+  </div>
+
+  <!-- ═══ Section 4 ═══ -->
+  <h2><span class="num">04</span>The compliance section · 9 cards in 3 bands</h2>
+  <div class="sub">Inspector-readiness, at a glance.</div>
+
+  <p>
+    Scroll past your tickets and you'll find the <strong>SAHPRA Compliance</strong> panel.
+    Nine cards arranged in three bands. <strong>Tap any card</strong> to drill into the underlying
+    record.
+  </p>
+
+  <h3>Band 1 — Regulator (the inspector's first 4 questions)</h3>
+  <div class="cards">
+    <div class="card"><div class="label">SAHPRA Licence</div><div class="value">264d</div><div class="sub">22C · #2222222</div></div>
+    <div class="card"><div class="label">Quota Burn</div><div class="value">42%</div><div class="sub">Annual</div></div>
+    <div class="card danger"><div class="label">Open Anomalies</div><div class="value">2</div><div class="sub">Unresolved</div></div>
+    <div class="card danger"><div class="label">Critical Alerts</div><div class="value">1</div><div class="sub">Need senior action</div></div>
+  </div>
+
+  <h3>Band 2 — Process (your daily ops)</h3>
+  <div class="cards">
+    <div class="card danger"><div class="label">Calibration</div><div class="value">2</div><div class="sub">2 overdue</div></div>
+    <div class="card warn"><div class="label">Open Deviations</div><div class="value">1</div><div class="sub">Oldest 11d</div></div>
+    <div class="card"><div class="label">SOPs Due Review</div><div class="value">0</div><div class="sub">2 active</div></div>
+    <div class="card"><div class="label">Pending Destructions</div><div class="value">1</div><div class="sub">SAPS witness</div></div>
+  </div>
+
+  <h3>Band 3 — Output (regulator-readable)</h3>
+  <div class="cards">
+    <div class="card"><div class="label">COAs Issued</div><div class="value">3</div><div class="sub">Valid certificates</div></div>
+  </div>
+
+  <div class="tip">
+    Cards <strong>change colour automatically</strong>. Green = fine. Amber = watch.
+    Red = act now. You don't need to remember thresholds — the dashboard remembers them for you.
+  </div>
+
+  <!-- ═══ Section 5 ═══ -->
+  <h2><span class="num">05</span>Bottleneck Radar</h2>
+  <div class="sub">Where queues are getting stuck.</div>
+
+  <p>
+    Below the tickets section, you'll see a "Bottleneck Radar" panel. It scans 5 queues —
+    RP sign-off, Owner approvals, Maintenance, Lab backlog, Dispatch — and tells you which
+    ones are slowing down.
+  </p>
+
+  <p>
+    If everything is moving, you'll see a quiet "All queues clear · no items past SLA" line.
+    If something is stuck, you'll see a row like:
+  </p>
+
+  <div class="youll-see">
+    <div class="what">⚠ Maintenance</div>
+    <div class="body">
+      <strong>3 ageing</strong> · oldest 2d · SLA 24h
+      <span style="float: right; font-family: ui-monospace, monospace; font-size: 16px; font-weight: 700; color: #7B3F00;">3</span>
+    </div>
+  </div>
+
+  <p>
+    Click the row to jump straight to those tickets. <strong>The radar tells you where to look,
+    not what to do</strong> — that's still your call.
+  </p>
+
+  <!-- ═══ Section 6 ═══ -->
+  <h2><span class="num">06</span>The "drift" thing — when AI flags an SMF section</h2>
+  <div class="sub">It might land in your queue. Here's what that means.</div>
+
+  <p>
+    The Site Master File (SMF) is the document SAHPRA wants. It describes the whole site — your
+    floor plan, your equipment, your staff. <strong>The system now watches operational changes
+    and tells Berne when something has changed enough that the SMF is out of date.</strong>
+  </p>
+
+  <p>
+    For you, this matters because <strong>some changes start with you</strong>. The clearest
+    example: you add a new greenhouse → the SMF floor-plan section becomes "stale" → an
+    SMF_DRIFT ticket is raised → it lands in Berne's queue, but you might be CC'd or asked
+    to provide updated floor-plan info.
+  </p>
+
+  <table class="when">
+    <thead>
+      <tr><th>If you do this…</th><th>…then this happens automatically</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="b">Add a new greenhouse</td><td>SMF floor plan + site description flagged stale; Berne sees a ticket</td></tr>
+      <tr><td class="b">Allocate a bay differently</td><td>SMF floor plan flagged stale</td></tr>
+      <tr><td class="b">Mark a piece of equipment as new</td><td>SMF equipment register flagged stale</td></tr>
+      <tr><td class="b">Resolve an anomaly</td><td>SMF audit programme refresh suggested</td></tr>
+      <tr><td class="b">Quarantine a batch</td><td>SMF reject-materials section flagged stale</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <strong>You don't need to do anything special</strong>. Just keep doing your job, and the
+    system raises the right paperwork at the right time. Berne handles the redraft (with the
+    AI helping her). All you need to know: <em>"if my action triggered an SMF ticket, Berne
+    knows about it."</em>
+  </p>
+
+  <!-- ═══ Section 7 ═══ -->
+  <h2><span class="num">07</span>Quick wins for your morning routine</h2>
+  <div class="sub">Five things to do in the first 10 minutes when you log in.</div>
+
+  <ol style="font-size: 14.5px; line-height: 1.7;">
+    <li><strong>Glance at the status bar.</strong> Green = good morning. Red = read the 3 action cards before anything else.</li>
+    <li><strong>Open the chat bubble, ask "what's burning today?"</strong> Get a 6-second summary so you don't have to scroll.</li>
+    <li><strong>Hit the "Mine" tab on tickets.</strong> See what's specifically on your plate. Resolve or reassign anything that's not really yours.</li>
+    <li><strong>Check the Compliance section for red cards.</strong> Calibration overdue? Schedule it before the day gets busy.</li>
+    <li><strong>Look at the Bottleneck Radar.</strong> If a queue is ageing, you might unblock it with one phone call.</li>
+  </ol>
+
+  <!-- ═══ Section 8 ═══ -->
+  <h2><span class="num">08</span>Things you do NOT have to do</h2>
+  <div class="sub">The system handles these for you. Don't waste time on them.</div>
+
+  <ul>
+    <li><strong>Manually update the SMF.</strong> Berne owns it. The system tells her when it's stale.</li>
+    <li><strong>Check who's overdue on what.</strong> The Bottleneck Radar shows it.</li>
+    <li><strong>Hunt through old tickets to find the critical ones.</strong> SLA timers + Hero status bar surface them automatically.</li>
+    <li><strong>Email staff to remind them about tickets.</strong> Their dashboard already shows their queue.</li>
+    <li><strong>Calculate compliance metrics.</strong> The 9-card panel does it live.</li>
+  </ul>
+
+  <!-- ═══ Section 9 ═══ -->
+  <h2><span class="num">09</span>If something looks wrong</h2>
+  <div class="sub">First port of call.</div>
+
+  <ul>
+    <li><strong>Numbers look off?</strong> Open the chat, ask "where does the number 42% quota come from?". The AI will tell you which DB rows it pulled.</li>
+    <li><strong>Ticket assigned to wrong person?</strong> Open it, click the assignee dropdown, pick the right person or department. Done.</li>
+    <li><strong>Compliance card showing red and you don't know why?</strong> Click the card. It opens the underlying record (calibration list, deviation page, etc.).</li>
+    <li><strong>The chat says something that doesn't match what you know?</strong> The "Grounded in live data" footer shows what facts it used. Often the answer is there — your knowledge is more current than the database. Update the database (resolve the anomaly, close the ticket, mark the calibration done) and the chat will catch up.</li>
+    <li><strong>Anything truly broken?</strong> Calvin (IT) for tech issues. Flo for platform problems. Berne for compliance questions. Lourens or Ilse for cultivation strategy.</li>
+  </ul>
+
+  <div class="tip">
+    The system <strong>always tells the truth about what it knows</strong>. If something seems
+    wrong, the database is probably out of date — not the AI. The fix is usually one click,
+    not a panic.
+  </div>
+
+  <div class="footer">
+    <div>ORIGIN · by ILCO Farming · TnT-ZA · For the Facility Manager · plain-English guide</div>
+    <div class="seal">04 May 2026 · v1.0</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// P18 — World Model Event Bus for DBC
+// P18 — World Model Event Bus for Origin
 // Singleton bus: subscribe/emit/getHistory
 // History capped at 1000 events per branch, auto-timestamps on emit.
 

@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Leads Routes (Admin only)
+ * PureGro Premium Cannabis Care - Leads Routes (Admin only)
  *
  * GET /leads - List leads with optional tier/status filters
  */

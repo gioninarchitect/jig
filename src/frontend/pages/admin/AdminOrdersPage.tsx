@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Admin Orders Page
+ * PureGro Premium Cannabis Care - Admin Orders Page
  *
  * Admin order management dashboard with filters, quick actions
  * (confirm, ship, deliver), and POP review.
@@ -11,17 +11,17 @@ import { orders as ordersApi, type OrderData, type PopData } from '../../api';
 import { formatRand } from '../../utils';
 
 const STATUS_COLORS: Record<string, string> = {
-  pending: 'bg-jig-amber/15 text-amber-400 border border-jig-amber/25',
-  confirmed: 'bg-jig-purple/15 text-jig-purple-light border border-jig-purple/25',
+  pending: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
+  confirmed: 'bg-pg-green/15 text-pg-green-light border border-pg-green/25',
   processing: 'bg-blue-500/15 text-blue-400 border border-blue-500/25',
   shipped: 'bg-blue-500/15 text-blue-400 border border-blue-500/25',
-  delivered: 'bg-jig-green/15 text-green-400 border border-jig-green/25',
+  delivered: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
   cancelled: 'bg-red-500/15 text-red-400 border border-red-500/25',
 };
 
 const PAYMENT_COLORS: Record<string, string> = {
-  pending: 'bg-jig-amber/15 text-amber-400 border border-jig-amber/25',
-  paid: 'bg-jig-green/15 text-green-400 border border-jig-green/25',
+  pending: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
+  paid: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
   overdue: 'bg-red-500/15 text-red-400 border border-red-500/25',
   partial: 'bg-orange-500/15 text-orange-400 border border-orange-500/25',
 };
@@ -132,11 +132,11 @@ export default function AdminOrdersPage() {
   return (
     <div className="p-6">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-heading text-2xl font-bold uppercase tracking-wide text-jig-white">
+        <h1 className="font-heading text-2xl font-bold uppercase tracking-wide text-pg-white">
           Orders
         </h1>
         {pendingPops.length > 0 && (
-          <span className="rounded bg-jig-amber/15 px-3 py-1 text-xs font-semibold text-amber-400 border border-jig-amber/25">
+          <span className="rounded bg-pg-gold/15 px-3 py-1 text-xs font-semibold text-amber-400 border border-pg-gold/25">
             {pendingPops.length} POP{pendingPops.length !== 1 ? 's' : ''} pending review
           </span>
         )}
@@ -147,7 +147,7 @@ export default function AdminOrdersPage() {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-sm text-jig-gray-300 outline-none focus:border-jig-purple/50"
+          className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-sm text-pg-gray-300 outline-none focus:border-pg-green/50"
         >
           <option value="">All Statuses</option>
           <option value="pending">Pending</option>
@@ -160,7 +160,7 @@ export default function AdminOrdersPage() {
         <select
           value={paymentFilter}
           onChange={(e) => setPaymentFilter(e.target.value)}
-          className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-sm text-jig-gray-300 outline-none focus:border-jig-purple/50"
+          className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-sm text-pg-gray-300 outline-none focus:border-pg-green/50"
         >
           <option value="">All Payments</option>
           <option value="pending">Payment Pending</option>
@@ -174,11 +174,11 @@ export default function AdminOrdersPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search orders or clients..."
-            className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-sm text-jig-gray-300 outline-none placeholder:text-jig-gray-600 focus:border-jig-purple/50"
+            className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-sm text-pg-gray-300 outline-none placeholder:text-puregro-gray-600 focus:border-pg-green/50"
           />
           <button
             type="submit"
-            className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 font-heading text-[10px] font-medium uppercase tracking-wider text-jig-gray-400 hover:bg-white/[0.08]"
+            className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 font-heading text-[10px] font-medium uppercase tracking-wider text-puregro-gray-400 hover:bg-white/[0.08]"
           >
             Search
           </button>
@@ -187,18 +187,18 @@ export default function AdminOrdersPage() {
 
       {/* Pending POPs Section */}
       {pendingPops.length > 0 && (
-        <div className="mb-6 rounded-lg border border-jig-amber/25 bg-jig-amber/5 p-4">
+        <div className="mb-6 rounded-lg border border-pg-gold/25 bg-pg-gold/5 p-4">
           <h2 className="mb-3 font-heading text-[11px] font-semibold uppercase tracking-[0.15em] text-amber-400">
             Pending POP Reviews
           </h2>
           <div className="space-y-2">
             {pendingPops.map((pop) => (
-              <div key={pop.id} className="flex items-center justify-between rounded border border-white/[0.06] bg-jig-slate p-3">
+              <div key={pop.id} className="flex items-center justify-between rounded border border-white/[0.06] bg-pg-dark p-3">
                 <div>
-                  <p className="text-sm font-medium text-jig-white">
+                  <p className="text-sm font-medium text-pg-white">
                     {pop.orderId} - {pop.clientName}
                   </p>
-                  <p className="text-xs text-jig-gray-500">
+                  <p className="text-xs text-pg-gray-500">
                     {pop.fileName} - {pop.orderTotal ? formatRand(pop.orderTotal) : ''}
                   </p>
                 </div>
@@ -207,13 +207,13 @@ export default function AdminOrdersPage() {
                     href={pop.filePath}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-heading text-[10px] font-medium uppercase tracking-wider text-jig-gray-400 hover:bg-white/[0.08]"
+                    className="rounded border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-heading text-[10px] font-medium uppercase tracking-wider text-puregro-gray-400 hover:bg-white/[0.08]"
                   >
                     View
                   </a>
                   <button
                     onClick={() => { setPopReview(pop); setPopNotes(''); }}
-                    className="rounded border border-jig-purple/25 bg-jig-purple/15 px-2 py-1 font-heading text-[10px] font-medium uppercase tracking-wider text-jig-purple-light hover:bg-jig-purple/25"
+                    className="rounded border border-pg-green/25 bg-pg-green/15 px-2 py-1 font-heading text-[10px] font-medium uppercase tracking-wider text-pg-green-light hover:bg-pg-green/25"
                   >
                     Review
                   </button>
@@ -227,52 +227,52 @@ export default function AdminOrdersPage() {
       {/* Orders Table */}
       {loading ? (
         <div className="flex h-32 items-center justify-center">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-jig-gray-700 border-t-jig-purple" />
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-pg-gray-700 border-t-pg-green" />
         </div>
       ) : orderList.length === 0 ? (
-        <div className="rounded-lg border border-white/[0.06] bg-jig-slate p-8 text-center">
-          <p className="text-sm text-jig-gray-500">No orders found.</p>
+        <div className="rounded-lg border border-white/[0.06] bg-pg-dark p-8 text-center">
+          <p className="text-sm text-pg-gray-500">No orders found.</p>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-white/[0.06] bg-jig-slate">
+        <div className="overflow-x-auto rounded-lg border border-white/[0.06] bg-pg-dark">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-white/[0.06]">
-                <th className="px-3 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">Order</th>
-                <th className="px-3 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">Client</th>
-                <th className="px-3 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">Date</th>
-                <th className="px-3 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">Status</th>
-                <th className="px-3 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">Payment</th>
-                <th className="px-3 py-3 text-right font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">Total</th>
-                <th className="px-3 py-3 text-right font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">Actions</th>
+                <th className="px-3 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">Order</th>
+                <th className="px-3 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">Client</th>
+                <th className="px-3 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">Date</th>
+                <th className="px-3 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">Status</th>
+                <th className="px-3 py-3 text-left font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">Payment</th>
+                <th className="px-3 py-3 text-right font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">Total</th>
+                <th className="px-3 py-3 text-right font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/[0.04]">
               {orderList.map((order) => (
                 <tr key={order.id} className="transition-colors hover:bg-white/[0.02]">
                   <td className="px-3 py-3">
-                    <Link to={`/orders/${order.id}`} className="font-medium text-jig-purple-light hover:underline">
+                    <Link to={`/orders/${order.id}`} className="font-medium text-pg-green-light hover:underline">
                       {order.id}
                     </Link>
                     {order.poNumber && (
-                      <p className="text-[10px] text-jig-gray-600">{order.poNumber}</p>
+                      <p className="text-[10px] text-puregro-gray-600">{order.poNumber}</p>
                     )}
                   </td>
-                  <td className="px-3 py-3 text-jig-gray-300">
+                  <td className="px-3 py-3 text-pg-gray-300">
                     {order.clientName || order.clientId.slice(0, 8)}
                   </td>
-                  <td className="px-3 py-3 text-jig-gray-400">{formatDate(order.createdAt)}</td>
+                  <td className="px-3 py-3 text-puregro-gray-400">{formatDate(order.createdAt)}</td>
                   <td className="px-3 py-3">
-                    <span className={`rounded px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider ${STATUS_COLORS[order.status] || 'bg-white/[0.06] text-jig-gray-500'}`}>
+                    <span className={`rounded px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider ${STATUS_COLORS[order.status] || 'bg-white/[0.06] text-pg-gray-500'}`}>
                       {order.status}
                     </span>
                   </td>
                   <td className="px-3 py-3">
-                    <span className={`rounded px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider ${PAYMENT_COLORS[order.paymentStatus] || 'bg-white/[0.06] text-jig-gray-500'}`}>
+                    <span className={`rounded px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider ${PAYMENT_COLORS[order.paymentStatus] || 'bg-white/[0.06] text-pg-gray-500'}`}>
                       {order.paymentStatus}
                     </span>
                   </td>
-                  <td className="px-3 py-3 text-right font-semibold text-jig-amber">
+                  <td className="px-3 py-3 text-right font-semibold text-pg-gold">
                     {formatRand(order.total || order.totalAmount)}
                   </td>
                   <td className="px-3 py-3 text-right">
@@ -281,7 +281,7 @@ export default function AdminOrdersPage() {
                         <button
                           onClick={() => handleConfirm(order.id)}
                           disabled={actionLoading === order.id}
-                          className="rounded border border-jig-green/25 bg-jig-green/10 px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-green-400 transition-all hover:bg-jig-green/20 disabled:opacity-50"
+                          className="rounded border border-puregro-green/25 bg-puregro-green/10 px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-green-400 transition-all hover:bg-puregro-green/20 disabled:opacity-50"
                         >
                           Confirm
                         </button>
@@ -298,14 +298,14 @@ export default function AdminOrdersPage() {
                         <button
                           onClick={() => handleDeliver(order.id)}
                           disabled={actionLoading === order.id}
-                          className="rounded border border-jig-green/25 bg-jig-green/10 px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-green-400 transition-all hover:bg-jig-green/20 disabled:opacity-50"
+                          className="rounded border border-puregro-green/25 bg-puregro-green/10 px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-green-400 transition-all hover:bg-puregro-green/20 disabled:opacity-50"
                         >
                           Delivered
                         </button>
                       )}
                       <Link
                         to={`/orders/${order.id}`}
-                        className="rounded border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-jig-gray-400 transition-all hover:bg-white/[0.08]"
+                        className="rounded border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-puregro-gray-400 transition-all hover:bg-white/[0.08]"
                       >
                         View
                       </Link>
@@ -316,7 +316,7 @@ export default function AdminOrdersPage() {
             </tbody>
           </table>
           {total > orderList.length && (
-            <div className="border-t border-white/[0.06] px-3 py-2 text-center text-xs text-jig-gray-500">
+            <div className="border-t border-white/[0.06] px-3 py-2 text-center text-xs text-pg-gray-500">
               Showing {orderList.length} of {total} orders
             </div>
           )}
@@ -326,13 +326,13 @@ export default function AdminOrdersPage() {
       {/* Ship Modal */}
       {shipModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="w-full max-w-md rounded-lg border border-white/[0.1] bg-jig-slate p-6">
-            <h3 className="mb-4 font-heading text-lg font-bold uppercase tracking-wide text-jig-white">
+          <div className="w-full max-w-md rounded-lg border border-white/[0.1] bg-pg-dark p-6">
+            <h3 className="mb-4 font-heading text-lg font-bold uppercase tracking-wide text-pg-white">
               Ship Order {shipModal.orderId}
             </h3>
             <div className="space-y-3">
               <div>
-                <label className="mb-1 block font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">
+                <label className="mb-1 block font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">
                   Courier Name
                 </label>
                 <input
@@ -340,11 +340,11 @@ export default function AdminOrdersPage() {
                   value={courierName}
                   onChange={(e) => setCourierName(e.target.value)}
                   placeholder="e.g. The Courier Guy"
-                  className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-jig-gray-300 outline-none placeholder:text-jig-gray-600 focus:border-jig-purple/50"
+                  className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-puregro-gray-600 focus:border-pg-green/50"
                 />
               </div>
               <div>
-                <label className="mb-1 block font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">
+                <label className="mb-1 block font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">
                   Tracking Number
                 </label>
                 <input
@@ -352,14 +352,14 @@ export default function AdminOrdersPage() {
                   value={trackingNumber}
                   onChange={(e) => setTrackingNumber(e.target.value)}
                   placeholder="e.g. TCG123456789"
-                  className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-jig-gray-300 outline-none placeholder:text-jig-gray-600 focus:border-jig-purple/50"
+                  className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-puregro-gray-600 focus:border-pg-green/50"
                 />
               </div>
             </div>
             <div className="mt-4 flex justify-end gap-2">
               <button
                 onClick={() => setShipModal(null)}
-                className="rounded border border-white/[0.12] bg-white/[0.04] px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-jig-gray-400 hover:bg-white/[0.08]"
+                className="rounded border border-white/[0.12] bg-white/[0.04] px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-puregro-gray-400 hover:bg-white/[0.08]"
               >
                 Cancel
               </button>
@@ -378,23 +378,23 @@ export default function AdminOrdersPage() {
       {/* POP Review Modal */}
       {popReview && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="w-full max-w-lg rounded-lg border border-white/[0.1] bg-jig-slate p-6">
-            <h3 className="mb-4 font-heading text-lg font-bold uppercase tracking-wide text-jig-white">
+          <div className="w-full max-w-lg rounded-lg border border-white/[0.1] bg-pg-dark p-6">
+            <h3 className="mb-4 font-heading text-lg font-bold uppercase tracking-wide text-pg-white">
               Review Proof of Payment
             </h3>
             <div className="mb-4 rounded border border-white/[0.06] bg-white/[0.02] p-3">
-              <p className="text-sm text-jig-gray-300">
-                Order: <span className="font-medium text-jig-white">{popReview.orderId}</span>
+              <p className="text-sm text-pg-gray-300">
+                Order: <span className="font-medium text-pg-white">{popReview.orderId}</span>
               </p>
-              <p className="text-sm text-jig-gray-300">
-                Client: <span className="font-medium text-jig-white">{popReview.clientName}</span>
+              <p className="text-sm text-pg-gray-300">
+                Client: <span className="font-medium text-pg-white">{popReview.clientName}</span>
               </p>
               {popReview.orderTotal && (
-                <p className="text-sm text-jig-gray-300">
-                  Amount: <span className="font-semibold text-jig-amber">{formatRand(popReview.orderTotal)}</span>
+                <p className="text-sm text-pg-gray-300">
+                  Amount: <span className="font-semibold text-pg-gold">{formatRand(popReview.orderTotal)}</span>
                 </p>
               )}
-              <p className="mt-2 text-xs text-jig-gray-500">File: {popReview.fileName}</p>
+              <p className="mt-2 text-xs text-pg-gray-500">File: {popReview.fileName}</p>
             </div>
 
             {/* Preview */}
@@ -410,7 +410,7 @@ export default function AdminOrdersPage() {
                   href={popReview.filePath}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block rounded border border-white/[0.06] bg-white/[0.02] p-4 text-center text-sm text-jig-purple-light hover:underline"
+                  className="block rounded border border-white/[0.06] bg-white/[0.02] p-4 text-center text-sm text-pg-green-light hover:underline"
                 >
                   Open PDF in new tab
                 </a>
@@ -418,14 +418,14 @@ export default function AdminOrdersPage() {
             </div>
 
             <div className="mb-4">
-              <label className="mb-1 block font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">
+              <label className="mb-1 block font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">
                 Admin Notes (optional)
               </label>
               <textarea
                 value={popNotes}
                 onChange={(e) => setPopNotes(e.target.value)}
                 rows={2}
-                className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-jig-gray-300 outline-none placeholder:text-jig-gray-600 focus:border-jig-purple/50"
+                className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-puregro-gray-600 focus:border-pg-green/50"
                 placeholder="e.g. Amount matches, reference confirmed"
               />
             </div>
@@ -433,7 +433,7 @@ export default function AdminOrdersPage() {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setPopReview(null)}
-                className="rounded border border-white/[0.12] bg-white/[0.04] px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-jig-gray-400 hover:bg-white/[0.08]"
+                className="rounded border border-white/[0.12] bg-white/[0.04] px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-puregro-gray-400 hover:bg-white/[0.08]"
               >
                 Cancel
               </button>
@@ -447,7 +447,7 @@ export default function AdminOrdersPage() {
               <button
                 onClick={() => handlePopReview('approved')}
                 disabled={actionLoading === popReview.id}
-                className="rounded border border-jig-green/25 bg-jig-green/15 px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-green-400 hover:bg-jig-green/25 disabled:opacity-50"
+                className="rounded border border-puregro-green/25 bg-puregro-green/15 px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-green-400 hover:bg-puregro-green/25 disabled:opacity-50"
               >
                 Approve
               </button>

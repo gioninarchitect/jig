@@ -1,19 +1,21 @@
-// Invoice & Receipt PDF Generator - JIG Craft Cannabis
+// Invoice & Receipt PDF Generator - Origin by ILCO Farming
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
+const config = require('../config');
+const VAT_RATE = config.business.vatRate;
 
 class InvoiceGenerator {
   constructor() {
-    // JIG Brand Colors
+    // Origin Brand Colors
     this.colors = {
-      primary: '#7C3AED',    // JIG Green
-      accent: '#6D28D9',     // JIG Green Dark
-      text: '#0A0A0A',       // JIG Green Deep
-      gold: '#D97706',       // JIG Gold
-      cream: '#0A0A0A',      // JIG Cream
-      red: '#DC2626',        // JIG Red
-      lightGray: '#0A0A0A',  // Cream background
+      primary: '#C9A84C',    // Origin Gold
+      accent: '#8B6914',     // Origin Gold Dark
+      text: '#1A1A1A',       // Dark text for print
+      gold: '#C9A84C',       // Origin Gold
+      cream: '#F5F0E8',      // Origin Warm White
+      red: '#DC2626',        // Origin Red
+      lightGray: '#F5F5F5',  // Alternating row background
       white: '#FFFFFF'       // White
     };
   }
@@ -87,7 +89,7 @@ class InvoiceGenerator {
           name: item.name,
           quantity: item.quantity,
           unitPrice: item.price,
-          taxRate: 15
+          taxRate: VAT_RATE * 100
         })),
         subtotal: data.subtotal,
         totalTax: data.tax?.amount,
@@ -107,33 +109,32 @@ class InvoiceGenerator {
   }
 
   addHeader(doc, branch, type) {
-    // Use DBC small logo (no background) for documents
-    let logoPath = path.join(__dirname, '../../images/jig-logo-nobg.png');
+    // Use Origin logo for documents
+    let logoPath = path.join(__dirname, '../../images/origin-logo.png');
 
     // Add logo if exists
     if (fs.existsSync(logoPath)) {
       doc.image(logoPath, 50, 30, { width: 90 });
     } else {
-      // Fallback text logo - JIG branding
+      // Fallback text logo - Origin branding
       doc.fontSize(24)
          .fillColor(this.colors.primary)
          .font('Helvetica-Bold')
-         .text('JIG CRAFT CANNABIS', 50, 50);
+         .text('Origin', 50, 50);
       doc.fontSize(10)
          .fillColor(this.colors.gold)
-         .text('Craft Cannabis', 50, 78);
+         .text('Premium Cannabis Care', 50, 78);
     }
 
-    // Handle missing branch data gracefully
-    const branchName = branch?.name || 'JIG Craft Cannabis';
-    const branchAddress = branch?.location?.address || '18 Crownwood Street';
-    const branchCity = branch?.location?.city
-      ? `${branch.location.city}, ${branch.location.province || 'Gauteng'}`
-      : 'Ormonde, Gauteng';
-    const branchPhone = branch?.contact?.phone || '+27 65 194 8402';
-    // Derive branch email from branch name (e.g. "JIG Ormonde" -> "ormonde@jig.cleva-ai.co.za")
-    const branchSlug = (branch?.name || 'ormonde').replace(/^DBC\s+/i, '').toLowerCase().trim();
-    const branchEmail = branch?.contact?.email || `${branchSlug}@jig.cleva-ai.co.za`;
+    // Handle missing branch data gracefully — Branch model uses address.street, phone (top-level), email (top-level)
+    const branchName = branch?.name || 'Origin by ILCO Farming';
+    const branchAddress = branch?.address?.street || '';
+    const branchCity = branch?.address?.city
+      ? `${branch.address.city}, ${branch.address.province || 'North West'}`
+      : '';
+    const branchPhone = branch?.phone || '+27 84 796 8457';
+    const branchSlug = (branch?.name || 'origin').replace(/^Origin\s+/i, '').toLowerCase().replace(/\s+/g, '').trim();
+    const branchEmail = branch?.email || `${branchSlug}@cleva-ai.co.za`;
 
     // Company details on right (aligned properly to avoid overlap)
     doc.fontSize(9)
@@ -209,12 +210,12 @@ class InvoiceGenerator {
     const tableTop = 280;
     const itemHeight = 25;
 
-    // Table headers - DBC green background
+    // Table headers - Origin purple background
     doc.fontSize(10)
        .fillColor(this.colors.cream)
        .font('Helvetica-Bold');
 
-    // Header background with DBC green
+    // Header background with Origin purple
     doc.rect(50, tableTop, 495, 25)
        .fill(this.colors.primary);
 
@@ -273,7 +274,7 @@ class InvoiceGenerator {
        .text(`R ${(sale.subtotal || 0).toFixed(2)}`, 450, startY, { width: 95, align: 'right' });
 
     // VAT
-    doc.text('VAT (15%):', 350, startY + 20)
+    doc.text(`VAT (${VAT_RATE * 100}%):`, 350, startY + 20)
        .text(`R ${(sale.totalTax || 0).toFixed(2)}`, 450, startY + 20, { width: 95, align: 'right' });
 
     // Discount if any
@@ -348,7 +349,7 @@ class InvoiceGenerator {
        .lineWidth(1)
        .stroke();
 
-    // Footer text with proper spacing - JIG branding
+    // Footer text with proper spacing - Origin branding
     doc.fontSize(8)
        .fillColor(this.colors.primary)
        .font('Helvetica-Bold')
@@ -360,15 +361,22 @@ class InvoiceGenerator {
     doc.fillColor(this.colors.gold)
        .fontSize(9)
        .font('Helvetica-Bold')
-       .text('JIG CRAFT CANNABIS - Craft Cannabis', 50, footerY + 18, {
+       .text('Origin - Premium Cannabis Care', 50, footerY + 18, {
          align: 'center',
          width: 495
        });
 
+    // Dynamic footer from branch data
+    const footerAddress = branch?.address?.street
+      ? `${branch.address.street}, ${branch.address.city || ''}, ${branch.address.province || 'North West'}`
+      : 'origin.cleva-ai.co.za';
+    const footerPhone = branch?.phone || '+27 84 796 8457';
+    const footerEmail = branch?.email || 'origin@cleva-ai.co.za';
+
     doc.fillColor(this.colors.accent)
        .fontSize(8)
        .font('Helvetica')
-       .text('18 Crownwood Street, Ormonde, Gauteng | +27 65 194 8402 | hello@jig.cleva-ai.co.za', 50, footerY + 32, {
+       .text(`${footerAddress} | ${footerPhone} | ${footerEmail}`, 50, footerY + 32, {
          align: 'center',
          width: 495
        });

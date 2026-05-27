@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Client Routes
+ * PureGro Premium Cannabis Care - Client Routes
  *
  * GET  /clients           - List clients (admin)
  * GET  /clients/me        - Get current client profile

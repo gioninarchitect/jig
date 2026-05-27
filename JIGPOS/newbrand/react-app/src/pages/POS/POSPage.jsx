@@ -8,7 +8,7 @@ import Modal from '../../components/ui/Modal';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../components/ui/Toast';
 import { formatCurrency } from '../../config';
-import { useDBCWorldModel } from '../../world-model/WorldModelContext';
+import { useOriginWorldModel } from '../../world-model/WorldModelContext';
 import { SALE_COMPLETED, CASH_IN_OUT } from '../../world-model/types';
 
 // Hooks
@@ -34,7 +34,7 @@ const TRACKS = [
 export default function POSPage() {
   const { user, logout } = useAuth();
   const { addToast } = useToast();
-  const { emitEvent } = useDBCWorldModel();
+  const { emitEvent } = useOriginWorldModel();
 
   // Core hooks
   const cart = useCart();
@@ -139,7 +139,7 @@ export default function POSPage() {
               onClick={() => setTrack(t.key)}
               className="px-4 py-1.5 rounded-lg font-heading text-sm uppercase transition-all"
               style={track === t.key
-                ? { background: 'linear-gradient(135deg, #D97706 0%, #B8922D 100%)', color: '#1a1a2e', letterSpacing: '1px' }
+                ? { background: 'linear-gradient(135deg, #F0A500 0%, #B8922D 100%)', color: '#1a1a2e', letterSpacing: '1px' }
                 : { background: '#334155', color: 'white', letterSpacing: '1px' }
               }
             >
@@ -202,7 +202,7 @@ export default function POSPage() {
           <svg className="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
           {user?.firstName}
         </span>
-        <button onClick={logout} className="hover:underline text-xs" style={{ color: '#D97706' }}>Logout</button>
+        <button onClick={logout} className="hover:underline text-xs" style={{ color: '#F0A500' }}>Logout</button>
       </div>
     </>
   );
@@ -230,7 +230,7 @@ export default function POSPage() {
         </div>
 
         {/* LEFT: Cart Panel (380px fixed, dark navy) */}
-        <div className="flex flex-col" style={{ width: 380, background: '#0f172a', borderRight: '3px solid #D97706', boxShadow: '4px 0 16px rgba(0,0,0,0.2)' }}>
+        <div className="flex flex-col" style={{ width: 380, background: '#0f172a', borderRight: '3px solid #F0A500', boxShadow: '4px 0 16px rgba(0,0,0,0.2)' }}>
           <Cart
             items={cart.items}
             totals={cart.totals}

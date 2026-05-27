@@ -1,5 +1,5 @@
 // owner-budget.js — Budget tracking for owner dashboard
-// Depends on: owner-auth.js (token), config.js (API_URL), dbc-utils.js (showToast)
+// Depends on: owner-auth.js (token), config.js (API_URL), or-utils.js (showToast)
 
 // ===== BUDGET FUNCTIONS =====
 
@@ -120,7 +120,7 @@ function showNoBudgetState() {
     document.getElementById('expenseCategories').innerHTML = `
         <div style="text-align: center; padding: 1.5rem; grid-column: 1/-1;">
             <i class="fas fa-chart-pie" style="font-size: 2rem; color: var(--gray-300); margin-bottom: 0.5rem;"></i>
-            <p style="color: var(--gray-500);">No budget configured for this month</p>
+            <p style="color: var(--or-grey-2);">No budget configured for this month</p>
             <button onclick="openBudgetModal()" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: var(--gold); color: var(--green-deep); border: none; border-radius: 6px; cursor: pointer;">
                 <i class="fas fa-plus"></i> Set Budget
             </button>
@@ -149,7 +149,7 @@ function updateExpenseCategories(categories) {
             <div style="text-align: center; padding: 1rem; background: var(--gray-50); border-radius: 8px; border: 1px solid ${isOver ? 'var(--red)' : 'var(--gray-200)'};">
                 <i class="fas ${cat.icon || 'fa-folder'}" style="font-size: 1.25rem; color: ${isOver ? 'var(--red)' : 'var(--green)'}; margin-bottom: 0.5rem;"></i>
                 <p style="font-weight: 600; font-size: 0.85rem; color: var(--green-deep); margin-bottom: 0.25rem;">${cat.name}</p>
-                <p style="font-size: 0.75rem; color: var(--gray-500);">R${(cat.actual || 0).toLocaleString()} / R${(cat.budgeted || 0).toLocaleString()}</p>
+                <p style="font-size: 0.75rem; color: var(--or-grey-2);">R${(cat.actual || 0).toLocaleString()} / R${(cat.budgeted || 0).toLocaleString()}</p>
                 <div style="background: var(--gray-200); border-radius: 4px; height: 4px; margin-top: 0.5rem; overflow: hidden;">
                     <div style="background: ${isOver ? 'var(--red)' : 'var(--green)'}; height: 100%; width: ${Math.min(percent, 100)}%;"></div>
                 </div>
@@ -171,10 +171,10 @@ function openBudgetModal() {
     modal.id = 'budgetEditorModal';
     modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1200;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s;';
     modal.innerHTML = `
-        <div style="background:var(--white);border-radius:16px;width:90%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+        <div style="background:var(--or-white);border-radius:16px;width:90%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
             <div style="background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;border-radius:16px 16px 0 0;">
                 <i class="fas fa-wallet" style="color:var(--gold);font-size:1.2rem;"></i>
-                <h3 style="color:var(--cream);margin:0;font-family:'Oswald', sans-serif;font-size:1.2rem;">Set Monthly Budget - ${monthNames[month - 1]} ${year}</h3>
+                <h3 style="color:var(--cream);margin:0;font-family:'Barlow Condensed', sans-serif;font-size:1.2rem;">Set Monthly Budget - ${monthNames[month - 1]} ${year}</h3>
             </div>
             <div style="padding:1.25rem;">
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
@@ -190,16 +190,16 @@ function openBudgetModal() {
                 <h4 style="color:var(--green);font-size:1rem;margin-bottom:0.75rem;"><i class="fas fa-chart-pie"></i> Expense Categories</h4>
                 <div id="budgetCategoryInputs" style="display:flex;flex-direction:column;gap:0.6rem;">
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-                        <div><label style="font-size:0.8rem;color:var(--gray-500);">Salaries (R)</label><input type="number" class="budget-cat" data-name="Salaries" data-icon="fa-users" value="25000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
-                        <div><label style="font-size:0.8rem;color:var(--gray-500);">Rent (R)</label><input type="number" class="budget-cat" data-name="Rent" data-icon="fa-building" value="8000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
+                        <div><label style="font-size:0.8rem;color:var(--or-grey-2);">Salaries (R)</label><input type="number" class="budget-cat" data-name="Salaries" data-icon="fa-users" value="25000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
+                        <div><label style="font-size:0.8rem;color:var(--or-grey-2);">Rent (R)</label><input type="number" class="budget-cat" data-name="Rent" data-icon="fa-building" value="8000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
                     </div>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-                        <div><label style="font-size:0.8rem;color:var(--gray-500);">Utilities (R)</label><input type="number" class="budget-cat" data-name="Utilities" data-icon="fa-bolt" value="3000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
-                        <div><label style="font-size:0.8rem;color:var(--gray-500);">Stock (R)</label><input type="number" class="budget-cat" data-name="Stock" data-icon="fa-boxes" value="15000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
+                        <div><label style="font-size:0.8rem;color:var(--or-grey-2);">Utilities (R)</label><input type="number" class="budget-cat" data-name="Utilities" data-icon="fa-bolt" value="3000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
+                        <div><label style="font-size:0.8rem;color:var(--or-grey-2);">Stock (R)</label><input type="number" class="budget-cat" data-name="Stock" data-icon="fa-boxes" value="15000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
                     </div>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-                        <div><label style="font-size:0.8rem;color:var(--gray-500);">Marketing (R)</label><input type="number" class="budget-cat" data-name="Marketing" data-icon="fa-bullhorn" value="2000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
-                        <div><label style="font-size:0.8rem;color:var(--gray-500);">Other (R)</label><input type="number" class="budget-cat" data-name="Other" data-icon="fa-ellipsis-h" value="2000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
+                        <div><label style="font-size:0.8rem;color:var(--or-grey-2);">Marketing (R)</label><input type="number" class="budget-cat" data-name="Marketing" data-icon="fa-bullhorn" value="2000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
+                        <div><label style="font-size:0.8rem;color:var(--or-grey-2);">Other (R)</label><input type="number" class="budget-cat" data-name="Other" data-icon="fa-ellipsis-h" value="2000" min="0" step="500" style="width:100%;padding:0.5rem;border:1px solid var(--gray-200);border-radius:6px;"></div>
                     </div>
                 </div>
                 <div id="budgetTotalExpenses" style="text-align:right;margin-top:0.75rem;font-weight:700;color:var(--green-dark);font-size:0.95rem;">Total Expenses: R55,000</div>
@@ -287,13 +287,13 @@ async function viewBudgetHistory() {
     modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1200;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s;';
 
     modal.innerHTML = `
-        <div style="background:var(--white);border-radius:16px;width:90%;max-width:640px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);display:flex;flex-direction:column;">
+        <div style="background:var(--or-white);border-radius:16px;width:90%;max-width:640px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);display:flex;flex-direction:column;">
             <div style="background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;">
                 <i class="fas fa-history" style="color:var(--gold);font-size:1.2rem;"></i>
-                <h3 style="color:var(--cream);margin:0;font-family:'Oswald', sans-serif;font-size:1.2rem;">Budget History</h3>
+                <h3 style="color:var(--cream);margin:0;font-family:'Barlow Condensed', sans-serif;font-size:1.2rem;">Budget History</h3>
             </div>
             <div style="padding:1.25rem;overflow-y:auto;flex:1;" id="budgetHistoryContent">
-                <div style="text-align:center;padding:2rem;color:var(--gray-500);">
+                <div style="text-align:center;padding:2rem;color:var(--or-grey-2);">
                     <i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:1rem;"></i>
                     <p>Loading budget history...</p>
                 </div>
@@ -325,7 +325,7 @@ async function viewBudgetHistory() {
 
             if (budgets.length === 0) {
                 content.innerHTML = `
-                    <div style="text-align:center;padding:2rem;color:var(--gray-500);">
+                    <div style="text-align:center;padding:2rem;color:var(--or-grey-2);">
                         <i class="fas fa-chart-bar" style="font-size:2rem;color:var(--gray-300);margin-bottom:1rem;"></i>
                         <p>No budget history found for ${year}</p>
                         <button onclick="document.getElementById('budgetHistoryModal').remove(); openBudgetModal();" style="margin-top:0.5rem;padding:0.5rem 1rem;background:var(--gold);color:var(--green-deep);border:none;border-radius:6px;cursor:pointer;">
@@ -348,9 +348,9 @@ async function viewBudgetHistory() {
                                 </span>
                             </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;font-size:0.85rem;">
-                                <div><small style="color:var(--gray-500);">Revenue</small><div>R${(b.actualRevenue || 0).toLocaleString()} / R${(b.revenueTarget || 0).toLocaleString()}</div></div>
-                                <div><small style="color:var(--gray-500);">Expenses</small><div style="color:${isOverBudget ? 'var(--red)' : 'inherit'};">R${(b.actualExpenses || 0).toLocaleString()} / R${(b.totalExpensesBudget || 0).toLocaleString()}</div></div>
-                                <div><small style="color:var(--gray-500);">Profit</small><div>R${(b.actualProfit || 0).toLocaleString()} / R${(b.profitTarget || 0).toLocaleString()}</div></div>
+                                <div><small style="color:var(--or-grey-2);">Revenue</small><div>R${(b.actualRevenue || 0).toLocaleString()} / R${(b.revenueTarget || 0).toLocaleString()}</div></div>
+                                <div><small style="color:var(--or-grey-2);">Expenses</small><div style="color:${isOverBudget ? 'var(--red)' : 'inherit'};">R${(b.actualExpenses || 0).toLocaleString()} / R${(b.totalExpensesBudget || 0).toLocaleString()}</div></div>
+                                <div><small style="color:var(--or-grey-2);">Profit</small><div>R${(b.actualProfit || 0).toLocaleString()} / R${(b.profitTarget || 0).toLocaleString()}</div></div>
                             </div>
                         </div>
                     `;
@@ -358,7 +358,7 @@ async function viewBudgetHistory() {
             }
         } else {
             content.innerHTML = `
-                <div style="text-align:center;padding:2rem;color:var(--gray-500);">
+                <div style="text-align:center;padding:2rem;color:var(--or-grey-2);">
                     <i class="fas fa-exclamation-triangle" style="font-size:2rem;color:var(--gold);margin-bottom:1rem;"></i>
                     <p>Budget history not available yet</p>
                 </div>
@@ -367,7 +367,7 @@ async function viewBudgetHistory() {
     } catch (error) {
         console.error('Error loading budget history:', error);
         document.getElementById('budgetHistoryContent').innerHTML = `
-            <div style="text-align:center;padding:2rem;color:var(--gray-500);">
+            <div style="text-align:center;padding:2rem;color:var(--or-grey-2);">
                 <i class="fas fa-exclamation-circle" style="font-size:2rem;color:var(--red);margin-bottom:1rem;"></i>
                 <p>Failed to load budget history</p>
             </div>

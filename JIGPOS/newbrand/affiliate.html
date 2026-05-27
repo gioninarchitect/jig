@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Affiliate Program - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Affiliate Program - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -45,7 +54,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -54,13 +63,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -71,14 +80,14 @@
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             overflow-x: hidden;
             min-height: 100vh;
         }
 
         .hero {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 80px 20px;
             text-align: center;
             border-bottom: 4px solid var(--gold);
@@ -88,12 +97,12 @@
             width: 120px;
             height: 120px;
             margin: 0 auto 30px;
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 40px rgba(217, 119, 6, 0.4);
+            box-shadow: 0 0 40px rgba(240, 165, 0, 0.4);
             border: 4px solid var(--gold);
         }
 
@@ -104,7 +113,7 @@
         }
 
         h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 3rem;
             margin-bottom: 20px;
             color: var(--cream);
@@ -124,13 +133,13 @@
 
         .commission-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 15px 30px;
             border-radius: 50px;
             font-size: 1.8rem;
             font-weight: bold;
             margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(217, 119, 6, 0.3);
+            box-shadow: 0 10px 30px rgba(240, 165, 0, 0.3);
             color: var(--cream);
         }
 
@@ -148,7 +157,7 @@
             font-size: 2rem;
             margin-bottom: 30px;
             text-align: center;
-            color: var(--white);
+            color: var(--or-white);
             text-transform: uppercase;
             letter-spacing: 2px;
         }
@@ -161,7 +170,7 @@
         }
 
         .benefit-card {
-            background: linear-gradient(135deg, var(--white), var(--cream));
+            background: linear-gradient(135deg, var(--or-white), var(--cream));
             border: 2px solid var(--green);
             border-radius: 15px;
             padding: 30px;
@@ -171,7 +180,7 @@
 
         .benefit-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(217, 119, 6, 0.3);
+            box-shadow: 0 10px 30px rgba(240, 165, 0, 0.3);
         }
 
         .benefit-icon {
@@ -181,7 +190,7 @@
 
         .benefit-title {
             font-size: 1.3rem;
-            color: var(--white);
+            color: var(--or-white);
             margin-bottom: 10px;
         }
 
@@ -193,7 +202,7 @@
         }
 
         .stat-card {
-            background: rgba(124, 58, 237, 0.1);
+            background: rgba(63, 192, 65, 0.1);
             border: 1px solid var(--green);
             border-radius: 10px;
             padding: 20px;
@@ -202,17 +211,17 @@
 
         .stat-value {
             font-size: 2.5rem;
-            color: var(--white);
+            color: var(--or-white);
             font-weight: bold;
         }
 
         .stat-label {
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             margin-top: 5px;
         }
 
         .form-container {
-            background: linear-gradient(135deg, var(--white), var(--cream));
+            background: linear-gradient(135deg, var(--or-white), var(--cream));
             border: 3px solid var(--gold);
             border-radius: 20px;
             padding: 40px;
@@ -229,7 +238,7 @@
 
         .tab {
             padding: 12px 30px;
-            background: var(--black);
+            background: var(--or-black);
             border: 2px solid var(--gray-200);
             border-radius: 50px;
             cursor: pointer;
@@ -238,8 +247,8 @@
 
         .tab.active {
             background: var(--gold);
-            border-color: var(--white);
-            color: var(--white);
+            border-color: var(--or-white);
+            color: var(--or-white);
             font-weight: 600;
         }
 
@@ -249,7 +258,7 @@
 
         label {
             display: block;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             margin-bottom: 8px;
             font-size: 0.9rem;
             text-transform: uppercase;
@@ -259,16 +268,16 @@
         input, select, textarea {
             width: 100%;
             padding: 12px;
-            background: var(--black);
+            background: var(--or-black);
             border: 1px solid var(--gray-200);
             border-radius: 8px;
-            color: var(--white);
+            color: var(--or-white);
             font-size: 1rem;
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--white);
+            border-color: var(--or-white);
         }
 
         .social-inputs {
@@ -278,7 +287,7 @@
         }
 
         .btn {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             color: #fff;
             border: none;
             padding: 15px 30px;
@@ -294,7 +303,7 @@
 
         .btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(217, 119, 6, 0.4);
+            box-shadow: 0 10px 30px rgba(240, 165, 0, 0.4);
         }
 
         .accordion {
@@ -320,7 +329,7 @@
         }
 
         .accordion-header.active {
-            border-color: var(--white);
+            border-color: var(--or-white);
             background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
             border-radius: 10px 10px 0 0;
         }
@@ -344,7 +353,7 @@
         }
 
         .accordion-content {
-            background: var(--white);
+            background: var(--or-white);
             border: 2px solid var(--green);
             border-top: none;
             border-radius: 0 0 10px 10px;
@@ -360,13 +369,13 @@
         }
 
         .accordion-step {
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             font-size: 0.9rem;
         }
 
         .dashboard-container {
             display: none;
-            background: linear-gradient(135deg, var(--white), var(--cream));
+            background: linear-gradient(135deg, var(--or-white), var(--cream));
             border-radius: 20px;
             padding: 30px;
         }
@@ -390,7 +399,7 @@
         }
 
         .link-generator {
-            background: var(--black);
+            background: var(--or-black);
             border: 1px solid var(--gray-200);
             border-radius: 15px;
             padding: 20px;
@@ -398,7 +407,7 @@
         }
 
         .generated-link {
-            background: var(--white);
+            background: var(--or-white);
             border: 2px solid var(--green);
             border-radius: 10px;
             padding: 15px;
@@ -474,11 +483,11 @@
         .success-message {
             background: rgba(16, 185, 129, 0.2);
             border: 1px solid var(--green);
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .leaderboard {
-            background: var(--black);
+            background: var(--or-black);
             border: 1px solid var(--gray-200);
             border-radius: 15px;
             padding: 20px;
@@ -536,10 +545,10 @@
     <!-- Hero Section -->
     <div class="hero">
         <div class="logo">
-            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
+            <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
         </div>
         <h1>Join The Movement</h1>
-        <p class="tagline">Become a JIG Craft Cannabis Soldier & Start Earning</p>
+        <p class="tagline">Become a Origin by ILCO Farming Soldier & Start Earning</p>
         <div class="commission-badge">15% COMMISSION ON LIFESTYLE PRODUCTS</div>
         <p style="color: var(--cream); font-size: 0.9rem; margin-top: 10px; opacity: 0.9;">Excludes medical/Section 21 products due to regulations</p>
     </div>
@@ -585,9 +594,9 @@
 
         <!-- Commission Info -->
         <div class="commission-info" style="background: #0A0A0A; border: 2px solid var(--green); border-radius: 15px; padding: 30px; margin-bottom: 40px; text-align: center;">
-            <h3 style="color: var(--white); margin-bottom: 15px;"><i class="fas fa-info-circle"></i> Commission Program</h3>
-            <p style="color: var(--green-dark); font-size: 1.1rem; margin-bottom: 10px;"><strong>15% Commission</strong> on Lifestyle Products Only</p>
-            <p style="color: var(--green-dark); font-size: 0.95rem;">Commission applies to CBD wellness, accessories, and lifestyle range products. <br><strong>Medical/Section 21 products are excluded</strong> from affiliate marketing due to regulatory requirements.</p>
+            <h3 style="color: var(--or-white); margin-bottom: 15px;"><i class="fas fa-info-circle"></i> Commission Program</h3>
+            <p style="color: var(--or-gold-muted); font-size: 1.1rem; margin-bottom: 10px;"><strong>15% Commission</strong> on Lifestyle Products Only</p>
+            <p style="color: var(--or-gold-muted); font-size: 0.95rem;">Commission applies to CBD wellness, accessories, and lifestyle range products. <br><strong>Medical/Section 21 products are excluded</strong> from affiliate marketing due to regulatory requirements.</p>
         </div>
 
         <!-- Registration/Login Form -->
@@ -602,7 +611,7 @@
 
             <!-- Registration Form -->
             <form id="registerForm">
-                <h2 style="text-align: center; margin-bottom: 30px; color: var(--white);">Become a Wellness Advocate</h2>
+                <h2 style="text-align: center; margin-bottom: 30px; color: var(--or-white);">Become a Wellness Advocate</h2>
                 
                 <!-- Basic Information Accordion -->
                 <div class="accordion">
@@ -678,14 +687,14 @@
                     <div class="accordion-content">
                         <div class="form-group">
                             <label>Social Media Handles</label>
-                            <p style="font-size: 0.875rem; color: var(--gray-500); margin-bottom: 15px;">
+                            <p style="font-size: 0.875rem; color: var(--or-grey-2); margin-bottom: 15px;">
                                 We'll verify your accounts and calculate your reach automatically using AI
                             </p>
                             
                             <div style="margin-bottom: 20px;">
                                 <label style="display: flex; align-items: center; gap: 10px;">
                                     <span style="color: #E1306C;">📷 Instagram</span>
-                                    <span id="instagramVerified" style="display: none; color: var(--white);">✓ Verified</span>
+                                    <span id="instagramVerified" style="display: none; color: var(--or-white);">✓ Verified</span>
                                 </label>
                                 <input type="text" id="instagram" placeholder="@yourusername" onblur="previewSocialProfile('instagram', this.value)">
                                 <div id="instagramPreview" style="margin-top: 10px; display: none;"></div>
@@ -694,7 +703,7 @@
                             <div style="margin-bottom: 20px;">
                                 <label style="display: flex; align-items: center; gap: 10px;">
                                     <span style="color: #000;">🎵 TikTok</span>
-                                    <span id="tiktokVerified" style="display: none; color: var(--white);">✓ Verified</span>
+                                    <span id="tiktokVerified" style="display: none; color: var(--or-white);">✓ Verified</span>
                                 </label>
                                 <input type="text" id="tiktok" placeholder="@yourusername" onblur="previewSocialProfile('tiktok', this.value)">
                                 <div id="tiktokPreview" style="margin-top: 10px; display: none;"></div>
@@ -703,7 +712,7 @@
                             <div style="margin-bottom: 20px;">
                                 <label style="display: flex; align-items: center; gap: 10px;">
                                     <span style="color: #FF0000;">📺 YouTube</span>
-                                    <span id="youtubeVerified" style="display: none; color: var(--white);">✓ Verified</span>
+                                    <span id="youtubeVerified" style="display: none; color: var(--or-white);">✓ Verified</span>
                                 </label>
                                 <input type="text" id="youtube" placeholder="https://youtube.com/@channel" onblur="previewSocialProfile('youtube', this.value)">
                                 <div id="youtubePreview" style="margin-top: 10px; display: none;"></div>
@@ -712,7 +721,7 @@
                             <div style="margin-bottom: 20px;">
                                 <label style="display: flex; align-items: center; gap: 10px;">
                                     <span style="color: #1DA1F2;">🐦 Twitter/X</span>
-                                    <span id="twitterVerified" style="display: none; color: var(--white);">✓ Verified</span>
+                                    <span id="twitterVerified" style="display: none; color: var(--or-white);">✓ Verified</span>
                                 </label>
                                 <input type="text" id="twitter" placeholder="@yourusername" onblur="previewSocialProfile('twitter', this.value)">
                                 <div id="twitterPreview" style="margin-top: 10px; display: none;"></div>
@@ -724,10 +733,10 @@
                             
                             <div id="verificationResults" style="margin-top: 20px; display: none;">
                                 <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--green); border-radius: 10px; padding: 15px;">
-                                    <h4 style="color: var(--white); margin-bottom: 10px;">Verification Complete!</h4>
+                                    <h4 style="color: var(--or-white); margin-bottom: 10px;">Verification Complete!</h4>
                                     <div id="totalReachDisplay" style="font-size: 1.2rem; font-weight: bold; color: #fff;"></div>
-                                    <div id="tierDisplay" style="margin-top: 5px; color: var(--gray-500);"></div>
-                                    <div id="engagementDisplay" style="margin-top: 5px; color: var(--gray-500);"></div>
+                                    <div id="tierDisplay" style="margin-top: 5px; color: var(--or-grey-2);"></div>
+                                    <div id="engagementDisplay" style="margin-top: 5px; color: var(--or-grey-2);"></div>
                                 </div>
                             </div>
                         </div>
@@ -746,7 +755,7 @@
 
             <!-- Login Form -->
             <form id="loginForm" style="display: none;">
-                <h2 style="text-align: center; margin-bottom: 30px; color: var(--white);">Soldier Login</h2>
+                <h2 style="text-align: center; margin-bottom: 30px; color: var(--or-white);">Soldier Login</h2>
                 
                 <div class="form-group">
                     <label>Username or Email</label>
@@ -767,7 +776,7 @@
             <div class="dashboard-header">
                 <div>
                     <h2>Welcome Back, <span id="affiliateName">Soldier</span>!</h2>
-                    <p style="color: var(--gray-500);">Your Affiliate Code: <span class="affiliate-code" id="affiliateCode">SOLXXXX</span></p>
+                    <p style="color: var(--or-grey-2);">Your Affiliate Code: <span class="affiliate-code" id="affiliateCode">SOLXXXX</span></p>
                 </div>
                 <button class="btn" style="width: auto; padding: 10px 20px;" onclick="logout()">Logout</button>
             </div>
@@ -794,7 +803,7 @@
 
             <!-- Link Generator -->
             <div class="link-generator">
-                <h3 style="color: var(--white); margin-bottom: 15px;">Generate Your Link</h3>
+                <h3 style="color: var(--or-white); margin-bottom: 15px;">Generate Your Link</h3>
                 <div class="form-group">
                     <label>Custom Slug (Optional)</label>
                     <input type="text" id="customSlug" placeholder="e.g., summer-sale">
@@ -819,7 +828,7 @@
 
             <!-- Recent Commissions -->
             <div style="margin-top: 30px;">
-                <h3 style="color: var(--white); margin-bottom: 15px;">Recent Commissions</h3>
+                <h3 style="color: var(--or-white); margin-bottom: 15px;">Recent Commissions</h3>
                 <table class="commissions-table">
                     <thead>
                         <tr>
@@ -832,7 +841,7 @@
                     </thead>
                     <tbody id="commissionsTable">
                         <tr>
-                            <td colspan="5" style="text-align: center; color: var(--gray-500);">No commissions yet</td>
+                            <td colspan="5" style="text-align: center; color: var(--or-grey-2);">No commissions yet</td>
                         </tr>
                     </tbody>
                 </table>
@@ -840,51 +849,51 @@
 
             <!-- Leaderboard -->
             <div class="leaderboard">
-                <h3 style="color: var(--white); margin-bottom: 15px;">Top Soldiers This Month</h3>
+                <h3 style="color: var(--or-white); margin-bottom: 15px;">Top Soldiers This Month</h3>
                 <div id="leaderboard">
                     <div class="leaderboard-item">
                         <div style="display: flex; align-items: center; gap: 15px;">
                             <div class="rank">1</div>
                             <div>
                                 <div>@streetking</div>
-                                <div style="color: var(--gray-500); font-size: 0.9rem;">Influencer</div>
+                                <div style="color: var(--or-grey-2); font-size: 0.9rem;">Influencer</div>
                             </div>
                         </div>
-                        <div style="color: var(--white); font-weight: bold;">R45,000</div>
+                        <div style="color: var(--or-white); font-weight: bold;">R45,000</div>
                     </div>
                     <div class="leaderboard-item">
                         <div style="display: flex; align-items: center; gap: 15px;">
                             <div class="rank">2</div>
                             <div>
                                 <div>@ldwarrior</div>
-                                <div style="color: var(--gray-500); font-size: 0.9rem;">Soldier</div>
+                                <div style="color: var(--or-grey-2); font-size: 0.9rem;">Soldier</div>
                             </div>
                         </div>
-                        <div style="color: var(--white); font-weight: bold;">R32,000</div>
+                        <div style="color: var(--or-white); font-weight: bold;">R32,000</div>
                     </div>
                     <div class="leaderboard-item">
                         <div style="display: flex; align-items: center; gap: 15px;">
                             <div class="rank">3</div>
                             <div>
                                 <div>@gaslife</div>
-                                <div style="color: var(--gray-500); font-size: 0.9rem;">Ambassador</div>
+                                <div style="color: var(--or-grey-2); font-size: 0.9rem;">Ambassador</div>
                             </div>
                         </div>
-                        <div style="color: var(--white); font-weight: bold;">R28,000</div>
+                        <div style="color: var(--or-white); font-weight: bold;">R28,000</div>
                     </div>
                 </div>
             </div>
 
             <!-- Payout Section -->
             <div style="margin-top: 30px;">
-                <h3 style="color: var(--white); margin-bottom: 15px;">Payout Management</h3>
+                <h3 style="color: var(--or-white); margin-bottom: 15px;">Payout Management</h3>
                 
                 <!-- Payout Details Form -->
-                <div style="background: var(--black); border: 1px solid var(--gray-200); border-radius: 15px; padding: 20px; margin-bottom: 20px;">
+                <div style="background: var(--or-black); border: 1px solid var(--gray-200); border-radius: 15px; padding: 20px; margin-bottom: 20px;">
                     <h4 style="margin-bottom: 15px;">Payout Settings</h4>
                     <div class="form-group">
                         <label>Preferred Payout Method</label>
-                        <select id="payoutMethod" onchange="updatePayoutDetails()" style="width: 100%; padding: 10px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
+                        <select id="payoutMethod" onchange="updatePayoutDetails()" style="width: 100%; padding: 10px; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
                             <option value="bank">Bank Transfer (EFT)</option>
                             <option value="paypal">PayPal</option>
                             <option value="crypto">Cryptocurrency</option>
@@ -902,10 +911,10 @@
                 </div>
                 
                 <!-- Payout History -->
-                <div style="background: var(--black); border: 1px solid var(--gray-200); border-radius: 15px; padding: 20px;">
+                <div style="background: var(--or-black); border: 1px solid var(--gray-200); border-radius: 15px; padding: 20px;">
                     <h4 style="margin-bottom: 15px;">Payout History</h4>
                     <div id="payoutHistory">
-                        <div style="text-align: center; color: var(--gray-500); padding: 20px;">
+                        <div style="text-align: center; color: var(--or-grey-2); padding: 20px;">
                             No payout history yet
                         </div>
                     </div>
@@ -915,8 +924,8 @@
     </div>
 
     <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <script src="/frontend/or-utils.js"></script>
+    <script src="/frontend/or-auth.js"></script>
     <script>
         let currentTab = 'register';
         let affiliateData = null;
@@ -1168,10 +1177,10 @@
                                 <div class="rank">${index + 1}</div>
                                 <div>
                                     <div>@${item.username}</div>
-                                    <div style="color: var(--gray-500); font-size: 0.9rem;">${item.type}</div>
+                                    <div style="color: var(--or-grey-2); font-size: 0.9rem;">${item.type}</div>
                                 </div>
                             </div>
-                            <div style="color: var(--white); font-weight: bold;">R${item.sales.toLocaleString()}</div>
+                            <div style="color: var(--or-white); font-weight: bold;">R${item.sales.toLocaleString()}</div>
                         </div>
                     `).join('');
                     
@@ -1193,19 +1202,19 @@
                     html = `
                         <div class="form-group">
                             <label>Bank Name</label>
-                            <input type="text" id="bankName" placeholder="e.g., FNB, Standard Bank" style="width: 100%; padding: 10px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
+                            <input type="text" id="bankName" placeholder="e.g., FNB, Standard Bank" style="width: 100%; padding: 10px; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
                         </div>
                         <div class="form-group">
                             <label>Account Holder Name</label>
-                            <input type="text" id="accountHolder" placeholder="As it appears on your account" style="width: 100%; padding: 10px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
+                            <input type="text" id="accountHolder" placeholder="As it appears on your account" style="width: 100%; padding: 10px; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
                         </div>
                         <div class="form-group">
                             <label>Account Number</label>
-                            <input type="text" id="accountNumber" placeholder="Your bank account number" style="width: 100%; padding: 10px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
+                            <input type="text" id="accountNumber" placeholder="Your bank account number" style="width: 100%; padding: 10px; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
                         </div>
                         <div class="form-group">
                             <label>Branch Code</label>
-                            <input type="text" id="branchCode" placeholder="6-digit branch code" style="width: 100%; padding: 10px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
+                            <input type="text" id="branchCode" placeholder="6-digit branch code" style="width: 100%; padding: 10px; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
                         </div>
                     `;
                     break;
@@ -1213,7 +1222,7 @@
                     html = `
                         <div class="form-group">
                             <label>PayPal Email</label>
-                            <input type="email" id="paypalEmail" placeholder="your@email.com" style="width: 100%; padding: 10px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
+                            <input type="email" id="paypalEmail" placeholder="your@email.com" style="width: 100%; padding: 10px; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
                         </div>
                     `;
                     break;
@@ -1221,7 +1230,7 @@
                     html = `
                         <div class="form-group">
                             <label>Cryptocurrency</label>
-                            <select id="cryptoType" style="width: 100%; padding: 10px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
+                            <select id="cryptoType" style="width: 100%; padding: 10px; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
                                 <option value="bitcoin">Bitcoin (BTC)</option>
                                 <option value="ethereum">Ethereum (ETH)</option>
                                 <option value="usdt">USDT (TRC20)</option>
@@ -1229,7 +1238,7 @@
                         </div>
                         <div class="form-group">
                             <label>Wallet Address</label>
-                            <input type="text" id="walletAddress" placeholder="Your wallet address" style="width: 100%; padding: 10px; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
+                            <input type="text" id="walletAddress" placeholder="Your wallet address" style="width: 100%; padding: 10px; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: #fff;">
                         </div>
                     `;
                     break;
@@ -1341,12 +1350,12 @@
             const date = new Date(payout.requestedAt || Date.now());
             
             const payoutHtml = `
-                <div style="padding: 15px; background: var(--white); border-radius: 10px; margin-bottom: 10px;">
+                <div style="padding: 15px; background: var(--or-white); border-radius: 10px; margin-bottom: 10px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                         <span style="font-weight: 600;">R${payout.amount.toLocaleString()}</span>
                         <span class="status-badge status-${payout.status || 'pending'}">${(payout.status || 'pending').toUpperCase()}</span>
                     </div>
-                    <div style="font-size: 0.875rem; color: var(--gray-500);">
+                    <div style="font-size: 0.875rem; color: var(--or-grey-2);">
                         <div>Method: ${payout.method}</div>
                         <div>Date: ${date.toLocaleDateString()}</div>
                     </div>
@@ -1392,17 +1401,17 @@
             const previewDiv = document.getElementById(`${platform}Preview`);
             previewDiv.style.display = 'block';
             previewDiv.innerHTML = `
-                <div style="background: var(--white); padding: 10px; border-radius: 8px; font-size: 0.875rem;">
-                    <div style="color: var(--gray-500);">Verifying ${platform} profile...</div>
+                <div style="background: var(--or-white); padding: 10px; border-radius: 8px; font-size: 0.875rem;">
+                    <div style="color: var(--or-grey-2);">Verifying ${platform} profile...</div>
                 </div>
             `;
             
             // Simulate verification preview
             setTimeout(() => {
                 previewDiv.innerHTML = `
-                    <div style="background: var(--white); padding: 10px; border-radius: 8px; font-size: 0.875rem;">
-                        <div style="color: var(--white);">✓ Profile found</div>
-                        <div style="color: var(--gray-500);">Click "Verify All Accounts" to analyze metrics</div>
+                    <div style="background: var(--or-white); padding: 10px; border-radius: 8px; font-size: 0.875rem;">
+                        <div style="color: var(--or-white);">✓ Profile found</div>
+                        <div style="color: var(--or-grey-2);">Click "Verify All Accounts" to analyze metrics</div>
                     </div>
                 `;
             }, 1000);
@@ -1422,8 +1431,8 @@
             resultsDiv.style.display = 'block';
             resultsDiv.innerHTML = `
                 <div style="text-align: center; padding: 20px;">
-                    <div class="spinner" style="width: 40px; height: 40px; border: 4px solid var(--gray-200); border-top-color: var(--white); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
-                    <p style="margin-top: 15px; color: var(--gray-500);">Analyzing your social media reach using AI...</p>
+                    <div class="spinner" style="width: 40px; height: 40px; border: 4px solid var(--gray-200); border-top-color: var(--or-white); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+                    <p style="margin-top: 15px; color: var(--or-grey-2);">Analyzing your social media reach using AI...</p>
                     <p style="margin-top: 10px; font-size: 0.875rem; color: #666;">This may take a few moments</p>
                 </div>
             `;
@@ -1441,58 +1450,58 @@
                 // Display results
                 resultsDiv.innerHTML = `
                     <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--green); border-radius: 10px; padding: 20px;">
-                        <h4 style="color: var(--white); margin-bottom: 15px;">✓ Verification Complete!</h4>
+                        <h4 style="color: var(--or-white); margin-bottom: 15px;">✓ Verification Complete!</h4>
                         
                         <div style="display: grid; gap: 15px;">
                             ${socialHandles.instagram ? `
-                                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--black); border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--or-black); border-radius: 8px;">
                                     <span>📷 Instagram</span>
-                                    <span style="color: var(--white); font-weight: bold;">15.2K followers</span>
+                                    <span style="color: var(--or-white); font-weight: bold;">15.2K followers</span>
                                 </div>
                             ` : ''}
                             
                             ${socialHandles.tiktok ? `
-                                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--black); border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--or-black); border-radius: 8px;">
                                     <span>🎵 TikTok</span>
-                                    <span style="color: var(--white); font-weight: bold;">52.8K followers</span>
+                                    <span style="color: var(--or-white); font-weight: bold;">52.8K followers</span>
                                 </div>
                             ` : ''}
                             
                             ${socialHandles.youtube ? `
-                                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--black); border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--or-black); border-radius: 8px;">
                                     <span>📺 YouTube</span>
-                                    <span style="color: var(--white); font-weight: bold;">8.5K subscribers</span>
+                                    <span style="color: var(--or-white); font-weight: bold;">8.5K subscribers</span>
                                 </div>
                             ` : ''}
                             
                             ${socialHandles.twitter ? `
-                                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--black); border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; padding: 10px; background: var(--or-black); border-radius: 8px;">
                                     <span>🐦 Twitter/X</span>
-                                    <span style="color: var(--white); font-weight: bold;">3.2K followers</span>
+                                    <span style="color: var(--or-white); font-weight: bold;">3.2K followers</span>
                                 </div>
                             ` : ''}
                         </div>
                         
                         <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--gray-200);">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                <span style="color: var(--gray-500);">Total Reach:</span>
-                                <span style="font-size: 1.5rem; font-weight: bold; color: var(--white);">${totalReach.toLocaleString()}</span>
+                                <span style="color: var(--or-grey-2);">Total Reach:</span>
+                                <span style="font-size: 1.5rem; font-weight: bold; color: var(--or-white);">${totalReach.toLocaleString()}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                <span style="color: var(--gray-500);">Influencer Tier:</span>
-                                <span style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); padding: 5px 15px; border-radius: 20px; font-weight: bold;">${tier.toUpperCase()}</span>
+                                <span style="color: var(--or-grey-2);">Influencer Tier:</span>
+                                <span style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); padding: 5px 15px; border-radius: 20px; font-weight: bold;">${tier.toUpperCase()}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
-                                <span style="color: var(--gray-500);">Avg. Engagement Rate:</span>
-                                <span style="color: var(--white); font-weight: bold;">${engagementRate}%</span>
+                                <span style="color: var(--or-grey-2);">Avg. Engagement Rate:</span>
+                                <span style="color: var(--or-white); font-weight: bold;">${engagementRate}%</span>
                             </div>
                         </div>
                         
-                        <div style="margin-top: 20px; padding: 15px; background: rgba(124, 58, 237, 0.1); border: 1px solid var(--green); border-radius: 8px;">
+                        <div style="margin-top: 20px; padding: 15px; background: rgba(63, 192, 65, 0.1); border: 1px solid var(--green); border-radius: 8px;">
                             <p style="font-size: 0.875rem; color: #fff;">
                                 <i class="fas fa-bullseye"></i> <strong>Your Commission Rate: ${calculateCommissionRate(tier)}%</strong>
                             </p>
-                            <p style="font-size: 0.75rem; color: var(--gray-500); margin-top: 5px;">
+                            <p style="font-size: 0.75rem; color: var(--or-grey-2); margin-top: 5px;">
                                 Based on your ${tier} influencer status and ${totalReach.toLocaleString()} total reach
                             </p>
                         </div>

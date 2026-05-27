@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAT Hub - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --or-black: #0A0A0A;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --pg-dark-3: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-bright: #D4B86A;
+            --or-gold-muted: #8B6914;
+            --or-white: #F5F0E8;
+            --pg-grey: #9CA3AF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--or-black);
+            color: var(--or-white);
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        .header {
+            text-align: center;
+            padding: 40px 20px 12px;
+        }
+
+        .header img { height: 56px; margin-bottom: 12px; }
+
+        .header h1 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .header h1 span { color: var(--or-gold); }
+
+        .header p {
+            color: var(--pg-grey);
+            font-size: 1rem;
+            margin-top: 6px;
+        }
+
+        .env-badge {
+            display: inline-block;
+            margin-top: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 5px 14px;
+            border-radius: 20px;
+            background: rgba(63, 192, 65, 0.1);
+            color: var(--or-gold);
+            border: 1px solid rgba(63, 192, 65, 0.25);
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* ── Section Label ── */
+        .section-label {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--or-gold);
+            margin-bottom: 16px;
+            margin-top: 36px;
+        }
+
+        .section-label:first-child { margin-top: 0; }
+
+        /* ── Dashboard Grid ── */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        /* ── Dashboard Card ── */
+        .dash-card {
+            background: var(--or-dark);
+            border: 1px solid var(--pg-dark-3);
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: border-color 0.2s, transform 0.15s;
+        }
+
+        .dash-card:hover {
+            border-color: #3A3A3A;
+            transform: translateY(-2px);
+        }
+
+        .dash-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .dash-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .dash-icon.owner   { background: rgba(240,165,0,0.12); color: #F0A500; }
+        .dash-icon.admin   { background: rgba(239,68,68,0.1); color: #EF4444; }
+        .dash-icon.inv     { background: rgba(139,92,246,0.1); color: #8B5CF6; }
+        .dash-icon.pos     { background: rgba(201,168,76,0.1); color: var(--or-gold); }
+        .dash-icon.b2b     { background: rgba(59,130,246,0.1); color: #3B82F6; }
+        .dash-icon.packer  { background: rgba(16,185,129,0.1); color: #10B981; }
+        .dash-icon.dispatch { background: rgba(6,182,212,0.1); color: #06B6D4; }
+        .dash-icon.customer { background: rgba(156,163,175,0.1); color: var(--pg-grey); }
+        .dash-icon.stocktake { background: rgba(251,191,36,0.1); color: #FBBf24; }
+        .dash-icon.storefront { background: rgba(201,168,76,0.08); color: var(--or-gold-muted); }
+
+        .dash-meta {
+            flex: 1;
+        }
+
+        .dash-name {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .dash-desc {
+            font-size: 0.82rem;
+            color: var(--pg-grey);
+            line-height: 1.4;
+            margin-top: 2px;
+        }
+
+        .dash-creds {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dash-email {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--or-gold);
+            background: rgba(63, 192, 65, 0.08);
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s;
+            flex: 1;
+        }
+
+        .dash-email:hover {
+            background: rgba(63, 192, 65, 0.15);
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--pg-grey);
+            cursor: pointer;
+            font-size: 0.75rem;
+            padding: 4px;
+            transition: color 0.15s;
+        }
+
+        .copy-btn:hover { color: var(--or-gold); }
+
+        .dash-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .launch-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s;
+        }
+
+        .launch-btn.primary {
+            background: var(--or-gold);
+            color: var(--or-black);
+        }
+
+        .launch-btn.primary:hover {
+            background: var(--or-gold-bright);
+        }
+
+        .launch-btn.outline {
+            background: transparent;
+            color: var(--or-gold);
+            border: 1px solid rgba(63, 192, 65, 0.3);
+        }
+
+        .launch-btn.outline:hover {
+            background: rgba(63, 192, 65, 0.08);
+        }
+
+        .launch-btn i { font-size: 0.85rem; }
+
+        /* ── OTP Note ── */
+        .otp-note {
+            background: var(--or-dark);
+            border: 1px solid var(--pg-dark-3);
+            border-left: 3px solid var(--or-gold);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.88rem;
+            color: var(--pg-grey);
+            line-height: 1.5;
+        }
+
+        .otp-note i {
+            color: var(--or-gold);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .otp-note strong { color: var(--or-white); }
+
+        /* ── Status Row ── */
+        .status-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 6px 14px;
+            border-radius: 8px;
+            background: var(--or-dark);
+            border: 1px solid var(--pg-dark-3);
+            color: var(--pg-grey);
+        }
+
+        .status-chip .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-chip .dot.live { background: var(--or-gold); box-shadow: 0 0 6px rgba(201,168,76,0.5); }
+        .status-chip .dot.pending { background: #F0A500; }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            padding: 36px 20px;
+            color: var(--pg-grey);
+            font-size: 0.82rem;
+            border-top: 1px solid var(--pg-dark-3);
+            margin-top: 48px;
+        }
+
+        .footer strong { color: var(--or-gold); }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--or-gold);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover { color: var(--or-gold-bright); }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            .header h1 { font-size: 1.7rem; }
+            .dash-grid { grid-template-columns: 1fr; }
+            .status-row { gap: 8px; }
+        }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--or-gold);
+            color: var(--or-black);
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 10px 24px;
+            border-radius: 8px;
+            transition: transform 0.25s ease;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="images/origin-logo.png" alt="Origin">
+        <h1><span>UAT</span> Testing Hub</h1>
+        <p>Launch any dashboard directly. All accounts use OTP login.</p>
+        <span class="env-badge"><i class="fas fa-server" style="margin-right:6px;"></i> origin.cleva-ai.co.za</span>
+    </div>
+
+    <div class="container">
+
+        <!-- OTP Note -->
+        <div class="otp-note">
+            <i class="fas fa-key"></i>
+            <div><strong>OTP Authentication:</strong> Click an email to copy it, then click Launch. Enter the email on the login page to receive a 6-digit OTP code. Staff POS uses PIN login via branch pages.</div>
+        </div>
+
+        <!-- Status -->
+        <div class="status-row">
+            <div class="status-chip"><span class="dot live"></span> POS System</div>
+            <div class="status-chip"><span class="dot live"></span> B2B Portal</div>
+            <div class="status-chip"><span class="dot live"></span> Admin</div>
+            <div class="status-chip"><span class="dot live"></span> Owner 360</div>
+            <div class="status-chip"><span class="dot live"></span> Inventory</div>
+            <div class="status-chip"><span class="dot live"></span> Dispatch</div>
+        </div>
+
+        <!-- ══════════ MANAGEMENT ══════════ -->
+        <div class="section-label"><i class="fas fa-crown" style="margin-right:6px;"></i> Management Dashboards</div>
+        <div class="dash-grid">
+
+            <!-- Owner -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon owner"><i class="fas fa-crown"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">Owner 360View</div>
+                        <div class="dash-desc">Multi-branch command center, risk heatmap, approvals, live events, staff scoreboard</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">owner@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/owner-dashboard.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch Owner Dashboard</a>
+                </div>
+            </div>
+
+            <!-- Admin -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon admin"><i class="fas fa-shield-halved"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">Admin Dashboard</div>
+                        <div class="dash-desc">Staff management, tills, orders, clients, leads, verifications, chat bot, payments</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">admin@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/admin.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch Admin</a>
+                </div>
+            </div>
+
+            <!-- Inventory Manager -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon inv"><i class="fas fa-boxes-stacked"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">Inventory Manager</div>
+                        <div class="dash-desc">Stock control, batch tracking, purchase orders, suppliers, reorder points, compliance</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">inventory@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/inventory-manager-dashboard.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch Inventory</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══════════ B2B / WHOLESALE ══════════ -->
+        <div class="section-label"><i class="fas fa-handshake" style="margin-right:6px;"></i> Wholesale & B2B</div>
+        <div class="dash-grid">
+
+            <!-- B2B Client / Dashboard -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon b2b"><i class="fas fa-building"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">B2B Wholesale Portal</div>
+                        <div class="dash-desc">Client dashboard: catalog, ordering, verification, POP upload, order tracking, loyalty points</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">customer@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/dashboard.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch B2B Portal</a>
+                    <a href="https://origin.cleva-ai.co.za/products.html" target="_blank" class="launch-btn outline"><i class="fas fa-leaf"></i> Catalog</a>
+                </div>
+            </div>
+
+            <!-- Supplier Portal -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon b2b"><i class="fas fa-truck-field"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">Supplier Portal</div>
+                        <div class="dash-desc">Supplier-facing: view POs, confirm deliveries, update stock availability</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">customer@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/supplier-portal.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch Supplier Portal</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══════════ POINT OF SALE ══════════ -->
+        <div class="section-label"><i class="fas fa-cash-register" style="margin-right:6px;"></i> Point of Sale</div>
+        <div class="dash-grid">
+
+            <!-- POS -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon pos"><i class="fas fa-cash-register"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">POS Terminal</div>
+                        <div class="dash-desc">Full POS: product browse, cart, payments, receipts, shifts, cash-up</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">potchefstroom.manager@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/pos.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch POS</a>
+                    <a href="https://origin.cleva-ai.co.za/potchefstroom.html" target="_blank" class="launch-btn outline"><i class="fas fa-key"></i> Staff Login</a>
+                </div>
+            </div>
+
+            <!-- Stock Take -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon stocktake"><i class="fas fa-clipboard-check"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">Stock Take App</div>
+                        <div class="dash-desc">Physical count sessions, barcode scan, variance reporting, supervisor approval</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">inventory@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/stocktake-app.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch Stock Take</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══════════ FULFILLMENT ══════════ -->
+        <div class="section-label"><i class="fas fa-truck-fast" style="margin-right:6px;"></i> Fulfillment & Operations</div>
+        <div class="dash-grid">
+
+            <!-- Packer -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon packer"><i class="fas fa-box-open"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">Packer App</div>
+                        <div class="dash-desc">Pick, QC, pack, generate packing slips, handoff to dispatch</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">packer@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/packer-app.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch Packer</a>
+                </div>
+            </div>
+
+            <!-- Dispatch -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon dispatch"><i class="fas fa-truck-fast"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">Dispatch App</div>
+                        <div class="dash-desc">Courier batching, waybills, tracking, delivery confirmation</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">dispatch@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/dispatch-app.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch Dispatch</a>
+                </div>
+            </div>
+
+            <!-- Branch Receiving -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon packer"><i class="fas fa-truck-ramp-box"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">Branch Receiving</div>
+                        <div class="dash-desc">Goods intake: scan PO, count items, record batch/expiry, confirm receipt</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">inventory@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/branch-receiving.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch Receiving</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══════════ STOREFRONT / PUBLIC ══════════ -->
+        <div class="section-label"><i class="fas fa-globe" style="margin-right:6px;"></i> Public Storefront</div>
+        <div class="dash-grid">
+
+            <!-- Storefront -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon storefront"><i class="fas fa-store"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">Public Storefront</div>
+                        <div class="dash-desc">Landing page, product catalog, branch locations, about, contact</div>
+                    </div>
+                </div>
+                <div class="dash-actions" style="margin-top: -4px;">
+                    <a href="https://origin.cleva-ai.co.za/index.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch Storefront</a>
+                    <a href="https://origin.cleva-ai.co.za/products.html" target="_blank" class="launch-btn outline"><i class="fas fa-leaf"></i> Products</a>
+                    <a href="https://origin.cleva-ai.co.za/locations.html" target="_blank" class="launch-btn outline"><i class="fas fa-map-pin"></i> Locations</a>
+                </div>
+            </div>
+
+            <!-- Customer Dashboard -->
+            <div class="dash-card">
+                <div class="dash-top">
+                    <div class="dash-icon customer"><i class="fas fa-user"></i></div>
+                    <div class="dash-meta">
+                        <div class="dash-name">Customer Dashboard</div>
+                        <div class="dash-desc">Order history, loyalty points, account settings, verification status</div>
+                    </div>
+                </div>
+                <div class="dash-creds">
+                    <span class="dash-email" onclick="copyEmail(this)">customer@cleva-ai.co.za</span>
+                    <button class="copy-btn" onclick="copyEmail(this.previousElementSibling)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="dash-actions">
+                    <a href="https://origin.cleva-ai.co.za/dashboard.html" target="_blank" class="launch-btn primary"><i class="fas fa-rocket"></i> Launch Dashboard</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-links">
+            <a href="workflows.html"><i class="fas fa-diagram-project"></i> Workflows</a>
+            <a href="pricing.html"><i class="fas fa-tags"></i> Pricing</a>
+            <a href="test-accounts.html"><i class="fas fa-vial"></i> Test Accounts</a>
+            <a href="architecture.html"><i class="fas fa-sitemap"></i> Architecture</a>
+        </div>
+        <p>Origin by ILCO Farming &copy; 2026. Powered by <strong>Cleva AI</strong>.</p>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Email copied</div>
+
+    <script>
+        function copyEmail(el) {
+            var text = el.textContent.trim();
+            navigator.clipboard.writeText(text).then(function() {
+                var toast = document.getElementById('toast');
+                toast.textContent = text + ' copied';
+                toast.classList.add('show');
+                setTimeout(function() { toast.classList.remove('show'); }, 1500);
+            });
+        }
+    </script>
+
+</body>
+</html>

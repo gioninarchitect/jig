@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Automated Intervention Triggers
+ * PureGro Premium Cannabis Care - Automated Intervention Triggers
  *
  * 11 intervention triggers across 4 categories, each with:
  *   - A condition predicate
@@ -264,7 +264,7 @@ const UPSELL_TRIGGERS: InterventionTrigger[] = [
       channel: 'email',
       priority: 'medium',
       triggeredBy: 'welcome_new_client',
-      message: `Welcome to JIG Craft Cannabis, ${s.client.contactPerson}! Browse our catalogue and place your first order to start earning tier rewards.`,
+      message: `Welcome to PureGro Premium Cannabis Care, ${s.client.contactPerson}! Browse our catalogue and place your first order to start earning tier rewards.`,
     }),
     cooldownHours: 168, // only once effectively
     priority: 'medium',

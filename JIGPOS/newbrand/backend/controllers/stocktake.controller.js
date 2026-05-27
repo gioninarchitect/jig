@@ -5,6 +5,7 @@ const logger = require('../modules/logger');
 const StockTake = require('../modules/database/models/StockTake');
 const Product = require('../modules/database/models/Product');
 const BranchInventory = require('../modules/database/models/BranchInventory');
+const Branch = require('../modules/database/models/Branch');
 const visionService = require('../modules/vision');
 
 // Create new stock take session
@@ -1019,6 +1020,436 @@ exports.getVarianceReport = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error generating variance report',
+      error: error.message
+    });
+  }
+};
+
+// ─── Cycle Count Compliance & Shrinkage Endpoints ───────────────────────────
+
+const HIGH_VALUE_CATEGORIES = ['flower', 'pre-rolls', 'concentrates'];
+const MEDIUM_VALUE_CATEGORIES = ['edibles', 'oils', 'vapes'];
+
+// Helper: get start/end of today (UTC)
+function todayRange() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+  return { start, end };
+}
+
+// Helper: get start of current calendar week (Monday) and end (Sunday)
+function thisWeekRange() {
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0=Sun, 1=Mon, ...
+  const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - diffToMonday, 0, 0, 0, 0);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  sunday.setHours(23, 59, 59, 999);
+  return { start: monday, end: sunday };
+}
+
+// Helper: get start/end of current calendar month
+function thisMonthRange() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
+  const end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+  return { start, end };
+}
+
+// GET /stocktake/compliance/:branchId
+// Returns compliance status for a branch — when was each tier last counted, is today's daily count done?
+exports.getComplianceStatus = async (req, res) => {
+  try {
+    const { branchId } = req.params;
+
+    const today = todayRange();
+    const week = thisWeekRange();
+    const month = thisMonthRange();
+    const now = new Date();
+    const isMonday = now.getDay() === 1;
+    const isFirstOfMonth = now.getDate() === 1;
+
+    // --- Daily high-value cycle count ---
+    const dailySession = await StockTake.findOne({
+      branchId,
+      stockTakeType: 'cycle',
+      categories: { $in: HIGH_VALUE_CATEGORIES },
+      status: { $in: ['approved', 'pending_review', 'in_progress'] },
+      createdAt: { $gte: today.start, $lte: today.end }
+    }).sort({ createdAt: -1 });
+
+    const lastDailyHighValue = await StockTake.findOne({
+      branchId,
+      stockTakeType: 'cycle',
+      categories: { $in: HIGH_VALUE_CATEGORIES },
+      status: { $in: ['approved', 'pending_review', 'in_progress'] }
+    }).sort({ createdAt: -1 }).select('createdAt _id');
+
+    // --- Weekly medium-value cycle count ---
+    const weeklySession = await StockTake.findOne({
+      branchId,
+      stockTakeType: 'cycle',
+      categories: { $in: MEDIUM_VALUE_CATEGORIES },
+      status: { $in: ['approved', 'pending_review', 'in_progress'] },
+      createdAt: { $gte: week.start, $lte: week.end }
+    }).sort({ createdAt: -1 });
+
+    const lastWeeklyMedium = await StockTake.findOne({
+      branchId,
+      stockTakeType: 'cycle',
+      categories: { $in: MEDIUM_VALUE_CATEGORIES },
+      status: { $in: ['approved', 'pending_review', 'in_progress'] }
+    }).sort({ createdAt: -1 }).select('createdAt');
+
+    // --- Monthly full stock take ---
+    const monthlySession = await StockTake.findOne({
+      branchId,
+      stockTakeType: 'full',
+      status: { $in: ['approved', 'pending_review', 'in_progress'] },
+      createdAt: { $gte: month.start, $lte: month.end }
+    }).sort({ createdAt: -1 });
+
+    const lastMonthlyFull = await StockTake.findOne({
+      branchId,
+      stockTakeType: 'full',
+      status: { $in: ['approved', 'pending_review', 'in_progress'] }
+    }).sort({ createdAt: -1 }).select('createdAt');
+
+    res.json({
+      success: true,
+      compliance: {
+        dailyHighValue: {
+          required: true,
+          lastCompleted: lastDailyHighValue?.createdAt || null,
+          completedToday: !!dailySession,
+          categories: HIGH_VALUE_CATEGORIES,
+          sessionId: dailySession?._id || null
+        },
+        weeklyMedium: {
+          required: isMonday,
+          lastCompleted: lastWeeklyMedium?.createdAt || null,
+          completedThisWeek: !!weeklySession,
+          categories: MEDIUM_VALUE_CATEGORIES
+        },
+        monthlyFull: {
+          required: isFirstOfMonth,
+          lastCompleted: lastMonthlyFull?.createdAt || null,
+          completedThisMonth: !!monthlySession
+        }
+      }
+    });
+  } catch (error) {
+    logger.error('Get compliance status error', { error: error.message, stack: error.stack });
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching compliance status',
+      error: error.message
+    });
+  }
+};
+
+// POST /stocktake/schedule/daily-high-value
+// Auto-creates a daily cycle count session pre-loaded with high-value categories
+exports.scheduleDailyHighValue = async (req, res) => {
+  try {
+    const { branchId } = req.body;
+
+    if (!branchId) {
+      return res.status(400).json({
+        success: false,
+        message: 'branchId is required'
+      });
+    }
+
+    const today = todayRange();
+
+    // Check if a high-value cycle session already exists today for this branch
+    const existingToday = await StockTake.findOne({
+      branchId,
+      stockTakeType: 'cycle',
+      categories: { $in: HIGH_VALUE_CATEGORIES },
+      createdAt: { $gte: today.start, $lte: today.end }
+    });
+
+    if (existingToday) {
+      return res.status(400).json({
+        success: false,
+        message: 'A daily high-value cycle count session already exists for today',
+        session: {
+          _id: existingToday._id,
+          sessionNumber: existingToday.sessionNumber,
+          status: existingToday.status
+        }
+      });
+    }
+
+    // Get products in high-value categories
+    const products = await Product.find({
+      status: 'active',
+      category: { $in: HIGH_VALUE_CATEGORIES }
+    }).select('_id name sku category price tags subcategory supplier');
+
+    // Get current inventory for each product at this branch
+    const inventories = await BranchInventory.find({
+      branchId,
+      productId: { $in: products.map(p => p._id) }
+    });
+
+    const inventoryMap = new Map(inventories.map(inv => [inv.productId.toString(), inv]));
+
+    // Build line items (same logic as createSession)
+    const lineItems = products.map(product => {
+      const inventory = inventoryMap.get(product._id.toString());
+      const tags = product.tags || [];
+      const isFlower = product.category?.toLowerCase() === 'flower';
+      const isPreRollOrPack = tags.includes('pre-roll') || tags.includes('pre-pack');
+      const isCountable = !isFlower || isPreRollOrPack;
+
+      const growMethod = tags.find(t => ['indoor', 'greendoor'].includes((t || '').toLowerCase())) || '';
+
+      const nameLower = (product.name || '').toLowerCase();
+      let productType = 'loose';
+      if (tags.includes('pre-roll') || nameLower.includes('pre roll') || nameLower.includes('preroll') || nameLower.includes('joint')) {
+        productType = 'pre-roll';
+      } else if (tags.includes('pre-pack') || nameLower.includes('5g') || nameLower.includes('3g') || nameLower.includes('pre pack')) {
+        productType = 'pre-pack';
+      }
+
+      return {
+        productId: product._id,
+        productName: product.name,
+        sku: product.sku || '',
+        category: product.category,
+        growMethod,
+        productType,
+        tags,
+        expectedQty: inventory?.quantity || 0,
+        unit: isCountable ? 'units' : 'g',
+        isCountable,
+        validationStatus: 'pending'
+      };
+    });
+
+    // Create the cycle count session
+    const stockTake = new StockTake({
+      branchId,
+      stockTakeType: 'cycle',
+      categories: HIGH_VALUE_CATEGORIES,
+      scheduledDate: new Date(),
+      lineItems,
+      createdBy: req.user.id,
+      assignedTo: [req.user.id],
+      notes: 'Auto-scheduled daily high-value cycle count',
+      status: 'scheduled'
+    });
+
+    stockTake.calculateSummary();
+    await stockTake.save();
+
+    logger.info(`Daily high-value cycle count created for branch ${branchId} — session ${stockTake.sessionNumber}`);
+
+    res.status(201).json({
+      success: true,
+      message: 'Daily high-value cycle count session created',
+      session: {
+        _id: stockTake._id,
+        sessionNumber: stockTake.sessionNumber,
+        totalItems: stockTake.totalItems,
+        categories: HIGH_VALUE_CATEGORIES,
+        status: stockTake.status
+      }
+    });
+  } catch (error) {
+    logger.error('Schedule daily high-value error', { error: error.message, stack: error.stack });
+    res.status(500).json({
+      success: false,
+      message: 'Error creating daily high-value cycle count',
+      error: error.message
+    });
+  }
+};
+
+// GET /stocktake/compliance/all-branches
+// Returns compliance status across ALL branches (for owner dashboard)
+exports.getAllBranchesCompliance = async (req, res) => {
+  try {
+    const branches = await Branch.find({ status: 'active' }).select('_id name branchCode');
+
+    const today = todayRange();
+    const week = thisWeekRange();
+    const month = thisMonthRange();
+
+    const results = await Promise.all(branches.map(async (branch) => {
+      // Daily high-value check
+      const dailySession = await StockTake.findOne({
+        branchId: branch._id,
+        stockTakeType: 'cycle',
+        categories: { $in: HIGH_VALUE_CATEGORIES },
+        status: { $in: ['approved', 'pending_review', 'in_progress'] },
+        createdAt: { $gte: today.start, $lte: today.end }
+      });
+
+      // Weekly medium-value check
+      const weeklySession = await StockTake.findOne({
+        branchId: branch._id,
+        stockTakeType: 'cycle',
+        categories: { $in: MEDIUM_VALUE_CATEGORIES },
+        status: { $in: ['approved', 'pending_review', 'in_progress'] },
+        createdAt: { $gte: week.start, $lte: week.end }
+      });
+
+      // Monthly full check
+      const monthlySession = await StockTake.findOne({
+        branchId: branch._id,
+        stockTakeType: 'full',
+        status: { $in: ['approved', 'pending_review', 'in_progress'] },
+        createdAt: { $gte: month.start, $lte: month.end }
+      });
+
+      // Days since last high-value count
+      const lastHighValue = await StockTake.findOne({
+        branchId: branch._id,
+        stockTakeType: 'cycle',
+        categories: { $in: HIGH_VALUE_CATEGORIES },
+        status: { $in: ['approved', 'pending_review'] }
+      }).sort({ createdAt: -1 }).select('createdAt');
+
+      let daysSinceLastHighValueCount = null;
+      if (lastHighValue) {
+        const diffMs = Date.now() - new Date(lastHighValue.createdAt).getTime();
+        daysSinceLastHighValueCount = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      }
+
+      return {
+        branchId: branch._id,
+        branchName: branch.name,
+        branchCode: branch.branchCode,
+        dailyCompleted: !!dailySession,
+        weeklyCompleted: !!weeklySession,
+        monthlyCompleted: !!monthlySession,
+        daysSinceLastHighValueCount
+      };
+    }));
+
+    res.json({
+      success: true,
+      branches: results,
+      count: results.length
+    });
+  } catch (error) {
+    logger.error('Get all branches compliance error', { error: error.message, stack: error.stack });
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching all-branches compliance',
+      error: error.message
+    });
+  }
+};
+
+// GET /stocktake/shrinkage-trends/:branchId
+// Returns variance trends over time for high-value categories
+exports.getShrinkageTrends = async (req, res) => {
+  try {
+    const { branchId } = req.params;
+    const { days = 30 } = req.query;
+
+    const sinceDate = new Date();
+    sinceDate.setDate(sinceDate.getDate() - parseInt(days));
+    sinceDate.setHours(0, 0, 0, 0);
+
+    // Get approved stocktakes for this branch in the time window
+    const sessions = await StockTake.find({
+      branchId,
+      status: 'approved',
+      createdAt: { $gte: sinceDate },
+      // Include both cycle counts for high-value and full counts
+      $or: [
+        { stockTakeType: 'cycle', categories: { $in: HIGH_VALUE_CATEGORIES } },
+        { stockTakeType: 'full' }
+      ]
+    }).sort({ createdAt: 1 }).select('lineItems createdAt sessionNumber');
+
+    // Aggregate variance data per product
+    const productMap = new Map();
+
+    for (const session of sessions) {
+      for (const item of session.lineItems) {
+        // Only include high-value category items
+        const cat = (item.category || '').toLowerCase();
+        if (!HIGH_VALUE_CATEGORIES.includes(cat)) continue;
+        if (item.actualQty === undefined || item.actualQty === null) continue;
+
+        const key = item.productId?.toString() || item.productName;
+        if (!productMap.has(key)) {
+          productMap.set(key, {
+            name: item.productName,
+            sku: item.sku || '',
+            category: item.category,
+            variances: [],
+            variancePercents: []
+          });
+        }
+
+        const entry = productMap.get(key);
+        entry.variances.push(item.variance || 0);
+        entry.variancePercents.push(item.variancePercent || 0);
+      }
+    }
+
+    // Calculate trends
+    const products = Array.from(productMap.values()).map(p => {
+      const count = p.variances.length;
+      const avgVariance = count > 0
+        ? parseFloat((p.variances.reduce((a, b) => a + b, 0) / count).toFixed(2))
+        : 0;
+      const avgVariancePercent = count > 0
+        ? parseFloat((p.variancePercents.reduce((a, b) => a + b, 0) / count).toFixed(2))
+        : 0;
+
+      // Determine trend: compare first half vs second half of observations
+      let trend = 'stable';
+      if (count >= 4) {
+        const mid = Math.floor(count / 2);
+        const firstHalfAvg = p.variances.slice(0, mid).reduce((a, b) => a + b, 0) / mid;
+        const secondHalfAvg = p.variances.slice(mid).reduce((a, b) => a + b, 0) / (count - mid);
+
+        // Negative variance = shrinking (less stock than expected)
+        // If second half is more negative, trend is shrinking
+        if (secondHalfAvg < firstHalfAvg - 1) {
+          trend = 'shrinking';
+        } else if (secondHalfAvg > firstHalfAvg + 1) {
+          trend = 'growing';
+        }
+      }
+
+      return {
+        name: p.name,
+        sku: p.sku,
+        category: p.category,
+        avgVariance,
+        avgVariancePercent,
+        countSessions: count,
+        trend
+      };
+    });
+
+    // Sort by severity: most shrinking first
+    products.sort((a, b) => a.avgVariance - b.avgVariance);
+
+    res.json({
+      success: true,
+      branchId,
+      periodDays: parseInt(days),
+      sessionsAnalyzed: sessions.length,
+      products
+    });
+  } catch (error) {
+    logger.error('Get shrinkage trends error', { error: error.message, stack: error.stack });
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching shrinkage trends',
       error: error.message
     });
   }

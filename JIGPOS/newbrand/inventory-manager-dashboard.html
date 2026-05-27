@@ -3,58 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Manager - JIG Craft Cannabis MDC</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <title>Inventory Manager - Origin by ILCO Farming MDC</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/inv-dashboard.css">
     <link rel="stylesheet" href="css/tablet-optimizations.css">
 </head>
 <body>
     <!-- OTP Login Screen -->
-    <div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%); z-index: 9999; justify-content: center; align-items: center;">
-        <div style="background: #0A0A0A; padding: 40px; border-radius: 16px; max-width: 400px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="height: 100px; margin-bottom: 15px;">
-                <h2 style="font-family: 'Oswald', sans-serif; color: var(--green-dark); margin: 10px 0 5px; font-size: 28px;">JIG CRAFT CANNABIS</h2>
-                <p style="color: var(--gold); font-style: italic; margin: 0 0 10px;">"Craft Cannabis"</p>
-                <p style="color: #666; margin: 0; font-size: 14px;">Inventory Hub - Sign in with your email</p>
+    <div id="loginScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--or-gold-muted) 0%, var(--or-gold) 100%); z-index: 9999; justify-content: center; align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 2rem 1rem;">
+        <div style="background: #0A0A0A; padding: 2rem; border-radius: 16px; max-width: 400px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); margin: auto;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="images/origin-logo.png" alt="Origin" style="height: 80px; margin-bottom: 10px;">
+                <p style="color: #999; margin: 0; font-size: 14px;">Inventory Hub</p>
             </div>
 
             <!-- Step 1: Email -->
             <div id="step-email">
                 <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--green-dark);">Email Address</label>
-                    <input type="email" id="loginEmail" placeholder="your@email.com" style="width: 100%; padding: 14px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 16px;" required>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--or-gold-muted);">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="your@email.com" style="width: 100%; padding: 14px; border: 2px solid #222222; border-radius: 8px; font-size: 16px; background: #0A0A0A; color: #FAFAFA;" required>
                 </div>
                 <div id="emailError" style="color: var(--red); margin-bottom: 10px; display: none;"></div>
-                <button type="button" id="requestOTPBtn" onclick="requestOTP()" style="width: 100%; padding: 14px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                <button type="button" id="requestOTPBtn" onclick="requestOTP()" style="width: 100%; padding: 14px; background: var(--or-gold); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
                     <i class="fas fa-paper-plane"></i> Send Login Code
                 </button>
+
+                <!-- PIN Login -->
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #222222;">
+                    <p style="text-align: center; color: #999; font-size: 13px; margin-bottom: 12px;">Or login with PIN</p>
+                    <form id="pinForm" onsubmit="loginWithPin(event)">
+                        <div style="margin-bottom: 12px;">
+                            <input type="email" id="pinEmail" placeholder="your@email.com" style="width: 100%; padding: 12px; border: 2px solid #222222; border-radius: 8px; font-size: 14px; background: #0A0A0A; color: #FAFAFA;" required>
+                        </div>
+                        <div style="margin-bottom: 12px; position: relative;">
+                            <input type="password" id="pinInput" placeholder="Enter PIN" style="width: 100%; padding: 12px; border: 2px solid #222222; border-radius: 8px; font-size: 14px; background: #0A0A0A; color: #FAFAFA;" required>
+                            <button type="button" onclick="togglePinVisibility('pinInput', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #999; cursor: pointer;"><i class="fas fa-eye"></i></button>
+                        </div>
+                        <div id="pinError" style="color: var(--red); margin-bottom: 10px; display: none;"></div>
+                        <button type="submit" id="pinLoginBtn" style="width: 100%; padding: 12px; background: #222222; color: #FAFAFA; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                            <i class="fas fa-key"></i> Login with PIN
+                        </button>
+                    </form>
+                </div>
             </div>
 
             <!-- Step 2: OTP -->
             <div id="step-otp" style="display: none;">
-                <p style="text-align: center; color: #666; margin-bottom: 20px;">Enter the 6-digit code sent to <strong id="displayEmail"></strong></p>
+                <p style="text-align: center; color: #9CA3AF; margin-bottom: 20px;">Enter the 6-digit code sent to <strong id="displayEmail"></strong></p>
                 <div id="otpInputs" style="display: flex; gap: 8px; justify-content: center; margin-bottom: 20px;">
-                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #2A2A2A; border-radius: 8px;" oninput="handleOTPInput(this, 0)">
-                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #2A2A2A; border-radius: 8px;" oninput="handleOTPInput(this, 1)">
-                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #2A2A2A; border-radius: 8px;" oninput="handleOTPInput(this, 2)">
-                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #2A2A2A; border-radius: 8px;" oninput="handleOTPInput(this, 3)">
-                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #2A2A2A; border-radius: 8px;" oninput="handleOTPInput(this, 4)">
-                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #2A2A2A; border-radius: 8px;" oninput="handleOTPInput(this, 5)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 0)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 1)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 2)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 3)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 4)">
+                    <input type="text" maxlength="1" class="otp-input" style="width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: bold; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; color: #FAFAFA;" oninput="handleOTPInput(this, 5)">
                 </div>
                 <div id="otpError" style="color: var(--red); margin-bottom: 10px; display: none;"></div>
-                <button type="button" id="verifyOTPBtn" onclick="verifyOTP()" style="width: 100%; padding: 14px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                <button type="button" id="verifyOTPBtn" onclick="verifyOTP()" style="width: 100%; padding: 14px; background: var(--or-gold); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
                     <i class="fas fa-check"></i> Verify & Login
                 </button>
-                <p style="text-align: center; margin-top: 15px; font-size: 14px; color: #666;">
+                <p style="text-align: center; margin-top: 15px; font-size: 14px; color: #9CA3AF;">
                     <span id="timerText">Resend in <strong id="countdown">60</strong>s</span>
-                    <a id="resendLink" style="display: none; color: var(--purple); cursor: pointer;" onclick="resendOTP()">Resend Code</a>
+                    <a id="resendLink" style="display: none; color: var(--or-gold); cursor: pointer;" onclick="resendOTP()">Resend Code</a>
                 </p>
-                <button type="button" onclick="goBackToEmail()" style="width: 100%; padding: 10px; background: transparent; color: var(--purple); border: 1px solid var(--green); border-radius: 8px; margin-top: 10px; cursor: pointer;">
+                <button type="button" onclick="goBackToEmail()" style="width: 100%; padding: 10px; background: transparent; color: var(--or-gold); border: 1px solid var(--green); border-radius: 8px; margin-top: 10px; cursor: pointer;">
                     <i class="fas fa-arrow-left"></i> Change Email
                 </button>
             </div>
@@ -77,9 +93,9 @@
             <i class="fas fa-chevron-left" id="collapseIcon"></i>
         </button>
         <div class="logo">
-            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
+            <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
             <h3><i class="fas fa-cubes"></i> Inventory Hub</h3>
-            <p>JIG Craft Cannabis MDC</p>
+            <p>Origin MDC</p>
         </div>
 
         <ul class="nav-menu" style="flex: 1;">
@@ -91,15 +107,16 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#batches" class="nav-link">
-                    <i class="fas fa-boxes-stacked"></i>
-                    <span>Batch Management</span>
-                </a>
-            </li>
-            <li class="nav-item">
                 <a href="#stock" class="nav-link">
                     <i class="fas fa-chart-bar"></i>
                     <span>Stock Levels</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#stocktake-compliance" class="nav-link">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Count Compliance</span>
+                    <span id="complianceAlertBadge" class="badge bg-danger ms-auto" style="display: none; font-size: 0.7rem; padding: 3px 7px; border-radius: 10px;">!</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -136,14 +153,14 @@
                 </a>
             </li>
 
-            <li class="nav-section-label">Compliance & Reporting</li>
+            <li class="nav-section-label">Reporting & System</li>
             <li class="nav-item">
                 <a href="#reports" class="nav-link">
                     <i class="fas fa-file-alt"></i>
                     <span>Reports</span>
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="nav-compliance" style="display: none;">
                 <a href="#compliance" class="nav-link">
                     <i class="fas fa-shield-alt"></i>
                     <span>Section 21 Compliance</span>
@@ -155,8 +172,6 @@
                     <span>MDC Control Panel</span>
                 </a>
             </li>
-
-            <li class="nav-section-label">System</li>
             <li class="nav-item">
                 <a href="#settings" class="nav-link">
                     <i class="fas fa-cog"></i>
@@ -179,19 +194,14 @@
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                 <div>
                     <h2>Inventory Management</h2>
-                    <p class="text-muted mb-0">Dual Track System - Section 21 / Lifestyle Classification</p>
-                </div>
-                <div class="d-flex gap-2 flex-wrap">
-                    <span class="badge badge-section21">Section 21 - Medical</span>
-                    <span class="badge badge-lifestyle">Lifestyle - Public</span>
-                    <span class="badge badge-both">Both Tracks</span>
+                    <p class="text-muted mb-0">Stock Management Dashboard</p>
                 </div>
             </div>
         </div>
 
         <!-- KPI Toggle Button -->
         <div style="margin-bottom: 16px;">
-            <button id="invKpiToggle" onclick="toggleInvKpi()" style="background: #0A0A0A; border: 2px solid var(--gray-200); color: var(--white); padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <button id="invKpiToggle" onclick="toggleInvKpi()" style="background: #0A0A0A; border: 2px solid var(--gray-200); color: var(--or-white); padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
                 <i class="fas fa-chart-pie" style="color: var(--gold);"></i> Inventory KPIs
                 <i class="fas fa-chevron-down" id="invKpiChevron" style="font-size: 0.7rem; transition: transform 0.3s;"></i>
             </button>
@@ -206,13 +216,7 @@
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg-2 mb-3">
-                    <div style="background: var(--gold); color: var(--green-dark); padding: 16px; border-radius: 12px; text-align: center;">
-                        <div style="font-size: 28px; font-weight: bold;" id="kpiBatchQA">--</div>
-                        <div style="font-size: 12px;">Pending Batch QA</div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2 mb-3">
-                    <div style="background: var(--green); color: white; padding: 16px; border-radius: 12px; text-align: center;">
+                    <div style="background: var(--or-gold); color: white; padding: 16px; border-radius: 12px; text-align: center;">
                         <div style="font-size: 28px; font-weight: bold;" id="kpiPOsPending">--</div>
                         <div style="font-size: 12px; opacity: 0.9;">POs Pending</div>
                     </div>
@@ -224,7 +228,7 @@
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg-2 mb-3">
-                    <div style="background: #f59e0b; color: white; padding: 16px; border-radius: 12px; text-align: center;">
+                    <div style="background: #F8C242; color: white; padding: 16px; border-radius: 12px; text-align: center;">
                         <div style="font-size: 28px; font-weight: bold;" id="kpiExpiring">--</div>
                         <div style="font-size: 12px; opacity: 0.9;">Expiring (30d)</div>
                     </div>
@@ -243,19 +247,19 @@
             <!-- Quick Stats -->
             <div class="row mb-4">
                 <div class="col-6 col-md-4 col-lg mb-3">
-                    <div style="background: var(--green); color: white; padding: 20px; border-radius: 12px; text-align: center;">
+                    <div style="background: var(--or-gold); color: white; padding: 20px; border-radius: 12px; text-align: center;">
                         <div style="font-size: 32px; font-weight: bold;" id="totalProducts">0</div>
                         <div style="font-size: 14px; opacity: 0.9;">Total Products</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg mb-3">
-                    <div style="background: var(--gold); color: var(--green-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                    <div style="background: var(--gold); color: var(--or-gold-muted); padding: 20px; border-radius: 12px; text-align: center;">
                         <div style="font-size: 32px; font-weight: bold;" id="totalWeight">0</div>
                         <div style="font-size: 14px;">Total Weight (g)</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg mb-3">
-                    <div style="background: var(--gold); color: var(--green-dark); padding: 20px; border-radius: 12px; text-align: center;">
+                    <div style="background: var(--gold); color: var(--or-gold-muted); padding: 20px; border-radius: 12px; text-align: center;">
                         <div style="font-size: 32px; font-weight: bold;" id="totalUnits">0</div>
                         <div style="font-size: 14px;">Total Units</div>
                     </div>
@@ -278,11 +282,11 @@
             <div style="background: #0A0A0A; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                 <div class="row align-items-end">
                     <div class="col-12 col-md-6 col-lg-4 mb-2">
-                        <label class="form-label small fw-bold" style="color: var(--green-dark);">Search Products</label>
+                        <label class="form-label small fw-bold" style="color: var(--or-gold-muted);">Search Products</label>
                         <input type="text" class="form-control form-control-lg" id="inventorySearchInput" placeholder="Search by name or SKU..." onkeyup="filterInventory()" style="border-radius: 8px;">
                     </div>
                     <div class="col-6 col-md-3 col-lg-2 mb-2">
-                        <label class="form-label small fw-bold" style="color: var(--green-dark);">Supplier</label>
+                        <label class="form-label small fw-bold" style="color: var(--or-gold-muted);">Supplier</label>
                         <select class="form-select" id="inventorySupplierFilter" onchange="filterInventory()" style="border-radius: 8px;">
                             <option value="">All Suppliers</option>
                             <option value="indoor">Indoor</option>
@@ -290,7 +294,7 @@
                         </select>
                     </div>
                     <div class="col-6 col-md-3 col-lg-2 mb-2">
-                        <label class="form-label small fw-bold" style="color: var(--green-dark);">Type</label>
+                        <label class="form-label small fw-bold" style="color: var(--or-gold-muted);">Type</label>
                         <select class="form-select" id="inventoryProductTypeFilter" onchange="filterInventory()" style="border-radius: 8px;">
                             <option value="">All Types</option>
                             <option value="pre-roll">Pre Rolls</option>
@@ -299,7 +303,7 @@
                         </select>
                     </div>
                     <div class="col-6 col-md-3 col-lg-2 mb-2">
-                        <label class="form-label small fw-bold" style="color: var(--green-dark);">Category</label>
+                        <label class="form-label small fw-bold" style="color: var(--or-gold-muted);">Category</label>
                         <select class="form-select" id="inventoryCategoryFilter" onchange="filterInventory()" style="border-radius: 8px;">
                             <option value="">All Categories</option>
                             <option value="flower">Flower</option>
@@ -307,11 +311,18 @@
                             <option value="edibles">Edibles</option>
                             <option value="concentrates">Concentrates</option>
                             <option value="vapes">Vapes</option>
+                            <option value="lifestyle-cbd">Lifestyle / CBD</option>
                             <option value="accessories">Accessories</option>
                         </select>
                     </div>
+                    <div class="col-6 col-md-3 col-lg-2 mb-2">
+                        <label class="form-label small fw-bold" style="color: var(--or-gold-muted);">Branch</label>
+                        <select class="form-select" id="inventoryBranchFilter" onchange="loadBranchInventory()" style="border-radius: 8px;">
+                            <option value="">All Branches (Master)</option>
+                        </select>
+                    </div>
                     <div class="col-6 col-md-3 col-lg-2 mb-2 text-lg-end">
-                        <a href="#" onclick="openBranchPickerForStocktake(); return false;" class="btn btn-lg" style="background: var(--gold); color: var(--green-dark); font-weight: 600; border-radius: 8px;">
+                        <a href="#" onclick="openBranchPickerForStocktake(); return false;" class="btn btn-lg" style="background: var(--gold); color: var(--or-gold-muted); font-weight: 600; border-radius: 8px;">
                             <i class="fas fa-camera"></i> Stock Take
                         </a>
                         <button class="btn btn-lg btn-outline-secondary ms-2" onclick="exportInventory()" style="border-radius: 8px;">
@@ -321,21 +332,35 @@
                 </div>
             </div>
 
+            <!-- Category Tabs -->
+            <div id="categoryTabsBar" style="display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px; background: #0A0A0A; border-radius: 12px; margin-bottom: 16px; border: 1px solid rgba(201,168,76,0.12);">
+                <span style="font-size: 0.75rem; font-weight: 700; color: var(--or-gold-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px; display: flex; align-items: center;"><i class="fas fa-tags me-1"></i> Category</span>
+                <button class="inv-cat-tab active" onclick="selectCategoryTab('', this)">All</button>
+                <button class="inv-cat-tab" onclick="selectCategoryTab('flower', this)"><i class="fas fa-cannabis"></i> Flower</button>
+                <button class="inv-cat-tab" onclick="selectCategoryTab('pre-rolls', this)"><i class="fas fa-joint"></i> Pre-Rolls</button>
+                <button class="inv-cat-tab" onclick="selectCategoryTab('concentrates', this)"><i class="fas fa-droplet"></i> Concentrates</button>
+                <button class="inv-cat-tab" onclick="selectCategoryTab('edibles', this)"><i class="fas fa-cookie-bite"></i> Edibles</button>
+                <button class="inv-cat-tab" onclick="selectCategoryTab('vapes', this)"><i class="fas fa-wind"></i> Vapes</button>
+                <button class="inv-cat-tab" onclick="selectCategoryTab('lifestyle-cbd', this)"><i class="fas fa-leaf"></i> Lifestyle</button>
+                <button class="inv-cat-tab" onclick="selectCategoryTab('accessories', this)"><i class="fas fa-box"></i> Accessories</button>
+            </div>
+
             <!-- Inventory Table -->
             <div style="background: #0A0A0A; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-                <div style="background: var(--green); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-family: 'Oswald', sans-serif; font-size: 1.2rem;"><i class="fas fa-cubes"></i> Product Inventory</span>
+                <div style="background: var(--or-gold); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-family: 'Cinzel', sans-serif; font-size: 1.2rem;"><i class="fas fa-cubes"></i> Product Inventory</span>
                     <span class="badge bg-light text-dark" style="font-size: 14px; padding: 8px 12px;" id="inventoryCount">0 items</span>
                 </div>
                 <div style="max-height: 600px; overflow-y: auto;">
                     <table class="table table-hover mb-0" style="font-size: 15px;">
-                        <thead style="background: #f8f9fa; position: sticky; top: 0;">
+                        <thead style="background: #222222; position: sticky; top: 0;">
                             <tr>
-                                <th style="padding: 15px 20px; font-weight: 600; color: var(--green-dark);">Product</th>
-                                <th style="padding: 15px; font-weight: 600; color: var(--green-dark);">Category</th>
-                                <th style="padding: 15px; font-weight: 600; color: var(--green-dark); text-align: center;">Stock</th>
-                                <th style="padding: 15px; font-weight: 600; color: var(--green-dark); text-align: center;">Status</th>
-                                <th style="padding: 15px 20px; font-weight: 600; color: var(--green-dark); text-align: right;">Actions</th>
+                                <th style="padding: 15px 20px; font-weight: 600; color: var(--or-gold-muted);">Product</th>
+                                <th style="padding: 15px; font-weight: 600; color: var(--or-gold-muted);">Category</th>
+                                <th style="padding: 15px; font-weight: 600; color: var(--or-gold-muted); text-align: right;">Price</th>
+                                <th style="padding: 15px; font-weight: 600; color: var(--or-gold-muted); text-align: center;">Stock</th>
+                                <th style="padding: 15px; font-weight: 600; color: var(--or-gold-muted); text-align: center;">Status</th>
+                                <th style="padding: 15px 20px; font-weight: 600; color: var(--or-gold-muted); text-align: right;">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="inventoryTableBody">
@@ -346,118 +371,16 @@
             </div>
         </div>
 
-        <!-- Batches Section -->
-        <div id="batches-section" class="content-section">
-            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-                <h4 style="color: var(--green-dark);"><i class="fas fa-boxes-stacked"></i> Batch Management</h4>
-                <button class="btn btn-green" onclick="showCreateBatchModal()">
-                    <i class="fas fa-plus-circle"></i> Create Batch
-                </button>
-            </div>
-
-            <div class="alert alert-jig mb-4">
-                <i class="fas fa-info-circle"></i>
-                Manage batch/lot tracking with cannabinoid profiles and QA approval workflow.
-            </div>
-
-            <!-- Batch Filters -->
-            <div class="row mb-4">
-                <div class="col-md-3 mb-2">
-                    <select class="form-select" id="batchStatusFilter" onchange="loadBatches()">
-                        <option value="">All Statuses</option>
-                        <option value="pending">Pending QA</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="expired">Expired</option>
-                    </select>
-                </div>
-                <div class="col-md-3 mb-2">
-                    <select class="form-select" id="batchSupplierFilter" onchange="loadBatches()">
-                        <option value="">All Suppliers</option>
-                    </select>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <input type="text" class="form-control" id="batchSearch" placeholder="Search batches..." onkeyup="loadBatches()">
-                </div>
-                <div class="col-md-2 mb-2">
-                    <button class="btn btn-outline-success w-100" onclick="loadBatches()">
-                        <i class="fas fa-search"></i> Search
-                    </button>
-                </div>
-            </div>
-
-            <!-- Batch Stats -->
-            <div class="row mb-4">
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card pending">
-                        <h5>Pending QA</h5>
-                        <h2 id="pendingQACount">0</h2>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card active">
-                        <h5>Approved</h5>
-                        <h2 id="approvedBatchCount">0</h2>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card tags">
-                        <h5>Rejected</h5>
-                        <h2 id="rejectedBatchCount">0</h2>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card" style="background: linear-gradient(135deg, #666 0%, #333 100%); color: white;">
-                        <h5>Expired</h5>
-                        <h2 id="expiredBatchCount">0</h2>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Batches Table -->
-            <div class="card">
-                <div class="card-header bg-green">
-                    <i class="fas fa-boxes-stacked"></i> Batches
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Batch ID</th>
-                                    <th>Product</th>
-                                    <th>Supplier</th>
-                                    <th>THC/CBD</th>
-                                    <th>Qty</th>
-                                    <th>Status</th>
-                                    <th>Expiry</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="batchesTableBody">
-                                <tr>
-                                    <td colspan="8" class="text-center py-4">
-                                        <i class="fas fa-inbox" style="font-size: 2rem; opacity: 0.5;"></i>
-                                        <p class="mb-0 mt-2">Loading batches...</p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Purchase Orders Section -->
         <div id="purchase-orders-section" class="content-section">
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-                <h4 style="color: var(--green-dark);"><i class="fas fa-cart-plus"></i> Purchase Orders</h4>
+                <h4 style="color: var(--or-gold-muted);"><i class="fas fa-cart-plus"></i> Purchase Orders</h4>
                 <button class="btn btn-green" onclick="showCreatePOModal()">
                     <i class="fas fa-plus-circle"></i> Create Purchase Order
                 </button>
             </div>
 
-            <div class="alert alert-jig mb-4">
+            <div class="alert alert-pg mb-4">
                 <i class="fas fa-info-circle"></i>
                 Manage purchase orders from suppliers with approval workflow and goods receiving.
             </div>
@@ -555,13 +478,13 @@
         <!-- Suppliers Section -->
         <div id="suppliers-section" class="content-section">
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-                <h4 style="color: var(--green-dark);"><i class="fas fa-building"></i> Supplier Management</h4>
+                <h4 style="color: var(--or-gold-muted);"><i class="fas fa-building"></i> Supplier Management</h4>
                 <button class="btn btn-green" onclick="showCreateSupplierModal()">
                     <i class="fas fa-plus-circle"></i> Add Supplier
                 </button>
             </div>
 
-            <div class="alert alert-jig mb-4">
+            <div class="alert alert-pg mb-4">
                 <i class="fas fa-info-circle"></i>
                 Manage supplier relationships, compliance documents, and performance tracking.
             </div>
@@ -608,10 +531,10 @@
 
         <!-- Stock Section -->
         <div id="stock-section" class="content-section">
-            <h4 style="color: var(--green-dark);">Stock Level Monitoring</h4>
-            <div class="alert alert-jig">
+            <h4 style="color: var(--or-gold-muted);">Stock Level Monitoring</h4>
+            <div class="alert alert-pg">
                 <i class="fas fa-info-circle"></i>
-                Stock level monitoring with low stock alerts and reorder points for all 8 JIG branches.
+                Stock level monitoring with low stock alerts and reorder points for all 8 Origin branches.
             </div>
             <div class="row mt-4" id="stockLevelsGrid">
                 <!-- Stock levels loaded from API -->
@@ -619,10 +542,55 @@
         </div>
 
         <!-- Stocktake Reviews Section -->
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!-- STOCKTAKE COMPLIANCE SECTION                      -->
+        <!-- ═══════════════════════════════════════════════════ -->
+        <div id="stocktake-compliance-section" class="content-section">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h4 style="color: var(--or-gold-muted);"><i class="fas fa-shield-alt me-2"></i>Stock Count Compliance</h4>
+                    <p class="text-muted mb-0">Three-tier stocktake schedule — daily high-value, weekly medium, monthly full</p>
+                </div>
+                <button class="btn btn-sm" onclick="loadInvComplianceData()" style="background: var(--or-gold); color: white; border-radius: 8px;">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+
+            <!-- Tier Legend -->
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; font-size: 0.8rem; font-weight: 600; color: #ef4444;">
+                    <i class="fas fa-fire"></i> Tier A — Daily (Flower, Pre-rolls, Concentrates)
+                </span>
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; font-size: 0.8rem; font-weight: 600; color: #f59e0b;">
+                    <i class="fas fa-calendar-week"></i> Tier B — Weekly (Edibles, Oils, Vapes)
+                </span>
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3); border-radius: 8px; font-size: 0.8rem; font-weight: 600; color: #C9A84C;">
+                    <i class="fas fa-clipboard-list"></i> Tier C — Monthly (Full Count)
+                </span>
+            </div>
+
+            <!-- Compliance Cards per Branch -->
+            <div id="invComplianceGrid" class="row">
+                <div class="col-12 text-center py-4">
+                    <div class="spinner-border text-success" role="status"></div>
+                    <p class="mt-2 mb-0 text-muted">Loading compliance data...</p>
+                </div>
+            </div>
+
+            <!-- Shrinkage Trends (expandable) -->
+            <div style="margin-top: 24px;">
+                <h5 style="color: var(--or-gold-muted); margin-bottom: 12px;"><i class="fas fa-chart-line me-2"></i>Shrinkage Trends (High-Value)</h5>
+                <p class="text-muted mb-3" style="font-size: 0.85rem;">Products with consistent negative variance across recent stocktakes. Sorted by severity.</p>
+                <div id="invShrinkageTrends">
+                    <p class="text-muted text-center py-3">Select a branch above to load shrinkage data</p>
+                </div>
+            </div>
+        </div>
+
         <div id="stocktake-reviews-section" class="content-section">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h4 style="color: var(--green-dark);"><i class="fas fa-clipboard-check me-2"></i>Stocktake Reviews</h4>
+                    <h4 style="color: var(--or-gold-muted);"><i class="fas fa-clipboard-check me-2"></i>Stocktake Reviews</h4>
                     <p class="text-muted mb-0">Review and approve submitted stock take sessions from branches</p>
                 </div>
                 <select class="form-select" style="width: 160px;" id="stReviewStatusFilter" onchange="loadPendingStocktakes()">
@@ -634,16 +602,16 @@
             </div>
 
             <!-- Branch Tabs -->
-            <div style="background: var(--cream, #0A0A0A); border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; border: 1px solid rgba(124, 58, 237,0.12);">
+            <div style="background: var(--cream, #0E0E0E); border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; border: 1px solid rgba(63, 192, 65,0.12);">
                 <div id="stBranchTabs" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--green-dark, #6D28D9); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px;"><i class="fas fa-store me-1"></i>Branch</span>
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--green-dark, #2A8C2C); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px;"><i class="fas fa-store me-1"></i>Branch</span>
                     <button class="st-branch-tab active" onclick="selectStBranch('', this)">All</button>
                 </div>
             </div>
             <input type="hidden" id="stReviewBranchFilter" value="">
 
             <!-- Pending Count Alert -->
-            <div id="stPendingAlert" class="alert alert-jig mb-4" style="display: none; background: rgba(245, 158, 11, 0.15); border-left: 4px solid var(--gold);">
+            <div id="stPendingAlert" class="alert alert-pg mb-4" style="display: none; background: rgba(245, 158, 11, 0.15); border-left: 4px solid var(--gold);">
                 <i class="fas fa-exclamation-triangle" style="color: var(--gold);"></i>
                 <strong id="stPendingAlertText">0 stocktakes awaiting your review</strong>
             </div>
@@ -651,7 +619,7 @@
             <!-- Stocktake Sessions Table -->
             <div class="table-responsive">
                 <table class="table table-hover">
-                    <thead style="background: var(--green); color: white;">
+                    <thead style="background: var(--or-gold); color: white;">
                         <tr>
                             <th>Session</th>
                             <th>Branch</th>
@@ -681,7 +649,7 @@
         <div class="modal fade" id="stocktakeDetailModal" tabindex="-1" style="display: none;">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content" style="border-radius: 12px; overflow: hidden;">
-                    <div class="modal-header" style="background: var(--green); color: white;">
+                    <div class="modal-header" style="background: var(--or-gold); color: white;">
                         <h5 class="modal-title"><i class="fas fa-clipboard-check me-2"></i>Stocktake Review — <span id="stDetailSessionNum"></span></h5>
                         <button type="button" class="btn-close btn-close-white" onclick="closeStocktakeDetail()"></button>
                     </div>
@@ -700,7 +668,7 @@
                         <!-- Line Items Table -->
                         <div class="table-responsive">
                             <table class="table table-sm table-hover">
-                                <thead style="background: #f8f9fa;">
+                                <thead style="background: #222222;">
                                     <tr>
                                         <th>Product</th>
                                         <th>SKU</th>
@@ -738,7 +706,7 @@
         <div id="auto-reorder-section" class="content-section">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h4 style="color: var(--green-dark);"><i class="fas fa-sync-alt me-2"></i>Auto Reorder Rules</h4>
+                    <h4 style="color: var(--or-gold-muted);"><i class="fas fa-sync-alt me-2"></i>Auto Reorder Rules</h4>
                     <p class="text-muted mb-0">Configure automatic purchase orders when stock drops below thresholds</p>
                 </div>
                 <button class="btn btn-green" onclick="openAddReorderRuleModal()">
@@ -746,7 +714,7 @@
                 </button>
             </div>
 
-            <div class="alert alert-jig mb-4">
+            <div class="alert alert-pg mb-4">
                 <i class="fas fa-info-circle"></i>
                 <strong>How it works:</strong> When a product's stock falls below the <strong>Reorder Point</strong>, the system automatically creates a Purchase Order for the <strong>Reorder Quantity</strong> from the preferred supplier.
             </div>
@@ -769,7 +737,7 @@
             <!-- Reorder Rules Table -->
             <div class="table-responsive">
                 <table class="table table-hover">
-                    <thead style="background: var(--green); color: white;">
+                    <thead style="background: var(--or-gold); color: white;">
                         <tr>
                             <th>Product</th>
                             <th>SKU</th>
@@ -804,14 +772,14 @@
 
         <!-- Reports Section -->
         <div id="reports-section" class="content-section">
-            <h4 style="color: var(--green-dark);"><i class="fas fa-file-alt me-2"></i>Inventory Reports</h4>
-            <div class="alert alert-jig">
+            <h4 style="color: var(--or-gold-muted);"><i class="fas fa-file-alt me-2"></i>Inventory Reports</h4>
+            <div class="alert alert-pg">
                 <i class="fas fa-file-alt"></i>
                 Generate compliance reports for Section 21/Lifestyle tracking, sales, orders, and staff performance.
             </div>
 
             <!-- Date Range & Filters -->
-            <div style="background: var(--black);border-radius:10px;padding:16px;margin-bottom:20px;border:1px solid rgba(124, 58, 237,0.1);">
+            <div style="background: var(--or-black);border-radius:10px;padding:16px;margin-bottom:20px;border:1px solid rgba(63, 192, 65,0.1);">
                 <div class="row align-items-end">
                     <div class="col-6 col-md-3 mb-2">
                         <label class="form-label small fw-bold" style="color:var(--green-dark);">Start Date</label>
@@ -876,8 +844,8 @@
 
         <!-- MDC Control Panel Section -->
         <div id="mdc-control-section" class="content-section">
-            <h4 style="color: var(--green-dark);">Master Digital Catalogue (MDC) Pipeline</h4>
-            <div class="alert alert-jig">
+            <h4 style="color: var(--or-gold-muted);">Master Digital Catalogue (MDC) Pipeline</h4>
+            <div class="alert alert-pg">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <strong>Inventory Manager is the MDC Custodian</strong> - Control the 4-stage product lifecycle: Pending &rarr; QA &rarr; Approved &rarr; Live. Allocate stock per-branch before going live.
             </div>
@@ -885,31 +853,31 @@
             <!-- 4 Stage Stat Cards -->
             <div class="row mb-4">
                 <div class="col-6 col-md-3 mb-3">
-                    <div class="stat-card" style="border-left:4px solid #999;background:#fafaf8;">
-                        <h5 style="font-size:0.8rem;color:#666;">Pending</h5>
-                        <h2 id="mdcPendingCount" style="color:#666;">0</h2>
-                        <p class="mb-0" style="font-size:0.7rem;">Awaiting Review</p>
+                    <div class="stat-card" style="border-left:4px solid #999;background:#1A1A1A;">
+                        <h5 style="font-size:0.8rem;color:#9CA3AF;">Pending</h5>
+                        <h2 id="mdcPendingCount" style="color:#9CA3AF;">0</h2>
+                        <p class="mb-0" style="font-size:0.7rem;color:#9CA3AF;">Awaiting Review</p>
                     </div>
                 </div>
                 <div class="col-6 col-md-3 mb-3">
-                    <div class="stat-card" style="border-left:4px solid var(--gold);background:#fdfaf0;">
+                    <div class="stat-card" style="border-left:4px solid var(--gold);background:#1A1A1A;">
                         <h5 style="font-size:0.8rem;color:var(--gold);">In QA</h5>
                         <h2 id="mdcQaCount" style="color:var(--gold);">0</h2>
                         <p class="mb-0" style="font-size:0.7rem;">Quality Review</p>
                     </div>
                 </div>
                 <div class="col-6 col-md-3 mb-3">
-                    <div class="stat-card" style="border-left:4px solid #5a9a6a;background:#f2f9f4;">
+                    <div class="stat-card" style="border-left:4px solid #5a9a6a;background:#1A1A1A;">
                         <h5 style="font-size:0.8rem;color:#5a9a6a;">Approved</h5>
                         <h2 id="mdcApprovedCount" style="color:#5a9a6a;">0</h2>
-                        <p class="mb-0" style="font-size:0.7rem;">Ready to Allocate</p>
+                        <p class="mb-0" style="font-size:0.7rem;color:#9CA3AF;">Ready to Allocate</p>
                     </div>
                 </div>
                 <div class="col-6 col-md-3 mb-3">
-                    <div class="stat-card" style="border-left:4px solid var(--green);background:#eef5f0;">
-                        <h5 style="font-size:0.8rem;color: var(--purple);">Live</h5>
-                        <h2 id="mdcLiveCount" style="color: var(--purple);">0</h2>
-                        <p class="mb-0" style="font-size:0.7rem;">Active on Network</p>
+                    <div class="stat-card" style="border-left:4px solid var(--green);background:#1A1A1A;">
+                        <h5 style="font-size:0.8rem;color: var(--or-gold);">Live</h5>
+                        <h2 id="mdcLiveCount" style="color: var(--or-gold);">0</h2>
+                        <p class="mb-0" style="font-size:0.7rem;color:#9CA3AF;">Active on Network</p>
                     </div>
                 </div>
             </div>
@@ -938,7 +906,7 @@
                 <!-- Pending Column -->
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card">
-                        <div class="card-header" style="background:#f0efeb;color:#666;font-size:0.85rem;font-weight:600;">
+                        <div class="card-header" style="background:#222222;color:#9CA3AF;font-size:0.85rem;font-weight:600;">
                             <i class="fas fa-hourglass-half"></i> Pending
                         </div>
                         <div class="card-body p-2" style="max-height:500px;overflow-y:auto;" id="mdc-pending-list">
@@ -949,7 +917,7 @@
                 <!-- QA Column -->
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card">
-                        <div class="card-header" style="background:#fdf5e1;color:var(--gold);font-size:0.85rem;font-weight:600;">
+                        <div class="card-header" style="background:#222222;color:var(--gold);font-size:0.85rem;font-weight:600;">
                             <i class="fas fa-search"></i> QA Review
                         </div>
                         <div class="card-body p-2" style="max-height:500px;overflow-y:auto;" id="mdc-qa-list">
@@ -960,7 +928,7 @@
                 <!-- Approved Column -->
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card">
-                        <div class="card-header" style="background:#e8f5eb;color:#5a9a6a;font-size:0.85rem;font-weight:600;">
+                        <div class="card-header" style="background:#1A1A1A;color:#5a9a6a;font-size:0.85rem;font-weight:600;">
                             <i class="fas fa-check-circle"></i> Approved
                         </div>
                         <div class="card-body p-2" style="max-height:500px;overflow-y:auto;" id="mdc-approved-list">
@@ -971,7 +939,7 @@
                 <!-- Live Column -->
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card">
-                        <div class="card-header" style="background:#dceee2;color: var(--purple);font-size:0.85rem;font-weight:600;">
+                        <div class="card-header" style="background:#1A1A1A;color: var(--or-gold);font-size:0.85rem;font-weight:600;">
                             <i class="fas fa-broadcast-tower"></i> Live
                         </div>
                         <div class="card-body p-2" style="max-height:500px;overflow-y:auto;" id="mdc-live-list">
@@ -984,9 +952,9 @@
 
         <!-- MDC Pricing Modal -->
         <div id="mdcPricingModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1060;align-items:center;justify-content:center;">
-            <div style="background:#fff;border-radius:8px;width:90%;max-width:700px;max-height:80vh;overflow-y:auto;padding:24px;">
+            <div style="background:#1A1A1A;border:1px solid #2A2A2A;border-radius:8px;width:90%;max-width:700px;max-height:80vh;overflow-y:auto;padding:24px;">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 style="margin:0;color:var(--green-dark);"><i class="fas fa-calculator"></i> Network Pricing Control</h5>
+                    <h5 style="margin:0;color:var(--or-gold);"><i class="fas fa-calculator"></i> Network Pricing Control</h5>
                     <button class="btn btn-sm btn-outline-secondary" onclick="closePricingModal()"><i class="fas fa-times"></i></button>
                 </div>
                 <div id="mdcPricingBody"></div>
@@ -995,9 +963,9 @@
 
         <!-- MDC Bulk Tag Modal -->
         <div id="mdcBulkTagModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1060;align-items:center;justify-content:center;">
-            <div style="background:#fff;border-radius:8px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto;padding:24px;">
+            <div style="background:#1A1A1A;border:1px solid #2A2A2A;border-radius:8px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto;padding:24px;">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 style="margin:0;color:var(--green-dark);"><i class="fas fa-tags"></i> Bulk Track Tagger</h5>
+                    <h5 style="margin:0;color:var(--or-gold);"><i class="fas fa-tags"></i> Bulk Track Tagger</h5>
                     <button class="btn btn-sm btn-outline-secondary" onclick="closeBulkTagModal()"><i class="fas fa-times"></i></button>
                 </div>
                 <div id="mdcBulkTagBody"></div>
@@ -1006,18 +974,18 @@
 
         <!-- MDC Branch Allocator Modal -->
         <div id="mdcAllocatorModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1060;align-items:center;justify-content:center;">
-            <div style="background:#fff;border-radius:8px;width:90%;max-width:700px;max-height:80vh;overflow-y:auto;padding:24px;">
+            <div style="background:#1A1A1A;border:1px solid #2A2A2A;border-radius:8px;width:90%;max-width:700px;max-height:80vh;overflow-y:auto;padding:24px;">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 id="mdcAllocatorTitle" style="margin:0;color:var(--green-dark);"><i class="fas fa-sitemap"></i> Branch Stock Allocator</h5>
+                    <h5 id="mdcAllocatorTitle" style="margin:0;color:var(--or-gold);"><i class="fas fa-sitemap"></i> Branch Stock Allocator</h5>
                     <button class="btn btn-sm btn-outline-secondary" onclick="closeAllocatorModal()"><i class="fas fa-times"></i></button>
                 </div>
                 <div id="mdcAllocatorBody"></div>
             </div>
         </div>
 
-        <!-- Compliance Section -->
-        <div id="compliance-section" class="content-section">
-            <h4 style="color: var(--green-dark);"><i class="fas fa-shield-alt me-2"></i>Section 21 Compliance</h4>
+        <!-- Compliance Section (hidden by default — enable via ENABLE_SECTION21_COMPLIANCE flag) -->
+        <div id="compliance-section" class="content-section" style="display: none;">
+            <h4 style="color: var(--or-gold-muted);"><i class="fas fa-shield-alt me-2"></i>Section 21 Compliance</h4>
             <div class="alert alert-gold">
                 <i class="fas fa-exclamation-triangle"></i>
                 South African Section 21 authorization tracking and medical product compliance.
@@ -1027,26 +995,26 @@
             <div class="row mb-4">
                 <div class="col-6 col-md-3 mb-2">
                     <div class="comp-stat-card" style="background: #0A0A0A;padding:16px;border-radius:10px;text-align:center;border:2px solid var(--green);box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-                        <div style="font-size:28px;font-weight:bold;color: var(--purple);" id="compStatTotal">--</div>
-                        <div style="font-size:12px;color:#666;">Total Patients</div>
+                        <div style="font-size:28px;font-weight:bold;color: var(--or-gold);" id="compStatTotal">--</div>
+                        <div style="font-size:12px;color:#9CA3AF;">Total Patients</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-3 mb-2">
                     <div class="comp-stat-card" style="background: #0A0A0A;padding:16px;border-radius:10px;text-align:center;border:2px solid #17a2b8;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
                         <div style="font-size:28px;font-weight:bold;color:#17a2b8;" id="compStatActive">--</div>
-                        <div style="font-size:12px;color:#666;">Active Prescriptions</div>
+                        <div style="font-size:12px;color:#9CA3AF;">Active Prescriptions</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-3 mb-2">
                     <div class="comp-stat-card" style="background: #0A0A0A;padding:16px;border-radius:10px;text-align:center;border:2px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,0.05);">
                         <div style="font-size:28px;font-weight:bold;color:var(--gold);" id="compStatExpiring">--</div>
-                        <div style="font-size:12px;color:#666;">Expiring Soon</div>
+                        <div style="font-size:12px;color:#9CA3AF;">Expiring Soon</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-3 mb-2">
                     <div class="comp-stat-card" style="background: #0A0A0A;padding:16px;border-radius:10px;text-align:center;border:2px solid var(--green);box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-                        <div style="font-size:28px;font-weight:bold;color: var(--purple);" id="compStatRate">--%</div>
-                        <div style="font-size:12px;color:#666;">Compliance Rate</div>
+                        <div style="font-size:28px;font-weight:bold;color: var(--or-gold);" id="compStatRate">--%</div>
+                        <div style="font-size:12px;color:#9CA3AF;">Compliance Rate</div>
                     </div>
                 </div>
             </div>
@@ -1082,8 +1050,8 @@
 
         <!-- Settings Section -->
         <div id="settings-section" class="content-section">
-            <h4 style="color: var(--green-dark);">System Settings</h4>
-            <div class="alert alert-jig">
+            <h4 style="color: var(--or-gold-muted);">System Settings</h4>
+            <div class="alert alert-pg">
                 <i class="fas fa-cog"></i>
                 Configure inventory thresholds, track defaults, and user permissions.
             </div>
@@ -1152,10 +1120,10 @@
                     <i class="fas fa-th"></i>
                     <span>Inventory</span>
                 </button>
-                <button class="bottom-nav-item" data-tab="batches" onclick="mobileNavTo('batches')">
+                <button class="bottom-nav-item" data-tab="stock" onclick="mobileNavTo('stock')">
                     <span class="nav-indicator"></span>
-                    <i class="fas fa-boxes-stacked"></i>
-                    <span>Batches</span>
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Stock Levels</span>
                 </button>
                 <button class="bottom-nav-item" data-tab="stocktake" onclick="openBranchPickerForStocktake()">
                     <span class="nav-indicator"></span>
@@ -1179,23 +1147,22 @@
     <!-- Bootstrap JS (required for modals) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- JIG Shared Libraries -->
-    <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <!-- Origin Shared Libraries -->
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-utils.js"></script>
+    <script src="frontend/or-auth.js"></script>
 
     <!-- Inventory Manager modules — auth first, then core, then rest in any order -->
-    <script src="/frontend/inv-auth.js"></script>
-    <script src="/frontend/inv-core.js"></script>
-    <script src="/frontend/inv-inventory.js"></script>
-    <script src="/frontend/inv-mdc.js"></script>
-    <script src="/frontend/inv-batches.js"></script>
-    <script src="/frontend/inv-purchase-orders.js"></script>
-    <script src="/frontend/inv-suppliers.js"></script>
-    <script src="/frontend/inv-reorder.js"></script>
-    <script src="/frontend/inv-stocktake.js"></script>
-    <script src="/frontend/inv-reports.js"></script>
-    <script src="/frontend/inv-compliance.js"></script>
+    <script src="frontend/inv-auth.js"></script>
+    <script src="frontend/inv-core.js"></script>
+    <script src="frontend/inv-inventory.js"></script>
+    <script src="frontend/inv-mdc.js"></script>
+    <script src="frontend/inv-purchase-orders.js"></script>
+    <script src="frontend/inv-suppliers.js"></script>
+    <script src="frontend/inv-reorder.js"></script>
+    <script src="frontend/inv-stocktake.js"></script>
+    <script src="frontend/inv-reports.js"></script>
+    <script src="frontend/inv-compliance.js"></script>
     <script>
     // Sidebar collapse toggle (desktop)
     function toggleSidebarCollapse() {
@@ -1237,7 +1204,6 @@
             const k = data.kpis;
             const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
             el('kpiBelowReorder', k.itemsBelowReorder || 0);
-            el('kpiBatchQA', k.pendingBatchQA || 0);
             el('kpiPOsPending', k.purchaseOrders?.pending || 0);
             el('kpiPOsApproved', k.purchaseOrders?.approved || 0);
             el('kpiExpiring', k.expiringItems30Days || 0);
@@ -1254,10 +1220,10 @@
         modal.id = 'branchPickerModal';
         modal.style.cssText = 'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1060;align-items:center;justify-content:center;';
         modal.innerHTML = `
-            <div style="background:#fff;border-radius:12px;width:90%;max-width:480px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-                <div style="background:linear-gradient(90deg,var(--gold-dark),var(--gold));color: var(--white);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
-                    <h5 style="margin:0;font-family: 'Oswald', sans-serif;font-size:1.2rem;"><i class="fas fa-camera"></i> Stock Take — Select Branch</h5>
-                    <button onclick="document.getElementById('branchPickerModal').remove()" style="background:none;border:none;color: var(--white);font-size:1.3rem;cursor:pointer;"><i class="fas fa-times"></i></button>
+            <div style="background:#1A1A1A;border:1px solid #2A2A2A;border-radius:12px;width:90%;max-width:480px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+                <div style="background:linear-gradient(90deg,var(--gold-dark),var(--gold));color: var(--or-white);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
+                    <h5 style="margin:0;font-family: 'Cinzel', sans-serif;font-size:1.2rem;"><i class="fas fa-camera"></i> Stock Take — Select Branch</h5>
+                    <button onclick="document.getElementById('branchPickerModal').remove()" style="background:none;border:none;color: var(--or-white);font-size:1.3rem;cursor:pointer;"><i class="fas fa-times"></i></button>
                 </div>
                 <div id="branchPickerBody" style="padding:16px;max-height:400px;overflow-y:auto;">
                     ${branchesHtml}
@@ -1280,11 +1246,11 @@
 
             document.getElementById('branchPickerBody').innerHTML = branches.map(b => `
                 <button onclick="launchStocktakeForBranch('${b._id}', '${(b.name || '').replace(/'/g, "\\'")}')"
-                    style="display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;margin-bottom:8px;background: var(--black);border:2px solid rgba(124, 58, 237,0.15);border-radius:10px;cursor:pointer;text-align:left;transition:all 0.2s;"
-                    onmouseover="this.style.borderColor='var(--gold)';this.style.background='#fff'" onmouseout="this.style.borderColor='rgba(124, 58, 237,0.15)';this.style.background='var(--cream)'">
-                    <i class="fas fa-store" style="font-size:1.2rem;color: var(--purple);"></i>
+                    style="display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;margin-bottom:8px;background: var(--or-black);border:2px solid rgba(63, 192, 65,0.15);border-radius:10px;cursor:pointer;text-align:left;transition:all 0.2s;"
+                    onmouseover="this.style.borderColor='var(--gold)';this.style.background='#222222'" onmouseout="this.style.borderColor='rgba(63, 192, 65,0.15)';this.style.background='var(--cream)'">
+                    <i class="fas fa-store" style="font-size:1.2rem;color: var(--or-gold);"></i>
                     <div>
-                        <div style="font-weight:600;color:var(--green-dark);">${b.name}</div>
+                        <div style="font-weight:600;color:#FAFAFA;">${b.name}</div>
                         <div style="font-size:0.8rem;color:#888;">${b.address?.city || b.address?.suburb || (typeof b.address === 'string' ? b.address : '') || b.branchCode}</div>
                     </div>
                     <i class="fas fa-arrow-right" style="margin-left:auto;color:var(--gold);"></i>
@@ -1315,6 +1281,208 @@
         document.getElementById('branchPickerModal').remove();
         window.location.href = '/stocktake-app.html';
     }
+
+    // Feature flags — toggle sections on/off without removing code
+    const ENABLE_SECTION21_COMPLIANCE = false; // Set true to show Section 21 Compliance
+    const ENABLE_BATCH_MANAGEMENT = false;     // Set true to show Batch Management
+
+    // Apply feature flags on load
+    document.addEventListener('DOMContentLoaded', () => {
+        if (ENABLE_SECTION21_COMPLIANCE) {
+            const navItem = document.getElementById('nav-compliance');
+            if (navItem) navItem.style.display = '';
+        }
+    });
+
+    // ═══════════════════════════════════════════════════
+    // STOCKTAKE COMPLIANCE — Tiered Count Monitoring
+    // ═══════════════════════════════════════════════════
+
+    async function loadInvComplianceData() {
+        const grid = document.getElementById('invComplianceGrid');
+        if (!grid) return;
+
+        const t = getToken();
+        if (!t) return;
+
+        grid.innerHTML = '<div class="col-12 text-center py-4"><div class="spinner-border text-success" role="status"></div><p class="mt-2 mb-0 text-muted">Loading...</p></div>';
+
+        try {
+            const resp = await fetch(`${API_URL}/stocktake/compliance/all-branches`, {
+                headers: { 'Authorization': `Bearer ${t}` }
+            });
+            const data = await resp.json();
+
+            if (!data.success || !data.branches || data.branches.length === 0) {
+                grid.innerHTML = '<div class="col-12"><p class="text-muted text-center py-3">No branch data available</p></div>';
+                return;
+            }
+
+            let overdueCount = 0;
+            grid.innerHTML = data.branches.map(b => {
+                const dailyOk = b.dailyCompleted;
+                const weeklyOk = b.weeklyCompleted;
+                const monthlyOk = b.monthlyCompleted;
+                if (!dailyOk) overdueCount++;
+
+                const daysText = b.daysSinceLastHighValueCount === null ? 'Never' :
+                    b.daysSinceLastHighValueCount === 0 ? 'Today' :
+                    b.daysSinceLastHighValueCount + 'd ago';
+                const daysColor = b.daysSinceLastHighValueCount === 0 ? '#22c55e' :
+                    b.daysSinceLastHighValueCount <= 1 ? '#f59e0b' : '#ef4444';
+                const borderColor = dailyOk ? 'rgba(201,168,76,0.3)' : 'rgba(239,68,68,0.4)';
+
+                return `
+                <div class="col-12 col-md-6 col-xl-4 mb-3">
+                    <div style="background:#0A0A0A;border:2px solid ${borderColor};border-radius:12px;padding:16px;height:100%;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <h6 style="margin:0;font-weight:700;color:#FAFAFA;font-family:'Cinzel',sans-serif;font-size:1.05rem;">
+                                <i class="fas fa-store" style="color:var(--or-gold);margin-right:6px;"></i>${b.branchName}
+                            </h6>
+                            <span style="font-size:0.75rem;color:${daysColor};font-weight:600;">HV: ${daysText}</span>
+                        </div>
+                        <div style="display:flex;gap:12px;justify-content:space-around;">
+                            <div style="text-align:center;flex:1;">
+                                <i class="fas fa-${dailyOk ? 'check-circle' : 'times-circle'}" style="font-size:1.6rem;color:${dailyOk ? '#22c55e' : '#ef4444'};display:block;margin-bottom:4px;"></i>
+                                <div style="font-size:0.65rem;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Daily</div>
+                            </div>
+                            <div style="text-align:center;flex:1;">
+                                <i class="fas fa-${weeklyOk ? 'check-circle' : 'circle'}" style="font-size:1.6rem;color:${weeklyOk ? '#22c55e' : (new Date().getDay() >= 3 ? '#f59e0b' : '#555')};display:block;margin-bottom:4px;"></i>
+                                <div style="font-size:0.65rem;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Weekly</div>
+                            </div>
+                            <div style="text-align:center;flex:1;">
+                                <i class="fas fa-${monthlyOk ? 'check-circle' : 'circle'}" style="font-size:1.6rem;color:${monthlyOk ? '#22c55e' : (new Date().getDate() >= 15 ? '#f59e0b' : '#555')};display:block;margin-bottom:4px;"></i>
+                                <div style="font-size:0.65rem;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Monthly</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;display:flex;gap:6px;">
+                            <button onclick="loadBranchShrinkage('${b.branchId}')" style="flex:1;padding:8px;background:#1A1A1A;border:1px solid #333;border-radius:8px;color:#ccc;font-size:0.75rem;cursor:pointer;font-weight:600;">
+                                <i class="fas fa-chart-line"></i> Shrinkage
+                            </button>
+                            <button onclick="triggerDailyCount('${b.branchId}')" style="flex:1;padding:8px;background:${dailyOk ? '#1A1A1A' : 'rgba(239,68,68,0.15)'};border:1px solid ${dailyOk ? '#333' : '#ef4444'};border-radius:8px;color:${dailyOk ? '#888' : '#ef4444'};font-size:0.75rem;cursor:pointer;font-weight:600;" ${dailyOk ? 'disabled' : ''}>
+                                <i class="fas fa-${dailyOk ? 'check' : 'play'}"></i> ${dailyOk ? 'Done' : 'Trigger Count'}
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            // Update alert badge
+            const badge = document.getElementById('complianceAlertBadge');
+            if (badge) {
+                if (overdueCount > 0) {
+                    badge.textContent = overdueCount;
+                    badge.style.display = '';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+
+        } catch (err) {
+            console.error('Compliance load error:', err);
+            grid.innerHTML = '<div class="col-12"><div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> Error loading compliance data</div></div>';
+        }
+    }
+
+    async function triggerDailyCount(branchId) {
+        const t = getToken();
+        if (!t) return;
+
+        try {
+            const resp = await fetch(`${API_URL}/stocktake/schedule/daily-high-value`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${t}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ branchId })
+            });
+            const data = await resp.json();
+
+            if (data.success) {
+                showToast(`Daily count session created: ${data.session?.sessionNumber || 'OK'}`, 'success');
+                loadInvComplianceData(); // Refresh
+            } else {
+                showToast(data.message || 'Could not create session', 'warning');
+            }
+        } catch (err) {
+            showToast('Error creating daily count', 'error');
+        }
+    }
+
+    async function loadBranchShrinkage(branchId) {
+        const container = document.getElementById('invShrinkageTrends');
+        if (!container) return;
+
+        const t = getToken();
+        container.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-success"></div> Loading...</div>';
+
+        try {
+            const resp = await fetch(`${API_URL}/stocktake/shrinkage-trends/${branchId}?days=30`, {
+                headers: { 'Authorization': `Bearer ${t}` }
+            });
+            const data = await resp.json();
+
+            if (!data.success || !data.products || data.products.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center py-3">No shrinkage data for this branch in the last 30 days</p>';
+                return;
+            }
+
+            // Only show shrinking items
+            const shrinking = data.products.filter(p => p.trend === 'shrinking');
+            const rest = data.products.filter(p => p.trend !== 'shrinking');
+
+            container.innerHTML = `
+                ${shrinking.length > 0 ? `
+                <div class="alert" style="background: rgba(239,68,68,0.1); border-left: 4px solid #ef4444; margin-bottom: 12px;">
+                    <strong style="color: #ef4444;"><i class="fas fa-exclamation-triangle"></i> ${shrinking.length} product(s) showing consistent shrinkage</strong>
+                </div>
+                ` : '<div class="alert" style="background: rgba(34,197,94,0.1); border-left: 4px solid #22c55e; margin-bottom: 12px;"><strong style="color: #22c55e;"><i class="fas fa-check-circle"></i> No consistent shrinkage patterns detected</strong></div>'}
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover" style="font-size: 0.85rem;">
+                        <thead style="background: #1A1A1A;">
+                            <tr>
+                                <th style="color: #ccc;">Product</th>
+                                <th style="color: #ccc;">SKU</th>
+                                <th style="color: #ccc;">Avg Variance</th>
+                                <th style="color: #ccc;">Sessions</th>
+                                <th style="color: #ccc;">Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.products.map(p => {
+                                const trendColor = p.trend === 'shrinking' ? '#ef4444' : p.trend === 'growing' ? '#f59e0b' : '#22c55e';
+                                const trendIcon = p.trend === 'shrinking' ? 'arrow-down' : p.trend === 'growing' ? 'arrow-up' : 'minus';
+                                return `<tr style="${p.trend === 'shrinking' ? 'background: rgba(239,68,68,0.05);' : ''}">
+                                    <td style="font-weight: 600; color: #FAFAFA;">${p.name}</td>
+                                    <td style="color: #888;">${p.sku || '-'}</td>
+                                    <td style="color: ${p.avgVariance < 0 ? '#ef4444' : '#22c55e'}; font-weight: 600;">${p.avgVariance >= 0 ? '+' : ''}${p.avgVariance.toFixed(1)}</td>
+                                    <td style="color: #888;">${p.countSessions}</td>
+                                    <td><span style="color: ${trendColor}; font-weight: 600;"><i class="fas fa-${trendIcon}"></i> ${p.trend}</span></td>
+                                </tr>`;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        } catch (err) {
+            console.error('Shrinkage load error:', err);
+            container.innerHTML = '<div class="alert alert-danger">Error loading shrinkage data</div>';
+        }
+    }
+
+    // Auto-load compliance when the section is shown
+    const _origSwitchSection = typeof switchSection === 'function' ? switchSection : null;
+    document.addEventListener('DOMContentLoaded', () => {
+        // Hook into nav clicks to load compliance on first visit
+        const complianceNav = document.querySelector('a[href="#stocktake-compliance"]');
+        if (complianceNav) {
+            let complianceLoaded = false;
+            complianceNav.addEventListener('click', () => {
+                if (!complianceLoaded) {
+                    setTimeout(() => loadInvComplianceData(), 100);
+                    complianceLoaded = true;
+                }
+            });
+        }
+    });
     </script>
 </body>
 </html>

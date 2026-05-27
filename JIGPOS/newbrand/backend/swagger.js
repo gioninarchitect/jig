@@ -1,6 +1,6 @@
 /**
  * Swagger API Documentation Configuration
- * OpenAPI 3.0 specification for JIG Craft Cannabis REST API
+ * OpenAPI 3.0 specification for Origin by ILCO Farming REST API
  */
 
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -10,17 +10,17 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'JIG Craft Cannabis API',
+      title: 'Origin by ILCO Farming API',
       version: '1.0.0',
       description: 'Cannabis Cultivation & Wellness E-commerce Platform REST API',
       contact: {
-        name: 'JIG Craft Cannabis',
-        email: 'hello@jig.cleva-ai.co.za',
-        url: 'https://jig.cleva-ai.co.za'
+        name: 'Origin by ILCO Farming',
+        email: 'origin@cleva-ai.co.za',
+        url: 'https://origin.cleva-ai.co.za'
       },
       license: {
         name: 'Proprietary',
-        url: 'https://jig.cleva-ai.co.za/license'
+        url: 'https://origin.cleva-ai.co.za/license'
       }
     },
     servers: [
@@ -29,7 +29,7 @@ const swaggerOptions = {
         description: 'Development server'
       },
       {
-        url: 'https://jig.cleva-ai.co.za',
+        url: 'https://origin.cleva-ai.co.za',
         description: 'Production server'
       }
     ],

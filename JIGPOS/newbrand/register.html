@@ -3,38 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Create Account - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -44,7 +53,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -53,13 +62,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -70,7 +79,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--black);
+            background: #0A0A0A;
             position: relative;
             overflow-x: hidden;
             padding: 2rem 1rem;
@@ -120,11 +129,11 @@
         }
 
         .register-card {
-            background: var(--white);
+            background: var(--or-dark);
             border-radius: 16px;
             padding: 2.5rem;
-            box-shadow: 0 4px 24px rgba(109, 40, 217,0.12);
-            border: 1px solid rgba(124, 58, 237,0.1);
+            box-shadow: 0 4px 24px rgba(42, 140, 44,0.12);
+            border: 1px solid rgba(63, 192, 65,0.1);
         }
 
         .logo-container {
@@ -145,9 +154,9 @@
         }
 
         .brand-name {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.75rem;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
             letter-spacing: 0.02em;
             line-height: 1;
@@ -163,9 +172,9 @@
         }
 
         .register-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.5rem;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
             text-align: center;
             margin-bottom: 0.4rem;
@@ -173,7 +182,7 @@
 
         .register-subtitle {
             text-align: center;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             font-size: 0.875rem;
             margin-bottom: 1.5rem;
         }
@@ -192,7 +201,7 @@
             display: block;
             font-size: 0.75rem;
             font-weight: 600;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             margin-bottom: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -201,7 +210,7 @@
         .form-input {
             width: 100%;
             padding: 0.875rem 1rem;
-            background: var(--black);
+            background: var(--or-black);
             border: 2px solid transparent;
             border-radius: 8px;
             font-size: 1rem;
@@ -212,18 +221,18 @@
 
         .form-input:focus {
             outline: none;
-            border-color: var(--purple);
-            background: var(--white);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237,0.1);
+            border-color: var(--or-gold);
+            background: var(--or-white);
+            box-shadow: 0 0 0 3px rgba(63, 192, 65,0.1);
         }
 
         .form-input::placeholder {
-            color: var(--gray-500);
+            color: var(--or-grey-2);
         }
 
         .password-requirements {
             font-size: 0.75rem;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-top: 0.4rem;
         }
 
@@ -239,14 +248,14 @@
         .terms-checkbox input[type="checkbox"] {
             width: 20px;
             height: 20px;
-            accent-color: var(--purple);
+            accent-color: var(--or-gold);
             margin-top: 2px;
             flex-shrink: 0;
             cursor: pointer;
         }
 
         .terms-checkbox a {
-            color: var(--purple);
+            color: var(--or-gold);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.2s;
@@ -259,11 +268,11 @@
         .btn-register {
             width: 100%;
             padding: 1rem;
-            background: var(--green);
-            color: var(--white);
+            background: var(--or-gold);
+            color: var(--or-white);
             border: none;
             border-radius: 8px;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.125rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -274,7 +283,7 @@
         .btn-register:hover {
             background: var(--green-dark);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(109, 40, 217,0.25);
+            box-shadow: 0 4px 12px rgba(42, 140, 44,0.25);
         }
 
         .btn-register:active {
@@ -291,7 +300,7 @@
             display: flex;
             align-items: center;
             margin: 1.5rem 0;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -311,12 +320,12 @@
 
         .login-link {
             text-align: center;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             font-size: 0.9rem;
         }
 
         .login-link a {
-            color: var(--purple);
+            color: var(--or-gold);
             font-weight: 600;
             text-decoration: none;
             transition: color 0.2s;
@@ -360,15 +369,15 @@
         .benefits {
             margin-top: 1.5rem;
             padding: 1.25rem;
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 12px;
-            border: 1px solid rgba(124, 58, 237,0.1);
+            border: 1px solid rgba(63, 192, 65,0.1);
         }
 
         .benefits-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1rem;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
             margin-bottom: 0.75rem;
             letter-spacing: 0.02em;
@@ -405,7 +414,7 @@
             top: 50%;
             transform: translateY(-50%);
             font-size: 10px;
-            color: var(--white);
+            color: var(--or-white);
             font-weight: bold;
         }
 
@@ -418,7 +427,7 @@
         }
 
         .toast {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 8px;
             padding: 1rem 1.5rem;
             box-shadow: 0 4px 24px rgba(0,0,0,0.15);
@@ -466,14 +475,13 @@
         <div class="register-card">
             <div class="logo-container">
                 <div class="logo">
-                    <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="width:100%;height:100%;object-fit:contain;">
+                    <img src="images/origin-logo.png" alt="Origin by ILCO Farming" style="width:100%;height:100%;object-fit:contain;">
                 </div>
-                <div class="brand-name">JIG Craft Cannabis</div>
-                <div class="brand-tagline">"Craft Cannabis"</div>
+                <div class="brand-tagline">Premium Cannabis Care</div>
             </div>
 
             <h1 class="register-title">Create Account</h1>
-            <p class="register-subtitle">Join the JIG Craft Cannabis community</p>
+            <p class="register-subtitle">Join the Origin community</p>
 
             <div class="error-message" id="errorMessage"></div>
             <div class="success-message" id="successMessage"></div>
@@ -539,9 +547,9 @@
         </div>
     </div>
 
-    <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-utils.js"></script>
+    <script src="frontend/or-auth.js"></script>
     <script>
         // Handle registration
         async function handleRegister(e) {
@@ -618,7 +626,7 @@
 
                     successMessage.textContent = 'Account created successfully! Redirecting...';
                     successMessage.classList.add('show');
-                    showToast('Welcome to JIG Craft Cannabis!', 'success');
+                    showToast('Welcome to Origin!', 'success');
 
                     // Redirect to dashboard
                     setTimeout(() => {

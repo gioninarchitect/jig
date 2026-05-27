@@ -1,13 +1,18 @@
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { SkeletonPage } from '../../components/Skeleton';
-import { Layers, CheckCircle2, XCircle, Clock } from 'lucide-react';
+import { Layers, CheckCircle2, XCircle, Clock, FileCheck, RefreshCw, Tags, AlertTriangle } from 'lucide-react';
+import { useRBAC } from '../../hooks/useRBAC';
+import { useToastStore } from '../../stores/toastStore';
 import api from '../../services/api';
 
 const TESTS = ['POTENCY', 'PESTICIDE', 'HEAVY_METALS', 'MICROBIAL', 'MYCOTOXIN', 'RESIDUAL_SOLVENTS', 'MOISTURE', 'FOREIGN_MATTER'];
 
 export default function BatchDetailPage() {
   const { id } = useParams();
+  const { hasMinLevel } = useRBAC();
+  const addToast = useToastStore(s => s.addToast);
+  const qc = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ['batch', id],
     queryFn: () => api.get(`/batches/${id}`).then(r => r.data.batch),
@@ -17,6 +22,12 @@ export default function BatchDetailPage() {
     queryKey: ['batch-chain', id],
     queryFn: () => api.get(`/batches/${id}/chain`).then(r => r.data.events),
     enabled: !!id,
+  });
+
+  const syncBcrMut = useMutation({
+    mutationFn: () => api.post(`/batches/${id}/bcr/sync`),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['batch', id] }); addToast('success', 'BCR synced'); },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
   });
 
   if (isLoading) return <SkeletonPage />;
@@ -31,6 +42,51 @@ export default function BatchDetailPage() {
         <div>
           <h1 className="text-2xl font-bold font-mono text-primary">{data.batchNumber}</h1>
           <p className="text-sm text-white/50">{data.strain} &middot; {data.totalWeight.toFixed(0)}g &middot; {data.batchPlants?.length || 0} plants</p>
+        </div>
+      </div>
+
+      {/* Batch Cultivation Record */}
+      <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div className="flex items-start gap-3">
+            <FileCheck size={18} className="text-primary mt-0.5" />
+            <div>
+              <h2 className="text-sm font-semibold text-white/70">Batch Cultivation Record</h2>
+              <p className="text-xs text-white/40">Auto-created from batch number. Links SOP checklists, labels, deviations, mortality, environmental logs, and signatures.</p>
+            </div>
+          </div>
+          {hasMinLevel(2) && (
+            <button onClick={() => syncBcrMut.mutate()} className="px-3 py-2 bg-primary/10 border border-primary/30 rounded-lg text-xs text-primary flex items-center gap-1.5">
+              <RefreshCw size={12} /> Sync BCR
+            </button>
+          )}
+        </div>
+        {!data.cultivationRecord ? (
+          <p className="text-white/30 text-sm">No BCR created yet. Sync to generate it.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
+            <div className="bg-black/20 border border-white/[0.06] rounded-lg p-3"><div className="text-[10px] text-white/25">Record</div><div className="text-sm text-primary font-mono">{data.cultivationRecord.recordNumber}</div></div>
+            <div className="bg-black/20 border border-white/[0.06] rounded-lg p-3"><div className="text-[10px] text-white/25">Status</div><div className="text-sm text-white">{data.cultivationRecord.status}</div></div>
+            <div className="bg-black/20 border border-white/[0.06] rounded-lg p-3"><div className="text-[10px] text-white/25">Linked Checklists</div><div className="text-sm text-white">{data.cultivationRecord.checklistSummary?.length || 0}</div></div>
+            <div className="bg-black/20 border border-white/[0.06] rounded-lg p-3"><div className="text-[10px] text-white/25">Open Deviations</div><div className="text-sm text-white">{data.cultivationRecord.deviations?.length || 0}</div></div>
+          </div>
+        )}
+      </div>
+
+      {/* Labels and deviation controls */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-3"><Tags size={16} className="text-primary" /><h2 className="text-sm font-semibold text-white/60">Batch Labels</h2></div>
+          {!data.labelRecords?.length ? <p className="text-white/30 text-sm">No label records</p> : data.labelRecords.map((l: any) => (
+            <div key={l.id} className="flex justify-between py-2 border-b border-white/5 text-sm">
+              <span className="font-mono text-primary">{l.labelCode}</span>
+              <span className="text-xs text-white/40">{l.status}</span>
+            </div>
+          ))}
+        </div>
+        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-3"><AlertTriangle size={16} className="text-amber-300" /><h2 className="text-sm font-semibold text-white/60">Deviation Control</h2></div>
+          <p className="text-sm text-white/45">Any failed checklist, mortality spike, label exception, environmental excursion, or QA hold should become a deviation or governance ticket and remain visible on the BCR.</p>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Frontend Utilities
+ * PureGro Premium Cannabis Care - Frontend Utilities
  */
 
 /**

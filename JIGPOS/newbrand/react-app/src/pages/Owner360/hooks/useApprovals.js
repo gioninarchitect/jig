@@ -26,6 +26,46 @@ const APPROVAL_SOURCES = [
     rejectEndpoint: (id) => `/purchase-orders/${id}/reject`,
   },
   {
+    key: 'transfers',
+    label: 'Transfers',
+    endpoint: '/stock-transfers?status=pending&limit=20',
+    extract: (res) => (res.data?.transfers || res.data?.data || []).map(t => {
+      const totalItems = (t.items || []).reduce((sum, i) => sum + (i.quantity || 0), 0);
+      const totalValue = (t.items || []).reduce((sum, i) => sum + ((i.unitCost || 0) * (i.quantity || 0)), 0);
+      return {
+        id: t._id,
+        type: 'transfer',
+        title: `Transfer ${t.transferNumber || t._id.slice(-6)}`,
+        subtitle: `${t.fromBranch?.name || 'HQ'} → ${t.toBranch?.name || 'Branch'}  (${totalItems} items)`,
+        amount: totalValue || null,
+        branch: t.toBranch?.name || '',
+        priority: t.priority || 'normal',
+        createdAt: t.createdAt,
+        raw: t,
+      };
+    }),
+    approveEndpoint: (id) => `/stock-transfers/${id}/approve`,
+    rejectEndpoint: (id) => `/stock-transfers/${id}/reject`,
+  },
+  {
+    key: 'batches',
+    label: 'Batch QA',
+    endpoint: '/batches?qaStatus=pending&limit=20',
+    extract: (res) => (res.data?.batches || res.data?.data || []).map(b => ({
+      id: b._id,
+      type: 'batch',
+      title: `Batch ${b.batchId || b._id.slice(-6)}`,
+      subtitle: b.product?.name || b.productName || 'Unknown Product',
+      amount: null,
+      branch: b.currentLocation?.name || '',
+      priority: 'normal',
+      createdAt: b.createdAt,
+      raw: b,
+    })),
+    approveEndpoint: (id) => `/batches/${id}/qa-approve`,
+    rejectEndpoint: (id) => `/batches/${id}/qa-reject`,
+  },
+  {
     key: 'cashups',
     label: 'Cashups',
     endpoint: '/pos/cashup/pending',
@@ -126,33 +166,34 @@ export default function useApprovals() {
 
   const totalCount = approvals.length;
 
+  const findSource = useCallback((itemType) => {
+    const typeToKey = {
+      purchase_order: 'purchaseOrders',
+      transfer: 'transfers',
+      batch: 'batches',
+      cashup: 'cashups',
+      stocktake: 'stocktakes',
+      payment: 'payments',
+    };
+    return APPROVAL_SOURCES.find(s => s.key === typeToKey[itemType]);
+  }, []);
+
   const approve = useCallback(async (item, notes = '') => {
-    const src = APPROVAL_SOURCES.find(s => s.key === item.type + 's' || s.extract.toString().includes(item.type));
-    // Find the right source by item.type
-    const source = APPROVAL_SOURCES.find(s => {
-      if (item.type === 'purchase_order') return s.key === 'purchaseOrders';
-      if (item.type === 'cashup') return s.key === 'cashups';
-      if (item.type === 'stocktake') return s.key === 'stocktakes';
-      if (item.type === 'payment') return s.key === 'payments';
-      return false;
-    });
+    const source = findSource(item.type);
     if (!source?.approveEndpoint) return false;
 
     try {
       const res = await api.post(source.approveEndpoint(item.id), { notes });
       if (res.data?.success) {
-        await load(); // Refresh
+        await load();
         return true;
       }
     } catch { /* handled by caller */ }
     return false;
-  }, [load]);
+  }, [load, findSource]);
 
   const reject = useCallback(async (item, reason = '') => {
-    const source = APPROVAL_SOURCES.find(s => {
-      if (item.type === 'purchase_order') return s.key === 'purchaseOrders';
-      return false;
-    });
+    const source = findSource(item.type);
     if (!source?.rejectEndpoint) return false;
 
     try {
@@ -163,7 +204,7 @@ export default function useApprovals() {
       }
     } catch { /* handled by caller */ }
     return false;
-  }, [load]);
+  }, [load, findSource]);
 
   return { approvals, counts, totalCount, loading, approve, reject, refresh: load };
 }

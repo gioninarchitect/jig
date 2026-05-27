@@ -1,5 +1,5 @@
 // dash-products.js — Lifestyle products, add to cart, medical portal, cart count
-// Depends on: config.js (API_URL), dbc-utils.js (showNotification)
+// Depends on: config.js (API_URL), or-utils.js (showNotification)
 // Depends on: dash-core.js (showConfirmModal), dash-cart.js (loadCart, toggleCart)
 
 // ===== LIFESTYLE PRODUCTS =====
@@ -11,7 +11,7 @@ async function loadLifestyleProducts() {
 
     try {
         const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-        const response = await fetch('/api/v1/products?track=lifestyle&limit=500', {
+        const response = await fetch(`${API_URL}/products?track=lifestyle&limit=500`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -183,7 +183,7 @@ async function addLifestyleProductToCart(productId) {
                     name: product.name,
                     price: product.price,
                     quantity: 1,
-                    image: product.images && product.images.length > 0 ? product.images[0].url : '/images/jig-logo-nobg.png'
+                    image: product.images && product.images.length > 0 ? product.images[0].url : '/images/origin-logo.png'
                 });
             }
 

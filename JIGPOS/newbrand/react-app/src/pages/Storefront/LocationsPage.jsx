@@ -2,21 +2,14 @@
 import { useState, useMemo } from 'react';
 
 const LOCATIONS = [
-  { name: 'Ormonde HQ', subtitle: 'Johannesburg South, Gauteng', province: 'Gauteng', type: 'hq', address: '123 Main Road, Ormonde, Johannesburg South, 2091', phone: '+27 11 123 4567', email: 'ormonde@jig.cleva-ai.co.za', medical: true, hours: [['Mon-Sat', '9:00 - 17:00'], ['Sun', 'Closed']] },
-  { name: 'Spruitview', subtitle: 'Ekurhuleni, Gauteng', province: 'Gauteng', type: 'retail', address: '45 Spruitview Avenue, Ekurhuleni, 1570', phone: '+27 11 234 5678', email: 'spruitview@jig.cleva-ai.co.za', medical: false, hours: [['Mon-Sat', '9:00 - 17:00'], ['Sun', 'Closed']] },
-  { name: 'Rustenburg', subtitle: 'Rustenburg, North West', province: 'North West', type: 'retail', address: '78 Heystek Street, Rustenburg Central, 0299', phone: '+27 14 345 6789', email: 'rustenburg@jig.cleva-ai.co.za', medical: false, hours: [['Mon-Sat', '9:00 - 17:00'], ['Sun', 'Closed']] },
-  { name: 'Klerksdorp', subtitle: 'Klerksdorp, North West', province: 'North West', type: 'retail', address: '23 Central Avenue, Klerksdorp Central, 2570', phone: '+27 18 456 7890', email: 'klerksdorp@jig.cleva-ai.co.za', medical: false, hours: [['Mon-Sat', '9:00 - 17:00'], ['Sun', 'Closed']] },
-  { name: 'Mayfair', subtitle: 'Johannesburg, Gauteng', province: 'Gauteng', type: 'retail', address: '156 Central Road, Mayfair, Johannesburg, 2092', phone: '+27 11 567 8901', email: 'mayfair@jig.cleva-ai.co.za', medical: false, hours: [['Mon-Sat', '9:00 - 17:00'], ['Sun', 'Closed']] },
-  { name: 'Ladybrand', subtitle: 'Ladybrand, Free State', province: 'Free State', type: 'retail', address: '34 Church Street, Ladybrand Central, 9745', phone: '+27 51 678 9012', email: 'ladybrand@jig.cleva-ai.co.za', medical: false, hours: [['Mon-Sat', '9:00 - 17:00'], ['Sun', 'Closed']] },
-  { name: 'Ficksburg', subtitle: 'Ficksburg, Free State', province: 'Free State', type: 'retail', address: '12 Voortrekker Street, Ficksburg Central, 9730', phone: '+27 51 789 0123', email: 'ficksburg@jig.cleva-ai.co.za', medical: false, hours: [['Mon-Sat', '9:00 - 17:00'], ['Sun', 'Closed']] },
-  { name: 'Wonderboom', subtitle: 'Pretoria, Gauteng', province: 'Gauteng', type: 'retail', address: '89 Lavender Road, Wonderboom, Pretoria, 0182', phone: '+27 12 890 1234', email: 'wonderboom@jig.cleva-ai.co.za', medical: false, hours: [['Mon-Sat', '9:00 - 17:00'], ['Sun', 'Closed']] },
+  { name: 'Potchefstroom', subtitle: 'Potchefstroom, North West', province: 'North West', type: 'hq', address: 'Potchefstroom, North West', phone: '+27 67 291 9110', email: 'hello@origin.cleva-ai.co.za', medical: true, hours: [['Mon-Sat', '9:00 - 17:00'], ['Sun', 'Closed']] },
+  { name: 'Online Store', subtitle: 'Nationwide Delivery', province: 'Online', type: 'retail', address: 'origin.cleva-ai.co.za', phone: '+27 67 291 9110', email: 'hello@origin.cleva-ai.co.za', medical: false, hours: [['24/7', 'Always Open']] },
 ];
 
 const PROVINCES = [
-  { label: 'All Provinces', value: 'All' },
-  { label: 'Gauteng (4)', value: 'Gauteng' },
-  { label: 'North West (2)', value: 'North West' },
-  { label: 'Free State (2)', value: 'Free State' },
+  { label: 'All Locations', value: 'All' },
+  { label: 'North West (1)', value: 'North West' },
+  { label: 'Online (1)', value: 'Online' },
 ];
 
 export default function LocationsPage() {
@@ -35,15 +28,15 @@ export default function LocationsPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative py-20 sm:py-28 overflow-hidden" style={{ background: 'linear-gradient(160deg, #7C3AED 0%, #6D28D9 50%, #1E1E1E 100%)' }}>
-        <div className="absolute top-20 -left-32 w-96 h-96 bg-jig-amber/5 rounded-full blur-3xl" />
+      <section className="relative py-20 sm:py-28 overflow-hidden" style={{ background: 'linear-gradient(160deg, #C9A84C 0%, #8B6914 50%, #1A1A1A 100%)' }}>
+        <div className="absolute top-20 -left-32 w-96 h-96 bg-or-gold/5 rounded-full blur-3xl" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <span className="inline-block px-5 py-2 text-xs font-bold uppercase tracking-widest rounded-full mb-6" style={{ background: 'linear-gradient(135deg, #D97706, #E8C45A)', color: '#1E1E1E' }}>
-            8 Locations Across SA
+          <span className="inline-block px-5 py-2 text-xs font-bold uppercase tracking-widest rounded-full mb-6" style={{ background: 'linear-gradient(135deg, #F0A500, #E8C45A)', color: '#1A1A1A' }}>
+            2 Locations
           </span>
           <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-white uppercase mb-4">Our Collection Points</h1>
           <p className="text-lg text-white/70 max-w-2xl mx-auto mb-10">
-            Find a JIG Craft Cannabis collection point near you. Quality products and expert guidance at every location.
+            Find an Origin by ILCO Farming collection point near you. Quality products and expert guidance at every location.
           </p>
           <div className="max-w-lg mx-auto relative">
             <input
@@ -51,7 +44,7 @@ export default function LocationsPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by city, area, or province..."
-              className="w-full px-5 py-4 pr-14 bg-white border-2 border-gray-200 rounded-xl text-white placeholder:text-gray-400 focus:outline-none focus:border-jig-amber focus:shadow-[0_0_0_4px_rgba(212,175,55,0.2)] transition-all"
+              className="w-full px-5 py-4 pr-14 bg-white border-2 border-gray-200 rounded-xl text-white placeholder:text-gray-400 focus:outline-none focus:border-or-gold focus:shadow-[0_0_0_4px_rgba(212,175,55,0.2)] transition-all"
             />
             <svg className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -61,7 +54,7 @@ export default function LocationsPage() {
       </section>
 
       {/* Province filter + cards */}
-      <section className="py-16 sm:py-20 bg-jig-slate">
+      <section className="py-16 sm:py-20 bg-origin-slate">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Province buttons */}
           <div className="flex flex-wrap gap-3 mb-10 justify-center">
@@ -71,8 +64,8 @@ export default function LocationsPage() {
                 onClick={() => setProvince(p.value)}
                 className={`px-5 py-2.5 text-sm font-semibold rounded-xl border-2 transition-all ${
                   province === p.value
-                    ? 'bg-jig-purple text-white border-jig-purple'
-                    : 'bg-white text-jig-purple-dark border-gray-200 hover:bg-jig-purple hover:text-white hover:border-jig-purple'
+                    ? 'bg-or-gold text-white border-or-gold'
+                    : 'bg-white text-or-gold-dark border-gray-200 hover:bg-or-gold hover:text-white hover:border-or-gold'
                 }`}
               >
                 {p.label}
@@ -84,14 +77,14 @@ export default function LocationsPage() {
           {filtered.length === 0 ? (
             <p className="text-center text-gray-400 py-12">No locations match your search.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filtered.map((loc) => (
                 <div
                   key={loc.name}
                   className={`bg-white rounded-2xl p-7 border-2 transition-all hover:-translate-y-1 ${
                     loc.type === 'hq'
-                      ? 'border-jig-amber shadow-[0_0_20px_rgba(212,175,55,0.15)]'
-                      : 'border-gray-200 hover:border-jig-purple'
+                      ? 'border-or-gold shadow-[0_0_20px_rgba(212,175,55,0.15)]'
+                      : 'border-gray-200 hover:border-or-gold'
                   }`}
                   style={{ boxShadow: loc.type !== 'hq' ? '0 4px 15px rgba(58,95,72,0.08)' : undefined }}
                 >
@@ -103,8 +96,8 @@ export default function LocationsPage() {
                     </div>
                     <span className={`px-3 py-1 text-[0.7rem] font-bold uppercase rounded-full whitespace-nowrap ${
                       loc.type === 'hq'
-                        ? 'bg-gradient-to-r from-jig-amber to-jig-amber-light text-white'
-                        : 'bg-gray-100 text-jig-purple'
+                        ? 'bg-gradient-to-r from-or-gold to-or-gold-light text-white'
+                        : 'bg-gray-100 text-or-gold'
                     }`}>
                       {loc.type === 'hq' ? 'HQ + Section 21' : 'Retail'}
                     </span>
@@ -112,8 +105,8 @@ export default function LocationsPage() {
 
                   {/* Status */}
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="w-2 h-2 rounded-full bg-jig-purple animate-pulse" />
-                    <span className="text-xs font-semibold text-jig-purple">Open Now</span>
+                    <span className="w-2 h-2 rounded-full bg-or-gold animate-pulse" />
+                    <span className="text-xs font-semibold text-or-gold">Open Now</span>
                   </div>
 
                   {/* Info rows */}
@@ -132,8 +125,8 @@ export default function LocationsPage() {
                     </div>
                     {loc.medical && (
                       <div className="flex items-center gap-3">
-                        <svg className="w-[18px] h-[18px] text-jig-amber shrink-0" fill="currentColor" viewBox="0 0 576 512"><path d="M142.4 21.9c5.6-16.8-3.5-34.9-20.2-40.5s-34.9 3.5-40.5 20.2L48 64 17.7 64C8 64 0 72 0 81.7l0 .1C0 198.6 79.8 288.7 183.9 307.5C232.3 348 293.1 372.6 360 380.2L360 456l-48 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l128 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-48 0 0-75.8c66.9-7.6 127.7-32.2 176.1-72.7C672.2 288.7 752 198.6 752 81.8l0-.1C752 72 744 64 734.3 64L704 64l-33.7-82.4c-5.6-16.8-23.7-25.8-40.5-20.2s-25.8 23.7-20.2 40.5L626.2 64l-500.4 0L142.4 21.9z"/></svg>
-                        <span className="text-jig-amber-dark font-semibold">Section 21 Medical Cannabis Available</span>
+                        <svg className="w-[18px] h-[18px] text-or-gold shrink-0" fill="currentColor" viewBox="0 0 576 512"><path d="M142.4 21.9c5.6-16.8-3.5-34.9-20.2-40.5s-34.9 3.5-40.5 20.2L48 64 17.7 64C8 64 0 72 0 81.7l0 .1C0 198.6 79.8 288.7 183.9 307.5C232.3 348 293.1 372.6 360 380.2L360 456l-48 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l128 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-48 0 0-75.8c66.9-7.6 127.7-32.2 176.1-72.7C672.2 288.7 752 198.6 752 81.8l0-.1C752 72 744 64 734.3 64L704 64l-33.7-82.4c-5.6-16.8-23.7-25.8-40.5-20.2s-25.8 23.7-20.2 40.5L626.2 64l-500.4 0L142.4 21.9z"/></svg>
+                        <span className="text-or-gold-dark font-semibold">Section 21 Medical Cannabis Available</span>
                       </div>
                     )}
                   </div>
@@ -154,10 +147,10 @@ export default function LocationsPage() {
 
                   {/* Actions */}
                   <div className="flex gap-3">
-                    <button className="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider bg-jig-purple text-white rounded-xl hover:bg-jig-purple-dark hover:-translate-y-0.5 transition-all">
+                    <button className="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider bg-or-gold text-white rounded-xl hover:bg-or-gold-dark hover:-translate-y-0.5 transition-all">
                       Get Directions
                     </button>
-                    <a href={`tel:${loc.phone}`} className="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider text-center border-2 border-jig-purple text-jig-purple rounded-xl hover:bg-jig-purple hover:text-white transition-all">
+                    <a href={`tel:${loc.phone}`} className="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider text-center border-2 border-or-gold text-or-gold rounded-xl hover:bg-or-gold hover:text-white transition-all">
                       Call
                     </a>
                   </div>
@@ -169,12 +162,12 @@ export default function LocationsPage() {
           {/* CTA */}
           <div className="mt-16 bg-white border-2 border-gray-200 rounded-2xl p-10 sm:p-14 text-center">
             <h2 className="font-heading text-3xl text-white uppercase mb-4">Expand With Us</h2>
-            <p className="text-gray-500 max-w-xl mx-auto mb-8">Interested in bringing JIG Craft Cannabis to your area? We're always looking for passionate partners.</p>
+            <p className="text-gray-500 max-w-xl mx-auto mb-8">Interested in bringing Origin by ILCO Farming to your area? We're always looking for passionate partners.</p>
             <div className="flex flex-wrap justify-center gap-4">
-              <button className="px-8 py-3 text-sm font-bold uppercase tracking-wider bg-jig-purple text-white rounded-xl hover:bg-jig-purple-dark hover:-translate-y-0.5 transition-all">
+              <button className="px-8 py-3 text-sm font-bold uppercase tracking-wider bg-or-gold text-white rounded-xl hover:bg-or-gold-dark hover:-translate-y-0.5 transition-all">
                 Become a Driver
               </button>
-              <button className="px-8 py-3 text-sm font-bold uppercase tracking-wider border-2 border-jig-purple text-jig-purple rounded-xl hover:bg-jig-purple hover:text-white transition-all">
+              <button className="px-8 py-3 text-sm font-bold uppercase tracking-wider border-2 border-or-gold text-or-gold rounded-xl hover:bg-or-gold hover:text-white transition-all">
                 Franchise Enquiry
               </button>
             </div>

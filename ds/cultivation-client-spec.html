@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cultivation Track & Trace — Client Specification | Origin by ILCO Farming</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --or-black: #0A0A0A;
+  --or-dark: #141414;
+  --or-dark-2: #1C1C1C;
+  --or-dark-3: #252525;
+  --or-gold: #C9A84C;
+  --or-gold-bright: #D4B86A;
+  --or-gold-muted: #8B6914;
+  --or-gold-light: #E8D5A3;
+  --or-white: #F5F0E8;
+  --or-grey-1: #C4BBA8;
+  --or-grey-2: #A89F8C;
+  --or-grey-3: #6B6458;
+  --or-grey-4: #3D3830;
+  --or-green: #22C55E;
+  --or-green-dark: #166534;
+  --or-green-dim: rgba(34,197,94,0.12);
+  --or-amber: #D97706;
+  --or-amber-dim: rgba(217,119,6,0.12);
+  --or-blue: #3B82F6;
+  --or-blue-dim: rgba(59,130,246,0.12);
+  --or-red: #DC2626;
+  --font-display: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--or-black);
+  color: var(--or-grey-1);
+  line-height: 1.7;
+}
+
+/* ═══════ PRINT BUTTON ═══════ */
+.print-bar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  gap: 8px;
+}
+.print-btn {
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--or-gold);
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  backdrop-filter: blur(12px);
+}
+.print-btn:hover { background: rgba(201,168,76,0.25); border-color: var(--or-gold); }
+
+/* ═══════ HERO ═══════ */
+.hero {
+  background: linear-gradient(135deg, #0A0A0A 0%, #1a2e1a 40%, #0A0A0A 100%);
+  padding: 80px 40px 60px;
+  text-align: center;
+  border-bottom: 3px solid var(--or-gold);
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(34,197,94,0.06) 0%, transparent 50%),
+              radial-gradient(circle at 70% 50%, rgba(201,168,76,0.06) 0%, transparent 50%);
+}
+
+.hero-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+.hero-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  color: var(--or-gold);
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+.hero h2 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--or-green);
+  font-weight: 400;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.hero p {
+  color: var(--or-grey-2);
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+}
+
+.hero-badges {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.hero-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+.badge-gold { background: rgba(201,168,76,0.12); color: var(--or-gold); border: 1px solid rgba(201,168,76,0.25); }
+.badge-green { background: var(--or-green-dim); color: var(--or-green); border: 1px solid rgba(34,197,94,0.25); }
+.badge-amber { background: var(--or-amber-dim); color: var(--or-amber); border: 1px solid rgba(217,119,6,0.25); }
+.badge-blue { background: var(--or-blue-dim); color: var(--or-blue); border: 1px solid rgba(59,130,246,0.25); }
+
+/* ═══════ NOTICE ═══════ */
+.client-notice {
+  max-width: 800px;
+  margin: 32px auto 0;
+  padding: 20px 24px;
+  background: var(--or-amber-dim);
+  border: 1px solid rgba(217,119,6,0.25);
+  border-radius: 10px;
+}
+
+.client-notice h4 {
+  font-size: 0.85rem;
+  color: var(--or-amber);
+  margin-bottom: 6px;
+}
+
+.client-notice p {
+  font-size: 0.85rem;
+  color: var(--or-grey-2);
+  line-height: 1.6;
+}
+
+/* ═══════ CONTAINER ═══════ */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ═══════ SECTION ═══════ */
+.spec-section {
+  padding: 48px 0;
+  border-bottom: 1px solid var(--or-dark-3);
+}
+
+.spec-section:last-child { border-bottom: none; }
+
+.section-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--or-gold-muted);
+  letter-spacing: 0.15em;
+  margin-bottom: 6px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--or-gold);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.section-sub {
+  font-size: 0.9rem;
+  color: var(--or-grey-3);
+  margin-bottom: 24px;
+}
+
+/* ═══════ CARDS ═══════ */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.spec-card {
+  background: var(--or-dark);
+  border: 1px solid var(--or-dark-3);
+  border-radius: 12px;
+  padding: 20px;
+  transition: border-color 0.2s;
+}
+
+.spec-card:hover { border-color: rgba(201,168,76,0.25); }
+
+.spec-card h4 {
+  font-size: 0.95rem;
+  color: var(--or-white);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spec-card p {
+  font-size: 0.82rem;
+  color: var(--or-grey-3);
+  line-height: 1.6;
+}
+
+.spec-card .icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.icon-green { background: var(--or-green-dim); }
+.icon-gold { background: rgba(201,168,76,0.12); }
+.icon-blue { background: var(--or-blue-dim); }
+.icon-amber { background: var(--or-amber-dim); }
+
+/* Client input marker */
+.needs-input {
+  border-left: 3px solid var(--or-amber);
+}
+
+.needs-input::after {
+  content: 'CLIENT INPUT NEEDED';
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--or-amber);
+  letter-spacing: 0.1em;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(217,119,6,0.15);
+}
+
+/* Confirmed marker */
+.confirmed {
+  border-left: 3px solid var(--or-green);
+}
+
+.confirmed::after {
+  content: 'CONFIRMED';
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--or-green);
+  letter-spacing: 0.1em;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(34,197,94,0.15);
+}
+
+/* ═══════ TABLE ═══════ */
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.spec-table th {
+  background: var(--or-dark-2);
+  color: var(--or-gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+}
+
+.spec-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--or-dark-3);
+  font-size: 0.85rem;
+  vertical-align: top;
+}
+
+.spec-table td:first-child { color: var(--or-white); font-weight: 500; }
+.spec-table td:nth-child(2) { color: var(--or-grey-2); }
+
+.input-placeholder {
+  background: rgba(217,119,6,0.08);
+  border: 1px dashed rgba(217,119,6,0.3);
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: var(--or-amber);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+/* ═══════ PIPELINE ═══════ */
+.pipeline {
+  display: flex;
+  gap: 4px;
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+.pipeline-stage {
+  flex: 1;
+  min-width: 90px;
+  padding: 12px 8px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--or-white);
+}
+
+.pipeline-arrow {
+  display: flex;
+  align-items: center;
+  color: var(--or-grey-4);
+  font-size: 0.9rem;
+}
+
+/* ═══════ CHECKLIST ═══════ */
+.checklist {
+  list-style: none;
+}
+
+.checklist li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--or-dark-3);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.checklist li:last-child { border-bottom: none; }
+
+.check-box {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--or-dark-3);
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.check-box.done {
+  background: var(--or-green);
+  border-color: var(--or-green);
+  position: relative;
+}
+
+.check-box.done::after {
+  content: '\2713';
+  color: white;
+  font-size: 0.7rem;
+  position: absolute;
+  top: -1px;
+  left: 2px;
+}
+
+.check-label { color: var(--or-grey-2); }
+.check-label strong { color: var(--or-white); }
+
+/* ═══════ FOOTER ═══════ */
+.spec-footer {
+  background: var(--or-dark);
+  border-top: 2px solid var(--or-gold);
+  padding: 40px;
+  text-align: center;
+}
+
+.spec-footer h3 {
+  font-family: var(--font-display);
+  color: var(--or-gold);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.spec-footer p {
+  color: var(--or-grey-3);
+  font-size: 0.85rem;
+  max-width: 500px;
+  margin: 0 auto 20px;
+}
+
+.spec-footer .contact {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--or-grey-2);
+}
+
+/* ═══════ PRINT ═══════ */
+@media print {
+  body { background: white; color: #333; }
+  .print-bar { display: none !important; }
+  .hero { background: white; border-bottom-color: #8B6914; }
+  .hero h1, .section-title { color: #8B6914; }
+  .hero h2 { color: #166534; }
+  .hero p, .section-sub, .spec-card p, .check-label { color: #666; }
+  .spec-card, .client-notice { background: #f9f7f2; border-color: #ddd; }
+  .spec-card h4, .spec-table td:first-child { color: #333; }
+  .spec-table th { background: #f5f0e8; color: #8B6914; }
+  .spec-footer { background: #f5f0e8; border-top-color: #8B6914; }
+  .pipeline-stage { color: #333; }
+}
+
+@media (max-width: 640px) {
+  .card-grid, .card-grid-3 { grid-template-columns: 1fr; }
+  .pipeline { flex-wrap: wrap; }
+  .hero h1 { font-size: 1.6rem; }
+  .hero { padding: 50px 20px 40px; }
+}
+</style>
+</head>
+<body>
+
+<div class="print-bar no-print">
+  <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- HERO -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-icon">&#127793;</div>
+    <h1>CULTIVATION TRACK & TRACE</h1>
+    <h2>Seed-to-Sale Management Platform</h2>
+    <p>Custom SAHPRA Section 22C compliant cultivation management dashboard for Origin by ILCO Farming. This document defines scope, features, and items requiring client input before development begins.</p>
+    <div class="hero-badges">
+      <span class="hero-badge badge-gold">Quote OR-00002</span>
+      <span class="hero-badge badge-green">SAHPRA Section 22C</span>
+      <span class="hero-badge badge-amber">Client Input Required</span>
+      <span class="hero-badge badge-blue">Custom Software</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="client-notice">
+    <h4>This Is a Living Document</h4>
+    <p>Items marked <strong style="color: var(--or-amber);">CLIENT INPUT NEEDED</strong> require confirmation during the on-site specification session. All other items are based on standard SAHPRA requirements and industry best practice. Final scope will be locked after the on-site walkthrough.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- 01 — FACILITY PROFILE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="container">
+  <div class="spec-section">
+    <div class="section-num">01 — FACILITY</div>
+    <div class="section-title">Facility Profile</div>
+    <div class="section-sub">We need to understand your physical facility layout to configure zones, rooms, and environmental thresholds correctly.</div>
+
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Detail</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Facility Name</td>
+          <td><span class="input-placeholder">To be confirmed on-site</span></td>
+          <td><span class="hero-badge badge-amber" style="font-size:0.6rem;">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Physical Address</td>
+          <td><span class="input-placeholder">To be confirmed on-site</span></td>
+          <td><span class="hero-badge badge-amber" style="font-size:0.6rem;">Pending</span></td>
+        </tr>
+        <tr>
+          <td>SAHPRA Licence Number</td>
+          <td><span class="input-placeholder">Section 22C(1)(b) licence reference</span></td>
+          <td><span class="hero-badge badge-amber" style="font-size:0.6rem;">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Number of Grow Tunnels</td>
+          <td><span class="input-placeholder">e.g., 3 tunnels + 2 indoor rooms</span></td>
+          <td><span class="hero-badge badge-amber" style="font-size:0.6rem;">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Indoor Grow Rooms</td>
+          <td><span class="input-placeholder">Number, dimensions, light type</span></td>
+          <td><span class="hero-badge badge-amber" style="font-size:0.6rem;">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Processing / Drying Area</td>
+          <td><span class="input-placeholder">Separate zone? Capacity?</span></td>
+          <td><span class="hero-badge badge-amber" style="font-size:0.6rem;">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Existing Sensors / IoT</td>
+          <td><span class="input-placeholder">Brand, protocol (WiFi/Zigbee/LoRa), API available?</span></td>
+          <td><span class="hero-badge badge-amber" style="font-size:0.6rem;">Pending</span></td>
+        </tr>
+        <tr>
+          <td>Internet Connectivity</td>
+          <td><span class="input-placeholder">Fibre / LTE / Starlink? Bandwidth?</span></td>
+          <td><span class="hero-badge badge-amber" style="font-size:0.6rem;">Pending</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 02 — BATCH LIFECYCLE -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="spec-section">
+    <div class="section-num">02 — BATCH LIFECYCLE</div>
+    <div class="section-title">Seed-to-Sale Pipeline</div>
+    <div class="section-sub">The standard 7-phase batch lifecycle. Confirm if your operation follows this flow or requires modifications.</div>
+
+    <div class="pipeline">
+      <div class="pipeline-stage" style="background: rgba(34,197,94,0.15);">Propagation</div>
+      <div class="pipeline-arrow">&#10132;</div>
+      <div class="pipeline-stage" style="background: rgba(59,130,246,0.15);">Vegetative</div>
+      <div class="pipeline-arrow">&#10132;</div>
+      <div class="pipeline-stage" style="background: rgba(168,85,247,0.15);">Flowering</div>
+      <div class="pipeline-arrow">&#10132;</div>
+      <div class="pipeline-stage" style="background: rgba(217,119,6,0.15);">Harvest Ready</div>
+      <div class="pipeline-arrow">&#10132;</div>
+      <div class="pipeline-stage" style="background: rgba(201,168,76,0.15);">Harvested</div>
+      <div class="pipeline-arrow">&#10132;</div>
+      <div class="pipeline-stage" style="background: rgba(236,72,153,0.15);">Processing</div>
+      <div class="pipeline-arrow">&#10132;</div>
+      <div class="pipeline-stage" style="background: rgba(34,197,94,0.25);">Complete</div>
+    </div>
+
+    <div class="card-grid" style="margin-top: 24px;">
+      <div class="spec-card needs-input">
+        <h4><span class="icon icon-amber">&#127793;</span> Strains Grown</h4>
+        <p>Which cannabis strains are currently cultivated? We need strain names, typical grow times, and THC/CBD profiles for batch tracking and yield benchmarking.</p>
+      </div>
+      <div class="spec-card needs-input">
+        <h4><span class="icon icon-amber">&#128202;</span> Batch Naming Convention</h4>
+        <p>Default format: <code style="color:var(--or-gold); font-family:var(--font-mono); font-size:0.8rem;">OR-B-YYYYMMDD-NNN</code>. Do you have an existing batch ID system? Do you need to match SAHPRA format requirements?</p>
+      </div>
+      <div class="spec-card needs-input">
+        <h4><span class="icon icon-amber">&#128684;</span> Growth Media</h4>
+        <p>Soil, coco, hydroponic, or mixed? This affects nutrient logging fields and environmental parameter defaults.</p>
+      </div>
+      <div class="spec-card needs-input">
+        <h4><span class="icon icon-amber">&#9878;</span> Additional Phases</h4>
+        <p>Do you need extra phases beyond the standard 7? E.g., quarantine, lab testing hold, curing room, packaging. Custom phases can be added.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 03 — ENVIRONMENTAL MONITORING -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="spec-section">
+    <div class="section-num">03 — ENVIRONMENT</div>
+    <div class="section-title">Environmental Monitoring</div>
+    <div class="section-sub">Sensor data captured per zone. Confirm your target thresholds and alert preferences.</div>
+
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default Range</th>
+          <th>Your Target</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Temperature</td>
+          <td>20°C – 30°C</td>
+          <td><span class="input-placeholder">Confirm per zone</span></td>
+        </tr>
+        <tr>
+          <td>Humidity (RH)</td>
+          <td>40% – 70%</td>
+          <td><span class="input-placeholder">Confirm per zone</span></td>
+        </tr>
+        <tr>
+          <td>CO2 (ppm)</td>
+          <td>400 – 1500 ppm</td>
+          <td><span class="input-placeholder">Confirm if supplementing CO2</span></td>
+        </tr>
+        <tr>
+          <td>Light Hours</td>
+          <td>12–18 hrs (phase dependent)</td>
+          <td><span class="input-placeholder">Confirm per phase</span></td>
+        </tr>
+        <tr>
+          <td>VPD (auto-calc)</td>
+          <td>0.8 – 1.2 kPa</td>
+          <td><span class="input-placeholder">Confirm target range</span></td>
+        </tr>
+        <tr>
+          <td>Soil Moisture</td>
+          <td>Optional</td>
+          <td><span class="input-placeholder">Do you measure? Sensor brand?</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card-grid" style="margin-top: 20px;">
+      <div class="spec-card needs-input">
+        <h4><span class="icon icon-amber">&#128276;</span> Alert Channels</h4>
+        <p>Where should environmental breach alerts be sent? Options: Dashboard notification, WhatsApp, Telegram, SMS, Email. Who receives them?</p>
+      </div>
+      <div class="spec-card needs-input">
+        <h4><span class="icon icon-amber">&#128225;</span> Sensor Integration</h4>
+        <p>Do you have existing sensors with API access? We can auto-ingest readings. Otherwise manual entry is supported via dashboard and mobile.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 04 — HARVEST & QUALITY -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="spec-section">
+    <div class="section-num">04 — HARVEST</div>
+    <div class="section-title">Harvest & Quality Control</div>
+    <div class="section-sub">Weight recording, quality grading, and lab result tracking.</div>
+
+    <div class="card-grid">
+      <div class="spec-card confirmed">
+        <h4><span class="icon icon-green">&#9878;</span> Weight Recording</h4>
+        <p>Wet weight, dry weight, trim weight, waste weight — all in grams. Yield percent auto-calculated as (dry/wet) &times; 100.</p>
+      </div>
+      <div class="spec-card confirmed">
+        <h4><span class="icon icon-green">&#127942;</span> Quality Grading</h4>
+        <p>Three-tier grading: Grade A (premium), Grade B (standard), Grade C (processing grade). Visual badge on each harvest record.</p>
+      </div>
+      <div class="spec-card needs-input">
+        <h4><span class="icon icon-amber">&#128300;</span> Lab Testing</h4>
+        <p>Which lab do you use for cannabinoid testing? Do they provide digital results (API/CSV) or paper certificates only? We track: THC%, CBD%, terpene profile, microbiology pass/fail.</p>
+      </div>
+      <div class="spec-card needs-input">
+        <h4><span class="icon icon-amber">&#128248;</span> Scale Photos</h4>
+        <p>Do you photograph each harvest on the scale? We support photo upload per harvest record (JPEG/PNG/WebP, max 10MB). Required for SAHPRA audit trail?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 05 — COMPLIANCE -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="spec-section">
+    <div class="section-num">05 — COMPLIANCE</div>
+    <div class="section-title">SAHPRA Compliance & Audit</div>
+    <div class="section-sub">Built-in compliance scoring engine aligned to Section 22C requirements.</div>
+
+    <div class="card-grid card-grid-3">
+      <div class="spec-card confirmed">
+        <h4><span class="icon icon-green">&#128994;</span> Compliance Score</h4>
+        <p>5-category scoring: Environmental, Harvest, Batch Tracking, Documentation, Reporting. Traffic-light display (green/amber/red).</p>
+      </div>
+      <div class="spec-card confirmed">
+        <h4><span class="icon icon-green">&#128196;</span> Audit Packages</h4>
+        <p>One-click audit package generator. Selectable date range. Includes zone summaries, batch counts, environmental averages, breach history, yield stats.</p>
+      </div>
+      <div class="spec-card confirmed">
+        <h4><span class="icon icon-green">&#128197;</span> Document Tracker</h4>
+        <p>Upload and track compliance documents with expiry dates. Auto-alerts when documents approach expiry (30/14/7 days).</p>
+      </div>
+    </div>
+
+    <div class="card-grid" style="margin-top: 16px;">
+      <div class="spec-card needs-input">
+        <h4><span class="icon icon-amber">&#128203;</span> Required Documents</h4>
+        <p>Which compliance documents must be tracked? Common: SAHPRA licence, GMP cert, pest management plan, SOPs, insurance, water quality cert, waste disposal agreement.</p>
+      </div>
+      <div class="spec-card needs-input">
+        <h4><span class="icon icon-amber">&#128101;</span> Compliance Roles</h4>
+        <p>Who is the designated compliance officer? Who can generate audit packages? Current roles: cultivator, farm_manager, compliance_officer. Need additional roles?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 06 — USERS & ACCESS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="spec-section">
+    <div class="section-num">06 — ACCESS</div>
+    <div class="section-title">Users & Access Control</div>
+    <div class="section-sub">Role-based access with OTP + PIN authentication.</div>
+
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Access Level</th>
+          <th>Staff Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Farm Manager</td>
+          <td>Full dashboard access — all zones, batches, compliance, reports</td>
+          <td><span class="input-placeholder">How many?</span></td>
+        </tr>
+        <tr>
+          <td>Cultivator</td>
+          <td>Zone monitoring, batch updates, environment entry, harvest recording</td>
+          <td><span class="input-placeholder">How many?</span></td>
+        </tr>
+        <tr>
+          <td>Compliance Officer</td>
+          <td>Compliance dashboard, audit packages, document management, reports</td>
+          <td><span class="input-placeholder">How many?</span></td>
+        </tr>
+        <tr>
+          <td>Owner / Super Admin</td>
+          <td>Everything + user management + system config</td>
+          <td>Linked to existing Origin owner login</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 07 — REPORTS -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="spec-section">
+    <div class="section-num">07 — REPORTS</div>
+    <div class="section-title">Reports & Export</div>
+    <div class="section-sub">Four standard report types with CSV export. Additional custom reports available on request.</div>
+
+    <div class="card-grid">
+      <div class="spec-card confirmed">
+        <h4><span class="icon icon-green">&#128200;</span> Production Report</h4>
+        <p>Batch counts by phase, total plants, completions, average cycle time.</p>
+      </div>
+      <div class="spec-card confirmed">
+        <h4><span class="icon icon-green">&#127777;</span> Environmental Report</h4>
+        <p>Average temp/humidity/CO2 per zone, breach counts, compliance percentage.</p>
+      </div>
+      <div class="spec-card confirmed">
+        <h4><span class="icon icon-green">&#128202;</span> Yield Report</h4>
+        <p>Yield by strain, average dry weight, yield trends over time, quality grade distribution.</p>
+      </div>
+      <div class="spec-card confirmed">
+        <h4><span class="icon icon-green">&#128465;</span> Waste Report</h4>
+        <p>Waste weight totals, waste as % of total harvest, disposal tracking for SAHPRA compliance.</p>
+      </div>
+    </div>
+
+    <div class="spec-card needs-input" style="margin-top: 16px;">
+      <h4><span class="icon icon-amber">&#128203;</span> Custom Report Requirements</h4>
+      <p>Do you need any additional reports beyond the four standard types? E.g., water usage, nutrient cost tracking, labour hours per batch, energy consumption. These can be added as part of customisation.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 08 — ON-SITE SESSION CHECKLIST -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="spec-section">
+    <div class="section-num">08 — ON-SITE SESSION</div>
+    <div class="section-title">On-Site Specification Checklist</div>
+    <div class="section-sub">Items to cover during the on-site walkthrough. Bring this document to the session.</div>
+
+    <ul class="checklist">
+      <li><div class="check-box"></div><div class="check-label"><strong>Facility walkthrough</strong> — photograph each zone/tunnel/room, note dimensions and capacity</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Strain catalogue</strong> — list all strains currently grown with typical cycle times</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Batch ID convention</strong> — confirm or customise the naming format</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Environmental thresholds</strong> — confirm target ranges per zone per growth phase</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Sensor inventory</strong> — list existing sensors, check API/data export capability</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Staff list & roles</strong> — names, phone numbers, email addresses, and assigned roles</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Lab testing partner</strong> — contact details, result format (API/CSV/paper)</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Compliance documents</strong> — gather current SAHPRA licence, GMP cert, SOPs, etc.</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Alert preferences</strong> — confirm notification channels and recipients</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Custom report needs</strong> — any reporting beyond the 4 standard types</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Additional pipeline phases</strong> — confirm if curing, quarantine, or packaging phases are needed</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Internet connectivity test</strong> — verify bandwidth and reliability on-site</div></li>
+      <li><div class="check-box"></div><div class="check-label"><strong>Sign-off</strong> — lock scope, confirm quote OR-00002, agree on go-live date</div></li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- 09 — TIMELINE -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="spec-section">
+    <div class="section-num">09 — TIMELINE</div>
+    <div class="section-title">Implementation Timeline</div>
+    <div class="section-sub">From scope sign-off to go-live.</div>
+
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Scope</th>
+          <th>Timeline</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color: var(--or-green) !important;">Phase 1 — Foundation</td>
+          <td>Backend models, API, auth, dashboard shell, CSS</td>
+          <td><span class="hero-badge badge-green" style="font-size:0.65rem;">Complete</span></td>
+        </tr>
+        <tr>
+          <td style="color: var(--or-green) !important;">Phase 2 — Zones + Environment</td>
+          <td>Zone CRUD, gauges, trend charts, threshold alerting</td>
+          <td><span class="hero-badge badge-green" style="font-size:0.65rem;">Complete</span></td>
+        </tr>
+        <tr>
+          <td style="color: var(--or-green) !important;">Phase 3 — Batches + Harvests</td>
+          <td>Kanban pipeline, phase transitions, harvest recording, yield analytics</td>
+          <td><span class="hero-badge badge-green" style="font-size:0.65rem;">Complete</span></td>
+        </tr>
+        <tr>
+          <td style="color: var(--or-green) !important;">Phase 4 — Compliance + Reports</td>
+          <td>Scoring engine, audit packages, document tracker, CSV reports</td>
+          <td><span class="hero-badge badge-green" style="font-size:0.65rem;">Complete</span></td>
+        </tr>
+        <tr>
+          <td style="color: var(--or-amber) !important;">Phase 5 — Customisation</td>
+          <td>Client-specific config: zones, thresholds, strains, roles, custom phases</td>
+          <td><span class="hero-badge badge-amber" style="font-size:0.65rem;">After On-Site</span></td>
+        </tr>
+        <tr>
+          <td style="color: var(--or-blue) !important;">Phase 6 — Deploy & Train</td>
+          <td>Production deployment, seed data, staff accounts, hands-on training</td>
+          <td><span class="hero-badge badge-blue" style="font-size:0.65rem;">After Phase 5</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="spec-footer">
+  <h3>ORIGIN CULTIVATION</h3>
+  <p>Custom seed-to-sale software for SAHPRA-compliant cannabis cultivation. Built by FloRouter AI for ILCO Farming.</p>
+  <div class="contact">
+    Quote OR-00002 &middot; R 25,000 setup + from R 2,500/mo<br>
+    ray@ilcofarming.co.za &middot; +27 76 834 7331
+  </div>
+  <p style="font-size: 0.7rem; color: var(--or-grey-4); margin-top: 20px;">
+    Document generated 13 March 2026 &middot; FloRouter AI &middot; Confidential
+  </p>
+</div>
+
+</body>
+</html>

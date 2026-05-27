@@ -133,7 +133,7 @@ export default function LoginPage() {
         </div>
 
         {error && (
-          <div className="bg-jig-red/10 border border-jig-red/30 text-jig-red text-sm rounded-xl px-4 py-3 mb-6">
+          <div className="bg-origin-red/10 border border-origin-red/30 text-origin-red text-sm rounded-xl px-4 py-3 mb-6">
             {error}
           </div>
         )}
@@ -174,7 +174,7 @@ export default function LoginPage() {
                   onChange={(e) => handleOtpChange(i, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(i, e)}
                   className="w-12 h-14 text-center text-2xl font-bold border-2 border-gray-200 rounded-xl
-                    focus:outline-none focus:border-jig-amber focus:shadow-[0_0_0_4px_rgba(124,58,237,0.15)]
+                    focus:outline-none focus:border-or-gold focus:shadow-[0_0_0_4px_rgba(63,192,65,0.15)]
                     text-white font-body"
                 />
               ))}
@@ -196,7 +196,7 @@ export default function LoginPage() {
               ) : (
                 <button
                   onClick={handleResend}
-                  className="text-sm text-jig-purple font-semibold hover:underline"
+                  className="text-sm text-or-gold font-semibold hover:underline"
                 >
                   Resend Code
                 </button>
@@ -205,7 +205,7 @@ export default function LoginPage() {
 
             <button
               onClick={() => { setStep('email'); setOtp(['', '', '', '', '', '']); setError(''); }}
-              className="block mx-auto mt-3 text-sm text-gray-400 hover:text-jig-purple"
+              className="block mx-auto mt-3 text-sm text-gray-400 hover:text-or-gold"
             >
               Use a different email
             </button>

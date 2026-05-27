@@ -1,5 +1,5 @@
 // inv-inventory.js — Inventory data, filters, stock levels, and export
-// Depends on: config.js (API_URL), dbc-utils.js (showToast), dbc-auth.js (getToken)
+// Depends on: config.js (API_URL), or-utils.js (showToast), or-auth.js (getToken)
 
 // Store all products for filtering
 let allInventoryProducts = [];
@@ -70,7 +70,7 @@ async function loadBranchesForFilter() {
         const branches = data.branches || data || [];
         const select = document.getElementById('inventoryBranchFilter');
         if (select) {
-            select.innerHTML = '<option value="">All Branches</option>' +
+            select.innerHTML = '<option value="">All Branches (Master)</option>' +
                 branches.map(b => `<option value="${b._id}">${b.name}</option>`).join('');
         }
     } catch (error) {
@@ -78,9 +78,87 @@ async function loadBranchesForFilter() {
     }
 }
 
+// Load branch-specific inventory when a branch is selected
+async function loadBranchInventory() {
+    const branchId = document.getElementById('inventoryBranchFilter')?.value || '';
+    if (!branchId) {
+        // "All Branches" — reload master product list
+        loadInventoryData();
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/branch-inventory?branchId=${branchId}&limit=9999`, {
+            headers: { 'Authorization': 'Bearer ' + getToken() }
+        });
+        if (!response.ok) throw new Error('Failed to load branch inventory');
+
+        const data = await response.json();
+        const inventory = data.inventory || [];
+
+        // Map branch inventory into the same format as allInventoryProducts
+        allInventoryProducts = inventory
+            .filter(item => item.productId)
+            .map(item => ({
+                _id: item.productId._id,
+                name: item.productId.name,
+                sku: item.productId.sku,
+                category: item.productId.category,
+                price: item.productId.price,
+                supplier: item.productId.supplier || '',
+                productType: item.productId.productType || '',
+                tags: item.productId.tags || [],
+                inventory: {
+                    quantity: item.quantity || 0,
+                    unit: item.unit || 'units'
+                }
+            }));
+
+        // Update stats
+        let totalWeight = 0, totalUnits = 0;
+        allInventoryProducts.forEach(p => {
+            const qty = p.inventory?.quantity || 0;
+            if (qty <= 0) return;
+            const isFlower = (p.category || '').toLowerCase() === 'flower';
+            const isCountable = !isFlower || (p.tags || []).includes('pre-roll') || (p.tags || []).includes('pre-pack');
+            if (isCountable) totalUnits += qty;
+            else totalWeight += qty;
+        });
+        const lowStock = allInventoryProducts.filter(p => (p.inventory?.quantity || 0) <= 10 && (p.inventory?.quantity || 0) > 0).length;
+        const categories = [...new Set(allInventoryProducts.map(p => p.category))].length;
+
+        document.getElementById('totalProducts').textContent = allInventoryProducts.length;
+        const weightEl = document.getElementById('totalWeight');
+        const unitsEl = document.getElementById('totalUnits');
+        if (weightEl) weightEl.textContent = totalWeight.toLocaleString(undefined, { maximumFractionDigits: 1 });
+        if (unitsEl) unitsEl.textContent = totalUnits.toLocaleString();
+        document.getElementById('lowStockCount').textContent = lowStock;
+        document.getElementById('categoriesCount').textContent = categories;
+
+        filterInventory();
+    } catch (error) {
+        console.error('Error loading branch inventory:', error);
+        showToast('error', 'Failed to load branch inventory');
+    }
+}
+
+// Category tab selection
+let activeCategoryTab = '';
+
+function selectCategoryTab(category, btnEl) {
+    activeCategoryTab = category;
+    // Update active state
+    document.querySelectorAll('.inv-cat-tab').forEach(t => t.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    // Sync dropdown if it exists
+    const dropdown = document.getElementById('inventoryCategoryFilter');
+    if (dropdown) dropdown.value = category;
+    filterInventory();
+}
+
 // Filter inventory based on selected criteria
 function filterInventory() {
-    const categoryFilter = document.getElementById('inventoryCategoryFilter')?.value || '';
+    const categoryFilter = activeCategoryTab || document.getElementById('inventoryCategoryFilter')?.value || '';
     const supplierFilter = document.getElementById('inventorySupplierFilter')?.value || '';
     const productTypeFilter = document.getElementById('inventoryProductTypeFilter')?.value || '';
     const branchFilter = document.getElementById('inventoryBranchFilter')?.value || '';
@@ -124,6 +202,10 @@ function filterInventory() {
                 ? '<span class="badge bg-warning">Low</span>'
                 : '<span class="badge bg-danger">Out</span>';
 
+        const price = product.price || 0;
+        const priceDisplay = price > 0 ? `R${price.toFixed(2)}` : '-';
+        const escapedName = (product.name || '').replace(/'/g, "\\'");
+
         return `
             <tr>
                 <td>
@@ -135,16 +217,20 @@ function filterInventory() {
                     <span class="badge ${product.supplier === 'indoor' ? 'bg-info' : product.supplier === 'greendoor' ? 'bg-success' : 'bg-light text-dark'}">${supplierDisplay}</span>
                     ${productTypeDisplay !== '-' ? `<span class="badge bg-warning text-dark">${productTypeDisplay}</span>` : ''}
                 </td>
+                <td style="text-align: right; font-weight: 600;">${priceDisplay}</td>
                 <td style="text-align: center;"><strong>${stock}</strong> ${unit}</td>
                 <td style="text-align: center;">${statusBadge}</td>
-                <td style="text-align: right;">
-                    <button class="btn btn-sm btn-outline-primary" onclick="openStockUpdateModal('${product._id}', '${product.name}', ${stock})">
-                        <i class="fas fa-pencil-alt"></i>
+                <td style="text-align: right; white-space: nowrap;">
+                    <button class="btn btn-sm btn-outline-info" onclick="openProductEditModal('${product._id}')" title="Edit product details">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary ms-1" onclick="openStockUpdateModal('${product._id}', '${escapedName}', ${stock})" title="Update stock">
+                        <i class="fas fa-boxes-stacked"></i>
                     </button>
                 </td>
             </tr>
         `;
-    }).join('') || '<tr><td colspan="5" class="text-center text-muted">No products match filters</td></tr>';
+    }).join('') || '<tr><td colspan="6" class="text-center text-muted">No products match filters</td></tr>';
 }
 
 // Open stock update modal for a product
@@ -156,7 +242,7 @@ function openStockUpdateModal(productId, productName, currentStock) {
         <div id="stockUpdateModal" style="display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1060;align-items:center;justify-content:center;">
             <div style="background:#fff;border-radius:12px;width:90%;max-width:450px;padding:0;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
                 <div style="background:var(--green);color:var(--cream);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
-                    <h5 style="margin:0;font-family:'Oswald', sans-serif;font-size:1.2rem;"><i class="fas fa-pencil-alt"></i> Update Stock</h5>
+                    <h5 style="margin:0;font-family:'Barlow Condensed', sans-serif;font-size:1.2rem;"><i class="fas fa-pencil-alt"></i> Update Stock</h5>
                     <button onclick="document.getElementById('stockUpdateModal').remove()" style="background:none;border:none;color:var(--cream);font-size:1.3rem;cursor:pointer;"><i class="fas fa-times"></i></button>
                 </div>
                 <div style="padding:20px;">
@@ -164,11 +250,11 @@ function openStockUpdateModal(productId, productName, currentStock) {
                     <p style="margin:0 0 16px;font-size:0.85rem;color:#888;">Current stock: <strong>${currentStock}</strong></p>
                     <div style="margin-bottom:16px;">
                         <label style="display:block;margin-bottom:6px;font-weight:600;font-size:0.85rem;color:var(--green-dark);">New Quantity</label>
-                        <input type="number" id="stockUpdateQty" value="${currentStock}" min="0" style="width:100%;padding:10px;border:2px solid #2A2A2A;border-radius:8px;font-size:16px;">
+                        <input type="number" id="stockUpdateQty" value="${currentStock}" min="0" style="width:100%;padding:10px;border:2px solid #222222;border-radius:8px;font-size:16px;">
                     </div>
                     <div style="margin-bottom:16px;">
                         <label style="display:block;margin-bottom:6px;font-weight:600;font-size:0.85rem;color:var(--green-dark);">Reason</label>
-                        <select id="stockUpdateReason" style="width:100%;padding:10px;border:2px solid #2A2A2A;border-radius:8px;font-size:14px;">
+                        <select id="stockUpdateReason" style="width:100%;padding:10px;border:2px solid #222222;border-radius:8px;font-size:14px;">
                             <option value="manual_adjustment">Manual Adjustment</option>
                             <option value="stock_count">Stock Count</option>
                             <option value="received_delivery">Received Delivery</option>
@@ -214,10 +300,109 @@ async function submitStockUpdate(productId) {
 
         showToast('success', 'Stock updated successfully');
         document.getElementById('stockUpdateModal').remove();
-        loadInventoryData();
+        // Reload from branch or master depending on current filter
+        const branchFilter = document.getElementById('inventoryBranchFilter')?.value || '';
+        branchFilter ? loadBranchInventory() : loadInventoryData();
     } catch (error) {
         console.error('Error updating stock:', error);
         showToast('error', 'Failed to update stock');
+    }
+}
+
+// ==================== PRODUCT EDIT MODAL ====================
+
+function openProductEditModal(productId) {
+    const product = allInventoryProducts.find(p => p._id === productId);
+    if (!product) { showToast('error', 'Product not found'); return; }
+
+    document.getElementById('productEditModal')?.remove();
+
+    const cats = ['flower','pre-rolls','concentrates','edibles','vapes','oils','lifestyle-cbd','accessories'];
+    const catOptions = cats.map(c => `<option value="${c}" ${product.category === c ? 'selected' : ''}>${c}</option>`).join('');
+
+    const modalHtml = `
+        <div id="productEditModal" style="display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1060;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;">
+            <div style="background:#0E0E0E;border-radius:12px;width:95%;max-width:500px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);border:1px solid #222;">
+                <div style="background:var(--green);color:white;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
+                    <h5 style="margin:0;font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;"><i class="fas fa-edit"></i> Edit Product</h5>
+                    <button onclick="document.getElementById('productEditModal').remove()" style="background:none;border:none;color:white;font-size:1.3rem;cursor:pointer;"><i class="fas fa-times"></i></button>
+                </div>
+                <div style="padding:20px;">
+                    <div style="margin-bottom:14px;">
+                        <label style="display:block;margin-bottom:6px;font-weight:600;font-size:0.85rem;color:var(--or-gold);">Product Name</label>
+                        <input type="text" id="editProductName" value="${product.name || ''}" style="width:100%;padding:10px;border:2px solid #333;border-radius:8px;font-size:15px;background:#1A1A1A;color:#FAFAFA;">
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+                        <div>
+                            <label style="display:block;margin-bottom:6px;font-weight:600;font-size:0.85rem;color:var(--or-gold);">SKU</label>
+                            <input type="text" id="editProductSku" value="${product.sku || ''}" style="width:100%;padding:10px;border:2px solid #333;border-radius:8px;font-size:14px;background:#1A1A1A;color:#FAFAFA;">
+                        </div>
+                        <div>
+                            <label style="display:block;margin-bottom:6px;font-weight:600;font-size:0.85rem;color:var(--or-gold);">Category</label>
+                            <select id="editProductCategory" style="width:100%;padding:10px;border:2px solid #333;border-radius:8px;font-size:14px;background:#1A1A1A;color:#FAFAFA;">
+                                ${catOptions}
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+                        <div>
+                            <label style="display:block;margin-bottom:6px;font-weight:600;font-size:0.85rem;color:var(--or-gold);">Retail Price (R)</label>
+                            <input type="number" id="editProductPrice" value="${product.price || 0}" min="0" step="0.01" style="width:100%;padding:10px;border:2px solid #333;border-radius:8px;font-size:15px;background:#1A1A1A;color:#FAFAFA;">
+                        </div>
+                        <div>
+                            <label style="display:block;margin-bottom:6px;font-weight:600;font-size:0.85rem;color:var(--or-gold);">Cost Price (R)</label>
+                            <input type="number" id="editProductCostPrice" value="${product.costPrice || 0}" min="0" step="0.01" style="width:100%;padding:10px;border:2px solid #333;border-radius:8px;font-size:15px;background:#1A1A1A;color:#FAFAFA;">
+                        </div>
+                    </div>
+                    <div style="margin-bottom:14px;">
+                        <label style="display:block;margin-bottom:6px;font-weight:600;font-size:0.85rem;color:var(--or-gold);">Description</label>
+                        <textarea id="editProductDesc" rows="3" style="width:100%;padding:10px;border:2px solid #333;border-radius:8px;font-size:14px;background:#1A1A1A;color:#FAFAFA;resize:vertical;">${product.description || ''}</textarea>
+                    </div>
+                    <div style="display:flex;gap:10px;">
+                        <button onclick="saveProductEdit('${product._id}')" style="flex:1;padding:12px;background:var(--green);color:white;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button onclick="document.getElementById('productEditModal').remove()" style="padding:12px 20px;background:none;border:2px solid #444;color:#FAFAFA;border-radius:8px;font-size:14px;cursor:pointer;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    document.getElementById('editProductName').focus();
+}
+
+async function saveProductEdit(productId) {
+    const name = document.getElementById('editProductName').value.trim();
+    const sku = document.getElementById('editProductSku').value.trim();
+    const category = document.getElementById('editProductCategory').value;
+    const price = parseFloat(document.getElementById('editProductPrice').value) || 0;
+    const costPrice = parseFloat(document.getElementById('editProductCostPrice').value) || 0;
+    const description = document.getElementById('editProductDesc').value.trim();
+
+    if (!name) { showToast('error', 'Product name is required'); return; }
+
+    try {
+        const response = await fetch(`${API_URL}/products/${productId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken()
+            },
+            body: JSON.stringify({ name, sku, category, price, costPrice, description })
+        });
+
+        if (!response.ok) throw new Error('Failed to update product');
+
+        showToast('success', 'Product updated successfully');
+        document.getElementById('productEditModal').remove();
+        const branchFilter = document.getElementById('inventoryBranchFilter')?.value || '';
+        branchFilter ? loadBranchInventory() : loadInventoryData();
+    } catch (error) {
+        console.error('Error updating product:', error);
+        showToast('error', 'Failed to update product');
     }
 }
 
@@ -254,7 +439,7 @@ function exportInventory() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `dbc-inventory-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `origin-inventory-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     URL.revokeObjectURL(url);
 

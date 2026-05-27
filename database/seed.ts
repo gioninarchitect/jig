@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Database Seed Script
+ * PureGro Premium Cannabis Care - Database Seed Script
  *
  * Populates the database with:
  *   - Kush Mints product catalog (5 SKUs across FLOS category)
@@ -34,7 +34,7 @@ async function seed() {
 
     const products = [
       {
-        sku: 'JIG-FLO-KM-3G',
+        sku: 'PureGro-FLO-KM-3G',
         name: 'Kush Mints Indoor 3g',
         category: 'flower',
         subcategory: 'Indoor Pre Pack',
@@ -54,7 +54,7 @@ async function seed() {
         ],
       },
       {
-        sku: 'JIG-FLO-KM-5G',
+        sku: 'PureGro-FLO-KM-5G',
         name: 'Kush Mints Indoor 5g',
         category: 'flower',
         subcategory: 'Indoor Pre Pack',
@@ -74,7 +74,7 @@ async function seed() {
         ],
       },
       {
-        sku: 'JIG-FLO-KM-250G',
+        sku: 'PureGro-FLO-KM-250G',
         name: 'Kush Mints Indoor 250g',
         category: 'flower',
         subcategory: 'Indoor Pre Pack',
@@ -94,7 +94,7 @@ async function seed() {
         ],
       },
       {
-        sku: 'JIG-FLO-KM-1KG',
+        sku: 'PureGro-FLO-KM-1KG',
         name: 'Kush Mints Indoor 1kg',
         category: 'flower',
         subcategory: 'Indoor Pre Pack',
@@ -114,7 +114,7 @@ async function seed() {
         ],
       },
       {
-        sku: 'JIG-FLO-KM-BLK',
+        sku: 'PureGro-FLO-KM-BLK',
         name: 'Kush Mints Bulk 250g',
         category: 'flower',
         subcategory: 'Bulk Indoor Loose',
@@ -254,7 +254,7 @@ async function seed() {
         client_type, tier, credit_limit, payment_terms, status)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
        ON CONFLICT (email) DO UPDATE SET company_name = EXCLUDED.company_name`,
-      ['JIG Craft Cannabis', 'Floris Olivier', 'florisolivier7@gmail.com', '000 000 0000',
+      ['PureGro Premium Cannabis Care', 'Floris Olivier', 'florisolivier7@gmail.com', '000 000 0000',
        '1 Test Street', 'Cape Town', 'Western Cape', '8001',
        'dispensary', 'standard', 500000, 'net30', 'active'],
     );
@@ -269,7 +269,7 @@ async function seed() {
       `SELECT id FROM clients WHERE email = 'florisolivier7@gmail.com'`,
     );
     const { rows: productRows } = await client.query(
-      `SELECT id, sku, name, cost_price FROM products WHERE sku IN ('JIG-FLO-KM-BLK', 'JIG-FLO-KM-3G', 'JIG-FLO-KM-1KG')`,
+      `SELECT id, sku, name, cost_price FROM products WHERE sku IN ('PureGro-FLO-KM-BLK', 'PureGro-FLO-KM-3G', 'PureGro-FLO-KM-1KG')`,
     );
     const productMap = Object.fromEntries(productRows.map((r: { sku: string; id: string; name: string; cost_price: number }) => [r.sku, r]));
 
@@ -285,23 +285,23 @@ async function seed() {
 
     const testOrders = [
       {
-        id: 'JIG-000001', status: 'pending', paymentStatus: 'pending',
-        items: [{ sku: 'JIG-FLO-KM-BLK', qty: 1, unitPrice: 100, totalPrice: 100 }],
+        id: 'PureGro-000001', status: 'pending', paymentStatus: 'pending',
+        items: [{ sku: 'PureGro-FLO-KM-BLK', qty: 1, unitPrice: 100, totalPrice: 100 }],
         subtotal: 100, vat: 15, total: 115,
       },
       {
-        id: 'JIG-000002', status: 'pending', paymentStatus: 'pending',
-        items: [{ sku: 'JIG-FLO-KM-3G', qty: 1, unitPrice: 150, totalPrice: 150 }],
+        id: 'PureGro-000002', status: 'pending', paymentStatus: 'pending',
+        items: [{ sku: 'PureGro-FLO-KM-3G', qty: 1, unitPrice: 150, totalPrice: 150 }],
         subtotal: 150, vat: 22.50, total: 172.50,
       },
       {
-        id: 'JIG-000003', status: 'confirmed', paymentStatus: 'pending',
-        items: [{ sku: 'JIG-FLO-KM-BLK', qty: 250, unitPrice: 50, totalPrice: 12500 }],
+        id: 'PureGro-000003', status: 'confirmed', paymentStatus: 'pending',
+        items: [{ sku: 'PureGro-FLO-KM-BLK', qty: 250, unitPrice: 50, totalPrice: 12500 }],
         subtotal: 12500, vat: 1875, total: 14375,
       },
       {
-        id: 'JIG-000004', status: 'pending', paymentStatus: 'pending',
-        items: [{ sku: 'JIG-FLO-KM-1KG', qty: 1, unitPrice: 50000, totalPrice: 50000 }],
+        id: 'PureGro-000004', status: 'pending', paymentStatus: 'pending',
+        items: [{ sku: 'PureGro-FLO-KM-1KG', qty: 1, unitPrice: 50000, totalPrice: 50000 }],
         subtotal: 50000, vat: 7500, total: 57500,
       },
     ];

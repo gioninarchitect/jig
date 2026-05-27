@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 
 async function getFlowerStock() {
-  await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/jig');
+  await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/origin');
 
   const Product = require('../modules/database/models/Product');
 

@@ -3,40 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UAT Bug Dashboard - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>UAT Bug Dashboard - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* JIG Craft Cannabis Theme */
+        /* Origin by ILCO Farming Theme */
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -46,7 +55,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -55,26 +64,26 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--black);
+            background: #0A0A0A;
             padding: 20px;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .header {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 24px;
             border-radius: 12px;
             margin-bottom: 20px;
@@ -435,7 +444,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: var(--black);
+        background: var(--or-black);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -445,15 +454,15 @@
         padding: 2rem;
     ">
         <i class="fas fa-tools" style="font-size: 4rem; color: var(--gold); margin-bottom: 1.5rem;"></i>
-        <h1 style="font-family: 'Oswald', sans-serif; font-size: 2.5rem; color: var(--white); margin-bottom: 1rem;">
+        <h1 style="font-family: 'Cinzel', sans-serif; font-size: 2.5rem; color: var(--or-white); margin-bottom: 1rem;">
             Bug Tracker Temporarily Disabled
         </h1>
-        <p style="color: var(--purple); font-size: 1.1rem; max-width: 500px; margin-bottom: 2rem;">
+        <p style="color: var(--or-gold); font-size: 1.1rem; max-width: 500px; margin-bottom: 2rem;">
             The bug tracking system is currently disabled while we focus on launching branch operations.
-            It will be re-enabled after the Ormonde launch.
+            It will be re-enabled after the Potchefstroom launch.
         </p>
         <a href="index.html" style="
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
             padding: 1rem 2rem;
             border-radius: 8px;
@@ -470,7 +479,7 @@
 
     <div class="header" style="display: none; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
         <div>
-            <h1><i class="fas fa-bug" style="font-size:32px;"></i> JIG Craft Cannabis UAT Bug Dashboard</h1>
+            <h1><i class="fas fa-bug" style="font-size:32px;"></i> Origin by ILCO Farming UAT Bug Dashboard</h1>
             <p>Track and manage bug reports from UAT testing</p>
         </div>
         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
@@ -538,8 +547,8 @@
     </div>
 
     <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <script src="/frontend/or-utils.js"></script>
+    <script src="/frontend/or-auth.js"></script>
     <script>
         let allBugs = [];
         let currentStatusFilter = '';
@@ -828,7 +837,7 @@
             // Build comprehensive export
             const exportData = {
                 _claude_code_instructions: {
-                    title: "JIG Craft Cannabis - Bug Fix Request",
+                    title: "Origin by ILCO Farming - Bug Fix Request",
                     generated: new Date().toISOString(),
                     total_bugs: allBugs.length,
                     bugs_by_status: {
@@ -846,10 +855,10 @@
 
                 _prompt_for_claude_code: `
 ===================================================================================
-JIG CRAFT CANNABIS - COMPREHENSIVE BUG FIX REQUEST
+Origin - COMPREHENSIVE BUG FIX REQUEST
 ===================================================================================
 
-You are reviewing ${allBugs.length} bug reports for the JIG Craft Cannabis web application.
+You are reviewing ${allBugs.length} bug reports for the Origin by ILCO Farming web application.
 
 PROJECT CONTEXT:
 - Tech Stack: Node.js, Express.js, MongoDB, Vanilla JavaScript frontend
@@ -1034,7 +1043,7 @@ ${exportData._response_format}
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `dbc-bugs-for-claude-${timestamp}.txt`;
+            a.download = `origin-bugs-for-claude-${timestamp}.txt`;
             a.click();
             URL.revokeObjectURL(url);
 

@@ -14,8 +14,8 @@ export default function Tabs({ tabs = [], activeTab, onChange, className = '' })
               transition-all duration-300 border-b-3 -mb-[2px] font-body
               ${
                 isActive
-                  ? 'border-jig-amber text-white'
-                  : 'border-transparent text-gray-500 hover:text-jig-purple hover:border-jig-amber/40'
+                  ? 'border-or-gold text-white'
+                  : 'border-transparent text-gray-500 hover:text-or-gold hover:border-or-gold/40'
               }
             `}
           >

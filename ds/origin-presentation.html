@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin by ILCO Farming — Platform Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --or-black: #0A0A0A;
+  --or-dark: #141414;
+  --or-dark-2: #1C1C1C;
+  --or-dark-3: #252525;
+  --or-gold: #C9A84C;
+  --or-gold-bright: #D4B86A;
+  --or-gold-muted: #8B6914;
+  --or-gold-light: #E8D5A3;
+  --or-white: #F5F0E8;
+  --or-grey-1: #C4BBA8;
+  --or-grey-2: #A89F8C;
+  --or-grey-3: #6B6458;
+  --or-grey-4: #3D3830;
+  --or-green: #4A7C3F;
+  --or-error: #B91C1C;
+  --font-display: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; scroll-snap-type: y mandatory; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--or-black);
+  color: var(--or-grey-1);
+  line-height: 1.6;
+}
+
+/* ═══════ SLIDE SYSTEM ═══════ */
+.slide {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 60px;
+  position: relative;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+
+.slide-inner {
+  max-width: 1000px;
+  width: 100%;
+  z-index: 2;
+}
+
+/* ═══════ BACKGROUNDS ═══════ */
+.slide-dark { background: var(--or-black); }
+.slide-surface { background: var(--or-dark); }
+.slide-elevated { background: var(--or-dark-2); }
+
+.slide-glow::before {
+  content: '';
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+  top: -250px; right: -200px;
+  pointer-events: none;
+}
+
+.slide-glow-left::after {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139,105,20,0.04) 0%, transparent 70%);
+  bottom: -150px; left: -100px;
+  pointer-events: none;
+}
+
+/* ═══════ TYPOGRAPHY ═══════ */
+.slide-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--or-gold);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.slide-title {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--or-white);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.slide-title-gold {
+  background: linear-gradient(180deg, #E8D5A3 0%, #C9A84C 50%, #8B6914 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.slide-subtitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--or-grey-2);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.slide-text {
+  font-size: 1.1rem;
+  color: var(--or-grey-2);
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+/* ═══════ GOLD DIVIDER ═══════ */
+.gold-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--or-gold), var(--or-gold-light));
+  margin-bottom: 32px;
+}
+
+.gold-line-wide {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+  margin: 40px 0;
+}
+
+/* ═══════ FEATURE GRID ═══════ */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.feature-card {
+  background: var(--or-dark);
+  border: 1px solid var(--or-dark-3);
+  border-radius: 12px;
+  padding: 32px 24px;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  border-color: rgba(201,168,76,0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+}
+
+.feature-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--or-white);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.feature-desc {
+  font-size: 0.9rem;
+  color: var(--or-grey-2);
+  line-height: 1.6;
+}
+
+/* ═══════ STAT ROW ═══════ */
+.stat-row {
+  display: flex;
+  gap: 48px;
+  margin: 40px 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--or-gold);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--or-grey-3);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 8px;
+}
+
+/* ═══════ PRICING TABLE ═══════ */
+.pricing-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 32px 0;
+}
+
+.pricing-table th {
+  background: var(--or-dark-2);
+  color: var(--or-gold);
+  padding: 14px 20px;
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+
+.pricing-table th:last-child { text-align: right; }
+
+.pricing-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--or-dark-3);
+  font-size: 0.95rem;
+}
+
+.pricing-table td:last-child {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--or-gold);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  min-width: 140px;
+}
+
+.pricing-table .item-name {
+  color: var(--or-white);
+  font-weight: 500;
+}
+
+.pricing-table .item-desc {
+  color: var(--or-grey-3);
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.pricing-table .row-total td {
+  border-top: 2px solid rgba(201,168,76,0.3);
+  border-bottom: none;
+  font-weight: 700;
+  padding-top: 20px;
+}
+
+.pricing-table .row-total td:first-child {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--or-white);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pricing-table .row-total td:last-child {
+  font-size: 1.3rem;
+  color: var(--or-gold-light);
+}
+
+.pricing-note {
+  font-size: 0.8rem;
+  color: var(--or-grey-3);
+  font-style: italic;
+  margin-top: 16px;
+}
+
+/* ═══════ TIMELINE ═══════ */
+.timeline {
+  margin: 40px 0;
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, var(--or-gold), var(--or-dark-3));
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -34px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--or-gold);
+  box-shadow: 0 0 12px rgba(201,168,76,0.3);
+}
+
+.timeline-week {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--or-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 6px;
+}
+
+.timeline-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--or-white);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.timeline-desc {
+  font-size: 0.9rem;
+  color: var(--or-grey-2);
+  line-height: 1.6;
+}
+
+/* ═══════ TWO COL ═══════ */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* ═══════ CHECKLIST ═══════ */
+.checklist {
+  list-style: none;
+  margin: 24px 0;
+}
+
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--or-dark-3);
+  font-size: 0.95rem;
+  color: var(--or-grey-1);
+}
+
+.checklist li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--or-gold);
+  border-radius: 4px;
+  background: rgba(201,168,76,0.08);
+  margin-top: 2px;
+}
+
+/* ═══════ BADGE ═══════ */
+.badge {
+  display: inline-flex;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.badge-gold { background: rgba(201,168,76,0.1); color: var(--or-gold-light); border: 1px solid rgba(201,168,76,0.2); }
+.badge-green { background: rgba(74,124,63,0.1); color: #5E9950; border: 1px solid rgba(74,124,63,0.2); }
+
+/* ═══════ SLIDE NAV ═══════ */
+.slide-nav {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 100;
+}
+
+.slide-nav a {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--or-dark-3);
+  border: 1px solid var(--or-grey-4);
+  transition: all 0.3s;
+  display: block;
+}
+
+.slide-nav a:hover,
+.slide-nav a.active {
+  background: var(--or-gold);
+  border-color: var(--or-gold);
+  box-shadow: 0 0 8px rgba(201,168,76,0.3);
+}
+
+/* ═══════ PRINT ═══════ */
+@media print {
+  @page { size: A4 landscape; margin: 12mm; }
+  html { scroll-snap-type: none; }
+  body { background: var(--or-black); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .slide {
+    min-height: auto;
+    height: auto;
+    page-break-after: always;
+    page-break-inside: avoid;
+    padding: 24px 32px;
+    overflow: visible;
+  }
+  .slide:last-child { page-break-after: auto; }
+  .slide-nav { display: none; }
+
+  /* Scale down typography for print */
+  .slide-title { font-size: 2rem !important; }
+  .slide-title-gold { font-size: inherit !important; }
+  .slide-label { font-size: 0.6rem; margin-bottom: 10px; }
+  .slide-text { font-size: 0.85rem; max-width: 100%; }
+
+  /* Title slide logo */
+  .slide img[alt="Origin by ILCO Farming"] { width: 220px !important; margin-bottom: 24px !important; }
+
+  /* Feature cards grid */
+  .feature-grid { gap: 12px !important; }
+  .feature-card { padding: 14px !important; }
+  .feature-title { font-size: 0.85rem !important; }
+  .feature-desc { font-size: 0.72rem !important; }
+  .feature-icon { font-size: 1.4rem !important; }
+
+  /* Two-column layouts */
+  .two-col { gap: 20px !important; }
+
+  /* Pricing table */
+  .pricing-table td, .pricing-table th { padding: 8px 12px !important; font-size: 0.8rem !important; }
+  .pricing-table td:last-child { font-size: 0.8rem !important; white-space: nowrap; }
+  .item-name { font-size: 0.82rem !important; }
+  .item-desc { font-size: 0.68rem !important; }
+
+  /* Timeline */
+  .timeline-item { padding-left: 20px !important; margin-bottom: 12px !important; }
+  .timeline-week { font-size: 0.6rem !important; }
+  .timeline-title { font-size: 0.85rem !important; }
+  .timeline-desc { font-size: 0.72rem !important; }
+
+  /* Gold line */
+  .gold-line { margin: 12px 0 16px !important; }
+
+  /* Hide decorative glows */
+  .slide-glow::before, .slide-glow-left::after { display: none; }
+
+  /* Pricing notes */
+  .pricing-note { font-size: 0.65rem !important; }
+
+  /* Next steps cards */
+  .step-card { padding: 14px !important; }
+  .step-title { font-size: 0.85rem !important; }
+  .step-desc { font-size: 0.72rem !important; }
+}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 768px) {
+  .slide { padding: 60px 24px; }
+  .slide-title { font-size: 2.25rem; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; gap: 32px; }
+  .stat-row { flex-wrap: wrap; gap: 24px; }
+  .slide-nav { display: none; }
+}
+
+/* ═══════ SHIMMER ═══════ */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.text-shimmer {
+  background: linear-gradient(90deg, #8B6914, #C9A84C, #E8D5A3, #C9A84C, #8B6914);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+</style>
+</head>
+<body>
+
+<!-- SLIDE NAV -->
+<nav class="slide-nav">
+  <a href="#slide-1" title="Welcome"></a>
+  <a href="#slide-2" title="Platform"></a>
+  <a href="#slide-3" title="Features"></a>
+  <a href="#slide-4" title="How It Works"></a>
+  <a href="#slide-5" title="Your Brand"></a>
+  <a href="#slide-6" title="Investment"></a>
+  <a href="#slide-7" title="Rollout"></a>
+  <a href="#slide-8" title="Next Steps"></a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 1 — TITLE
+     ═══════════════════════════════════════════════════ -->
+<section class="slide slide-dark slide-glow slide-glow-left" id="slide-1">
+  <div class="slide-inner" style="text-align:center">
+    <img src="../public/logo.png" alt="Origin by ILCO Farming" style="width:320px;margin:0 auto 48px;filter:drop-shadow(0 4px 32px rgba(201,168,76,0.2))">
+    <div class="gold-line" style="margin:0 auto 32px"></div>
+    <p style="font-family:var(--font-display);font-size:1.25rem;color:var(--or-grey-2);letter-spacing:0.06em;text-transform:uppercase">Collection Point Management Platform</p>
+    <p style="font-size:0.9rem;color:var(--or-grey-3);margin-top:16px">Prepared for ILCO Farming — March 2026</p>
+    <p style="font-size:0.8rem;color:var(--or-grey-4);margin-top:8px">Presented by FloRouter AI</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 2 — THE PLATFORM
+     ═══════════════════════════════════════════════════ -->
+<section class="slide slide-surface slide-glow" id="slide-2">
+  <div class="slide-inner">
+    <span class="slide-label">The Platform</span>
+    <h2 class="slide-title">Everything You Need<br>To Run Your <span class="slide-title-gold">Collection Points</span></h2>
+    <div class="gold-line"></div>
+    <p class="slide-text">
+      Origin is a complete, end-to-end management platform purpose-built for cannabis collection points in South Africa.
+      From point-of-sale to stocktake, from inventory management to your customer-facing website — all connected,
+      all branded, all yours.
+    </p>
+
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Integrated Platform</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Connected Modules</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">IT Support</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Your Brand</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 3 — FEATURES
+     ═══════════════════════════════════════════════════ -->
+<section class="slide slide-dark slide-glow-left" id="slide-3">
+  <div class="slide-inner">
+    <span class="slide-label">What's Included</span>
+    <h2 class="slide-title">Six Powerful <span class="slide-title-gold">Modules</span></h2>
+    <div class="gold-line"></div>
+    <p class="slide-text">Every module is designed for the South African cannabis market — SAHPRA-aware, ZAR-native, and built for the way your teams actually work.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#128722;</div>
+        <div class="feature-title">Point of Sale</div>
+        <div class="feature-desc">Tablet-optimised POS with PIN login, shift management, cash-up reports, and receipt printing. Works offline.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128230;</div>
+        <div class="feature-title">Inventory Manager</div>
+        <div class="feature-desc">Real-time stock levels, batch tracking, reorder alerts, supplier management, and inter-branch transfers.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128203;</div>
+        <div class="feature-title">Stocktake App</div>
+        <div class="feature-desc">Camera-assisted stocktake with session management, variance reporting, and full audit trail. PWA — works on any device.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#127760;</div>
+        <div class="feature-title">Client Website</div>
+        <div class="feature-desc">Origin-branded marketing site with product catalog, location pages, and online ordering — all connected to your live stock.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128666;</div>
+        <div class="feature-title">Dispatch & Packing</div>
+        <div class="feature-desc">Order fulfilment pipeline with dispatch tracking, packer assignments, and delivery status updates.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 4 — HOW IT WORKS
+     ═══════════════════════════════════════════════════ -->
+<section class="slide slide-surface slide-glow" id="slide-4">
+  <div class="slide-inner">
+    <span class="slide-label">How It Works</span>
+    <h2 class="slide-title">Connected <span class="slide-title-gold">From Day One</span></h2>
+    <div class="gold-line"></div>
+
+    <div class="two-col" style="margin-top:40px">
+      <div>
+        <p class="slide-text" style="margin-bottom:24px">
+          Every module talks to the same database. When a sale happens at the POS,
+          stock levels update in real-time for the inventory manager, the owner dashboard,
+          and the customer website.
+        </p>
+
+        <div style="background:var(--or-dark-2);border:1px solid var(--or-dark-3);border-radius:12px;padding:24px;font-family:var(--font-mono);font-size:0.85rem;color:var(--or-grey-2);line-height:2">
+          <span style="color:var(--or-gold)">POS Sale</span> ───> Stock Updated<br>
+          <span style="color:var(--or-gold)">Stock Updated</span> ───> Owner Dashboard<br>
+          <span style="color:var(--or-gold)">Stock Updated</span> ───> Website Availability<br>
+          <span style="color:var(--or-gold)">Low Stock</span> ───> Reorder Alert<br>
+          <span style="color:var(--or-gold)">Stocktake</span> ───> Variance Report
+        </div>
+      </div>
+
+      <div>
+        <ul class="checklist">
+          <li>All staff login with secure PIN — no shared accounts</li>
+          <li>Every transaction has a full audit trail</li>
+          <li>Works offline — syncs when connection returns</li>
+          <li>Role-based access: cashier, manager, inventory, owner</li>
+          <li>Mobile-first — runs on any tablet or phone</li>
+          <li>Daily cash-up and shift-end reports</li>
+          <li>Real-time notifications for critical events</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 5 — YOUR BRAND
+     ═══════════════════════════════════════════════════ -->
+<section class="slide slide-dark slide-glow slide-glow-left" id="slide-5">
+  <div class="slide-inner" style="text-align:center">
+    <span class="slide-label">Your Brand, Your Identity</span>
+    <h2 class="slide-title"><span class="slide-title-gold">Origin</span> — Fully Branded</h2>
+    <div class="gold-line" style="margin:0 auto 32px"></div>
+    <p class="slide-text" style="margin:0 auto 48px;text-align:center">
+      Every screen, every receipt, every email, every page carries the Origin brand.
+      Gold-on-black luxury identity that reflects the premium quality of your product.
+    </p>
+
+    <!-- Color swatches -->
+    <div style="display:flex;justify-content:center;gap:16px;margin-bottom:40px;flex-wrap:wrap">
+      <div style="text-align:center">
+        <div style="width:80px;height:80px;background:#C9A84C;border-radius:12px;margin-bottom:8px"></div>
+        <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--or-grey-3)">#C9A84C</div>
+        <div style="font-size:0.7rem;color:var(--or-grey-2);margin-top:2px">Primary Gold</div>
+      </div>
+      <div style="text-align:center">
+        <div style="width:80px;height:80px;background:#E8D5A3;border-radius:12px;margin-bottom:8px"></div>
+        <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--or-grey-3)">#E8D5A3</div>
+        <div style="font-size:0.7rem;color:var(--or-grey-2);margin-top:2px">Champagne</div>
+      </div>
+      <div style="text-align:center">
+        <div style="width:80px;height:80px;background:#8B6914;border-radius:12px;margin-bottom:8px"></div>
+        <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--or-grey-3)">#8B6914</div>
+        <div style="font-size:0.7rem;color:var(--or-grey-2);margin-top:2px">Deep Gold</div>
+      </div>
+      <div style="text-align:center">
+        <div style="width:80px;height:80px;background:#0A0A0A;border:1px solid var(--or-dark-3);border-radius:12px;margin-bottom:8px"></div>
+        <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--or-grey-3)">#0A0A0A</div>
+        <div style="font-size:0.7rem;color:var(--or-grey-2);margin-top:2px">Black</div>
+      </div>
+      <div style="text-align:center">
+        <div style="width:80px;height:80px;background:#F5F0E8;border-radius:12px;margin-bottom:8px"></div>
+        <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--or-grey-3)">#F5F0E8</div>
+        <div style="font-size:0.7rem;color:var(--or-grey-2);margin-top:2px">Warm White</div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:48px;flex-wrap:wrap">
+      <div style="text-align:center">
+        <div style="font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--or-white);text-transform:uppercase;letter-spacing:0.08em">Origin</div>
+        <div style="font-size:0.7rem;color:var(--or-grey-3);margin-top:4px">Cinzel — Display Font</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:var(--font-body);font-size:2rem;font-weight:400;color:var(--or-white)">Premium Quality</div>
+        <div style="font-size:0.7rem;color:var(--or-grey-3);margin-top:4px">Inter — Body Font</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:var(--font-mono);font-size:2rem;font-weight:400;color:var(--or-white)">R 180.00</div>
+        <div style="font-size:0.7rem;color:var(--or-grey-3);margin-top:4px">JetBrains Mono — Data</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 6 — INVESTMENT
+     ═══════════════════════════════════════════════════ -->
+<section class="slide slide-surface slide-glow" id="slide-6">
+  <div class="slide-inner">
+    <span class="slide-label">Investment</span>
+    <h2 class="slide-title">Setup & <span class="slide-title-gold">Pricing</span></h2>
+    <div class="gold-line"></div>
+    <p class="slide-text">
+      One-time setup for Potchefstroom physical collection point + Origin Online Store.
+      Includes everything to go live: platform, training, stocktake, and Section 21 compliance.
+    </p>
+
+    <div style="background:var(--or-dark);border:1px solid var(--or-dark-3);border-radius:12px;overflow:hidden">
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="item-name">Origin Collection Point Management Platform</div>
+              <div class="item-desc">Integration, setup & training (Potchefstroom store) — includes POS, stocktake app, inventory manager dashboard, marketing website, one full stocktake & staff training</div>
+            </td>
+            <td>R 15 000,00</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="item-name">Origin Online Store Setup</div>
+              <div class="item-desc">Online collection point with product catalog, ordering, and live stock connection</div>
+            </td>
+            <td>R 5 000,00</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="item-name">Section 21 Doctor's Letter</div>
+              <div class="item-desc">Section 21 application (R 5 000) + Doctor's course certification (R 3 500)</div>
+            </td>
+            <td>R 8 500,00</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="item-name">SaaS Monthly Fee + 24/7 IT Support</div>
+              <div class="item-desc">Hosting, maintenance, updates, monitoring & priority support (monthly, ongoing)</div>
+            </td>
+            <td>R 999,00 /mo</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="padding:20px 20px 24px;border-top:2px solid rgba(201,168,76,0.2);display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-family:var(--font-display);font-size:0.9rem;color:var(--or-white);text-transform:uppercase;letter-spacing:0.04em">Total Due on Setup</div>
+          <div style="font-size:0.75rem;color:var(--or-grey-3);margin-top:4px">Excludes monthly SaaS fee (billed separately)</div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:1.8rem;font-weight:700;color:var(--or-gold-light)">R 28 500,00</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:24px;margin-top:20px;flex-wrap:wrap">
+      <p class="pricing-note">* Excludes long distance travel and lodging</p>
+      <p class="pricing-note">* Additional stores: R 5 000 per store setup</p>
+      <p class="pricing-note">* Monthly SaaS fee of R 999 starts after go-live</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 7 — ROLLOUT TIMELINE
+     ═══════════════════════════════════════════════════ -->
+<section class="slide slide-dark slide-glow-left" id="slide-7">
+  <div class="slide-inner">
+    <span class="slide-label">Rollout</span>
+    <h2 class="slide-title">Go-Live <span class="slide-title-gold">Timeline</span></h2>
+    <div class="gold-line"></div>
+
+    <div class="two-col">
+      <div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-week">Week 1</div>
+            <div class="timeline-title">Platform Setup & Branding</div>
+            <div class="timeline-desc">Origin brand configuration, logo integration, domain setup, SAHPRA documentation kick-off</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-week">Week 2</div>
+            <div class="timeline-title">Product & Stock Load</div>
+            <div class="timeline-desc">Product catalog setup, pricing configuration, initial stock load for Potchefstroom</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-week">Week 3</div>
+            <div class="timeline-title">Training & Testing</div>
+            <div class="timeline-desc">Staff training on POS, stocktake app, and inventory. Full stocktake with camera-assist</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-week">Week 4</div>
+            <div class="timeline-title">Go Live</div>
+            <div class="timeline-desc">Potchefstroom collection point opens on Origin platform. Online store goes live. Owner dashboard activated.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="background:var(--or-dark);border:1px solid var(--or-dark-3);border-radius:12px;padding:32px">
+          <div style="font-family:var(--font-display);font-size:1.1rem;color:var(--or-white);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:20px">What You Get at Go-Live</div>
+          <ul class="checklist" style="margin:0">
+            <li>Fully branded Origin POS system</li>
+            <li>Stocktake app on all devices</li>
+            <li>Inventory manager dashboard</li>
+            <li>Owner's 360 dashboard</li>
+            <li>Customer-facing website</li>
+            <li>Online store with live stock</li>
+            <li>All staff trained and onboarded</li>
+            <li>Complete first stocktake done</li>
+            <li>SAHPRA compliance documentation</li>
+            <li>24/7 IT support activated</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 8 — NEXT STEPS
+     ═══════════════════════════════════════════════════ -->
+<section class="slide slide-surface slide-glow" id="slide-8">
+  <div class="slide-inner" style="text-align:center">
+    <span class="slide-label">Let's Begin</span>
+    <h2 class="slide-title" style="font-size:3rem"><span class="slide-title-gold">Next Steps</span></h2>
+    <div class="gold-line" style="margin:0 auto 40px"></div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:48px;text-align:left">
+      <div class="feature-card">
+        <div style="font-family:var(--font-display);font-size:2.5rem;color:var(--or-gold);margin-bottom:16px;line-height:1">1</div>
+        <div class="feature-title">Approve Quote</div>
+        <div class="feature-desc">Review the attached quote (OR-00001). Sign off on the setup package for Potchefstroom + Online.</div>
+      </div>
+      <div class="feature-card">
+        <div style="font-family:var(--font-display);font-size:2.5rem;color:var(--or-gold);margin-bottom:16px;line-height:1">2</div>
+        <div class="feature-title">Provide Assets</div>
+        <div class="feature-desc">Share product list, pricing, branch address, staff details, and any SAHPRA documentation you have.</div>
+      </div>
+      <div class="feature-card">
+        <div style="font-family:var(--font-display);font-size:2.5rem;color:var(--or-gold);margin-bottom:16px;line-height:1">3</div>
+        <div class="feature-title">We Build & Launch</div>
+        <div class="feature-desc">We handle the entire setup, training, and go-live. You focus on running your business.</div>
+      </div>
+    </div>
+
+    <div class="gold-line-wide"></div>
+
+    <div style="margin-top:32px">
+      <img src="../public/logo.png" alt="Origin" style="width:160px;margin:0 auto 24px;filter:drop-shadow(0 4px 20px rgba(201,168,76,0.15))">
+      <p style="font-family:var(--font-display);font-size:1.1rem;color:var(--or-gold);text-transform:uppercase;letter-spacing:0.08em">Origin by ILCO Farming</p>
+      <p style="font-size:0.8rem;color:var(--or-grey-3);margin-top:12px;letter-spacing:0.1em;text-transform:uppercase">Premium Quality Cannabis</p>
+      <div style="margin-top:32px;font-size:0.85rem;color:var(--or-grey-3)">
+        <p>FloRouter AI &mdash; Faerie Glen, Pretoria</p>
+        <p style="margin-top:8px;color:var(--or-grey-2)">florisolivier7@gmail.com</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
 import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
-import { BookOpen, AlertTriangle, Wrench, Plus, CheckCircle } from 'lucide-react';
+import { BookOpen, AlertTriangle, Wrench, Plus, CheckCircle, ShieldCheck, ExternalLink, Database, GitBranch, Tags } from 'lucide-react';
 import api from '../../services/api';
 
 export default function QMSPage() {
@@ -24,6 +24,8 @@ export default function QMSPage() {
   const { data: deviations } = useQuery({ queryKey: ['deviations'], queryFn: () => api.get('/qms/deviations?open=true').then(r => r.data.deviations) });
   const { data: equipment } = useQuery({ queryKey: ['equipment'], queryFn: () => api.get('/qms/equipment').then(r => r.data.equipment) });
   const { data: facilities } = useQuery({ queryKey: ['facilities'], queryFn: () => api.get('/facilities').then(r => r.data.facilities) });
+  const { data: euGmp } = useQuery({ queryKey: ['eu-gmp-registry'], queryFn: () => api.get('/qms/eu-gmp-registry').then(r => r.data) });
+  const { data: labels } = useQuery({ queryKey: ['labels'], queryFn: () => api.get('/labels').then(r => r.data.labels) });
 
   const facilityId = facilities?.[0]?.id || '';
 
@@ -51,15 +53,118 @@ export default function QMSPage() {
     onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
   });
 
+  const syncEuGmpMut = useMutation({
+    mutationFn: () => api.post('/qms/eu-gmp-registry/sync'),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['eu-gmp-registry'] }); addToast('success', 'EU GMP registry synced'); },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
+  });
+
+  const syncSopGovernanceMut = useMutation({
+    mutationFn: () => api.post('/qms/sops/sync-governance'),
+    onSuccess: (res) => {
+      qc.invalidateQueries({ queryKey: ['sops'] });
+      qc.invalidateQueries({ queryKey: ['task-templates'] });
+      addToast('success', `SOP governance synced: ${res.data.templatesCreated} checklists, ${res.data.trainingCreated} training records`);
+    },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
+  });
+
+  const reconcileLabelsMut = useMutation({
+    mutationFn: () => api.post('/labels/reconcile'),
+    onSuccess: (res) => { qc.invalidateQueries({ queryKey: ['labels'] }); addToast('success', `${res.data.unreconciled} unreconciled label(s) flagged`); },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
+  });
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-white">Quality Management</h1>
+
+      <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <GitBranch size={17} className="text-primary" />
+          <h2 className="text-sm font-semibold text-white/70">Production Readiness Chain</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-6 gap-2">
+          {['EU GMP Source', 'SOP', 'Checklist', 'Task/Ticket', 'Evidence', 'Digital SMF'].map((step, i) => (
+            <div key={step} className="bg-black/20 border border-white/[0.06] rounded-lg p-3">
+              <div className="text-[10px] text-primary font-mono mb-1">STEP {i + 1}</div>
+              <div className="text-xs text-white/70 font-semibold">{step}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* EU GMP Source Registry */}
+      <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <ShieldCheck size={17} className="text-primary" />
+              <h2 className="text-sm font-semibold text-white/70">EU GMP Source Registry</h2>
+            </div>
+            <p className="text-xs text-white/40 max-w-3xl">
+              EU GMP / EudraLex Volume 4 is the sole source of truth. QMS controls and the Digital SMF map evidence back to these official resources.
+            </p>
+          </div>
+          <div className="flex gap-2 flex-shrink-0">
+            {euGmp?.officialUrl && (
+              <a href={euGmp.officialUrl} target="_blank" className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-xs text-white/50 hover:text-white flex items-center gap-1.5">
+                <ExternalLink size={12} /> Official source
+              </a>
+            )}
+            {hasMinLevel(4) && (
+              <button onClick={() => syncEuGmpMut.mutate()} disabled={syncEuGmpMut.isPending} className="px-3 py-2 bg-primary/10 border border-primary/30 rounded-lg text-xs text-primary hover:bg-primary/20 flex items-center gap-1.5">
+                <Database size={12} /> Sync registry
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+            <div className="text-lg font-bold font-mono text-primary">{euGmp?.sources?.length ?? '—'}</div>
+            <div className="text-[10px] text-white/25">EU GMP Sources</div>
+          </div>
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+            <div className="text-lg font-bold font-mono text-white">{euGmp?.controls?.length ?? '—'}</div>
+            <div className="text-[10px] text-white/25">Mapped Controls</div>
+          </div>
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+            <div className="text-lg font-bold font-mono text-green-400">0</div>
+            <div className="text-[10px] text-white/25">Unmapped Controls</div>
+          </div>
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+            <div className="text-lg font-bold font-mono text-amber-300">Vol 4</div>
+            <div className="text-[10px] text-white/25">Regulatory Baseline</div>
+          </div>
+        </div>
+        <div className="space-y-2">
+          {(euGmp?.controls ?? []).slice(0, 8).map((control: any) => (
+            <div key={control.id} className="bg-black/20 border border-white/[0.06] rounded-lg p-3">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-sm text-white font-medium">{control.title}</div>
+                  <div className="text-xs text-white/30 mt-0.5">{control.domain} · {control.controlId}</div>
+                </div>
+                <span className="text-[10px] px-2 py-1 rounded-full bg-green-500/10 text-green-300 border border-green-500/20">{control.status}</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {control.sourceIds?.map((sourceId: string) => (
+                  <span key={sourceId} className="text-[10px] px-2 py-1 rounded bg-primary/10 text-primary border border-primary/15 font-mono">{sourceId}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* SOPs */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-5">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2"><BookOpen size={16} className="text-primary" /><h2 className="text-sm font-semibold text-white/60">SOPs</h2></div>
-          {hasMinLevel(3) && <button onClick={() => setShowSOP(true)} className="text-xs text-primary flex items-center gap-1 hover:text-primary-light"><Plus size={12} /> Add SOP</button>}
+          <div className="flex gap-3">
+            {hasMinLevel(3) && <button onClick={() => syncSopGovernanceMut.mutate()} className="text-xs text-amber-300 flex items-center gap-1 hover:text-amber-200"><GitBranch size={12} /> Sync governance</button>}
+            {hasMinLevel(3) && <button onClick={() => setShowSOP(true)} className="text-xs text-primary flex items-center gap-1 hover:text-primary-light"><Plus size={12} /> Add SOP</button>}
+          </div>
         </div>
         {!sops?.length ? <p className="text-white/30 text-sm">No SOPs</p> : sops.map((s: any) => (
           <div key={s.id} className="flex justify-between py-2 border-b border-white/5 text-sm">
@@ -67,6 +172,26 @@ export default function QMSPage() {
             <div className="flex gap-3 text-xs text-white/40">
               <span>v{s.version}</span><span>{s._count?.acknowledgements || 0} acks</span>
             </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Label / Stationary Controls */}
+      <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2"><Tags size={16} className="text-primary" /><h2 className="text-sm font-semibold text-white/60">Label & Stationary Controls</h2></div>
+          {hasMinLevel(3) && <button onClick={() => reconcileLabelsMut.mutate()} className="text-xs text-primary flex items-center gap-1 hover:text-primary-light"><CheckCircle size={12} /> Reconcile</button>}
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-white">{labels?.length || 0}</div><div className="text-[10px] text-white/25">Total labels</div></div>
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-amber-300">{labels?.filter((l: any) => ['ISSUED','PRINTED','REPRINTED'].includes(l.status)).length || 0}</div><div className="text-[10px] text-white/25">Unreconciled</div></div>
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-red-300">{labels?.filter((l: any) => ['MISSING','DESTROYED','MISPRINTED','DAMAGED'].includes(l.status)).length || 0}</div><div className="text-[10px] text-white/25">Controlled</div></div>
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-primary">EU GMP</div><div className="text-[10px] text-white/25">Grounded</div></div>
+        </div>
+        {!labels?.length ? <p className="text-white/30 text-sm">No labels issued yet</p> : labels.slice(0, 6).map((l: any) => (
+          <div key={l.id} className="flex justify-between py-2 border-b border-white/5 text-sm">
+            <span className="text-white/80 font-mono">{l.labelCode}</span>
+            <span className="text-xs text-white/40">{l.labelType} · {l.status}</span>
           </div>
         ))}
       </div>

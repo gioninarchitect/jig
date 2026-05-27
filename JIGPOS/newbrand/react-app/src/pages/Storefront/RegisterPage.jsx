@@ -58,15 +58,15 @@ export default function RegisterPage() {
   }
 
   const inputClass = (field) =>
-    `w-full px-4 py-3.5 bg-jig-slate border-2 rounded-[8px] text-white focus:outline-none transition-all ${
-      errors[field] ? 'border-red-500 focus:border-red-500' : 'border-transparent focus:border-jig-purple'
+    `w-full px-4 py-3.5 bg-origin-slate border-2 rounded-[8px] text-white focus:outline-none transition-all ${
+      errors[field] ? 'border-red-500 focus:border-red-500' : 'border-transparent focus:border-or-gold'
     }`;
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-jig-slate relative">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-origin-slate relative">
       {/* Decorative circles */}
-      <div className="fixed top-[-150px] right-[-100px] w-[400px] h-[400px] rounded-full opacity-[0.08] pointer-events-none" style={{ background: 'linear-gradient(135deg, #7C3AED, #D97706)' }} />
-      <div className="fixed bottom-[-100px] left-[-80px] w-[300px] h-[300px] rounded-full opacity-[0.08] pointer-events-none" style={{ background: 'linear-gradient(135deg, #D97706, #7C3AED)' }} />
+      <div className="fixed top-[-150px] right-[-100px] w-[400px] h-[400px] rounded-full opacity-[0.08] pointer-events-none" style={{ background: 'linear-gradient(135deg, #C9A84C, #F0A500)' }} />
+      <div className="fixed bottom-[-100px] left-[-80px] w-[300px] h-[300px] rounded-full opacity-[0.08] pointer-events-none" style={{ background: 'linear-gradient(135deg, #F0A500, #C9A84C)' }} />
 
       <div className="w-full max-w-[480px] relative z-10">
         <div
@@ -75,10 +75,10 @@ export default function RegisterPage() {
         >
           {/* Logo + Brand */}
           <div className="text-center mb-6">
-            <div className="w-20 h-20 mx-auto mb-3 bg-jig-slate rounded-full flex items-center justify-center">
-              <span className="font-heading text-2xl text-jig-purple">JIG</span>
+            <div className="w-20 h-20 mx-auto mb-3 bg-origin-slate rounded-full flex items-center justify-center">
+              <span className="font-heading text-2xl text-or-gold">Origin</span>
             </div>
-            <h1 className="font-heading text-[1.75rem] text-jig-purple uppercase tracking-wide">JIG Craft Cannabis</h1>
+            <h1 className="font-heading text-[1.75rem] text-or-gold uppercase tracking-wide">Origin by ILCO Farming</h1>
             <p className="text-[0.8rem] font-medium tracking-wide" style={{ color: '#B8922D' }}>Cultivating Excellence</p>
           </div>
 
@@ -118,12 +118,12 @@ export default function RegisterPage() {
             </div>
 
             <label className="flex items-start gap-3 cursor-pointer">
-              <input name="agreeTerms" type="checkbox" checked={form.agreeTerms} onChange={handleChange} className="accent-jig-purple w-5 h-5 mt-0.5" />
+              <input name="agreeTerms" type="checkbox" checked={form.agreeTerms} onChange={handleChange} className="accent-or-gold w-5 h-5 mt-0.5" />
               <span className="text-sm text-gray-600">
                 I agree to the{' '}
-                <Link to="/terms" className="text-jig-amber font-semibold hover:underline" target="_blank">Terms & Conditions</Link>
+                <Link to="/terms" className="text-or-gold font-semibold hover:underline" target="_blank">Terms & Conditions</Link>
                 {' '}and{' '}
-                <Link to="/privacy" className="text-jig-amber font-semibold hover:underline" target="_blank">Privacy Policy</Link>
+                <Link to="/privacy" className="text-or-gold font-semibold hover:underline" target="_blank">Privacy Policy</Link>
               </span>
             </label>
             {errors.agreeTerms && <p className="text-xs text-red-500">{errors.agreeTerms}</p>}
@@ -131,7 +131,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-4 font-heading text-[1.125rem] uppercase tracking-wider bg-jig-purple text-white rounded-[8px] hover:bg-jig-purple-dark hover:-translate-y-px transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-4 font-heading text-[1.125rem] uppercase tracking-wider bg-or-gold text-white rounded-[8px] hover:bg-or-gold-dark hover:-translate-y-px transition-all disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ boxShadow: submitting ? 'none' : '0 4px 12px rgba(42,70,53,0.25)' }}
             >
               {submitting ? 'Creating Account...' : 'Create Account'}
@@ -147,16 +147,16 @@ export default function RegisterPage() {
 
           <p className="text-center text-sm text-gray-500">
             Already have an account?{' '}
-            <Link to="/login" className="text-jig-amber font-semibold hover:underline">Login</Link>
+            <Link to="/login" className="text-or-gold font-semibold hover:underline">Login</Link>
           </p>
 
           {/* Benefits */}
-          <div className="mt-6 bg-jig-slate rounded-[12px] p-5" style={{ border: '1px solid rgba(58,95,72,0.1)' }}>
-            <h3 className="text-sm font-bold text-jig-purple-dark uppercase tracking-wider mb-3">Member Benefits</h3>
+          <div className="mt-6 bg-origin-slate rounded-[12px] p-5" style={{ border: '1px solid rgba(58,95,72,0.1)' }}>
+            <h3 className="text-sm font-bold text-or-gold-dark uppercase tracking-wider mb-3">Member Benefits</h3>
             <ul className="space-y-2">
               {BENEFITS.map((b) => (
                 <li key={b} className="flex items-start gap-2 text-[0.85rem] text-gray-600">
-                  <svg className="w-4 h-4 mt-0.5 shrink-0" fill="#D97706" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+                  <svg className="w-4 h-4 mt-0.5 shrink-0" fill="#F0A500" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
                   <span>{b}</span>
                 </li>
               ))}

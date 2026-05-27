@@ -1,11 +1,11 @@
 #!/bin/bash
 # ──────────────────────────────────────────────
-# JIG Server Audit - Run on 154.66.197.199
+# PureGro Server Audit - Run on 154.66.197.199
 # Checks ports, services, and readiness
 # ──────────────────────────────────────────────
 
 echo "========================================"
-echo "  JIG SERVER AUDIT - $(date)"
+echo "  PureGro SERVER AUDIT - $(date)"
 echo "========================================"
 
 echo ""

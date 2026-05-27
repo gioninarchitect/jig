@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Inference Engine
+ * PureGro Premium Cannabis Care - Inference Engine
  *
  * Prediction and analysis functions that derive actionable
  * intelligence from a client's world state. Each function is

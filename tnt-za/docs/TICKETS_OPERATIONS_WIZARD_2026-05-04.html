@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ORIGIN · The Ticket System is the Core · 04 May 2026</title>
+<style>
+  :root {
+    --or-gold:        #C9A84C;
+    --or-gold-bright: #D4B86A;
+    --or-gold-light:  #E8D5A3;
+    --or-gold-deep:   #7A5C1A;
+    --or-black:       #0A0A0A;
+    --or-dark:        #141414;
+    --or-dark-2:      #1C1C1C;
+    --or-dark-3:      #252525;
+    --or-dark-4:      #2E2E2E;
+    --or-white:       #F5F0E8;
+    --or-cream:       #E8E0D0;
+    --or-grey-1:      #C4BBA8;
+    --or-grey-2:      #A89F8C;
+    --or-grey-3:      #6B6458;
+    --or-green:       #4A7C3F;
+    --or-red:         #DC2626;
+    --or-amber:       #D4A030;
+    --serif: 'Cinzel', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--or-black);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.04) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: var(--or-white);
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 820px; margin: 0 auto; padding: 48px 40px 64px; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--or-dark-3);
+    margin-bottom: 32px;
+  }
+  .brandmark {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--serif);
+    letter-spacing: 0.22em; text-transform: uppercase; font-size: 12px;
+    color: var(--or-gold); font-weight: 600;
+  }
+  .brandmark .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--or-gold); box-shadow: 0 0 16px rgba(201,168,76,0.5);
+  }
+  .stamp {
+    font-family: var(--mono);
+    font-size: 10px; color: var(--or-grey-3); text-align: right; line-height: 1.5;
+  }
+  .stamp b { color: var(--or-grey-1); font-weight: 500; }
+
+  h1.hero {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 38px; line-height: 1.15;
+    margin: 24px 0 12px;
+    color: var(--or-white);
+  }
+  h1.hero .accent {
+    color: var(--or-gold-light);
+    font-style: italic; font-weight: 500;
+    display: block;
+    margin-top: 4px;
+  }
+  .lede {
+    font-size: 15px; max-width: 700px;
+    color: var(--or-grey-1);
+    margin: 0 0 28px;
+    line-height: 1.65;
+  }
+  .lede strong { color: var(--or-white); font-weight: 600; }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 22px; margin: 44px 0 4px;
+    color: var(--or-gold);
+    letter-spacing: 0.01em; font-weight: 600;
+  }
+  h2 .num {
+    color: var(--or-gold-deep);
+    font-family: var(--mono);
+    font-size: 11px; margin-right: 14px; vertical-align: 4px;
+    letter-spacing: 0.06em; font-weight: 500;
+  }
+  h2 + .sub {
+    color: var(--or-grey-3); font-size: 12px;
+    border-bottom: 1px solid var(--or-dark-3);
+    padding-bottom: 14px; margin-bottom: 20px;
+    font-style: italic;
+  }
+  p { margin: 8px 0 12px; color: var(--or-grey-1); }
+  p strong { color: var(--or-white); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 11.5px;
+    background: rgba(201,168,76,0.08); color: var(--or-gold-light);
+    padding: 2px 6px; border-radius: 3px;
+  }
+
+  /* Wizard step */
+  .wizard {
+    margin: 16px 0 24px;
+    counter-reset: stepnum;
+  }
+  .wizard .step {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 18px;
+    margin-bottom: 16px;
+    break-inside: avoid;
+  }
+  .wizard .step .pill {
+    width: 56px;
+    text-align: center;
+    padding-top: 8px;
+  }
+  .wizard .step .pill .num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--or-gold-bright) 0%, var(--or-gold) 60%, var(--or-gold-deep) 100%);
+    color: var(--or-black);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-weight: 700; font-size: 18px;
+    margin: 0 auto;
+    box-shadow: 0 4px 16px rgba(201,168,76,0.25);
+  }
+  .wizard .step .pill .conn {
+    width: 2px; height: 24px;
+    background: linear-gradient(180deg, var(--or-gold) 0%, transparent 100%);
+    margin: 8px auto 0;
+  }
+  .wizard .step:last-child .pill .conn { display: none; }
+  .wizard .step .body {
+    border: 1px solid var(--or-dark-3);
+    border-radius: 8px;
+    padding: 16px 20px;
+    background: var(--or-dark);
+  }
+  .wizard .step .body h3 {
+    font-family: var(--serif);
+    font-size: 17px; color: var(--or-gold-light);
+    margin: 0 0 6px; font-weight: 600;
+  }
+  .wizard .step .body .who {
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--or-grey-3); margin-bottom: 10px;
+  }
+  .wizard .step .body p {
+    margin: 8px 0; color: var(--or-grey-1); font-size: 13.5px; line-height: 1.6;
+  }
+  .wizard .step .body .what-happens {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px dashed var(--or-dark-3);
+    font-size: 12px; color: var(--or-grey-2);
+  }
+  .wizard .step .body .what-happens b {
+    color: var(--or-gold); font-family: var(--mono);
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    margin-right: 6px;
+  }
+
+  /* Ticket-as-substrate diagram */
+  .substrate {
+    background: var(--or-dark);
+    border: 1px solid var(--or-dark-3);
+    border-radius: 8px;
+    padding: 24px;
+    margin: 16px 0 24px;
+    break-inside: avoid;
+  }
+  .substrate .layers {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .layer-card {
+    border: 1px solid var(--or-dark-3);
+    border-left: 3px solid var(--or-gold);
+    border-radius: 6px;
+    padding: 14px 18px;
+    background: var(--or-dark-2);
+  }
+  .layer-card .role {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--or-gold); font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .layer-card h4 {
+    margin: 0 0 6px; font-size: 15px;
+    color: var(--or-white); font-family: var(--serif); font-weight: 600;
+  }
+  .layer-card p { margin: 0; font-size: 12.5px; color: var(--or-grey-1); }
+
+  /* Why-this-matters callout */
+  .matters {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.03));
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 16px 0;
+    break-inside: avoid;
+  }
+  .matters h4 {
+    font-family: var(--serif);
+    font-size: 14px; color: var(--or-gold);
+    margin: 0 0 6px; font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .matters p {
+    margin: 0; font-size: 13px; color: var(--or-cream);
+    line-height: 1.6;
+  }
+
+  /* Outcome row */
+  .outcome {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 18px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--or-dark-3);
+  }
+  .outcome:last-child { border-bottom: 0; }
+  .outcome .label {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.06em; color: var(--or-gold);
+    font-weight: 600;
+  }
+  .outcome .body { font-size: 13px; color: var(--or-grey-1); }
+
+  /* Footer */
+  .footer {
+    margin-top: 44px; padding-top: 18px;
+    border-top: 1px solid var(--or-dark-3);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--or-grey-3); font-family: var(--mono);
+  }
+  .footer .seal { color: var(--or-gold); font-weight: 600; }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    html, body {
+      background: var(--or-black) !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body { font-size: 11.5px; line-height: 1.5; }
+    .page { padding: 12mm 10mm; max-width: none; margin: 0; background: transparent; }
+    .topbar { padding-bottom: 10px; margin-bottom: 16px; }
+    h1.hero { font-size: 20px; margin: 8px 0 6px; line-height: 1.18; }
+    h1.hero .accent { font-size: 17px; margin-top: 2px; }
+    .lede { font-size: 11.5px; margin-bottom: 12px; max-width: none; }
+    h2 {
+      font-size: 16px; margin: 0 0 2px;
+      break-after: avoid; page-break-after: avoid;
+      break-before: page; page-break-before: always;
+    }
+    h2.no-break { break-before: auto; page-break-before: auto; }
+    h2 + .sub { font-size: 10px; padding-bottom: 8px; margin-bottom: 12px; }
+    .wizard .step, .substrate, .matters, .layer-card,
+    table, .examples, .summary-card { break-inside: avoid; page-break-inside: avoid; }
+    .footer { margin-top: 24px; font-size: 8.5px; padding-top: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brandmark">
+      <span class="dot"></span>
+      ORIGIN <span style="color:var(--or-gold-deep);opacity:.8">·</span> by ILCO Farming
+    </div>
+    <div class="stamp">
+      <div><b>TICKETS · CORE OF OPERATIONS</b></div>
+      <div>Step-by-step wizard for stakeholders</div>
+      <div>04 May 2026 · v1.0</div>
+    </div>
+  </header>
+
+  <h1 class="hero">
+    Tickets are not a bug list. <span class="accent">They are how the farm runs.</span>
+  </h1>
+
+  <p class="lede">
+    Every job at ILCO that needs a human to do something becomes a <strong>ticket</strong>. Daily checks. Cleaning rounds. Equipment calibrations. Mould observations. Driver inspections. Staff requests. RP sign-offs. Owner approvals. SOP executions. SMF reviews. <strong>One inbox. One queue. One source of truth for what needs to happen.</strong>
+  </p>
+
+  <p class="lede">
+    This wizard walks you through how a ticket is born, lives, and dies — and why making this <em>the</em> operational substrate (not a side feature) changes how the entire farm operates.
+  </p>
+
+  <h2 class="no-break"><span class="num">01</span>Why tickets-as-core</h2>
+  <div class="sub">Three layers, one substrate. Same model for every event.</div>
+
+  <div class="substrate">
+    <div class="layers">
+      <div class="layer-card">
+        <div class="role">Layer 1 · Tickets</div>
+        <h4>What needs to happen</h4>
+        <p>Actionable items with assignee, priority, due time, SLA timer. Includes: SOP execution requests, fault reports, requisitions, RP sign-offs, AR approvals, drift alerts.</p>
+      </div>
+      <div class="layer-card">
+        <div class="role">Layer 2 · Specialised data</div>
+        <h4>What the work captured</h4>
+        <p>The rich record of what was actually done — IPM observation values, daily check items, calibration readings, harvest yields, COA results. Each domain has its proper data shape.</p>
+      </div>
+      <div class="layer-card">
+        <div class="role">Layer 3 · AuditLog</div>
+        <h4>What happened, immutably</h4>
+        <p>Hash-chained, append-only, regulator-grade. Every action by every actor — timestamp, who did it, what they did, hash of the previous entry. Tampering breaks the chain.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="matters">
+    <h4>Why this design wins</h4>
+    <p>Every event in the system — a daily check, a mould sighting, a vaccine due, a calibration overdue, a SAHPRA drift — flows through the same substrate. Staff have one inbox to look at. Auditors have one place to query. Operations leadership has one ticker for facility health. <strong>No more paper SOPs sitting in a binder; no more WhatsApp groups for fault reports; no more "where did we capture that".</strong></p>
+  </div>
+
+  <h2><span class="num">02</span>The 7-step wizard · how a ticket lives</h2>
+  <div class="sub">Walk through this in the meeting if anyone asks "but how does it actually work?"</div>
+
+  <div class="wizard">
+
+    <div class="step">
+      <div class="pill"><div class="num">1</div><div class="conn"></div></div>
+      <div class="body">
+        <h3>Trigger</h3>
+        <div class="who">Origin of the ticket</div>
+        <p>Three things can spawn a ticket: <strong>(a) a person reports it</strong> ("printer broken"), <strong>(b) a scheduled SOP fires</strong> ("daily check Bay 3 · 06:00"), or <strong>(c) the system detects something</strong> ("greenhouse added → SMF C.3.1 stale").</p>
+        <div class="what-happens"><b>System action</b> Ticket row created with priority, category, workflow stage, and either <code>assignedToId</code> (a person) or <code>assignedToRole</code> (a department).</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="pill"><div class="num">2</div><div class="conn"></div></div>
+      <div class="body">
+        <h3>Routing</h3>
+        <div class="who">Who sees it</div>
+        <p>If assigned to a specific person → it appears in their dashboard's <strong>"Mine"</strong> tab. If assigned to a role → it sits in the role's queue and any qualified staff can claim it. RP-bound items land in Berne's queue. Owner-tier items sit in the Owner Approvals banner. Maintenance items go to Calvin's IT queue if it's IT, or to facility maintenance otherwise.</p>
+        <div class="what-happens"><b>System action</b> Routed by role + workflow stage. Notification surfaces appear automatically: ApprovalsWaitingBanner, BottleneckRadar, dashboard widget counts.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="pill"><div class="num">3</div><div class="conn"></div></div>
+      <div class="body">
+        <h3>SLA timer kicks in</h3>
+        <div class="who">When it must be acted on</div>
+        <p>Every ticket has a maximum age before it's "breached". <strong>Critical = 4 hours · High = 24 hours · Medium = 3 days · Low = 1 week.</strong> The ticket card shows a live age stamp; once the SLA is exceeded, it turns red with a 🔥 flame icon.</p>
+        <div class="what-happens"><b>System action</b> No reminders, no nagging emails. The visible flame in the dashboard is the prompt.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="pill"><div class="num">4</div><div class="conn"></div></div>
+      <div class="body">
+        <h3>Action — work happens</h3>
+        <div class="who">The actual job</div>
+        <p>The assignee opens the ticket, does the work in real life, and captures it in the system. For a daily check: tick the items in the daily-check form. For a mould sighting: photograph + select severity + describe. For a calibration: enter the 3 weight readings. <strong>The ticket form mirrors the paper SOP exactly.</strong></p>
+        <div class="what-happens"><b>System action</b> A row is written to the relevant specialised table (DailyCheckRecord, IPMObservation, EquipmentCalibration, etc.) — the rich data lives there. The ticket points to it.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="pill"><div class="num">5</div><div class="conn"></div></div>
+      <div class="body">
+        <h3>Sign-off chain (where applicable)</h3>
+        <div class="who">When regulator-grade evidence is needed</div>
+        <p>Some tickets need a sign-off chain before they close — RP_SIGNOFF tickets, COMPLIANCE_APPROVAL, DAR review, AR approval. The chain enforces order: <strong>RP signs first, DAR signs second, AR signs third</strong>. Each signature is timestamped with a real human ID. No skipping, no out-of-order.</p>
+        <div class="what-happens"><b>System action</b> Ticket status moves through the chain. AR approval freezes a snapshot — for SMF sections, this becomes an <code>SMFSectionVersion</code> row.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="pill"><div class="num">6</div><div class="conn"></div></div>
+      <div class="body">
+        <h3>Resolution</h3>
+        <div class="who">Closing the loop</div>
+        <p>When the ticket is COMPLETED or CLOSED, the system records <code>resolvedAt</code> and <code>resolvedById</code> — <strong>the audit trail knows who closed it</strong>. If anyone closes wrongly, a "reopen" path exists with <code>reopenedById</code> + <code>reopenedAt</code> recorded.</p>
+        <div class="what-happens"><b>System action</b> Closing also clears the ticket from active queues. It still lives in the database — searchable, queryable, never deleted.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="pill"><div class="num">7</div><div class="conn"></div></div>
+      <div class="body">
+        <h3>Audit + reflection</h3>
+        <div class="who">Forever</div>
+        <p>Every state change of the ticket is hash-chained into the AuditLog. SAHPRA can later ask "show me every ticket that triggered an SMF change in March" — we run one query and produce the entire trail with full provenance: who, when, what data, what signatures.</p>
+        <div class="what-happens"><b>System action</b> AuditLog entries are append-only and SHA-256 chained. The chain can be verified at any time with <code>verifyHashChain()</code>.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2><span class="num">03</span>What this replaces</h2>
+  <div class="sub">Ten things ILCO used to do in 10 different places, now in one.</div>
+
+  <div class="outcome"><div class="label">Paper SOPs in binders</div><div class="body">Every SOP execution is a ticket → form mirrors the paper layout → record stored as structured data → audit trail intact</div></div>
+  <div class="outcome"><div class="label">WhatsApp fault reports</div><div class="body">Lou photographs mould → opens ticket from his phone → category PEST → routed to Lourens automatically</div></div>
+  <div class="outcome"><div class="label">Email RP sign-offs</div><div class="body">Berne sees pending sign-offs in her dashboard queue with priority order; one tap to approve</div></div>
+  <div class="outcome"><div class="label">Spreadsheets for calibration tracking</div><div class="body">EquipmentCalibration row spawned by scheduler → due-date enforced → overdue flames red on FM compliance card</div></div>
+  <div class="outcome"><div class="label">Sticky notes for "remind me to…"</div><div class="body">Anything is a ticket: requisition, repair, training query, HR request</div></div>
+  <div class="outcome"><div class="label">Manual SAHPRA inspection prep</div><div class="body">Auditor pulls AuditLog query → entire chronology with signatures appears</div></div>
+  <div class="outcome"><div class="label">"Did anyone do X?"</div><div class="body">Search ticket type + workflow stage → answered in one second</div></div>
+  <div class="outcome"><div class="label">"Who's been overloaded?"</div><div class="body">BottleneckRadar surfaces queues ageing past SLA — instantly actionable</div></div>
+  <div class="outcome"><div class="label">Bespoke escalation chains</div><div class="body">Workflow stage + priority + role-assignment encode the path; no manual chasing</div></div>
+  <div class="outcome"><div class="label">Drift between SMF + reality</div><div class="body">SMF Drift Daemon catches operational changes → raises ticket → Berne acts → re-signs through chain</div></div>
+
+  <h2><span class="num">04</span>Concrete examples · ticket types in production</h2>
+  <div class="sub">A sample of the categories live in the system today.</div>
+
+  <table style="width:100%; border-collapse: collapse; margin: 8px 0; font-size: 12.5px;">
+    <thead>
+      <tr>
+        <th style="text-align:left; padding: 10px 12px; color: var(--or-gold); font-weight: 600; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--or-gold-deep); font-family: var(--serif);">ticketType</th>
+        <th style="text-align:left; padding: 10px 12px; color: var(--or-gold); font-weight: 600; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--or-gold-deep); font-family: var(--serif);">Purpose</th>
+        <th style="text-align:left; padding: 10px 12px; color: var(--or-gold); font-weight: 600; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--or-gold-deep); font-family: var(--serif);">Typical assignee</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-gold-light); font-family: var(--mono);">ISSUE</td><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-grey-1);">A fault, observation, or general work item</td><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-grey-1);">Person or department</td></tr>
+      <tr><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-gold-light); font-family: var(--mono);">REQUISITION</td><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-grey-1);">Supplies, equipment, services request — needs Owner approval</td><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-grey-1);">→ Tenant Admin</td></tr>
+      <tr><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-gold-light); font-family: var(--mono);">APPROVAL</td><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-grey-1);">Compliance document or operational decision needing sign-off</td><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-grey-1);">→ RP / Tenant Admin</td></tr>
+      <tr><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-gold-light); font-family: var(--mono);">RP_SIGNOFF</td><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-grey-1);">Batch release, S21 packet, deviation closure — RP-only</td><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-grey-1);">→ Berne (RP)</td></tr>
+      <tr><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-gold-light); font-family: var(--mono);">SMF_DRIFT</td><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-grey-1);">Operational change invalidated a signed SMF section — auto-raised</td><td style="padding: 10px 12px; border-bottom: 1px solid var(--or-dark-3); color: var(--or-grey-1);">→ Berne (RP)</td></tr>
+      <tr><td style="padding: 10px 12px; color: var(--or-gold-light); font-family: var(--mono);">DEEP_CLEAN</td><td style="padding: 10px 12px; color: var(--or-grey-1);">Auto-spawned by clearBay — post-harvest deep-clean</td><td style="padding: 10px 12px; color: var(--or-grey-1);">→ Housekeeping</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="num">05</span>The two-line summary for executives</h2>
+  <div class="sub">If you have ten seconds at the door of the meeting room.</div>
+
+  <div class="matters">
+    <h4>Origin's operating system</h4>
+    <p>If a person needs to do something at ILCO, it lives as a ticket. If a regulator needs to review what happened, the audit log replays it. The ticket system is not a bug tracker — it is the operating system of the farm.</p>
+  </div>
+
+  <div class="footer">
+    <div>ORIGIN · by ILCO Farming · TnT-ZA · Tickets-as-core wizard</div>
+    <div class="seal">04 May 2026 · v1.0</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 // inv-auth.js — OTP authentication for inventory manager dashboard
-// Depends on: config.js (API_URL), dbc-utils.js (showToast), dbc-auth.js (getToken)
+// Depends on: config.js (API_URL), or-utils.js (showToast), or-auth.js (getToken)
 
 let currentUser = null;
 
@@ -80,6 +80,7 @@ function showDashboard() {
 
     initializeNavigation();
     loadInventoryData();
+    if (typeof loadBranchesForFilter === 'function') loadBranchesForFilter();
     loadMDCData();
 }
 
@@ -261,6 +262,55 @@ async function resendOTP() {
     } catch (error) {}
 
     resendLink.textContent = 'Resend Code';
+}
+
+async function loginWithPin(e) {
+    e.preventDefault();
+    const email = document.getElementById('pinEmail').value.trim();
+    const pin = document.getElementById('pinInput').value.trim();
+    const btn = document.getElementById('pinLoginBtn');
+    const errorDiv = document.getElementById('pinError');
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+    errorDiv.style.display = 'none';
+
+    try {
+        const response = await fetch(`${API_URL}/auth/otp/verify-pin`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, pin })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            localStorage.setItem('inventoryToken', data.token);
+            localStorage.setItem('inventoryUser', JSON.stringify(data.user));
+            currentUser = data.user;
+            showDashboard();
+        } else {
+            errorDiv.textContent = data.message || 'Invalid PIN';
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        errorDiv.textContent = 'Connection error. Please try again.';
+        errorDiv.style.display = 'block';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-key"></i> Login with PIN';
+    }
+}
+
+function togglePinVisibility(inputId, toggleBtn) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+        input.type = 'text';
+        toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+    } else {
+        input.type = 'password';
+        toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
+    }
 }
 
 function logout() {

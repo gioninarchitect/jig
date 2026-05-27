@@ -1,6 +1,8 @@
 import { prisma } from '../config/db';
 import { BatchStatus, COAStatus, AnomalyType, SeverityLevel } from '@prisma/client';
 import { eventBus } from './eventBus';
+import { ensureBatchCultivationRecord } from './bcr.service';
+import { issueLabel } from './label-governance.service';
 
 // Generate batch number: STRAIN-MOTHER-DDMM
 // e.g. DP-M01-0103 (Durban Poison, Mother M01, cloned 1 March)
@@ -130,6 +132,18 @@ export async function createBatch(data: {
     batchId: batch.id, plantIds: data.plantIds, totalWeight,
   });
 
+  await issueLabel({
+    labelType: 'BATCH',
+    entityType: 'Batch',
+    entityId: batch.id,
+    entityName: batch.batchNumber,
+    batchId: batch.id,
+    tenantId: data.tenantId,
+    userId: data.userId,
+  });
+
+  await ensureBatchCultivationRecord(batch.id, data.tenantId, data.userId);
+
   return batch;
 }
 
@@ -167,6 +181,8 @@ export async function getBatch(id: string, tenantId: string) {
       containers: { include: { events: { orderBy: { timestamp: 'desc' }, take: 1 } } },
       childBatches: { select: { id: true, batchNumber: true, status: true, totalWeight: true } },
       parentBatch: { select: { id: true, batchNumber: true } },
+      cultivationRecord: true,
+      labelRecords: { orderBy: { issuedAt: 'desc' }, take: 50 },
     },
   });
   if (!batch) throw Object.assign(new Error('Batch not found'), { status: 404 });

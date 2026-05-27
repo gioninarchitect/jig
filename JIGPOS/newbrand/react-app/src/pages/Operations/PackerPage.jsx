@@ -59,7 +59,7 @@ function PackQueue() {
     } catch { /* handle error */ }
   }
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="space-y-3">
@@ -69,7 +69,7 @@ function PackQueue() {
       </div>
       {orders.map(order => (
         <OrderCard key={order._id} order={order}>
-          <button onClick={() => startPacking(order._id)} className="px-4 py-2 rounded-lg bg-jig-purple text-white text-xs font-bold">
+          <button onClick={() => startPacking(order._id)} className="px-4 py-2 rounded-lg bg-or-gold text-white text-xs font-bold">
             Start Packing
           </button>
         </OrderCard>
@@ -103,7 +103,7 @@ function InProgressQueue() {
     } catch { /* handle error */ }
   }
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="space-y-3">
@@ -113,7 +113,7 @@ function InProgressQueue() {
       </div>
       {orders.map(order => (
         <OrderCard key={order._id} order={order}>
-          <button onClick={() => markPacked(order._id)} className="px-4 py-2 rounded-lg bg-jig-purple text-white text-xs font-bold">
+          <button onClick={() => markPacked(order._id)} className="px-4 py-2 rounded-lg bg-or-gold text-white text-xs font-bold">
             Mark Packed
           </button>
         </OrderCard>
@@ -140,7 +140,7 @@ function CompletedQueue() {
     load();
   }, []);
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="space-y-3">
@@ -164,7 +164,7 @@ function OrderCard({ order, children }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="p-4 rounded-lg border border-gray-200 hover:border-jig-purple/30 transition-colors">
+    <div className="p-4 rounded-lg border border-gray-200 hover:border-or-gold/30 transition-colors">
       <div className="flex items-center justify-between">
         <div className="flex-1 cursor-pointer" onClick={() => setExpanded(!expanded)}>
           <div className="flex items-center gap-3">

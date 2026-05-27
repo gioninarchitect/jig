@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - API Client
+ * PureGro Premium Cannabis Care - API Client
  *
  * Typed fetch wrapper for all /api/v1 endpoints.
  * Automatically attaches JWT token from localStorage.
@@ -9,8 +9,8 @@ const API_BASE = '/api/v1';
 
 // ── Token Management ──────────────────────────────────────
 
-const TOKEN_KEY = 'jig_token';
-const CLIENT_KEY = 'jig_client_id';
+const TOKEN_KEY = 'pg_token';
+const CLIENT_KEY = 'puregro_client_id';
 
 export function getStoredToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
@@ -67,9 +67,8 @@ async function request<T>(
     throw new ApiError(0, 'Cannot reach the server. Is the backend running?');
   }
 
-  if (res.status === 401) {
+  if (res.status === 401 && !path.startsWith('/auth/')) {
     clearAuth();
-    window.location.href = '/login';
     throw new ApiError(401, 'Session expired');
   }
 
@@ -107,6 +106,18 @@ export const auth = {
         body: JSON.stringify({ email, code }),
       },
     ),
+
+  register: (data: {
+    companyName: string;
+    contactPerson: string;
+    email: string;
+    phone: string;
+    registrationNumber?: string;
+  }) =>
+    request<{ message: string; clientId: string }>('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
 
   logout: () =>
     request<{ message: string }>('/auth/logout', { method: 'POST' }),
@@ -251,9 +262,8 @@ async function requestFormData<T>(
     throw new ApiError(0, 'Cannot reach the server. Is the backend running?');
   }
 
-  if (res.status === 401) {
+  if (res.status === 401 && !path.startsWith('/auth/')) {
     clearAuth();
-    window.location.href = '/login';
     throw new ApiError(401, 'Session expired');
   }
 

@@ -1,5 +1,5 @@
 // dash-cart.js — Shopping cart CRUD (load, save, UI, remove, checkout, clear)
-// Depends on: config.js (API_URL), dbc-utils.js (showNotification)
+// Depends on: config.js (API_URL), or-utils.js (showNotification)
 // Depends on: dash-products.js (updateCartCount)
 
 // Shopping Cart Functions
@@ -82,9 +82,9 @@ function updateCartUI() {
                     <i class="fas fa-leaf"></i>
                 </div>
                 <div class="cart-item-details">
-                    <h4 style="margin-bottom: 5px; color: #0A0A0A; font-size: 0.9rem;">${item.name}</h4>
+                    <h4 style="margin-bottom: 5px; color: #0E0E0E; font-size: 0.9rem;">${item.name}</h4>
                     <p style="color: #737373; font-size: 0.8rem; margin-bottom: 4px;">Qty: ${item.quantity}</p>
-                    <p style="font-weight: 700; color: #0A0A0A;">R${(item.price * item.quantity).toFixed(2)}</p>
+                    <p style="font-weight: 700; color: #0E0E0E;">R${(item.price * item.quantity).toFixed(2)}</p>
                 </div>
                 <button class="cart-item-remove" onclick="removeFromCart('${item.productId || item._id}')">
                     <i class="fas fa-times"></i>

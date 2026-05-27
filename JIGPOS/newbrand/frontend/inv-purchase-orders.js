@@ -1,5 +1,5 @@
 // inv-purchase-orders.js — Purchase Orders CRUD for inventory manager dashboard
-// Depends on: config.js (API_URL), dbc-utils.js (showToast), dbc-auth.js (getToken)
+// Depends on: config.js (API_URL), or-utils.js (showToast), or-auth.js (getToken)
 
 // ==================== PURCHASE ORDERS CRUD ====================
 
@@ -276,7 +276,7 @@ async function savePO(status) {
     }
 
     const subtotal = lineItems.reduce((sum, item) => sum + item.totalPrice, 0);
-    const tax = subtotal * 0.15;
+    const tax = subtotal * VAT_RATE;
     const total = subtotal + tax;
 
     const poData = {
@@ -389,7 +389,7 @@ async function viewPO(poId) {
                                     <tbody>${itemsHtml}</tbody>
                                     <tfoot>
                                         <tr><td colspan="4" class="text-end"><strong>Subtotal</strong></td><td colspan="2">R${(po.subtotal || 0).toFixed(2)}</td></tr>
-                                        <tr><td colspan="4" class="text-end"><strong>Tax (15%)</strong></td><td colspan="2">R${(po.tax || 0).toFixed(2)}</td></tr>
+                                        <tr><td colspan="4" class="text-end"><strong>Tax (${VAT_RATE * 100}%)</strong></td><td colspan="2">R${(po.tax || 0).toFixed(2)}</td></tr>
                                         <tr style="background: var(--gold); color: var(--green-dark);"><td colspan="4" class="text-end"><strong>Total</strong></td><td colspan="2"><strong>R${(po.total || 0).toFixed(2)}</strong></td></tr>
                                     </tfoot>
                                 </table>
@@ -416,7 +416,7 @@ async function viewPO(poId) {
 }
 
 async function submitPO(poId) {
-    _dbcShowConfirm('Submit this PO for approval?', async function() {
+    _originShowConfirm('Submit this PO for approval?', async function() {
         try {
             const response = await fetch(`${API_URL}/purchase-orders/${poId}/submit`, {
                 method: 'POST',
@@ -539,7 +539,7 @@ async function updatePO(poId, status) {
     }
 
     const subtotal = lineItems.reduce((sum, item) => sum + item.totalPrice, 0);
-    const tax = subtotal * 0.15;
+    const tax = subtotal * VAT_RATE;
     const total = subtotal + tax;
 
     const poData = {

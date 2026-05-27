@@ -3,38 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Stock Receiving - JIG Craft Cannabis</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Stock Receiving - Origin by ILCO Farming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -44,7 +53,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -53,13 +62,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -143,7 +152,7 @@
         }
 
         .btn-success {
-            background: var(--green);
+            background: var(--or-gold);
             color: white;
         }
 
@@ -251,7 +260,7 @@
         }
 
         .transfer-card.selected {
-            border-color: var(--purple);
+            border-color: var(--or-gold);
             background: var(--green-light);
         }
 
@@ -392,13 +401,13 @@
             width: 50px;
             height: 50px;
             border-radius: 8px;
-            border: 2px dashed var(--gray-400);
+            border: 2px dashed var(--or-grey-3);
             background: var(--gray-50);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--gray-400);
+            color: var(--or-grey-3);
             transition: all 0.2s;
         }
 
@@ -409,9 +418,9 @@
 
         .photo-btn.has-photo {
             border-style: solid;
-            border-color: var(--purple);
+            border-color: var(--or-gold);
             background: var(--green-light);
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* Variance Display */
@@ -428,7 +437,7 @@
 
         .variance-ok {
             background: var(--green-light);
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .variance-warning {
@@ -467,7 +476,7 @@
             left: 0.75rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--gray-400);
+            color: var(--or-grey-3);
         }
 
         .product-results {
@@ -508,7 +517,7 @@
 
         .progress-bar {
             height: 100%;
-            background: var(--green);
+            background: var(--or-gold);
             border-radius: 10px;
             transition: width 0.3s;
         }
@@ -663,7 +672,7 @@
             max-width: 300px;
         }
 
-        .toast.success { background: var(--green); }
+        .toast.success { background: var(--or-gold); }
         .toast.error { background: var(--red); }
         .toast.info { background: var(--blue); }
 
@@ -681,7 +690,7 @@
 
         .empty-state i {
             font-size: 3rem;
-            color: var(--gray-400);
+            color: var(--or-grey-3);
             margin-bottom: 1rem;
         }
 
@@ -833,10 +842,10 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- JIG Shared Libraries -->
-    <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <!-- Origin Shared Libraries -->
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-utils.js"></script>
+    <script src="frontend/or-auth.js"></script>
 
     <script>
         // API_URL provided by shared libraries
@@ -861,7 +870,7 @@
             setTimeout(() => selectMode('quick'), 500);
         });
 
-        // getToken provided by /frontend/jig-utils.js (checks stocktakeToken + others)
+        // getToken provided by /frontend/or-utils.js (checks stocktakeToken + others)
 
         function doLogout() {
             localStorage.removeItem('stocktakeToken');
@@ -895,9 +904,9 @@
                     currentUser = data.user;
                     // Get branch from various possible locations
                     const branchId = data.user.branch?._id || data.user.branchId || data.user.primaryBranch;
-                    currentBranch = data.user.branch || { _id: branchId, name: data.user.branch?.name || 'Ormonde' };
+                    currentBranch = data.user.branch || { _id: branchId, name: data.user.branch?.name || 'Potchefstroom' };
                     document.getElementById('userName').textContent = data.user.firstName || data.user.username;
-                    document.getElementById('branchName').textContent = currentBranch?.name || 'Ormonde';
+                    document.getElementById('branchName').textContent = currentBranch?.name || 'Potchefstroom';
 
                     // Also try to get branch from localStorage if not set
                     if (!currentBranch._id) {
@@ -905,7 +914,7 @@
                         if (storedUser) {
                             try {
                                 const parsed = JSON.parse(storedUser);
-                                currentBranch = { _id: parsed.branchId || parsed.branch?._id, name: parsed.branch?.name || 'Ormonde' };
+                                currentBranch = { _id: parsed.branchId || parsed.branch?._id, name: parsed.branch?.name || 'Potchefstroom' };
                             } catch(e) {}
                         }
                     }
@@ -1341,7 +1350,7 @@
             }
         }
 
-        // showToast provided by /frontend/jig-utils.js
+        // showToast provided by /frontend/or-utils.js
     </script>
 </body>
 </html>

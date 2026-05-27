@@ -41,7 +41,7 @@ function OpenTillModal({ till, onClose }) {
             type="number"
             value={openingFloat}
             onChange={(e) => setOpeningFloat(parseFloat(e.target.value) || 0)}
-            className="w-full px-3 py-2 rounded-lg border border-jig-purple/20 bg-white text-white outline-none focus:border-jig-amber focus:ring-2 focus:ring-jig-amber/20"
+            className="w-full px-3 py-2 rounded-lg border border-or-gold/20 bg-white text-white outline-none focus:border-or-gold focus:ring-2 focus:ring-or-gold/20"
           />
         </div>
       </div>
@@ -50,7 +50,7 @@ function OpenTillModal({ till, onClose }) {
         <select
           value={tillNumber}
           onChange={(e) => setTillNumber(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg border border-jig-purple/20 bg-white text-white outline-none"
+          className="w-full px-3 py-2 rounded-lg border border-or-gold/20 bg-white text-white outline-none"
         >
           <option value="TILL-01">TILL-01</option>
           <option value="TILL-02">TILL-02</option>
@@ -63,7 +63,7 @@ function OpenTillModal({ till, onClose }) {
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={2}
-          className="w-full px-3 py-2 rounded-lg border border-jig-purple/20 bg-white text-white outline-none resize-none"
+          className="w-full px-3 py-2 rounded-lg border border-or-gold/20 bg-white text-white outline-none resize-none"
           placeholder="Opening notes..."
         />
       </div>
@@ -89,30 +89,30 @@ function CloseTillModal({ session, till, onClose }) {
 
   const varianceAbs = Math.abs(till.variance);
   const varianceColor = till.variance === 0
-    ? 'text-jig-purple'
+    ? 'text-or-gold'
     : till.variance > 0
       ? 'text-blue-500'
-      : 'text-jig-red';
+      : 'text-origin-red';
   const needsApproval = varianceAbs > 50;
 
   return (
     <div className="space-y-4">
       {/* Session Summary */}
-      <div className="grid grid-cols-2 gap-3 p-3 bg-jig-slate rounded-lg">
+      <div className="grid grid-cols-2 gap-3 p-3 bg-origin-slate rounded-lg">
         <div>
-          <div className="text-xs text-jig-purple-light">Opened At</div>
+          <div className="text-xs text-or-gold-light">Opened At</div>
           <div className="font-heading text-sm text-white">{new Date(session.openedAt).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' })}</div>
         </div>
         <div>
-          <div className="text-xs text-jig-purple-light">Transactions</div>
+          <div className="text-xs text-or-gold-light">Transactions</div>
           <div className="font-heading text-sm text-white">{session.transactionCount || 0}</div>
         </div>
         <div>
-          <div className="text-xs text-jig-purple-light">Total Sales</div>
+          <div className="text-xs text-or-gold-light">Total Sales</div>
           <div className="font-heading text-sm text-white">{formatCurrency(session.totalSales || 0)}</div>
         </div>
         <div>
-          <div className="text-xs text-jig-purple-light">Cash Sales</div>
+          <div className="text-xs text-or-gold-light">Cash Sales</div>
           <div className="font-heading text-sm text-white">{formatCurrency(session.totalCash || 0)}</div>
         </div>
       </div>
@@ -126,16 +126,16 @@ function CloseTillModal({ session, till, onClose }) {
             return (
               <div key={d.key} className="flex items-center gap-2">
                 <span className="w-12 text-right text-xs font-bold text-white">{d.label}</span>
-                <span className="text-xs text-jig-purple-light">&times;</span>
+                <span className="text-xs text-or-gold-light">&times;</span>
                 <input
                   type="number"
                   min="0"
                   value={till.denomCounts[d.key] || ''}
                   onChange={(e) => till.setDenomCount(d.key, e.target.value)}
-                  className="w-16 px-2 py-1 rounded border border-jig-purple/20 bg-white text-white text-sm text-center outline-none focus:border-jig-amber"
+                  className="w-16 px-2 py-1 rounded border border-or-gold/20 bg-white text-white text-sm text-center outline-none focus:border-or-gold"
                   placeholder="0"
                 />
-                <span className="text-xs text-jig-purple-light">=</span>
+                <span className="text-xs text-or-gold-light">=</span>
                 <span className="flex-1 text-right text-xs font-semibold text-white">{formatCurrency(lineTotal)}</span>
               </div>
             );
@@ -144,23 +144,23 @@ function CloseTillModal({ session, till, onClose }) {
       </div>
 
       {/* Cash Summary */}
-      <div className={`p-3 rounded-lg border ${needsApproval ? 'bg-jig-amber/10 border-jig-amber/30' : 'bg-jig-slate border-jig-purple/10'}`}>
+      <div className={`p-3 rounded-lg border ${needsApproval ? 'bg-or-gold/10 border-or-gold/30' : 'bg-origin-slate border-or-gold/10'}`}>
         <div className="flex justify-between text-sm mb-1">
-          <span className="text-jig-purple-light">Expected Cash</span>
+          <span className="text-or-gold-light">Expected Cash</span>
           <span className="font-heading text-white">{formatCurrency(till.expectedCash)}</span>
         </div>
         <div className="flex justify-between text-sm mb-1">
-          <span className="text-jig-purple-light">Actual Cash</span>
+          <span className="text-or-gold-light">Actual Cash</span>
           <span className="font-heading text-white">{formatCurrency(till.actualCash)}</span>
         </div>
-        <div className="flex justify-between text-sm pt-2 border-t border-jig-purple/10">
+        <div className="flex justify-between text-sm pt-2 border-t border-or-gold/10">
           <span className="font-bold text-white">Variance</span>
           <span className={`font-heading text-lg ${varianceColor}`}>
             {till.variance > 0 ? '+' : ''}{formatCurrency(till.variance)}
           </span>
         </div>
         {needsApproval && (
-          <div className="mt-2 p-2 rounded bg-jig-amber/20 text-xs text-jig-amber-dark font-semibold text-center">
+          <div className="mt-2 p-2 rounded bg-or-gold/20 text-xs text-or-gold-dark font-semibold text-center">
             Variance exceeds R50 — Manager approval will be required
           </div>
         )}
@@ -173,7 +173,7 @@ function CloseTillModal({ session, till, onClose }) {
           value={closingNotes}
           onChange={(e) => setClosingNotes(e.target.value)}
           rows={2}
-          className="w-full px-3 py-2 rounded-lg border border-jig-purple/20 bg-white text-white outline-none resize-none"
+          className="w-full px-3 py-2 rounded-lg border border-or-gold/20 bg-white text-white outline-none resize-none"
           placeholder="Closing notes..."
         />
       </div>

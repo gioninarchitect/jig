@@ -78,7 +78,7 @@ function ToggleSwitch({ checked, onChange, disabled }) {
         relative inline-flex h-7 w-12 shrink-0 rounded-full border-2 border-transparent
         transition-colors duration-200 cursor-pointer
         ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-        ${checked ? 'bg-jig-purple' : 'bg-gray-300'}
+        ${checked ? 'bg-or-gold' : 'bg-gray-300'}
       `}
     >
       <span
@@ -132,7 +132,7 @@ export default function FeatureToggles({ features, onChange, disabled }) {
             key={key}
             className={`
               rounded-2xl border-2 overflow-hidden transition-all duration-300
-              ${isEnabled ? 'border-jig-purple bg-white' : 'border-gray-200 bg-gray-50'}
+              ${isEnabled ? 'border-or-gold bg-white' : 'border-gray-200 bg-gray-50'}
             `}
           >
             {/* Header */}
@@ -158,7 +158,7 @@ export default function FeatureToggles({ features, onChange, disabled }) {
                 {/* Sub-toggles */}
                 {def.subToggles?.map(sub => (
                   <div key={sub.key} className="flex items-center justify-between py-1">
-                    <span className="text-sm text-jig-purple-dark">{sub.label}</span>
+                    <span className="text-sm text-or-gold-dark">{sub.label}</span>
                     <ToggleSwitch
                       checked={feature[sub.key] || false}
                       onChange={v => handleSubToggle(key, sub.key, v)}
@@ -173,7 +173,7 @@ export default function FeatureToggles({ features, onChange, disabled }) {
                     <div className="text-xs text-gray-500 font-bold uppercase mt-2">Domains enabled</div>
                     {def.domains.items.map(d => (
                       <div key={d.key} className="flex items-center justify-between py-1 pl-2">
-                        <span className="text-sm text-jig-purple-dark">{d.label}</span>
+                        <span className="text-sm text-or-gold-dark">{d.label}</span>
                         <ToggleSwitch
                           checked={feature.domains?.[d.key] || false}
                           onChange={v => handleDomainToggle(key, d.key, v)}
@@ -187,7 +187,7 @@ export default function FeatureToggles({ features, onChange, disabled }) {
                 {/* Number inputs */}
                 {def.numbers?.map(num => (
                   <div key={num.key} className="flex items-center justify-between py-1">
-                    <span className="text-sm text-jig-purple-dark">{num.label}</span>
+                    <span className="text-sm text-or-gold-dark">{num.label}</span>
                     <input
                       type="number"
                       min={num.min}
@@ -196,7 +196,7 @@ export default function FeatureToggles({ features, onChange, disabled }) {
                       onChange={e => handleNumberChange(key, num.key, e.target.value)}
                       disabled={disabled || !isEnabled}
                       className="w-20 px-3 py-1.5 border-2 border-gray-200 rounded-lg text-sm text-center
-                        focus:outline-none focus:border-jig-amber disabled:opacity-50 disabled:cursor-not-allowed"
+                        focus:outline-none focus:border-or-gold disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                 ))}

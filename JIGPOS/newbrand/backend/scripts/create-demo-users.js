@@ -3,7 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('../modules/database/models/User');
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
 
 async function createDemoUsers() {
   try {
@@ -15,13 +15,13 @@ async function createDemoUsers() {
 
     // Delete existing demo users if they exist
     await User.deleteMany({
-      email: { $in: ['demo@basothomedicalherbs.ls', 'admin@basothomedicalherbs.ls'] }
+      email: { $in: ['demo@origin.cleva-ai.co.za', 'admin@origin.cleva-ai.co.za'] }
     });
     console.log('Cleared existing demo users');
 
     // Create regular user
     const regularUser = new User({
-      email: 'demo@basothomedicalherbs.ls',
+      email: 'demo@origin.cleva-ai.co.za',
       username: 'demouser',
       password: 'Demo123456!',
       firstName: 'Demo',
@@ -60,7 +60,7 @@ async function createDemoUsers() {
 
     // Create admin/store owner
     const adminUser = new User({
-      email: 'admin@basothomedicalherbs.ls',
+      email: 'admin@origin.cleva-ai.co.za',
       username: 'admin',
       password: 'Admin123456!',
       firstName: 'Store',
@@ -102,12 +102,12 @@ async function createDemoUsers() {
     console.log('===========================================\n');
 
     console.log('REGULAR USER CREDENTIALS:');
-    console.log('Email: demo@basothomedicalherbs.ls');
+    console.log('Email: demo@origin.cleva-ai.co.za');
     console.log('Password: Demo123456!');
     console.log('Role: User (Customer Dashboard)\n');
 
     console.log('ADMIN/STORE OWNER CREDENTIALS:');
-    console.log('Email: admin@basothomedicalherbs.ls');
+    console.log('Email: admin@origin.cleva-ai.co.za');
     console.log('Password: Admin123456!');
     console.log('Role: Admin (Store Owner Dashboard)\n');
 

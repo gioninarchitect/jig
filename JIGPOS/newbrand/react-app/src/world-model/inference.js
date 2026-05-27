@@ -1,5 +1,5 @@
-// P20 — World Model Inference Engine for DBC
-// Replaces template mood/emotion patterns with DBC operational patterns.
+// P20 — World Model Inference Engine for Origin
+// Replaces template mood/emotion patterns with Origin operational patterns.
 // 7 risk patterns + cross-domain correlation (World First #2).
 
 import { getWorldModelConfig } from './state';

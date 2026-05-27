@@ -16,23 +16,23 @@ const RESOURCES = [
 ];
 
 const CONTACT = [
-  { label: 'hello@jig.cleva-ai.co.za', href: 'mailto:hello@jig.cleva-ai.co.za', icon: 'M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z' },
+  { label: 'hello@origin.cleva-ai.co.za', href: 'mailto:hello@origin.cleva-ai.co.za', icon: 'M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z' },
   { label: '+27 67 291 9110', href: 'tel:+27672919110', icon: 'M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z' },
   { label: 'WhatsApp Us', href: 'https://wa.me/27672919110', icon: 'M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6z' },
 ];
 
 export default function StorefrontFooter() {
   return (
-    <footer style={{ background: '#1E1E1E' }}>
+    <footer style={{ background: '#1A1A1A' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-10">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img src="/app/images/jig-logo-nobg.png" alt="JIG Craft Cannabis" className="w-[50px] h-[50px] object-contain" />
+              <img src="/app/images/origin-logo.png" alt="Origin by ILCO Farming" className="w-[50px] h-[50px] object-contain" />
               <div>
-                <div className="font-heading text-[1.5rem] text-white uppercase leading-none">JIG Craft Cannabis</div>
-                <div className="font-accent text-[0.85rem] text-white/60 italic">"Quality Counts"</div>
+                <div className="font-heading text-[1.5rem] text-white uppercase leading-none">Origin by ILCO Farming</div>
+                <div className="font-accent text-[0.85rem] text-white/60 italic">"From Soil to Soul"</div>
               </div>
             </div>
             <p className="text-sm leading-relaxed text-white/60 mb-6 max-w-[300px]">
@@ -46,7 +46,7 @@ export default function StorefrontFooter() {
                   href="#"
                   className="w-11 h-11 rounded-[12px] flex items-center justify-center text-white/60 transition-all hover:text-white hover:-translate-y-1"
                   style={{ border: '1px solid rgba(255,255,255,0.15)' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = '#D97706'; e.currentTarget.style.borderColor = '#D97706'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = '#F0A500'; e.currentTarget.style.borderColor = '#F0A500'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; }}
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -62,11 +62,11 @@ export default function StorefrontFooter() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-heading text-base uppercase mb-4" style={{ color: '#D97706' }}>Quick Links</h4>
+            <h4 className="font-heading text-base uppercase mb-4" style={{ color: '#F0A500' }}>Quick Links</h4>
             <ul className="space-y-2">
               {QUICK_LINKS.map((link) => (
                 <li key={link.label}>
-                  <Link to={link.to} className="text-sm text-white/70 hover:text-jig-amber transition-colors">{link.label}</Link>
+                  <Link to={link.to} className="text-sm text-white/70 hover:text-or-gold transition-colors">{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -74,11 +74,11 @@ export default function StorefrontFooter() {
 
           {/* Resources */}
           <div>
-            <h4 className="font-heading text-base uppercase mb-4" style={{ color: '#D97706' }}>Resources</h4>
+            <h4 className="font-heading text-base uppercase mb-4" style={{ color: '#F0A500' }}>Resources</h4>
             <ul className="space-y-2">
               {RESOURCES.map((link) => (
                 <li key={link.label}>
-                  <Link to={link.to} className="text-sm text-white/70 hover:text-jig-amber transition-colors">{link.label}</Link>
+                  <Link to={link.to} className="text-sm text-white/70 hover:text-or-gold transition-colors">{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -86,11 +86,11 @@ export default function StorefrontFooter() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-heading text-base uppercase mb-4" style={{ color: '#D97706' }}>Contact</h4>
+            <h4 className="font-heading text-base uppercase mb-4" style={{ color: '#F0A500' }}>Contact</h4>
             <ul className="space-y-3">
               {CONTACT.map((item) => (
                 <li key={item.label}>
-                  <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-white/70 hover:text-jig-amber transition-colors">
+                  <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-white/70 hover:text-or-gold transition-colors">
                     <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 512 512"><path d={item.icon} /></svg>
                     <span>{item.label}</span>
                   </a>
@@ -104,7 +104,7 @@ export default function StorefrontFooter() {
       {/* Footer bottom */}
       <div className="border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/40">&copy; {new Date().getFullYear()} JIG Craft Cannabis. All rights reserved.</p>
+          <p className="text-xs text-white/40">&copy; {new Date().getFullYear()} Origin by ILCO Farming. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="text-xs text-white/40 hover:text-white/70 transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="text-xs text-white/40 hover:text-white/70 transition-colors">Terms of Service</Link>

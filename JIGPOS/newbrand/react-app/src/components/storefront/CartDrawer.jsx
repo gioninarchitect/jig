@@ -44,13 +44,13 @@ export default function CartDrawer({ open, onClose }) {
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-jig-slate">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-origin-slate">
           <h2 className="font-heading text-xl text-white uppercase">
             Your Cart ({itemCount})
           </h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full text-jig-purple-dark hover:bg-jig-purple/10 transition-colors text-xl"
+            className="w-8 h-8 flex items-center justify-center rounded-full text-or-gold-dark hover:bg-or-gold/10 transition-colors text-xl"
           >
             &times;
           </button>
@@ -67,7 +67,7 @@ export default function CartDrawer({ open, onClose }) {
               <Link
                 to="/products"
                 onClick={onClose}
-                className="text-sm font-semibold text-jig-amber hover:text-jig-amber-dark transition-colors"
+                className="text-sm font-semibold text-or-gold hover:text-or-gold-dark transition-colors"
               >
                 Browse Products
               </Link>
@@ -88,7 +88,7 @@ export default function CartDrawer({ open, onClose }) {
                   {/* Details */}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-gray-900 truncate">{item.name}</p>
-                    <p className="text-sm text-jig-amber font-bold mt-0.5">{formatCurrency(item.price)}</p>
+                    <p className="text-sm text-or-gold font-bold mt-0.5">{formatCurrency(item.price)}</p>
                     {(item.size || item.color) && (
                       <p className="text-xs text-gray-400 mt-0.5">
                         {item.size && `Size: ${item.size}`}{item.size && item.color && ' / '}{item.color && `Color: ${item.color}`}
@@ -99,7 +99,7 @@ export default function CartDrawer({ open, onClose }) {
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => item.quantity > 1 ? updateQty(index, item.quantity - 1) : removeItem(index)}
-                        className="w-7 h-7 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:border-jig-purple hover:text-jig-purple transition-colors text-sm"
+                        className="w-7 h-7 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:border-or-gold hover:text-or-gold transition-colors text-sm"
                       >
                         -
                       </button>
@@ -107,7 +107,7 @@ export default function CartDrawer({ open, onClose }) {
                       <button
                         onClick={() => updateQty(index, item.quantity + 1)}
                         disabled={item.quantity >= item.stock}
-                        className="w-7 h-7 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:border-jig-purple hover:text-jig-purple transition-colors text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="w-7 h-7 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:border-or-gold hover:text-or-gold transition-colors text-sm disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         +
                       </button>
@@ -121,7 +121,7 @@ export default function CartDrawer({ open, onClose }) {
                     </span>
                     <button
                       onClick={() => removeItem(index)}
-                      className="text-xs text-gray-400 hover:text-jig-red transition-colors"
+                      className="text-xs text-gray-400 hover:text-origin-red transition-colors"
                     >
                       Remove
                     </button>
@@ -134,7 +134,7 @@ export default function CartDrawer({ open, onClose }) {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="px-6 py-4 border-t border-gray-200 bg-jig-slate space-y-3">
+          <div className="px-6 py-4 border-t border-gray-200 bg-origin-slate space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Subtotal</span>
               <span className="font-heading text-xl text-white">{formattedSubtotal}</span>
@@ -142,14 +142,14 @@ export default function CartDrawer({ open, onClose }) {
             <Link
               to="/cart"
               onClick={onClose}
-              className="block w-full py-3 text-center text-sm font-bold uppercase tracking-wider bg-gradient-to-br from-jig-purple-light via-jig-purple to-jig-purple-dark text-white rounded-xl hover:shadow-lg transition-all"
+              className="block w-full py-3 text-center text-sm font-bold uppercase tracking-wider bg-gradient-to-br from-or-gold-light via-or-gold to-or-gold-dark text-white rounded-xl hover:shadow-lg transition-all"
             >
               View Cart
             </Link>
             <Link
               to="/checkout"
               onClick={onClose}
-              className="block w-full py-3 text-center text-sm font-bold uppercase tracking-wider bg-gradient-to-br from-jig-amber-light via-jig-amber to-jig-amber-dark text-gray-900 rounded-xl hover:shadow-lg transition-all"
+              className="block w-full py-3 text-center text-sm font-bold uppercase tracking-wider bg-gradient-to-br from-or-gold-light via-or-gold to-or-gold-dark text-gray-900 rounded-xl hover:shadow-lg transition-all"
             >
               Checkout
             </Link>

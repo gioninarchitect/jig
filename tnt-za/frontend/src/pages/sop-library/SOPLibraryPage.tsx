@@ -4,7 +4,7 @@ import { useRBAC } from '../../hooks/useRBAC';
 import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import { SkeletonTable } from '../../components/Skeleton';
-import { BookOpen, Plus, Check, FileText, Shield, ChevronDown, Search } from 'lucide-react';
+import { Plus, Check, FileText, Shield, ChevronDown, Search, GitBranch } from 'lucide-react';
 import api from '../../services/api';
 
 const SOP_CATEGORIES = [
@@ -52,6 +52,16 @@ export default function SOPLibraryPage() {
     onSuccess: (res) => { qc.invalidateQueries({ queryKey: ['task-templates'] }); addToast('success', `${res.data.created} SAHPRA templates created`); },
   });
 
+  const syncGovernanceMut = useMutation({
+    mutationFn: () => api.post('/qms/sops/sync-governance'),
+    onSuccess: (res) => {
+      qc.invalidateQueries({ queryKey: ['sops'] });
+      qc.invalidateQueries({ queryKey: ['task-templates'] });
+      addToast('success', `${res.data.synced} SOPs synced to roles/checklists/training`);
+    },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
+  });
+
   // Filter SOPs
   const filteredSOPs = sops?.filter((s: any) => {
     if (searchTerm && !s.title.toLowerCase().includes(searchTerm.toLowerCase())) return false;
@@ -81,6 +91,12 @@ export default function SOPLibraryPage() {
           <p className="text-sm text-white/40">Standard Operating Procedures — SAHPRA Compliance</p>
         </div>
         <div className="flex gap-2">
+          {hasMinLevel(3) && (
+            <button onClick={() => syncGovernanceMut.mutate()} disabled={syncGovernanceMut.isPending}
+              className="px-3 py-2 bg-primary/10 border border-primary/20 text-primary rounded-xl text-xs font-semibold hover:bg-primary/20 transition min-h-[40px] flex items-center gap-1.5">
+              <GitBranch size={13} /> Sync Governance
+            </button>
+          )}
           {hasMinLevel(3) && (
             <button onClick={() => seedMut.mutate()} disabled={seedMut.isPending}
               className="px-3 py-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-semibold hover:bg-red-500/20 transition min-h-[40px]">
@@ -215,7 +231,22 @@ export default function SOPLibraryPage() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <span className="text-xs px-2 py-1 bg-primary/15 text-primary rounded-full font-mono">v{selectedSOP.version}</span>
+              <span className="text-xs px-2 py-1 bg-white/5 text-white/40 rounded-full font-mono">{selectedSOP.category}</span>
               <span className="text-xs text-white/20">{selectedSOP._count?.acknowledgements || 0} staff acknowledged</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div className="bg-white/[0.03] border border-white/5 rounded-lg p-3">
+                <div className="text-[10px] text-white/25 mb-1">Required Roles</div>
+                <div className="text-xs text-white/70">{(selectedSOP.rolesRequired || []).length ? selectedSOP.rolesRequired.map((r: string) => r.replace(/_/g, ' ')).join(', ') : 'Mapped by category'}</div>
+              </div>
+              <div className="bg-white/[0.03] border border-white/5 rounded-lg p-3">
+                <div className="text-[10px] text-white/25 mb-1">Linked Checklists</div>
+                <div className="text-xs text-white/70">{templates?.filter((t: any) => t.sopId === selectedSOP.id).length || 0} task template(s)</div>
+              </div>
+              <div className="bg-white/[0.03] border border-white/5 rounded-lg p-3">
+                <div className="text-[10px] text-white/25 mb-1">EU GMP Basis</div>
+                <div className="text-xs text-primary">Source registry mapped</div>
+              </div>
             </div>
             <div className="bg-white/[0.03] border border-white/5 rounded-xl p-4">
               <pre className="text-sm text-white/60 whitespace-pre-wrap font-sans leading-relaxed">{selectedSOP.content}</pre>

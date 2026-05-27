@@ -76,8 +76,8 @@ async function autoDetectBranch(user, token) {
             setBranchDisplay(branch.name);
         }
     } catch (e) {
-        setBranchDisplay('Ormonde');
-        sessionStorage.setItem('selectedBranch', JSON.stringify({ _id: branchId, name: 'Ormonde' }));
+        setBranchDisplay('Potchefstroom');
+        sessionStorage.setItem('selectedBranch', JSON.stringify({ _id: branchId, name: 'Potchefstroom' }));
     }
 }
 
@@ -105,20 +105,20 @@ async function showBranchSelector(token) {
             if (!branch.isActive && branch.isActive !== undefined) return;
 
             const btn = document.createElement('button');
-            btn.style.cssText = 'display: flex; align-items: center; gap: 14px; width: 100%; padding: 16px 18px; border: 2px solid #2A2A2A; border-radius: 12px; background: white; cursor: pointer; text-align: left; transition: all 0.15s ease;';
+            btn.style.cssText = 'display: flex; align-items: center; gap: 14px; width: 100%; padding: 16px 18px; border: 2px solid #333; border-radius: 12px; background: #1A1A1A; cursor: pointer; text-align: left; transition: all 0.15s ease;';
             btn.innerHTML = `
-                <div style="width: 44px; height: 44px; border-radius: 10px; background: var(--cream); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <i class="fas fa-store" style="color: var(--green); font-size: 1.1rem;"></i>
+                <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(63,192,65,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="fas fa-store" style="color: var(--or-gold, #C9A84C); font-size: 1.1rem;"></i>
                 </div>
                 <div style="flex: 1; min-width: 0;">
-                    <div style="font-weight: 700; color: var(--green-deep); font-size: 1.05rem;">${branch.name}</div>
-                    <div style="font-size: 0.85rem; color: #888; margin-top: 2px;">${branch.branchCode || ''} ${branch.address?.city || branch.address?.suburb ? '- ' + (branch.address?.city || branch.address?.suburb) : ''}</div>
+                    <div style="font-weight: 700; color: #FAFAFA; font-size: 1.05rem;">${branch.name}</div>
+                    <div style="font-size: 0.85rem; color: #999; margin-top: 2px;">${branch.branchCode || ''} ${branch.address?.city || branch.address?.suburb ? '- ' + (branch.address?.city || branch.address?.suburb) : ''}</div>
                 </div>
-                <i class="fas fa-chevron-right" style="color: #ccc;"></i>
+                <i class="fas fa-chevron-right" style="color: #666;"></i>
             `;
 
-            btn.onmouseenter = () => { btn.style.borderColor = 'var(--green)'; btn.style.background = 'var(--cream)'; };
-            btn.onmouseleave = () => { btn.style.borderColor = '#2A2A2A'; btn.style.background = 'white'; };
+            btn.onmouseenter = () => { btn.style.borderColor = 'var(--or-gold, #C9A84C)'; btn.style.background = '#222'; };
+            btn.onmouseleave = () => { btn.style.borderColor = '#333'; btn.style.background = '#1A1A1A'; };
 
             btn.onclick = () => selectBranch(branch);
             listEl.appendChild(btn);
@@ -345,7 +345,7 @@ function logout() {
 function showPosOnboarding(user, token) {
     document.getElementById('posOnboardingOverlay')?.remove();
 
-    const branchName = user.primaryBranch?.name || 'JIG Craft Cannabis';
+    const branchName = user.primaryBranch?.name || 'Origin by ILCO Farming';
     const roleName = user.role === 'branch_manager' ? 'Branch Manager' : user.role === 'branch_assistant' ? 'Branch Assistant' : user.role || 'Staff';
 
     // Store user/token for shift start
@@ -354,13 +354,13 @@ function showPosOnboarding(user, token) {
 
     const overlay = document.createElement('div');
     overlay.id = 'posOnboardingOverlay';
-    overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,var(--green-deep,#0A0A0A) 0%,var(--green-dark,#6D28D9) 100%);z-index:99999;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:20px;';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,var(--green-deep,#0E0E0E) 0%,var(--green-dark,#8B6914) 100%);z-index:99999;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:20px;';
 
     overlay.innerHTML = `
         <div style="background:white;border-radius:16px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;">
             <!-- Step indicators -->
-            <div style="background:var(--green,#7C3AED);padding:12px 20px;display:flex;gap:8px;justify-content:center;">
-                <div id="obStep1Dot" style="width:10px;height:10px;border-radius:50%;background:var(--gold,#D97706);"></div>
+            <div style="background:var(--green,#C9A84C);padding:12px 20px;display:flex;gap:8px;justify-content:center;">
+                <div id="obStep1Dot" style="width:10px;height:10px;border-radius:50%;background:var(--gold,#C9A84C);"></div>
                 <div id="obStep2Dot" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.3);"></div>
                 <div id="obStep3Dot" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.3);"></div>
                 <div id="obStep4Dot" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.3);"></div>
@@ -368,34 +368,34 @@ function showPosOnboarding(user, token) {
 
             <!-- Step 1: Welcome -->
             <div id="obStep1" style="padding:30px;text-align:center;">
-                <div style="width:70px;height:70px;border-radius:50%;background:var(--cream,#0A0A0A);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
-                    <i class="fas fa-hand-peace" style="font-size:2rem;color:var(--green,#7C3AED);"></i>
+                <div style="width:70px;height:70px;border-radius:50%;background:var(--cream,#0E0E0E);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                    <i class="fas fa-hand-peace" style="font-size:2rem;color:var(--green,#C9A84C);"></i>
                 </div>
-                <h2 style="font-family:'Oswald', sans-serif;font-size:1.6rem;color:var(--green-deep,#6D28D9);margin:0 0 8px;">Welcome to ${branchName}</h2>
+                <h2 style="font-family:'Barlow Condensed', sans-serif;font-size:1.6rem;color:var(--green-deep,#8B6914);margin:0 0 8px;">Welcome to ${branchName}</h2>
                 <p style="color:#666;font-size:0.95rem;margin:0 0 6px;">You are logged in as <strong>${roleName}</strong></p>
                 <p style="color:#999;font-size:0.85rem;margin:0 0 30px;">Before you start, we need a few details from you. This only takes a moment.</p>
-                <button onclick="posOnboardingNext(2)" style="width:100%;padding:15px;background:var(--green,#7C3AED);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;">
+                <button onclick="posOnboardingNext(2)" style="width:100%;padding:15px;background:var(--green,#C9A84C);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;">
                     Let's Go <i class="fas fa-arrow-right" style="margin-left:8px;"></i>
                 </button>
             </div>
 
             <!-- Step 2: Your Details -->
             <div id="obStep2" style="padding:30px;display:none;">
-                <h2 style="font-family:'Oswald', sans-serif;font-size:1.4rem;color:var(--green-deep,#6D28D9);margin:0 0 4px;">Your Details</h2>
+                <h2 style="font-family:'Barlow Condensed', sans-serif;font-size:1.4rem;color:var(--green-deep,#8B6914);margin:0 0 4px;">Your Details</h2>
                 <p style="color:#888;font-size:0.85rem;margin:0 0 20px;">So we know who you are on receipts and reports</p>
 
                 <div id="obError" style="display:none;background:#fee;color:#c00;padding:10px;border-radius:8px;margin-bottom:15px;font-size:0.85rem;"></div>
 
-                <label style="display:block;margin-bottom:4px;font-weight:600;color:var(--green-deep,#6D28D9);font-size:0.9rem;">First Name</label>
-                <input type="text" id="obFirstName" placeholder="e.g. Thabo" autocomplete="given-name" style="width:100%;padding:12px;border:2px solid #2A2A2A;border-radius:8px;font-size:1rem;margin-bottom:14px;box-sizing:border-box;">
+                <label style="display:block;margin-bottom:4px;font-weight:600;color:var(--green-deep,#8B6914);font-size:0.9rem;">First Name</label>
+                <input type="text" id="obFirstName" placeholder="e.g. Thabo" autocomplete="given-name" style="width:100%;padding:12px;border:2px solid #222222;border-radius:8px;font-size:1rem;margin-bottom:14px;box-sizing:border-box;">
 
-                <label style="display:block;margin-bottom:4px;font-weight:600;color:var(--green-deep,#6D28D9);font-size:0.9rem;">Last Name</label>
-                <input type="text" id="obLastName" placeholder="e.g. Molefe" autocomplete="family-name" style="width:100%;padding:12px;border:2px solid #2A2A2A;border-radius:8px;font-size:1rem;margin-bottom:14px;box-sizing:border-box;">
+                <label style="display:block;margin-bottom:4px;font-weight:600;color:var(--green-deep,#8B6914);font-size:0.9rem;">Last Name</label>
+                <input type="text" id="obLastName" placeholder="e.g. Molefe" autocomplete="family-name" style="width:100%;padding:12px;border:2px solid #222222;border-radius:8px;font-size:1rem;margin-bottom:14px;box-sizing:border-box;">
 
-                <label style="display:block;margin-bottom:4px;font-weight:600;color:var(--green-deep,#6D28D9);font-size:0.9rem;">Mobile Number</label>
-                <input type="tel" id="obMobile" placeholder="e.g. 071 234 5678" autocomplete="tel" inputmode="tel" style="width:100%;padding:12px;border:2px solid #2A2A2A;border-radius:8px;font-size:1rem;margin-bottom:20px;box-sizing:border-box;">
+                <label style="display:block;margin-bottom:4px;font-weight:600;color:var(--green-deep,#8B6914);font-size:0.9rem;">Mobile Number</label>
+                <input type="tel" id="obMobile" placeholder="e.g. 071 234 5678" autocomplete="tel" inputmode="tel" style="width:100%;padding:12px;border:2px solid #222222;border-radius:8px;font-size:1rem;margin-bottom:20px;box-sizing:border-box;">
 
-                <button id="obSaveBtn" onclick="posOnboardingSave()" style="width:100%;padding:15px;background:var(--green,#7C3AED);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;">
+                <button id="obSaveBtn" onclick="posOnboardingSave()" style="width:100%;padding:15px;background:var(--green,#C9A84C);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;">
                     <i class="fas fa-check"></i> Save & Continue
                 </button>
             </div>
@@ -403,32 +403,32 @@ function showPosOnboarding(user, token) {
             <!-- Step 3: Start Your Shift -->
             <div id="obStep3" style="padding:30px;display:none;">
                 <div style="text-align:center;margin-bottom:20px;">
-                    <div style="width:70px;height:70px;border-radius:50%;background:var(--cream,#0A0A0A);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-                        <i class="fas fa-clock" style="font-size:2rem;color:var(--green,#7C3AED);"></i>
+                    <div style="width:70px;height:70px;border-radius:50%;background:var(--cream,#0E0E0E);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                        <i class="fas fa-clock" style="font-size:2rem;color:var(--green,#C9A84C);"></i>
                     </div>
-                    <h2 style="font-family:'Oswald', sans-serif;font-size:1.4rem;color:var(--green-deep,#6D28D9);margin:0 0 4px;">Start Your Shift</h2>
+                    <h2 style="font-family:'Barlow Condensed', sans-serif;font-size:1.4rem;color:var(--green-deep,#8B6914);margin:0 0 4px;">Start Your Shift</h2>
                     <p style="color:#888;font-size:0.85rem;margin:0;">Clock in and open the till to start selling</p>
                 </div>
 
                 <div id="obShiftError" style="display:none;background:#fee;color:#c00;padding:10px;border-radius:8px;margin-bottom:15px;font-size:0.85rem;"></div>
 
-                <div style="background:var(--cream,#0A0A0A);border-radius:10px;padding:14px;margin-bottom:16px;">
+                <div style="background:var(--cream,#0E0E0E);border-radius:10px;padding:14px;margin-bottom:16px;">
                     <div style="display:flex;align-items:center;gap:10px;">
-                        <i class="fas fa-store" style="color:var(--green,#7C3AED);font-size:1.1rem;"></i>
+                        <i class="fas fa-store" style="color:var(--green,#C9A84C);font-size:1.1rem;"></i>
                         <div>
                             <div style="font-size:0.8rem;color:#888;">Branch</div>
-                            <div id="obBranchName" style="font-weight:700;color:var(--green-deep,#6D28D9);">${branchName}</div>
+                            <div id="obBranchName" style="font-weight:700;color:var(--green-deep,#8B6914);">${branchName}</div>
                         </div>
                     </div>
                 </div>
 
-                <label style="display:block;margin-bottom:4px;font-weight:600;color:var(--green-deep,#6D28D9);font-size:0.9rem;">Opening Float (cash in till)</label>
+                <label style="display:block;margin-bottom:4px;font-weight:600;color:var(--green-deep,#8B6914);font-size:0.9rem;">Opening Float (cash in till)</label>
                 <div style="position:relative;margin-bottom:20px;">
-                    <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--green-deep,#6D28D9);">R</span>
-                    <input type="number" id="obOpeningFloat" value="500" min="0" step="50" inputmode="numeric" style="width:100%;padding:12px 12px 12px 30px;border:2px solid #2A2A2A;border-radius:8px;font-size:1rem;box-sizing:border-box;">
+                    <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--green-deep,#8B6914);">R</span>
+                    <input type="number" id="obOpeningFloat" value="500" min="0" step="50" inputmode="numeric" style="width:100%;padding:12px 12px 12px 30px;border:2px solid #222222;border-radius:8px;font-size:1rem;box-sizing:border-box;">
                 </div>
 
-                <button id="obShiftBtn" onclick="posOnboardingStartShift()" style="width:100%;padding:15px;background:var(--gold,#D97706);color:var(--green-deep,#6D28D9);border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;">
+                <button id="obShiftBtn" onclick="posOnboardingStartShift()" style="width:100%;padding:15px;background:var(--gold,#C9A84C);color:var(--green-deep,#8B6914);border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;">
                     <i class="fas fa-play"></i> Clock In & Open Till
                 </button>
 
@@ -440,12 +440,12 @@ function showPosOnboarding(user, token) {
             <!-- Step 4: Ready -->
             <div id="obStep4" style="padding:30px;text-align:center;display:none;">
                 <div style="width:70px;height:70px;border-radius:50%;background:#e8f5e9;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
-                    <i class="fas fa-check-circle" style="font-size:2.5rem;color:var(--green,#7C3AED);"></i>
+                    <i class="fas fa-check-circle" style="font-size:2.5rem;color:var(--green,#C9A84C);"></i>
                 </div>
-                <h2 style="font-family:'Oswald', sans-serif;font-size:1.6rem;color:var(--green-deep,#6D28D9);margin:0 0 8px;">You're All Set!</h2>
+                <h2 style="font-family:'Barlow Condensed', sans-serif;font-size:1.6rem;color:var(--green-deep,#8B6914);margin:0 0 8px;">You're All Set!</h2>
                 <p id="obWelcomeName" style="color:#666;font-size:1rem;margin:0 0 8px;"></p>
-                <p id="obShiftStatus" style="color:var(--green,#7C3AED);font-size:0.9rem;font-weight:600;margin:0 0 30px;"></p>
-                <button onclick="posOnboardingComplete()" style="width:100%;padding:15px;background:var(--green,#7C3AED);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;">
+                <p id="obShiftStatus" style="color:var(--green,#C9A84C);font-size:0.9rem;font-weight:600;margin:0 0 30px;"></p>
+                <button onclick="posOnboardingComplete()" style="width:100%;padding:15px;background:var(--green,#C9A84C);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;">
                     <i class="fas fa-cash-register"></i> Start Selling
                 </button>
             </div>
@@ -461,10 +461,10 @@ function posOnboardingNext(step) {
     document.getElementById('obStep3').style.display = step === 3 ? 'block' : 'none';
     document.getElementById('obStep4').style.display = step === 4 ? 'block' : 'none';
 
-    document.getElementById('obStep1Dot').style.background = step >= 1 ? 'var(--gold,#D97706)' : 'rgba(255,255,255,0.3)';
-    document.getElementById('obStep2Dot').style.background = step >= 2 ? 'var(--gold,#D97706)' : 'rgba(255,255,255,0.3)';
-    document.getElementById('obStep3Dot').style.background = step >= 3 ? 'var(--gold,#D97706)' : 'rgba(255,255,255,0.3)';
-    document.getElementById('obStep4Dot').style.background = step >= 4 ? 'var(--gold,#D97706)' : 'rgba(255,255,255,0.3)';
+    document.getElementById('obStep1Dot').style.background = step >= 1 ? 'var(--gold,#C9A84C)' : 'rgba(255,255,255,0.3)';
+    document.getElementById('obStep2Dot').style.background = step >= 2 ? 'var(--gold,#C9A84C)' : 'rgba(255,255,255,0.3)';
+    document.getElementById('obStep3Dot').style.background = step >= 3 ? 'var(--gold,#C9A84C)' : 'rgba(255,255,255,0.3)';
+    document.getElementById('obStep4Dot').style.background = step >= 4 ? 'var(--gold,#C9A84C)' : 'rgba(255,255,255,0.3)';
 
     if (step === 2) {
         setTimeout(() => document.getElementById('obFirstName').focus(), 200);
@@ -557,13 +557,13 @@ async function posOnboardingSetupBranch(user) {
         if (res.ok) {
             const data = await res.json();
             const branchData = data.branch || data.data || data;
-            const branch = { _id: branchId, name: branchData.name || 'Ormonde' };
+            const branch = { _id: branchId, name: branchData.name || 'Origin' };
             sessionStorage.setItem('selectedBranch', JSON.stringify(branch));
             const nameEl = document.getElementById('obBranchName');
             if (nameEl) nameEl.textContent = branch.name;
         }
     } catch (e) {
-        sessionStorage.setItem('selectedBranch', JSON.stringify({ _id: branchId, name: 'Ormonde' }));
+        sessionStorage.setItem('selectedBranch', JSON.stringify({ _id: branchId, name: 'Origin' }));
     }
 }
 

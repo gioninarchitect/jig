@@ -92,13 +92,13 @@ function MDCTab() {
           <div className="text-xs text-gray-500 font-bold uppercase mb-2">Pending MDC Review</div>
           <div className="space-y-2">
             {pending.map(p => (
-              <div key={p._id} className="p-3 rounded-lg border border-jig-amber/20 bg-jig-amber/5 flex items-center justify-between">
+              <div key={p._id} className="p-3 rounded-lg border border-or-gold/20 bg-or-gold/5 flex items-center justify-between">
                 <div>
                   <div className="text-sm font-semibold text-white">{p.name}</div>
                   <div className="text-[10px] text-gray-400">SKU: {p.sku} | Category: {p.category}</div>
                 </div>
                 <div className="flex gap-2">
-                  <button className="px-3 py-1 rounded bg-jig-purple text-white text-xs font-bold">Approve</button>
+                  <button className="px-3 py-1 rounded bg-or-gold text-white text-xs font-bold">Approve</button>
                   <button className="px-3 py-1 rounded bg-gray-200 text-gray-600 text-xs font-bold">Reject</button>
                 </div>
               </div>
@@ -140,13 +140,13 @@ function ProductsTab() {
         <h3 className="font-heading text-lg text-white uppercase">Product Catalog</h3>
         <input
           type="text" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)}
-          className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs w-48 focus:outline-none focus:ring-2 focus:ring-jig-purple/30"
+          className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs w-48 focus:outline-none focus:ring-2 focus:ring-or-gold/30"
         />
       </div>
       <div className="text-xs text-gray-400">{filtered.length} products</div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {filtered.slice(0, 30).map(p => (
-          <div key={p._id} className="p-3 rounded-lg border border-gray-200 hover:border-jig-purple/30 transition-colors">
+          <div key={p._id} className="p-3 rounded-lg border border-gray-200 hover:border-or-gold/30 transition-colors">
             <div className="flex items-center justify-between mb-1">
               <div className="text-xs font-semibold text-white truncate">{p.name}</div>
               <Badge status={p.status === 'active' ? 'active' : 'pending'}>{p.status}</Badge>
@@ -200,7 +200,7 @@ function BatchesTab() {
           </thead>
           <tbody>
             {batches.map(b => (
-              <tr key={b._id} className="border-b border-gray-100 hover:bg-jig-slate/50">
+              <tr key={b._id} className="border-b border-gray-100 hover:bg-origin-slate/50">
                 <td className="py-2 px-2 text-white font-bold">{b.batchId}</td>
                 <td className="py-2 px-2">{b.product?.name || '--'}</td>
                 <td className="py-2 px-2">{b.cannabinoids?.thc ?? '--'}%</td>
@@ -419,16 +419,16 @@ function StockLevelsTab() {
 
       {lowStock.length > 0 && (
         <div>
-          <div className="text-xs text-jig-red font-bold uppercase mb-2">Low Stock Alerts</div>
+          <div className="text-xs text-origin-red font-bold uppercase mb-2">Low Stock Alerts</div>
           <div className="space-y-2">
             {lowStock.slice(0, 10).map(p => (
-              <div key={p._id} className="p-3 rounded-lg border border-jig-red/20 bg-jig-red/5 flex items-center justify-between">
+              <div key={p._id} className="p-3 rounded-lg border border-origin-red/20 bg-origin-red/5 flex items-center justify-between">
                 <div>
                   <div className="text-xs font-bold text-white">{p.name}</div>
                   <div className="text-[10px] text-gray-400">{p.sku} | {p.category}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-bold text-jig-red">{p.inventory?.quantity ?? 0}</div>
+                  <div className="text-sm font-bold text-origin-red">{p.inventory?.quantity ?? 0}</div>
                   <div className="text-[10px] text-gray-400">of {p.inventory?.lowStockThreshold ?? 10} min</div>
                 </div>
               </div>
@@ -477,7 +477,7 @@ function AutoReorderTab() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="font-heading text-lg text-white uppercase">Auto Reorder Rules</h3>
-        <button className="px-4 py-2 rounded-lg bg-jig-purple text-white text-xs font-bold">Add Rule</button>
+        <button className="px-4 py-2 rounded-lg bg-or-gold text-white text-xs font-bold">Add Rule</button>
       </div>
       <p className="text-xs text-gray-500">Automatic purchase orders when stock drops below thresholds</p>
 
@@ -495,7 +495,7 @@ function AutoReorderTab() {
             </thead>
             <tbody>
               {rules.map(r => (
-                <tr key={r._id} className="border-b border-gray-100 hover:bg-jig-slate/50">
+                <tr key={r._id} className="border-b border-gray-100 hover:bg-origin-slate/50">
                   <td className="py-2 px-2 text-white font-bold">{r.product?.name || r.productName || '--'}</td>
                   <td className="py-2 px-2">{r.triggerQuantity ?? '--'} units</td>
                   <td className="py-2 px-2">{r.reorderQuantity ?? '--'} units</td>
@@ -528,15 +528,15 @@ function ReportsTab() {
       <h3 className="font-heading text-lg text-white uppercase">Reports</h3>
       <div className="grid sm:grid-cols-2 gap-4">
         {REPORTS.map(r => (
-          <div key={r.key} className="p-4 rounded-lg border border-gray-200 hover:border-jig-purple/30 transition-colors">
+          <div key={r.key} className="p-4 rounded-lg border border-gray-200 hover:border-or-gold/30 transition-colors">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-lg bg-jig-purple/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-or-gold/10 flex items-center justify-center">
                 <SvgIcon d={r.icon} />
               </div>
               <div className="font-heading text-base text-white uppercase">{r.label}</div>
             </div>
             <p className="text-xs text-gray-500 mb-3">{r.desc}</p>
-            <button className="px-4 py-2 rounded-lg bg-jig-purple text-white text-xs font-bold">Generate Report</button>
+            <button className="px-4 py-2 rounded-lg bg-or-gold text-white text-xs font-bold">Generate Report</button>
           </div>
         ))}
       </div>
@@ -571,8 +571,8 @@ function ComplianceTab() {
         <StatCard label="Active Prescriptions" value={stats?.activePrescriptions ?? '--'} />
         <StatCard label="Expiring This Month" value={stats?.expiringThisMonth ?? '--'} />
       </div>
-      <div className="p-4 rounded-lg border border-jig-red/20 bg-jig-red/5">
-        <div className="text-xs font-bold text-jig-red uppercase mb-2">Compliance Checklist</div>
+      <div className="p-4 rounded-lg border border-origin-red/20 bg-origin-red/5">
+        <div className="text-xs font-bold text-origin-red uppercase mb-2">Compliance Checklist</div>
         <div className="space-y-2 text-xs">
           {[
             'All Section 21 products have valid batch COAs',
@@ -638,5 +638,5 @@ function PotencyTab({ config }) {
 }
 
 function Spinner() {
-  return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 }

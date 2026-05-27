@@ -3,40 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <title>About Us - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -46,7 +55,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -55,13 +64,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -72,8 +81,8 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             line-height: 1.8;
         }
 
@@ -89,11 +98,11 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+            border-bottom: 1px solid rgba(240, 165, 0, 0.2);
         }
 
         .logo {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 24px;
             font-weight: 700;
             letter-spacing: 1px;
@@ -128,11 +137,22 @@
         .hero {
             padding: 160px 5% 80px;
             text-align: center;
-            background: linear-gradient(180deg, var(--green-deep) 0%, var(--green-dark) 100%);
+            background: url('images/origin-site/gallery-07.jpeg') center/cover no-repeat;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(42,140,44,0.8) 0%, rgba(14,14,14,0.85) 100%);
+        }
+        .hero > * {
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 64px;
             font-weight: 900;
             margin-bottom: 20px;
@@ -142,7 +162,7 @@
         }
 
         .hero p {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 24px;
             font-style: italic;
             color: var(--gold);
@@ -158,13 +178,13 @@
         }
 
         .content-section h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 42px;
             font-weight: 700;
             margin-bottom: 30px;
             border-left: 4px solid var(--gold);
             padding-left: 20px;
-            color: var(--white);
+            color: var(--or-white);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -172,7 +192,7 @@
         .content-section p {
             font-family: 'Inter', sans-serif;
             font-size: 16px;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             margin-bottom: 20px;
             line-height: 1.8;
         }
@@ -185,7 +205,7 @@
         .content-section li {
             font-family: 'Inter', sans-serif;
             font-size: 16px;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             margin-bottom: 15px;
             padding-left: 30px;
             position: relative;
@@ -212,7 +232,7 @@
             background: var(--green-deep);
             padding: 40px 30px;
             border-radius: 12px;
-            border: 1px solid rgba(217, 119, 6, 0.2);
+            border: 1px solid rgba(240, 165, 0, 0.2);
             transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
         }
 
@@ -229,7 +249,7 @@
         }
 
         .value-card h3 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 15px;
@@ -247,7 +267,7 @@
 
         /* Team Section */
         .team-section {
-            background: var(--green);
+            background: var(--or-gold);
             padding: 80px 5%;
             margin: 0;
             max-width: 100%;
@@ -282,7 +302,7 @@
         }
 
         .cta-section h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 48px;
             margin-bottom: 20px;
             color: var(--cream);
@@ -291,7 +311,7 @@
         }
 
         .cta-section p {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 20px;
             font-style: italic;
             color: rgba(244, 240, 230, 0.8);
@@ -300,11 +320,11 @@
 
         .btn-primary {
             background: var(--gold);
-            color: var(--white);
+            color: var(--or-white);
             padding: 18px 50px;
             border: none;
             border-radius: 8px;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 18px;
             font-weight: 700;
             text-transform: uppercase;
@@ -325,7 +345,7 @@
             padding: 40px 5%;
             background: var(--green-deep);
             text-align: center;
-            border-top: 1px solid rgba(217, 119, 6, 0.2);
+            border-top: 1px solid rgba(240, 165, 0, 0.2);
         }
 
         footer p {
@@ -384,7 +404,7 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="logo">JIG CRAFT CANNABIS</div>
+        <div class="logo">Origin</div>
         <div class="nav-right">
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
@@ -398,29 +418,29 @@
 
     <!-- Hero Section -->
     <div class="hero">
-        <h1>About JIG Craft Cannabis</h1>
-        <p>Craft Cannabis</p>
+        <h1>About Origin</h1>
+        <p>Premium Cannabis Care by ILCO Farming (Pty) Ltd</p>
     </div>
 
     <!-- Our Story -->
     <div class="content-section">
         <h2>Our Story</h2>
-        <p>JIG Craft Cannabis was founded with a simple mission: to make natural wellness accessible to everyone, anytime. We believe in the power of cannabis-based wellness products to improve quality of life, reduce stress, and promote holistic health.</p>
-        <p>What started as a passion project has grown into a trusted network of retail store wellness centers, combining the convenience of modern retail with the therapeutic benefits of CBD and cannabis accessories.</p>
-        <p>Today, we serve thousands of customers across our locations, offering premium products, expert guidance, and a commitment to quality that sets us apart in the wellness industry.</p>
+        <p>Origin by ILCO Farming was built on a foundation of agricultural expertise and a genuine passion for plant-based wellness. With deep roots in South Africa's farming sector, ILCO Farming (Pty) Ltd brings decades of cultivation know-how to the cannabis space.</p>
+        <p>Our mission is simple: make premium, SAHPRA-compliant medical cannabis accessible and affordable to all South Africans. Every product we offer is carefully curated, lab-tested, and sourced with the same standards that define our agricultural heritage.</p>
+        <p>Today, Origin serves patients from our Potchefstroom collection point and online store, delivering quality medical cannabis nationwide. Every product carries our commitment from day one: quality, care, and accessibility.</p>
     </div>
 
     <!-- Mission -->
     <div class="content-section">
         <h2>Our Mission</h2>
-        <p>To provide convenient access to high-quality cannabis wellness products and accessories, empowering individuals to take control of their health naturally.</p>
+        <p>To provide accessible, affordable, and empowering medical cannabis care to South Africans through SAHPRA-compliant Section 21 operations, backed by the agricultural expertise of ILCO Farming.</p>
         <p>We are committed to:</p>
         <ul>
-            <li>Offering only premium, lab-tested wellness products</li>
-            <li>Providing exceptional customer service and education</li>
-            <li>Making wellness accessible through our retail store locations</li>
-            <li>Supporting responsible cannabis use and compliance</li>
-            <li>Building a community focused on natural health solutions</li>
+            <li>Making medical cannabis accessible to all who need it</li>
+            <li>Full SAHPRA compliance and Section 21 regulatory standards</li>
+            <li>Affordable pricing without compromising on quality</li>
+            <li>Educating patients and communities about medical cannabis</li>
+            <li>Empowering individuals to take control of their health naturally</li>
         </ul>
     </div>
 
@@ -429,63 +449,58 @@
         <h2>Our Values</h2>
         <div class="values-grid">
             <div class="value-card">
-                <i class="fas fa-certificate"></i>
-                <h3>Quality First</h3>
-                <p>Every product is carefully sourced and tested to meet our rigorous quality standards.</p>
+                <i class="fas fa-heart"></i>
+                <h3>Born from Purpose</h3>
+                <p>Origin was born from a passion for farming and plant-based wellness. Every decision we make honours our agricultural roots.</p>
             </div>
             <div class="value-card">
-                <i class="fas fa-user-check"></i>
-                <h3>Customer-Centric</h3>
-                <p>Your wellness journey is our priority. We provide personalized guidance and support.</p>
+                <i class="fas fa-hand-holding-medical"></i>
+                <h3>Accessibility</h3>
+                <p>Medical cannabis should be available to everyone who needs it, not just those who can afford premium prices.</p>
             </div>
             <div class="value-card">
                 <i class="fas fa-leaf"></i>
-                <h3>Natural Wellness</h3>
-                <p>We believe in the power of plant-based solutions for holistic health.</p>
+                <h3>Quality Cultivation</h3>
+                <p>Premium indoor-grown cannabis, carefully cultivated and tested to meet the highest medical standards.</p>
             </div>
             <div class="value-card">
                 <i class="fas fa-shield-alt"></i>
-                <h3>Compliance & Safety</h3>
-                <p>We operate with full regulatory compliance and prioritize customer safety.</p>
+                <h3>Full Compliance</h3>
+                <p>SAHPRA-compliant and Section 21 approved. We operate within the law to protect our patients.</p>
             </div>
             <div class="value-card">
-                <i class="fas fa-clock"></i>
-                <h3>24/7 Convenience</h3>
-                <p>Wellness doesn't wait. Our retail store locations offer convenient access when you need it.</p>
+                <i class="fas fa-users"></i>
+                <h3>Community</h3>
+                <p>Serving patients in-store and online, building a growing network of care and support.</p>
             </div>
             <div class="value-card">
                 <i class="fas fa-graduation-cap"></i>
                 <h3>Education</h3>
-                <p>We empower our customers with knowledge about cannabis wellness and safe usage.</p>
+                <p>We empower patients with knowledge about medical cannabis, proper dosing, and responsible use.</p>
             </div>
         </div>
     </div>
 
-    <!-- What We Offer -->
+    <!-- Our Locations -->
     <div class="content-section team-section">
-        <h2>What We Offer</h2>
-        <p>JIG Craft Cannabis provides a comprehensive range of wellness products and services:</p>
+        <h2>Our Collection Points</h2>
+        <p>Origin serves patients through our collection point and online store:</p>
         <ul>
-            <li><strong>Premium CBD Products:</strong> Oils, edibles, topicals, and beverages</li>
-            <li><strong>Cannabis Accessories:</strong> Grinders, papers, vaporizers, storage solutions</li>
-            <li><strong>Morija Roastery Coffee:</strong> CBD-infused specialty coffee blends</li>
-            <li><strong>Thaba Cafe Products:</strong> Artisanal cafe offerings</li>
-            <li><strong>Section 21 Medical Cannabis:</strong> For authorized patients with prescriptions</li>
-            <li><strong>Retail Store Convenience:</strong> Quick, discreet pickup at all locations</li>
-            <li><strong>Expert Consultation:</strong> Knowledgeable staff to guide your wellness journey</li>
+            <li><strong>Potchefstroom</strong> — Our flagship store in North West</li>
+            <li><strong>Origin Online</strong> — Nationwide delivery across South Africa</li>
         </ul>
     </div>
 
     <!-- CTA Section -->
     <div class="cta-section">
-        <h2>Join Our Wellness Community</h2>
-        <p>Experience the JIG Craft Cannabis difference. Visit us today or explore our online store.</p>
-        <a href="products.html" class="btn-primary">Shop Now</a>
+        <h2>Start Your Wellness Journey</h2>
+        <p>Visit our Potchefstroom store or register online to become an Origin patient.</p>
+        <a href="register.html" class="btn-primary">Become a Member</a>
     </div>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 JIG Craft Cannabis. All rights reserved. | Craft Cannabis</p>
+        <p>&copy; 2026 Origin by ILCO Farming (Pty) Ltd. All rights reserved.</p>
     </footer>
 
     <!-- UAT Bug Reporter -->

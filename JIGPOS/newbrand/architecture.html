@@ -3,38 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Architecture - Da Bud Chef</title>
+    <title>System Architecture - Origin by ILCO Farming</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -44,7 +53,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -53,21 +62,21 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             line-height: 1.6;
         }
 
@@ -87,7 +96,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(ellipse at 30% 20%, rgba(217, 119, 6,0.15) 0%, transparent 50%);
+            background: radial-gradient(ellipse at 30% 20%, rgba(240, 165, 0,0.15) 0%, transparent 50%);
             pointer-events: none;
         }
 
@@ -97,17 +106,17 @@
         }
 
         .header h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 56px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.02em;
             margin-bottom: 10px;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .header p {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 20px;
             color: rgba(255,255,255,0.8);
             max-width: 700px;
@@ -117,7 +126,7 @@
         .version-badge {
             display: inline-block;
             background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             padding: 8px 20px;
             border-radius: 25px;
             font-size: 12px;
@@ -133,7 +142,7 @@
             justify-content: center;
             gap: 8px;
             padding: 20px;
-            background: var(--white);
+            background: var(--or-white);
             border-bottom: 1px solid var(--gray-200);
             flex-wrap: wrap;
             position: sticky;
@@ -147,7 +156,7 @@
             background: transparent;
             border: 2px solid var(--gray-200);
             border-radius: 8px;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
@@ -155,14 +164,14 @@
         }
 
         .nav-tab:hover {
-            border-color: var(--purple);
-            color: var(--purple);
+            border-color: var(--or-gold);
+            color: var(--or-gold);
         }
 
         .nav-tab.active {
-            background: var(--green);
-            border-color: var(--purple);
-            color: var(--white);
+            background: var(--or-gold);
+            border-color: var(--or-gold);
+            color: var(--or-white);
         }
 
         /* Main Content */
@@ -193,7 +202,7 @@
         }
 
         .accordion-header {
-            background: var(--white);
+            background: var(--or-white);
             padding: 20px 24px;
             border-radius: 12px;
             cursor: pointer;
@@ -206,15 +215,15 @@
         }
 
         .accordion-header:hover {
-            border-color: var(--purple);
+            border-color: var(--or-gold);
             box-shadow: var(--shadow-sm);
         }
 
         .accordion-header.active {
             border-radius: 12px 12px 0 0;
-            border-color: var(--purple);
-            background: var(--green);
-            color: var(--white);
+            border-color: var(--or-gold);
+            background: var(--or-gold);
+            color: var(--or-white);
         }
 
         .accordion-title {
@@ -227,17 +236,17 @@
             font-size: 24px;
             width: 44px;
             height: 44px;
-            background: rgba(124, 58, 237, 0.1);
+            background: rgba(63, 192, 65, 0.1);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .accordion-header.active .accordion-title i {
             background: rgba(255, 255, 255, 0.2);
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .accordion-title h3 {
@@ -261,7 +270,7 @@
 
         .accordion-content {
             display: none;
-            background: var(--white);
+            background: var(--or-white);
             border: 2px solid var(--gray-200);
             border-top: none;
             border-radius: 0 0 12px 12px;
@@ -281,7 +290,7 @@
         }
 
         .card {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 12px;
             padding: 24px;
             border: 2px solid var(--gray-200);
@@ -290,21 +299,21 @@
 
         .card:hover {
             transform: translateY(-5px);
-            border-color: var(--purple);
+            border-color: var(--or-gold);
             box-shadow: var(--shadow-green);
         }
 
         .card-icon {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 22px;
             margin-bottom: 16px;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .card h4 {
@@ -316,7 +325,7 @@
 
         .card p {
             font-size: 13px;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             line-height: 1.5;
         }
 
@@ -333,7 +342,7 @@
             align-items: center;
             gap: 20px;
             padding: 20px;
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 12px;
             border-left: 4px solid var(--green);
             transition: all 0.3s;
@@ -346,10 +355,10 @@
         }
 
         .role-level.owner { border-left-color: var(--gold); }
-        .role-level.admin { border-left-color: var(--purple); }
+        .role-level.admin { border-left-color: var(--or-gold); }
         .role-level.manager { border-left-color: var(--green-light); }
         .role-level.assistant { border-left-color: var(--gold-dark); }
-        .role-level.user { border-left-color: var(--gray-500); }
+        .role-level.user { border-left-color: var(--or-grey-2); }
 
         .role-number {
             width: 40px;
@@ -377,7 +386,7 @@
 
         .role-info p {
             font-size: 13px;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
         }
 
         .role-permissions {
@@ -388,10 +397,10 @@
 
         .permission-tag {
             padding: 4px 10px;
-            background: rgba(124, 58, 237, 0.1);
+            background: rgba(63, 192, 65, 0.1);
             border-radius: 4px;
             font-size: 11px;
-            color: var(--purple);
+            color: var(--or-gold);
             font-weight: 500;
         }
 
@@ -412,7 +421,7 @@
         .workflow-step {
             text-align: center;
             padding: 20px;
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 12px;
             min-width: 140px;
             border: 2px solid var(--gray-200);
@@ -420,14 +429,14 @@
         }
 
         .workflow-step:hover {
-            border-color: var(--purple);
+            border-color: var(--or-gold);
             transform: scale(1.05);
             box-shadow: var(--shadow-sm);
         }
 
         .workflow-step i {
             font-size: 28px;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 10px;
         }
 
@@ -440,7 +449,7 @@
 
         .workflow-arrow {
             font-size: 24px;
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* API Table */
@@ -449,17 +458,17 @@
             border-collapse: collapse;
             margin: 20px 0;
             font-size: 14px;
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 12px;
             overflow: hidden;
         }
 
         .api-table th {
-            background: var(--green);
+            background: var(--or-gold);
             padding: 14px 16px;
             text-align: left;
             font-weight: 600;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .api-table td {
@@ -469,7 +478,7 @@
         }
 
         .api-table tr:hover td {
-            background: rgba(124, 58, 237, 0.05);
+            background: rgba(63, 192, 65, 0.05);
         }
 
         .method {
@@ -481,15 +490,15 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        .method.get { background: var(--green); color: #fff; }
+        .method.get { background: var(--or-gold); color: #fff; }
         .method.post { background: var(--green-dark); color: #fff; }
-        .method.put { background: var(--gold); color: var(--white); }
+        .method.put { background: var(--gold); color: var(--or-white); }
         .method.delete { background: var(--red); color: #fff; }
 
         .endpoint {
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* Feature Status */
@@ -504,18 +513,18 @@
         }
 
         .feature-status.complete {
-            background: rgba(124, 58, 237, 0.15);
-            color: var(--purple);
+            background: rgba(63, 192, 65, 0.15);
+            color: var(--or-gold);
         }
 
         .feature-status.progress {
-            background: rgba(217, 119, 6, 0.15);
+            background: rgba(240, 165, 0, 0.15);
             color: var(--gold-dark);
         }
 
         .feature-status.planned {
             background: rgba(107, 114, 128, 0.15);
-            color: var(--gray-500);
+            color: var(--or-grey-2);
         }
 
         /* Code Block */
@@ -531,7 +540,7 @@
             color: var(--cream);
         }
 
-        .code-block .comment { color: var(--gray-500); }
+        .code-block .comment { color: var(--or-grey-2); }
         .code-block .keyword { color: var(--gold-light); }
         .code-block .string { color: var(--green-light); }
         .code-block .number { color: var(--gold); }
@@ -545,7 +554,7 @@
         }
 
         .stat-box {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 12px;
             padding: 24px;
             text-align: center;
@@ -554,26 +563,26 @@
         }
 
         .stat-box:hover {
-            border-color: var(--purple);
+            border-color: var(--or-gold);
             box-shadow: var(--shadow-sm);
         }
 
         .stat-box .value {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 42px;
             font-weight: 700;
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .stat-box .label {
             font-size: 13px;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             margin-top: 8px;
         }
 
         /* Location Cards */
         .location-card {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 12px;
             padding: 24px;
             border: 2px solid var(--gray-200);
@@ -581,7 +590,7 @@
         }
 
         .location-card.flagship {
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         .location-card:hover {
@@ -605,7 +614,7 @@
         .location-badge {
             padding: 4px 12px;
             background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            color: var(--white);
+            color: var(--or-white);
             border-radius: 20px;
             font-size: 11px;
             font-weight: 700;
@@ -617,7 +626,7 @@
         }
 
         .section h2 i {
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* Print Styles */
@@ -643,7 +652,7 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <h1>Da Bud Chef</h1>
+            <h1>Origin by ILCO Farming</h1>
             <p>Cannabis Collection Point Management System - Complete Architecture Documentation</p>
             <span class="version-badge">Version 2.0 | January 2026</span>
         </div>
@@ -810,7 +819,7 @@ SESSION_DURATION: <span class="number">24</span> hours
 
             <div class="role-hierarchy">
                 <div class="role-level owner">
-                    <div class="role-number" style="background: var(--gold); color: var(--white);">1</div>
+                    <div class="role-number" style="background: var(--gold); color: var(--or-white);">1</div>
                     <div class="role-info">
                         <h4><i class="fas fa-crown" style="color: var(--gold);"></i> OWNER</h4>
                         <p>Supreme authority over the entire system. Access to all locations, all features, all data.</p>
@@ -826,9 +835,9 @@ SESSION_DURATION: <span class="number">24</span> hours
                 </div>
 
                 <div class="role-level admin">
-                    <div class="role-number" style="background: var(--green); color: var(--white);">2</div>
+                    <div class="role-number" style="background: var(--or-gold); color: var(--or-white);">2</div>
                     <div class="role-info">
-                        <h4><i class="fas fa-user-shield" style="color: var(--purple);"></i> ADMIN</h4>
+                        <h4><i class="fas fa-user-shield" style="color: var(--or-gold);"></i> ADMIN</h4>
                         <p>Administrative control over assigned locations. Can manage staff, inventory, and view reports.</p>
                     </div>
                     <div class="role-permissions">
@@ -841,7 +850,7 @@ SESSION_DURATION: <span class="number">24</span> hours
                 </div>
 
                 <div class="role-level" style="border-left-color: var(--green-light);">
-                    <div class="role-number" style="background: var(--green-light); color: var(--white);">3</div>
+                    <div class="role-number" style="background: var(--green-light); color: var(--or-white);">3</div>
                     <div class="role-info">
                         <h4><i class="fas fa-boxes" style="color: var(--green-light);"></i> INVENTORY MANAGER</h4>
                         <p>Goods receiving, stock control, batch creation, inventory adjustments. Creates purchase orders for approval.</p>
@@ -856,7 +865,7 @@ SESSION_DURATION: <span class="number">24</span> hours
                 </div>
 
                 <div class="role-level" style="border-left-color: var(--gold);">
-                    <div class="role-number" style="background: var(--gold); color: var(--white);">4</div>
+                    <div class="role-number" style="background: var(--gold); color: var(--or-white);">4</div>
                     <div class="role-info">
                         <h4><i class="fas fa-box-open" style="color: var(--gold);"></i> PACKER</h4>
                         <p>Break bulk items, apply labels, quality checks, pack orders for dispatch. Works from pack queue.</p>
@@ -870,7 +879,7 @@ SESSION_DURATION: <span class="number">24</span> hours
                 </div>
 
                 <div class="role-level" style="border-left-color: var(--red);">
-                    <div class="role-number" style="background: var(--red); color: var(--white);">5</div>
+                    <div class="role-number" style="background: var(--red); color: var(--or-white);">5</div>
                     <div class="role-info">
                         <h4><i class="fas fa-shipping-fast" style="color: var(--red);"></i> DISPATCH MANAGER</h4>
                         <p>Pick orders, verify packed items, arrange courier handoff, track dispatched orders.</p>
@@ -884,9 +893,9 @@ SESSION_DURATION: <span class="number">24</span> hours
                 </div>
 
                 <div class="role-level manager">
-                    <div class="role-number" style="background: var(--green); color: var(--white);">6</div>
+                    <div class="role-number" style="background: var(--or-gold); color: var(--or-white);">6</div>
                     <div class="role-info">
-                        <h4><i class="fas fa-user-tie" style="color: var(--purple);"></i> STAFF MANAGER</h4>
+                        <h4><i class="fas fa-user-tie" style="color: var(--or-gold);"></i> STAFF MANAGER</h4>
                         <p>Store manager with POS access, inventory management, and staff oversight. Can override purchase limits.</p>
                     </div>
                     <div class="role-permissions">
@@ -899,7 +908,7 @@ SESSION_DURATION: <span class="number">24</span> hours
                 </div>
 
                 <div class="role-level assistant">
-                    <div class="role-number" style="background: var(--gold-dark); color: var(--white);">7</div>
+                    <div class="role-number" style="background: var(--gold-dark); color: var(--or-white);">7</div>
                     <div class="role-info">
                         <h4><i class="fas fa-user" style="color: var(--gold-dark);"></i> STAFF ASSISTANT</h4>
                         <p>Basic POS access for sales transactions. Cannot override limits or access management features.</p>
@@ -914,7 +923,7 @@ SESSION_DURATION: <span class="number">24</span> hours
                 <div class="role-level user">
                     <div class="role-number" style="background: var(--gray-300); color: var(--gray-700);">8</div>
                     <div class="role-info">
-                        <h4><i class="fas fa-shopping-bag" style="color: var(--gray-500);"></i> USER (Customer/Patient)</h4>
+                        <h4><i class="fas fa-shopping-bag" style="color: var(--or-grey-2);"></i> USER (Customer/Patient)</h4>
                         <p>Customer dashboard access. Can view orders, manage profile, shop online, and manage Section 21 prescriptions.</p>
                     </div>
                     <div class="role-permissions">
@@ -975,8 +984,8 @@ SESSION_DURATION: <span class="number">24</span> hours
                         </div>
                         <div class="card">
                             <div class="card-icon"><i class="fas fa-store-alt"></i></div>
-                            <h4>Ormonde Collection Point</h4>
-                            <p>Direct link to Ormonde flagship location dashboard and POS.</p>
+                            <h4>Potchefstroom Collection Point</h4>
+                            <p>Direct link to Potchefstroom flagship location dashboard and POS.</p>
                         </div>
                     </div>
                 </div>
@@ -1059,7 +1068,7 @@ SESSION_DURATION: <span class="number">24</span> hours
             <div class="accordion">
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="accordion-title">
-                        <i class="fas fa-cash-register" style="color: var(--purple);"></i>
+                        <i class="fas fa-cash-register" style="color: var(--or-gold);"></i>
                         <div>
                             <h3>POS Dashboard</h3>
                             <span>pos.html - Point of Sale for staff</span>
@@ -1096,7 +1105,7 @@ SESSION_DURATION: <span class="number">24</span> hours
             <div class="accordion">
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="accordion-title">
-                        <i class="fas fa-shopping-bag" style="color: var(--gray-500);"></i>
+                        <i class="fas fa-shopping-bag" style="color: var(--or-grey-2);"></i>
                         <div>
                             <h3>Customer Dashboard</h3>
                             <span>dashboard.html - Customer self-service</span>
@@ -1134,12 +1143,12 @@ SESSION_DURATION: <span class="number">24</span> hours
         <!-- Workflows Section -->
         <section id="workflows" class="section">
             <h2 style="font-size: 28px; margin-bottom: 30px;">
-                <i class="fas fa-project-diagram" style="color: var(--purple);"></i>
+                <i class="fas fa-project-diagram" style="color: var(--or-gold);"></i>
                 Complete System Workflows
             </h2>
 
             <!-- CUSTOMER WORKFLOWS -->
-            <h3 style="font-size: 20px; margin: 30px 0 20px; color: var(--purple); border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">
+            <h3 style="font-size: 20px; margin: 30px 0 20px; color: var(--or-gold); border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">
                 <i class="fas fa-users"></i> Customer Workflows
             </h3>
 
@@ -1181,7 +1190,7 @@ SESSION_DURATION: <span class="number">24</span> hours
                             <span>Account Active</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>New User:</strong> Auto-created on first OTP verification → Profile completion optional but encouraged → Starts with 0 wellness points
                     </p>
                 </div>
@@ -1278,10 +1287,10 @@ Card (Stripe) | EFT | Cash on Delivery | Wellness Points
                             <span>Medical Access</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Required Documents:</strong> Section 21 prescription, South African ID, proof of address<br>
                         <strong>Approval:</strong> Admin or Owner reviews → Sets daily/monthly limits → Grants access to medical products<br>
-                        <strong>Collection:</strong> Only at Ormonde HQ (Section 21 enabled location)
+                        <strong>Collection:</strong> Only at Potchefstroom HQ (Section 21 enabled location)
                     </p>
                 </div>
             </div>
@@ -1335,7 +1344,7 @@ Gold: <span class="number">5000</span>+ points (2x multiplier)
             </div>
 
             <!-- SALES WORKFLOWS -->
-            <h3 style="font-size: 20px; margin: 30px 0 20px; color: var(--purple); border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">
+            <h3 style="font-size: 20px; margin: 30px 0 20px; color: var(--or-gold); border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">
                 <i class="fas fa-cash-register"></i> Sales & POS Workflows
             </h3>
 
@@ -1382,7 +1391,7 @@ Gold: <span class="number">5000</span>+ points (2x multiplier)
                             <span>Print Receipt</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Staff Required:</strong> Staff Assistant (basic sales) or Staff Manager (with override capability)<br>
                         <strong>Batch Selection:</strong> Required for controlled products (cannabis) to maintain traceability<br>
                         <strong>Limit Check:</strong> Automatic for Section 21 patients, shows warning/blocks if over limit
@@ -1475,15 +1484,15 @@ Cash | Card | EFT | Voucher | Account | Wellness Points | Crypto | Bitcoin
                     <div style="display: flex; gap: 40px; margin-top: 20px; flex-wrap: wrap;">
                         <div style="flex: 1; min-width: 200px;">
                             <h4 style="color: var(--success); margin-bottom: 10px;"><i class="fas fa-check"></i> Within Limit</h4>
-                            <p style="color: var(--gray-500); font-size: 14px;">Proceed with sale normally</p>
+                            <p style="color: var(--or-grey-2); font-size: 14px;">Proceed with sale normally</p>
                         </div>
                         <div style="flex: 1; min-width: 200px;">
                             <h4 style="color: var(--warning); margin-bottom: 10px;"><i class="fas fa-exclamation-triangle"></i> Near Limit</h4>
-                            <p style="color: var(--gray-500); font-size: 14px;">Warning shown, can proceed</p>
+                            <p style="color: var(--or-grey-2); font-size: 14px;">Warning shown, can proceed</p>
                         </div>
                         <div style="flex: 1; min-width: 200px;">
                             <h4 style="color: var(--danger); margin-bottom: 10px;"><i class="fas fa-times"></i> Over Limit</h4>
-                            <p style="color: var(--gray-500); font-size: 14px;">Manager override required</p>
+                            <p style="color: var(--or-grey-2); font-size: 14px;">Manager override required</p>
                         </div>
                     </div>
                     <div class="code-block" style="margin-top: 20px;">
@@ -1538,7 +1547,7 @@ monthlyLimit: <span class="number">600</span> grams
                             <span>Bank Prep</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Open Shift:</strong> Staff Manager counts opening float, confirms amount<br>
                         <strong>Close Shift:</strong> Count cash, compare to expected (system calculated from sales)<br>
                         <strong>Variance:</strong> Over/short recorded with reason, flagged for review if > R50
@@ -1584,7 +1593,7 @@ monthlyLimit: <span class="number">600</span> grams
                             <span>Process Refund</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Approval Required:</strong> Staff Manager or higher<br>
                         <strong>Refund Method:</strong> Original payment method or store credit<br>
                         <strong>Stock:</strong> Returned items marked for QA review before restocking<br>
@@ -1594,7 +1603,7 @@ monthlyLimit: <span class="number">600</span> grams
             </div>
 
             <!-- INVENTORY WORKFLOWS -->
-            <h3 style="font-size: 20px; margin: 30px 0 20px; color: var(--purple); border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">
+            <h3 style="font-size: 20px; margin: 30px 0 20px; color: var(--or-gold); border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">
                 <i class="fas fa-boxes"></i> Inventory Workflows
             </h3>
 
@@ -1694,7 +1703,7 @@ monthlyLimit: <span class="number">600</span> grams
                             <span>Partial/Received</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Roles:</strong> Inventory Manager creates draft → Owner approves → Inventory Manager receives goods and creates batches
                     </p>
                 </div>
@@ -1738,7 +1747,7 @@ monthlyLimit: <span class="number">600</span> grams
                             <span>Received</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Initiator:</strong> Inventory Manager at receiving branch<br>
                         <strong>Approver:</strong> Inventory Manager or Admin at source branch<br>
                         <strong>Batches:</strong> Batch ID travels with stock, maintains traceability<br>
@@ -1835,7 +1844,7 @@ inventory.lowStockThreshold: <span class="number">10</span> units (default)
                             <span>Stock Updated</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Reasons:</strong> Breakage, Theft, Expired, Damaged, Count Correction, Sample/Promo<br>
                         <strong>Approval:</strong> Small adjustments auto-approved, large adjustments require manager<br>
                         <strong>Audit:</strong> All adjustments logged with user, timestamp, reason
@@ -1844,7 +1853,7 @@ inventory.lowStockThreshold: <span class="number">10</span> units (default)
             </div>
 
             <!-- FULFILLMENT WORKFLOWS -->
-            <h3 style="font-size: 20px; margin: 30px 0 20px; color: var(--purple); border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">
+            <h3 style="font-size: 20px; margin: 30px 0 20px; color: var(--or-gold); border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">
                 <i class="fas fa-shipping-fast"></i> Fulfillment Workflows
             </h3>
 
@@ -1891,7 +1900,7 @@ inventory.lowStockThreshold: <span class="number">10</span> units (default)
                             <span>Ready</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Role:</strong> Packer<br>
                         <strong>Dashboard:</strong> pnd-dashboard.html<br>
                         <strong>Labels:</strong> Order ID, Customer name, Contents list, Batch numbers (for traceability)
@@ -1942,7 +1951,7 @@ inventory.lowStockThreshold: <span class="number">10</span> units (default)
                             <span>Dispatched</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Role:</strong> Dispatch Manager<br>
                         <strong>Couriers:</strong> Integration with Pargo, The Courier Guy, Fastway<br>
                         <strong>Tracking:</strong> Customer receives tracking number via SMS/email
@@ -1951,7 +1960,7 @@ inventory.lowStockThreshold: <span class="number">10</span> units (default)
             </div>
 
             <!-- ADMIN WORKFLOWS -->
-            <h3 style="font-size: 20px; margin: 30px 0 20px; color: var(--purple); border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">
+            <h3 style="font-size: 20px; margin: 30px 0 20px; color: var(--or-gold); border-bottom: 2px solid var(--gray-200); padding-bottom: 10px;">
                 <i class="fas fa-user-shield"></i> Admin Workflows
             </h3>
 
@@ -1993,7 +2002,7 @@ inventory.lowStockThreshold: <span class="number">10</span> units (default)
                             <span>First Login (OTP)</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Inviter:</strong> Admin or Owner<br>
                         <strong>Roles Available:</strong> Staff Assistant, Staff Manager, Inventory Manager, Packer, Dispatch Manager<br>
                         <strong>Branch Access:</strong> Staff see only their assigned branch data
@@ -2039,7 +2048,7 @@ inventory.lowStockThreshold: <span class="number">10</span> units (default)
                             <span>Active Supplier</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Required Docs:</strong> SAHPRA license, Business registration, BEE certificate<br>
                         <strong>Statuses:</strong> pending → approved | suspended | blacklisted<br>
                         <strong>Expiry:</strong> System tracks license expiry, alerts 30 days before
@@ -2138,7 +2147,7 @@ Email | SMS | Push Notification
                             <span>Track Usage</span>
                         </div>
                     </div>
-                    <p style="margin-top: 20px; color: var(--gray-500);">
+                    <p style="margin-top: 20px; color: var(--or-grey-2);">
                         <strong>Types:</strong> Percentage off, Fixed amount, Free shipping, Buy X Get Y<br>
                         <strong>Rules:</strong> Min order value, Max uses, Single use per customer, Valid dates, Product restrictions<br>
                         <strong>Distribution:</strong> Email campaign, Print, Affiliate codes
@@ -2279,7 +2288,7 @@ Method: EFT to provided bank details
                         <div class="card-icon"><i class="fas fa-store-alt"></i></div>
                         <span class="feature-status complete"><i class="fas fa-check"></i> Complete</span>
                     </div>
-                    <h4>Ormonde Integration</h4>
+                    <h4>Potchefstroom Integration</h4>
                     <p>Flagship collection point with dedicated login page, OTP authentication, branch-specific context.</p>
                 </div>
             </div>
@@ -2524,16 +2533,16 @@ Method: EFT to provided bank details
             </h2>
 
             <div class="cards-grid">
-                <!-- Ormonde HQ -->
+                <!-- Potchefstroom HQ -->
                 <div class="location-card flagship">
                     <div class="location-header">
                         <div>
-                            <div class="location-name">Ormonde HQ</div>
-                            <p style="color: var(--gray-500); font-size: 13px; margin-top: 4px;">Johannesburg South, Gauteng</p>
+                            <div class="location-name">Potchefstroom HQ</div>
+                            <p style="color: var(--or-grey-2); font-size: 13px; margin-top: 4px;">Johannesburg South, Gauteng</p>
                         </div>
                         <span class="location-badge">HQ + SECTION 21</span>
                     </div>
-                    <p style="color: var(--gray-500); font-size: 14px; margin-bottom: 16px;">
+                    <p style="color: var(--or-grey-2); font-size: 14px; margin-bottom: 16px;">
                         Warehouse & headquarters. Section 21 enabled for medical cannabis collection.
                     </p>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -2548,10 +2557,10 @@ Method: EFT to provided bank details
                     <div class="location-header">
                         <div>
                             <div class="location-name">Spruitview</div>
-                            <p style="color: var(--gray-500); font-size: 13px; margin-top: 4px;">Ekurhuleni, Gauteng</p>
+                            <p style="color: var(--or-grey-2); font-size: 13px; margin-top: 4px;">Ekurhuleni, Gauteng</p>
                         </div>
                     </div>
-                    <p style="color: var(--gray-500); font-size: 14px; margin-bottom: 16px;">
+                    <p style="color: var(--or-grey-2); font-size: 14px; margin-bottom: 16px;">
                         Retail collection point. Lifestyle products only.
                     </p>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -2565,10 +2574,10 @@ Method: EFT to provided bank details
                     <div class="location-header">
                         <div>
                             <div class="location-name">Rustenburg</div>
-                            <p style="color: var(--gray-500); font-size: 13px; margin-top: 4px;">Rustenburg, North West</p>
+                            <p style="color: var(--or-grey-2); font-size: 13px; margin-top: 4px;">Rustenburg, North West</p>
                         </div>
                     </div>
-                    <p style="color: var(--gray-500); font-size: 14px; margin-bottom: 16px;">
+                    <p style="color: var(--or-grey-2); font-size: 14px; margin-bottom: 16px;">
                         Retail collection point. Lifestyle products only.
                     </p>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -2582,10 +2591,10 @@ Method: EFT to provided bank details
                     <div class="location-header">
                         <div>
                             <div class="location-name">Klerksdorp</div>
-                            <p style="color: var(--gray-500); font-size: 13px; margin-top: 4px;">Klerksdorp, North West</p>
+                            <p style="color: var(--or-grey-2); font-size: 13px; margin-top: 4px;">Klerksdorp, North West</p>
                         </div>
                     </div>
-                    <p style="color: var(--gray-500); font-size: 14px; margin-bottom: 16px;">
+                    <p style="color: var(--or-grey-2); font-size: 14px; margin-bottom: 16px;">
                         Retail collection point. Lifestyle products only.
                     </p>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -2599,10 +2608,10 @@ Method: EFT to provided bank details
                     <div class="location-header">
                         <div>
                             <div class="location-name">Mayfair</div>
-                            <p style="color: var(--gray-500); font-size: 13px; margin-top: 4px;">Johannesburg, Gauteng</p>
+                            <p style="color: var(--or-grey-2); font-size: 13px; margin-top: 4px;">Johannesburg, Gauteng</p>
                         </div>
                     </div>
-                    <p style="color: var(--gray-500); font-size: 14px; margin-bottom: 16px;">
+                    <p style="color: var(--or-grey-2); font-size: 14px; margin-bottom: 16px;">
                         Retail collection point. Lifestyle products only.
                     </p>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -2616,10 +2625,10 @@ Method: EFT to provided bank details
                     <div class="location-header">
                         <div>
                             <div class="location-name">Ladybrand</div>
-                            <p style="color: var(--gray-500); font-size: 13px; margin-top: 4px;">Ladybrand, Free State</p>
+                            <p style="color: var(--or-grey-2); font-size: 13px; margin-top: 4px;">Ladybrand, Free State</p>
                         </div>
                     </div>
-                    <p style="color: var(--gray-500); font-size: 14px; margin-bottom: 16px;">
+                    <p style="color: var(--or-grey-2); font-size: 14px; margin-bottom: 16px;">
                         Retail collection point. Lifestyle products only.
                     </p>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -2633,10 +2642,10 @@ Method: EFT to provided bank details
                     <div class="location-header">
                         <div>
                             <div class="location-name">Ficksburg</div>
-                            <p style="color: var(--gray-500); font-size: 13px; margin-top: 4px;">Ficksburg, Free State</p>
+                            <p style="color: var(--or-grey-2); font-size: 13px; margin-top: 4px;">Ficksburg, Free State</p>
                         </div>
                     </div>
-                    <p style="color: var(--gray-500); font-size: 14px; margin-bottom: 16px;">
+                    <p style="color: var(--or-grey-2); font-size: 14px; margin-bottom: 16px;">
                         Retail collection point. Lifestyle products only.
                     </p>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -2650,10 +2659,10 @@ Method: EFT to provided bank details
                     <div class="location-header">
                         <div>
                             <div class="location-name">Wonderboom</div>
-                            <p style="color: var(--gray-500); font-size: 13px; margin-top: 4px;">Pretoria, Gauteng</p>
+                            <p style="color: var(--or-grey-2); font-size: 13px; margin-top: 4px;">Pretoria, Gauteng</p>
                         </div>
                     </div>
-                    <p style="color: var(--gray-500); font-size: 14px; margin-bottom: 16px;">
+                    <p style="color: var(--or-grey-2); font-size: 14px; margin-bottom: 16px;">
                         Retail collection point. Lifestyle products only.
                     </p>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -2679,18 +2688,18 @@ Method: EFT to provided bank details
 <span class="comment">// Location Access Flow</span>
 
 Marketing Site (locations.html)
-    └── Click "Ormonde"
-        └── ormonde.html (Dedicated Login)
+    └── Click "Potchefstroom"
+        └── potchefstroom.html (Dedicated Login)
             └── OTP Authentication
                 └── JWT with branch context
-                    └── POS/Dashboard (branch=ormonde)
+                    └── POS/Dashboard (branch=potchefstroom)
 
 <span class="comment">// Owner Access Flow</span>
 
 admin.html (Owner Dashboard)
     └── Sidebar Menu
-        └── "Ormonde Collection Point" Link
-            └── ormonde.html OR admin.html?branch=ormonde
+        └── "Potchefstroom Collection Point" Link
+            └── potchefstroom.html OR admin.html?branch=potchefstroom
                     </div>
 
                     <h4 style="margin: 20px 0 10px;">Store-Specific Data</h4>
@@ -2707,8 +2716,8 @@ admin.html (Owner Dashboard)
     </main>
 
     <!-- Footer -->
-    <footer style="text-align: center; padding: 40px 20px; border-top: 2px solid var(--gray-200); color: var(--gray-500); background: var(--white);">
-        <p style="font-size: 14px; font-weight: 600; color: var(--gray-700);">Da Bud Chef - Architecture Documentation</p>
+    <footer style="text-align: center; padding: 40px 20px; border-top: 2px solid var(--gray-200); color: var(--or-grey-2); background: var(--or-white);">
+        <p style="font-size: 14px; font-weight: 600; color: var(--gray-700);">Origin by ILCO Farming - Architecture Documentation</p>
         <p style="font-size: 12px; margin-top: 8px;">Version 2.0 | January 2026</p>
     </footer>
 

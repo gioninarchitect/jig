@@ -5,7 +5,7 @@ const { Module } = require('./backend/modules/database/models/Module');
 async function seedAllModules() {
     try {
         // Connect to MongoDB
-        await mongoose.connect('mongodb://localhost:27017/jig', {
+        await mongoose.connect('mongodb://localhost:27017/origin', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
@@ -61,9 +61,9 @@ async function seedAllModules() {
                 status: 'available',
                 icon: 'fa-car',
                 screenshots: ['/images/modules/retail-store-customer.png', '/images/modules/retail-store-staff.png', '/images/modules/retail-store-queue.png'],
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/retail-store',
-                supportEmail: 'support@basothomedicalherbs.ls',
-                vendor: { name: 'Basotho Medical Herbs', website: 'https://basothomedicalherbs.ls' },
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/retail-store',
+                supportEmail: 'support@cleva-ai.co.za',
+                vendor: { name: 'Origin by ILCO Farming', website: 'https://origin.cleva-ai.co.za' },
                 metrics: { installations: 0, rating: 5.0, reviews: 0 },
                 tags: ['retail-store', 'ordering', 'queue', 'pickup', 'operations', 'compliance', 'section-21']
             },
@@ -114,9 +114,9 @@ async function seedAllModules() {
                 status: 'available',
                 icon: 'fa-users',
                 screenshots: ['/images/modules/affiliate-dashboard.png', '/images/modules/affiliate-analytics.png', '/images/modules/affiliate-payouts.png'],
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/affiliate-program',
-                supportEmail: 'support@basothomedicalherbs.ls',
-                vendor: { name: 'Basotho Medical Herbs', website: 'https://basothomedicalherbs.ls' },
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/affiliate-program',
+                supportEmail: 'support@cleva-ai.co.za',
+                vendor: { name: 'Origin by ILCO Farming', website: 'https://origin.cleva-ai.co.za' },
                 metrics: { installations: 0, rating: 5.0, reviews: 0 },
                 tags: ['affiliate', 'marketing', 'referral', 'commission', 'wellness-advocates', 'revenue']
             },
@@ -167,9 +167,9 @@ async function seedAllModules() {
                 status: 'available',
                 icon: 'fa-rocket',
                 screenshots: ['/images/modules/viral-dashboard.png', '/images/modules/viral-campaigns.png', '/images/modules/viral-analytics.png'],
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/viral-marketing',
-                supportEmail: 'support@basothomedicalherbs.ls',
-                vendor: { name: 'Basotho Medical Herbs', website: 'https://basothomedicalherbs.ls' },
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/viral-marketing',
+                supportEmail: 'support@cleva-ai.co.za',
+                vendor: { name: 'Origin by ILCO Farming', website: 'https://origin.cleva-ai.co.za' },
                 metrics: { installations: 0, rating: 5.0, reviews: 0 },
                 tags: ['viral', 'marketing', 'influencer', 'social-media', 'campaigns', 'analytics', 'ai']
             },
@@ -220,9 +220,9 @@ async function seedAllModules() {
                 status: 'available',
                 icon: 'fa-cash-register',
                 screenshots: ['/images/modules/pos-dashboard.png', '/images/modules/pos-till.png', '/images/modules/pos-inventory.png'],
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/multi-location-pos',
-                supportEmail: 'support@basothomedicalherbs.ls',
-                vendor: { name: 'Basotho Medical Herbs', website: 'https://basothomedicalherbs.ls' },
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/multi-location-pos',
+                supportEmail: 'support@cleva-ai.co.za',
+                vendor: { name: 'Origin by ILCO Farming', website: 'https://origin.cleva-ai.co.za' },
                 metrics: { installations: 0, rating: 5.0, reviews: 0 },
                 tags: ['pos', 'point-of-sale', 'multi-location', 'inventory', 'branches', 'till', 'operations']
             },
@@ -273,9 +273,9 @@ async function seedAllModules() {
                 status: 'available',
                 icon: 'fa-ticket-alt',
                 screenshots: ['/images/modules/voucher-dashboard.png', '/images/modules/voucher-create.png', '/images/modules/voucher-analytics.png'],
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/voucher-system',
-                supportEmail: 'support@basothomedicalherbs.ls',
-                vendor: { name: 'Basotho Medical Herbs', website: 'https://basothomedicalherbs.ls' },
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/voucher-system',
+                supportEmail: 'support@cleva-ai.co.za',
+                vendor: { name: 'Origin by ILCO Farming', website: 'https://origin.cleva-ai.co.za' },
                 metrics: { installations: 0, rating: 5.0, reviews: 0 },
                 tags: ['vouchers', 'discounts', 'coupons', 'promo-codes', 'marketing', 'sales']
             },
@@ -326,9 +326,9 @@ async function seedAllModules() {
                 status: 'available',
                 icon: 'fa-user-friends',
                 screenshots: ['/images/modules/crm-pipeline.png', '/images/modules/crm-lead-detail.png', '/images/modules/crm-analytics.png'],
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/lead-management',
-                supportEmail: 'support@basothomedicalherbs.ls',
-                vendor: { name: 'Basotho Medical Herbs', website: 'https://basothomedicalherbs.ls' },
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/lead-management',
+                supportEmail: 'support@cleva-ai.co.za',
+                vendor: { name: 'Origin by ILCO Farming', website: 'https://origin.cleva-ai.co.za' },
                 metrics: { installations: 0, rating: 5.0, reviews: 0 },
                 tags: ['crm', 'leads', 'pipeline', 'franchise', 'sales', 'marketing-automation']
             },
@@ -379,9 +379,9 @@ async function seedAllModules() {
                 status: 'available',
                 icon: 'fa-shield-alt',
                 screenshots: ['/images/modules/section21-dashboard.png', '/images/modules/section21-verification.png', '/images/modules/section21-audit.png'],
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/section21-compliance',
-                supportEmail: 'support@basothomedicalherbs.ls',
-                vendor: { name: 'Basotho Medical Herbs', website: 'https://basothomedicalherbs.ls' },
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/section21-compliance',
+                supportEmail: 'support@cleva-ai.co.za',
+                vendor: { name: 'Origin by ILCO Farming', website: 'https://origin.cleva-ai.co.za' },
                 metrics: { installations: 0, rating: 5.0, reviews: 0 },
                 tags: ['section-21', 'compliance', 'medical-cannabis', 'prescription', 'verification', 'legal', 'sahpra']
             },
@@ -432,11 +432,65 @@ async function seedAllModules() {
                 status: 'available',
                 icon: 'fa-coffee',
                 screenshots: ['/images/modules/menu-display.png', '/images/modules/menu-pos-sync.png', '/images/modules/menu-analytics.png'],
-                documentation: 'https://docs.basothomedicalherbs.ls/modules/menu-integration',
-                supportEmail: 'support@basothomedicalherbs.ls',
-                vendor: { name: 'Basotho Medical Herbs', website: 'https://basothomedicalherbs.ls' },
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/menu-integration',
+                supportEmail: 'support@cleva-ai.co.za',
+                vendor: { name: 'Origin by ILCO Farming', website: 'https://origin.cleva-ai.co.za' },
                 metrics: { installations: 0, rating: 5.0, reviews: 0 },
                 tags: ['menu', 'coffee', 'bean-bud', 'la-brewha', 'pos-integration', 'cbd-beverages', 'café']
+            },
+
+            // 9. CULTIVATION DASHBOARD (SAHPRA 22C Farm Management)
+            {
+                moduleId: 'cultivation-dashboard',
+                name: 'Cultivation Dashboard',
+                description: 'SAHPRA Section 22C licensed cannabis cultivation management. Track tunnel greenhouse and indoor growing operations with batch lifecycle management, environmental monitoring, harvest records, compliance tracking, and audit package generation.',
+                category: 'operations',
+                version: '1.0.0',
+                pricing: {
+                    type: 'monthly',
+                    amount: 2500,
+                    currency: 'ZAR',
+                    setupFee: 15000,
+                    tiers: {
+                        starter: {
+                            amount: 2500,
+                            description: 'Up to 5 zones, batch tracking, environmental logging, basic compliance'
+                        },
+                        professional: {
+                            amount: 4500,
+                            description: 'Unlimited zones, full compliance suite, audit package generator, reports, document tracker'
+                        },
+                        enterprise: {
+                            amount: 7500,
+                            description: 'Multi-facility, API access, IoT sensor integration, dedicated support'
+                        }
+                    }
+                },
+                features: [
+                    { name: 'Zone Management', description: 'Manage tunnel greenhouses and indoor grow rooms with capacity tracking and environmental thresholds', icon: 'warehouse' },
+                    { name: 'Batch Lifecycle', description: 'Track batches from propagation through vegetative, flowering, harvest, processing to completion', icon: 'seedling' },
+                    { name: 'Environmental Monitoring', description: 'Log and monitor temperature, humidity, CO2, light, VPD with SAHPRA spec reference lines', icon: 'thermometer-half' },
+                    { name: 'Harvest Records', description: 'Record wet/dry/trim/waste weights, quality grades, and lab results with photo documentation', icon: 'cut' },
+                    { name: 'SAHPRA Compliance', description: 'Traffic-light compliance dashboard with automatic scoring across environmental, batch, and harvest categories', icon: 'shield-alt' },
+                    { name: 'Audit Package Generator', description: 'Generate comprehensive SAHPRA-ready audit packages for any date range with one click', icon: 'file-pdf' },
+                    { name: 'Yield Analytics', description: 'Track yield trends by strain, zone, and period with bar and line charts', icon: 'chart-bar' },
+                    { name: 'Waste Management', description: 'SAHPRA-required waste tracking including destroyed plants, trim, and disposal records', icon: 'trash-alt' },
+                    { name: 'Reports', description: 'Production, environmental, yield, and waste reports with CSV export and print-friendly output', icon: 'file-alt' },
+                    { name: 'Multi-Tenant Ready', description: 'White-label ready with tenant isolation for SaaS deployment to multiple cultivators', icon: 'building' }
+                ],
+                requirements: {
+                    minimumVersion: '1.0.0',
+                    dependencies: [],
+                    requiredPermissions: ['manage_cultivation', 'view_reports']
+                },
+                status: 'available',
+                icon: 'fa-cannabis',
+                screenshots: [],
+                documentation: 'https://docs.origin.cleva-ai.co.za/modules/cultivation-dashboard',
+                supportEmail: 'support@cleva-ai.co.za',
+                vendor: { name: 'Origin by ILCO Farming', website: 'https://origin.cleva-ai.co.za' },
+                metrics: { installations: 0, rating: 5.0, reviews: 0 },
+                tags: ['cultivation', 'farming', 'sahpra', 'section-22c', 'greenhouse', 'indoor-grow', 'harvest', 'compliance', 'environmental']
             }
         ];
 

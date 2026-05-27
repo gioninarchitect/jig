@@ -123,7 +123,7 @@ export default function ThresholdSettings({ thresholds, onChange, disabled }) {
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-jig-purple-dark">{def.label}</span>
+                        <span className="text-sm font-medium text-or-gold-dark">{def.label}</span>
                         <span className="text-[10px] text-gray-400">({UNITS[def.key]})</span>
                         {isDefault && (
                           <Badge status="info" className="text-[9px] py-0 px-1.5">DEFAULT</Badge>
@@ -142,7 +142,7 @@ export default function ThresholdSettings({ thresholds, onChange, disabled }) {
                         value={current}
                         onChange={e => handleChange(def.key, e.target.value)}
                         disabled={disabled}
-                        className="w-28 accent-jig-purple"
+                        className="w-28 accent-or-gold"
                       />
                       <input
                         type="number"
@@ -152,12 +152,12 @@ export default function ThresholdSettings({ thresholds, onChange, disabled }) {
                         onChange={e => handleChange(def.key, e.target.value)}
                         disabled={disabled}
                         className="w-16 px-2 py-1 border-2 border-gray-200 rounded-lg text-sm text-center
-                          focus:outline-none focus:border-jig-amber disabled:opacity-50 disabled:cursor-not-allowed"
+                          focus:outline-none focus:border-or-gold disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                       {!isDefault && !disabled && (
                         <button
                           onClick={() => handleReset(def.key)}
-                          className="text-[10px] text-jig-red hover:text-jig-red-dark whitespace-nowrap"
+                          className="text-[10px] text-origin-red hover:text-origin-red-dark whitespace-nowrap"
                           title={`Reset to default (${DEFAULTS[def.key]})`}
                         >
                           Reset
@@ -175,7 +175,7 @@ export default function ThresholdSettings({ thresholds, onChange, disabled }) {
 
                   {/* Impact preview on hover */}
                   {impact && !isDefault && (
-                    <div className="mt-1.5 px-3 py-1.5 rounded-lg bg-jig-slate border border-jig-amber/20 text-[11px] text-jig-purple-dark">
+                    <div className="mt-1.5 px-3 py-1.5 rounded-lg bg-origin-slate border border-or-gold/20 text-[11px] text-or-gold-dark">
                       If this threshold had been in effect last 30 days: {impact}
                     </div>
                   )}

@@ -1,5 +1,5 @@
 // inv-suppliers.js — Suppliers CRUD for inventory manager dashboard
-// Depends on: config.js (API_URL), dbc-utils.js (showToast), dbc-auth.js (getToken)
+// Depends on: config.js (API_URL), or-utils.js (showToast), or-auth.js (getToken)
 
 // ==================== SUPPLIERS CRUD ====================
 

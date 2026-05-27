@@ -40,7 +40,7 @@ class POSPrintingSystem {
         receipt += `${ESC}@`; // Initialize printer
         receipt += `${ESC}a${String.fromCharCode(1)}`; // Center align
         receipt += `${ESC}!${String.fromCharCode(16)}`; // Double height
-        receipt += 'JIG CRAFT CANNABIS\n';
+        receipt += 'Origin\n';
         receipt += `${ESC}!${String.fromCharCode(0)}`; // Normal text
         receipt += 'Cultivating Excellence\n';
         receipt += '================================\n';
@@ -156,7 +156,7 @@ class POSPrintingSystem {
 </head>
 <body>
     <div class="header">
-        <div class="logo">JIG CRAFT CANNABIS</div>
+        <div class="logo">Origin</div>
         <div class="tagline">Cultivating Excellence</div>
     </div>
 
@@ -212,7 +212,7 @@ class POSPrintingSystem {
     </div>
 
     <div class="footer">
-        <p>JIG Craft Cannabis | www.jig.cleva-ai.co.za | hello@jig.cleva-ai.co.za</p>
+        <p>Origin by ILCO Farming | www.jig.cleva-ai.co.za | hello@jig.cleva-ai.co.za</p>
         <p>Thank you for your business!</p>
     </div>
 </body>

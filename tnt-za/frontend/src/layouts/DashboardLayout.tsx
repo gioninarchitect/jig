@@ -3,10 +3,13 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useRBAC } from '../hooks/useRBAC';
 import OfflineIndicator from '../components/OfflineIndicator';
+import GhostSwitcher from '../components/GhostSwitcher';
+import GhostBanner from '../components/GhostBanner';
+import ChatFab from '../components/ChatFab';
 import {
   LayoutDashboard, Leaf, Box, Layers, Building2, ScrollText,
   FlaskConical, ShieldCheck, Lock, BookOpen, Users, Bell,
-  Menu, X, LogOut, ChevronLeft, Camera, Sparkles, Grid3X3, Crown, TicketCheck, CheckSquare, Package, CalendarDays, Scissors, Dna, Droplets, Truck, Kanban, Skull, Bug, ClipboardCheck, ClipboardList, SprayCan, Thermometer,
+  Menu, X, LogOut, ChevronLeft, Camera, Sparkles, Grid3X3, Crown, TicketCheck, CheckSquare, Package, CalendarDays, Scissors, Dna, Droplets, Truck, Kanban, Skull, Bug, ClipboardCheck, ClipboardList, SprayCan, Thermometer, Eye,
 } from 'lucide-react';
 
 // Role → which nav groups they see
@@ -93,6 +96,7 @@ const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: s
       { to: '/gmp-audit', label: 'GMP Audit', icon: ShieldCheck, minLevel: 3 },
       { to: '/responsible-pharmacist', label: 'Pharmacist', icon: ShieldCheck, minLevel: 3 },
       { to: '/audit', label: 'Audit Trail', icon: ScrollText, minLevel: 0 },
+      { to: '/audit/ghost', label: 'Ghost Audit', icon: Eye, minLevel: 4 },
       { to: '/site-master-file', label: 'Site Master File', icon: ScrollText, minLevel: 3 },
     ],
   },
@@ -172,12 +176,20 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 -ml-2 text-white/60 min-w-[44px] min-h-[44px] flex items-center justify-center"><Menu size={22} /></button>
           <div className="text-xs sm:text-sm text-white/30 hidden sm:block font-mono">{new Date().toLocaleDateString('en-ZA', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</div>
           <div className="lg:hidden text-primary font-bold text-base">Origin</div>
-          <button className="relative p-2 text-white/40 hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center"><Bell size={20} /></button>
+          <div className="flex items-center gap-2">
+            <GhostSwitcher />
+            <button className="relative p-2 text-white/40 hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center"><Bell size={20} /></button>
+          </div>
         </header>
+
+        <GhostBanner />
 
         <main className="flex-1 overflow-y-auto p-4 lg:p-6 pb-24 lg:pb-6">
           {children}
         </main>
+
+        {/* Chat-with-Maestro floating button — visible to every authed role */}
+        <ChatFab />
       </div>
 
       {/* Bottom nav — 3 core workflows */}

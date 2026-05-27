@@ -4,39 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>Supplier Portal - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Supplier Portal - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -46,7 +55,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -55,21 +64,21 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             min-height: 100vh;
         }
 
@@ -84,7 +93,7 @@
         }
 
         .login-card {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 20px;
             padding: 3rem;
             width: 100%;
@@ -104,15 +113,15 @@
         }
 
         .login-logo h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2rem;
-            color: var(--white);
+            color: var(--or-white);
             margin-top: 1rem;
         }
 
         .login-logo p {
             color: var(--gold);
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
         }
 
@@ -139,7 +148,7 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .form-group input {
@@ -153,8 +162,8 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: var(--purple);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+            border-color: var(--or-gold);
+            box-shadow: 0 0 0 3px rgba(63, 192, 65, 0.1);
         }
 
         .login-btn {
@@ -172,7 +181,7 @@
 
         .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+            box-shadow: 0 10px 30px rgba(63, 192, 65, 0.3);
         }
 
         .login-error {
@@ -230,13 +239,13 @@
         }
 
         .nav-logo-text .brand-name {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.6rem;
             text-transform: uppercase;
         }
 
         .nav-logo-text .brand-tagline {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
             font-size: 0.85rem;
             color: var(--gold);
@@ -284,7 +293,7 @@
 
         /* Tab Navigation */
         .tab-nav {
-            background: var(--white);
+            background: var(--or-white);
             padding: 1rem 2rem;
             display: flex;
             gap: 0.5rem;
@@ -301,7 +310,7 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             transition: all 0.3s;
             white-space: nowrap;
             display: flex;
@@ -310,13 +319,13 @@
         }
 
         .tab-btn:hover {
-            border-color: var(--purple);
-            color: var(--purple);
+            border-color: var(--or-gold);
+            color: var(--or-gold);
         }
 
         .tab-btn.active {
-            background: var(--green);
-            border-color: var(--purple);
+            background: var(--or-gold);
+            border-color: var(--or-gold);
             color: white;
         }
 
@@ -344,7 +353,7 @@
         }
 
         .stat-card {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 16px;
             padding: 1.5rem;
             border: 2px solid var(--gray-200);
@@ -352,9 +361,9 @@
         }
 
         .stat-card:hover {
-            border-color: var(--purple);
+            border-color: var(--or-gold);
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+            box-shadow: 0 10px 30px rgba(63, 192, 65, 0.1);
         }
 
         .stat-card .icon {
@@ -373,11 +382,11 @@
         .stat-card .value {
             font-size: 2rem;
             font-weight: 700;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .stat-card .label {
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             font-size: 0.9rem;
             margin-top: 0.25rem;
         }
@@ -392,20 +401,20 @@
 
         .section-header h2 {
             font-size: 1.5rem;
-            color: var(--white);
+            color: var(--or-white);
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
 
         .section-header h2 i {
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* Tables */
         .data-table {
             width: 100%;
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 16px;
             overflow: hidden;
             border: 2px solid var(--gray-200);
@@ -417,7 +426,7 @@
         }
 
         .data-table th {
-            background: var(--green);
+            background: var(--or-gold);
             color: white;
             padding: 1rem;
             text-align: left;
@@ -430,7 +439,7 @@
         }
 
         .data-table tr:hover td {
-            background: rgba(124, 58, 237, 0.05);
+            background: rgba(63, 192, 65, 0.05);
         }
 
         /* Status Badges */
@@ -443,11 +452,11 @@
             text-transform: uppercase;
         }
 
-        .status-badge.pending { background: rgba(217, 119, 6, 0.15); color: var(--gold-dark); }
-        .status-badge.approved { background: rgba(124, 58, 237, 0.15); color: var(--purple); }
-        .status-badge.submitted { background: rgba(124, 58, 237, 0.1); color: var(--green-light); }
-        .status-badge.ordered { background: rgba(124, 58, 237, 0.2); color: var(--green-dark); }
-        .status-badge.received { background: rgba(124, 58, 237, 0.25); color: var(--white); }
+        .status-badge.pending { background: rgba(240, 165, 0, 0.15); color: var(--gold-dark); }
+        .status-badge.approved { background: rgba(63, 192, 65, 0.15); color: var(--or-gold); }
+        .status-badge.submitted { background: rgba(63, 192, 65, 0.1); color: var(--green-light); }
+        .status-badge.ordered { background: rgba(63, 192, 65, 0.2); color: var(--or-gold-muted); }
+        .status-badge.received { background: rgba(63, 192, 65, 0.25); color: var(--or-white); }
         .status-badge.rejected { background: rgba(220, 38, 38, 0.15); color: var(--red); }
         .status-badge.expired { background: rgba(220, 38, 38, 0.1); color: var(--red-dark); }
 
@@ -459,7 +468,7 @@
         }
 
         .document-card {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 16px;
             padding: 1.5rem;
             border: 2px solid var(--gray-200);
@@ -467,7 +476,7 @@
         }
 
         .document-card:hover {
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         .document-card .doc-icon {
@@ -479,19 +488,19 @@
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 1rem;
         }
 
         .document-card h4 {
             font-size: 1rem;
-            color: var(--white);
+            color: var(--or-white);
             margin-bottom: 0.5rem;
         }
 
         .document-card .doc-meta {
             font-size: 0.85rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
         }
 
         .document-card .doc-expiry {
@@ -509,7 +518,7 @@
 
         /* Upload Area */
         .upload-area {
-            background: var(--white);
+            background: var(--or-white);
             border: 2px dashed var(--gray-200);
             border-radius: 16px;
             padding: 3rem;
@@ -520,29 +529,29 @@
         }
 
         .upload-area:hover {
-            border-color: var(--purple);
-            background: rgba(124, 58, 237, 0.02);
+            border-color: var(--or-gold);
+            background: rgba(63, 192, 65, 0.02);
         }
 
         .upload-area i {
             font-size: 3rem;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 1rem;
         }
 
         .upload-area h3 {
-            color: var(--white);
+            color: var(--or-white);
             margin-bottom: 0.5rem;
         }
 
         .upload-area p {
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             font-size: 0.9rem;
         }
 
         /* Forms */
         .form-card {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 16px;
             padding: 2rem;
             border: 2px solid var(--gray-200);
@@ -559,7 +568,7 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .form-card input,
@@ -577,7 +586,7 @@
         .form-card select:focus,
         .form-card textarea:focus {
             outline: none;
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         .btn {
@@ -599,7 +608,7 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+            box-shadow: 0 8px 25px rgba(63, 192, 65, 0.3);
         }
 
         .btn-secondary {
@@ -620,7 +629,7 @@
         }
 
         .metric-card {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 12px;
             padding: 1.25rem;
             text-align: center;
@@ -630,12 +639,12 @@
         .metric-card .metric-value {
             font-size: 1.75rem;
             font-weight: 700;
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .metric-card .metric-label {
             font-size: 0.85rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
             margin-top: 0.25rem;
         }
 
@@ -654,7 +663,7 @@
         }
 
         .toast {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 12px;
             padding: 1rem 1.5rem;
             margin-bottom: 0.75rem;
@@ -683,7 +692,7 @@
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
-            color: var(--gray-500);
+            color: var(--or-grey-2);
         }
 
         .empty-state i {
@@ -728,9 +737,9 @@
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <div class="login-logo">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
-                <h1>JIG Craft Cannabis</h1>
-                <p>Craft Cannabis</p>
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
+                <h1>Origin by ILCO Farming</h1>
+                <p>Premium Cannabis Care</p>
                 <span class="supplier-badge"><i class="fas fa-truck"></i> Supplier Portal</span>
             </div>
             <div class="login-error" id="loginError"></div>
@@ -756,10 +765,10 @@
         <nav class="supplier-nav">
             <div class="nav-content">
                 <a href="index.html" class="nav-logo">
-                    <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
+                    <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
                     <div class="nav-logo-text">
-                        <div class="brand-name">JIG Craft Cannabis</div>
-                        <div class="brand-tagline">Craft Cannabis</div>
+                        <div class="brand-name">Origin by ILCO Farming</div>
+                        <div class="brand-tagline">Premium Cannabis Care</div>
                     </div>
                 </a>
                 <div class="supplier-info">
@@ -802,7 +811,7 @@
             <div class="tab-content active" id="tab-overview">
                 <!-- KPI Toggle -->
                 <div style="margin-bottom: 1rem;">
-                    <button id="supplierKpiToggle" onclick="toggleSupplierKpi()" style="background: var(--white); border: 2px solid var(--gray-200); color: var(--white); padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
+                    <button id="supplierKpiToggle" onclick="toggleSupplierKpi()" style="background: var(--or-white); border: 2px solid var(--gray-200); color: var(--or-white); padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
                         <i class="fas fa-chart-pie" style="color: var(--gold);"></i> Supplier KPIs
                         <i class="fas fa-chevron-down" id="supplierKpiChevron" style="font-size: 0.7rem; transition: transform 0.3s;"></i>
                     </button>
@@ -1006,7 +1015,7 @@
                                 <td colspan="6" class="empty-state">
                                     <i class="fas fa-box-open"></i>
                                     <h3>No products yet</h3>
-                                    <p>Add your products to start selling through JIG Craft Cannabis.</p>
+                                    <p>Add your products to start selling through Origin by ILCO Farming.</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -1043,7 +1052,7 @@
 
                 <div class="form-card">
                     <form id="profileForm">
-                        <h3 style="margin-bottom: 1.5rem; color: var(--white);">Business Information</h3>
+                        <h3 style="margin-bottom: 1.5rem; color: var(--or-white);">Business Information</h3>
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Company Name</label>
@@ -1071,7 +1080,7 @@
                             </div>
                         </div>
 
-                        <h3 style="margin: 2rem 0 1.5rem; color: var(--white);">Contact Information</h3>
+                        <h3 style="margin: 2rem 0 1.5rem; color: var(--or-white);">Contact Information</h3>
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Contact Person</label>
@@ -1093,7 +1102,7 @@
                             </div>
                         </div>
 
-                        <h3 style="margin: 2rem 0 1.5rem; color: var(--white);">Address</h3>
+                        <h3 style="margin: 2rem 0 1.5rem; color: var(--or-white);">Address</h3>
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Street Address</label>
@@ -1138,9 +1147,9 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-utils.js"></script>
+    <script src="frontend/or-auth.js"></script>
     <script>
         // State
         let currentSupplier = null;
@@ -1191,7 +1200,7 @@
                     supplierId: supplierId,
                     name: 'Demo Supplier Co.',
                     license: { type: 'cultivator', number: 'LIC-2026-001' },
-                    contactPerson: { name: 'John Smith', email: 'john@demo.com', phone: '012 345 6789' },
+                    contactPerson: { name: 'John Smith', email: 'john@demo.com', phone: '084 796 8457' },
                     address: { street: '123 Main St', suburb: 'Sandton', city: 'Johannesburg', province: 'Gauteng', postalCode: '2196' },
                     performance: { rating: 4.5, totalOrders: 25, totalValue: 150000, onTimeDeliveryRate: 95, qualityScore: 92, defectRate: 2, averageLeadTime: 5 },
                     documents: []
@@ -1519,7 +1528,7 @@
                                  style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
                             <div>
                                 <strong>${product.name}</strong>
-                                <div style="font-size: 0.85rem; color: var(--gray-500);">${product.sku || '-'}</div>
+                                <div style="font-size: 0.85rem; color: var(--or-grey-2);">${product.sku || '-'}</div>
                             </div>
                         </div>
                     </td>
@@ -1549,7 +1558,7 @@
             modal.innerHTML = `
                 <div style="background: #0A0A0A;border-radius:16px;padding:2rem;width:90%;max-width:600px;max-height:90vh;overflow-y:auto;">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-                        <h2 style="margin:0;color: var(--white);"><i class="fas fa-plus-circle"></i> Add Product</h2>
+                        <h2 style="margin:0;color: var(--or-white);"><i class="fas fa-plus-circle"></i> Add Product</h2>
                         <button onclick="closeProductModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">&times;</button>
                     </div>
                     <form id="addProductForm">

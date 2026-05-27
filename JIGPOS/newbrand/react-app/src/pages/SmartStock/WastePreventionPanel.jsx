@@ -5,8 +5,8 @@ import { formatCurrency } from '../../config';
 import Badge from '../../components/ui/Badge';
 
 const RISK_CONFIG = {
-  critical: { badge: 'error', border: 'border-jig-red/30 bg-jig-red/5', label: 'Critical' },
-  warning: { badge: 'warning', border: 'border-jig-amber/30 bg-jig-amber/5', label: 'Warning' },
+  critical: { badge: 'error', border: 'border-origin-red/30 bg-origin-red/5', label: 'Critical' },
+  warning: { badge: 'warning', border: 'border-or-gold/30 bg-or-gold/5', label: 'Warning' },
   approaching: { badge: 'info', border: 'border-blue-200 bg-blue-50', label: 'Approaching' },
   watch: { badge: 'pending', border: 'border-gray-200 bg-white', label: 'Watch' },
 };
@@ -27,19 +27,19 @@ export default function WastePreventionPanel({ wasteRisk }) {
     <div className="space-y-4">
       {/* Summary */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="p-3 rounded-lg bg-jig-red/5 border border-jig-red/20 text-center">
-          <div className="text-xs text-jig-red font-bold">At Risk</div>
-          <div className="font-heading text-xl text-jig-red">{atRisk.length}</div>
+        <div className="p-3 rounded-lg bg-origin-red/5 border border-origin-red/20 text-center">
+          <div className="text-xs text-origin-red font-bold">At Risk</div>
+          <div className="font-heading text-xl text-origin-red">{atRisk.length}</div>
           <div className="text-[10px] text-gray-400">batches</div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-amber/5 border border-jig-amber/20 text-center">
-          <div className="text-xs text-jig-amber-dark font-bold">Value at Risk</div>
-          <div className="font-heading text-xl text-jig-amber-dark">{formatCurrency(totalAtRiskValue)}</div>
+        <div className="p-3 rounded-lg bg-or-gold/5 border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-dark font-bold">Value at Risk</div>
+          <div className="font-heading text-xl text-or-gold-dark">{formatCurrency(totalAtRiskValue)}</div>
           <div className="text-[10px] text-gray-400">potential loss</div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-purple/5 border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple font-bold">Actions</div>
-          <div className="font-heading text-xl text-jig-purple">{actions?.length || 0}</div>
+        <div className="p-3 rounded-lg bg-or-gold/5 border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold font-bold">Actions</div>
+          <div className="font-heading text-xl text-or-gold">{actions?.length || 0}</div>
           <div className="text-[10px] text-gray-400">suggestions</div>
         </div>
       </div>
@@ -51,8 +51,8 @@ export default function WastePreventionPanel({ wasteRisk }) {
           <div className="space-y-2">
             {actions.map((action, i) => (
               <div key={i} className={`p-3 rounded-lg border ${
-                action.type === 'bundle' ? 'border-jig-amber/30 bg-jig-amber/5' :
-                action.type === 'markdown' ? 'border-jig-red/20 bg-jig-red/5' :
+                action.type === 'bundle' ? 'border-or-gold/30 bg-or-gold/5' :
+                action.type === 'markdown' ? 'border-origin-red/20 bg-origin-red/5' :
                 'border-blue-200 bg-blue-50'
               }`}>
                 <div className="flex items-center justify-between">
@@ -63,7 +63,7 @@ export default function WastePreventionPanel({ wasteRisk }) {
                     <span className="text-xs font-semibold text-white">{action.label}</span>
                   </div>
                   {action.suggestedDiscount && (
-                    <span className="text-xs font-bold text-jig-red">{action.suggestedDiscount}% off</span>
+                    <span className="text-xs font-bold text-origin-red">{action.suggestedDiscount}% off</span>
                   )}
                 </div>
                 {action.items && (
@@ -71,7 +71,7 @@ export default function WastePreventionPanel({ wasteRisk }) {
                     {action.items.map((item, j) => (
                       <div key={j} className="flex items-center justify-between text-xs text-gray-500">
                         <span>{item.productName || item.batchId}</span>
-                        <span className="text-jig-red font-bold">{item.daysUntilExpiry}d left</span>
+                        <span className="text-origin-red font-bold">{item.daysUntilExpiry}d left</span>
                       </div>
                     ))}
                   </div>
@@ -101,7 +101,7 @@ export default function WastePreventionPanel({ wasteRisk }) {
                     </span>
                   </div>
                   <div className="text-right">
-                    <div className={`text-sm font-heading ${batch.daysUntilExpiry <= 3 ? 'text-jig-red' : batch.daysUntilExpiry <= 7 ? 'text-jig-amber-dark' : 'text-white'}`}>
+                    <div className={`text-sm font-heading ${batch.daysUntilExpiry <= 3 ? 'text-origin-red' : batch.daysUntilExpiry <= 7 ? 'text-or-gold-dark' : 'text-white'}`}>
                       {batch.daysUntilExpiry}d
                     </div>
                     <div className="text-[10px] text-gray-400">until expiry</div>

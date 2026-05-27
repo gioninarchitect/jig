@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Intelligence Routes
+ * PureGro Premium Cannabis Care - Intelligence Routes
  *
  * GET /intelligence/client/:id        - Full client world state
  * GET /intelligence/churn/:id         - Churn analysis

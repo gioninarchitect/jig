@@ -6,39 +6,48 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Products - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Products - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -48,7 +57,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -57,13 +66,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -74,18 +83,18 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             min-height: 100vh;
         }
 
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
         }
 
         /* Header */
         header {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
@@ -102,7 +111,7 @@
         }
 
         .logo {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--cream);
@@ -138,7 +147,7 @@
             top: -8px;
             right: -8px;
             background: var(--gold);
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -152,7 +161,7 @@
         /* Search Bar */
         .search-section {
             padding: 2rem;
-            background: var(--green);
+            background: var(--or-gold);
         }
 
         .search-container {
@@ -164,10 +173,10 @@
         .search-input {
             width: 100%;
             padding: 1rem 3rem 1rem 1rem;
-            background: var(--black);
+            background: var(--or-black);
             border: 2px solid var(--gold);
             border-radius: 50px;
-            color: var(--white);
+            color: var(--or-white);
             font-size: 1rem;
             font-family: 'Inter', sans-serif;
         }
@@ -179,7 +188,7 @@
         .search-input:focus {
             outline: none;
             border-color: var(--gold-light);
-            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2);
+            box-shadow: 0 0 0 3px rgba(240, 165, 0, 0.2);
         }
 
         .search-btn {
@@ -193,7 +202,7 @@
             width: 40px;
             height: 40px;
             cursor: pointer;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             transition: background 0.3s;
         }
 
@@ -213,14 +222,14 @@
         /* Filters Sidebar */
         .filters {
             width: 250px;
-            background: #fff;
+            background: #1A1A1A;
             border-radius: 10px;
             padding: 1.5rem;
             height: fit-content;
             position: sticky;
             top: 100px;
-            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border: 1px solid #222222;
         }
 
         .filter-group {
@@ -229,8 +238,8 @@
 
         .filter-group h3 {
             margin-bottom: 1rem;
-            color: var(--green-dark);
-            font-family: 'Oswald', sans-serif;
+            color: var(--or-gold-muted);
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.25rem;
             letter-spacing: 1px;
         }
@@ -244,34 +253,34 @@
 
         .filter-option input {
             margin-right: 0.5rem;
-            accent-color: var(--purple);
+            accent-color: var(--or-gold);
         }
 
         .filter-option label {
             cursor: pointer;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .price-range {
             display: flex;
             gap: 0.5rem;
             align-items: center;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .price-input {
             width: 80px;
             padding: 0.5rem;
-            background: var(--black);
+            background: var(--or-black);
             border: 1px solid var(--green-light);
             border-radius: 5px;
-            color: var(--white);
+            color: var(--or-white);
             font-family: 'Inter', sans-serif;
         }
 
         .price-input:focus {
             outline: none;
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         /* Products Grid */
@@ -287,25 +296,25 @@
         }
 
         .products-header h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.75rem;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             letter-spacing: 1px;
         }
 
         .sort-select {
             padding: 0.5rem 1rem;
-            background: #fff;
-            border: 1px solid var(--green-light);
+            background: #1A1A1A;
+            border: 1px solid #222222;
             border-radius: 5px;
-            color: var(--white);
+            color: var(--or-white);
             font-family: 'Inter', sans-serif;
             cursor: pointer;
         }
 
         .sort-select:focus {
             outline: none;
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         .products-grid {
@@ -315,25 +324,25 @@
         }
 
         .product-card {
-            background: #fff;
+            background: #1A1A1A;
             border-radius: 10px;
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.08);
-            border: 1px solid rgba(124, 58, 237, 0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid #222222;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.15);
+            box-shadow: 0 10px 30px rgba(63, 192, 65, 0.15);
         }
 
         .product-image {
             width: 100%;
             height: 250px;
             object-fit: cover;
-            background: var(--black);
+            background: var(--or-black);
         }
 
         .product-info {
@@ -343,7 +352,7 @@
         .product-name {
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             font-weight: 600;
         }
 
@@ -357,7 +366,7 @@
         .add-to-cart-btn {
             width: 100%;
             padding: 0.75rem;
-            background: var(--green);
+            background: var(--or-gold);
             border: none;
             border-radius: 5px;
             color: var(--cream);
@@ -390,32 +399,32 @@
 
         .page-btn {
             padding: 0.5rem 1rem;
-            background: #fff;
-            border: 1px solid var(--green-light);
+            background: #1A1A1A;
+            border: 1px solid #222222;
             border-radius: 5px;
-            color: var(--white);
+            color: var(--or-white);
             cursor: pointer;
             transition: all 0.3s;
             font-family: 'Inter', sans-serif;
         }
 
         .page-btn:hover {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         .page-btn.active {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         /* Loading Spinner */
         .loading {
             text-align: center;
             padding: 3rem;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .spinner {
@@ -462,7 +471,7 @@
         }
 
         .cart-header h2 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             color: var(--cream);
             font-size: 1.75rem;
             letter-spacing: 1px;
@@ -491,7 +500,7 @@
         .cart-item-image {
             width: 60px;
             height: 60px;
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 10px;
             overflow: hidden;
         }
@@ -581,7 +590,7 @@
         /* Checkout button in cart */
         .cart-footer .add-to-cart-btn {
             background: var(--gold);
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
         }
 
         .cart-footer .add-to-cart-btn:hover {
@@ -672,10 +681,10 @@
             font-size: 14px;
         }
 
-        .toast.success .toast-icon { background: rgba(124, 58, 237, 0.3); color: var(--green-light); }
+        .toast.success .toast-icon { background: rgba(63, 192, 65, 0.3); color: var(--green-light); }
         .toast.error .toast-icon { background: rgba(220, 38, 38, 0.3); color: #ff6b6b; }
-        .toast.warning .toast-icon { background: rgba(217, 119, 6, 0.3); color: var(--gold); }
-        .toast.info .toast-icon { background: rgba(124, 58, 237, 0.3); color: var(--green-light); }
+        .toast.warning .toast-icon { background: rgba(240, 165, 0, 0.3); color: var(--gold); }
+        .toast.info .toast-icon { background: rgba(63, 192, 65, 0.3); color: var(--green-light); }
 
         .toast-content { flex: 1; }
         .toast-title { font-weight: 600; font-size: 14px; color: var(--cream); margin-bottom: 4px; }
@@ -691,7 +700,7 @@
     <!-- Header -->
     <header>
         <nav>
-            <div class="logo">JIG Craft Cannabis</div>
+            <div class="logo">Origin by ILCO Farming</div>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="about.html">About</a>
@@ -768,8 +777,8 @@
     </div>
 
     <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <script src="/frontend/or-utils.js"></script>
+    <script src="/frontend/or-auth.js"></script>
     <script>
         let currentPage = 1;
         let currentFilters = {};
@@ -831,7 +840,7 @@
 
         // Product type display info for Flower category
         const PRODUCT_TYPE_INFO = {
-            'pre-roll': { name: 'Pre Rolls', icon: 'fa-joint', color: '#F59E0B' },
+            'pre-roll': { name: 'Pre Rolls', icon: 'fa-joint', color: '#F8C242' },
             'pre-pack': { name: 'Pre Packs', icon: 'fa-box', color: '#3B82F6' },
             'loose': { name: 'Loose', icon: 'fa-cannabis', color: '#22C55E' }
         };
@@ -885,7 +894,7 @@
 
                 html += `
                     <div class="category-section" style="grid-column: 1/-1; margin-top: 2rem;">
-                        <h3 style="font-family: 'Oswald', sans-serif; font-size: 1.75rem; color: var(--green-dark);
+                        <h3 style="font-family: 'Cinzel', sans-serif; font-size: 1.75rem; color: var(--or-gold-muted);
                             margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--gold);
                             display: flex; align-items: center; gap: 0.75rem;">
                             <i class="fas ${catInfo.icon}" style="color: var(--gold);"></i>
@@ -919,7 +928,7 @@
                         // Supplier header
                         html += `
                             <div style="grid-column: 1/-1; margin: 1.5rem 0 0.5rem; padding-left: 0.5rem; border-left: 4px solid ${supInfo.color};">
-                                <h4 style="font-family: 'Oswald', sans-serif; font-size: 1.35rem; color: ${supInfo.color};
+                                <h4 style="font-family: 'Cinzel', sans-serif; font-size: 1.35rem; color: ${supInfo.color};
                                     display: flex; align-items: center; gap: 0.5rem;">
                                     <i class="fas ${supInfo.icon}"></i> ${supInfo.name}
                                     <span style="font-size: 0.85rem; color: var(--green-light); font-weight: normal;">(${bySupplier[supplier].length})</span>
@@ -933,10 +942,10 @@
                             const typeInfo = PRODUCT_TYPE_INFO[pType];
                             html += `
                                 <div style="grid-column: 1/-1; margin: 0.75rem 0 0.25rem; padding-left: 1.5rem;">
-                                    <h5 style="font-family: 'Oswald', sans-serif; font-size: 1rem; color: ${typeInfo.color};
+                                    <h5 style="font-family: 'Cinzel', sans-serif; font-size: 1rem; color: ${typeInfo.color};
                                         display: flex; align-items: center; gap: 0.4rem; font-weight: 600;">
                                         <i class="fas ${typeInfo.icon}" style="font-size: 0.85rem;"></i> ${typeInfo.name}
-                                        <span style="font-size: 0.8rem; color: var(--gray-500); font-weight: normal;">(${byType[pType].length})</span>
+                                        <span style="font-size: 0.8rem; color: var(--or-grey-2); font-weight: normal;">(${byType[pType].length})</span>
                                     </h5>
                                 </div>
                             `;
@@ -972,9 +981,9 @@
         function renderProductCard(product) {
             const imageUrl = product.images && product.images.length > 0 && product.images[0].url
                 ? product.images[0].url
-                : '/images/jig-logo-nobg.png';
+                : '/images/origin-logo.png';
             const stock = product.inventory?.quantity || product.stock || 0;
-            const strainBadge = product.subcategory ? `<span style="position:absolute;top:10px;left:10px;background:var(--green);color:var(--cream);padding:2px 8px;border-radius:4px;font-size:0.7rem;text-transform:uppercase;">${product.subcategory}</span>` : '';
+            const strainBadge = product.subcategory ? `<span style="position:absolute;top:10px;left:10px;background:var(--or-gold);color:var(--cream);padding:2px 8px;border-radius:4px;font-size:0.7rem;text-transform:uppercase;">${product.subcategory}</span>` : '';
 
             return `
             <div class="product-card" onclick="viewProduct('${product._id}')" style="position:relative;">
@@ -982,7 +991,7 @@
                 <img src="${imageUrl}"
                      alt="${product.name}"
                      class="product-image"
-                     onerror="this.src='/images/jig-logo-nobg.png'">
+                     onerror="this.src='/images/origin-logo.png'">
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
                     <p class="product-price">R${product.price.toFixed(2)}</p>
@@ -1191,7 +1200,7 @@
                 return `
                     <div class="cart-item">
                         <div class="cart-item-image">
-                            <img src="${item.image}" alt="${item.name}" onerror="this.src='/images/jig-logo-nobg.png'">
+                            <img src="${item.image}" alt="${item.name}" onerror="this.src='/images/origin-logo.png'">
                         </div>
                         <div class="cart-item-details">
                             <div class="cart-item-name">${item.name}</div>

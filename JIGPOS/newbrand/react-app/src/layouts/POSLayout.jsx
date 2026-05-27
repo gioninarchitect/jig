@@ -7,7 +7,7 @@ export default function POSLayout({ header, children }) {
           className="flex-shrink-0 text-white px-4 py-2.5 flex items-center justify-between"
           style={{
             background: 'linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%)',
-            borderBottom: '3px solid #D97706',
+            borderBottom: '3px solid #F0A500',
             boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
           }}
         >

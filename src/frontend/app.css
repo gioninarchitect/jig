@@ -1,88 +1,88 @@
 @import "tailwindcss";
 
-/* ── JIG Design System v3 ──────────────────────────────── */
+/* ── PureGro Design System v1 ────────────────────────── */
 
 @theme {
   /* Primary */
-  --color-jig-black: #0A0A0A;
-  --color-jig-white: #FAFAFA;
-  --color-jig-purple: #7C3AED;
-  --color-jig-purple-light: #A855F7;
+  --color-pg-black: #0E0E0E;
+  --color-pg-white: #FFFFFF;
+  --color-pg-green: #3FC041;
+  --color-pg-green-bright: #56D458;
 
   /* Secondary */
-  --color-jig-green: #15803D;
-  --color-jig-amber: #D97706;
-  --color-jig-slate: #1E1E1E;
+  --color-pg-green-muted: #2A8C2C;
+  --color-pg-gold: #F0A500;
+  --color-pg-dark: #1A1A1A;
 
   /* Neutrals */
-  --color-jig-gray-900: #111111;
-  --color-jig-gray-700: #374151;
-  --color-jig-gray-500: #6B7280;
-  --color-jig-gray-300: #D1D5DB;
+  --color-pg-gray-900: #0E0E0E;
+  --color-pg-gray-700: #333333;
+  --color-pg-gray-500: #666666;
+  --color-pg-gray-300: #CCCCCC;
 
   /* Fonts */
-  --font-display: 'Anton', Impact, sans-serif;
-  --font-heading: 'Oswald', 'Arial Narrow', sans-serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-heading: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-body: 'Barlow', -apple-system, sans-serif;
 }
 
 /* ── Gradient Utilities ─────────────────────────────────── */
 
-@utility bg-jig-gradient {
-  background: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+@utility bg-pg-gradient {
+  background: linear-gradient(135deg, #3FC041 0%, #56D458 40%, #F0A500 100%);
 }
 
-@utility text-jig-gradient {
-  background: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
+@utility text-pg-gradient {
+  background: linear-gradient(135deg, #3FC041 0%, #56D458 40%, #F0A500 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-@utility bg-jig-dark-gradient {
-  background: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+@utility bg-pg-dark-gradient {
+  background: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
 }
 
-@utility shadow-jig-glow {
-  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.2);
+@utility shadow-pg-glow {
+  box-shadow: 0 8px 32px rgba(63, 192, 65, 0.2);
 }
 
-@utility shadow-jig-amber {
-  box-shadow: 0 8px 32px rgba(217, 119, 6, 0.15);
+@utility shadow-pg-gold {
+  box-shadow: 0 8px 32px rgba(240, 165, 0, 0.15);
 }
 
-@utility border-jig-subtle {
+@utility border-pg-subtle {
   border-color: rgba(255, 255, 255, 0.08);
 }
 
-@utility border-jig-hover {
-  border-color: rgba(124, 58, 237, 0.4);
+@utility border-pg-hover {
+  border-color: rgba(63, 192, 65, 0.4);
 }
 
 /* ── Base Styles ─────────────────────────────────────────── */
 
 body {
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: 'Barlow', -apple-system, sans-serif;
 }
 
 /* Focus states */
 *:focus-visible {
-  outline: 2px solid #7C3AED;
+  outline: 2px solid #3FC041;
   outline-offset: 2px;
 }
 
 /* ── Churn Risk Badges (dark theme) ─────────────────────── */
 
 @utility badge-low {
-  background-color: rgba(21, 128, 61, 0.15);
-  color: #22c55e;
-  border: 1px solid rgba(21, 128, 61, 0.3);
+  background-color: rgba(63, 192, 65, 0.15);
+  color: #3FC041;
+  border: 1px solid rgba(63, 192, 65, 0.3);
 }
 
 @utility badge-medium {
-  background-color: rgba(217, 119, 6, 0.15);
-  color: #f59e0b;
-  border: 1px solid rgba(217, 119, 6, 0.3);
+  background-color: rgba(240, 165, 0, 0.15);
+  color: #F8C242;
+  border: 1px solid rgba(240, 165, 0, 0.3);
 }
 
 @utility badge-high {
@@ -112,29 +112,29 @@ body {
 }
 
 @utility tier-gold {
-  background-color: rgba(217, 119, 6, 0.12);
-  color: #fbbf24;
-  border: 1px solid rgba(217, 119, 6, 0.35);
+  background-color: rgba(240, 165, 0, 0.12);
+  color: #F8C242;
+  border: 1px solid rgba(240, 165, 0, 0.35);
 }
 
 @utility tier-platinum {
-  background-color: rgba(124, 58, 237, 0.12);
-  color: #a78bfa;
-  border: 1px solid rgba(124, 58, 237, 0.35);
+  background-color: rgba(63, 192, 65, 0.12);
+  color: #56D458;
+  border: 1px solid rgba(63, 192, 65, 0.35);
 }
 
 /* ── Status Badges (dark theme) ─────────────────────────── */
 
 @utility status-active {
-  background-color: rgba(21, 128, 61, 0.15);
-  color: #22c55e;
-  border: 1px solid rgba(21, 128, 61, 0.3);
+  background-color: rgba(63, 192, 65, 0.15);
+  color: #3FC041;
+  border: 1px solid rgba(63, 192, 65, 0.3);
 }
 
 @utility status-pending {
-  background-color: rgba(217, 119, 6, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(217, 119, 6, 0.3);
+  background-color: rgba(240, 165, 0, 0.15);
+  color: #F8C242;
+  border: 1px solid rgba(240, 165, 0, 0.3);
 }
 
 @utility status-suspended {
@@ -150,7 +150,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #0E0E0E;
 }
 
 ::-webkit-scrollbar-thumb {

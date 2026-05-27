@@ -58,10 +58,14 @@ exports.getById = async (req, res) => {
 exports.getInventory = async (req, res) => {
   try {
     const branchId = req.params.id;
-    const user = await User.findById(req.user.id);
 
-    if (!user.hasAccessToBranch(branchId)) {
-      return res.status(403).json({ success: false, message: 'You do not have access to this branch' });
+    // Internal service accounts and admin/owner can access any branch inventory
+    const adminRoles = ['admin', 'owner', 'super_admin'];
+    if (!adminRoles.includes(req.user.role)) {
+      const user = await User.findById(req.user.id);
+      if (!user.hasAccessToBranch(branchId)) {
+        return res.status(403).json({ success: false, message: 'You do not have access to this branch' });
+      }
     }
 
     const { lowStock, category, search } = req.query;
@@ -419,8 +423,8 @@ exports.updateTill = async (req, res) => {
 // Owner Stats — per-branch live data for owner dashboard 360
 exports.ownerStats = async (req, res) => {
   try {
-    // Only return DBC-prefixed branches (exclude legacy ORM, FKS, etc.)
-    const branches = await Branch.find({ branchCode: /^DBC-/ }).select('name branchCode isActive address settings').lean();
+    // Only return Origin-prefixed branches (exclude legacy ORM, FKS, etc.)
+    const branches = await Branch.find({ branchCode: /^PG-/ }).select('name branchCode isActive address settings').lean();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const tomorrow = new Date(today);

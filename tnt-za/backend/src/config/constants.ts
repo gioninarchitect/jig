@@ -11,6 +11,7 @@ export const ROLE_LEVELS: Record<string, number> = {
   LAB_TECH: 2,
   IRRIGATION_TECH: 2,
   MAINTENANCE_MANAGER: 3,
+  IT_MANAGER: 2,        // IT support — printers/network/computers, not platform admin
   HEAD_OF_CULTIVATION: 3,
   NURSERY_MANAGER: 3,
   DELIVERY_DRIVER: 1,
@@ -31,6 +32,14 @@ export const WEIGHT_VARIANCE_THRESHOLDS: Record<string, number> = {
   PACKAGE: 0.05,
   CUSTOM: 0.10,
 };
+
+// Ghost Mode — only these 3 emails can use the view-as feature
+// (Flo, Ilse, Coenie — owner trio). Hardcoded by design.
+export const GHOST_ALLOWED_EMAILS = [
+  'florisolivier7@gmail.com',
+  'ilse@ilcofarming.co.za',
+  'coenie@ilcofarming.co.za',
+] as const;
 
 export const PLANT_PHASE_ORDER = [
   'SEEDLING', 'VEGETATIVE', 'FLOWERING', 'HARVESTED',

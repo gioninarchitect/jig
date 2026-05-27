@@ -39,6 +39,12 @@ const upload = multer({
   }
 });
 
+// Compliance & cycle count endpoints (must be before parameterised /session/:sessionId routes)
+router.get('/compliance/all-branches', authenticateToken, requireRole(['super_admin', 'owner']), controller.getAllBranchesCompliance);
+router.get('/compliance/:branchId', authenticateToken, requireRole(['super_admin', 'owner', 'admin', 'branch_manager']), controller.getComplianceStatus);
+router.post('/schedule/daily-high-value', authenticateToken, requireRole(['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant']), controller.scheduleDailyHighValue);
+router.get('/shrinkage-trends/:branchId', authenticateToken, requireRole(['super_admin', 'owner', 'admin', 'branch_manager']), controller.getShrinkageTrends);
+
 // Session management
 router.post('/session', authenticateToken, requireRole(['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant']), controller.createSession);
 router.get('/session/:sessionId', authenticateToken, controller.getSession);

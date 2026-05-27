@@ -9,7 +9,7 @@ export default function StorefrontLayout({ children }) {
   const [cartOpen, setCartOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-jig-slate font-body">
+    <div className="min-h-screen bg-origin-slate font-body">
       <AgeGateModal />
       <StorefrontNav onCartOpen={() => setCartOpen(true)} />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />

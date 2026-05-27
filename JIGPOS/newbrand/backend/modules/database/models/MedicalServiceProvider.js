@@ -92,7 +92,7 @@ const medicalServiceProviderSchema = new mongoose.Schema({
     consultationFee: Number
   },
 
-  // Branches Serviced (which DBC branches they work with)
+  // Branches Serviced (which Origin branches they work with)
   servicedBranches: [{
     branch: {
       type: mongoose.Schema.Types.ObjectId,

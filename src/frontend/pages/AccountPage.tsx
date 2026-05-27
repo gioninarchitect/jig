@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Account Page
+ * PureGro Premium Cannabis Care - Account Page
  *
  * Shows client profile, tier info, and tier progression.
  */
@@ -17,10 +17,10 @@ interface TierInfo {
 }
 
 const TIER_THRESHOLDS = [
-  { tier: 'standard', min: 0, max: 100_000, color: 'bg-jig-gray-500' },
-  { tier: 'silver', min: 100_000, max: 300_000, color: 'bg-jig-gray-300' },
-  { tier: 'gold', min: 300_000, max: 750_000, color: 'bg-jig-amber' },
-  { tier: 'platinum', min: 750_000, max: Infinity, color: 'bg-jig-purple' },
+  { tier: 'standard', min: 0, max: 100_000, color: 'bg-pg-gray-500' },
+  { tier: 'silver', min: 100_000, max: 300_000, color: 'bg-pg-gray-300' },
+  { tier: 'gold', min: 300_000, max: 750_000, color: 'bg-pg-gold' },
+  { tier: 'platinum', min: 750_000, max: Infinity, color: 'bg-pg-green' },
 ];
 
 export default function AccountPage() {
@@ -51,7 +51,7 @@ export default function AccountPage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-jig-gray-700 border-t-jig-purple" />
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-pg-gray-700 border-t-pg-green" />
       </div>
     );
   }
@@ -70,12 +70,12 @@ export default function AccountPage() {
 
   return (
     <div className="p-4 sm:p-6">
-      <h1 className="mb-4 font-heading text-xl font-bold uppercase tracking-wide text-jig-white sm:mb-6 sm:text-2xl">Account</h1>
+      <h1 className="mb-4 font-heading text-xl font-bold uppercase tracking-wide text-pg-white sm:mb-6 sm:text-2xl">Account</h1>
 
       <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
         {/* Profile card */}
-        <div className="rounded-lg border border-white/[0.06] bg-jig-slate p-6">
-          <h2 className="mb-4 font-heading text-lg font-semibold uppercase tracking-wide text-jig-white">Profile</h2>
+        <div className="rounded-lg border border-white/[0.06] bg-pg-dark p-6">
+          <h2 className="mb-4 font-heading text-lg font-semibold uppercase tracking-wide text-pg-white">Profile</h2>
           <dl className="space-y-3 text-sm">
             {[
               ['Business Name', client.businessName],
@@ -86,16 +86,16 @@ export default function AccountPage() {
               ['Member Since', new Date(client.createdAt).toLocaleDateString('en-ZA', { year: 'numeric', month: 'long' })],
             ].map(([label, value]) => (
               <div key={label} className="flex justify-between">
-                <dt className="text-jig-gray-500">{label}</dt>
-                <dd className="font-medium text-jig-white">{value}</dd>
+                <dt className="text-pg-gray-500">{label}</dt>
+                <dd className="font-medium text-pg-white">{value}</dd>
               </div>
             ))}
           </dl>
         </div>
 
         {/* Tier card */}
-        <div className="rounded-lg border border-white/[0.06] bg-jig-slate p-6">
-          <h2 className="mb-4 font-heading text-lg font-semibold uppercase tracking-wide text-jig-white">Tier Status</h2>
+        <div className="rounded-lg border border-white/[0.06] bg-pg-dark p-6">
+          <h2 className="mb-4 font-heading text-lg font-semibold uppercase tracking-wide text-pg-white">Tier Status</h2>
 
           <div className="mb-6 text-center">
             <span
@@ -105,7 +105,7 @@ export default function AccountPage() {
             </span>
           </div>
 
-          <div className="mb-2 flex justify-between text-xs text-jig-gray-500">
+          <div className="mb-2 flex justify-between text-xs text-pg-gray-500">
             <span>{formatRand(currentThreshold?.min ?? 0)}</span>
             <span>
               {currentThreshold?.max === Infinity
@@ -116,28 +116,28 @@ export default function AccountPage() {
 
           <div className="mb-4 h-3 overflow-hidden rounded-full bg-white/[0.06]">
             <div
-              className={`h-full rounded-full transition-all ${currentThreshold?.color || 'bg-jig-gray-500'}`}
+              className={`h-full rounded-full transition-all ${currentThreshold?.color || 'bg-pg-gray-500'}`}
               style={{ width: `${progressPercent}%` }}
             />
           </div>
 
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-jig-gray-500">Lifetime Value</span>
-              <span className="font-medium text-jig-amber">
+              <span className="text-pg-gray-500">Lifetime Value</span>
+              <span className="font-medium text-pg-gold">
                 {formatRand(client.lifetimeValue)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-jig-gray-500">Total Orders</span>
-              <span className="font-medium text-jig-white">{safeNum(client.totalOrders)}</span>
+              <span className="text-pg-gray-500">Total Orders</span>
+              <span className="font-medium text-pg-white">{safeNum(client.totalOrders)}</span>
             </div>
             {tierInfo?.nextTier && (
               <div className="flex justify-between">
-                <span className="text-jig-gray-500">
+                <span className="text-pg-gray-500">
                   To reach {capitalize(tierInfo.nextTier)}
                 </span>
-                <span className="font-medium text-jig-purple-light">
+                <span className="font-medium text-pg-green-light">
                   {formatRand(tierInfo.amountToNextTier)}
                 </span>
               </div>
@@ -147,20 +147,20 @@ export default function AccountPage() {
 
         {/* Payment reliability */}
         {paymentInfo && (
-          <div className="rounded-lg border border-white/[0.06] bg-jig-slate p-6 lg:col-span-2">
-            <h2 className="mb-4 font-heading text-lg font-semibold uppercase tracking-wide text-jig-white">Payment Record</h2>
+          <div className="rounded-lg border border-white/[0.06] bg-pg-dark p-6 lg:col-span-2">
+            <h2 className="mb-4 font-heading text-lg font-semibold uppercase tracking-wide text-pg-white">Payment Record</h2>
             <div className="grid grid-cols-1 gap-4 xs:grid-cols-3">
               <div className="text-center">
-                <p className="text-2xl font-bold text-jig-white">
+                <p className="text-2xl font-bold text-pg-white">
                   {Math.round(safeNum(paymentInfo.reliability) * 100)}%
                 </p>
-                <p className="text-xs text-jig-gray-500">On-time Payment Rate</p>
+                <p className="text-xs text-pg-gray-500">On-time Payment Rate</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-jig-white">
+                <p className="text-2xl font-bold text-pg-white">
                   {safeNum(paymentInfo.avgDaysToPayment).toFixed(1)}
                 </p>
-                <p className="text-xs text-jig-gray-500">Avg Days to Payment</p>
+                <p className="text-xs text-pg-gray-500">Avg Days to Payment</p>
               </div>
               <div className="text-center">
                 <p
@@ -170,7 +170,7 @@ export default function AccountPage() {
                 >
                   {safeNum(paymentInfo.overdueCount)}
                 </p>
-                <p className="text-xs text-jig-gray-500">Overdue Invoices</p>
+                <p className="text-xs text-pg-gray-500">Overdue Invoices</p>
               </div>
             </div>
           </div>

@@ -58,8 +58,19 @@ export default function TicketsPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [stageFilter, setStageFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
-  const [form, setForm] = useState({ title: '', description: '', priority: 'MEDIUM', category: 'GENERAL', ticketType: 'ISSUE', workflowStage: '', estimatedCost: '', quantity: '' });
+  const [form, setForm] = useState({
+    title: '', description: '', priority: 'MEDIUM', category: 'GENERAL', ticketType: 'ISSUE',
+    workflowStage: '', estimatedCost: '', quantity: '',
+    // Two ways to allocate: a specific person OR a role/department (any-of-role can claim)
+    assignTarget: '',  // either "user:<id>" or "role:<ROLE>"
+  });
   const [comment, setComment] = useState('');
+
+  // Users for the assignee picker (grouped by role in the dropdown below)
+  const { data: users } = useQuery({
+    queryKey: ['users'],
+    queryFn: () => api.get('/users').then(r => r.data.users),
+  });
 
   const isRP = hasRole('RESPONSIBLE_PHARMACIST');
   const isAdmin = hasMinLevel(4);
@@ -82,13 +93,34 @@ export default function TicketsPage() {
   });
 
   const createMut = useMutation({
-    mutationFn: () => api.post('/baygrid/tickets', {
-      ...form,
-      estimatedCost: form.estimatedCost ? parseFloat(form.estimatedCost) : undefined,
-      quantity: form.quantity ? parseInt(form.quantity) : undefined,
-      workflowStage: form.workflowStage || undefined,
-    }),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['tickets'] }); setShowCreate(false); setForm({ title: '', description: '', priority: 'MEDIUM', category: 'GENERAL', ticketType: 'ISSUE', workflowStage: '', estimatedCost: '', quantity: '' }); addToast('success', 'Ticket created'); },
+    mutationFn: () => {
+      // Resolve "user:<id>" / "role:<NAME>" assignTarget into the right backend fields
+      const assignedToId =
+        form.assignTarget.startsWith('user:') ? form.assignTarget.slice(5) : undefined;
+      const assignedToRole =
+        form.assignTarget.startsWith('role:') ? form.assignTarget.slice(5) : undefined;
+      return api.post('/baygrid/tickets', {
+        title: form.title,
+        description: form.description,
+        priority: form.priority,
+        category: form.category,
+        ticketType: form.ticketType,
+        estimatedCost: form.estimatedCost ? parseFloat(form.estimatedCost) : undefined,
+        quantity: form.quantity ? parseInt(form.quantity) : undefined,
+        workflowStage: form.workflowStage || undefined,
+        assignedToId,
+        assignedToRole,
+      });
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['tickets'] });
+      setShowCreate(false);
+      setForm({
+        title: '', description: '', priority: 'MEDIUM', category: 'GENERAL', ticketType: 'ISSUE',
+        workflowStage: '', estimatedCost: '', quantity: '', assignTarget: '',
+      });
+      addToast('success', 'Ticket created');
+    },
     onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
   });
 
@@ -390,6 +422,26 @@ export default function TicketsPage() {
             <ModalInput label="Quantity" type="number" placeholder="1" value={form.quantity} onChange={e => setForm(f => ({ ...f, quantity: (e.target as HTMLInputElement).value }))} />
           </div>
         )}
+
+        <ModalSelect label="Assign to (person OR department)" value={form.assignTarget}
+          onChange={e => setForm(f => ({ ...f, assignTarget: (e.target as HTMLSelectElement).value }))}>
+          <option value="">— Unassigned (anyone can pick up) —</option>
+          {users && users.length > 0 && (
+            <optgroup label="👤  Specific person">
+              {users.filter((u: any) => u.active !== false).map((u: any) => (
+                <option key={u.id} value={`user:${u.id}`}>
+                  {u.name} · {u.role.replace(/_/g, ' ')}
+                </option>
+              ))}
+            </optgroup>
+          )}
+          <optgroup label="🏢  Department / role (any of these can claim)">
+            {Array.from(new Set((users ?? []).map((u: any) => u.role))).sort().map((r: any) => (
+              <option key={`role-${r}`} value={`role:${r}`}>{String(r).replace(/_/g, ' ')}</option>
+            ))}
+          </optgroup>
+        </ModalSelect>
+
         <ModalButton loading={createMut.isPending} onClick={() => createMut.mutate()} disabled={!form.title || !form.description}>
           Create Ticket
         </ModalButton>

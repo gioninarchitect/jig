@@ -1,4 +1,4 @@
-// P18 — World Model Types for DBC
+// P18 — World Model Types for Origin
 // 6 operational domains: inventory, financial, compliance, staff, operational, customer
 // Multi-branch architecture: Owner sees all, staff sees one.
 
@@ -162,9 +162,9 @@ export function createBranchWorldState(branchId, branchName) {
   };
 }
 
-// ─── Factory: empty DBCWorldState ────────────────────────────────
+// ─── Factory: empty OriginWorldState ────────────────────────────────
 
-export function createDBCWorldState(userId, userRole, activeBranchId) {
+export function createOriginWorldState(userId, userRole, activeBranchId) {
   return {
     userId,
     userRole,

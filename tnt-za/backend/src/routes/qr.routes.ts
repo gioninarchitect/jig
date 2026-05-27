@@ -9,6 +9,15 @@ import { existsSync } from 'fs';
 const router = Router();
 router.use(requireAuth);
 
+function escapeHtml(value: string | null | undefined) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // GET /api/qr/plant/:id — Generate or return QR label for a plant
 router.get('/plant/:id', requireLevel(0), async (req: AuthRequest, res: Response) => {
   try {
@@ -95,6 +104,79 @@ router.get('/print/:type/:id', requireLevel(0), async (req: AuthRequest, res: Re
       const asset = await prisma.asset.findFirst({ where: { id, tenantId: req.user!.tenantId } });
       if (!asset) return res.status(404).json({ success: false, error: 'Not found' });
       identifier = asset.assetTag;
+
+      const label = await generateLabel(identifier, type);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(`<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${escapeHtml(asset.assetTag)} - QR Label</title>
+<style>
+@page { size: 70mm 45mm; margin: 4mm; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #fff;
+  color: #111;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.label {
+  width: 62mm;
+  min-height: 37mm;
+  border: 1px solid #111;
+  display: grid;
+  grid-template-columns: 26mm 1fr;
+  gap: 4mm;
+  padding: 3mm;
+  align-items: center;
+}
+img { width: 26mm; height: 26mm; display: block; }
+.type {
+  font-size: 7pt;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 2mm;
+}
+.name {
+  font-size: 11pt;
+  line-height: 1.12;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+  margin-bottom: 2mm;
+}
+.tag {
+  font-family: "Courier New", monospace;
+  font-size: 9pt;
+  font-weight: 800;
+}
+.meta {
+  margin-top: 1.5mm;
+  font-size: 6.5pt;
+  line-height: 1.25;
+  color: #555;
+}
+@media print {
+  body { display: grid; place-items: start; }
+}
+</style>
+</head>
+<body onload="window.print()">
+  <div class="label">
+    <img src="${label.qrDataUrl}" alt="QR code for ${escapeHtml(asset.assetTag)}">
+    <div>
+      <div class="type">Asset QR Label</div>
+      <div class="name">${escapeHtml(asset.name)}</div>
+      <div class="tag">${escapeHtml(asset.assetTag)}</div>
+      <div class="meta">${escapeHtml(asset.category?.replace(/_/g, ' '))}${asset.serialNumber ? '<br>Serial: ' + escapeHtml(asset.serialNumber) : ''}</div>
+    </div>
+  </div>
+</body>
+</html>`);
     }
 
     const label = await generateLabel(identifier, type);

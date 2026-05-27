@@ -1,13 +1,13 @@
-// P20+P34 — World Model Context Provider for JIG
+// P20+P34 — World Model Context Provider for Origin
 // Wires: P18 EventBus → P19 Reducer → P20 Inference → React Context
 // P34: Event batching (100ms window), debounced persistence, memoised inference.
 
 import { createContext, useContext, useReducer, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import eventBus from './events';
-import { createDBCWorldState } from './types';
+import { createOriginWorldState } from './types';
 import {
-  dbcWorldReducer,
+  jigWorldReducer,
   refreshWorldModelConfig,
   getWorldModelConfig,
   isConfigStale,
@@ -41,12 +41,12 @@ export function WorldModelProvider({ children }) {
   const userRole = user?.role;
 
   // Initialise state: try localStorage first, then create fresh
-  const [state, dispatch] = useReducer(dbcWorldReducer, null, () => {
+  const [state, dispatch] = useReducer(jigWorldReducer, null, () => {
     if (userId) {
       const persisted = loadWorldState(userId);
       if (persisted) return persisted;
     }
-    return createDBCWorldState(userId || 'anon', userRole || 'user', activeBranch || 'ALL');
+    return createOriginWorldState(userId || 'anon', userRole || 'user', activeBranch || 'ALL');
   });
 
   // Config state — kept in sync with module-level cache
@@ -193,34 +193,34 @@ export function WorldModelProvider({ children }) {
 
 // ─── Hooks ───────────────────────────────────────────────────────
 
-export function useDBCWorldModel() {
+export function useOriginWorldModel() {
   const ctx = useContext(WorldModelContext);
-  if (!ctx) throw new Error('useDBCWorldModel must be used within WorldModelProvider');
+  if (!ctx) throw new Error('useOriginWorldModel must be used within WorldModelProvider');
   return ctx;
 }
 
 export function useRiskAlerts() {
-  const { riskAlerts, crossDomainInsights } = useDBCWorldModel();
+  const { riskAlerts, crossDomainInsights } = useOriginWorldModel();
   return { riskAlerts, crossDomainInsights };
 }
 
 export function useStockIntelligence() {
-  const { stockIntelligence } = useDBCWorldModel();
+  const { stockIntelligence } = useOriginWorldModel();
   return stockIntelligence;
 }
 
 export function useStaffScores() {
-  const { staffScores } = useDBCWorldModel();
+  const { staffScores } = useOriginWorldModel();
   return staffScores;
 }
 
 export function useBranchState(branchId) {
-  const { state, activeBranch } = useDBCWorldModel();
+  const { state, activeBranch } = useOriginWorldModel();
   if (!branchId) return activeBranch;
   return state.branches[branchId] || null;
 }
 
 export function useWorldModelConfig() {
-  const { config } = useDBCWorldModel();
+  const { config } = useOriginWorldModel();
   return config;
 }

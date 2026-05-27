@@ -1,5 +1,5 @@
 /**
- * JIG Chat Bot - Webhook Routes
+ * PureGro Chat Bot - Webhook Routes
  *
  * Public webhook endpoints for Telegram and WhatsApp.
  * POST /api/v1/chat/webhook/telegram - returns 200 immediately, processes async.

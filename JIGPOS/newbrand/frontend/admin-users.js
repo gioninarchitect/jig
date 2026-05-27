@@ -59,7 +59,7 @@
                 } else if (section21Status === 'rejected') {
                     section21Badge = '<span class="status-badge status-rejected">MT Rejected</span>';
                 } else {
-                    section21Badge = '<span style="color: var(--gray-500); font-size: 0.8rem;">-</span>';
+                    section21Badge = '<span style="color: var(--pg-grey-2); font-size: 0.8rem;">-</span>';
                 }
 
                 // Account status

@@ -137,7 +137,7 @@ export default function StockIntelligenceDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="w-8 h-8 border-3 border-jig-purple border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-or-gold border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -155,35 +155,35 @@ export default function StockIntelligenceDashboard() {
     <div className="space-y-4">
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Tracked SKUs</div>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Tracked SKUs</div>
           <div className="font-heading text-xl text-white">{inventory.length}</div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Critical</div>
-          <div className={`font-heading text-xl ${stats.criticalItems > 0 ? 'text-jig-red' : 'text-white'}`}>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Critical</div>
+          <div className={`font-heading text-xl ${stats.criticalItems > 0 ? 'text-origin-red' : 'text-white'}`}>
             {stats.criticalItems}
           </div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Urgent</div>
-          <div className={`font-heading text-xl ${stats.urgentItems > 0 ? 'text-jig-amber-dark' : 'text-white'}`}>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Urgent</div>
+          <div className={`font-heading text-xl ${stats.urgentItems > 0 ? 'text-or-gold-dark' : 'text-white'}`}>
             {stats.urgentItems}
           </div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Healthy</div>
-          <div className="font-heading text-xl text-jig-purple">{stats.healthyItems}</div>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Healthy</div>
+          <div className="font-heading text-xl text-or-gold">{stats.healthyItems}</div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Payday Factor</div>
-          <div className={`font-heading text-xl ${stats.paydayMult > 1.1 ? 'text-jig-amber-dark' : 'text-white'}`}>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Payday Factor</div>
+          <div className={`font-heading text-xl ${stats.paydayMult > 1.1 ? 'text-or-gold-dark' : 'text-white'}`}>
             {stats.paydayMult}x
           </div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Season Factor</div>
-          <div className={`font-heading text-xl ${stats.seasonalMult > 1.1 ? 'text-jig-amber-dark' : stats.seasonalMult < 0.9 ? 'text-jig-red' : 'text-white'}`}>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Season Factor</div>
+          <div className={`font-heading text-xl ${stats.seasonalMult > 1.1 ? 'text-or-gold-dark' : stats.seasonalMult < 0.9 ? 'text-origin-red' : 'text-white'}`}>
             {stats.seasonalMult}x
           </div>
         </div>
@@ -201,7 +201,7 @@ export default function StockIntelligenceDashboard() {
           >
             {t.label}
             {t.count > 0 && (
-              <span className="ml-1 px-1.5 py-0.5 rounded-full bg-jig-red/10 text-jig-red text-[10px]">{t.count}</span>
+              <span className="ml-1 px-1.5 py-0.5 rounded-full bg-origin-red/10 text-origin-red text-[10px]">{t.count}</span>
             )}
           </button>
         ))}
@@ -253,9 +253,9 @@ function OverviewPanel({ predictions, reorderCount, transferCount, wasteRisk, st
     .slice(0, 8);
 
   const URGENCY_STYLES = {
-    critical: 'border-jig-red/30 bg-jig-red/5',
-    urgent: 'border-jig-amber/30 bg-jig-amber/5',
-    soon: 'border-jig-purple/20 bg-jig-slate',
+    critical: 'border-origin-red/30 bg-origin-red/5',
+    urgent: 'border-or-gold/30 bg-or-gold/5',
+    soon: 'border-or-gold/20 bg-origin-slate',
     healthy: 'border-gray-200 bg-white',
   };
 
@@ -270,19 +270,19 @@ function OverviewPanel({ predictions, reorderCount, transferCount, wasteRisk, st
     <div className="space-y-4">
       {/* Summary cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="p-4 rounded-lg border border-jig-red/20 bg-jig-red/5">
-          <div className="text-xs text-jig-red font-bold uppercase">Reorder Needed</div>
-          <div className="font-heading text-2xl text-jig-red mt-1">{reorderCount}</div>
+        <div className="p-4 rounded-lg border border-origin-red/20 bg-origin-red/5">
+          <div className="text-xs text-origin-red font-bold uppercase">Reorder Needed</div>
+          <div className="font-heading text-2xl text-origin-red mt-1">{reorderCount}</div>
           <div className="text-xs text-gray-400 mt-1">items below threshold</div>
         </div>
-        <div className="p-4 rounded-lg border border-jig-amber/20 bg-jig-amber/5">
-          <div className="text-xs text-jig-amber-dark font-bold uppercase">Transfer Opportunities</div>
-          <div className="font-heading text-2xl text-jig-amber-dark mt-1">{transferCount}</div>
+        <div className="p-4 rounded-lg border border-or-gold/20 bg-or-gold/5">
+          <div className="text-xs text-or-gold-dark font-bold uppercase">Transfer Opportunities</div>
+          <div className="font-heading text-2xl text-or-gold-dark mt-1">{transferCount}</div>
           <div className="text-xs text-gray-400 mt-1">inter-branch suggestions</div>
         </div>
-        <div className="p-4 rounded-lg border border-jig-red/20 bg-jig-red/5">
-          <div className="text-xs text-jig-red font-bold uppercase">Waste Risk</div>
-          <div className="font-heading text-2xl text-jig-red mt-1">{wasteRisk.atRisk.length}</div>
+        <div className="p-4 rounded-lg border border-origin-red/20 bg-origin-red/5">
+          <div className="text-xs text-origin-red font-bold uppercase">Waste Risk</div>
+          <div className="font-heading text-2xl text-origin-red mt-1">{wasteRisk.atRisk.length}</div>
           <div className="text-xs text-gray-400 mt-1">{formatCurrency(wasteRisk.totalAtRiskValue)} at risk</div>
         </div>
       </div>
@@ -319,9 +319,9 @@ function OverviewPanel({ predictions, reorderCount, transferCount, wasteRisk, st
                 <div>
                   <span className="text-gray-400">Confidence: </span>
                   <span className={`font-bold ${
-                    p.confidence.level === 'high' ? 'text-jig-purple' :
-                    p.confidence.level === 'medium' ? 'text-jig-amber-dark' :
-                    'text-jig-red'
+                    p.confidence.level === 'high' ? 'text-or-gold' :
+                    p.confidence.level === 'medium' ? 'text-or-gold-dark' :
+                    'text-origin-red'
                   }`}>{p.confidence.level}</span>
                 </div>
               </div>

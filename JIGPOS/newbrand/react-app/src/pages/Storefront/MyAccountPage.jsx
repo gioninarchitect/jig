@@ -108,7 +108,7 @@ export default function MyAccountPage() {
         {/* Welcome Banner */}
         <div
           className="rounded-[12px] p-8 mb-8 relative overflow-hidden"
-          style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', border: '2px solid #D97706' }}
+          style={{ background: 'linear-gradient(135deg, #C9A84C 0%, #8B6914 100%)', border: '2px solid #F0A500' }}
         >
           {/* Decorative circle */}
           <div
@@ -122,7 +122,7 @@ export default function MyAccountPage() {
             <p className="text-white/80 mb-4">{user?.email}</p>
             <span
               className="inline-block px-4 py-2 rounded-[20px] font-semibold text-sm capitalize"
-              style={{ background: '#D97706', color: '#1E1E1E' }}
+              style={{ background: '#F0A500', color: '#1A1A1A' }}
             >
               {tier} Member
             </span>
@@ -141,8 +141,8 @@ export default function MyAccountPage() {
                 onClick={() => setTab(t.key)}
                 className="flex items-center gap-2 px-6 py-4 text-[0.95rem] font-medium whitespace-nowrap transition-all"
                 style={{
-                  borderBottom: `3px solid ${tab === t.key ? '#D97706' : 'transparent'}`,
-                  color: tab === t.key ? '#7C3AED' : '#737373',
+                  borderBottom: `3px solid ${tab === t.key ? '#F0A500' : 'transparent'}`,
+                  color: tab === t.key ? '#C9A84C' : '#737373',
                   background: tab === t.key ? 'rgba(58,95,72,0.05)' : 'transparent',
                 }}
               >
@@ -174,18 +174,18 @@ export default function MyAccountPage() {
                   {/* Gold top bar */}
                   <div
                     className="absolute top-0 left-0 right-0 h-[4px]"
-                    style={{ background: 'linear-gradient(90deg, #E8C45A, #D97706, #B8922D)' }}
+                    style={{ background: 'linear-gradient(90deg, #E8C45A, #F0A500, #B8922D)' }}
                   />
                   {/* Icon circle */}
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
-                    style={{ background: 'linear-gradient(135deg, #4A7A5D 0%, #7C3AED 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #4A7A5D 0%, #C9A84C 100%)' }}
                   >
                     <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d={stat.iconPath} />
                     </svg>
                   </div>
-                  <div className="font-heading text-[2rem] text-jig-purple mb-1 capitalize">{stat.value}</div>
+                  <div className="font-heading text-[2rem] text-or-gold mb-1 capitalize">{stat.value}</div>
                   <div className="text-[0.875rem] text-gray-500 uppercase tracking-wider">{stat.label}</div>
                 </div>
               ))}
@@ -197,7 +197,7 @@ export default function MyAccountPage() {
               style={{ border: '2px solid #E8E8E8', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-semibold text-jig-purple-dark uppercase tracking-wider">Points Progress</span>
+                <span className="text-sm font-semibold text-or-gold-dark uppercase tracking-wider">Points Progress</span>
                 {nextTier && (
                   <span className="text-xs text-gray-500">
                     {nextThreshold - pointsBalance > 0 ? `${nextThreshold - pointsBalance} pts to ${nextTier}` : ''}
@@ -209,7 +209,7 @@ export default function MyAccountPage() {
                   className="h-full rounded-[4px] transition-all"
                   style={{
                     width: `${progressPct}%`,
-                    background: 'linear-gradient(90deg, #E8C45A, #D97706, #B8922D)',
+                    background: 'linear-gradient(90deg, #E8C45A, #F0A500, #B8922D)',
                   }}
                 />
               </div>
@@ -221,12 +221,12 @@ export default function MyAccountPage() {
               style={{ border: '2px solid #E8E8E8', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}
             >
               <div className="flex items-center justify-between mb-6 pb-4" style={{ borderBottom: '1px solid #E8E8E8' }}>
-                <h2 className="font-heading text-[1.4rem] text-jig-purple uppercase">Recent Orders</h2>
+                <h2 className="font-heading text-[1.4rem] text-or-gold uppercase">Recent Orders</h2>
                 {orders.length > 0 && (
                   <button
                     onClick={() => setTab('orders')}
                     className="text-sm font-semibold hover:underline"
-                    style={{ color: '#D97706' }}
+                    style={{ color: '#F0A500' }}
                   >
                     View All
                   </button>
@@ -234,7 +234,7 @@ export default function MyAccountPage() {
               </div>
               {ordersLoading ? (
                 <div className="flex justify-center py-8">
-                  <div className="w-10 h-10 rounded-full animate-spin" style={{ border: '4px solid #E8E8E8', borderTopColor: '#D97706' }} />
+                  <div className="w-10 h-10 rounded-full animate-spin" style={{ border: '4px solid #E8E8E8', borderTopColor: '#F0A500' }} />
                 </div>
               ) : orders.length === 0 ? (
                 <p className="text-gray-500 text-sm text-center py-6">No orders yet.</p>
@@ -257,12 +257,12 @@ export default function MyAccountPage() {
               style={{ border: '2px solid #E8E8E8', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}
             >
               <div className="mb-6 pb-4" style={{ borderBottom: '1px solid #E8E8E8' }}>
-                <h2 className="font-heading text-[1.4rem] text-jig-purple uppercase">Order History</h2>
+                <h2 className="font-heading text-[1.4rem] text-or-gold uppercase">Order History</h2>
                 <p className="text-[0.875rem] text-gray-500 mt-1">All your past and current orders.</p>
               </div>
               {ordersLoading ? (
                 <div className="flex justify-center py-8">
-                  <div className="w-10 h-10 rounded-full animate-spin" style={{ border: '4px solid #E8E8E8', borderTopColor: '#D97706' }} />
+                  <div className="w-10 h-10 rounded-full animate-spin" style={{ border: '4px solid #E8E8E8', borderTopColor: '#F0A500' }} />
                 </div>
               ) : orders.length === 0 ? (
                 <p className="text-gray-500 text-sm text-center py-6">No orders yet.</p>
@@ -285,26 +285,26 @@ export default function MyAccountPage() {
               className="bg-white rounded-[16px] p-8 mb-6 relative overflow-hidden"
               style={{ border: '2px solid #E8E8E8', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}
             >
-              <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: 'linear-gradient(90deg, #E8C45A, #D97706, #B8922D)' }} />
+              <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: 'linear-gradient(90deg, #E8C45A, #F0A500, #B8922D)' }} />
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="font-heading text-[1.8rem] text-jig-purple uppercase">Wellness Points</h2>
+                  <h2 className="font-heading text-[1.8rem] text-or-gold uppercase">Wellness Points</h2>
                   <p className="text-[0.875rem] text-gray-500">Earn points with every purchase.</p>
                 </div>
                 <div className="text-right">
-                  <div className="font-heading text-[3rem] leading-none" style={{ color: '#D97706' }}>{pointsBalance}</div>
+                  <div className="font-heading text-[3rem] leading-none" style={{ color: '#F0A500' }}>{pointsBalance}</div>
                   <div className="text-xs text-gray-400 uppercase tracking-widest mt-1">Points</div>
                 </div>
               </div>
 
               {/* Tier + Progress */}
-              <div className="bg-jig-slate rounded-[12px] p-5">
+              <div className="bg-origin-slate rounded-[12px] p-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <span className="text-xs font-bold text-gray-600 uppercase tracking-wider">Current Tier:</span>
                     <span
                       className="inline-block px-3 py-1 rounded-[20px] font-semibold text-sm capitalize"
-                      style={{ background: '#D97706', color: '#1E1E1E' }}
+                      style={{ background: '#F0A500', color: '#1A1A1A' }}
                     >
                       {tier}
                     </span>
@@ -316,7 +316,7 @@ export default function MyAccountPage() {
                 <div className="w-full h-2 bg-gray-200 rounded-[4px] overflow-hidden">
                   <div
                     className="h-full rounded-[4px] transition-all"
-                    style={{ width: `${progressPct}%`, background: 'linear-gradient(90deg, #E8C45A, #D97706, #B8922D)' }}
+                    style={{ width: `${progressPct}%`, background: 'linear-gradient(90deg, #E8C45A, #F0A500, #B8922D)' }}
                   />
                 </div>
                 {nextTier && (
@@ -333,12 +333,12 @@ export default function MyAccountPage() {
               style={{ border: '2px solid #E8E8E8', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}
             >
               <div className="mb-4 pb-4" style={{ borderBottom: '1px solid #E8E8E8' }}>
-                <h3 className="font-heading text-[1.4rem] text-jig-purple uppercase">Your Benefits</h3>
+                <h3 className="font-heading text-[1.4rem] text-or-gold uppercase">Your Benefits</h3>
               </div>
               <div className="space-y-3">
                 {(TIER_BENEFITS[tier] || TIER_BENEFITS.bronze).map((benefit, i) => (
                   <div key={i} className="flex items-center gap-3 text-sm text-gray-600">
-                    <svg className="w-5 h-5 shrink-0" fill="#D97706" viewBox="0 0 512 512">
+                    <svg className="w-5 h-5 shrink-0" fill="#F0A500" viewBox="0 0 512 512">
                       <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
                     </svg>
                     <span>{benefit}</span>
@@ -357,7 +357,7 @@ export default function MyAccountPage() {
               style={{ border: '2px solid #E8E8E8', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}
             >
               <div className="mb-6 pb-4" style={{ borderBottom: '1px solid #E8E8E8' }}>
-                <h2 className="font-heading text-[1.4rem] text-jig-purple uppercase">Section 21 Status</h2>
+                <h2 className="font-heading text-[1.4rem] text-or-gold uppercase">Section 21 Status</h2>
                 <p className="text-[0.875rem] text-gray-500 mt-1">Your medical cannabis access status.</p>
               </div>
               {section21Status ? (
@@ -370,7 +370,7 @@ export default function MyAccountPage() {
                         section21Status.approved
                           ? { background: 'rgba(16,185,129,0.1)', color: '#22C55E', border: '1px solid rgba(16,185,129,0.2)' }
                           : section21Status.pending
-                          ? { background: 'rgba(245,158,11,0.1)', color: '#D97706', border: '1px solid rgba(245,158,11,0.2)' }
+                          ? { background: 'rgba(245,158,11,0.1)', color: '#F0A500', border: '1px solid rgba(245,158,11,0.2)' }
                           : { background: 'rgba(239,68,68,0.1)', color: '#DC2626', border: '1px solid rgba(239,68,68,0.2)' }
                       }
                     >
@@ -390,21 +390,21 @@ export default function MyAccountPage() {
             </div>
 
             <div
-              className="bg-jig-slate rounded-[16px] p-6"
+              className="bg-origin-slate rounded-[16px] p-6"
               style={{ border: '2px solid #E8E8E8', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}
             >
               <div className="mb-4 pb-4" style={{ borderBottom: '1px solid #E8E8E8' }}>
-                <h3 className="font-heading text-[1.4rem] text-jig-purple uppercase">Upload Prescription</h3>
+                <h3 className="font-heading text-[1.4rem] text-or-gold uppercase">Upload Prescription</h3>
                 <p className="text-[0.875rem] text-gray-500 mt-1">
                   Upload your SAHPRA-approved Section 21 prescription document.
                 </p>
               </div>
               <label
                 className={`block w-full py-4 text-center text-sm font-bold uppercase tracking-wider rounded-[12px] cursor-pointer transition-all ${uploading ? 'opacity-50' : ''}`}
-                style={{ border: '2px dashed #7C3AED', color: '#7C3AED' }}
+                style={{ border: '2px dashed #C9A84C', color: '#C9A84C' }}
               >
                 <input type="file" accept="image/*,.pdf" className="hidden" onChange={handleSection21Upload} disabled={uploading} />
-                <svg className="w-8 h-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} style={{ color: '#7C3AED' }}>
+                <svg className="w-8 h-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} style={{ color: '#C9A84C' }}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                 </svg>
                 {uploading ? 'Uploading...' : 'Choose File or Drag & Drop'}
@@ -421,7 +421,7 @@ export default function MyAccountPage() {
               style={{ border: '2px solid #E8E8E8', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}
             >
               <div className="mb-6 pb-4" style={{ borderBottom: '1px solid #E8E8E8' }}>
-                <h2 className="font-heading text-[1.4rem] text-jig-purple uppercase">Profile</h2>
+                <h2 className="font-heading text-[1.4rem] text-or-gold uppercase">Profile</h2>
                 <p className="text-[0.875rem] text-gray-500 mt-1">Your account details.</p>
               </div>
               <div className="space-y-5">
@@ -450,23 +450,23 @@ export default function MyAccountPage() {
               style={{ border: '2px solid #E8E8E8', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}
             >
               <div className="mb-6 pb-4" style={{ borderBottom: '1px solid #E8E8E8' }}>
-                <h2 className="font-heading text-[1.4rem] text-jig-purple uppercase">Support</h2>
+                <h2 className="font-heading text-[1.4rem] text-or-gold uppercase">Support</h2>
                 <p className="text-[0.875rem] text-gray-500 mt-1">Need help? Contact our support team.</p>
               </div>
               <div className="space-y-4">
                 {[
-                  { label: 'Email', value: 'support@jig.cleva-ai.co.za', icon: 'M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75' },
+                  { label: 'Email', value: 'support@origin.cleva-ai.co.za', icon: 'M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75' },
                   { label: 'Phone', value: '+27 67 291 9110', icon: 'M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z' },
                   { label: 'WhatsApp', value: '+27 67 291 9110', icon: 'M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z' },
                 ].map((contact) => (
                   <div
                     key={contact.label}
-                    className="flex items-center gap-4 p-4 bg-jig-slate rounded-[12px]"
+                    className="flex items-center gap-4 p-4 bg-origin-slate rounded-[12px]"
                     style={{ border: '1px solid rgba(58,95,72,0.1)' }}
                   >
                     <div
                       className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                      style={{ background: 'linear-gradient(135deg, #4A7A5D 0%, #7C3AED 100%)' }}
+                      style={{ background: 'linear-gradient(135deg, #4A7A5D 0%, #C9A84C 100%)' }}
                     >
                       <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d={contact.icon} />

@@ -350,7 +350,7 @@
             }
 
             grid.innerHTML = posFilteredProducts.map(product => {
-                const imageUrl = product.images && product.images.length > 0 ? product.images[0].url : '/images/jig-logo-nobg.png';
+                const imageUrl = product.images && product.images.length > 0 ? product.images[0].url : '/images/origin-logo.png';
                 const isMedical = product.name.toLowerCase().includes('medical');
                 const inStock = (product.inventory?.quantity || 0) > 0;
                 const userRole = sessionStorage.getItem('userRole') || 'user';
@@ -363,8 +363,8 @@
                          style="background: ${showGrayedOut ? 'var(--cream)' : inStock ? 'white' : 'var(--cream)'}; border: 2px solid ${showGrayedOut ? 'var(--red)' : inStock ? 'var(--green)' : 'var(--green-light)'}; border-radius: 10px; padding: 10px; cursor: ${canPurchase ? 'pointer' : 'not-allowed'}; transition: all 0.2s; opacity: ${showGrayedOut || !inStock ? '0.4' : '1'};"
                          onmouseover="if(${canPurchase}) this.style.borderColor='var(--gold)'"
                          onmouseout="if(${canPurchase}) this.style.borderColor='var(--green)'">
-                        <div style="width: 100%; height: 100px; background: rgba(124, 58, 237,0.05); border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
-                            <img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain; ${showGrayedOut ? 'filter: grayscale(100%)' : ''}" onerror="this.src='/images/jig-logo-nobg.png'">
+                        <div style="width: 100%; height: 100px; background: rgba(63, 192, 65,0.05); border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+                            <img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain; ${showGrayedOut ? 'filter: grayscale(100%)' : ''}" onerror="this.src='/images/origin-logo.png'">
                         </div>
                         <div style="font-size: 0.9rem; font-weight: bold; margin-bottom: 4px; color: ${showGrayedOut ? 'var(--red)' : 'var(--green-deep)'}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${product.name}">
                             ${product.name}
@@ -742,71 +742,71 @@
         function showPaymentMethodModal(total, customerPhone, couponCode, discount, subtotal) {
             const modal = document.getElementById('paymentMethodModal');
             if (!modal) {
-                // Create modal dynamically with JIG branding
+                // Create modal dynamically with Origin branding
                 const modalHTML = `
                     <div id="paymentMethodModal" class="modal" style="display: flex;">
-                        <div class="modal-content" style="max-width: 500px; background: #0A0A0A !important; border: 2px solid #D97706 !important;">
-                            <button class="close-modal" onclick="closePaymentMethodModal()" style="color: #0A0A0A;">&times;</button>
-                            <h2 style="color: #0A0A0A; margin-bottom: 10px; text-align: center;">
+                        <div class="modal-content" style="max-width: 500px; background: #0E0E0E !important; border: 2px solid #C9A84C !important;">
+                            <button class="close-modal" onclick="closePaymentMethodModal()" style="color: #0E0E0E;">&times;</button>
+                            <h2 style="color: #0E0E0E; margin-bottom: 10px; text-align: center;">
                                 <i class="fas fa-credit-card"></i> Select Payment Method
                             </h2>
-                            <p style="color: #7C3AED; font-size: 1.5rem; font-weight: bold; text-align: center; margin-bottom: 25px;">
+                            <p style="color: #C9A84C; font-size: 1.5rem; font-weight: bold; text-align: center; margin-bottom: 25px;">
                                 Total: R<span id="paymentModalTotal">${total.toFixed(2)}</span>
                             </p>
                             <div id="paymentMethodButtons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
                                 <button onclick="completeCheckoutWithMethod('cash')" class="action-btn"
-                                        style="background: #7C3AED; color: #0A0A0A; padding: 25px; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 2px solid #6D28D9;">
+                                        style="background: #C9A84C; color: #0E0E0E; padding: 25px; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 2px solid #8B6914;">
                                     <i class="fas fa-money-bill-wave" style="font-size: 2rem;"></i>
                                     <span>Cash</span>
                                 </button>
                                 <button onclick="showCardReferenceInput()" class="action-btn"
-                                        style="background: #A855F7; color: #0A0A0A; padding: 25px; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 2px solid #7C3AED;">
+                                        style="background: #D4B86A; color: #0E0E0E; padding: 25px; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 2px solid #C9A84C;">
                                     <i class="fas fa-credit-card" style="font-size: 2rem;"></i>
                                     <span>Card (Speedpoint)</span>
                                 </button>
                                 <button onclick="completeCheckoutWithMethod('eft')" class="action-btn"
-                                        style="background: #6D28D9; color: #0A0A0A; padding: 25px; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 2px solid #0A0A0A;">
+                                        style="background: #8B6914; color: #0E0E0E; padding: 25px; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 2px solid #0E0E0E;">
                                     <i class="fas fa-exchange-alt" style="font-size: 2rem;"></i>
                                     <span>EFT</span>
                                 </button>
                                 <button onclick="completeCheckoutWithMethod('account')" class="action-btn"
-                                        style="background: #D97706; color: #0A0A0A; padding: 25px; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 2px solid #B45309;">
+                                        style="background: #C9A84C; color: #0E0E0E; padding: 25px; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 2px solid #C9A84C;">
                                     <i class="fas fa-user-tag" style="font-size: 2rem;"></i>
                                     <span>On Account</span>
                                 </button>
                             </div>
                             <!-- Speedpoint Card Reference Input (hidden by default) -->
                             <div id="cardReferenceSection" style="display: none; margin-bottom: 20px;">
-                                <div style="background: #A855F7; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                                    <p style="color: #0A0A0A; text-align: center; margin-bottom: 10px;">
+                                <div style="background: #D4B86A; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                    <p style="color: #0E0E0E; text-align: center; margin-bottom: 10px;">
                                         <i class="fas fa-credit-card"></i> Process card on Speedpoint machine
                                     </p>
-                                    <p style="color: #D97706; text-align: center; font-size: 1.3rem; font-weight: bold;">
+                                    <p style="color: #C9A84C; text-align: center; font-size: 1.3rem; font-weight: bold;">
                                         R${total.toFixed(2)}
                                     </p>
                                 </div>
-                                <label style="display: block; color: #7C3AED; font-weight: bold; margin-bottom: 8px;">
+                                <label style="display: block; color: #C9A84C; font-weight: bold; margin-bottom: 8px;">
                                     Speedpoint Reference Number *
                                 </label>
                                 <input type="text" id="cardReferenceNumber" placeholder="Enter reference from receipt..."
-                                       style="width: 100%; padding: 15px; font-size: 1.1rem; border: 2px solid #7C3AED; border-radius: 8px; margin-bottom: 15px; text-transform: uppercase;">
-                                <label style="display: block; color: #7C3AED; font-weight: bold; margin-bottom: 8px;">
+                                       style="width: 100%; padding: 15px; font-size: 1.1rem; border: 2px solid #C9A84C; border-radius: 8px; margin-bottom: 15px; text-transform: uppercase;">
+                                <label style="display: block; color: #C9A84C; font-weight: bold; margin-bottom: 8px;">
                                     Notes (Optional)
                                 </label>
                                 <input type="text" id="cardPaymentNotes" placeholder="e.g., Customer name, card type..."
-                                       style="width: 100%; padding: 12px; font-size: 1rem; border: 2px solid #7C3AED; border-radius: 8px; margin-bottom: 15px;">
+                                       style="width: 100%; padding: 12px; font-size: 1rem; border: 2px solid #C9A84C; border-radius: 8px; margin-bottom: 15px;">
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                                     <button onclick="hideCardReferenceInput()" class="action-btn"
-                                            style="background: #0A0A0A; color: #0A0A0A; border: 2px solid #7C3AED; padding: 12px;">
+                                            style="background: #0E0E0E; color: #0E0E0E; border: 2px solid #C9A84C; padding: 12px;">
                                         <i class="fas fa-arrow-left"></i> Back
                                     </button>
                                     <button onclick="completeCardPayment()" class="action-btn"
-                                            style="background: #7C3AED; color: #0A0A0A; border: 2px solid #6D28D9; padding: 12px;">
+                                            style="background: #C9A84C; color: #0E0E0E; border: 2px solid #8B6914; padding: 12px;">
                                         <i class="fas fa-check"></i> Complete Sale
                                     </button>
                                 </div>
                             </div>
-                            <button onclick="closePaymentMethodModal()" class="action-btn" style="width: 100%; background: #DC2626; color: #0A0A0A; border: 2px solid #B91C1C;">
+                            <button onclick="closePaymentMethodModal()" class="action-btn" style="width: 100%; background: #DC2626; color: #0E0E0E; border: 2px solid #B91C1C;">
                                 <i class="fas fa-times"></i> Cancel
                             </button>
                         </div>

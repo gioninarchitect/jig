@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Count Briefing - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --or-black: #0A0A0A;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-bright: #D4B86A;
+            --or-gold-muted: #8B6914;
+            --or-white: #F5F0E8;
+            --pg-red: #EF4444;
+            --pg-amber: #F59E0B;
+            --pg-blue: #818CF8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--or-black);
+            color: var(--or-white);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── HEADER ── */
+        .page-header {
+            background: linear-gradient(160deg, #1A1A1A 0%, #0E0E0E 100%);
+            border-bottom: 2px solid var(--or-gold);
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+        .page-header img { height: 50px; margin-bottom: 8px; }
+        .page-header h1 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--or-gold);
+        }
+        .page-header p { color: #999; font-size: 0.95rem; margin-top: 4px; }
+
+        /* ── NAV TABS ── */
+        .nav-bar {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: var(--or-dark);
+            border-bottom: 1px solid #333;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-tab {
+            padding: 10px 20px;
+            background: none;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            color: #888;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .nav-tab.active {
+            background: rgba(201,168,76,0.15);
+            border-color: var(--or-gold);
+            color: var(--or-gold);
+        }
+
+        /* ── CONTENT ── */
+        .tab-content { display: none; padding: 24px 16px; max-width: 900px; margin: 0 auto; }
+        .tab-content.active { display: block; }
+
+        /* ── SLIDE CARD ── */
+        .slide {
+            background: var(--or-dark);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 28px 24px;
+            margin-bottom: 20px;
+        }
+        .slide-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .slide-title i { font-size: 1.2rem; }
+        .slide-title .green { color: var(--or-gold); }
+        .slide-title .red { color: var(--pg-red); }
+        .slide-title .amber { color: var(--pg-amber); }
+        .slide-title .blue { color: var(--pg-blue); }
+
+        /* ── TIER BADGE ── */
+        .tier { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; font-family: 'Cinzel', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+        .tier-a { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); color: #ef4444; }
+        .tier-b { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); color: #f59e0b; }
+        .tier-c { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.4); color: #C9A84C; }
+
+        /* ── BULLET LIST ── */
+        .bullet-list { list-style: none; padding: 0; }
+        .bullet-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+        .bullet-list li:last-child { border-bottom: none; }
+        .bullet-list li i { margin-top: 4px; flex-shrink: 0; }
+
+        /* ── ROLE CARD ── */
+        .role-card {
+            background: var(--or-black);
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+        .role-card h4 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .role-card .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-right: 6px;
+        }
+
+        /* ── CALLOUT BOX ── */
+        .callout {
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+        .callout-red { background: rgba(239,68,68,0.1); border-left: 4px solid #ef4444; }
+        .callout-green { background: rgba(201,168,76,0.1); border-left: 4px solid #C9A84C; }
+        .callout-amber { background: rgba(245,158,11,0.1); border-left: 4px solid #f59e0b; }
+        .callout strong { display: block; margin-bottom: 6px; }
+
+        /* ── COMPARISON TABLE ── */
+        .compare-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; margin: 16px 0; }
+        .compare-table th { background: var(--or-gold); color: #0E0E0E; padding: 12px 16px; font-family: 'Cinzel', sans-serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
+        .compare-table td { padding: 12px 16px; border-bottom: 1px solid #222; font-size: 0.9rem; }
+        .compare-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+        .old { color: #ef4444; text-decoration: line-through; opacity: 0.7; }
+        .new { color: #22c55e; font-weight: 600; }
+
+        /* ── STEP FLOW ── */
+        .step-flow { display: flex; flex-direction: column; gap: 0; margin: 16px 0; }
+        .step-item {
+            display: flex;
+            gap: 16px;
+            padding: 14px 0;
+        }
+        .step-num {
+            width: 36px;
+            height: 36px;
+            background: var(--or-gold);
+            color: #0E0E0E;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .step-text { flex: 1; }
+        .step-text strong { display: block; font-size: 0.95rem; margin-bottom: 2px; }
+        .step-text span { font-size: 0.85rem; color: #999; }
+
+        /* ── QUICK REF ── */
+        .quick-ref {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .qr-item {
+            background: var(--or-black);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+        }
+        .qr-item i { font-size: 1.5rem; display: block; margin-bottom: 6px; }
+        .qr-item .qr-label { font-size: 0.75rem; color: #888; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+        .qr-item .qr-value { font-family: 'Cinzel', sans-serif; font-size: 1.1rem; font-weight: 700; margin-top: 2px; }
+
+        /* ── MOBILE HEADER ── */
+        .mobile-header {
+            display: none;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--or-dark);
+            padding: 12px 16px;
+            border-bottom: 1px solid #333;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .mobile-header-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--or-gold);
+        }
+        .hamburger {
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 0;
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--or-white);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ── SLIDE-IN DRAWER ── */
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 300;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .nav-overlay.open { opacity: 1; }
+        .nav-drawer {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100%;
+            background: var(--or-dark);
+            border-left: 1px solid #222;
+            z-index: 301;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .nav-drawer.open { right: 0; }
+        .nav-drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.25rem 1rem;
+            border-bottom: 1px solid #222;
+        }
+        .nav-drawer-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--or-gold);
+        }
+        .nav-drawer-close {
+            width: 36px;
+            height: 36px;
+            background: none;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: var(--or-white);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-drawer-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            cursor: pointer;
+            transition: background 0.2s;
+            color: #888;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .nav-drawer-item:hover, .nav-drawer-item.active {
+            background: rgba(201,168,76,0.05);
+            color: var(--or-gold);
+        }
+        .nav-drawer-item i { width: 20px; text-align: center; font-size: 0.85rem; }
+        .nav-drawer-links {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid #222;
+        }
+        .nav-drawer-link {
+            display: block;
+            padding: 0.6rem 0;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+        .nav-drawer-link i { margin-right: 0.4rem; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .mobile-header { display: flex; }
+            .nav-bar { display: none; }
+            .page-header { padding: 1.5rem 1rem; }
+            .page-header h1 { font-size: 1.4rem; }
+            .slide { padding: 20px 16px; }
+            .tab-content { padding: 16px 12px; }
+            .compare-table th, .compare-table td { padding: 8px 10px; font-size: 0.8rem; }
+            .quick-ref { grid-template-columns: 1fr; }
+            .action-bar { flex-direction: column; }
+            .action-btn { justify-content: center; }
+        }
+
+        /* ── ACTION BAR ── */
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 16px;
+            background: var(--or-dark);
+            border-top: 1px solid #333;
+            position: sticky;
+            bottom: 0;
+        }
+        .action-btn {
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: none;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--or-white);
+        }
+        .action-btn-green { background: var(--or-gold); color: #0E0E0E; }
+        .action-btn-outline { background: none; border: 2px solid #444; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <img src="images/origin-logo.png" alt="Origin" onerror="this.style.display='none'">
+        <h1>New Stock Count System</h1>
+        <p>Executive Briefing &amp; Staff Training Guide</p>
+    </div>
+
+    <!-- MOBILE HEADER -->
+    <div class="mobile-header">
+        <div class="mobile-header-title" id="mobileTabLabel">Executive Summary</div>
+        <button class="hamburger" id="hamburger" onclick="toggleDrawer()">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <!-- SLIDE-IN DRAWER -->
+    <div class="nav-overlay" id="navOverlay" onclick="toggleDrawer()"></div>
+    <div class="nav-drawer" id="navDrawer">
+        <div class="nav-drawer-header">
+            <div class="nav-drawer-title">Briefing</div>
+            <button class="nav-drawer-close" onclick="toggleDrawer()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="nav-drawer-item active" data-tab="exec" onclick="mobileNav(this)"><i class="fas fa-bullseye"></i> Executive Summary</div>
+        <div class="nav-drawer-item" data-tab="owner" onclick="mobileNav(this)"><i class="fas fa-user-tie"></i> Owner Briefing</div>
+        <div class="nav-drawer-item" data-tab="invmgr" onclick="mobileNav(this)"><i class="fas fa-cubes"></i> Inventory Manager</div>
+        <div class="nav-drawer-item" data-tab="staff" onclick="mobileNav(this)"><i class="fas fa-users"></i> Branch Staff</div>
+        <div class="nav-drawer-item" data-tab="rollout" onclick="mobileNav(this)"><i class="fas fa-rocket"></i> Rollout Plan</div>
+        <div class="nav-drawer-links">
+            <a class="nav-drawer-link" href="sop-operations.html"><i class="fas fa-book"></i> Full SOPs</a>
+            <a class="nav-drawer-link" href="staff-handbook.html"><i class="fas fa-id-badge"></i> Staff Handbook</a>
+            <a class="nav-drawer-link" href="training-hub.html"><i class="fas fa-graduation-cap"></i> Training Hub</a>
+        </div>
+    </div>
+
+    <!-- NAV TABS (desktop) -->
+    <div class="nav-bar" id="navBar">
+        <button class="nav-tab active" data-tab="exec" onclick="switchTab('exec')">Executive Summary</button>
+        <button class="nav-tab" data-tab="owner" onclick="switchTab('owner')">Owner Briefing</button>
+        <button class="nav-tab" data-tab="invmgr" onclick="switchTab('invmgr')">Inventory Manager</button>
+        <button class="nav-tab" data-tab="staff" onclick="switchTab('staff')">Branch Staff</button>
+        <button class="nav-tab" data-tab="rollout" onclick="switchTab('rollout')">Rollout Plan</button>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- TAB 1: EXECUTIVE SUMMARY -->
+    <!-- ================================================================ -->
+    <div class="tab-content active" id="tab-exec">
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-bullseye green"></i> The Problem</div>
+            <ul class="bullet-list">
+                <li><i class="fas fa-times-circle" style="color: #ef4444;"></i> <span>Monthly stocktakes only catch theft or errors <strong>after weeks of accumulation</strong> &mdash; by then it's impossible to trace who, when, or how</span></li>
+                <li><i class="fas fa-times-circle" style="color: #ef4444;"></i> <span>High-value products (flower, pre-rolls, concentrates) are the most at-risk for shrinkage and the least frequently counted</span></li>
+                <li><i class="fas fa-times-circle" style="color: #ef4444;"></i> <span>Staff have no daily accountability for stock accuracy &mdash; discrepancies are only discovered during the monthly scramble</span></li>
+                <li><i class="fas fa-times-circle" style="color: #ef4444;"></i> <span>There is no system-enforced link between stock counts and day-end cashup &mdash; staff can close without ever counting</span></li>
+            </ul>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-shield-alt green"></i> The Solution: Three-Tier Stock Count</div>
+            <p style="color: #ccc; margin-bottom: 16px;">Origin now operates a tiered stocktake schedule. Higher-value products are counted more frequently. The system enforces compliance &mdash; you cannot close the day without counting.</p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Tier</th>
+                        <th>Categories</th>
+                        <th>Frequency</th>
+                        <th>Who</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tier tier-a"><i class="fas fa-fire"></i> Tier A</span></td>
+                        <td>Flower, Pre-rolls, Concentrates (dabs, rosin, wax)</td>
+                        <td><strong style="color: #ef4444;">DAILY</strong> at close</td>
+                        <td>Shift Lead</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier tier-b"><i class="fas fa-calendar-week"></i> Tier B</span></td>
+                        <td>Edibles, Oils, Vapes</td>
+                        <td><strong style="color: #f59e0b;">WEEKLY</strong> (Monday AM)</td>
+                        <td>Branch Manager</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier tier-c"><i class="fas fa-clipboard-list"></i> Tier C</span></td>
+                        <td>All categories (incl. accessories, lifestyle, merch)</td>
+                        <td><strong style="color: #C9A84C;">MONTHLY</strong> (1st week)</td>
+                        <td>Full team</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-red">
+                <strong><i class="fas fa-lock"></i> System Enforcement</strong>
+                The POS system blocks day-end cashup submission until the daily Tier A count is completed. Staff cannot skip or bypass this. The owner and inventory manager see real-time compliance per branch.
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-chart-line green"></i> Before vs After</div>
+            <table class="compare-table">
+                <thead>
+                    <tr><th>Aspect</th><th>Before</th><th>After</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>High-value count frequency</td>
+                        <td class="old">Monthly (30-day gap)</td>
+                        <td class="new">Daily (24-hour gap)</td>
+                    </tr>
+                    <tr>
+                        <td>Time to detect shrinkage</td>
+                        <td class="old">30+ days</td>
+                        <td class="new">Same day</td>
+                    </tr>
+                    <tr>
+                        <td>Cashup without counting</td>
+                        <td class="old">Allowed (no check)</td>
+                        <td class="new">Blocked by system</td>
+                    </tr>
+                    <tr>
+                        <td>Owner visibility</td>
+                        <td class="old">Monthly report (after the fact)</td>
+                        <td class="new">Real-time compliance dashboard</td>
+                    </tr>
+                    <tr>
+                        <td>Shrinkage investigation</td>
+                        <td class="old">Impossible after 30 days</td>
+                        <td class="new">Within 24 hours (traceable)</td>
+                    </tr>
+                    <tr>
+                        <td>Staff accountability</td>
+                        <td class="old">None until month-end</td>
+                        <td class="new">Daily, with variance notes required</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-clock green"></i> Time Investment</div>
+            <div class="quick-ref">
+                <div class="qr-item">
+                    <i class="fas fa-fire" style="color: #ef4444;"></i>
+                    <div class="qr-label">Daily Count (Tier A)</div>
+                    <div class="qr-value">15-30 min</div>
+                </div>
+                <div class="qr-item">
+                    <i class="fas fa-calendar-week" style="color: #f59e0b;"></i>
+                    <div class="qr-label">Weekly Count (Tier B)</div>
+                    <div class="qr-value">20-40 min</div>
+                </div>
+                <div class="qr-item">
+                    <i class="fas fa-clipboard-list" style="color: #C9A84C;"></i>
+                    <div class="qr-label">Monthly Count (Tier C)</div>
+                    <div class="qr-value">2-4 hours</div>
+                </div>
+                <div class="qr-item">
+                    <i class="fas fa-calculator" style="color: #818CF8;"></i>
+                    <div class="qr-label">Total Weekly (per branch)</div>
+                    <div class="qr-value">~3 hours</div>
+                </div>
+            </div>
+            <p style="color: #999; font-size: 0.85rem; text-align: center; margin-top: 8px;">Daily count is done at close of business, before the cashup. It does not add a separate visit &mdash; it replaces the old "lock up and leave" routine with "count, then close."</p>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- TAB 2: OWNER BRIEFING -->
+    <!-- ================================================================ -->
+    <div class="tab-content" id="tab-owner">
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-user-tie green"></i> Owner: What You Need to Know</div>
+            <p style="color: #ccc; margin-bottom: 16px;">This briefing covers what's changing, what you'll see differently, and what mandate your staff need from you.</p>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-eye green"></i> What You'll See: Owner Dashboard</div>
+            <ul class="bullet-list">
+                <li><i class="fas fa-shield-alt" style="color: var(--or-gold);"></i> <span><strong>Stock Count Compliance card</strong> &mdash; shows every branch with red/green status for daily, weekly, and monthly counts. At a glance: is each branch counting?</span></li>
+                <li><i class="fas fa-times-circle" style="color: #ef4444;"></i> <span><strong>Red = overdue.</strong> If a branch hasn't done today's high-value count, it shows red immediately. No waiting for monthly reports.</span></li>
+                <li><i class="fas fa-chart-line" style="color: #f59e0b;"></i> <span><strong>Shrinkage trends</strong> &mdash; the system tracks which products consistently come up short across multiple counts, flagging patterns that suggest theft or procedural gaps.</span></li>
+            </ul>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-gavel red"></i> The Mandate You Need to Give</div>
+            <p style="color: #ccc; margin-bottom: 16px;">For this system to work, staff need to hear directly from you that:</p>
+            <ul class="bullet-list">
+                <li><i class="fas fa-1" style="color: var(--or-gold); width: 24px; text-align: center;"></i> <span><strong>Daily stock counts are mandatory, not optional.</strong> This is a condition of employment, not a suggestion. The system enforces it &mdash; they cannot close the day without it.</span></li>
+                <li><i class="fas fa-2" style="color: var(--or-gold); width: 24px; text-align: center;"></i> <span><strong>The third-party implementer has your full authority</strong> to train, enforce, and escalate non-compliance. Staff must cooperate with training and follow the SOPs.</span></li>
+                <li><i class="fas fa-3" style="color: var(--or-gold); width: 24px; text-align: center;"></i> <span><strong>Variance is not punishment &mdash; it's visibility.</strong> The goal is to find problems early, not to punish staff. But repeated unexplained variance will trigger investigation.</span></li>
+                <li><i class="fas fa-4" style="color: var(--or-gold); width: 24px; text-align: center;"></i> <span><strong>The old way is over.</strong> Manual counting, paper records, and "I'll do it later" are finished. The digital system is the single source of truth.</span></li>
+            </ul>
+            <div class="callout callout-green">
+                <strong><i class="fas fa-check-circle"></i> Recommended: Send a WhatsApp or Voice Note</strong>
+                Record a short voice note to all branch managers saying: "We are implementing daily stock counts on all high-value products. This is non-negotiable. [Implementer name] has my full backing to train and enforce this. Please cooperate fully." This eliminates any "I didn't know" or "I thought it was optional."
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-hand-holding-dollar green"></i> ROI: Why This Pays for Itself</div>
+            <ul class="bullet-list">
+                <li><i class="fas fa-cannabis" style="color: var(--or-gold);"></i> <span>If a branch loses even <strong>5g of flower per day undetected</strong>, that's 150g/month. At R100-R200/g retail, that's <strong>R15,000-R30,000/month shrinkage per branch</strong>.</span></li>
+                <li><i class="fas fa-clock" style="color: var(--or-gold);"></i> <span>Daily counting costs ~30 minutes of staff time. That's <strong>R50-R80 in labour cost</strong> to protect R15,000+ in stock.</span></li>
+                <li><i class="fas fa-chart-bar" style="color: var(--or-gold);"></i> <span>Across 8 branches, even a <strong>50% reduction in shrinkage</strong> = R60,000-R120,000/month saved.</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- TAB 3: INVENTORY MANAGER -->
+    <!-- ================================================================ -->
+    <div class="tab-content" id="tab-invmgr">
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-cubes green"></i> Inventory Manager: Your New Tools</div>
+            <p style="color: #ccc; margin-bottom: 16px;">You are the central control point. All daily counts flow through you for review and approval.</p>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-desktop green"></i> New Features in Your Dashboard</div>
+
+            <div class="role-card" style="border-color: #ef4444;">
+                <h4><i class="fas fa-shield-alt" style="color: #ef4444;"></i> Count Compliance Section (New)</h4>
+                <p style="color: #ccc; font-size: 0.9rem;">New sidebar menu item. Shows all branches with real-time daily/weekly/monthly compliance status. Red = overdue, green = done.</p>
+                <div style="margin-top: 10px;">
+                    <span class="tag" style="background: rgba(239,68,68,0.2); color: #ef4444;">Trigger Count</span> &mdash; Remotely create a daily count session for a branch that hasn't started theirs
+                </div>
+                <div style="margin-top: 6px;">
+                    <span class="tag" style="background: rgba(245,158,11,0.2); color: #f59e0b;">Shrinkage Trends</span> &mdash; View 30-day variance history per branch, sorted by worst shrinkage
+                </div>
+            </div>
+
+            <div class="role-card" style="border-color: var(--or-gold);">
+                <h4><i class="fas fa-clipboard-check" style="color: var(--or-gold);"></i> Stocktake Reviews (Existing, More Volume)</h4>
+                <p style="color: #ccc; font-size: 0.9rem;">You'll now receive daily cycle count submissions (not just monthly). Review and approve each morning. Focus on items with variance.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-tasks green"></i> Your Daily Routine (New)</div>
+            <div class="step-flow">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-text">
+                        <strong>Morning: Review yesterday's daily counts</strong>
+                        <span>Open Inventory Hub &rarr; Stocktake Reviews. Filter by "Pending Review". Approve or flag each submission. Focus on variance items.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-text">
+                        <strong>Check compliance across all branches</strong>
+                        <span>Open Count Compliance section. Any branch showing red for daily? Contact them immediately &mdash; or use "Trigger Count" to create their session remotely.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-text">
+                        <strong>Monday: Review weekly medium-value counts</strong>
+                        <span>Branch managers submit Tier B counts on Monday morning. Review these alongside the dailies.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div class="step-text">
+                        <strong>Weekly: Check shrinkage trends</strong>
+                        <span>Click "Shrinkage" on each branch card. Look for products consistently showing negative variance. Flag to the owner.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">5</div>
+                    <div class="step-text">
+                        <strong>Month-end: Full stocktake oversight</strong>
+                        <span>Ensure all branches complete their Tier C full count in the first week of each month. Review and approve as usual.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-exclamation-triangle amber"></i> Red Flags to Watch For</div>
+            <ul class="bullet-list">
+                <li><i class="fas fa-clock" style="color: #ef4444;"></i> <span><strong>Consistently late submissions</strong> &mdash; If a branch always submits at 23:00 or later, they may be rushing or faking counts</span></li>
+                <li><i class="fas fa-equals" style="color: #ef4444;"></i> <span><strong>Zero variance on every count</strong> &mdash; Suspicious. Real counts always have small variances. Zero every day suggests they're entering expected values instead of counting</span></li>
+                <li><i class="fas fa-arrow-trend-down" style="color: #ef4444;"></i> <span><strong>Same product shrinking every day</strong> &mdash; Use the shrinkage trends view. If "Purple Haze Indoor Loose" loses 3g every single day, that's a pattern</span></li>
+                <li><i class="fas fa-camera" style="color: #ef4444;"></i> <span><strong>Missing scale photos on flower</strong> &mdash; Loose flower requires a scale photo with OCR. If they're skipping photos, they may be guessing weights</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- TAB 4: BRANCH STAFF -->
+    <!-- ================================================================ -->
+    <div class="tab-content" id="tab-staff">
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-users green"></i> Branch Staff: What's Changing</div>
+            <p style="color: #ccc; margin-bottom: 16px;">Starting now, every branch does a stock count of high-value products at the end of every day. Here's exactly what you need to do.</p>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-fire red"></i> The Daily Count (Every Day, No Exceptions)</div>
+            <div class="step-flow">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-text">
+                        <strong>30 minutes before close: Open the Stocktake App</strong>
+                        <span>After the last customer leaves, open the Stocktake App on your device.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-text">
+                        <strong>Tap "New Session" &rarr; Select "Daily High-Value"</strong>
+                        <span>This is the red button at the top of the create screen. It automatically loads only flower, pre-rolls, and concentrates &mdash; nothing else.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-text">
+                        <strong>Count every item</strong>
+                        <span><strong>Loose flower:</strong> Weigh on the scale, take a photo of the scale reading, enter the weight.<br>
+                        <strong>Pre-rolls / Pre-packs:</strong> Count the units, enter the number.<br>
+                        <strong>Concentrates:</strong> Count units (jars, syringes, cartridges).<br>
+                        Use <strong>Batch Mode</strong> (list icon) for faster entry.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div class="step-text">
+                        <strong>Add notes for any variance</strong>
+                        <span>If the count doesn't match what the system expects, add a note: breakage, sample, packaging error, etc. Don't just submit without explaining.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">5</div>
+                    <div class="step-text">
+                        <strong>Submit the count</strong>
+                        <span>Tap Submit. This unlocks your day-end cashup. Without submitting the count, the POS will not let you close the day.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">6</div>
+                    <div class="step-text">
+                        <strong>Complete your normal day-end cashup</strong>
+                        <span>Go to POS &rarr; Day End as usual. It will now allow submission.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout callout-red">
+                <strong><i class="fas fa-lock"></i> If You Try to Submit Cashup Without Counting:</strong>
+                You will see a red lock screen that says "Daily Stock Count Required". You MUST complete the count first. There is no override, no bypass, no workaround. Do the count.
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-ban red"></i> Common Mistakes to Avoid</div>
+            <ul class="bullet-list">
+                <li><i class="fas fa-times" style="color: #ef4444;"></i> <span><strong>Don't enter the expected number.</strong> Count physically. If the system says 50 and you count 47, enter 47. The variance is the whole point.</span></li>
+                <li><i class="fas fa-times" style="color: #ef4444;"></i> <span><strong>Don't estimate.</strong> "Looks like about 30" is not a count. Pick up, count, record.</span></li>
+                <li><i class="fas fa-times" style="color: #ef4444;"></i> <span><strong>Don't skip the scale photo for loose flower.</strong> The system uses OCR to verify your weight entry. No photo = the submission may be rejected.</span></li>
+                <li><i class="fas fa-times" style="color: #ef4444;"></i> <span><strong>Don't leave variance unexplained.</strong> Every variance needs a note. "Don't know" is not acceptable &mdash; investigate first.</span></li>
+                <li><i class="fas fa-times" style="color: #ef4444;"></i> <span><strong>Don't wait until midnight.</strong> Start the count 30 minutes before close, not at the last minute when you're trying to leave.</span></li>
+            </ul>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-question-circle blue"></i> FAQs</div>
+            <ul class="bullet-list">
+                <li><i class="fas fa-q" style="color: var(--or-gold); width: 20px;"></i> <span><strong>"Why do we need to count every day?"</strong><br>Because monthly counting means 30 days of undetected loss. Daily counting catches problems within 24 hours. A 5g daily loss becomes visible immediately instead of accumulating to 150g.</span></li>
+                <li><i class="fas fa-q" style="color: var(--or-gold); width: 20px;"></i> <span><strong>"It takes too long."</strong><br>The daily count only covers flower, pre-rolls, and concentrates &mdash; not the full product range. Using Batch Mode, most branches finish in 15-20 minutes.</span></li>
+                <li><i class="fas fa-q" style="color: var(--or-gold); width: 20px;"></i> <span><strong>"What if there's a variance but I didn't do anything wrong?"</strong><br>That's exactly why we count &mdash; to find the real cause. Breakage, packaging errors, incorrect receiving, and system bugs all cause variance. The note you add helps investigation. You are not automatically blamed for variance.</span></li>
+                <li><i class="fas fa-q" style="color: var(--or-gold); width: 20px;"></i> <span><strong>"Can the manager override the cashup block?"</strong><br>No. The system requires the count to be submitted. There is no manual override. This protects you as much as it protects the business &mdash; it proves you counted.</span></li>
+                <li><i class="fas fa-q" style="color: var(--or-gold); width: 20px;"></i> <span><strong>"What about weekends and public holidays?"</strong><br>If the branch trades, the count must be done. Every trading day. If you're closed, no count is needed.</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- TAB 5: ROLLOUT PLAN -->
+    <!-- ================================================================ -->
+    <div class="tab-content" id="tab-rollout">
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-rocket green"></i> Rollout Timeline</div>
+            <div class="step-flow">
+                <div class="step-item">
+                    <div class="step-num" style="background: #ef4444;">1</div>
+                    <div class="step-text">
+                        <strong>Week 1: Training &amp; Dry Run</strong>
+                        <span>All staff briefed (this document). Practice daily counts WITHOUT the cashup gate enabled. Build the habit. Identify issues.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num" style="background: #f59e0b; color: #0E0E0E;">2</div>
+                    <div class="step-text">
+                        <strong>Week 2: Soft Enforcement</strong>
+                        <span>Daily counts expected but cashup gate shows a warning (not a block). Inventory manager reviews all submissions. Feedback to branches on accuracy.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-text">
+                        <strong>Week 3: Full Enforcement</strong>
+                        <span>Cashup gate fully active &mdash; no count = no cashup. All branches must comply. Compliance dashboard monitored daily by inventory manager and owner.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num" style="background: #818CF8;">4</div>
+                    <div class="step-text">
+                        <strong>Month 2+: Steady State</strong>
+                        <span>Daily counts are routine. Weekly shrinkage reviews. Monthly full stocktakes continue. Focus shifts from compliance to variance reduction.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-clipboard-check green"></i> Training Checklist</div>
+            <ul class="bullet-list">
+                <li><i class="fas fa-square" style="color: #555;"></i> <span>Owner mandate communicated (WhatsApp/voice note to all branch managers)</span></li>
+                <li><i class="fas fa-square" style="color: #555;"></i> <span>Inventory manager briefed on new Compliance section and daily review routine</span></li>
+                <li><i class="fas fa-square" style="color: #555;"></i> <span>Each branch manager trained on creating daily count sessions (quick template)</span></li>
+                <li><i class="fas fa-square" style="color: #555;"></i> <span>Each branch assistant trained on counting, photo capture, batch mode</span></li>
+                <li><i class="fas fa-square" style="color: #555;"></i> <span>Week 1 dry-run counts completed at all branches</span></li>
+                <li><i class="fas fa-square" style="color: #555;"></i> <span>Issues from dry run resolved</span></li>
+                <li><i class="fas fa-square" style="color: #555;"></i> <span>Cashup gate activated (Week 3)</span></li>
+                <li><i class="fas fa-square" style="color: #555;"></i> <span>SOPs distributed: <a href="sop-operations.html" style="color: var(--or-gold);">sop-operations.html</a> (Stocktake tab)</span></li>
+                <li><i class="fas fa-square" style="color: #555;"></i> <span>Staff handbook distributed: <a href="staff-handbook.html" style="color: var(--or-gold);">staff-handbook.html</a></span></li>
+            </ul>
+        </div>
+
+        <div class="slide">
+            <div class="slide-title"><i class="fas fa-headset green"></i> Support &amp; Escalation</div>
+            <ul class="bullet-list">
+                <li><i class="fas fa-user-shield" style="color: var(--or-gold);"></i> <span><strong>System issues:</strong> Contact the implementer (3rd party) via WhatsApp or the support channel</span></li>
+                <li><i class="fas fa-user-tie" style="color: var(--or-gold);"></i> <span><strong>Staff resistance:</strong> Escalate to branch manager first, then inventory manager, then owner per the <a href="staff-handbook.html" style="color: var(--or-gold);">escalation framework</a></span></li>
+                <li><i class="fas fa-book-open" style="color: var(--or-gold);"></i> <span><strong>Full SOPs:</strong> <a href="sop-operations.html" style="color: var(--or-gold);">sop-operations.html</a> &mdash; Stocktake tab has step-by-step for all three tiers</span></li>
+                <li><i class="fas fa-graduation-cap" style="color: var(--or-gold);"></i> <span><strong>Training resources:</strong> <a href="training-stocktake.html" style="color: var(--or-gold);">training-stocktake.html</a> and <a href="training-hub.html" style="color: var(--or-gold);">training-hub.html</a></span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ACTION BAR -->
+    <div class="action-bar">
+        <a href="sop-operations.html" class="action-btn action-btn-green"><i class="fas fa-book"></i> Full SOPs</a>
+        <a href="staff-handbook.html" class="action-btn action-btn-outline"><i class="fas fa-id-badge"></i> Staff Handbook</a>
+        <a href="training-hub.html" class="action-btn action-btn-outline"><i class="fas fa-graduation-cap"></i> Training Hub</a>
+        <button onclick="window.print()" class="action-btn action-btn-outline"><i class="fas fa-print"></i> Print</button>
+    </div>
+
+    <script>
+    const tabLabels = {
+        exec: 'Executive Summary',
+        owner: 'Owner Briefing',
+        invmgr: 'Inventory Manager',
+        staff: 'Branch Staff',
+        rollout: 'Rollout Plan'
+    };
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.nav-drawer-item').forEach(d => d.classList.remove('active'));
+        const dt = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
+        if (dt) dt.classList.add('active');
+        const di = document.querySelector(`.nav-drawer-item[data-tab="${tabId}"]`);
+        if (di) di.classList.add('active');
+        document.getElementById('tab-' + tabId).classList.add('active');
+        document.getElementById('mobileTabLabel').textContent = tabLabels[tabId] || tabId;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleDrawer() {
+        const drawer = document.getElementById('navDrawer');
+        const overlay = document.getElementById('navOverlay');
+        const burger = document.getElementById('hamburger');
+        const isOpen = drawer.classList.contains('open');
+        if (isOpen) {
+            drawer.classList.remove('open');
+            overlay.classList.remove('open');
+            burger.classList.remove('open');
+            setTimeout(() => { overlay.style.display = 'none'; }, 300);
+        } else {
+            overlay.style.display = 'block';
+            requestAnimationFrame(() => {
+                drawer.classList.add('open');
+                overlay.classList.add('open');
+                burger.classList.add('open');
+            });
+        }
+    }
+
+    function mobileNav(el) {
+        switchTab(el.dataset.tab);
+        toggleDrawer();
+    }
+    </script>
+</body>
+</html>

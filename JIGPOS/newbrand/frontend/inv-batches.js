@@ -1,5 +1,5 @@
 // inv-batches.js — Batches CRUD for inventory manager dashboard
-// Depends on: config.js (API_URL), dbc-utils.js (showToast), dbc-auth.js (getToken)
+// Depends on: config.js (API_URL), or-utils.js (showToast), or-auth.js (getToken)
 
 // ==================== BATCHES CRUD ====================
 
@@ -397,7 +397,7 @@ async function viewBatch(batchId) {
 }
 
 async function approveBatch(batchId) {
-    _dbcShowConfirm('Approve this batch for distribution?', async function() {
+    _originShowConfirm('Approve this batch for distribution?', async function() {
         try {
             const response = await fetch(`${API_URL}/batches/${batchId}/qa-approve`, {
                 method: 'POST',
@@ -419,7 +419,7 @@ async function approveBatch(batchId) {
 }
 
 async function rejectBatch(batchId) {
-    _dbcShowPrompt('Please enter the reason for rejecting this batch:', async function(reason) {
+    _originShowPrompt('Please enter the reason for rejecting this batch:', async function(reason) {
         try {
             const response = await fetch(`${API_URL}/batches/${batchId}/qa-reject`, {
                 method: 'POST',
@@ -468,14 +468,14 @@ async function printBatchLabel(batchId) {
             </head>
             <body>
                 <div class="label">
-                    <h2>JIG - BATCH LABEL</h2>
+                    <h2>Origin - BATCH LABEL</h2>
                     <div class="row"><span>Batch ID:</span><strong>${batch.batchId || batch._id?.slice(-8)}</strong></div>
                     <div class="row"><span>Product:</span><strong>${batch.product?.name || 'Unknown'}</strong></div>
                     <div class="row"><span>THC/CBD:</span><strong>${batch.cannabinoids?.thc || 0}% / ${batch.cannabinoids?.cbd || 0}%</strong></div>
                     <div class="row"><span>Quantity:</span><strong>${batch.remainingQuantity || 0} ${batch.unitOfMeasure || 'units'}</strong></div>
                     <div class="row"><span>Expiry:</span><strong>${batch.expiryDate ? new Date(batch.expiryDate).toLocaleDateString() : 'N/A'}</strong></div>
                     <div class="row"><span>QA Status:</span><strong>${(batch.qaStatus || 'pending').toUpperCase()}</strong></div>
-                    <div class="qr">JIG Craft Cannabis | www.jig.cleva-ai.co.za</div>
+                    <div class="qr">Origin by ILCO Farming | www.origin.cleva-ai.co.za</div>
                 </div>
                 <script>window.print();</script>
             </body>

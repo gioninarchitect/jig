@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De Bud Chef | Design System & Brand Kit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700;900&family=Barlow:wght@300;400;500;600:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Primary Colors */
+            --cream: #F4F0E6;
+            --green: #3A5F48;
+            --green-dark: #2A4635;
+            --green-deep: #1E3328;
+            --green-light: #4A7A5D;
+            
+            /* Accent Colors */
+            --red: #A63429;
+            --red-dark: #8A2722;
+            --gold: #D4AF37;
+            --gold-dark: #B8922D;
+            --gold-light: #E8C45A;
+            
+            /* Neutrals */
+            --white: #FFFFFF;
+            --gray-50: #FAFAFA;
+            --gray-100: #F5F5F5;
+            --gray-200: #E8E8E8;
+            --gray-300: #D1D1D1;
+            --gray-500: #737373;
+            --gray-700: #404040;
+            --gray-900: #1A1A1A;
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.15);
+            --shadow-gold: 0 15px 40px rgba(212,175,55,0.3);
+            --shadow-green: 0 15px 40px rgba(45,90,61,0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Barlow', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        /* ==================== HEADER ==================== */
+        .header {
+            background: linear-gradient(160deg, var(--green) 0%, var(--green-dark) 50%, var(--green-deep) 100%);
+            color: var(--pg-white);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(212,175,55,0.15) 0%, transparent 50%);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: var(--shadow-gold);
+        }
+
+        .header-logo svg {
+            width: 50%;
+            height: 50%;
+            fill: var(--green-dark);
+        }
+
+        .header h1 {
+            font-family: 'Passion One', cursive;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header h1 span { color: var(--gold); }
+
+        .header-tagline {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--gold-light);
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.4);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 1.5rem;
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        .nav {
+            background: var(--pg-white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav a {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav a:hover {
+            background: var(--green);
+            color: var(--pg-white);
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ==================== ACCORDION ==================== */
+        .accordion {
+            margin-bottom: 1rem;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--pg-white);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .accordion:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--gold);
+        }
+
+        .accordion-header {
+            padding: 1.5rem 2rem;
+            background: var(--pg-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: all 0.3s;
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            background: var(--gray-50);
+        }
+
+        .accordion.active .accordion-header {
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            color: var(--pg-white);
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .accordion-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .accordion.active .accordion-icon {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .accordion-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--green-dark);
+        }
+
+        .accordion.active .accordion-icon svg {
+            fill: var(--pg-white);
+        }
+
+        .accordion-label h3 {
+            font-family: 'Passion One', cursive;
+            font-size: 1.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--green);
+        }
+
+        .accordion.active .accordion-label h3 {
+            color: var(--pg-white);
+        }
+
+        .accordion-label p {
+            font-size: 0.85rem;
+            color: var(--pg-grey-2);
+            margin-top: 0.25rem;
+        }
+
+        .accordion.active .accordion-label p {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .accordion-arrow {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .accordion-arrow svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--pg-grey-2);
+        }
+
+        .accordion.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion.active .accordion-arrow svg {
+            fill: var(--pg-white);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+
+        .accordion.active .accordion-content {
+            max-height: 3000px;
+        }
+
+        .accordion-body {
+            padding: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        /* ==================== COLOR PALETTE ==================== */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .color-card {
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--pg-white);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .color-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .color-swatch {
+            height: 100px;
+            position: relative;
+        }
+
+        .color-swatch::after {
+            content: attr(data-hex);
+            position: absolute;
+            bottom: 0.75rem;
+            right: 0.75rem;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .color-info {
+            padding: 1rem;
+        }
+
+        .color-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .color-var {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--pg-grey-2);
+        }
+
+        .color-section {
+            margin-bottom: 2rem;
+        }
+
+        .color-section-title {
+            font-family: 'Passion One', cursive;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gold);
+            display: inline-block;
+        }
+
+        /* ==================== TYPOGRAPHY ==================== */
+        .type-specimen {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .type-specimen:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .type-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .type-meta-item {
+            font-size: 0.75rem;
+            color: var(--pg-grey-2);
+        }
+
+        .type-meta-item strong {
+            color: var(--gray-700);
+        }
+
+        .type-sample-passion {
+            font-family: 'Passion One', cursive;
+            font-size: 4rem;
+            text-transform: uppercase;
+            color: var(--green);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-sample-passion span { color: var(--gold); }
+
+        .type-sample-crimson {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: 1.75rem;
+            color: var(--gold-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .type-sample-inter {
+            font-family: 'Barlow', sans-serif;
+            font-size: 1rem;
+            color: var(--gray-700);
+            max-width: 600px;
+        }
+
+        .type-weights {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .type-weight {
+            text-align: center;
+        }
+
+        .type-weight-sample {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .type-weight-label {
+            font-size: 0.7rem;
+            color: var(--pg-grey-2);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* ==================== BUTTONS ==================== */
+        .button-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+            color: var(--gray-900);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(212,175,55,0.4);
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 50%, var(--green-dark) 100%);
+            color: var(--pg-white);
+            box-shadow: var(--shadow-green);
+        }
+
+        .btn-green:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(45,90,61,0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--green);
+            color: var(--green);
+        }
+
+        .btn-outline:hover {
+            background: var(--green);
+            color: var(--pg-white);
+        }
+
+        .btn-red {
+            background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+            color: var(--pg-white);
+        }
+
+        .btn-sm { padding: 0.6rem 1.25rem; font-size: 0.75rem; }
+        .btn-lg { padding: 1.25rem 2.5rem; font-size: 1rem; }
+
+        /* ==================== SPACING ==================== */
+        .spacing-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .spacing-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .spacing-visual {
+            width: 200px;
+            height: 40px;
+            background: var(--gray-100);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spacing-bar {
+            height: 100%;
+            background: linear-gradient(135deg, var(--green-light), var(--green));
+            border-radius: 8px;
+        }
+
+        .spacing-info {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .spacing-label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--gray-900);
+            min-width: 80px;
+        }
+
+        .spacing-value {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--pg-grey-2);
+        }
+
+        /* ==================== SHADOWS ==================== */
+        .shadow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .shadow-card {
+            background: var(--pg-white);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .shadow-card h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .shadow-card code {
+            font-size: 0.7rem;
+            color: var(--pg-grey-2);
+            display: block;
+        }
+
+        /* ==================== ICONS ==================== */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .icon-item {
+            background: var(--pg-white);
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .icon-item:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .icon-item svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--green);
+            margin-bottom: 0.75rem;
+        }
+
+        .icon-item:hover svg {
+            fill: var(--gold);
+        }
+
+        .icon-name {
+            font-size: 0.7rem;
+            color: var(--pg-grey-2);
+            font-weight: 600;
+        }
+
+        /* ==================== COMPONENTS ==================== */
+        .component-preview {
+            background: var(--gray-100);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .component-code {
+            background: var(--gray-900);
+            color: var(--gray-100);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        .component-code .tag { color: #7ee787; }
+        .component-code .attr { color: #79c0ff; }
+        .component-code .value { color: #a5d6ff; }
+
+        /* ==================== CARDS DEMO ==================== */
+        .card-demo {
+            background: var(--pg-white);
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 300px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-demo-img {
+            height: 120px;
+            background: linear-gradient(145deg, var(--green-light), var(--green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-demo-img svg {
+            width: 48px;
+            height: 48px;
+            fill: white;
+            opacity: 0.3;
+        }
+
+        .card-demo-content {
+            padding: 1.5rem;
+        }
+
+        .card-demo-title {
+            font-family: 'Passion One', cursive;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-demo-text {
+            font-size: 0.9rem;
+            color: var(--pg-grey-2);
+        }
+
+        /* ==================== LOGO SECTION ==================== */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .logo-variant {
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+
+        .logo-variant.light {
+            background: var(--pg-white);
+        }
+
+        .logo-variant.dark {
+            background: var(--green-deep);
+        }
+
+        .logo-variant.gold {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+        }
+
+        .logo-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-variant.light .logo-icon-box {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+        }
+
+        .logo-variant.dark .logo-icon-box {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+        }
+
+        .logo-variant.gold .logo-icon-box {
+            background: var(--green-dark);
+        }
+
+        .logo-icon-box svg {
+            width: 60%;
+            height: 60%;
+        }
+
+        .logo-variant.light .logo-icon-box svg { fill: var(--green-dark); }
+        .logo-variant.dark .logo-icon-box svg { fill: var(--green-dark); }
+        .logo-variant.gold .logo-icon-box svg { fill: var(--gold); }
+
+        .logo-text {
+            font-family: 'Passion One', cursive;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .logo-variant.light .logo-text { color: var(--green); }
+        .logo-variant.dark .logo-text { color: var(--pg-white); }
+        .logo-variant.gold .logo-text { color: var(--green-dark); }
+
+        .logo-text span {
+            display: block;
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: 0.7rem;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .logo-variant.light .logo-text span { color: var(--gold-dark); }
+        .logo-variant.dark .logo-text span { color: var(--gold-light); }
+        .logo-variant.gold .logo-text span { color: var(--green); }
+
+        .logo-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .logo-variant.light .logo-label { color: var(--pg-grey-2); }
+        .logo-variant.dark .logo-label { color: rgba(255,255,255,0.6); }
+        .logo-variant.gold .logo-label { color: var(--green-dark); }
+
+        /* ==================== USAGE GUIDELINES ==================== */
+        .guideline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .guideline-card {
+            background: var(--pg-white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .guideline-card.do {
+            border-left: 4px solid var(--green);
+        }
+
+        .guideline-card.dont {
+            border-left: 4px solid var(--red);
+        }
+
+        .guideline-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .guideline-card.do .guideline-header { color: var(--green); }
+        .guideline-card.dont .guideline-header { color: var(--red); }
+
+        .guideline-card ul {
+            list-style: none;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+
+        .guideline-card li {
+            padding: 0.4rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .guideline-card.do li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .guideline-card.dont li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            background: var(--green-deep);
+            color: var(--pg-white);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            .accordion-header { padding: 1rem 1.25rem; }
+            .accordion-body { padding: 1.5rem; }
+            .type-sample-passion { font-size: 2.5rem; }
+        }
+
+        /* ==================== PRINT STYLES ==================== */
+        @media print {
+            /* Reset page setup */
+            @page {
+                size: A4;
+                margin: 0.75in 0.5in;
+            }
+
+            /* Base print resets */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            body {
+                background: white !important;
+                font-size: 11pt;
+                line-height: 1.5;
+                color: #1a1a1a !important;
+            }
+
+            /* Hide interactive/navigation elements */
+            .nav,
+            .accordion-arrow,
+            .footer {
+                display: none !important;
+            }
+
+            /* Header - compact for print */
+            .header {
+                background: linear-gradient(160deg, #3A5F48 0%, #2A4635 100%) !important;
+                padding: 1.5rem 1rem !important;
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+
+            .header h1 {
+                font-size: 28pt !important;
+                margin-bottom: 0.25rem !important;
+            }
+
+            .header-tagline {
+                font-size: 14pt !important;
+            }
+
+            .header-logo {
+                width: 60px !important;
+                height: 60px !important;
+                margin-bottom: 0.75rem !important;
+            }
+
+            .version-badge {
+                margin-top: 0.5rem !important;
+                font-size: 9pt !important;
+            }
+
+            /* Main content area */
+            .main {
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+
+            /* Force all accordions open */
+            .accordion-content {
+                max-height: none !important;
+                opacity: 1 !important;
+                overflow: visible !important;
+            }
+
+            /* Accordion styling for print */
+            .accordion {
+                background: white !important;
+                box-shadow: none !important;
+                border: 1px solid #d1d1d1 !important;
+                border-radius: 0 !important;
+                margin-bottom: 0 !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .accordion-header {
+                background: #f5f5f5 !important;
+                padding: 0.75rem 1rem !important;
+                cursor: default !important;
+                border-bottom: 1px solid #d1d1d1 !important;
+            }
+
+            .accordion-icon {
+                width: 32px !important;
+                height: 32px !important;
+                background: #3A5F48 !important;
+            }
+
+            .accordion-label h3 {
+                font-size: 14pt !important;
+                color: #1a1a1a !important;
+            }
+
+            .accordion-label p {
+                font-size: 9pt !important;
+                color: #404040 !important;
+            }
+
+            .accordion-body {
+                padding: 1rem !important;
+            }
+
+            /* Section titles */
+            .section-title {
+                font-size: 12pt !important;
+                margin-bottom: 0.75rem !important;
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+
+            .section-desc {
+                font-size: 10pt !important;
+                margin-bottom: 1rem !important;
+            }
+
+            /* Logo section */
+            .logo-showcase {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .logo-grid {
+                gap: 1rem !important;
+            }
+
+            .logo-card {
+                padding: 1rem !important;
+                box-shadow: none !important;
+                border: 1px solid #e8e8e8 !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .logo-preview {
+                height: 120px !important;
+            }
+
+            /* Color swatches */
+            .color-section {
+                page-break-inside: avoid;
+                break-inside: avoid;
+                margin-bottom: 1rem !important;
+            }
+
+            .color-section-title {
+                font-size: 11pt !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            .color-grid {
+                gap: 0.5rem !important;
+            }
+
+            .color-card {
+                box-shadow: none !important;
+                border: 1px solid #d1d1d1 !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .color-swatch {
+                height: 60px !important;
+            }
+
+            .color-info {
+                padding: 0.5rem !important;
+            }
+
+            .color-name {
+                font-size: 10pt !important;
+            }
+
+            .color-hex, .color-rgb {
+                font-size: 8pt !important;
+            }
+
+            /* Typography samples */
+            .type-sample {
+                box-shadow: none !important;
+                border: 1px solid #e8e8e8 !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .type-sample-passion {
+                font-size: 32pt !important;
+            }
+
+            .type-sample-inter,
+            .type-sample-crimson {
+                font-size: 18pt !important;
+            }
+
+            /* Buttons */
+            .button-grid {
+                gap: 0.75rem !important;
+            }
+
+            .btn {
+                box-shadow: none !important;
+                border: 1px solid currentColor !important;
+            }
+
+            /* Spacing scale */
+            .spacing-grid {
+                gap: 0.5rem !important;
+            }
+
+            .spacing-item {
+                padding: 0.5rem !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            /* Shadow examples - show as bordered boxes */
+            .shadow-grid {
+                gap: 0.75rem !important;
+            }
+
+            .shadow-box {
+                box-shadow: none !important;
+                border: 2px solid #d1d1d1 !important;
+                position: relative;
+            }
+
+            .shadow-box::after {
+                content: attr(data-shadow);
+                position: absolute;
+                bottom: 0.5rem;
+                left: 0.5rem;
+                font-size: 8pt;
+                color: #737373;
+            }
+
+            /* Icon grid */
+            .icon-grid {
+                gap: 0.5rem !important;
+            }
+
+            .icon-card {
+                padding: 0.5rem !important;
+                box-shadow: none !important;
+                border: 1px solid #e8e8e8 !important;
+            }
+
+            .icon-preview {
+                width: 32px !important;
+                height: 32px !important;
+            }
+
+            .icon-name {
+                font-size: 7pt !important;
+            }
+
+            /* Component cards */
+            .component-card {
+                box-shadow: none !important;
+                border: 1px solid #d1d1d1 !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            /* Guidelines */
+            .guideline-grid {
+                gap: 1rem !important;
+            }
+
+            .guideline-card {
+                box-shadow: none !important;
+                border: 1px solid #e8e8e8 !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            /* Do/Don't examples */
+            .do-dont {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            /* Links - show URL */
+            a[href^="http"]:after {
+                content: " (" attr(href) ")";
+                font-size: 8pt;
+                color: #737373;
+            }
+
+            /* Page breaks - each major section starts fresh */
+            #colors,
+            #typography,
+            #buttons,
+            #spacing,
+            #shadows,
+            #icons,
+            #components,
+            #guidelines {
+                page-break-before: always;
+                break-before: always;
+            }
+
+            /* Prevent orphans/widows */
+            p, li, h1, h2, h3, h4 {
+                orphans: 3;
+                widows: 3;
+            }
+
+            h1, h2, h3, h4 {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+
+            /* Table of contents helper - hidden normally, shown in print */
+            .print-toc {
+                display: block !important;
+                page-break-after: always;
+                break-after: always;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-logo">
+                <img src="images/DeBudChef-rLogo.png" alt="De Bud Chef Logo" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <h1>De Bud <span>Chef</span></h1>
+            <p class="header-tagline">"Premium Cannabis Care"</p>
+            <p>Complete Design System & Brand Guidelines</p>
+            <div class="version-badge">Version 5.0 · January 2026</div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#logo">Logo</a>
+            <a href="#colors">Colors</a>
+            <a href="#typography">Typography</a>
+            <a href="#buttons">Buttons</a>
+            <a href="#spacing">Spacing</a>
+            <a href="#shadows">Shadows</a>
+            <a href="#icons">Icons</a>
+            <a href="#components">Components</a>
+            <a href="#guidelines">Guidelines</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <!-- Logo & Branding -->
+        <div class="accordion active" id="logo">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <div class="accordion-icon">
+                        <img src="images/DeBudChef-rLogo.png" alt="De Bud Chef Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="accordion-label">
+                        <h3>Logo & Branding</h3>
+                        <p>Primary logo, variations, and usage guidelines</p>
+                    </div>
+                </div>
+                <div class="accordion-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="logo-grid">
+                        <div class="logo-variant light" style="padding: 2rem;">
+                            <img src="images/DeBudChef-rLogo.png" alt="De Bud Chef Logo" style="width: 180px; height: 180px; object-fit: contain; margin-bottom: 1rem;">
+                            <div class="logo-label">Light Background</div>
+                        </div>
+                        <div class="logo-variant dark" style="padding: 2rem;">
+                            <img src="images/DeBudChef-rLogo.png" alt="De Bud Chef Logo" style="width: 180px; height: 180px; object-fit: contain; margin-bottom: 1rem;">
+                            <div class="logo-label">Dark Background</div>
+                        </div>
+                        <div class="logo-variant gold" style="padding: 2rem;">
+                            <img src="images/DeBudChef-rLogo.png" alt="De Bud Chef Logo" style="width: 180px; height: 180px; object-fit: contain; margin-bottom: 1rem;">
+                            <div class="logo-label">Gold Background</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Colors -->
+        <div class="accordion" id="colors">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <div class="accordion-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3L344 320c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-96a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM288 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm96 96a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/></svg>
+                    </div>
+                    <div class="accordion-label">
+                        <h3>Color Palette</h3>
+                        <p>Primary, accent, and neutral colors with hex values</p>
+                    </div>
+                </div>
+                <div class="accordion-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="color-section">
+                        <div class="color-section-title">Primary Green</div>
+                        <div class="color-grid">
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #4A7A5D;" data-hex="#4A7A5D"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Green Light</div>
+                                    <div class="color-var">--green-light</div>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #3A5F48;" data-hex="#3A5F48"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Green (Primary)</div>
+                                    <div class="color-var">--green</div>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #2A4635;" data-hex="#2A4635"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Green Dark</div>
+                                    <div class="color-var">--green-dark</div>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #1E3328;" data-hex="#1E3328"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Green Deep</div>
+                                    <div class="color-var">--green-deep</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-section">
+                        <div class="color-section-title">Accent Gold</div>
+                        <div class="color-grid">
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #E8C45A;" data-hex="#E8C45A"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Gold Light</div>
+                                    <div class="color-var">--gold-light</div>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #D4AF37;" data-hex="#D4AF37"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Gold (Primary)</div>
+                                    <div class="color-var">--gold</div>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #B8922D;" data-hex="#B8922D"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Gold Dark</div>
+                                    <div class="color-var">--gold-dark</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-section">
+                        <div class="color-section-title">Accent Red (Indica)</div>
+                        <div class="color-grid">
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #A63429;" data-hex="#A63429"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Red (Primary)</div>
+                                    <div class="color-var">--red</div>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #8A2722;" data-hex="#8A2722"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Red Dark</div>
+                                    <div class="color-var">--red-dark</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-section">
+                        <div class="color-section-title">Neutrals</div>
+                        <div class="color-grid">
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #FFFFFF; border: 1px solid #E8E8E8;" data-hex="#FFFFFF"></div>
+                                <div class="color-info">
+                                    <div class="color-name">White</div>
+                                    <div class="color-var">--white</div>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #F4F0E6;" data-hex="#F4F0E6"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Cream</div>
+                                    <div class="color-var">--cream</div>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #737373;" data-hex="#737373"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Gray 500</div>
+                                    <div class="color-var">--gray-500</div>
+                                </div>
+                            </div>
+                            <div class="color-card">
+                                <div class="color-swatch" style="background: #1A1A1A;" data-hex="#1A1A1A"></div>
+                                <div class="color-info">
+                                    <div class="color-name">Gray 900</div>
+                                    <div class="color-var">--gray-900</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typography -->
+        <div class="accordion" id="typography">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <div class="accordion-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M254 52.8C249.3 40.3 237.3 32 224 32s-25.3 8.3-30 20.8L57.8 416 32 416c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-1.8 0 18-48 159.6 0 18 48-1.8 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-25.8 0L254 52.8zM279.8 304l-111.6 0L224 155.1 279.8 304z"/></svg>
+                    </div>
+                    <div class="accordion-label">
+                        <h3>Typography</h3>
+                        <p>Font families, weights, and usage guidelines</p>
+                    </div>
+                </div>
+                <div class="accordion-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="type-specimen">
+                        <div class="type-meta">
+                            <div class="type-meta-item"><strong>Font:</strong> Passion One</div>
+                            <div class="type-meta-item"><strong>Use:</strong> Headlines, Titles, CTAs</div>
+                            <div class="type-meta-item"><strong>Style:</strong> Always Uppercase</div>
+                        </div>
+                        <div class="type-sample-passion">De Bud <span>Chef</span></div>
+                        <div class="type-sample-passion" style="font-size: 2.5rem;">Premium Cannabis Care</div>
+                        <div class="type-weights" style="font-family: 'Passion One', cursive;">
+                            <div class="type-weight">
+                                <div class="type-weight-sample" style="font-weight: 400;">Aa</div>
+                                <div class="type-weight-label">Regular 400</div>
+                            </div>
+                            <div class="type-weight">
+                                <div class="type-weight-sample" style="font-weight: 700;">Aa</div>
+                                <div class="type-weight-label">Bold 700</div>
+                            </div>
+                            <div class="type-weight">
+                                <div class="type-weight-sample" style="font-weight: 900;">Aa</div>
+                                <div class="type-weight-label">Black 900</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="type-specimen">
+                        <div class="type-meta">
+                            <div class="type-meta-item"><strong>Font:</strong> Crimson Pro</div>
+                            <div class="type-meta-item"><strong>Use:</strong> Taglines, Quotes, Accents</div>
+                            <div class="type-meta-item"><strong>Style:</strong> Always Italic</div>
+                        </div>
+                        <div class="type-sample-crimson">"Premium Cannabis Care · Finest Goods"</div>
+                        <div class="type-sample-crimson" style="font-size: 1.25rem;">"Your wellness journey, backed by expertise"</div>
+                    </div>
+
+                    <div class="type-specimen">
+                        <div class="type-meta">
+                            <div class="type-meta-item"><strong>Font:</strong> Inter</div>
+                            <div class="type-meta-item"><strong>Use:</strong> Body Text, UI, Buttons</div>
+                            <div class="type-meta-item"><strong>Style:</strong> Sentence Case</div>
+                        </div>
+                        <div class="type-sample-inter">South Africa's trusted medical cannabis collection points. Expert guidance, premium products, and personalised wellness solutions curated by our specialists.</div>
+                        <div class="type-weights" style="font-family: 'Barlow', sans-serif;">
+                            <div class="type-weight">
+                                <div class="type-weight-sample" style="font-weight: 400;">Aa</div>
+                                <div class="type-weight-label">Regular 400</div>
+                            </div>
+                            <div class="type-weight">
+                                <div class="type-weight-sample" style="font-weight: 500;">Aa</div>
+                                <div class="type-weight-label">Medium 500</div>
+                            </div>
+                            <div class="type-weight">
+                                <div class="type-weight-sample" style="font-weight: 600;">Aa</div>
+                                <div class="type-weight-label">SemiBold 600</div>
+                            </div>
+                            <div class="type-weight">
+                                <div class="type-weight-sample" style="font-weight: 700;">Aa</div>
+                                <div class="type-weight-label">Bold 700</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="accordion" id="buttons">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <div class="accordion-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96z"/></svg>
+                    </div>
+                    <div class="accordion-label">
+                        <h3>Buttons</h3>
+                        <p>Button styles, sizes, and states</p>
+                    </div>
+                </div>
+                <div class="accordion-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <h4 style="margin-bottom: 1rem; color: var(--green); font-family: 'Passion One', cursive; text-transform: uppercase;">Primary Buttons</h4>
+                    <div class="button-grid">
+                        <button class="btn btn-gold">Gold Primary</button>
+                        <button class="btn btn-green">Green Primary</button>
+                        <button class="btn btn-outline">Outline</button>
+                        <button class="btn btn-red">Red / Indica</button>
+                    </div>
+
+                    <h4 style="margin-bottom: 1rem; color: var(--green); font-family: 'Passion One', cursive; text-transform: uppercase;">Button Sizes</h4>
+                    <div class="button-grid">
+                        <button class="btn btn-gold btn-sm">Small Button</button>
+                        <button class="btn btn-gold">Default Button</button>
+                        <button class="btn btn-gold btn-lg">Large Button</button>
+                    </div>
+
+                    <div class="component-code">
+                        <span class="tag">&lt;button</span> <span class="attr">class=</span><span class="value">"btn btn-gold"</span><span class="tag">&gt;</span>Button Text<span class="tag">&lt;/button&gt;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spacing -->
+        <div class="accordion" id="spacing">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <div class="accordion-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M406.6 374.6l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224l-293.5 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288l293.5 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
+                    </div>
+                    <div class="accordion-label">
+                        <h3>Spacing Scale</h3>
+                        <p>Consistent spacing units for margins and padding</p>
+                    </div>
+                </div>
+                <div class="accordion-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="spacing-grid">
+                        <div class="spacing-item">
+                            <div class="spacing-visual"><div class="spacing-bar" style="width: 4px;"></div></div>
+                            <div class="spacing-info">
+                                <div class="spacing-label">4px</div>
+                                <div class="spacing-value">0.25rem · Micro spacing</div>
+                            </div>
+                        </div>
+                        <div class="spacing-item">
+                            <div class="spacing-visual"><div class="spacing-bar" style="width: 8px;"></div></div>
+                            <div class="spacing-info">
+                                <div class="spacing-label">8px</div>
+                                <div class="spacing-value">0.5rem · Tight spacing</div>
+                            </div>
+                        </div>
+                        <div class="spacing-item">
+                            <div class="spacing-visual"><div class="spacing-bar" style="width: 16px;"></div></div>
+                            <div class="spacing-info">
+                                <div class="spacing-label">16px</div>
+                                <div class="spacing-value">1rem · Base unit</div>
+                            </div>
+                        </div>
+                        <div class="spacing-item">
+                            <div class="spacing-visual"><div class="spacing-bar" style="width: 24px;"></div></div>
+                            <div class="spacing-info">
+                                <div class="spacing-label">24px</div>
+                                <div class="spacing-value">1.5rem · Component padding</div>
+                            </div>
+                        </div>
+                        <div class="spacing-item">
+                            <div class="spacing-visual"><div class="spacing-bar" style="width: 32px;"></div></div>
+                            <div class="spacing-info">
+                                <div class="spacing-label">32px</div>
+                                <div class="spacing-value">2rem · Card padding</div>
+                            </div>
+                        </div>
+                        <div class="spacing-item">
+                            <div class="spacing-visual"><div class="spacing-bar" style="width: 48px;"></div></div>
+                            <div class="spacing-info">
+                                <div class="spacing-label">48px</div>
+                                <div class="spacing-value">3rem · Section gap</div>
+                            </div>
+                        </div>
+                        <div class="spacing-item">
+                            <div class="spacing-visual"><div class="spacing-bar" style="width: 96px;"></div></div>
+                            <div class="spacing-info">
+                                <div class="spacing-label">96px</div>
+                                <div class="spacing-value">6rem · Section padding</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shadows -->
+        <div class="accordion" id="shadows">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <div class="accordion-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192l0 384c106 0 192-86 192-192zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/></svg>
+                    </div>
+                    <div class="accordion-label">
+                        <h3>Shadows & Elevation</h3>
+                        <p>Box shadow presets for depth and hierarchy</p>
+                    </div>
+                </div>
+                <div class="accordion-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="shadow-grid">
+                        <div class="shadow-card" style="box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                            <h4>Shadow SM</h4>
+                            <code>--shadow-sm</code>
+                        </div>
+                        <div class="shadow-card" style="box-shadow: 0 8px 30px rgba(0,0,0,0.12);">
+                            <h4>Shadow MD</h4>
+                            <code>--shadow-md</code>
+                        </div>
+                        <div class="shadow-card" style="box-shadow: 0 20px 50px rgba(0,0,0,0.15);">
+                            <h4>Shadow LG</h4>
+                            <code>--shadow-lg</code>
+                        </div>
+                        <div class="shadow-card" style="box-shadow: 0 15px 40px rgba(212,175,55,0.3);">
+                            <h4>Shadow Gold</h4>
+                            <code>--shadow-gold</code>
+                        </div>
+                        <div class="shadow-card" style="box-shadow: 0 15px 40px rgba(45,90,61,0.3);">
+                            <h4>Shadow Green</h4>
+                            <code>--shadow-green</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Icons -->
+        <div class="accordion" id="icons">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <div class="accordion-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M500.3 7.3C507.7 13.3 512 22.4 512 32l0 144c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48l0-57L352 90.2 352 208c0 26.5-28.7 48-64 48s-64-21.5-64-48s28.7-48 64-48l0-96c0-15.3 10.8-28.4 25.7-31.4l160-32c9.4-1.9 19.1 .6 26.6 6.6zM74.7 304l11.8-17.8c5.9-8.9 15.9-14.2 26.6-14.2l61.7 0c10.7 0 20.7 5.3 26.6 14.2L213.3 304l26.7 0c26.5 0 48 21.5 48 48l0 112c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 352c0-26.5 21.5-48 48-48l26.7 0zM192 408a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM478.7 278.3L440.3 368l55.7 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0-16 0-64 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l55.7 0-38.3-89.7c-3.4-8 .6-17.3 8.6-20.7s17.3 .6 20.7 8.6L432 googletranslations297.9l35.5-67.6c4.3-8.1 14.4-11.2 22.5-6.9s11.2 14.4 6.9 22.5l-18.2 34.6z"/></svg>
+                    </div>
+                    <div class="accordion-label">
+                        <h3>Icon Library</h3>
+                        <p>Embedded SVG icons used throughout the brand</p>
+                    </div>
+                </div>
+                <div class="accordion-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="icon-grid">
+                        <div class="icon-item">
+                            <img src="images/DeBudChef-rLogo.png" alt="De Bud Chef Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                            <div class="icon-name">Cannabis</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM504 312l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                            <div class="icon-name">User Plus</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-96 55.2C54 332.9 0 401.3 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7c0-81-54-149.4-128-171.1l0 50.8c27.6 7.1 48 32.2 48 62l0 40c0 8.8-7.2 16-16 16l-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l0-24c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 24c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0c-8.8 0-16-7.2-16-16l0-40c0-29.8 20.4-54.9 48-62l0-57.1c-6-.6-12.1-.9-18.3-.9l-91.4 0c-6.2 0-12.3 .3-18.3 .9l0 65.4c23.1 6.9 40 28.3 40 53.7c0 30.9-25.1 56-56 56s-56-25.1-56-56c0-25.4 16.9-46.8 40-53.7l0-59.1zM144 448a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/></svg>
+                            <div class="icon-name">Doctor</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM160 240c0-8.8 7.2-16 16-16l32 0 0-32c0-8.8 7.2-16 16-16s16 7.2 16 16l0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-32-32 0c-8.8 0-16-7.2-16-16z"/></svg>
+                            <div class="icon-name">File Medical</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0z"/></svg>
+                            <div class="icon-name">Shield</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M116.7 33.8c4.5-6.1 11.7-9.8 19.3-9.8l240 0c7.6 0 14.8 3.6 19.3 9.8l56 75c6.2 8.3 5.5 19.8-1.7 27.2L276.7 326.5c-5.9 6.4-14.5 10-23.4 9.8c-8.9 .2-17.5-3.4-23.4-9.8L56.7 136c-7.2-7.4-7.9-18.9-1.7-27.2l56-75z"/></svg>
+                            <div class="icon-name">Gem</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg>
+                            <div class="icon-name">Star</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M272 96c-78.6 0-145.1 51.5-167.7 122.5c33.6-17 71.5-26.5 111.7-26.5l88 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0-72 0s0 0 0 0c-16.6 0-32.7 1.9-48.3 5.4c-25.9 5.9-49.9 16.4-71.4 30.7c0 0 0 0 0 0C38.3 298.8 0 364.9 0 440l0 16c0 13.3 10.7 24 24 24s24-10.7 24-24l0-16c0-48.7 20.7-92.5 53.8-123.2C121.6 392.3 190.3 448 272 448l1 0c132.1-.7 239-130.9 239-291.4c0-42.6-7.5-83.1-21.1-119.6c-2.6-6.9-12.7-6.6-16.2-.1C455.9 72.1 418.7 96 376 96L272 96z"/></svg>
+                            <div class="icon-name">Leaf</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M288 0L160 0 128 0C110.3 0 96 14.3 96 32s14.3 32 32 32l0 132.8c0 11.8-3.3 23.5-9.5 33.5L10.3 406.2C3.6 417.2 0 429.7 0 442.6C0 480.9 31.1 512 69.4 512l309.2 0c38.3 0 69.4-31.1 69.4-69.4c0-12.8-3.6-25.4-10.3-36.4L329.5 230.4c-6.2-10.1-9.5-21.7-9.5-33.5L320 64c17.7 0 32-14.3 32-32s-14.3-32-32-32L288 0zM192 196.8L192 64l64 0 0 132.8c0 22.8 6.3 45.2 18.2 64.5l36.4 58.7-165.2 0 36.4-58.7c11.9-19.3 18.2-41.7 18.2-64.5z"/></svg>
+                            <div class="icon-name">Flask</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M547.6 103.8L490.3 13.1C485.2 5 476.1 0 466.4 0L109.6 0C99.9 0 90.8 5 85.7 13.1L28.3 103.8c-29.6 46.8-3.4 111.9 51.9 119.4c4 .5 8.1 .8 12.1 .8c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.1 0 49.3-11.4 65.2-29c15.9 17.6 39.1 29 65.2 29c26.2 0 49.3-11.4 65.2-29c16 17.6 39.1 29 65.2 29c4.1 0 8.1-.3 12.1-.8c55.5-7.4 81.8-72.5 52.1-119.4zM499.7 224c0 0 0 0 0 0c-9.9 0-19.7-1.4-29.1-4.1c-11.3-3.2-22.6-8.3-32.7-15c-11.2 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-11.3 8.2-24.4 14-38.7 16.7c-8.2 1.5-16.7 2.3-25.1 2.3s-16.9-.9-25.1-2.3c-14.3-2.7-27.5-8.5-38.7-16.7c-10.1 6.7-21.4 11.8-32.7 15c-9.4 2.7-19.2 4.1-29.1 4.1c0 0 0 0 0 0L64 224l0 240c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-240l-12.3 0z"/></svg>
+                            <div class="icon-name">Store</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>
+                            <div class="icon-name">Clock</div>
+                        </div>
+                        <div class="icon-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"/></svg>
+                            <div class="icon-name">Lock</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--pg-grey-2);">All icons are embedded as inline SVGs for guaranteed rendering (no CDN dependencies).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Components -->
+        <div class="accordion" id="components">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <div class="accordion-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M234.5 5.7c13.9-5 29.1-5 43.1 0l192 68.6C495 83.4 512 107.5 512 134.6l0 242.9c0 27-17 51.2-42.5 60.3l-192 68.6c-13.9 5-29.1 5-43.1 0l-192-68.6C17 428.6 0 404.5 0 377.4L0 134.6c0-27 17-51.2 42.5-60.3l192-68.6zM256 66L82.3 128 256 190l173.7-62L256 66zm32 368.6l160-57.1 0-188L288 246.6l0 188z"/></svg>
+                    </div>
+                    <div class="accordion-label">
+                        <h3>Components</h3>
+                        <p>Cards, badges, and reusable UI patterns</p>
+                    </div>
+                </div>
+                <div class="accordion-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <h4 style="margin-bottom: 1rem; color: var(--green); font-family: 'Passion One', cursive; text-transform: uppercase;">Product Card</h4>
+                    <div class="component-preview">
+                        <div class="card-demo">
+                            <div class="card-demo-img">
+                                <img src="images/DeBudChef-rLogo.png" alt="De Bud Chef Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                            </div>
+                            <div class="card-demo-content">
+                                <div class="card-demo-title">Divine Storm</div>
+                                <div class="card-demo-text">Premium hybrid with uplifting cerebral effects.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-bottom: 1rem; margin-top: 2rem; color: var(--green); font-family: 'Passion One', cursive; text-transform: uppercase;">Strain Badges</h4>
+                    <div class="button-grid">
+                        <span style="padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(135deg, var(--green-light), var(--green)); color: white;">Hybrid</span>
+                        <span style="padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(135deg, var(--red), var(--red-dark)); color: white;">Indica</span>
+                        <span style="padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: var(--green-dark);">Sativa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guidelines -->
+        <div class="accordion" id="guidelines">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title">
+                    <div class="accordion-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+                    </div>
+                    <div class="accordion-label">
+                        <h3>Usage Guidelines</h3>
+                        <p>Do's and don'ts for brand consistency</p>
+                    </div>
+                </div>
+                <div class="accordion-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    <div class="guideline-grid">
+                        <div class="guideline-card do">
+                            <div class="guideline-header">✓ Do</div>
+                            <ul>
+                                <li>Use Passion One for all headlines in uppercase</li>
+                                <li>Apply gold accents sparingly for emphasis</li>
+                                <li>Maintain generous white space</li>
+                                <li>Use the green gradient for primary backgrounds</li>
+                                <li>Keep taglines in Crimson Pro italic</li>
+                                <li>Use embedded SVG icons for reliability</li>
+                            </ul>
+                        </div>
+                        <div class="guideline-card dont">
+                            <div class="guideline-header">✗ Don't</div>
+                            <ul>
+                                <li>Use Passion One in lowercase</li>
+                                <li>Mix brand colors with off-palette colors</li>
+                                <li>Stretch or distort the logo</li>
+                                <li>Use low-contrast color combinations</li>
+                                <li>Place logo on busy backgrounds</li>
+                                <li>Use fonts outside the type system</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>De Bud Chef Design System · Version 5.0 · January 2026</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">"Premium Cannabis Care"</p>
+    </footer>
+
+    <script>
+        function toggleAccordion(header) {
+            const accordion = header.parentElement;
+            const wasActive = accordion.classList.contains('active');
+            
+            // Close all accordions
+            document.querySelectorAll('.accordion').forEach(acc => {
+                acc.classList.remove('active');
+            });
+            
+            // Toggle clicked accordion
+            if (!wasActive) {
+                accordion.classList.add('active');
+            }
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('.nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Open the accordion
+                    const accordion = target.closest('.accordion') || target;
+                    if (accordion.classList.contains('accordion')) {
+                        document.querySelectorAll('.accordion').forEach(acc => acc.classList.remove('active'));
+                        accordion.classList.add('active');
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

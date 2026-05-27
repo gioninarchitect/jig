@@ -1,6 +1,6 @@
 #!/bin/bash
 # ──────────────────────────────────────────────
-# JIG Craft Cannabis - Server Setup & Deploy
+# PureGro Premium Cannabis Care - Server Setup & Deploy
 #
 # Run ON THE SERVER (154.66.197.199) as root.
 # This script is idempotent - safe to run multiple times.
@@ -16,9 +16,9 @@ SERVER="154.66.197.199"
 DOMAIN="jig.cleva-ai.co.za"
 APP_DIR="/var/www/jig"
 DB_NAME="jig"
-DB_USER="jig_app"
+DB_USER="puregro_app"
 PORT=3002
-PM2_NAME="jig-api"
+PM2_NAME="puregro-api"
 
 UPDATE_ONLY=false
 if [ "${1:-}" = "--update" ]; then
@@ -26,7 +26,7 @@ if [ "${1:-}" = "--update" ]; then
 fi
 
 echo "========================================"
-echo "  JIG DEPLOY - $(date)"
+echo "  PureGro DEPLOY - $(date)"
 echo "  Mode: $([ "$UPDATE_ONLY" = true ] && echo 'UPDATE' || echo 'FULL SETUP')"
 echo "========================================"
 
@@ -87,12 +87,12 @@ fi
 # ── 3. Extract tarball ───────────────────────
 echo ""
 echo "[3/8] Extracting code..."
-if [ -f /tmp/jig-deploy.tar.gz ]; then
+if [ -f /tmp/puregro-deploy.tar.gz ]; then
   cd "$APP_DIR"
-  tar -xzf /tmp/jig-deploy.tar.gz
+  tar -xzf /tmp/puregro-deploy.tar.gz
   echo "  Extracted to $APP_DIR"
 else
-  echo "  WARNING: /tmp/jig-deploy.tar.gz not found"
+  echo "  WARNING: /tmp/puregro-deploy.tar.gz not found"
   echo "  Upload it first, then re-run"
 fi
 

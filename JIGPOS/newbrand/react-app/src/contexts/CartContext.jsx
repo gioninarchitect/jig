@@ -5,7 +5,7 @@ import { formatCurrency } from '../config';
 
 const CartContext = createContext(null);
 
-const STORAGE_KEY = 'jig_cart';
+const STORAGE_KEY = 'pg_cart';
 
 function loadLocalCart() {
   try {

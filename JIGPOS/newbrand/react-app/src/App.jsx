@@ -57,18 +57,18 @@ const INVENTORY_ROLES = [ROLES.SUPER_ADMIN, ROLES.OWNER, ROLES.ADMIN, ROLES.INVE
 // Shared loading fallback
 function PageLoader() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-jig-slate">
-      <div className="w-10 h-10 border-3 border-jig-purple border-t-transparent rounded-full animate-spin" />
+    <div className="flex items-center justify-center min-h-screen bg-origin-slate">
+      <div className="w-10 h-10 border-3 border-or-gold border-t-transparent rounded-full animate-spin" />
     </div>
   );
 }
 
 function NotFound() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-jig-slate">
+    <div className="flex items-center justify-center min-h-screen bg-origin-slate">
       <div className="text-center">
-        <h1 className="font-heading text-5xl text-jig-red mb-4">404</h1>
-        <p className="font-body text-jig-purple-dark">Page not found</p>
+        <h1 className="font-heading text-5xl text-origin-red mb-4">404</h1>
+        <p className="font-body text-or-gold-dark">Page not found</p>
       </div>
     </div>
   );

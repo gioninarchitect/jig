@@ -1,0 +1,1558 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ORIGIN · Chat Assistants Per Role · Workflows · 04 May 2026</title>
+<style>
+  :root {
+    --or-gold:        #C9A84C;
+    --or-gold-bright: #D4B86A;
+    --or-gold-light:  #E8D5A3;
+    --or-gold-deep:   #7A5C1A;
+    --or-black:       #0A0A0A;
+    --or-dark:        #141414;
+    --or-dark-2:      #1C1C1C;
+    --or-dark-3:      #252525;
+    --or-dark-4:      #2E2E2E;
+    --or-white:       #F5F0E8;
+    --or-cream:       #E8E0D0;
+    --or-grey-1:      #C4BBA8;
+    --or-grey-2:      #A89F8C;
+    --or-grey-3:      #6B6458;
+    --or-green:       #4A7C3F;
+    --or-amber:       #D4A030;
+    --or-red:         #DC2626;
+
+    --route-concierge: #D4A030;
+    --route-composer:  #B785D6;
+    --route-ops:       #7BA8DD;
+    --route-tickets:   #E8855E;
+    --route-smf-q:     #7BC9A6;
+    --route-handoff:   #A89F8C;
+
+    --serif: 'Cinzel', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--or-black);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.04) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: var(--or-white);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 920px; margin: 0 auto; padding: 48px 40px 64px; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--or-dark-3);
+    margin-bottom: 32px;
+  }
+  .brandmark {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--serif);
+    letter-spacing: 0.22em; text-transform: uppercase; font-size: 12px;
+    color: var(--or-gold); font-weight: 600;
+  }
+  .brandmark .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--or-gold); box-shadow: 0 0 16px rgba(201,168,76,0.5);
+  }
+  .stamp {
+    font-family: var(--mono);
+    font-size: 10px; color: var(--or-grey-3); text-align: right; line-height: 1.5;
+  }
+  .stamp b { color: var(--or-grey-1); font-weight: 500; }
+
+  h1.hero {
+    font-family: var(--serif);
+    font-weight: 600; font-size: 30px; line-height: 1.2;
+    margin: 18px 0 10px;
+    color: var(--or-white);
+    letter-spacing: -0.005em;
+  }
+  h1.hero .accent {
+    color: var(--or-gold-light);
+    font-style: italic; font-weight: 500;
+    display: block;
+    margin-top: 4px;
+  }
+  .lede {
+    font-size: 15px; max-width: 760px;
+    color: var(--or-grey-1); margin: 0 0 20px; line-height: 1.65;
+  }
+  .lede strong { color: var(--or-white); font-weight: 600; }
+
+  h2.section {
+    font-family: var(--serif);
+    font-size: 22px; margin: 44px 0 4px;
+    color: var(--or-gold); letter-spacing: 0.01em; font-weight: 600;
+  }
+  h2.section .num {
+    color: var(--or-gold-deep);
+    font-family: var(--mono);
+    font-size: 11px; margin-right: 14px; vertical-align: 4px;
+    letter-spacing: 0.06em; font-weight: 500;
+  }
+  h2.section + .sub {
+    color: var(--or-grey-3); font-size: 12px;
+    border-bottom: 1px solid var(--or-dark-3);
+    padding-bottom: 14px; margin-bottom: 22px;
+    font-style: italic;
+  }
+
+  .route-legend {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 16px;
+    margin: 16px 0 28px; padding: 16px 18px;
+    border: 1px solid var(--or-dark-3); border-radius: 8px;
+    background: var(--or-dark);
+  }
+  .route-legend .item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11.5px; color: var(--or-grey-1);
+    font-family: var(--mono);
+  }
+  .route-legend .swatch { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .route-legend b { color: var(--or-white); font-weight: 600; margin-right: 4px; }
+
+  .role-card {
+    margin: 0 0 36px;
+    border: 1px solid var(--or-dark-3); border-radius: 12px;
+    background: linear-gradient(180deg, var(--or-dark) 0%, var(--or-dark-2) 100%);
+    overflow: hidden;
+    break-inside: avoid;
+  }
+  .role-head {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 16px; align-items: center;
+    padding: 20px 22px;
+    border-bottom: 1px solid var(--or-dark-3);
+    background: linear-gradient(180deg, rgba(201,168,76,0.06) 0%, transparent 100%);
+  }
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--or-gold-bright) 0%, var(--or-gold) 60%, var(--or-gold-deep) 100%);
+    color: var(--or-black);
+    font-family: var(--serif); font-weight: 700; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 20px rgba(201,168,76,0.25);
+    flex-shrink: 0;
+  }
+  .role-head .meta .name {
+    font-family: var(--serif);
+    font-size: 19px; font-weight: 600; color: var(--or-white);
+    margin: 0 0 2px;
+  }
+  .role-head .meta .title {
+    font-size: 12px; color: var(--or-gold-light);
+    text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .role-head .meta .scope { font-size: 12px; color: var(--or-grey-2); margin: 0; }
+  .role-head .meta .scope code {
+    font-family: var(--mono); font-size: 11px;
+    background: rgba(201,168,76,0.08); color: var(--or-gold-light);
+    padding: 1px 6px; border-radius: 3px;
+  }
+  .role-head .pill {
+    font-family: var(--mono); font-size: 10px;
+    background: rgba(201,168,76,0.12); color: var(--or-gold-light);
+    padding: 4px 10px; border-radius: 999px;
+    letter-spacing: 0.06em; font-weight: 500;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .workflow-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--or-dark-3);
+    border-bottom: 1px solid var(--or-dark-3);
+  }
+  .workflow-strip .item {
+    background: var(--or-dark);
+    padding: 12px 14px;
+    font-size: 11.5px; color: var(--or-grey-1);
+    line-height: 1.5;
+  }
+  .workflow-strip .item .label {
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--or-gold); letter-spacing: 0.08em;
+    text-transform: uppercase; font-weight: 600;
+    margin: 0 0 4px;
+  }
+
+  .action-tray {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--or-dark-3);
+  }
+  .action-tray .tray-label {
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--or-gold); letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 600;
+    margin: 0 0 10px;
+  }
+  .action-tray .actions {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .action-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 14px;
+    border: 1px solid var(--or-dark-4);
+    border-radius: 999px;
+    background: var(--or-dark-2);
+    color: var(--or-grey-1);
+    font-family: var(--sans); font-size: 12px; font-weight: 500;
+    line-height: 1;
+  }
+  .action-btn .icon {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--or-gold); font-weight: 600;
+  }
+  .action-btn.primary {
+    background: linear-gradient(180deg, rgba(201,168,76,0.18) 0%, rgba(201,168,76,0.08) 100%);
+    border-color: var(--or-gold-deep);
+    color: var(--or-gold-light);
+  }
+  .action-btn.primary .icon { color: var(--or-gold-bright); }
+  .action-btn.danger {
+    border-color: rgba(220,38,38,0.4);
+    color: #FF8B75;
+  }
+  .action-btn.danger .icon { color: #FF8B75; }
+  .action-btn.demoed {
+    border-color: var(--or-gold);
+    background: linear-gradient(180deg, rgba(201,168,76,0.22) 0%, rgba(201,168,76,0.1) 100%);
+    color: var(--or-white);
+  }
+  .action-btn.demoed::after {
+    content: "▼";
+    color: var(--or-gold);
+    font-size: 8px;
+    margin-left: 2px;
+  }
+
+  .chat-thread {
+    padding: 18px 22px 22px;
+    background:
+      linear-gradient(180deg, rgba(201,168,76,0.02) 0%, transparent 100%),
+      var(--or-dark);
+  }
+  .chat-thread .thread-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--or-dark-3);
+  }
+  .chat-thread .thread-head .label {
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--or-gold); letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .chat-thread .thread-head .ts {
+    font-family: var(--mono); font-size: 10px; color: var(--or-grey-3);
+  }
+
+  .bubble {
+    display: grid; gap: 10px;
+    margin: 12px 0;
+    grid-template-columns: 28px 1fr;
+    align-items: start;
+    break-inside: avoid;
+  }
+  .bubble.user { grid-template-columns: 1fr 28px; }
+  .bubble .avi {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-weight: 700; font-size: 11px;
+    flex-shrink: 0;
+  }
+  .bubble.user .avi {
+    grid-column: 2;
+    background: var(--or-dark-3);
+    color: var(--or-grey-1);
+  }
+  .bubble.ai .avi {
+    background: linear-gradient(180deg, var(--or-gold-bright) 0%, var(--or-gold) 60%, var(--or-gold-deep) 100%);
+    color: var(--or-black);
+    font-family: var(--mono); font-size: 10px;
+  }
+  .bubble .body {
+    border-radius: 14px;
+    padding: 12px 16px;
+    line-height: 1.55;
+    font-size: 13px;
+    max-width: 100%;
+  }
+  .bubble.user .body {
+    grid-column: 1;
+    background: var(--or-dark-3);
+    color: var(--or-white);
+    border: 1px solid var(--or-dark-4);
+    border-bottom-right-radius: 4px;
+    justify-self: end;
+  }
+  .bubble.user .body .tap-icon {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--or-gold); margin-right: 6px; font-weight: 600;
+  }
+  .bubble.ai .body {
+    background: var(--or-dark-2);
+    color: var(--or-grey-1);
+    border: 1px solid var(--or-gold-deep);
+    border-bottom-left-radius: 4px;
+  }
+  .bubble.ai .body .route {
+    display: inline-block;
+    font-family: var(--mono); font-size: 9.5px; font-weight: 600;
+    padding: 2px 8px; border-radius: 999px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin: 0 0 8px;
+    background: rgba(201,168,76,0.12);
+    color: var(--or-gold-light);
+  }
+  .bubble.ai .body .route.r-concierge { background: rgba(212,160,48,0.15); color: var(--route-concierge);}
+  .bubble.ai .body .route.r-composer  { background: rgba(183,133,214,0.15); color: var(--route-composer); }
+  .bubble.ai .body .route.r-ops       { background: rgba(123,168,221,0.15); color: var(--route-ops); }
+  .bubble.ai .body .route.r-tickets   { background: rgba(232,133,94,0.15); color: var(--route-tickets); }
+  .bubble.ai .body .route.r-smf-q     { background: rgba(123,201,166,0.15); color: var(--route-smf-q); }
+  .bubble.ai .body .route.r-handoff   { background: rgba(168,159,140,0.15); color: var(--route-handoff); }
+
+  .bubble.ai .body p { margin: 0 0 8px; color: var(--or-grey-1); font-size: 13px; line-height: 1.55; }
+  .bubble.ai .body p:last-child { margin-bottom: 0; }
+  .bubble.ai .body strong { color: var(--or-white); font-weight: 600; }
+  .bubble.ai .body em { color: var(--or-gold-light); font-style: italic; }
+  .bubble.ai .body ul, .bubble.ai .body ol {
+    margin: 6px 0 8px; padding-left: 20px;
+  }
+  .bubble.ai .body li {
+    color: var(--or-grey-1); font-size: 13px;
+    margin-bottom: 4px; line-height: 1.5;
+  }
+  .bubble.ai .body code {
+    font-family: var(--mono); font-size: 11.5px;
+    background: rgba(201,168,76,0.08); color: var(--or-gold-light);
+    padding: 1px 6px; border-radius: 3px;
+  }
+  .bubble.ai .body .grounded {
+    margin-top: 10px; padding-top: 8px;
+    border-top: 1px dashed var(--or-dark-3);
+    font-family: var(--mono); font-size: 10px;
+    color: var(--or-grey-3); line-height: 1.5;
+  }
+  .bubble.ai .body .grounded b { color: var(--or-gold); font-weight: 600; }
+  .bubble.ai .body .followups {
+    margin-top: 12px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .bubble.ai .body .followups .chip {
+    display: inline-flex; align-items: center;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: var(--or-black);
+    border: 1px solid var(--or-dark-4);
+    color: var(--or-gold-light);
+    font-size: 11px; font-weight: 500;
+    font-family: var(--sans);
+  }
+
+  table.coverage {
+    width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 12px;
+  }
+  table.coverage th, table.coverage td {
+    text-align: left; padding: 9px 10px;
+    border-bottom: 1px solid var(--or-dark-3); vertical-align: top;
+    color: var(--or-grey-1);
+  }
+  table.coverage th {
+    color: var(--or-gold); font-weight: 600;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    border-bottom: 1px solid var(--or-gold-deep);
+    font-family: var(--serif);
+  }
+  table.coverage td.b { color: var(--or-white); font-weight: 600; }
+  table.coverage td.actions-count {
+    color: var(--or-gold-light); font-family: var(--mono);
+    font-size: 11.5px; font-weight: 600; text-align: center;
+  }
+
+  .footer {
+    margin-top: 44px; padding-top: 18px;
+    border-top: 1px solid var(--or-dark-3);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--or-grey-3); font-family: var(--mono);
+  }
+  .footer .seal { color: var(--or-gold); font-weight: 600; }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    html, body {
+      background: var(--or-black) !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body { font-size: 11.5px; line-height: 1.5; }
+    .page { padding: 12mm 10mm; max-width: none; margin: 0; background: transparent; }
+    .topbar { padding-bottom: 10px; margin-bottom: 16px; }
+    h1.hero { font-size: 20px; margin: 8px 0 6px; line-height: 1.18; }
+    h1.hero .accent { font-size: 17px; margin-top: 2px; }
+    .lede { font-size: 11.5px; margin-bottom: 12px; max-width: none; }
+    h2.section {
+      font-size: 16px; margin: 0 0 2px;
+      break-after: avoid; page-break-after: avoid;
+      break-before: page; page-break-before: always;
+    }
+    h2.section.no-break { break-before: auto; page-break-before: auto; }
+    h2.section + .sub { font-size: 10px; padding-bottom: 8px; margin-bottom: 12px; }
+    .route-legend { padding: 10px 14px; margin: 10px 0 18px; gap: 6px 14px; }
+    .route-legend .item { font-size: 10px; }
+    .role-card { margin: 0 0 18px; break-inside: avoid; page-break-inside: avoid; }
+    .role-head { padding: 14px 18px; gap: 12px; }
+    .avatar { width: 50px; height: 50px; font-size: 17px; }
+    .role-head .meta .name { font-size: 16px; }
+    .role-head .meta .title { font-size: 10px; }
+    .role-head .meta .scope { font-size: 11px; }
+    .role-head .pill { font-size: 9px; padding: 3px 8px; }
+    .workflow-strip .item { padding: 9px 11px; font-size: 10px; }
+    .workflow-strip .item .label { font-size: 8.5px; }
+    .action-tray { padding: 12px 18px; }
+    .action-tray .tray-label { font-size: 8.5px; }
+    .action-btn { font-size: 10.5px; padding: 6px 10px; }
+    .chat-thread { padding: 12px 18px 16px; break-inside: avoid; }
+    .chat-thread .thread-head { margin-bottom: 10px; padding-bottom: 6px; }
+    .chat-thread .thread-head .label, .chat-thread .thread-head .ts { font-size: 9px; }
+    .bubble { gap: 8px; margin: 8px 0; break-inside: avoid; page-break-inside: avoid; }
+    .bubble .avi { width: 24px; height: 24px; font-size: 9.5px; }
+    .bubble .body { padding: 9px 12px; font-size: 11px; line-height: 1.5; border-radius: 11px; }
+    .bubble.ai .body p, .bubble.ai .body li { font-size: 11px; line-height: 1.45; }
+    .bubble.ai .body .route { font-size: 8.5px; padding: 2px 7px; margin-bottom: 6px; }
+    .bubble.ai .body .grounded { font-size: 9px; margin-top: 8px; padding-top: 6px; }
+    .bubble.ai .body .followups .chip { font-size: 9.5px; padding: 4px 8px; }
+    table.coverage { font-size: 10.5px; }
+    table.coverage th, table.coverage td { padding: 6px 8px; }
+    table.coverage th { font-size: 9px; }
+    .footer { margin-top: 24px; font-size: 8.5px; padding-top: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brandmark">
+      <span class="dot"></span>
+      ORIGIN <span style="color:var(--or-gold-deep);opacity:.8">·</span> by ILCO Farming
+    </div>
+    <div class="stamp">
+      <div><b>CHAT ASSISTANTS · PER ROLE</b></div>
+      <div>Tap-to-fire workflows · ready-to-demo</div>
+      <div>04 May 2026 · v2.0</div>
+    </div>
+  </header>
+
+  <h1 class="hero">
+    Each role gets its own assistant <span class="accent">— with the buttons it needs, not a blank box.</span>
+  </h1>
+
+  <p class="lede">
+    Floor staff don't type questions — they <strong>tap</strong> them. Every role's chat opens with a tray of context-aware action buttons that fire pre-engineered prompts to the right agent. The user never sees the prompt; they see the answer. Typing is still available for the curious — but the demo path is buttons end-to-end.
+  </p>
+
+  <div class="route-legend">
+    <div class="item"><span class="swatch" style="background:#D4A030"></span><b>Concierge</b>Opus 4.7</div>
+    <div class="item"><span class="swatch" style="background:#B785D6"></span><b>SMF Composer</b>Opus 4.7</div>
+    <div class="item"><span class="swatch" style="background:#7BA8DD"></span><b>General Ops</b>Sonnet 4.6</div>
+    <div class="item"><span class="swatch" style="background:#E8855E"></span><b>Tickets</b>Sonnet 4.6</div>
+    <div class="item"><span class="swatch" style="background:#7BC9A6"></span><b>SMF Q&amp;A</b>Sonnet 4.6</div>
+    <div class="item"><span class="swatch" style="background:#A89F8C"></span><b>Handoff</b>routed to human</div>
+  </div>
+
+  <h2 class="section no-break"><span class="num">01</span>Coverage matrix · 12 roles</h2>
+  <div class="sub">Every role has its own action set. Buttons pre-fire prompts; AI replies; chips suggest next taps.</div>
+
+  <table class="coverage">
+    <thead>
+      <tr>
+        <th style="width:28%">Role</th>
+        <th style="width:22%">Person</th>
+        <th>Primary use</th>
+        <th style="width:12%">Actions</th>
+        <th style="width:18%">Default route</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="b">Authorised Representative</td><td>Ilse Venter</td><td>Morning brief · sign-off freeze · risk view</td><td class="actions-count">8</td><td style="color:var(--route-concierge)">Concierge</td></tr>
+      <tr><td class="b">Deputy AR</td><td>Coenie Venter</td><td>DAR sign queue · drift triage · escalations</td><td class="actions-count">6</td><td style="color:var(--route-concierge)">Concierge</td></tr>
+      <tr><td class="b">Responsible Pharmacist</td><td>Berne Swart</td><td>Stale section drafting · RP sign · S22C log</td><td class="actions-count">7</td><td style="color:var(--route-composer)">Composer</td></tr>
+      <tr><td class="b">QA Lead</td><td>Keke</td><td>Deviations · CAPAs · COA review</td><td class="actions-count">6</td><td style="color:var(--route-tickets)">Tickets</td></tr>
+      <tr><td class="b">Facility Manager</td><td>Renae Purdon</td><td>BayGrid · greenhouse status · maintenance</td><td class="actions-count">6</td><td style="color:var(--route-ops)">Ops</td></tr>
+      <tr><td class="b">Head of Cultivation</td><td>Lourens Eksteen</td><td>Plant lifecycle · IPM · harvest planning</td><td class="actions-count">6</td><td style="color:var(--route-ops)">Ops</td></tr>
+      <tr><td class="b">Processing &amp; QA Manager</td><td>Jeanette Ferreira</td><td>Trim · dry · cure · packaging batches</td><td class="actions-count">5</td><td style="color:var(--route-tickets)">Tickets</td></tr>
+      <tr><td class="b">Trimmer / Operator</td><td>Trimmer (1 of 25)</td><td>Today's job card · log work · raise issue</td><td class="actions-count">4</td><td style="color:var(--route-tickets)">Tickets</td></tr>
+      <tr><td class="b">Security</td><td>Sipho</td><td>Access events · perimeter · incident log</td><td class="actions-count">5</td><td style="color:var(--route-ops)">Ops</td></tr>
+      <tr><td class="b">Admin &amp; HR</td><td>Loraine</td><td>Onboarding · training matrix · leave · all admin</td><td class="actions-count">5</td><td style="color:var(--route-ops)">Ops</td></tr>
+      <tr><td class="b">IT Manager</td><td>Calvin Green</td><td>Printers · network · computers (no platform admin)</td><td class="actions-count">5</td><td style="color:var(--route-ops)">Ops</td></tr>
+      <tr><td class="b">SAHPRA Inspector</td><td>(viewer)</td><td>Read-only · sign-off chain · audit replay</td><td class="actions-count">4</td><td style="color:var(--route-smf-q)">SMF Q&amp;A</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:12px; color:var(--or-grey-2); margin-top:12px;">
+    <strong style="color:var(--or-gold-light);">Convention:</strong> primary action buttons are gold; destructive / sign-off actions are red-edged; secondary tools are dark. Every reply ends with 2–3 follow-up chips so the user can keep tapping without typing.
+  </p>
+
+  <!-- ROLE 01 · ILSE -->
+  <h2 class="section"><span class="num">02</span>Ilse Venter · Authorised Representative</h2>
+  <div class="sub">Owner-tier · Concierge route · holds the SAHPRA 22C licence.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">IC</div>
+      <div class="meta">
+        <div class="name">Ilse Venter</div>
+        <div class="title">Authorised Representative · AR</div>
+        <div class="scope">Can act-as <code>DAR</code>, <code>RP</code>, <code>any role</code> in ghost mode (read-only by default)</div>
+      </div>
+      <div class="pill">Opus 4.7 · Concierge</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Morning</div>Open dashboard → tap "Morning brief"</div>
+      <div class="item"><div class="label">Mid-day</div>Review queue: anything waiting on AR?</div>
+      <div class="item"><div class="label">Evening</div>Freeze any sections fully signed today</div>
+      <div class="item"><div class="label">Weekly</div>Risk register · drift trend · staffing</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Morning brief</button>
+        <button class="action-btn demoed"><span class="icon">▸</span>What's waiting on AR?</button>
+        <button class="action-btn"><span class="icon">▸</span>Drift this week</button>
+        <button class="action-btn"><span class="icon">▸</span>Staff utilisation</button>
+        <button class="action-btn"><span class="icon">▸</span>Risk register</button>
+        <button class="action-btn"><span class="icon">▸</span>SAHPRA inspection readiness</button>
+        <button class="action-btn danger"><span class="icon">▸</span>AR sign &amp; freeze (review queue)</button>
+        <button class="action-btn"><span class="icon">▸</span>Ghost mode · view as RP</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Morning brief</div><div class="ts">04 May 2026 · 06:42</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Morning brief</div>
+        <div class="avi">IC</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-concierge">Concierge · Opus 4.7</span>
+          <p><strong>Good morning, Ilse.</strong> Here's the picture as of 06:40 today.</p>
+          <p><strong>Cultivation:</strong> 50 plants live across 3 greenhouses · 4 in flowering week 6 are ready for sampling Friday. Lourens has a clean run.</p>
+          <p><strong>Sign-off chain:</strong> 2 sections waiting on you to freeze (C.3.1 v2 · C.1.6 v2). Both already signed by Berne (RP) and Coenie (DAR) yesterday afternoon. <em>Tap "AR sign &amp; freeze" below to clear them.</em></p>
+          <p><strong>Drift:</strong> 1 new SMF stale flag overnight — section C.5.2 (calibration tolerance). Daemon raised ticket TKT-0481 for Berne. No action required from you yet.</p>
+          <p><strong>People:</strong> Loraine flagged Sipho's annual security refresher is overdue by 6 days. Low risk but worth a nudge.</p>
+          <div class="grounded"><b>Grounded in:</b> 50 plants · 2 AR-pending sections · 1 fresh drift ticket · training matrix snapshot · cultivation digest. <b>Hash:</b> a8f2…c104</div>
+          <div class="followups">
+            <span class="chip">▸ Show the 2 sections</span>
+            <span class="chip">▸ Open TKT-0481</span>
+            <span class="chip">▸ Nudge Loraine about Sipho</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-thread" style="border-top:1px solid var(--or-dark-3)">
+      <div class="thread-head"><div class="label">Demo dialogue · What's waiting on AR?</div><div class="ts">04 May 2026 · 11:14</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>What's waiting on AR?</div>
+        <div class="avi">IC</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-concierge">Concierge · Opus 4.7</span>
+          <p>You have <strong>4 items</strong> in your queue right now.</p>
+          <ol>
+            <li><strong>Sign &amp; freeze · SMF C.3.1 v2</strong> — RP + DAR signed. Awaiting your AR signature to freeze.</li>
+            <li><strong>Sign &amp; freeze · SMF C.1.6 v2</strong> — RP + DAR signed. Same.</li>
+            <li><strong>Approve · Section 22C variation request</strong> — Berne lodged yesterday for new flowering room. Decision needed by 09 May.</li>
+            <li><strong>Review · Q1 internal audit findings</strong> — Loraine uploaded 14:00 yesterday. 3 minor non-conformances; nothing critical.</li>
+          </ol>
+          <div class="grounded"><b>Grounded in:</b> sign-off queue · variation requests · audit findings table.</div>
+          <div class="followups">
+            <span class="chip">▸ Open C.3.1</span>
+            <span class="chip">▸ Open variation request</span>
+            <span class="chip">▸ Defer audit review to tomorrow</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 02 · COENIE -->
+  <h2 class="section"><span class="num">03</span>Coenie Venter · Deputy Authorised Representative</h2>
+  <div class="sub">Owner-tier · Concierge route · backs the AR, signs second on the chain.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">CB</div>
+      <div class="meta">
+        <div class="name">Coenie Venter</div>
+        <div class="title">Deputy AR · DAR</div>
+        <div class="scope">Can act-as <code>RP</code> in ghost · can co-sign with AR</div>
+      </div>
+      <div class="pill">Opus 4.7 · Concierge</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Morning</div>Check DAR sign queue</div>
+      <div class="item"><div class="label">Daily</div>Triage drift tickets before they hit Berne</div>
+      <div class="item"><div class="label">Weekly</div>Escalations from RP / QA</div>
+      <div class="item"><div class="label">Monthly</div>Joint review with Ilse</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>My DAR sign queue</button>
+        <button class="action-btn demoed"><span class="icon">▸</span>Drift triage today</button>
+        <button class="action-btn"><span class="icon">▸</span>What did Berne change last 24h?</button>
+        <button class="action-btn"><span class="icon">▸</span>Escalations to AR</button>
+        <button class="action-btn danger"><span class="icon">▸</span>DAR sign (review queue)</button>
+        <button class="action-btn"><span class="icon">▸</span>Cross-check with QA log</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · DAR sign queue</div><div class="ts">04 May 2026 · 08:12</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>My DAR sign queue</div>
+        <div class="avi">CB</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-concierge">Concierge · Opus 4.7</span>
+          <p>You have <strong>3 sections</strong> waiting on your DAR signature, all RP-signed by Berne.</p>
+          <ul>
+            <li><strong>C.3.1 · Cultivation Areas</strong> — RP signed 03 May 16:22. New greenhouse mentioned. Body diff is ~120 words.</li>
+            <li><strong>C.1.6 · Equipment Register</strong> — RP signed 03 May 16:35. Two new HVAC units appended.</li>
+            <li><strong>F.2.1 · Pest Management SOP</strong> — RP signed 04 May 07:48 (this morning). IPM rotation updated for autumn cycle.</li>
+          </ul>
+          <p>None blocked. Tap any item to open the diff and sign.</p>
+          <div class="grounded"><b>Grounded in:</b> sign-off chain table · live SMF state.</div>
+          <div class="followups">
+            <span class="chip">▸ Open C.3.1 diff</span>
+            <span class="chip">▸ Sign all 3 in batch</span>
+            <span class="chip">▸ Defer F.2.1 (need Lourens to confirm)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Drift triage today</div>
+        <div class="avi">CB</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-concierge">Concierge · Opus 4.7</span>
+          <p><strong>2 fresh drift events</strong> in the last 24h. None require DAR action — both routed to RP.</p>
+          <ul>
+            <li><strong>TKT-0481 · C.5.2 calibration drift</strong> — assigned to Berne. Caused by RH probe RH-04 reading 2% above tolerance for 6 hours overnight.</li>
+            <li><strong>TKT-0482 · C.3.1 stale flag</strong> — assigned to Berne. New greenhouse added by Renae triggered the rule.</li>
+          </ul>
+          <p>If Berne hasn't actioned by end-of-day, I'll surface it as an escalation.</p>
+          <div class="grounded"><b>Grounded in:</b> drift ticket queue · 16-rule daemon log.</div>
+          <div class="followups">
+            <span class="chip">▸ Watch both tickets</span>
+            <span class="chip">▸ Ghost-act as RP and start drafting</span>
+            <span class="chip">▸ Notify Ilse</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 03 · BERNE -->
+  <h2 class="section"><span class="num">04</span>Berne Swart · Responsible Pharmacist</h2>
+  <div class="sub">Composer route · the only role allowed to fire AI drafting on regulated text.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">BS</div>
+      <div class="meta">
+        <div class="name">Berne Swart</div>
+        <div class="title">Responsible Pharmacist · RP</div>
+        <div class="scope">Holds <code>SAPC Y-number</code> · drafts &amp; first-signs every SMF section</div>
+      </div>
+      <div class="pill">Opus 4.7 · SMF Composer</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">First thing</div>Open SMF page → check stale flags</div>
+      <div class="item"><div class="label">Tap</div>"Draft with AI" on each stale section</div>
+      <div class="item"><div class="label">Review</div>Read AI red-banner · edit · RP sign</div>
+      <div class="item"><div class="label">Hand-off</div>Coenie sees it in DAR queue</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>What's stale right now?</button>
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Draft with AI · C.3.1</button>
+        <button class="action-btn"><span class="icon">▸</span>My open drift tickets</button>
+        <button class="action-btn"><span class="icon">▸</span>Show last AI draft trail</button>
+        <button class="action-btn"><span class="icon">▸</span>S22C variation status</button>
+        <button class="action-btn"><span class="icon">▸</span>Compare two section versions</button>
+        <button class="action-btn danger"><span class="icon">▸</span>RP sign current section</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Stale check</div><div class="ts">04 May 2026 · 07:50</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>What's stale right now?</div>
+        <div class="avi">BS</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-smf-q">SMF Q&amp;A · Sonnet 4.6</span>
+          <p>You have <strong>3 stale sections</strong> waiting on RP redraft.</p>
+          <ul>
+            <li><strong>C.3.1 · Cultivation Areas</strong> — stale since 03 May 14:08. Cause: <em>GREENHOUSE_CREATED</em> (Renae added Greenhouse 04 yesterday).</li>
+            <li><strong>C.1.6 · Equipment Register</strong> — stale since 03 May 14:11. Same trigger.</li>
+            <li><strong>C.5.2 · Calibration Tolerance</strong> — stale since 04 May 02:14. Cause: <em>CALIBRATION_DRIFT</em> on RH-04 probe.</li>
+          </ul>
+          <div class="grounded"><b>Grounded in:</b> SMF state · drift daemon log · event bus.</div>
+          <div class="followups">
+            <span class="chip">▸ Draft with AI · C.3.1</span>
+            <span class="chip">▸ Draft with AI · C.1.6</span>
+            <span class="chip">▸ Open TKT-0481 (calibration)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Draft with AI · C.3.1</div>
+        <div class="avi">BS</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-composer">SMF Composer · Opus 4.7</span>
+          <p><strong>Draft prepared for C.3.1 · v2.</strong> Took 14.2s. Loaded fresh facility data first.</p>
+          <p style="background:rgba(220,38,38,0.08); border-left:2px solid #FF8B75; padding:8px 12px; margin:8px 0; border-radius:4px;"><strong style="color:#FF8B75;">AI-GENERATED · NOT YET APPROVED.</strong> Open the section modal to read, edit and sign. Sign-off chain has been reset to <code>DRAFT</code> — RP, DAR and AR signatures cleared.</p>
+          <p><em>Outstanding from me:</em> please confirm Greenhouse 04's commissioning date and irrigation spec — I left placeholders.</p>
+          <div class="grounded"><b>Grounded in:</b> 4 greenhouses · 12 rooms · equipment register snapshot · IPM SOP F.2.1 · water spec WSR-03. <b>AICall hash:</b> 4d11…87e2</div>
+          <div class="followups">
+            <span class="chip">▸ Open the draft modal</span>
+            <span class="chip">▸ Discard &amp; redraft</span>
+            <span class="chip">▸ Show me the source data used</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 04 · KEKE -->
+  <h2 class="section"><span class="num">05</span>Keke · QA Lead</h2>
+  <div class="sub">Tickets route · owns deviations, CAPAs and certificate of analysis review.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">KE</div>
+      <div class="meta">
+        <div class="name">Keke</div>
+        <div class="title">Quality Assurance Lead</div>
+        <div class="scope">Raises <code>DEVIATION</code> &amp; <code>CAPA</code> tickets · reviews COAs · independent of RP</div>
+      </div>
+      <div class="pill">Sonnet 4.6 · Tickets + Ops</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Daily</div>Check overnight deviation queue</div>
+      <div class="item"><div class="label">Per batch</div>Review COA · accept / reject</div>
+      <div class="item"><div class="label">Weekly</div>Open CAPAs · root cause status</div>
+      <div class="item"><div class="label">Monthly</div>QA report to RP + AR</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Open deviations</button>
+        <button class="action-btn demoed"><span class="icon">▸</span>COAs awaiting review</button>
+        <button class="action-btn"><span class="icon">▸</span>Open CAPAs by age</button>
+        <button class="action-btn"><span class="icon">▸</span>Trend last 30d</button>
+        <button class="action-btn primary"><span class="icon">▸</span>Raise new deviation</button>
+        <button class="action-btn"><span class="icon">▸</span>Escalate to RP</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Deviations</div><div class="ts">04 May 2026 · 09:05</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Open deviations</div>
+        <div class="avi">KE</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-tickets">Tickets · Sonnet 4.6</span>
+          <p>You have <strong>4 open deviations</strong> right now.</p>
+          <ol>
+            <li><strong>DEV-0117</strong> · Greenhouse 02 RH spike to 78% on 02 May 21:00. Lourens raised. <em>Awaiting QA close-out</em>.</li>
+            <li><strong>DEV-0118</strong> · Trim batch B-2026-04-22 yield variance −8.2%. Jeanette raised. <em>Investigation open</em>.</li>
+            <li><strong>DEV-0119</strong> · Calibration drift RH-04 (links TKT-0481). <em>RP investigating root cause</em>.</li>
+            <li><strong>DEV-0120</strong> · COA C-LAB-0451 missing pesticide screen. <em>Returned to lab; awaiting reissue</em>.</li>
+          </ol>
+          <div class="grounded"><b>Grounded in:</b> deviation tickets table · CAPA register · COA inbox.</div>
+          <div class="followups">
+            <span class="chip">▸ Open DEV-0117</span>
+            <span class="chip">▸ Show all linked CAPAs</span>
+            <span class="chip">▸ Trend RH-04 last 7d</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>COAs awaiting review</div>
+        <div class="avi">KE</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-tickets">Tickets · Sonnet 4.6</span>
+          <p><strong>2 COAs sitting in your inbox.</strong></p>
+          <ul>
+            <li><strong>C-LAB-0452</strong> · batch B-2026-04-22 (Jeanette's yield-variance batch) · all 6 panels passed · ready for tap-to-accept.</li>
+            <li><strong>C-LAB-0453</strong> · batch B-2026-04-25 · cannabinoid panel passed; pesticide panel <strong style="color:#FF8B75;">borderline on myclobutanil (0.011 mg/kg vs 0.010 limit)</strong> — recommend rejection.</li>
+          </ul>
+          <div class="grounded"><b>Grounded in:</b> COA inbox · lab spec table · regulatory limits ref.</div>
+          <div class="followups">
+            <span class="chip">▸ Accept C-LAB-0452</span>
+            <span class="chip">▸ Reject C-LAB-0453 + raise CAPA</span>
+            <span class="chip">▸ Notify Berne</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 05 · RENAE -->
+  <h2 class="section"><span class="num">06</span>Renae Purdon · Facility Manager</h2>
+  <div class="sub">Ops route · owns BayGrid, greenhouse build-outs, maintenance calendar.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">RL</div>
+      <div class="meta">
+        <div class="name">Renae Purdon</div>
+        <div class="title">Facility Manager · FM</div>
+        <div class="scope">BayGrid editor · raises <code>MAINTENANCE</code> tickets · manages contractors</div>
+      </div>
+      <div class="pill">Sonnet 4.6 · General Ops</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Daily</div>Walk greenhouses · log issues</div>
+      <div class="item"><div class="label">Per change</div>Update BayGrid → triggers SMF drift</div>
+      <div class="item"><div class="label">Weekly</div>Maintenance calendar review</div>
+      <div class="item"><div class="label">Monthly</div>Capex requests · contractor renewals</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Greenhouse status now</button>
+        <button class="action-btn demoed"><span class="icon">▸</span>What's overdue?</button>
+        <button class="action-btn"><span class="icon">▸</span>This week's maintenance</button>
+        <button class="action-btn"><span class="icon">▸</span>Probes &amp; sensor health</button>
+        <button class="action-btn primary"><span class="icon">▸</span>Raise maintenance ticket</button>
+        <button class="action-btn"><span class="icon">▸</span>Add new room → BayGrid</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Status + overdue</div><div class="ts">04 May 2026 · 06:55</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Greenhouse status now</div>
+        <div class="avi">RL</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-ops">General Ops · Sonnet 4.6</span>
+          <p><strong>4 greenhouses live · all in nominal envelope.</strong></p>
+          <ul>
+            <li><strong>GH-01 · Veg</strong> — temp 24.3 °C · RH 62% · CO₂ 850 ppm · 12 plants</li>
+            <li><strong>GH-02 · Flower wk 4</strong> — temp 25.1 °C · RH 54% · CO₂ 1100 ppm · 18 plants</li>
+            <li><strong>GH-03 · Flower wk 6</strong> — temp 24.8 °C · RH 51% · CO₂ 1150 ppm · 16 plants <em>· sampling Friday</em></li>
+            <li><strong>GH-04 · Veg (new)</strong> — temp 24.5 °C · RH 60% · CO₂ 800 ppm · 4 plants <em>· commissioned 03 May</em></li>
+          </ul>
+          <p><em>Note:</em> RH-04 probe in GH-02 is reading 2% high — flagged for calibration. Berne knows.</p>
+          <div class="grounded"><b>Grounded in:</b> live sensor stream · BayGrid · plant register.</div>
+          <div class="followups">
+            <span class="chip">▸ Acknowledge RH-04 flag</span>
+            <span class="chip">▸ Open Friday sampling job</span>
+            <span class="chip">▸ Show overnight envelope graph</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>What's overdue?</div>
+        <div class="avi">RL</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-ops">General Ops · Sonnet 4.6</span>
+          <p><strong>3 maintenance items past due.</strong></p>
+          <ul>
+            <li><strong>HVAC-02 quarterly service</strong> — due 28 Apr · 6 days late · contractor scheduled 06 May.</li>
+            <li><strong>RO-water filter replacement</strong> — due 30 Apr · 4 days late · stock on shelf, can be done today.</li>
+            <li><strong>Probe calibration sweep</strong> — due 01 May · 3 days late · planned today after RH-04 issue.</li>
+          </ul>
+          <div class="grounded"><b>Grounded in:</b> maintenance calendar · ticket queue.</div>
+          <div class="followups">
+            <span class="chip">▸ Assign filter swap</span>
+            <span class="chip">▸ Confirm contractor for 06 May</span>
+            <span class="chip">▸ Start probe sweep now</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 06 · LOURENS -->
+  <h2 class="section"><span class="num">07</span>Lourens Eksteen · Head of Cultivation</h2>
+  <div class="sub">Ops route · owns plant lifecycle from clone to harvest.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">LO</div>
+      <div class="meta">
+        <div class="name">Lourens Eksteen</div>
+        <div class="title">Head of Cultivation · HoC</div>
+        <div class="scope">B.Agric UFS 2016 · plant register · IPM logs · raises <code>CULTIVATION</code> tickets</div>
+      </div>
+      <div class="pill">Sonnet 4.6 · General Ops</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Daily</div>Walk-through · log feeds &amp; pH</div>
+      <div class="item"><div class="label">Weekly</div>IPM rotation · pest scouting</div>
+      <div class="item"><div class="label">Per cycle</div>Harvest plan · trim handover</div>
+      <div class="item"><div class="label">Monthly</div>Strain performance review</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Today's plant tasks</button>
+        <button class="action-btn demoed"><span class="icon">▸</span>Harvest window next 14d</button>
+        <button class="action-btn"><span class="icon">▸</span>IPM log this week</button>
+        <button class="action-btn"><span class="icon">▸</span>Strain yield trend</button>
+        <button class="action-btn primary"><span class="icon">▸</span>Log feed / pH reading</button>
+        <button class="action-btn"><span class="icon">▸</span>Raise pest sighting</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Today &amp; harvest</div><div class="ts">04 May 2026 · 06:25</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Today's plant tasks</div>
+        <div class="avi">LO</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-ops">General Ops · Sonnet 4.6</span>
+          <p><strong>Monday cultivation card.</strong></p>
+          <ul>
+            <li><strong>GH-01</strong> — feed B-mix 1.4 EC · pH 5.9 · 12 plants · top &amp; LST 4 vegging plants</li>
+            <li><strong>GH-02</strong> — feed flower-mix 1.8 EC · pH 6.0 · defoliation pass on lower 3rd</li>
+            <li><strong>GH-03</strong> — flush only (water + 0.2 EC) · sampling for COA on Friday — schedule with Keke</li>
+            <li><strong>GH-04</strong> — first feed for 4 new clones · gentle B-mix 0.9 EC · pH 5.8</li>
+          </ul>
+          <div class="grounded"><b>Grounded in:</b> 50-plant register · feed schedule · stage table.</div>
+          <div class="followups">
+            <span class="chip">▸ Schedule Friday sampling with Keke</span>
+            <span class="chip">▸ Log first feed GH-04 done</span>
+            <span class="chip">▸ Show me pest scouting checklist</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Harvest window next 14d</div>
+        <div class="avi">LO</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-ops">General Ops · Sonnet 4.6</span>
+          <p><strong>1 harvest in window.</strong></p>
+          <ul>
+            <li><strong>GH-03 · 16 plants · Strain "Rooi Klip"</strong> — flowering wk 6, projected harvest <strong>14–16 May</strong> based on trichome model + this strain's last 2 cycles. Trim handover to Jeanette day after harvest.</li>
+          </ul>
+          <p>Estimated wet weight: ~7.2 kg. Dry yield projection ~1.4 kg based on strain's historical 19% retention.</p>
+          <div class="grounded"><b>Grounded in:</b> stage table · strain history · trichome scout log.</div>
+          <div class="followups">
+            <span class="chip">▸ Pre-book Jeanette's trim crew</span>
+            <span class="chip">▸ Reserve dry-room space</span>
+            <span class="chip">▸ Notify Keke for COA scheduling</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 07 · JEANETTE -->
+  <h2 class="section"><span class="num">08</span>Jeanette Ferreira · Processing &amp; QA Manager</h2>
+  <div class="sub">Tickets route · runs trim, dry, cure, packaging · HACCP &amp; GMP.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">JE</div>
+      <div class="meta">
+        <div class="name">Jeanette Ferreira</div>
+        <div class="title">Processing Manager · QA scope</div>
+        <div class="scope">HACCP &amp; GMP · owns batches in <code>TRIM</code>, <code>DRY</code>, <code>CURE</code>, <code>PACK</code> queues</div>
+      </div>
+      <div class="pill">Sonnet 4.6 · Tickets</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Per batch</div>Open job card · assign trim crew</div>
+      <div class="item"><div class="label">Daily</div>Log dry-room weights</div>
+      <div class="item"><div class="label">Per cure</div>Burp jars · log RH</div>
+      <div class="item"><div class="label">Pack</div>Label · seal · hand to dispatch</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Open batches by stage</button>
+        <button class="action-btn demoed"><span class="icon">▸</span>Today's trim queue</button>
+        <button class="action-btn"><span class="icon">▸</span>Dry room weights</button>
+        <button class="action-btn"><span class="icon">▸</span>Cure jar rotation</button>
+        <button class="action-btn primary"><span class="icon">▸</span>Log batch weight</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Batches &amp; trim</div><div class="ts">04 May 2026 · 07:40</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Open batches by stage</div>
+        <div class="avi">JE</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-tickets">Tickets · Sonnet 4.6</span>
+          <p><strong>5 batches active right now.</strong></p>
+          <ul>
+            <li><strong>B-2026-04-22</strong> · TRIM · 3rd day · 4.1 kg of 5.0 kg done · JR + 2 trimmers</li>
+            <li><strong>B-2026-04-25</strong> · DRY · day 8 of 10 · current 12.8% moisture</li>
+            <li><strong>B-2026-04-18</strong> · CURE · day 22 · jars at 60% RH · burp tonight</li>
+            <li><strong>B-2026-04-12</strong> · PACK · awaiting QA COA acceptance (sitting with Keke)</li>
+            <li><strong>B-2026-04-04</strong> · PACK · sealed, awaiting dispatch tag</li>
+          </ul>
+          <div class="grounded"><b>Grounded in:</b> batch register · stage queues · QA inbox.</div>
+          <div class="followups">
+            <span class="chip">▸ Open B-2026-04-22 job card</span>
+            <span class="chip">▸ Add a trimmer to B-2026-04-22</span>
+            <span class="chip">▸ Nudge Keke on B-2026-04-12 COA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Today's trim queue</div>
+        <div class="avi">JE</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-tickets">Tickets · Sonnet 4.6</span>
+          <p><strong>Trim crew · 04 May.</strong></p>
+          <ul>
+            <li><strong>Trimmer 1</strong> — B-2026-04-22 · target 1.0 kg by 16:00</li>
+            <li><strong>Trimmer 2</strong> — B-2026-04-22 · target 0.5 kg by 14:00</li>
+            <li><strong>Trimmer 3</strong> — B-2026-04-22 · target 0.5 kg by 14:00</li>
+          </ul>
+          <p>Yield variance on this batch is −8.2% (DEV-0118 open). I'd recommend slowing trim rate 10% and re-weighing each station's bin every 2 hours to catch the loss point.</p>
+          <div class="grounded"><b>Grounded in:</b> trim queue · DEV-0118 ticket · historical yield model.</div>
+          <div class="followups">
+            <span class="chip">▸ Set 2-hour weigh checkpoints</span>
+            <span class="chip">▸ Open DEV-0118</span>
+            <span class="chip">▸ Pull Trimmer 1 aside</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 08 · JR -->
+  <h2 class="section"><span class="num">09</span>Trimmer · floor operator (1 of 25)</h2>
+  <div class="sub">Tickets route · floor staff · individual trimmers not in SMF, this card is the template.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">TR</div>
+      <div class="meta">
+        <div class="name">Trimmer · operational</div>
+        <div class="title">Floor user · 1 of 25 trimmers</div>
+        <div class="scope">Sees only own job cards · raises <code>ISSUE</code> tickets · clocks in/out</div>
+      </div>
+      <div class="pill">Sonnet 4.6 · Tickets</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Clock in</div>Tap "Today's job"</div>
+      <div class="item"><div class="label">Work</div>Trim · log weight at break</div>
+      <div class="item"><div class="label">Issue</div>Tap "Raise issue"</div>
+      <div class="item"><div class="label">Clock out</div>Tap "End shift" → submit</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Today's job</button>
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Log weight</button>
+        <button class="action-btn"><span class="icon">▸</span>Raise issue</button>
+        <button class="action-btn danger"><span class="icon">▸</span>End shift</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Floor flow</div><div class="ts">04 May 2026 · 07:00</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Today's job</div>
+        <div class="avi">TR</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-tickets">Tickets · Sonnet 4.6</span>
+          <p><strong>Goeie môre.</strong> Today: <strong>B-2026-04-22</strong>. Target 1.0 kg trimmed by 16:00. Station 3.</p>
+          <p><em>Tip:</em> Yield is running low on this batch. Weigh your bin at 09:00, 11:00, 13:00 and 15:00. I'll log it.</p>
+          <div class="grounded"><b>Grounded in:</b> shift roster · job card B-2026-04-22 · DEV-0118.</div>
+          <div class="followups">
+            <span class="chip">▸ Got it</span>
+            <span class="chip">▸ Show me station 3</span>
+            <span class="chip">▸ Set 09:00 reminder</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Log weight</div>
+        <div class="avi">TR</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-tickets">Tickets · Sonnet 4.6</span>
+          <p>How much in the bin right now? Tap a number — no typing.</p>
+          <div class="followups">
+            <span class="chip">▸ 200 g</span>
+            <span class="chip">▸ 350 g</span>
+            <span class="chip">▸ 500 g</span>
+            <span class="chip">▸ Other (open keypad)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 09 · SIPHO -->
+  <h2 class="section"><span class="num">10</span>Sipho · Security Lead</h2>
+  <div class="sub">Ops route · owns access events, perimeter, incident log.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">SI</div>
+      <div class="meta">
+        <div class="name">Sipho</div>
+        <div class="title">Security Lead</div>
+        <div class="scope">Reads access logs · raises <code>SECURITY</code> tickets · CCTV index</div>
+      </div>
+      <div class="pill">Sonnet 4.6 · General Ops</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Shift start</div>Overnight access events</div>
+      <div class="item"><div class="label">Hourly</div>Perimeter walk · log</div>
+      <div class="item"><div class="label">Per incident</div>Raise + tag CCTV clip</div>
+      <div class="item"><div class="label">Weekly</div>Rota · refresher training</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Overnight access events</button>
+        <button class="action-btn demoed"><span class="icon">▸</span>Perimeter status</button>
+        <button class="action-btn"><span class="icon">▸</span>Open incident tickets</button>
+        <button class="action-btn primary"><span class="icon">▸</span>Log perimeter walk</button>
+        <button class="action-btn"><span class="icon">▸</span>Raise security incident</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Overnight</div><div class="ts">04 May 2026 · 06:00</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Overnight access events</div>
+        <div class="avi">SI</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-ops">General Ops · Sonnet 4.6</span>
+          <p><strong>14 access events between 18:00 and 06:00.</strong> All authorised.</p>
+          <ul>
+            <li>13 routine guard rotations · 2 zones</li>
+            <li>1 RP after-hours access — <strong>Berne · 02:18</strong> · Lab 1 entry · 6 minutes · cause: investigating the RH-04 calibration alarm. Self-logged note attached.</li>
+          </ul>
+          <p>No anomalies. No alarms. Perimeter clean.</p>
+          <div class="grounded"><b>Grounded in:</b> access control feed · CCTV index · self-log notes.</div>
+          <div class="followups">
+            <span class="chip">▸ Open Berne's note</span>
+            <span class="chip">▸ Show CCTV clip 02:15-02:25</span>
+            <span class="chip">▸ Log my perimeter walk now</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Perimeter status</div>
+        <div class="avi">SI</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-ops">General Ops · Sonnet 4.6</span>
+          <p><strong>Perimeter clear.</strong></p>
+          <ul>
+            <li><strong>4 of 4 cameras</strong> — feed live · no occlusions</li>
+            <li><strong>3 of 3 gates</strong> — sealed · last open 18:42 (your handover walk)</li>
+            <li><strong>Motion sensors</strong> — armed across all 6 zones</li>
+            <li><strong>Fence integrity</strong> — last walked 04 May 05:30 · clean</li>
+          </ul>
+          <div class="grounded"><b>Grounded in:</b> camera health table · gate state · motion sensor heartbeat.</div>
+          <div class="followups">
+            <span class="chip">▸ Log next walk now</span>
+            <span class="chip">▸ Show camera 3 (north fence)</span>
+            <span class="chip">▸ Schedule 09:00 reminder</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 10 · LORAINE -->
+  <h2 class="section"><span class="num">11</span>Loraine · Admin &amp; HR</h2>
+  <div class="sub">Ops route · all admin · onboarding, training matrix, leave, paperwork.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">LR</div>
+      <div class="meta">
+        <div class="name">Loraine</div>
+        <div class="title">Admin &amp; HR</div>
+        <div class="scope">Owns all admin · staff register · training matrix · raises <code>HR</code> + <code>ADMIN</code> tickets</div>
+      </div>
+      <div class="pill">Sonnet 4.6 · General Ops</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Daily</div>Leave / absence check</div>
+      <div class="item"><div class="label">Weekly</div>Training matrix · expiries</div>
+      <div class="item"><div class="label">Monthly</div>Onboarding pipeline</div>
+      <div class="item"><div class="label">Quarterly</div>Performance review pulse</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Training expiries next 30d</button>
+        <button class="action-btn demoed"><span class="icon">▸</span>Today's absence list</button>
+        <button class="action-btn"><span class="icon">▸</span>Onboarding pipeline</button>
+        <button class="action-btn"><span class="icon">▸</span>Open HR tickets</button>
+        <button class="action-btn primary"><span class="icon">▸</span>Start onboarding new hire</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Training + leave</div><div class="ts">04 May 2026 · 08:30</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Training expiries next 30d</div>
+        <div class="avi">LR</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-ops">General Ops · Sonnet 4.6</span>
+          <p><strong>4 trainings expiring in the next 30 days.</strong></p>
+          <ul>
+            <li><strong>Sipho · Annual security refresher</strong> — <strong style="color:#FF8B75;">overdue 6 days</strong></li>
+            <li><strong>Trimmer 1 · Trim ergonomics</strong> — expires 11 May (7 days)</li>
+            <li><strong>Trimmer 2 · GMP basics</strong> — expires 18 May</li>
+            <li><strong>Trimmer 3 · First aid</strong> — expires 02 Jun</li>
+          </ul>
+          <div class="grounded"><b>Grounded in:</b> training matrix · staff register.</div>
+          <div class="followups">
+            <span class="chip">▸ Book Sipho refresher this week</span>
+            <span class="chip">▸ Schedule Trimmer 1 session</span>
+            <span class="chip">▸ Notify Ilse about overdue</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Today's absence list</div>
+        <div class="avi">LR</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-ops">General Ops · Sonnet 4.6</span>
+          <p><strong>2 absent today.</strong> No impact on critical tasks.</p>
+          <ul>
+            <li><strong>Trimmer 3</strong> — pre-approved annual leave (returns 06 May)</li>
+            <li><strong>Trimmer 2</strong> — sick · self-declared 06:12 this morning · doctor's note expected</li>
+          </ul>
+          <p>Jeanette has been notified — trim crew is short-handed today; she may need a backup.</p>
+          <div class="grounded"><b>Grounded in:</b> leave register · sick log · roster.</div>
+          <div class="followups">
+            <span class="chip">▸ Find a backup trimmer</span>
+            <span class="chip">▸ Log Trimmer 2's sick day</span>
+            <span class="chip">▸ Welcome Trimmer 3 back on 06 May</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 11 · CALVIN -->
+  <h2 class="section"><span class="num">12</span>Calvin Green · IT Manager</h2>
+  <div class="sub">Ops route · printers, network, computers — no platform admin scope.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar">CA</div>
+      <div class="meta">
+        <div class="name">Calvin Green</div>
+        <div class="title">IT Manager</div>
+        <div class="scope">Printers · network · computers ONLY · no platform-admin scope (that lives with SUPER_ADMIN)</div>
+      </div>
+      <div class="pill">Sonnet 4.6 · General Ops</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Daily</div>Health check · backups</div>
+      <div class="item"><div class="label">Per request</div>Provision / deprovision user</div>
+      <div class="item"><div class="label">Per AI run</div>Spot-check AICall trail</div>
+      <div class="item"><div class="label">Weekly</div>Audit log integrity verify</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>System health now</button>
+        <button class="action-btn demoed"><span class="icon">▸</span>Verify audit chain</button>
+        <button class="action-btn"><span class="icon">▸</span>Last 24h AICall log</button>
+        <button class="action-btn"><span class="icon">▸</span>Backup status</button>
+        <button class="action-btn primary"><span class="icon">▸</span>Provision new user</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Health + audit</div><div class="ts">04 May 2026 · 06:30</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>System health now</div>
+        <div class="avi">CA</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-ops">General Ops · Sonnet 4.6</span>
+          <p><strong>All green.</strong></p>
+          <ul>
+            <li><strong>Backend</strong> — <code>:8088</code> up · uptime 9d 14h · last restart 24 Apr (deploy)</li>
+            <li><strong>Frontend</strong> — <code>:5173</code> up · vite ready</li>
+            <li><strong>Postgres</strong> — replication lag 0 ms · disk 38% used</li>
+            <li><strong>SMF Drift Daemon</strong> — armed · 482 events processed last 24h</li>
+            <li><strong>Last backup</strong> — 04 May 02:00 · verified · 1.2 GB</li>
+          </ul>
+          <div class="grounded"><b>Grounded in:</b> ops health endpoint · backup log · daemon heartbeat.</div>
+          <div class="followups">
+            <span class="chip">▸ Run integrity verify now</span>
+            <span class="chip">▸ Show 7-day uptime</span>
+            <span class="chip">▸ Open daemon log</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Verify audit chain</div>
+        <div class="avi">CA</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-ops">General Ops · Sonnet 4.6</span>
+          <p><strong>Hash chain verified.</strong></p>
+          <ul>
+            <li><strong>AuditLog</strong> — 18,442 entries · SHA-256 chain unbroken from genesis to head <code>a8f2…c104</code></li>
+            <li><strong>AICall</strong> — 6,118 entries · SHA-256 chain unbroken · head <code>4d11…87e2</code></li>
+            <li>No anomalies. No retries. No back-dated entries.</li>
+          </ul>
+          <p>Verification took 2.4 seconds. Recommend running this weekly and storing the head hash off-platform.</p>
+          <div class="grounded"><b>Grounded in:</b> AuditLog table · AICall table · hash verifier.</div>
+          <div class="followups">
+            <span class="chip">▸ Email head hashes to Ilse</span>
+            <span class="chip">▸ Schedule weekly verify</span>
+            <span class="chip">▸ Export full chain (forensic)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE 12 · INSPECTOR -->
+  <h2 class="section"><span class="num">13</span>SAHPRA Inspector · Read-only Viewer</h2>
+  <div class="sub">SMF Q&amp;A route · everything visible, nothing writable.</div>
+
+  <div class="role-card">
+    <div class="role-head">
+      <div class="avatar" style="background:linear-gradient(180deg,#A89F8C 0%,#6B6458 100%)">IN</div>
+      <div class="meta">
+        <div class="name">SAHPRA Inspector</div>
+        <div class="title">External · Read-only</div>
+        <div class="scope">Time-boxed account · reads SMF, sign-off chains, audit log · cannot tap any write action</div>
+      </div>
+      <div class="pill" style="background:rgba(168,159,140,0.15); color:var(--or-grey-1)">Sonnet 4.6 · SMF Q&amp;A</div>
+    </div>
+
+    <div class="workflow-strip">
+      <div class="item"><div class="label">Arrives</div>Tap "Show SMF current state"</div>
+      <div class="item"><div class="label">Drills</div>"How was C.3.5 written?"</div>
+      <div class="item"><div class="label">Verifies</div>"Show audit hash chain"</div>
+      <div class="item"><div class="label">Exports</div>"PDF this section + sign-offs"</div>
+    </div>
+
+    <div class="action-tray">
+      <div class="tray-label">Tap to ask · no typing required</div>
+      <div class="actions">
+        <button class="action-btn primary demoed"><span class="icon">▸</span>Show current SMF state</button>
+        <button class="action-btn demoed"><span class="icon">▸</span>Replay how a section was written</button>
+        <button class="action-btn"><span class="icon">▸</span>Show sign-off chain for any section</button>
+        <button class="action-btn"><span class="icon">▸</span>Export section + audit (PDF)</button>
+      </div>
+    </div>
+
+    <div class="chat-thread">
+      <div class="thread-head"><div class="label">Demo dialogue · Inspector drill</div><div class="ts">04 May 2026 · 10:15</div></div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Show current SMF state</div>
+        <div class="avi">IN</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-smf-q">SMF Q&amp;A · Sonnet 4.6</span>
+          <p><strong>Site Master File · live state.</strong></p>
+          <ul>
+            <li><strong>62 sections</strong> total across A–F</li>
+            <li><strong>56</strong> AR-approved &amp; frozen · most recent freeze 03 May 17:42 (C.2.4 v3 by Ilse Venter)</li>
+            <li><strong>3</strong> stale (drift flagged · awaiting RP redraft) — see C.3.1, C.1.6, C.5.2</li>
+            <li><strong>2</strong> RP+DAR signed, awaiting AR freeze (queued)</li>
+            <li><strong>1</strong> draft in progress</li>
+          </ul>
+          <div class="grounded"><b>Grounded in:</b> SMF state table · sign-off chain · drift queue.</div>
+          <div class="followups">
+            <span class="chip">▸ Show me the 3 stale sections</span>
+            <span class="chip">▸ Replay how C.3.1 v1 was written</span>
+            <span class="chip">▸ Verify audit hash chain</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bubble user">
+        <div class="body"><span class="tap-icon">▸ TAP</span>Replay how a section was written</div>
+        <div class="avi">IN</div>
+      </div>
+      <div class="bubble ai">
+        <div class="avi">AI</div>
+        <div class="body">
+          <span class="route r-smf-q">SMF Q&amp;A · Sonnet 4.6</span>
+          <p>Pick a section to replay:</p>
+          <div class="followups">
+            <span class="chip">▸ C.3.1 · Cultivation Areas</span>
+            <span class="chip">▸ C.1.6 · Equipment Register</span>
+            <span class="chip">▸ C.2.4 · Personnel</span>
+            <span class="chip">▸ F.2.1 · IPM</span>
+            <span class="chip">▸ Other (search)</span>
+          </div>
+          <p style="margin-top:10px;">Once selected, I'll show: (1) the trigger event, (2) the AI prompt and response with hash, (3) the human edits diff, (4) RP, DAR, AR signatures with timestamps, (5) frozen version snapshot.</p>
+          <div class="grounded"><b>Grounded in:</b> AICall log · AuditLog · SMFSectionVersion snapshots.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPLEMENTATION NOTES -->
+  <h2 class="section"><span class="num">14</span>Implementation notes</h2>
+  <div class="sub">For the engineering room — what shipping the action tray actually requires.</div>
+
+  <table class="coverage">
+    <thead><tr><th style="width:30%">Concern</th><th>Approach</th></tr></thead>
+    <tbody>
+      <tr><td class="b">Action button = pre-engineered prompt</td><td>Each button stores the full prompt server-side keyed by <code>actionId</code>. Frontend sends only the <code>actionId</code> + role context. No prompt injection surface.</td></tr>
+      <tr><td class="b">Per-role action sets</td><td>Stored in <code>role_actions</code> table, joined to user role on chat-open. Owner-tier users see merged sets when ghost-acting as another role.</td></tr>
+      <tr><td class="b">Follow-up chips</td><td>Returned by the agent in a structured <code>followups: [{label, actionId}]</code> field. Fallback to free-text if model omits.</td></tr>
+      <tr><td class="b">Tap → action confirmation</td><td>Destructive actions (RP sign, AR freeze, end shift) require a second confirm tap. Non-destructive fire immediately.</td></tr>
+      <tr><td class="b">Typing still allowed</td><td>The text input remains; buttons are the demo path, typing is the curious path. Both go through Maestro.</td></tr>
+      <tr><td class="b">Telemetry</td><td>Every tap logged with <code>actionId · userId · realActorId · timestamp</code> in AuditLog. Enables "which buttons get used by which roles" reporting.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <div>ORIGIN · by ILCO Farming · TnT-ZA · Chat Assistants Per Role · Confidential</div>
+    <div class="seal">04 May 2026 · v2.0</div>
+  </div>
+
+</div>
+</body>
+</html>

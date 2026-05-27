@@ -1,7 +1,7 @@
 {
-  "name": "jig-craft-cannabis",
+  "name": "origin",
   "version": "1.0.0",
-  "description": "JIG Craft Cannabis - POS & Retail Patient Sales System",
+  "description": "Origin by ILCO Farming - POS & Retail Patient Sales System",
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
@@ -26,7 +26,7 @@
     "wellness",
     "accessories"
   ],
-  "author": "JIG Craft Cannabis",
+  "author": "Origin by ILCO Farming",
   "license": "ISC",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",

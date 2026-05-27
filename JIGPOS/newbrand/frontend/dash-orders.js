@@ -1,5 +1,5 @@
 // dash-orders.js — Orders list, order details, tracking, activity feed
-// Depends on: config.js (API_URL), dbc-utils.js (showNotification)
+// Depends on: config.js (API_URL), or-utils.js (showNotification)
 
 async function loadOrders() {
     const tbody = document.getElementById('ordersTable');
@@ -192,7 +192,7 @@ async function loadActivityFeed() {
             return;
         }
 
-        const response = await fetch('/api/v1/dashboard/activity?limit=10', {
+        const response = await fetch(`${API_URL}/dashboard/activity?limit=10`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -242,7 +242,7 @@ async function loadActivityFeed() {
             // Fallback to demo activities
             const defaultActivities = [
                 {
-                    title: 'Welcome to JIG Craft Cannabis!',
+                    title: 'Welcome to Origin by ILCO Farming!',
                     description: 'Your account is ready',
                     time: new Date(),
                     type: 'success'
@@ -290,7 +290,7 @@ async function viewOrderDetails(orderNumber) {
 
     try {
         const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-        const response = await fetch(`/api/v1/dashboard/orders/${orderNumber}`, {
+        const response = await fetch(`${API_URL}/dashboard/orders/${orderNumber}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -403,7 +403,7 @@ async function submitTracking(event) {
     resultDiv.style.display = 'block';
 
     try {
-        const response = await fetch(`/api/v1/dashboard/track/${orderNumber}`);
+        const response = await fetch(`${API_URL}/dashboard/track/${orderNumber}`);
 
         if (response.ok) {
             const data = await response.json();

@@ -1,5 +1,5 @@
 // Stock Take PWA Service Worker
-const CACHE_NAME = 'jig-stocktake-v1';
+const CACHE_NAME = 'origin-stocktake-v1';
 const OFFLINE_URL = '/stocktake-app.html';
 
 const ASSETS_TO_CACHE = [
@@ -7,7 +7,7 @@ const ASSETS_TO_CACHE = [
   '/manifest-stocktake.json',
   '/images/icon-192.png',
   '/images/icon-512.png',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
+  'https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600:wght@400;500;600;700&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
 
@@ -110,7 +110,7 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification(data.title || 'JIG Stock Take', options)
+    self.registration.showNotification(data.title || 'Origin Stock Take', options)
   );
 });
 

@@ -1,8 +1,8 @@
 /**
- * JIG Craft Cannabis - Integration Guide
+ * PureGro Premium Cannabis Care - Integration Guide
  *
  * Shows how to wire the HEADCASE EVOLVE world model into an
- * existing JIG wholesale web application. Each section is a
+ * existing PureGro wholesale web application. Each section is a
  * self-contained integration point with working code.
  *
  * Integration points:
@@ -423,7 +423,7 @@
  *   SMTP_USER=otp@cleva-ai.co.za
  *
  * OTP email template:
- *   Subject: "JIG Craft Cannabis - Your Login Code"
+ *   Subject: "PureGro Premium Cannabis Care - Your Login Code"
  *   Body: "Your one-time login code is: {OTP_CODE}
  *          This code expires in 10 minutes.
  *          If you didn't request this, ignore this email."

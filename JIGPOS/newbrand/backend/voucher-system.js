@@ -1,4 +1,4 @@
-// Voucher Generation System for Loose Draw
+// Voucher Generation System for Origin by ILCO Farming
 const mongoose = require('mongoose');
 const QRCode = require('qrcode');
 const crypto = require('crypto');
@@ -77,9 +77,9 @@ function generateVoucherHTML(voucher, userName) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOOSE DRAW - Friend Membership Voucher</title>
+    <title>Origin by ILCO Farming - Friend Membership Voucher</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700:wght@400;700&display=swap');
         
         * {
             margin: 0;
@@ -88,9 +88,9 @@ function generateVoucherHTML(voucher, userName) {
         }
         
         body {
-            background: #0a0a0a;
+            background: #0E0E0E;
             color: #fff;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Barlow Condensed', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -323,9 +323,9 @@ function generateVoucherHTML(voucher, userName) {
     <div class="voucher-container">
         <div class="voucher">
             <div class="header">
-                <div class="logo">LD</div>
-                <div class="brand">LOOSE DRAW</div>
-                <div class="tagline">GAS STATION LIFESTYLE</div>
+                <div class="logo">OR</div>
+                <div class="brand">ORIGIN</div>
+                <div class="tagline">BY ILCO FARMING</div>
             </div>
             
             <div class="perforated" style="top: 180px;"></div>
@@ -337,7 +337,7 @@ function generateVoucherHTML(voucher, userName) {
                 
                 <div class="description">
                     This voucher entitles the bearer to a <strong>FREE LIFESTYLE MEMBERSHIP</strong> 
-                    at Loose Draw. Join the movement and unlock exclusive products, 
+                    at Origin by ILCO Farming. Join the movement and unlock exclusive products,
                     member pricing, and VIP experiences.
                 </div>
                 
@@ -360,12 +360,12 @@ function generateVoucherHTML(voucher, userName) {
                 <div class="terms">
                     Valid for 90 days from issue date • Non-transferable • Single use only<br>
                     Cannot be exchanged for cash • Must be 18+ to redeem<br>
-                    Standard Loose Draw T&Cs apply • loosedraw.co.za
+                    Standard Origin T&Cs apply • origin.cleva-ai.co.za
                 </div>
             </div>
             
             <div class="footer">
-                <a href="https://loosedraw.co.za/redeem?code=${voucher.code}" class="cta-button">
+                <a href="https://origin.cleva-ai.co.za/redeem?code=${voucher.code}" class="cta-button">
                     REDEEM NOW
                 </a>
             </div>
@@ -383,7 +383,7 @@ async function createFriendMembershipVoucher(userId, orderId, friendEmail = null
         
         // Generate QR code
         const qrCodeDataUrl = await QRCode.toDataURL(
-            `https://loosedraw.co.za/redeem?code=${code}`,
+            `https://origin.cleva-ai.co.za/redeem?code=${code}`,
             {
                 width: 300,
                 margin: 2,
@@ -409,8 +409,8 @@ async function createFriendMembershipVoucher(userId, orderId, friendEmail = null
             orderId,
             metadata: {
                 qrCodeUrl: qrCodeDataUrl,
-                shareUrl: `https://loosedraw.co.za/gift/${code}`,
-                message: 'Your friend has gifted you a Loose Draw Lifestyle Membership!'
+                shareUrl: `https://origin.cleva-ai.co.za/gift/${code}`,
+                message: 'Your friend has gifted you an Origin Lifestyle Membership!'
             }
         });
         

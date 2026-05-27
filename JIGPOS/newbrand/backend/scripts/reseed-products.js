@@ -1,4 +1,4 @@
-// Reseed Products for Basotho Medical Herbs
+// Reseed Products for Origin by ILCO Farming
 // This script drops existing products and seeds the correct ones
 const mongoose = require('mongoose');
 const Product = require('../modules/database/models/Product');
@@ -6,10 +6,7 @@ require('dotenv').config();
 
 async function reseedProducts() {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/basothomedicalherbs', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/origin');
 
     console.log('Connected to MongoDB');
 

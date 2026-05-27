@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Client Event Bus
+ * PureGro Premium Cannabis Care - Client Event Bus
  *
  * Pub/sub event system for the world model. Every client action
  * (order, payment, login, etc.) emits an event that flows through
@@ -14,7 +14,7 @@
  *   });
  *
  *   // Emit from your order flow
- *   emitOrderPlaced('JIG-000001', items, 45000, 51750, 'eft');
+ *   emitOrderPlaced('PureGro-000001', items, 45000, 51750, 'eft');
  *
  *   // Clean up
  *   unsub();

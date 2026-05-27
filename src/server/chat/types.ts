@@ -1,5 +1,5 @@
 /**
- * JIG Chat Bot - Type Definitions
+ * PureGro Chat Bot - Type Definitions
  *
  * Types for the Telegram/WhatsApp/Slack chat integration.
  */

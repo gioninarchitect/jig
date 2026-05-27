@@ -58,7 +58,7 @@ function displayMenuBoards(boards) {
             <div style="background: white; border: 2px solid ${board.isActive ? 'var(--green)' : 'var(--gold)'}; border-radius: 12px; overflow: hidden; transition: all 0.3s;">
                 <div style="background: ${board.isActive ? 'var(--green)' : 'var(--gold)'}; color: var(--cream); padding: 15px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h3 style="font-family: 'Oswald', sans-serif; font-size: 1.3rem; margin: 0;">${board.name}</h3>
+                        <h3 style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; margin: 0;">${board.name}</h3>
                         <span style="background: ${board.isActive ? 'var(--gold)' : 'var(--green-light)'}; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem;">
                             ${board.isActive ? 'ACTIVE' : 'INACTIVE'}
                         </span>

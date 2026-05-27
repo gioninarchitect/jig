@@ -29,15 +29,15 @@ function createTestApp() {
 
 // ─── Token helpers ─────────────────────────────────────────────
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dbc-dev-jwt-secret-key-2025';
+const JWT_SECRET = process.env.JWT_SECRET || 'origin-dev-jwt-secret-key-2025';
 
 function makeToken(payload) {
   return jwt.sign(payload, JWT_SECRET);
 }
 
-const superAdminToken = makeToken({ id: 'test-sa-001', role: 'super_admin', email: 'sa@dbc.test' });
-const ownerToken = makeToken({ id: 'test-owner-001', role: 'owner', email: 'owner@dbc.test' });
-const staffToken = makeToken({ id: 'test-staff-001', role: 'branch_assistant', email: 'staff@dbc.test' });
+const superAdminToken = makeToken({ id: 'test-sa-001', role: 'super_admin', email: 'sa@jig.test' });
+const ownerToken = makeToken({ id: 'test-owner-001', role: 'owner', email: 'owner@jig.test' });
+const staffToken = makeToken({ id: 'test-staff-001', role: 'branch_assistant', email: 'staff@jig.test' });
 
 // ─── Test suite ────────────────────────────────────────────────
 
@@ -46,7 +46,7 @@ describe('World Model E2E Integration', () => {
 
   beforeAll(async () => {
     // Connect to test DB
-    const testUri = process.env.MONGODB_URI_TEST || 'mongodb://localhost:27017/jig_test_wm';
+    const testUri = process.env.MONGODB_URI_TEST || 'mongodb://localhost:27017/origin_test_wm';
     await mongoose.connect(testUri);
     app = createTestApp();
   });
@@ -227,15 +227,15 @@ describe('World Model E2E Integration', () => {
   // ═══════════════════════════════════════════════════════════════
 
   describe('Branch Overrides', () => {
-    const testBranchId = 'branch-ormonde-001';
+    const testBranchId = 'branch-potchefstroom-001';
 
-    it('PUT /config/world-model/branch/:id — set Ormonde override', async () => {
+    it('PUT /config/world-model/branch/:id — set Potchefstroom override', async () => {
       const res = await request(app)
         .put(`/api/v1/config/world-model/branch/${testBranchId}`)
         .set('Authorization', `Bearer ${superAdminToken}`)
         .send({
           thresholds: { tillVarianceAmber: 150, tillVarianceRed: 300 },
-          reason: 'Reducing variance threshold for new Ormonde branch',
+          reason: 'Reducing variance threshold for new Potchefstroom branch',
         });
 
       expect(res.status).toBe(200);
@@ -268,7 +268,7 @@ describe('World Model E2E Integration', () => {
         .set('Authorization', `Bearer ${superAdminToken}`)
         .send({
           features: { potencyDegradation: { enabled: false } },
-          reason: 'Disable potency for Ormonde only',
+          reason: 'Disable potency for Potchefstroom only',
         });
 
       expect(res.status).toBe(200);

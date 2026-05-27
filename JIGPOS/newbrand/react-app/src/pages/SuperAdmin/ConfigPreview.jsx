@@ -99,11 +99,11 @@ export default function ConfigPreview({ open, onClose, original, pending, reason
             <div key={i} className="flex items-center justify-between px-4 py-2.5">
               <span className="text-xs font-mono text-gray-600">{d.path}</span>
               <div className="flex items-center gap-2 text-xs">
-                <span className={d.type === 'toggle' ? (d.from ? 'text-jig-purple' : 'text-jig-red') : 'text-gray-500'}>
+                <span className={d.type === 'toggle' ? (d.from ? 'text-or-gold' : 'text-origin-red') : 'text-gray-500'}>
                   {d.from === undefined ? '--' : String(d.from)}
                 </span>
                 <span className="text-gray-300">&rarr;</span>
-                <span className={d.type === 'toggle' ? (d.to ? 'text-jig-purple font-bold' : 'text-jig-red font-bold') : 'text-white font-bold'}>
+                <span className={d.type === 'toggle' ? (d.to ? 'text-or-gold font-bold' : 'text-origin-red font-bold') : 'text-white font-bold'}>
                   {String(d.to)}
                 </span>
               </div>

@@ -1,5 +1,5 @@
 // inv-reports.js — Reports module for inventory manager dashboard
-// Depends on: config.js (API_URL), dbc-utils.js (showToast, getToken, apiCall)
+// Depends on: config.js (API_URL), or-utils.js (showToast, getToken, apiCall)
 
 // ==================== REPORTS ====================
 
@@ -130,7 +130,7 @@ async function generateInventoryReport() {
                     </div>
                 </div>
                 <div class="col-6 col-md-3 mb-2">
-                    <div style="background:#f59e0b;color:white;padding:16px;border-radius:10px;text-align:center;">
+                    <div style="background:#F8C242;color:white;padding:16px;border-radius:10px;text-align:center;">
                         <div style="font-size:24px;font-weight:bold;">${lowStock}</div>
                         <div style="font-size:12px;">Low Stock</div>
                     </div>
@@ -535,7 +535,7 @@ function showReportModal(title, content) {
     modal.innerHTML = `
         <div style="background:#fff;border-radius:12px;width:100%;max-width:900px;max-height:90vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);display:flex;flex-direction:column;">
             <div style="background:var(--green);color:var(--cream);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
-                <h5 style="margin:0;font-family:'Oswald', sans-serif;font-size:1.2rem;"><i class="fas fa-file-alt"></i> ${title}</h5>
+                <h5 style="margin:0;font-family:'Barlow Condensed', sans-serif;font-size:1.2rem;"><i class="fas fa-file-alt"></i> ${title}</h5>
                 <button onclick="closeReportModal()" style="background:none;border:none;color:var(--cream);font-size:1.3rem;cursor:pointer;"><i class="fas fa-times"></i></button>
             </div>
             <div style="padding:20px;overflow-y:auto;flex:1;">

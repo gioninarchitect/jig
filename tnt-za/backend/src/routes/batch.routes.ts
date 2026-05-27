@@ -8,6 +8,7 @@ router.use(requireAuth);
 router.post('/', requireLevel(3), batch.create);
 router.get('/', requireLevel(0), batch.list);
 router.get('/:id', requireLevel(0), batch.getById);
+router.post('/:id/bcr/sync', requireLevel(2), batch.syncBcr);
 router.get('/:id/chain', requireLevel(0), batch.chain);
 router.post('/:id/split', requireLevel(3), batch.split);
 router.post('/merge', requireLevel(3), batch.merge);

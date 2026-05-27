@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UAT Testing Guide - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>UAT Testing Guide - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
@@ -15,33 +15,42 @@
         }
 
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -51,7 +60,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -60,19 +69,19 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             line-height: 1.6;
             padding-bottom: 100px;
         }
@@ -531,8 +540,8 @@
     <!-- Navigation -->
     <nav>
         <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="width:40px;height:40px;object-fit:contain;">
-            <div class="logo">JIG CRAFT CANNABIS</div>
+            <img src="images/origin-logo.png" alt="Origin by ILCO Farming" style="width:40px;height:40px;object-fit:contain;">
+            <div class="logo">Origin</div>
         </a>
         <div class="nav-links">
             <a href="index.html"><i class="fas fa-home"></i> Home</a>
@@ -545,9 +554,9 @@
         <!-- Header -->
         <div class="header">
             <h1><i class="fas fa-clipboard-check"></i> UAT Testing Guide</h1>
-            <p>Comprehensive testing documentation for JIG Craft Cannabis platform</p>
-            <a href="https://portal.jig.cleva-ai.co.za" target="_blank" class="site-url">
-                <i class="fas fa-external-link-alt"></i> portal.jig.cleva-ai.co.za
+            <p>Comprehensive testing documentation for Origin by ILCO Farming platform</p>
+            <a href="https://origin.cleva-ai.co.za" target="_blank" class="site-url">
+                <i class="fas fa-external-link-alt"></i> origin.cleva-ai.co.za
             </a>
         </div>
 
@@ -586,8 +595,8 @@
                     <div class="user-credentials">
                         <div class="credential-row">
                             <span class="credential-label">Email:</span>
-                            <div class="credential-value">admin@jig.cleva-ai.co.za</div>
-                            <button class="copy-btn" onclick="copyText('admin@jig.cleva-ai.co.za')">
+                            <div class="credential-value">admin@cleva-ai.co.za</div>
+                            <button class="copy-btn" onclick="copyText('admin@cleva-ai.co.za')">
                                 <i class="fas fa-copy"></i> Copy
                             </button>
                         </div>
@@ -615,8 +624,8 @@
                     <div class="user-credentials">
                         <div class="credential-row">
                             <span class="credential-label">Email:</span>
-                            <div class="credential-value">manager@jig.cleva-ai.co.za</div>
-                            <button class="copy-btn" onclick="copyText('manager@jig.cleva-ai.co.za')">
+                            <div class="credential-value">manager@cleva-ai.co.za</div>
+                            <button class="copy-btn" onclick="copyText('manager@cleva-ai.co.za')">
                                 <i class="fas fa-copy"></i> Copy
                             </button>
                         </div>
@@ -633,7 +642,7 @@
                 <!-- Staff Assistant -->
                 <div class="user-card">
                     <div class="user-header">
-                        <div class="user-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <div class="user-icon" style="background: linear-gradient(135deg, #8b5cf6, #C9A84C);">
                             <i class="fas fa-user-tie"></i>
                         </div>
                         <div class="user-info">
@@ -644,8 +653,8 @@
                     <div class="user-credentials">
                         <div class="credential-row">
                             <span class="credential-label">Email:</span>
-                            <div class="credential-value">assistant@jig.cleva-ai.co.za</div>
-                            <button class="copy-btn" onclick="copyText('assistant@jig.cleva-ai.co.za')">
+                            <div class="credential-value">assistant@cleva-ai.co.za</div>
+                            <button class="copy-btn" onclick="copyText('assistant@cleva-ai.co.za')">
                                 <i class="fas fa-copy"></i> Copy
                             </button>
                         </div>
@@ -673,8 +682,8 @@
                     <div class="user-credentials">
                         <div class="credential-row">
                             <span class="credential-label">Email:</span>
-                            <div class="credential-value">user@jig.cleva-ai.co.za</div>
-                            <button class="copy-btn" onclick="copyText('user@jig.cleva-ai.co.za')">
+                            <div class="credential-value">user@cleva-ai.co.za</div>
+                            <button class="copy-btn" onclick="copyText('user@cleva-ai.co.za')">
                                 <i class="fas fa-copy"></i> Copy
                             </button>
                         </div>
@@ -691,7 +700,7 @@
                 <!-- Pending Section 21 User -->
                 <div class="user-card">
                     <div class="user-header">
-                        <div class="user-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <div class="user-icon" style="background: linear-gradient(135deg, #F8C242, #C9A84C);">
                             <i class="fas fa-hourglass-half"></i>
                         </div>
                         <div class="user-info">
@@ -702,8 +711,8 @@
                     <div class="user-credentials">
                         <div class="credential-row">
                             <span class="credential-label">Email:</span>
-                            <div class="credential-value">pending@jig.cleva-ai.co.za</div>
-                            <button class="copy-btn" onclick="copyText('pending@jig.cleva-ai.co.za')">
+                            <div class="credential-value">pending@cleva-ai.co.za</div>
+                            <button class="copy-btn" onclick="copyText('pending@cleva-ai.co.za')">
                                 <i class="fas fa-copy"></i> Copy
                             </button>
                         </div>
@@ -731,8 +740,8 @@
                     <div class="user-credentials">
                         <div class="credential-row">
                             <span class="credential-label">Email:</span>
-                            <div class="credential-value">patient@jig.cleva-ai.co.za</div>
-                            <button class="copy-btn" onclick="copyText('patient@jig.cleva-ai.co.za')">
+                            <div class="credential-value">patient@cleva-ai.co.za</div>
+                            <button class="copy-btn" onclick="copyText('patient@cleva-ai.co.za')">
                                 <i class="fas fa-copy"></i> Copy
                             </button>
                         </div>
@@ -1284,9 +1293,9 @@
 cd /var/www/bmh-24
 
 # Copy updated files
-cp /root/DBC/bug-dashboard.html .
-cp /root/DBC/bug-kanban.html .
-cp /root/DBC/backend/modules/database/models/Bug.js backend/modules/database/models/
+cp /root/Origin/bug-dashboard.html .
+cp /root/Origin/bug-kanban.html .
+cp /root/Origin/backend/modules/database/models/Bug.js backend/modules/database/models/
 
 # Restart PM2
 pm2 restart bmh-24
@@ -1310,11 +1319,11 @@ pm2 logs bmh-24 --lines 50</pre>
                 <div style="display: grid; gap: 15px;">
                     <div style="padding: 15px; background: var(--bg-tertiary); border-radius: 8px; border: 1px solid var(--border-color);">
                         <strong><i class="fas fa-envelope"></i> Email:</strong>
-                        <a href="mailto:info@jig.cleva-ai.co.za" style="color: var(--accent); text-decoration: none;">info@jig.cleva-ai.co.za</a>
+                        <a href="mailto:info@cleva-ai.co.za" style="color: var(--accent); text-decoration: none;">info@cleva-ai.co.za</a>
                     </div>
                     <div style="padding: 15px; background: var(--bg-tertiary); border-radius: 8px; border: 1px solid var(--border-color);">
                         <strong><i class="fas fa-headset"></i> Support:</strong>
-                        <a href="mailto:support@jig.cleva-ai.co.za" style="color: var(--accent); text-decoration: none;">support@jig.cleva-ai.co.za</a>
+                        <a href="mailto:support@cleva-ai.co.za" style="color: var(--accent); text-decoration: none;">support@cleva-ai.co.za</a>
                     </div>
                 </div>
             </div>
@@ -1323,7 +1332,7 @@ pm2 logs bmh-24 --lines 50</pre>
 
     <!-- Footer -->
     <div class="footer">
-        <p>&copy; 2025 JIG Craft Cannabis. All rights reserved.</p>
+        <p>&copy; 2025 Origin by ILCO Farming. All rights reserved.</p>
         <p style="margin-top: 10px; font-size: 14px;">Cultivating Excellence</p>
     </div>
 

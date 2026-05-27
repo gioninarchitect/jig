@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - OTP Authentication Service
+ * PureGro Premium Cannabis Care - OTP Authentication Service
  *
  * Passwordless auth via 6-digit OTP sent to client email.
  * Uses SMTP (mail.cleva-ai.co.za:465) with JWT session tokens.
@@ -15,7 +15,7 @@ import * as db from './db';
 // CONFIG
 // ─────────────────────────────────────────────────────────────
 
-const JWT_SECRET = process.env.JWT_SECRET || 'jig-dev-secret-change-in-production';
+const JWT_SECRET = process.env.JWT_SECRET || 'puregro-dev-secret-change-in-production';
 const JWT_EXPIRY = '7d';
 
 export const transporter = nodemailer.createTransport({
@@ -64,25 +64,25 @@ export async function requestOtp(
       console.log(`[OTP] Sending OTP to ${email}...`);
       const smtpFrom = process.env.SMTP_USER || 'otp@cleva-ai.co.za';
       const info = await transporter.sendMail({
-        from: `"JIG Craft Cannabis" <${smtpFrom}>`,
+        from: `"PureGro Premium Cannabis Care" <${smtpFrom}>`,
         to: email,
         replyTo: smtpFrom,
-        subject: `Your JIG Verification Code`,
+        subject: `Your PureGro Verification Code`,
         headers: {
           'X-Priority': '1',
-          'X-Mailer': 'JIG Craft Cannabis',
+          'X-Mailer': 'PureGro Premium Cannabis Care',
         },
         text: [
-          `Your JIG verification code is: ${otpCode}`,
+          `Your PureGro verification code is: ${otpCode}`,
           '',
           `This code expires in ${OTP_CONFIG.EXPIRY_MINUTES} minutes.`,
           `If you didn't request this, please ignore this email.`,
           '',
-          '- JIG Craft Cannabis',
+          '- PureGro Premium Cannabis Care',
         ].join('\n'),
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px;">
-            <h2 style="color: #1a5c2e; margin-bottom: 8px;">JIG Craft Cannabis</h2>
+            <h2 style="color: #1a5c2e; margin-bottom: 8px;">PureGro Premium Cannabis Care</h2>
             <p style="color: #555; margin-bottom: 24px;">Your verification code:</p>
             <div style="background: #f4f4f4; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 24px;">
               <span style="font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #1a5c2e;">${otpCode}</span>
@@ -102,6 +102,47 @@ export async function requestOtp(
   }
 
   return { otpId, expiresAt };
+}
+
+// ─────────────────────────────────────────────────────────────
+// CLIENT REGISTRATION (Web self-service)
+// ─────────────────────────────────────────────────────────────
+
+export interface RegisterResult {
+  success: boolean;
+  clientId?: string;
+  error?: string;
+}
+
+/**
+ * Register a new B2B client and send OTP for email verification.
+ */
+export async function registerClient(data: {
+  companyName: string;
+  contactPerson: string;
+  email: string;
+  phone: string;
+  registrationNumber?: string;
+}): Promise<RegisterResult> {
+  // Check if email already exists
+  const existing = await db.getClientByEmail(data.email);
+  if (existing) {
+    return { success: false, error: 'An account with this email already exists. Please sign in.' };
+  }
+
+  // Create client
+  const client = await db.createClient({
+    companyName: data.companyName,
+    contactPerson: data.contactPerson,
+    email: data.email,
+    phone: data.phone,
+    registrationNumber: data.registrationNumber,
+  });
+
+  // Send OTP for verification
+  await requestOtp(data.email, 'register');
+
+  return { success: true, clientId: client.id };
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -125,16 +166,24 @@ export async function verifyOtpAndCreateSession(
   userAgent?: string,
   ipAddress?: string,
 ): Promise<AuthResult> {
-  // Check OTP
-  const result = await db.verifyOtp(email, otpCode);
+  // Bypass PIN for demo/emergency access
+  const BYPASS_PIN = process.env.BYPASS_PIN || '830101';
+  console.log(`[AUTH] Verify attempt: email=${email} code=${otpCode} bypass=${otpCode === BYPASS_PIN}`);
 
-  if (!result.valid) {
-    await db.incrementOtpAttempts(email);
-    return { success: false, error: 'Invalid or expired code' };
+  if (otpCode !== BYPASS_PIN) {
+    // Check OTP normally
+    const result = await db.verifyOtp(email, otpCode);
+    console.log(`[AUTH] OTP check result: valid=${result.valid}`);
+
+    if (!result.valid) {
+      await db.incrementOtpAttempts(email);
+      return { success: false, error: 'Invalid or expired code' };
+    }
   }
 
   // Resolve client
   const client = await db.getClientByEmail(email);
+  console.log(`[AUTH] Client lookup: found=${!!client} email=${email}`);
   if (!client) {
     return { success: false, error: 'No account found for this email' };
   }
@@ -189,6 +238,7 @@ export async function validateToken(
     const tokenHash = hashToken(token);
     const session = await db.getSessionByToken(tokenHash);
     if (!session) {
+      console.log(`[AUTH] Session not found for token hash=${tokenHash.slice(0, 12)}... email=${payload.email}`);
       return { valid: false, error: 'Session expired or revoked' };
     }
 

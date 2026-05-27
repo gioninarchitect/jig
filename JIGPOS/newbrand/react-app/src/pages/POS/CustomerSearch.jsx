@@ -55,7 +55,7 @@ export default function CustomerSearch({ customer, purchaseLimit, onSelectCustom
         className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors"
       >
         <div className="flex items-center gap-2">
-          <svg className="w-4 h-4 text-jig-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-or-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
           <span className="text-sm font-semibold">{displayName}</span>
@@ -67,7 +67,7 @@ export default function CustomerSearch({ customer, purchaseLimit, onSelectCustom
 
       {/* Purchase limit warning */}
       {purchaseLimit?.warning && (
-        <div className={`mt-2 p-2 rounded text-xs ${purchaseLimit.exceeded ? 'bg-jig-red/15 border border-jig-red/30 text-jig-red-light' : 'bg-jig-amber/15 border border-jig-amber/30 text-jig-amber'}`}>
+        <div className={`mt-2 p-2 rounded text-xs ${purchaseLimit.exceeded ? 'bg-origin-red/15 border border-origin-red/30 text-origin-red-light' : 'bg-or-gold/15 border border-or-gold/30 text-or-gold'}`}>
           <div className="font-bold">{purchaseLimit.exceeded ? 'Patient has reached daily limit!' : 'Patient approaching daily limit'}</div>
           <div>{purchaseLimit.dayUsage}g / {purchaseLimit.dayLimit}g used today</div>
         </div>
@@ -75,7 +75,7 @@ export default function CustomerSearch({ customer, purchaseLimit, onSelectCustom
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-jig-slate border border-white/10 rounded-lg shadow-xl z-50 max-h-64 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-origin-slate border border-white/10 rounded-lg shadow-xl z-50 max-h-64 overflow-y-auto">
           {/* Search input */}
           <div className="p-2">
             <input
@@ -84,14 +84,14 @@ export default function CustomerSearch({ customer, purchaseLimit, onSelectCustom
               onChange={(e) => search(e.target.value)}
               placeholder="Search by name, email, phone..."
               autoFocus
-              className="w-full px-3 py-2 rounded bg-white/10 text-white text-sm placeholder-white/40 border border-white/10 outline-none focus:border-jig-amber/50"
+              className="w-full px-3 py-2 rounded bg-white/10 text-white text-sm placeholder-white/40 border border-white/10 outline-none focus:border-or-gold/50"
             />
           </div>
 
           {/* Walk-in option */}
           <button
             onClick={handleWalkIn}
-            className={`w-full flex items-center gap-2 px-3 py-2 text-sm text-left hover:bg-white/10 transition-colors ${!customer ? 'text-jig-amber' : 'text-white'}`}
+            className={`w-full flex items-center gap-2 px-3 py-2 text-sm text-left hover:bg-white/10 transition-colors ${!customer ? 'text-or-gold' : 'text-white'}`}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -105,7 +105,7 @@ export default function CustomerSearch({ customer, purchaseLimit, onSelectCustom
             <button
               key={u._id}
               onClick={() => handleSelect(u)}
-              className={`w-full flex items-center gap-2 px-3 py-2 text-sm text-left hover:bg-white/10 transition-colors ${customer?._id === u._id ? 'text-jig-amber' : 'text-white'}`}
+              className={`w-full flex items-center gap-2 px-3 py-2 text-sm text-left hover:bg-white/10 transition-colors ${customer?._id === u._id ? 'text-or-gold' : 'text-white'}`}
             >
               <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

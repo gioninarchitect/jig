@@ -9,11 +9,11 @@ export default function LoadingSpinner({ size = 'md', label, className = '' }) {
     <div className={`flex flex-col items-center justify-center gap-3 ${className}`}>
       <div
         className={`
-          ${sizes[size]} border-jig-purple border-t-transparent
+          ${sizes[size]} border-or-gold border-t-transparent
           rounded-full animate-spin
         `}
       />
-      {label && <p className="text-sm text-jig-purple-light font-body">{label}</p>}
+      {label && <p className="text-sm text-or-gold-light font-body">{label}</p>}
     </div>
   );
 }

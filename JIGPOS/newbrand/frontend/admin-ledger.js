@@ -312,7 +312,7 @@ async function checkTillsForCashup() {
                     </div>
                     <div style="margin-top: 15px;">
                         ${sessions.filter(s => s.status === 'open').map(s => `
-                            <div style="display: flex; justify-content: space-between; padding: 10px; background: rgba(217, 119, 6, 0.1); border-radius: 6px; margin-bottom: 8px;">
+                            <div style="display: flex; justify-content: space-between; padding: 10px; background: rgba(240, 165, 0, 0.1); border-radius: 6px; margin-bottom: 8px;">
                                 <span><i class="fas fa-cash-register"></i> ${s.tillNumber || 'Till'}</span>
                                 <span style="color: var(--gold);">OPEN</span>
                             </div>

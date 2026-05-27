@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Barlow', system-ui, sans-serif;
 }
 
-/* DBC component animations */
+/* Origin component animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

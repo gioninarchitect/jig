@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Admin Client Intelligence Detail
+ * PureGro Premium Cannabis Care - Admin Client Intelligence Detail
  *
  * Full HEADCASE EVOLVE intelligence view for a single client.
  */
@@ -51,7 +51,7 @@ export default function AdminClientDetailPage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-jig-gray-700 border-t-jig-purple" />
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-pg-gray-700 border-t-pg-green" />
       </div>
     );
   }
@@ -59,7 +59,7 @@ export default function AdminClientDetailPage() {
   if (!client) {
     return (
       <div className="p-6">
-        <p className="text-sm text-jig-gray-500">Client not found.</p>
+        <p className="text-sm text-pg-gray-500">Client not found.</p>
       </div>
     );
   }
@@ -71,12 +71,12 @@ export default function AdminClientDetailPage() {
         <div>
           <Link
             to="/admin/clients"
-            className="mb-2 inline-block text-xs text-jig-gray-500 transition-colors hover:text-jig-purple"
+            className="mb-2 inline-block text-xs text-pg-gray-500 transition-colors hover:text-pg-green"
           >
             &larr; Back to Clients
           </Link>
-          <h1 className="font-heading text-2xl font-bold uppercase tracking-wide text-jig-white">{client.businessName}</h1>
-          <p className="text-sm text-jig-gray-500">
+          <h1 className="font-heading text-2xl font-bold uppercase tracking-wide text-pg-white">{client.businessName}</h1>
+          <p className="text-sm text-pg-gray-500">
             {client.contactName} &middot; {client.email} &middot; {client.city},{' '}
             {client.province}
           </p>
@@ -123,9 +123,9 @@ export default function AdminClientDetailPage() {
                 {Object.entries(churnData.factors).map(([factor, score]) => (
                   <div
                     key={factor}
-                    className="rounded-lg border border-white/[0.06] bg-jig-slate p-3"
+                    className="rounded-lg border border-white/[0.06] bg-pg-dark p-3"
                   >
-                    <p className="text-xs text-jig-gray-500">{formatFactorName(factor)}</p>
+                    <p className="text-xs text-pg-gray-500">{formatFactorName(factor)}</p>
                     <div className="mt-1 flex items-center gap-2">
                       <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
                         <div
@@ -139,7 +139,7 @@ export default function AdminClientDetailPage() {
                           style={{ width: `${Math.min(100, score * 2.5)}%` }}
                         />
                       </div>
-                      <span className="text-xs font-medium text-jig-gray-300">
+                      <span className="text-xs font-medium text-pg-gray-300">
                         {score.toFixed(1)}
                       </span>
                     </div>
@@ -152,32 +152,32 @@ export default function AdminClientDetailPage() {
           {/* Restock Predictions */}
           {summary.restockPredictions.length > 0 && (
             <Section title="Restock Predictions">
-              <div className="overflow-hidden rounded-lg border border-white/[0.06] bg-jig-slate">
+              <div className="overflow-hidden rounded-lg border border-white/[0.06] bg-pg-dark">
                 <table className="w-full text-left text-sm">
                   <thead className="border-b border-white/[0.06]">
                     <tr>
                       {['Product', 'Predicted Date', 'Avg Interval', 'Confidence'].map((h) => (
-                        <th key={h} className="px-4 py-2 font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">{h}</th>
+                        <th key={h} className="px-4 py-2 font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/[0.04]">
                     {summary.restockPredictions.map((p) => (
                       <tr key={p.productId}>
-                        <td className="px-4 py-2 text-jig-white">{p.productName}</td>
-                        <td className="px-4 py-2 text-jig-gray-300">
+                        <td className="px-4 py-2 text-pg-white">{p.productName}</td>
+                        <td className="px-4 py-2 text-pg-gray-300">
                           {new Date(p.predictedDate).toLocaleDateString('en-ZA')}
                         </td>
-                        <td className="px-4 py-2 text-jig-gray-300">{p.avgInterval}d</td>
+                        <td className="px-4 py-2 text-pg-gray-300">{p.avgInterval}d</td>
                         <td className="px-4 py-2">
                           <div className="flex items-center gap-2">
                             <div className="h-2 w-16 overflow-hidden rounded-full bg-white/[0.06]">
                               <div
-                                className="h-full rounded-full bg-jig-green"
+                                className="h-full rounded-full bg-puregro-green"
                                 style={{ width: `${p.confidence * 100}%` }}
                               />
                             </div>
-                            <span className="text-xs text-jig-gray-500">
+                            <span className="text-xs text-pg-gray-500">
                               {Math.round(p.confidence * 100)}%
                             </span>
                           </div>
@@ -197,15 +197,15 @@ export default function AdminClientDetailPage() {
                 {summary.patterns.map((p: PatternData) => (
                   <div
                     key={p.id}
-                    className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-jig-slate px-4 py-3"
+                    className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-pg-dark px-4 py-3"
                   >
                     <div>
-                      <span className="mr-2 rounded bg-jig-purple/15 px-2 py-0.5 text-xs font-medium text-jig-purple-light">
+                      <span className="mr-2 rounded bg-pg-green/15 px-2 py-0.5 text-xs font-medium text-pg-green-light">
                         {p.patternType}
                       </span>
-                      <span className="text-sm text-jig-gray-300">{p.description}</span>
+                      <span className="text-sm text-pg-gray-300">{p.description}</span>
                     </div>
-                    <span className="text-xs text-jig-gray-500">
+                    <span className="text-xs text-pg-gray-500">
                       {Math.round(p.confidence * 100)}% &middot;{' '}
                       {new Date(p.detectedAt).toLocaleDateString('en-ZA')}
                     </span>
@@ -222,7 +222,7 @@ export default function AdminClientDetailPage() {
                 {summary.activeInterventions.map((int: InterventionData) => (
                   <div
                     key={int.id}
-                    className="rounded-lg border border-white/[0.06] bg-jig-slate px-4 py-3"
+                    className="rounded-lg border border-white/[0.06] bg-pg-dark px-4 py-3"
                   >
                     <div className="flex items-center gap-2">
                       <span
@@ -238,9 +238,9 @@ export default function AdminClientDetailPage() {
                       >
                         {int.priority}
                       </span>
-                      <span className="text-sm font-medium text-jig-white">{int.type}</span>
+                      <span className="text-sm font-medium text-pg-white">{int.type}</span>
                     </div>
-                    <p className="mt-1 text-xs text-jig-gray-500">
+                    <p className="mt-1 text-xs text-pg-gray-500">
                       Trigger: {int.trigger} &middot; Action: {int.action}
                     </p>
                   </div>
@@ -256,7 +256,7 @@ export default function AdminClientDetailPage() {
                 {summary.recommendations.map((rec, i) => (
                   <li
                     key={i}
-                    className="rounded-lg border border-white/[0.06] bg-jig-slate px-4 py-3 text-sm text-jig-gray-300"
+                    className="rounded-lg border border-white/[0.06] bg-pg-dark px-4 py-3 text-sm text-pg-gray-300"
                   >
                     {rec}
                   </li>
@@ -277,15 +277,15 @@ export default function AdminClientDetailPage() {
                 className="flex items-center justify-between rounded-lg px-4 py-2 text-sm transition-colors hover:bg-white/[0.02]"
               >
                 <div className="flex items-center gap-3">
-                  <span className="rounded bg-jig-purple/15 px-2 py-0.5 font-mono text-xs text-jig-purple-light">
+                  <span className="rounded bg-pg-green/15 px-2 py-0.5 font-mono text-xs text-pg-green-light">
                     {evt.eventType}
                   </span>
-                  <span className="text-jig-gray-500">
+                  <span className="text-pg-gray-500">
                     {JSON.stringify(evt.payload).slice(0, 80)}
                     {JSON.stringify(evt.payload).length > 80 ? '...' : ''}
                   </span>
                 </div>
-                <span className="text-xs text-jig-gray-500">
+                <span className="text-xs text-pg-gray-500">
                   {new Date(evt.createdAt).toLocaleString('en-ZA')}
                 </span>
               </div>
@@ -313,17 +313,17 @@ function MetricCard({
   badge?: string;
 }) {
   return (
-    <div className="rounded-lg border border-white/[0.06] bg-jig-slate p-4 transition-all hover:border-jig-purple/25">
-      <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">{label}</p>
+    <div className="rounded-lg border border-white/[0.06] bg-pg-dark p-4 transition-all hover:border-pg-green/25">
+      <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">{label}</p>
       {badge ? (
         <span className={`mt-1 inline-block rounded px-2 py-0.5 font-heading text-sm font-bold uppercase tracking-wider ${badge}`}>
           {value}
         </span>
       ) : (
-        <p className={`mt-1 text-xl font-bold ${color || 'text-jig-white'}`}>
+        <p className={`mt-1 text-xl font-bold ${color || 'text-pg-white'}`}>
           {value}
           {subtext && (
-            <span className="ml-0.5 text-sm font-normal text-jig-gray-500">{subtext}</span>
+            <span className="ml-0.5 text-sm font-normal text-pg-gray-500">{subtext}</span>
           )}
         </p>
       )}
@@ -334,7 +334,7 @@ function MetricCard({
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mb-8">
-      <h2 className="mb-3 font-heading text-lg font-semibold uppercase tracking-wide text-jig-white">{title}</h2>
+      <h2 className="mb-3 font-heading text-lg font-semibold uppercase tracking-wide text-pg-white">{title}</h2>
       {children}
     </div>
   );

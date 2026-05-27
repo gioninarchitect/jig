@@ -5,8 +5,8 @@ import { useState, useMemo } from 'react';
 import Badge from '../../components/ui/Badge';
 
 const SEVERITY_STYLES = {
-  critical: { badge: 'error', bg: 'border-jig-red/30 bg-jig-red/5', text: 'text-jig-red' },
-  warning: { badge: 'warning', bg: 'border-jig-amber/30 bg-jig-amber/5', text: 'text-jig-amber-dark' },
+  critical: { badge: 'error', bg: 'border-origin-red/30 bg-origin-red/5', text: 'text-origin-red' },
+  warning: { badge: 'warning', bg: 'border-or-gold/30 bg-or-gold/5', text: 'text-or-gold-dark' },
   info: { badge: 'info', bg: 'border-blue-200 bg-blue-50', text: 'text-blue-600' },
 };
 
@@ -52,7 +52,7 @@ export default function CrossDomainAlerts({ alerts }) {
             key={f}
             onClick={() => setFilter(f)}
             className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${
-              filter === f ? 'bg-jig-purple text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+              filter === f ? 'bg-or-gold text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
             }`}
           >
             {f === 'all' ? 'All' : f.charAt(0).toUpperCase() + f.slice(1)} ({counts[f]})
@@ -102,7 +102,7 @@ export default function CrossDomainAlerts({ alerts }) {
 
             {/* Recommended action */}
             <div className="flex items-center gap-2 mt-2 p-2 rounded bg-white/60 border border-gray-200/50">
-              <svg className="w-4 h-4 text-jig-purple shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-or-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span className="text-xs text-white font-semibold">{alert.action}</span>

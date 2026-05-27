@@ -1,0 +1,189 @@
+/* TnT-ZA training brand override.
+   These pages are standalone HTML, so this file aligns them with the app shell. */
+:root {
+  --primary: #16a34a !important;
+  --primary-light: #22c55e !important;
+  --dark: #0a0a0a !important;
+  --dark-2: #050505 !important;
+  --surface: #111111 !important;
+  --surface-2: #171717 !important;
+  --text: #f5f5f5 !important;
+  --text-mid: rgba(255, 255, 255, .62) !important;
+  --text-dim: rgba(255, 255, 255, .34) !important;
+  --border: rgba(255, 255, 255, .08) !important;
+  --warning: #f59e0b !important;
+  --danger: #ef4444 !important;
+  --success: #22c55e !important;
+}
+
+* {
+  letter-spacing: 0 !important;
+}
+
+html {
+  background: #0a0a0a !important;
+}
+
+body {
+  background:
+    radial-gradient(circle at 10% -10%, rgba(34, 197, 94, .10), transparent 28rem),
+    linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 40%, #080808 100%) !important;
+  color: #f5f5f5 !important;
+  font-family: Outfit, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "TnT-ZA UAT Training";
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: block;
+  padding: .72rem max(1rem, calc((100vw - 1120px) / 2));
+  background: rgba(10, 10, 10, .92);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .74);
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em !important;
+  backdrop-filter: blur(14px);
+}
+
+.hero {
+  text-align: left !important;
+  background:
+    linear-gradient(135deg, rgba(18, 18, 18, .98), rgba(12, 12, 12, .96)) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, .08) !important;
+  padding: 2.5rem max(1.25rem, calc((100vw - 1120px) / 2)) 2rem !important;
+}
+
+.hero .badge,
+.badge {
+  background: rgba(34, 197, 94, .12) !important;
+  border: 1px solid rgba(34, 197, 94, .35) !important;
+  color: #4ade80 !important;
+  border-radius: 999px !important;
+  padding: .35rem .72rem !important;
+  font-size: .68rem !important;
+  letter-spacing: .12em !important;
+}
+
+.hero h1 {
+  max-width: 900px;
+  color: #fff !important;
+  font-size: clamp(1.85rem, 4vw, 3.4rem) !important;
+  line-height: 1.02 !important;
+}
+
+.hero p {
+  max-width: 780px !important;
+  margin: .75rem 0 0 !important;
+  color: rgba(255, 255, 255, .58) !important;
+}
+
+.container {
+  max-width: 1120px !important;
+  padding: 2rem 1.25rem 4rem !important;
+}
+
+.section-label {
+  color: rgba(255, 255, 255, .42) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, .08) !important;
+  letter-spacing: .16em !important;
+}
+
+.diagram,
+.acc-header,
+.acc-body,
+.detail-card,
+.phone-screen,
+.alert-green,
+.alert-amber,
+.alert-red {
+  background: rgba(255, 255, 255, .035) !important;
+  border: 1px solid rgba(255, 255, 255, .08) !important;
+  box-shadow: none !important;
+}
+
+.diagram,
+.detail-card,
+.acc-header,
+.acc-body,
+.phone-screen {
+  border-radius: 8px !important;
+}
+
+.flow-step {
+  border-left-color: rgba(34, 197, 94, .22) !important;
+}
+
+.flow-step::before {
+  background: #166534 !important;
+  border: 1px solid rgba(74, 222, 128, .45) !important;
+  border-radius: 8px !important;
+}
+
+.flow-step h3,
+.acc-header h3,
+.phone-screen .ps-title {
+  color: #fff !important;
+}
+
+.flow-step p,
+.flow-step li,
+.acc-body p,
+.acc-body li,
+.threshold-table td {
+  color: rgba(255, 255, 255, .62) !important;
+}
+
+.flow-step .sub,
+.flow-step code,
+.acc-body code,
+.phone-screen .ps-card .id,
+.diagram .highlight {
+  color: #22c55e !important;
+}
+
+.flow-step code,
+.acc-body code {
+  background: rgba(34, 197, 94, .10) !important;
+  border: 1px solid rgba(34, 197, 94, .18) !important;
+}
+
+.threshold-table th {
+  color: rgba(255, 255, 255, .38) !important;
+  border-bottom-color: rgba(255, 255, 255, .08) !important;
+}
+
+.threshold-table td {
+  border-bottom-color: rgba(255, 255, 255, .05) !important;
+}
+
+.ps-btn-primary {
+  background: #16a34a !important;
+}
+
+footer {
+  border-top-color: rgba(255, 255, 255, .08) !important;
+  color: rgba(255, 255, 255, .34) !important;
+}
+
+@media (max-width: 720px) {
+  body::before {
+    padding-inline: 1rem;
+  }
+
+  .hero {
+    padding: 2rem 1rem 1.5rem !important;
+  }
+
+  .container {
+    padding: 1.5rem 1rem 3rem !important;
+  }
+
+  .flow-step {
+    padding-left: 3rem !important;
+  }
+}

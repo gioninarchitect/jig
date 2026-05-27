@@ -29,7 +29,7 @@ export default function SupplierPortalPage() {
     <DashboardLayout title="Supplier Portal" menuItems={MENU_ITEMS} user={user} onNavigate={setTab} activeItem={tab}>
       <div className="mb-6">
         <h2 className="font-heading text-2xl text-white uppercase">Supplier Portal</h2>
-        <p className="text-sm text-gray-500">Manage your products and orders with JIG</p>
+        <p className="text-sm text-gray-500">Manage your products and orders with Origin</p>
       </div>
 
       {tab === 'products' && <MyProductsTab />}
@@ -58,7 +58,7 @@ function MyProductsTab() {
     load();
   }, []);
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   const statusGroups = {
     active: products.filter(p => p.status === 'active'),
@@ -87,7 +87,7 @@ function MyProductsTab() {
             <div className="text-[10px] text-gray-400">{p.category} | {p.sku || '--'}</div>
             {p.cannabinoids?.thc != null && <div className="text-[10px] text-gray-400 mt-1">THC: {p.cannabinoids.thc}% | CBD: {p.cannabinoids.cbd}%</div>}
             <div className="text-xs font-bold text-white mt-2">{formatCurrency(p.price)}</div>
-            {p.rejectionReason && <div className="text-[10px] text-jig-red mt-1">Reason: {p.rejectionReason}</div>}
+            {p.rejectionReason && <div className="text-[10px] text-origin-red mt-1">Reason: {p.rejectionReason}</div>}
           </div>
         ))}
         {products.length === 0 && <div className="col-span-3 text-center py-8 text-gray-400 text-sm">No products submitted yet</div>}
@@ -134,7 +134,7 @@ function SubmitProductTab() {
       <p className="text-xs text-gray-500 mb-4">Products are submitted for MDC review before activation</p>
 
       {message && (
-        <div className={`p-3 rounded-lg mb-4 text-xs font-bold ${message.type === 'success' ? 'bg-jig-purple/10 text-jig-purple' : 'bg-jig-red/10 text-jig-red'}`}>
+        <div className={`p-3 rounded-lg mb-4 text-xs font-bold ${message.type === 'success' ? 'bg-or-gold/10 text-or-gold' : 'bg-origin-red/10 text-origin-red'}`}>
           {message.text}
         </div>
       )}
@@ -142,12 +142,12 @@ function SubmitProductTab() {
       <form onSubmit={submit} className="space-y-3">
         <div>
           <label className="block text-xs text-gray-500 mb-1">Product Name *</label>
-          <input type="text" required value={form.name} onChange={e => update('name', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-jig-purple outline-none" />
+          <input type="text" required value={form.name} onChange={e => update('name', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-or-gold outline-none" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-xs text-gray-500 mb-1">Category *</label>
-            <select required value={form.category} onChange={e => update('category', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-jig-purple outline-none">
+            <select required value={form.category} onChange={e => update('category', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-or-gold outline-none">
               <option value="">Select...</option>
               <option value="flower">Flower</option>
               <option value="oil">Oil</option>
@@ -159,21 +159,21 @@ function SubmitProductTab() {
           </div>
           <div>
             <label className="block text-xs text-gray-500 mb-1">Price (ZAR) *</label>
-            <input type="number" required min="0" step="0.01" value={form.price} onChange={e => update('price', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-jig-purple outline-none" />
+            <input type="number" required min="0" step="0.01" value={form.price} onChange={e => update('price', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-or-gold outline-none" />
           </div>
         </div>
         <div className="grid grid-cols-3 gap-3">
           <div>
             <label className="block text-xs text-gray-500 mb-1">THC %</label>
-            <input type="number" min="0" max="100" step="0.1" value={form.thc} onChange={e => update('thc', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-jig-purple outline-none" />
+            <input type="number" min="0" max="100" step="0.1" value={form.thc} onChange={e => update('thc', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-or-gold outline-none" />
           </div>
           <div>
             <label className="block text-xs text-gray-500 mb-1">CBD %</label>
-            <input type="number" min="0" max="100" step="0.1" value={form.cbd} onChange={e => update('cbd', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-jig-purple outline-none" />
+            <input type="number" min="0" max="100" step="0.1" value={form.cbd} onChange={e => update('cbd', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-or-gold outline-none" />
           </div>
           <div>
             <label className="block text-xs text-gray-500 mb-1">Grow Method</label>
-            <select value={form.growMethod} onChange={e => update('growMethod', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-jig-purple outline-none">
+            <select value={form.growMethod} onChange={e => update('growMethod', e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-or-gold outline-none">
               <option value="">Select...</option>
               <option value="indoor">Indoor</option>
               <option value="outdoor">Outdoor</option>
@@ -183,9 +183,9 @@ function SubmitProductTab() {
         </div>
         <div>
           <label className="block text-xs text-gray-500 mb-1">Description</label>
-          <textarea value={form.description} onChange={e => update('description', e.target.value)} rows={3} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-jig-purple outline-none" />
+          <textarea value={form.description} onChange={e => update('description', e.target.value)} rows={3} className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-or-gold outline-none" />
         </div>
-        <button type="submit" disabled={submitting} className="w-full py-2.5 rounded-lg bg-jig-purple text-white text-sm font-bold disabled:opacity-50">
+        <button type="submit" disabled={submitting} className="w-full py-2.5 rounded-lg bg-or-gold text-white text-sm font-bold disabled:opacity-50">
           {submitting ? 'Submitting...' : 'Submit for Review'}
         </button>
       </form>
@@ -210,7 +210,7 @@ function SupplierOrdersTab() {
     load();
   }, []);
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="space-y-4">
@@ -251,13 +251,13 @@ function DocumentsTab() {
     load();
   }, []);
 
-  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" /></div>;
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="font-heading text-lg text-white uppercase">Compliance Documents</h3>
-        <button className="px-4 py-2 rounded-lg bg-jig-purple text-white text-xs font-bold">Upload Document</button>
+        <button className="px-4 py-2 rounded-lg bg-or-gold text-white text-xs font-bold">Upload Document</button>
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
         {docs.map(doc => (
@@ -265,7 +265,7 @@ function DocumentsTab() {
             <div className="text-sm font-heading text-white">{doc.name || doc.type}</div>
             <div className="text-[10px] text-gray-400 mt-1">{doc.type} | Uploaded {new Date(doc.createdAt).toLocaleDateString('en-ZA')}</div>
             {doc.expiryDate && (
-              <div className={`text-[10px] mt-1 ${new Date(doc.expiryDate) < new Date() ? 'text-jig-red font-bold' : 'text-gray-400'}`}>
+              <div className={`text-[10px] mt-1 ${new Date(doc.expiryDate) < new Date() ? 'text-origin-red font-bold' : 'text-gray-400'}`}>
                 Expires: {new Date(doc.expiryDate).toLocaleDateString('en-ZA')}
               </div>
             )}

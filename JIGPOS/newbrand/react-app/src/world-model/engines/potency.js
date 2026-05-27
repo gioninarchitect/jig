@@ -190,7 +190,7 @@ export function estimateCurrentPotency(batch, config) {
 
 // ─── Enhanced FIFO: Fastest-Degrading First ──────────────────────
 // Standard FIFO: sell oldest first.
-// DBC FIFO: sell fastest-degrading first → minimizes customer potency loss.
+// Origin FIFO: sell fastest-degrading first → minimizes customer potency loss.
 
 export function calculateFIFOPriority(batches, config) {
   return batches

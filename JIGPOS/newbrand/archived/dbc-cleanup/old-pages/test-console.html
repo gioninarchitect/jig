@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Console Test - PureGro Premium Cannabis Care</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow+Condensed:wght@400;600;700:wght@400;500;600;700&family=Barlow:wght@300;400;500;600:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* PureGro Premium Cannabis Care Brand Colors */
+            --black: #0E0E0E;
+            --white: #FAFAFA;
+            --purple: #3FC041;
+            --purple-dark: #2A8C2C;
+            --purple-light: #56D458;
+            --green: #15803D;
+            --green-dark: #166534;
+            --green-light: #22C55E;
+            --amber: #F0A500;
+            --amber-dark: #F0A500;
+            --amber-light: #F8C242;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
+            /* Legacy aliases */
+            --cream: #0E0E0E;
+            --green-deep: #0E0E0E;
+            --gold: #F0A500;
+            --gold-dark: #F0A500;
+            --gold-light: #F8C242;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #222222;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F8C242;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-purple: 0 8px 32px rgba(63,192,65,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #3FC041 0%, #56D458 40%, #F0A500 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
+        }
+        body {
+            font-family: 'Barlow', sans-serif;
+            background: var(--pg-black);
+            color: var(--pg-white);
+            padding: 2rem;
+        }
+        h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            color: var(--pg-green);
+            text-transform: uppercase;
+        }
+        p { margin: 1rem 0; }
+        button {
+            background: var(--green);
+            color: var(--cream);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        button:hover { background: var(--green-dark); }
+    </style>
+</head>
+<body>
+    <h1>Console Test - PureGro Premium Cannabis Care</h1>
+    <p>Check browser console for errors</p>
+    <button onclick="alert('Button works!')">Test Button</button>
+
+    <script>
+        console.log('===== ADMIN PANEL LOAD TEST =====');
+        console.log('Testing if admin.html JavaScript has syntax errors...');
+
+        // Try to load admin.html in an iframe to catch errors
+        const iframe = document.createElement('iframe');
+        iframe.src = 'admin.html';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+
+        iframe.onload = function() {
+            console.log('✅ Admin panel loaded without fatal errors');
+            console.log('⚠️ Check iframe console for JavaScript errors');
+        };
+
+        iframe.onerror = function(error) {
+            console.error('❌ Admin panel failed to load:', error);
+        };
+
+        // Wait 3 seconds and report
+        setTimeout(() => {
+            console.log('===== TEST COMPLETE =====');
+            console.log('If you see affiliate errors, that is expected.');
+            console.log('If you see syntax errors, that is the problem.');
+        }, 3000);
+    </script>
+
+    <!-- UAT Bug Reporter -->
+</body>
+</html>

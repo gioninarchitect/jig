@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
 
 async function fixTestPasswords() {
   try {
@@ -15,12 +15,12 @@ async function fixTestPasswords() {
     const User = mongoose.model('User', new mongoose.Schema({}, { strict: false }));
 
     const testCredentials = [
-      { email: 'admin@basothomedicalherbs.ls', password: 'Admin123!' },
-      { email: 'manager@basothomedicalherbs.ls', password: 'Manager123!' },
-      { email: 'assistant@basothomedicalherbs.ls', password: 'Assistant123!' },
-      { email: 'user@basothomedicalherbs.ls', password: 'User123!' },
-      { email: 'pending@basothomedicalherbs.ls', password: 'Pending123!' },
-      { email: 'patient@basothomedicalherbs.ls', password: 'Patient123!' }
+      { email: 'admin@origin.cleva-ai.co.za', password: 'Admin123!' },
+      { email: 'manager@origin.cleva-ai.co.za', password: 'Manager123!' },
+      { email: 'assistant@origin.cleva-ai.co.za', password: 'Assistant123!' },
+      { email: 'user@origin.cleva-ai.co.za', password: 'User123!' },
+      { email: 'pending@origin.cleva-ai.co.za', password: 'Pending123!' },
+      { email: 'patient@origin.cleva-ai.co.za', password: 'Patient123!' }
     ];
 
     console.log('\nResetting test user passwords...\n');
@@ -50,12 +50,12 @@ async function fixTestPasswords() {
     console.log('=====================================');
     console.log('Email                              | Password');
     console.log('-----------------------------------|-------------');
-    console.log('admin@basothomedicalherbs.ls          | Admin123!');
-    console.log('manager@basothomedicalherbs.ls        | Manager123!');
-    console.log('assistant@basothomedicalherbs.ls      | Assistant123!');
-    console.log('user@basothomedicalherbs.ls           | User123!');
-    console.log('pending@basothomedicalherbs.ls        | Pending123!');
-    console.log('patient@basothomedicalherbs.ls        | Patient123!');
+    console.log('admin@origin.cleva-ai.co.za          | Admin123!');
+    console.log('manager@origin.cleva-ai.co.za        | Manager123!');
+    console.log('assistant@origin.cleva-ai.co.za      | Assistant123!');
+    console.log('user@origin.cleva-ai.co.za           | User123!');
+    console.log('pending@origin.cleva-ai.co.za        | Pending123!');
+    console.log('patient@origin.cleva-ai.co.za        | Patient123!');
     console.log('=====================================\n');
 
     mongoose.connection.close();

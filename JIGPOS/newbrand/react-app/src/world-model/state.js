@@ -1,4 +1,4 @@
-// P19+P34 — World Model State Management for DBC
+// P19+P34 — World Model State Management for Origin
 // Reducer: handles all 30 events + __BATCH__, updates branch state, checks feature config.
 // Persistence: localStorage per user, backend sync every 30s.
 // Config: loaded from API, cached 5 minutes, falls back to defaults.
@@ -488,12 +488,12 @@ function calculateBranchRisk(branch, config) {
 // Checks feature config before processing feature-gated domains.
 // P34: Supports __BATCH__ event to process multiple events in one reducer pass.
 
-export function dbcWorldReducer(state, event) {
+export function jigWorldReducer(state, event) {
   // P34: Batch handler — process multiple events, return single new state
   if (event.type === '__BATCH__' && Array.isArray(event.events)) {
     let result = state;
     for (const e of event.events) {
-      result = dbcWorldReducer(result, e);
+      result = jigWorldReducer(result, e);
     }
     return result;
   }
@@ -677,7 +677,7 @@ export function dbcWorldReducer(state, event) {
 // Save/load world state to localStorage per user.
 // Sync with backend every 30s (backend API built in P28-29).
 
-const STORAGE_PREFIX = 'jig_world_';
+const STORAGE_PREFIX = 'origin_world_';
 let _syncInterval = null;
 
 export function saveWorldState(userId, state) {

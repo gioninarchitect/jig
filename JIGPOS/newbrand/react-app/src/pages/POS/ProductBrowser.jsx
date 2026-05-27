@@ -18,18 +18,18 @@ const CATEGORY_ICONS = {
 
 // Category-specific gradients matching vanilla pos.html
 const CATEGORY_GRADIENTS = {
-  flower:         { bg: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', text: 'white' },
-  'pre-rolls':    { bg: 'linear-gradient(135deg, #D97706 0%, #B8922D 100%)', text: '#1E1E1E' },
-  edibles:        { bg: 'linear-gradient(135deg, #4A7A5D 0%, #7C3AED 100%)', text: 'white' },
-  concentrates:   { bg: 'linear-gradient(135deg, #6D28D9 0%, #1E1E1E 100%)', text: 'white' },
-  accessories:    { bg: 'linear-gradient(135deg, #0A0A0A 0%, #e8e4da 100%)', text: '#1E1E1E' },
-  vapes:          { bg: 'linear-gradient(135deg, #7C3AED 0%, #4A7A5D 100%)', text: 'white' },
-  oils:           { bg: 'linear-gradient(135deg, #B8922D 0%, #D97706 100%)', text: '#1E1E1E' },
-  'lifestyle-cbd':{ bg: 'linear-gradient(135deg, #4A7A5D 0%, #7C3AED 100%)', text: 'white' },
-  cbd:            { bg: 'linear-gradient(135deg, #4A7A5D 0%, #7C3AED 100%)', text: 'white' },
-  topicals:       { bg: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', text: 'white' },
+  flower:         { bg: 'linear-gradient(135deg, #C9A84C 0%, #8B6914 100%)', text: 'white' },
+  'pre-rolls':    { bg: 'linear-gradient(135deg, #F0A500 0%, #B8922D 100%)', text: '#1A1A1A' },
+  edibles:        { bg: 'linear-gradient(135deg, #4A7A5D 0%, #C9A84C 100%)', text: 'white' },
+  concentrates:   { bg: 'linear-gradient(135deg, #8B6914 0%, #1A1A1A 100%)', text: 'white' },
+  accessories:    { bg: 'linear-gradient(135deg, #0E0E0E 0%, #e8e4da 100%)', text: '#1A1A1A' },
+  vapes:          { bg: 'linear-gradient(135deg, #C9A84C 0%, #4A7A5D 100%)', text: 'white' },
+  oils:           { bg: 'linear-gradient(135deg, #B8922D 0%, #F0A500 100%)', text: '#1A1A1A' },
+  'lifestyle-cbd':{ bg: 'linear-gradient(135deg, #4A7A5D 0%, #C9A84C 100%)', text: 'white' },
+  cbd:            { bg: 'linear-gradient(135deg, #4A7A5D 0%, #C9A84C 100%)', text: 'white' },
+  topicals:       { bg: 'linear-gradient(135deg, #C9A84C 0%, #8B6914 100%)', text: 'white' },
 };
-const DEFAULT_GRADIENT = { bg: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', text: 'white' };
+const DEFAULT_GRADIENT = { bg: 'linear-gradient(135deg, #C9A84C 0%, #8B6914 100%)', text: 'white' };
 
 const MAIN_CATEGORIES = [
   { key: 'all', label: 'All' },
@@ -194,7 +194,7 @@ export default function ProductBrowser({ track, onAddToCart }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="w-8 h-8 border-3 border-jig-purple border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-or-gold border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -211,16 +211,16 @@ export default function ProductBrowser({ track, onAddToCart }) {
             placeholder="Search products..."
             className="w-full py-3 pl-4 pr-11 rounded-lg text-white text-sm outline-none"
             style={{ background: '#1e293b', border: '2px solid #334155', color: 'white' }}
-            onFocus={(e) => { e.target.style.borderColor = '#D97706'; e.target.style.boxShadow = '0 0 0 3px rgba(212,175,55,0.2)'; }}
+            onFocus={(e) => { e.target.style.borderColor = '#F0A500'; e.target.style.boxShadow = '0 0 0 3px rgba(212,175,55,0.2)'; }}
             onBlur={(e) => { e.target.style.borderColor = '#334155'; e.target.style.boxShadow = 'none'; }}
           />
           <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5" fill="none" stroke="#64748b" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1">
-          <button onClick={quickAddPreroll} className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-colors" style={{ background: 'rgba(212,175,55,0.2)', color: '#D97706' }}>R10 Sheet</button>
-          <button onClick={quickAddGram} className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-colors" style={{ background: 'rgba(212,175,55,0.2)', color: '#D97706' }}>Gram</button>
-          <button onClick={quickAdd3g} className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-colors" style={{ background: 'rgba(212,175,55,0.2)', color: '#D97706' }}>3g Pack</button>
-          <button onClick={quickAdd5g} className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-colors" style={{ background: 'rgba(212,175,55,0.2)', color: '#D97706' }}>5g Bag</button>
+          <button onClick={quickAddPreroll} className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-colors" style={{ background: 'rgba(212,175,55,0.2)', color: '#F0A500' }}>R10 Sheet</button>
+          <button onClick={quickAddGram} className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-colors" style={{ background: 'rgba(212,175,55,0.2)', color: '#F0A500' }}>Gram</button>
+          <button onClick={quickAdd3g} className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-colors" style={{ background: 'rgba(212,175,55,0.2)', color: '#F0A500' }}>3g Pack</button>
+          <button onClick={quickAdd5g} className="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-colors" style={{ background: 'rgba(212,175,55,0.2)', color: '#F0A500' }}>5g Bag</button>
         </div>
       </div>
 
@@ -234,7 +234,7 @@ export default function ProductBrowser({ track, onAddToCart }) {
               onClick={() => handleMainCategory(cat.key)}
               className="shrink-0 px-3.5 py-2 rounded-full text-xs font-semibold uppercase transition-all whitespace-nowrap"
               style={mainCategory === cat.key
-                ? { background: 'linear-gradient(135deg, #D97706 0%, #B8922D 100%)', color: '#1a1a2e', border: '1px solid #D97706' }
+                ? { background: 'linear-gradient(135deg, #F0A500 0%, #B8922D 100%)', color: '#1a1a2e', border: '1px solid #F0A500' }
                 : { background: '#334155', color: '#ccc', border: '1px solid #475569' }
               }
             >
@@ -252,7 +252,7 @@ export default function ProductBrowser({ track, onAddToCart }) {
                 onClick={() => setGrowMethod(growMethod === gm.key ? null : gm.key)}
                 className="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all"
                 style={growMethod === gm.key
-                  ? { background: '#D97706', color: '#1a1a2e', border: '1px solid #D97706' }
+                  ? { background: '#F0A500', color: '#1a1a2e', border: '1px solid #F0A500' }
                   : { background: 'rgba(255,255,255,0.1)', color: '#ccc', border: '1px solid #475569' }
                 }
               >
@@ -271,7 +271,7 @@ export default function ProductBrowser({ track, onAddToCart }) {
                 onClick={() => setProductType(productType === pt.key ? null : pt.key)}
                 className="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all"
                 style={productType === pt.key
-                  ? { background: '#D97706', color: '#1a1a2e', border: '1px solid #D97706' }
+                  ? { background: '#F0A500', color: '#1a1a2e', border: '1px solid #F0A500' }
                   : { background: 'rgba(255,255,255,0.1)', color: '#ccc', border: '1px solid #475569' }
                 }
               >
@@ -312,7 +312,7 @@ export default function ProductBrowser({ track, onAddToCart }) {
                 >
                   {/* Stock badge */}
                   {isLow && (
-                    <span className="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded-lg text-[10px] font-bold" style={{ background: 'rgba(255,255,255,0.9)', color: '#d97706' }}>LOW</span>
+                    <span className="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded-lg text-[10px] font-bold" style={{ background: 'rgba(255,255,255,0.9)', color: '#F0A500' }}>LOW</span>
                   )}
                   {/* Icon */}
                   <div className="text-3xl mb-1.5" style={{ color: grad.text, textShadow: grad.text === 'white' ? '0 1px 2px rgba(0,0,0,0.3)' : 'none' }}>
@@ -356,10 +356,10 @@ export default function ProductBrowser({ track, onAddToCart }) {
               <button
                 key={p._id}
                 onClick={() => handleQuickSelect(p)}
-                className="p-4 rounded-lg bg-jig-slate border-2 border-transparent hover:border-jig-amber transition-colors text-center"
+                className="p-4 rounded-lg bg-origin-slate border-2 border-transparent hover:border-or-gold transition-colors text-center"
               >
                 <div className="font-heading text-sm text-white">{p.name}</div>
-                <div className="text-sm font-bold text-jig-amber-dark mt-1">
+                <div className="text-sm font-bold text-or-gold-dark mt-1">
                   {quickModal.is3g ? `R${((p.price || 0) * 3).toFixed(0)} (3g)` : `R${p.price}`}
                 </div>
               </button>

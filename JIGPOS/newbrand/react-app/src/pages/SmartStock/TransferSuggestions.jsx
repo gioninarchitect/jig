@@ -48,7 +48,7 @@ export default function TransferSuggestions({ suggestions }) {
         <span className="text-gray-500">
           {suggestions.length} transfer{suggestions.length !== 1 ? 's' : ''} suggested
         </span>
-        <span className="font-bold text-jig-purple">
+        <span className="font-bold text-or-gold">
           Potential savings: {formatCurrency(totalSavings)}
         </span>
       </div>
@@ -56,7 +56,7 @@ export default function TransferSuggestions({ suggestions }) {
       {/* Transfer cards */}
       {suggestions.map((s, i) => (
         <div key={i} className={`p-4 rounded-lg border ${
-          s.recommendation === 'transfer' ? 'border-jig-purple/30 bg-jig-purple/5' : 'border-gray-200 bg-white'
+          s.recommendation === 'transfer' ? 'border-or-gold/30 bg-or-gold/5' : 'border-gray-200 bg-white'
         }`}>
           {/* Product name + recommendation */}
           <div className="flex items-center justify-between mb-3">
@@ -79,17 +79,17 @@ export default function TransferSuggestions({ suggestions }) {
 
             {/* Arrow */}
             <div className="flex flex-col items-center">
-              <svg className="w-6 h-6 text-jig-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-or-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
               <span className="text-xs font-bold text-white">{s.quantity} units</span>
             </div>
 
             {/* To branch */}
-            <div className="flex-1 p-2 rounded bg-white border border-jig-red/20 text-center">
+            <div className="flex-1 p-2 rounded bg-white border border-origin-red/20 text-center">
               <div className="text-[10px] text-gray-400 uppercase">To</div>
               <div className="text-xs font-bold text-white">{s.toBranch.name}</div>
-              <div className={`text-xs ${s.toDaysOfStock <= 1 ? 'text-jig-red font-bold' : 'text-gray-500'}`}>
+              <div className={`text-xs ${s.toDaysOfStock <= 1 ? 'text-origin-red font-bold' : 'text-gray-500'}`}>
                 {s.toDaysOfStock} days of stock
               </div>
             </div>
@@ -97,17 +97,17 @@ export default function TransferSuggestions({ suggestions }) {
 
           {/* Cost comparison */}
           <div className="grid grid-cols-3 gap-2 text-xs mb-3">
-            <div className="p-2 rounded bg-jig-purple/5 text-center">
+            <div className="p-2 rounded bg-or-gold/5 text-center">
               <div className="text-gray-400">Transfer Cost</div>
-              <div className="font-bold text-jig-purple">{formatCurrency(s.transferCost)}</div>
+              <div className="font-bold text-or-gold">{formatCurrency(s.transferCost)}</div>
             </div>
-            <div className="p-2 rounded bg-jig-red/5 text-center">
+            <div className="p-2 rounded bg-origin-red/5 text-center">
               <div className="text-gray-400">Reorder Cost</div>
-              <div className="font-bold text-jig-red">{formatCurrency(s.reorderCost)}</div>
+              <div className="font-bold text-origin-red">{formatCurrency(s.reorderCost)}</div>
             </div>
-            <div className="p-2 rounded bg-jig-amber/5 text-center">
+            <div className="p-2 rounded bg-or-gold/5 text-center">
               <div className="text-gray-400">Savings</div>
-              <div className="font-bold text-jig-amber-dark">{formatCurrency(s.savings)}</div>
+              <div className="font-bold text-or-gold-dark">{formatCurrency(s.savings)}</div>
             </div>
           </div>
 
@@ -116,7 +116,7 @@ export default function TransferSuggestions({ suggestions }) {
             <button
               onClick={() => handleInitiateTransfer(s, i)}
               disabled={initiating === i}
-              className="w-full py-2 rounded-lg bg-jig-purple text-white text-xs font-bold hover:bg-jig-purple-dark transition-colors disabled:opacity-50"
+              className="w-full py-2 rounded-lg bg-or-gold text-white text-xs font-bold hover:bg-or-gold-dark transition-colors disabled:opacity-50"
             >
               {initiating === i ? 'Creating Transfer...' : 'Initiate Transfer'}
             </button>

@@ -9,6 +9,8 @@ const Branch = require('../modules/database/models/Branch');
 const invoiceGenerator = require('../services/invoiceGenerator');
 const emailService = require('../services/emailService');
 const { notifyOwners, notifyBranch } = require('../modules/websocket');
+const config = require('../config');
+const VAT_RATE = config.business.vatRate;
 
 // ============================================
 // SALE OPERATIONS
@@ -58,12 +60,12 @@ exports.createSale = async (req, res) => {
         quantity: item.quantity,
         unitPrice: item.unitPrice,
         discount: item.discount || 0,
-        taxRate: 15
+        taxRate: VAT_RATE * 100
       }))
     });
 
     const calculatedSubtotal = items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
-    const calculatedTax = calculatedSubtotal * 0.15;
+    const calculatedTax = calculatedSubtotal * VAT_RATE;
     const calculatedTotal = calculatedSubtotal + calculatedTax;
 
     if (paymentMethod) {
@@ -502,7 +504,7 @@ exports.getReceiptText = async (req, res) => {
       });
     }
 
-    const branchName = sale.branchId?.name || 'JIG Craft Cannabis';
+    const branchName = sale.branchId?.name || 'Origin by ILCO Farming';
     const cashierName = sale.cashierId
       ? `${sale.cashierId.firstName || ''} ${sale.cashierId.lastName || ''}`.trim()
       : 'System';
@@ -525,7 +527,7 @@ ITEMS:
 
     receiptText += `--------------------------------
 Subtotal:  R${(sale.subtotal || 0).toFixed(2)}
-VAT (15%): R${(sale.totalTax || 0).toFixed(2)}
+VAT (${VAT_RATE * 100}%): R${(sale.totalTax || 0).toFixed(2)}
 ${sale.totalDiscount > 0 ? `Discount:  -R${sale.totalDiscount.toFixed(2)}\n` : ''}--------------------------------
 TOTAL:     R${(sale.totalAmount || 0).toFixed(2)}
 --------------------------------
@@ -533,7 +535,7 @@ Payment: ${sale.payments?.[0]?.method?.toUpperCase() || 'N/A'}
 Status: ${sale.paymentStatus || 'Pending'}
 ================================
 Thank you for your purchase!
-www.jig.cleva-ai.co.za
+origin.cleva-ai.co.za
 ================================
 `;
 

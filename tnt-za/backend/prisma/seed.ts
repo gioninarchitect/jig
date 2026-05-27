@@ -69,6 +69,8 @@ async function main() {
   };
 
   const userDefs = [
+    { email: 'florisolivier7@gmail.com', name: 'Flo Olivier', role: UserRole.SUPER_ADMIN, pin: '446688' },
+    { email: 'devon@applicationautomated.com', name: 'Devon', role: UserRole.SUPER_ADMIN, pin: '446688' },
     { email: 'superilco@cleva-ai.co.za', name: 'Floris Olivier', role: UserRole.SUPER_ADMIN, pin: pins.SUPER_ADMIN },
     { email: 'adminilco@cleva-ai.co.za', name: 'Ilze', role: UserRole.TENANT_ADMIN, pin: pins.TENANT_ADMIN },
     { email: 'loraineilco@cleva-ai.co.za', name: 'Loraine', role: UserRole.TENANT_ADMIN, pin: pins.TENANT_ADMIN_LORAINE },
@@ -94,7 +96,13 @@ async function main() {
     });
     users.push(user);
   }
-  const [superAdmin, tenantAdmin, fm, cultivator, labTech, secOfficer, viewer] = users;
+  const superAdmin = users.find(u => u.email === 'florisolivier7@gmail.com')!;
+  const tenantAdmin = users.find(u => u.email === 'adminilco@cleva-ai.co.za')!;
+  const fm = users.find(u => u.email === 'fmilco@cleva-ai.co.za')!;
+  const cultivator = users.find(u => u.email === 'growerilco@cleva-ai.co.za')!;
+  const labTech = users.find(u => u.email === 'labilco@cleva-ai.co.za')!;
+  const secOfficer = users.find(u => u.email === 'securityilco@cleva-ai.co.za')!;
+  const viewer = users.find(u => u.email === 'inspector@cleva-ai.co.za')!;
 
   console.log('┌──────────────────────────────────────────────────┐');
   console.log('│           TnT-ZA DEMO CREDENTIALS                │');

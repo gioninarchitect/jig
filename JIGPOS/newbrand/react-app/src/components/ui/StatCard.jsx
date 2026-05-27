@@ -5,17 +5,17 @@ export default function StatCard({ label, value, trend, trendLabel, className = 
   return (
     <div
       className={`
-        bg-jig-slate rounded-2xl p-6 border border-jig-purple relative overflow-hidden
+        bg-origin-slate rounded-2xl p-6 border border-or-gold relative overflow-hidden
         ${className}
       `}
     >
       {/* Gold top bar */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-jig-amber" />
+      <div className="absolute top-0 left-0 w-full h-1 bg-or-gold" />
 
       <div className="flex items-end justify-between">
         <div>
           <div className="font-heading text-4xl text-white uppercase">{value}</div>
-          <div className="text-sm text-jig-purple-light mt-2 font-body">{label}</div>
+          <div className="text-sm text-or-gold-light mt-2 font-body">{label}</div>
         </div>
 
         {trend !== undefined && trend !== null && (

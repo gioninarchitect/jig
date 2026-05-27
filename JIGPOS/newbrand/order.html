@@ -2,39 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Order & Invoice - JIG Craft Cannabis | Craft Cannabis</title>
+    <title>Order & Invoice - Origin by ILCO Farming | Premium Cannabis Care</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -44,7 +53,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -53,40 +62,40 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
-        body { background: var(--black); color: var(--white); font-family: 'Inter', -apple-system, sans-serif; margin: 0; padding: 0; }
+        body { background: #0A0A0A; color: var(--or-white); font-family: 'Inter', -apple-system, sans-serif; margin: 0; padding: 0; }
         .container { max-width: 650px; margin: 40px auto; background: #0A0A0A; border-radius: 18px; padding: 40px 32px 32px 32px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); border: 3px solid var(--gold);}
         .logo {
             width: 100px; height: 100px; margin: 0 auto 10px auto;
             display: flex; align-items: center; justify-content: center;
         }
         .logo img { width: 100%; height: 100%; object-fit: contain; }
-        .brand-title { font-family: 'Oswald', sans-serif; text-align: center; font-size: 2.1rem; font-weight: bold; color: var(--purple); margin-bottom: 2px; letter-spacing: 2px; text-transform: uppercase;}
-        h1 { color: var(--white); text-align: center; font-size: 1.5rem; margin-top: 0; margin-bottom: 28px; font-weight: 500; letter-spacing: 1px;}
+        .brand-title { font-family: 'Cinzel', sans-serif; text-align: center; font-size: 2.1rem; font-weight: bold; color: var(--or-gold); margin-bottom: 2px; letter-spacing: 2px; text-transform: uppercase;}
+        h1 { color: var(--or-white); text-align: center; font-size: 1.5rem; margin-top: 0; margin-bottom: 28px; font-weight: 500; letter-spacing: 1px;}
         .section { margin-bottom: 32px; }
-        .section-title { color: var(--purple); margin-bottom: 12px; font-size: 1.15rem; font-weight: bold; letter-spacing: 1px;}
-        .order-list { background: var(--black); border-radius: 8px; padding: 18px; margin-bottom: 15px; }
-        .order-list div { border-bottom: 1px solid #2A2A2A; padding: 7px 0; }
+        .section-title { color: var(--or-gold); margin-bottom: 12px; font-size: 1.15rem; font-weight: bold; letter-spacing: 1px;}
+        .order-list { background: var(--or-black); border-radius: 8px; padding: 18px; margin-bottom: 15px; }
+        .order-list div { border-bottom: 1px solid #222222; padding: 7px 0; }
         .order-list div:last-child { border-bottom: none; }
         .bank-details, .crypto-details {
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 10px;
             padding: 18px 18px 14px 18px;
             margin-bottom: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid #2A2A2A;
+            border: 1px solid #222222;
         }
-        .label { color: var(--green-dark); font-weight: 500;}
-        .total { font-size: 1.25em; color: var(--purple); font-weight: bold; margin-top: 10px;}
-        .btn { background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%); color: var(--white); border: none; border-radius: 8px; padding: 15px 30px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; font-size: 1.1rem;}
-        .btn:hover { box-shadow: 0 8px 20px rgba(217, 119, 6,0.3); transform: translateY(-2px); }
+        .label { color: var(--or-gold-muted); font-weight: 500;}
+        .total { font-size: 1.25em; color: var(--or-gold); font-weight: bold; margin-top: 10px;}
+        .btn { background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%); color: var(--or-white); border: none; border-radius: 8px; padding: 15px 30px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; font-size: 1.1rem;}
+        .btn:hover { box-shadow: 0 8px 20px rgba(240, 165, 0,0.3); transform: translateY(-2px); }
         .crypto-details {
             display: flex; flex-direction: row; align-items: center; gap: 18px; margin-top: 10px;
         }
@@ -94,7 +103,7 @@
         .crypto-qr { flex-shrink: 0; }
         .crypto-qr img { background: #fff; padding: 8px; border-radius: 8px; box-shadow: 0 2px 8px #0003;}
         .crypto-amount { margin-top: 8px; color: #fff; font-weight: bold;}
-        .proof { background: var(--green); border-radius: 10px; padding: 16px; color: var(--cream); font-size: 1rem;}
+        .proof { background: var(--or-gold); border-radius: 10px; padding: 16px; color: var(--cream); font-size: 1rem;}
         .whatsapp-link { display: block; text-align: center; margin: 18px 0 0 0; }
         .whatsapp-link a { color: #25D366; font-weight: bold; text-decoration: none; font-size: 1.1em; }
         .whatsapp-link a:hover { text-decoration: underline; }
@@ -204,12 +213,12 @@
         }
 
         .confirm-modal-btn-confirm {
-            background: #fff;
-            color: #000;
+            background: var(--or-gold);
+            color: #fff;
         }
 
         .confirm-modal-btn-confirm:hover {
-            background: #e5e5e5;
+            background: #8B6914;
         }
     </style>
 </head>
@@ -228,9 +237,9 @@
 
     <div class="container">
         <div class="logo">
-            <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis Logo" style="width: 100%; height: 100%; object-fit: contain;">
+            <img src="images/origin-logo.png" alt="Origin by ILCO Farming Logo" style="width: 100%; height: 100%; object-fit: contain;">
         </div>
-        <div class="brand-title">JIG Craft Cannabis</div>
+        <div class="brand-title">Origin by ILCO Farming</div>
         <h1>Order & Invoice</h1>
         <div class="section">
             <div class="section-title">Order Summary</div>
@@ -243,38 +252,38 @@
         </div>
         <div class="section">
             <div class="section-title">Shipping Options</div>
-            <div style="background: var(--black); border-radius: 10px; padding: 18px; margin-bottom: 15px; border: 1px solid #2A2A2A;">
+            <div style="background: var(--or-black); border-radius: 10px; padding: 18px; margin-bottom: 15px; border: 1px solid #222222;">
                 <div style="margin-bottom: 15px;">
-                    <label style="display: flex; align-items: center; padding: 15px; background: #fff; border-radius: 8px; cursor: pointer; margin-bottom: 10px; border: 2px solid var(--green);">
-                        <input type="radio" name="shipping" value="standard" checked style="margin-right: 15px; accent-color: var(--purple);" onchange="updateShipping()">
+                    <label style="display: flex; align-items: center; padding: 15px; background: #1A1A1A; border-radius: 8px; cursor: pointer; margin-bottom: 10px; border: 2px solid var(--green);">
+                        <input type="radio" name="shipping" value="standard" checked style="margin-right: 15px; accent-color: var(--or-gold);" onchange="updateShipping()">
                         <div style="flex: 1;">
-                            <div style="color: var(--white); font-weight: bold;">Standard Shipping</div>
-                            <div style="color: var(--green-dark); font-size: 0.9rem;">5-7 working days nationwide</div>
+                            <div style="color: var(--or-white); font-weight: bold;">Standard Shipping</div>
+                            <div style="color: var(--or-gold-muted); font-size: 0.9rem;">5-7 working days nationwide</div>
                         </div>
-                        <div style="color: var(--purple); font-weight: bold;">FREE</div>
+                        <div style="color: var(--or-gold); font-weight: bold;">FREE</div>
                     </label>
                 </div>
 
                 <div style="margin-bottom: 15px;">
-                    <label style="display: flex; align-items: center; padding: 15px; background: #fff; border-radius: 8px; cursor: pointer; border: 2px solid #2A2A2A;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='#2A2A2A'">
-                        <input type="radio" name="shipping" value="overnight" style="margin-right: 15px; accent-color: var(--purple);" onchange="updateShipping()">
+                    <label style="display: flex; align-items: center; padding: 15px; background: #1A1A1A; border-radius: 8px; cursor: pointer; border: 2px solid #222222;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='#222222'">
+                        <input type="radio" name="shipping" value="overnight" style="margin-right: 15px; accent-color: var(--or-gold);" onchange="updateShipping()">
                         <div style="flex: 1;">
-                            <div style="color: var(--white); font-weight: bold;">Overnight Express</div>
-                            <div style="color: var(--green-dark); font-size: 0.9rem;">Next business day delivery</div>
+                            <div style="color: var(--or-white); font-weight: bold;">Overnight Express</div>
+                            <div style="color: var(--or-gold-muted); font-size: 0.9rem;">Next business day delivery</div>
                         </div>
                         <div style="color: var(--gold-dark); font-weight: bold;">+ R99.00</div>
                     </label>
                 </div>
 
-                <div id="freeShippingBanner" style="display: none; background: var(--green); padding: 12px; border-radius: 8px; margin-top: 15px;">
+                <div id="freeShippingBanner" style="display: none; background: var(--or-gold); padding: 12px; border-radius: 8px; margin-top: 15px;">
                     <p style="margin: 0; color: var(--cream); font-weight: bold; text-align: center;">FREE SHIPPING - Your order qualifies for complimentary delivery</p>
                 </div>
 
-                <div style="margin-top: 15px; padding: 10px; background: #fff; border-radius: 8px; border: 1px solid #2A2A2A;">
-                    <p style="margin: 0; color: var(--green-dark); font-size: 0.85rem;">Orders over R1,000 qualify for FREE shipping on all methods</p>
+                <div style="margin-top: 15px; padding: 10px; background: #1A1A1A; border-radius: 8px; border: 1px solid #222222;">
+                    <p style="margin: 0; color: var(--or-gold-muted); font-size: 0.85rem;">Orders over R1,000 qualify for FREE shipping on all methods</p>
                 </div>
 
-                <div class="total" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #2A2A2A;">
+                <div class="total" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #222222;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                         <span>Subtotal:</span>
                         <span id="subtotal">R0</span>
@@ -283,7 +292,7 @@
                         <span>Shipping:</span>
                         <span id="shippingCost">FREE</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: bold; color: var(--purple);">
+                    <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: bold; color: var(--or-gold);">
                         <span>Total:</span>
                         <span id="finalTotal">R0</span>
                     </div>
@@ -296,7 +305,7 @@
             <div class="section-title">Bank Details (EFT)</div>
             <div class="bank-details">
                 <div><span class="label">Bank:</span> Capitec</div>
-                <div><span class="label">Account Holder:</span> JIG Craft Cannabis</div>
+                <div><span class="label">Account Holder:</span> Origin by ILCO Farming</div>
                 <div><span class="label">Account Type:</span> Current Account</div>
                 <div><span class="label">Account Number:</span> 2320619824</div>
                 <div><span class="label">Branch Code:</span> 470010</div>
@@ -327,23 +336,23 @@
         </div>
         <!-- Crypto Payment - Account Pending -->
         <div class="section">
-            <div class="section-title">Crypto Payment <span style="font-size: 0.7rem; background: var(--gold); color: var(--white); padding: 4px 8px; border-radius: 4px; margin-left: 8px;">ACCOUNT PENDING</span></div>
-            <div style="background: var(--black); border-radius: 10px; padding: 20px; border: 1px solid #2A2A2A; opacity: 0.7;">
-                <p style="color: var(--green-dark); margin: 0; text-align: center;">Crypto payment options coming soon. Please use EFT above.</p>
+            <div class="section-title">Crypto Payment <span style="font-size: 0.7rem; background: var(--gold); color: var(--or-white); padding: 4px 8px; border-radius: 4px; margin-left: 8px;">ACCOUNT PENDING</span></div>
+            <div style="background: var(--or-black); border-radius: 10px; padding: 20px; border: 1px solid #222222; opacity: 0.7;">
+                <p style="color: var(--or-gold-muted); margin: 0; text-align: center;">Crypto payment options coming soon. Please use EFT above.</p>
             </div>
         </div>
         <div class="section">
             <div class="section-title">Proof of Payment</div>
             <div class="proof">
-                Please email your proof of payment to <b>hello@jig.cleva-ai.co.za</b> or WhatsApp it to <b>+27 67 291 9110</b> after completing your EFT or crypto payment.<br>
+                Please email your proof of payment to <b>info@cleva-ai.co.za</b> or WhatsApp it to <b>+27 67 291 9110</b> after completing your EFT or crypto payment.<br>
                 Your order will be processed once payment is confirmed.
             </div>
         </div>
         <div class="whatsapp-link">
             <a id="whatsappSupportLink" href="#" onclick="openWhatsAppSupport(); return false;">Chat on WhatsApp with +27 67 291 9110</a>
         </div>
-        <button class="btn" style="background: var(--green); color: var(--cream); border: none;" onclick="window.print()">Download/Print Invoice</button>
-        <button class="btn" style="background: var(--gold); color: var(--white); margin-top: 10px;" onclick="showPOPModal()">Upload Proof of Payment</button>
+        <button class="btn" style="background: var(--or-gold); color: var(--cream); border: none;" onclick="window.print()">Download/Print Invoice</button>
+        <button class="btn" style="background: var(--gold); color: var(--or-white); margin-top: 10px;" onclick="showPOPModal()">Upload Proof of Payment</button>
         <button id="dashboardBtn" class="btn" style="background: var(--green-dark); color: var(--cream); margin-top: 10px;" onclick="window.location.href='dashboard.html'">Return to Dashboard</button>
     </div>
     
@@ -355,7 +364,7 @@
             
             <!-- Logo -->
             <div style="width: 100px; height: 100px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="width: 100%; height: 100%; object-fit: contain;">
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
 
             <h2 style="color: #FFFFFF; font-size: 1.8rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;">Upload Proof of Payment</h2>
@@ -418,8 +427,8 @@
         </div>
     </div>
 <script src="/frontend/config.js"></script>
-<script src="/frontend/jig-utils.js"></script>
-<script src="/frontend/jig-auth.js"></script>
+<script src="/frontend/or-utils.js"></script>
+<script src="/frontend/or-auth.js"></script>
 <script>
     // Get order and client data from MongoDB cart API
     let order = [];
@@ -429,7 +438,7 @@
     // Fetch cart from MongoDB or localStorage (guest checkout support)
     async function loadCart() {
         try {
-            const token = sessionStorage.getItem('token');
+            const token = sessionStorage.getItem('token') || localStorage.getItem('token');
 
             if (token) {
                 // Logged-in user: load from MongoDB
@@ -520,34 +529,34 @@
     const address = addressParts.join(', ');
 
     clientHtml += `
-        <div style="background: var(--black); border-radius: 10px; padding: 18px; border: 1px solid #2A2A2A;">
+        <div style="background: var(--or-black); border-radius: 10px; padding: 18px; border: 1px solid #222222;">
             <div style="margin-bottom: 12px;">
                 <input type="text" id="guestFirstName" placeholder="First Name *" required
                        value="${firstName}"
-                       style="width: 100%; padding: 12px; background: #fff; border: 2px solid var(--green); border-radius: 8px; color: var(--white); font-size: 1rem;">
+                       style="width: 100%; padding: 12px; background: #0A0A0A; border: 2px solid var(--green); border-radius: 8px; color: var(--or-white); font-size: 1rem;">
             </div>
             <div style="margin-bottom: 12px;">
                 <input type="text" id="guestLastName" placeholder="Last Name *" required
                        value="${lastName}"
-                       style="width: 100%; padding: 12px; background: #fff; border: 2px solid var(--green); border-radius: 8px; color: var(--white); font-size: 1rem;">
+                       style="width: 100%; padding: 12px; background: #0A0A0A; border: 2px solid var(--green); border-radius: 8px; color: var(--or-white); font-size: 1rem;">
             </div>
             <div style="margin-bottom: 12px;">
                 <input type="email" id="guestEmail" placeholder="Email Address *" required
                        value="${client?.email || ''}"
-                       style="width: 100%; padding: 12px; background: #fff; border: 2px solid var(--green); border-radius: 8px; color: var(--white); font-size: 1rem;">
+                       style="width: 100%; padding: 12px; background: #0A0A0A; border: 2px solid var(--green); border-radius: 8px; color: var(--or-white); font-size: 1rem;">
             </div>
             <div style="margin-bottom: 12px;">
                 <input type="tel" id="guestPhone" placeholder="Phone Number *" required
                        value="${phone}"
-                       style="width: 100%; padding: 12px; background: #fff; border: 2px solid var(--green); border-radius: 8px; color: var(--white); font-size: 1rem;">
+                       style="width: 100%; padding: 12px; background: #0A0A0A; border: 2px solid var(--green); border-radius: 8px; color: var(--or-white); font-size: 1rem;">
             </div>
             <div style="margin-bottom: 12px;">
                 <textarea id="guestAddress" placeholder="Shipping Address *" required rows="3"
-                          style="width: 100%; padding: 12px; background: #fff; border: 2px solid var(--green); border-radius: 8px; color: var(--white); font-size: 1rem; resize: vertical;">${address}</textarea>
+                          style="width: 100%; padding: 12px; background: #0A0A0A; border: 2px solid var(--green); border-radius: 8px; color: var(--or-white); font-size: 1rem; resize: vertical;">${address}</textarea>
             </div>
             ${!client ? `
-            <div style="text-align: center; padding: 15px 0; border-top: 1px solid #2A2A2A; margin-top: 15px;">
-                <a href="login.html" style="color: var(--purple); text-decoration: none; font-size: 0.95rem;">
+            <div style="text-align: center; padding: 15px 0; border-top: 1px solid #222222; margin-top: 15px;">
+                <a href="login.html" style="color: var(--or-gold); text-decoration: none; font-size: 0.95rem;">
                     Already have an account? <span style="font-weight: bold;">Login here</span>
                 </a>
             </div>
@@ -585,7 +594,7 @@
     // Bitcoin payment - account pending (removed for now)
 
     // Generate order number
-    const orderNumber = 'DBC' + Date.now();
+    const orderNumber = 'Origin' + Date.now();
     document.getElementById('orderNumber').textContent = orderNumber;
 
     // Dynamic WhatsApp support link with order context
@@ -624,7 +633,7 @@
     // Clear cart after successful order
     async function clearCartAfterOrder() {
         try {
-            const token = sessionStorage.getItem('token');
+            const token = pendingOrderToken || sessionStorage.getItem('token') || localStorage.getItem('token');
 
             if (token) {
                 // Clear MongoDB cart for logged-in user
@@ -714,7 +723,126 @@
         }
     }
     
-    function uploadPOP() {
+    // Guest account creation via OTP
+    let pendingOrderToken = null;
+
+    async function createGuestAccount(email, firstName, lastName, phone) {
+        // Step 1: Send signup OTP
+        try {
+            const sendRes = await fetch(`${API_URL}/auth/otp/send`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, purpose: 'signup' })
+            });
+            const sendData = await sendRes.json();
+            if (!sendData.success) {
+                showToast(sendData.message || 'Failed to send verification code', 'error');
+                return false;
+            }
+        } catch (err) {
+            console.error('OTP send error:', err);
+            showToast('Network error sending verification code', 'error');
+            return false;
+        }
+
+        // Step 2: Show OTP modal and wait for user input
+        return new Promise((resolve) => {
+            const otpModal = document.createElement('div');
+            otpModal.id = 'otpVerifyModal';
+            otpModal.innerHTML = `
+                <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:30000;display:flex;align-items:center;justify-content:center;">
+                    <div style="background:var(--pg-dark,#1A1A1A);border:2px solid var(--pg-green,#C9A84C);border-radius:16px;padding:32px;max-width:400px;width:90%;text-align:center;">
+                        <h3 style="color:var(--pg-white,#FAFAFA);margin-bottom:8px;font-size:1.3rem;">Verify Your Email</h3>
+                        <p style="color:#999;margin-bottom:20px;font-size:0.9rem;">We sent a 6-digit code to <strong style="color:var(--or-gold)">${email}</strong></p>
+                        <input type="text" id="otpCodeInput" maxlength="6" placeholder="Enter 6-digit code"
+                               style="width:100%;padding:14px;background:#0A0A0A;border:2px solid var(--or-gold);border-radius:8px;color:#fff;font-size:1.5rem;text-align:center;letter-spacing:8px;font-family:monospace;margin-bottom:16px;">
+                        <button id="otpVerifyBtn" style="width:100%;padding:14px;background:var(--or-gold);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;">Verify & Place Order</button>
+                        <p id="otpError" style="color:#EF4444;margin-top:12px;display:none;font-size:0.9rem;"></p>
+                        <button id="otpResendBtn" style="background:none;border:none;color:#999;margin-top:12px;cursor:pointer;font-size:0.85rem;">Resend Code</button>
+                        <button id="otpCancelBtn" style="background:none;border:none;color:#666;margin-top:8px;cursor:pointer;font-size:0.85rem;display:block;margin-left:auto;margin-right:auto;">Cancel</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(otpModal);
+
+            const codeInput = document.getElementById('otpCodeInput');
+            codeInput.focus();
+
+            document.getElementById('otpCancelBtn').onclick = () => {
+                otpModal.remove();
+                resolve(false);
+            };
+
+            document.getElementById('otpResendBtn').onclick = async () => {
+                await fetch(`${API_URL}/auth/otp/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, purpose: 'signup' })
+                });
+                showToast('New code sent to ' + email, 'success');
+            };
+
+            document.getElementById('otpVerifyBtn').onclick = async () => {
+                const code = codeInput.value.trim();
+                if (code.length !== 6) {
+                    document.getElementById('otpError').textContent = 'Please enter the 6-digit code';
+                    document.getElementById('otpError').style.display = 'block';
+                    return;
+                }
+
+                const btn = document.getElementById('otpVerifyBtn');
+                btn.textContent = 'Verifying...';
+                btn.disabled = true;
+
+                try {
+                    const verifyRes = await fetch(`${API_URL}/auth/otp/verify`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, code })
+                    });
+                    const verifyData = await verifyRes.json();
+
+                    if (verifyData.success && verifyData.token) {
+                        // Save token and user
+                        pendingOrderToken = verifyData.token;
+                        sessionStorage.setItem('token', verifyData.token);
+                        sessionStorage.setItem('user', JSON.stringify(verifyData.user));
+
+                        // Update profile with name and phone
+                        await fetch(`${API_URL}/auth/update-profile`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${verifyData.token}`
+                            },
+                            body: JSON.stringify({ firstName, lastName, mobile: phone })
+                        });
+
+                        otpModal.remove();
+                        resolve(true);
+                    } else {
+                        document.getElementById('otpError').textContent = verifyData.message || 'Invalid code. Try again.';
+                        document.getElementById('otpError').style.display = 'block';
+                        btn.textContent = 'Verify & Place Order';
+                        btn.disabled = false;
+                    }
+                } catch (err) {
+                    console.error('OTP verify error:', err);
+                    document.getElementById('otpError').textContent = 'Network error. Try again.';
+                    document.getElementById('otpError').style.display = 'block';
+                    btn.textContent = 'Verify & Place Order';
+                    btn.disabled = false;
+                }
+            };
+
+            // Allow Enter key to verify
+            codeInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') document.getElementById('otpVerifyBtn').click();
+            });
+        });
+    }
+
+    async function uploadPOP() {
         const email = document.getElementById('popEmail').value;
         const phone = document.getElementById('popPhone').value;
 
@@ -728,17 +856,21 @@
             return;
         }
 
-        // For guests: validate guest form fields
+        // For guests: validate and create account first
         let guestFirstName, guestLastName, guestAddress;
         if (!client) {
-            guestFirstName = document.getElementById('guestFirstName')?.value;
-            guestLastName = document.getElementById('guestLastName')?.value;
-            guestAddress = document.getElementById('guestAddress')?.value;
+            guestFirstName = document.getElementById('guestFirstName')?.value?.trim();
+            guestLastName = document.getElementById('guestLastName')?.value?.trim();
+            guestAddress = document.getElementById('guestAddress')?.value?.trim();
 
             if (!guestFirstName || !guestLastName || !guestAddress) {
                 showToast('Please fill in all required fields in Client Details', 'error');
                 return;
             }
+
+            // Create account via OTP before placing order
+            const accountCreated = await createGuestAccount(email, guestFirstName, guestLastName, phone);
+            if (!accountCreated) return; // User cancelled or OTP failed
         }
 
         // Get shipping method
@@ -791,12 +923,14 @@
             status: 'pending'
         };
 
-        // Save order to MongoDB
+        // Save order to MongoDB (with auth if user just registered)
+        const orderHeaders = { 'Content-Type': 'application/json' };
+        const authToken = pendingOrderToken || sessionStorage.getItem('token') || localStorage.getItem('token');
+        if (authToken) orderHeaders['Authorization'] = `Bearer ${authToken}`;
+
         fetch(`${API_URL}/orders/create`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: orderHeaders,
             body: JSON.stringify(orderData)
         })
         .then(response => response.json())
@@ -867,8 +1001,8 @@
                     
                     <p style="color: #fff; margin-bottom: 20px;">We'll process your order within 24 hours.</p>
                     
-                    <button onclick="window.location.href='login.html'" style="width: 100%; background: linear-gradient(45deg, #FFFFFF, #2a2a2a); color: #fff; padding: 15px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;">
-                        OK
+                    <button onclick="window.location.href='${pendingOrderToken ? 'dashboard.html' : 'login.html'}'" style="width: 100%; background: linear-gradient(45deg, #C9A84C, #8B6914); color: #fff; padding: 15px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;">
+                        ${pendingOrderToken ? 'Go to My Account' : 'OK'}
                     </button>
                 </div>
             </div>
@@ -882,10 +1016,10 @@
         successDiv.innerHTML = modalHtml;
         document.body.appendChild(successDiv);
         
-        // Auto redirect after 3 seconds
+        // Auto redirect after 5 seconds
         setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 3000);
+            window.location.href = pendingOrderToken ? 'dashboard.html' : 'login.html';
+        }, 5000);
     }
     
     // Confirmation modal functions
@@ -976,24 +1110,24 @@
                     <p style="color: #666; margin: 5px 0 0;">Secure Payment Gateway</p>
                 </div>
 
-                <div style="background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px; text-align: center;">
-                    <p style="color: #666; margin: 0 0 5px; font-size: 0.9rem;">Amount to Pay</p>
-                    <p style="color: #1a1a1a; font-size: 2rem; font-weight: bold; margin: 0;">R${amount}</p>
+                <div style="background: #222222; border-radius: 10px; padding: 20px; margin-bottom: 20px; text-align: center;">
+                    <p style="color: #999; margin: 0 0 5px; font-size: 0.9rem;">Amount to Pay</p>
+                    <p style="color: #FAFAFA; font-size: 2rem; font-weight: bold; margin: 0;">R${amount}</p>
                 </div>
 
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; color: #666; font-size: 0.9rem; margin-bottom: 5px;">Card Number</label>
-                    <input type="text" placeholder="1234 5678 9012 3456" style="width: 100%; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
+                    <input type="text" placeholder="1234 5678 9012 3456" style="width: 100%; padding: 12px; border: 2px solid #222222; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
                     <div>
                         <label style="display: block; color: #666; font-size: 0.9rem; margin-bottom: 5px;">Expiry</label>
-                        <input type="text" placeholder="MM/YY" style="width: 100%; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
+                        <input type="text" placeholder="MM/YY" style="width: 100%; padding: 12px; border: 2px solid #222222; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
                     </div>
                     <div>
                         <label style="display: block; color: #666; font-size: 0.9rem; margin-bottom: 5px;">CVV</label>
-                        <input type="text" placeholder="123" style="width: 100%; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
+                        <input type="text" placeholder="123" style="width: 100%; padding: 12px; border: 2px solid #222222; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
                     </div>
                 </div>
 
@@ -1001,7 +1135,7 @@
                     Pay Now
                 </button>
 
-                <button onclick="closeInstapayModal()" style="width: 100%; background: #f0f0f0; color: #666; border: none; padding: 12px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+                <button onclick="closeInstapayModal()" style="width: 100%; background: #222222; color: #999; border: none; padding: 12px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
                     Cancel
                 </button>
 
@@ -1020,7 +1154,7 @@
         const modal = document.getElementById('instapayModal');
         modal.innerHTML = `
             <div style="background: #0A0A0A; border-radius: 15px; padding: 60px 40px; max-width: 400px; width: 90%; text-align: center;">
-                <div style="width: 80px; height: 80px; border: 6px solid #2A2A2A; border-top-color: #00b4d8; border-radius: 50%; margin: 0 auto 20px; animation: spin 1s linear infinite;"></div>
+                <div style="width: 80px; height: 80px; border: 6px solid #222222; border-top-color: #00b4d8; border-radius: 50%; margin: 0 auto 20px; animation: spin 1s linear infinite;"></div>
                 <h3 style="color: #1a1a1a; margin: 0 0 10px;">Processing Payment...</h3>
                 <p style="color: #666; margin: 0;">Please wait while we securely process your transaction</p>
             </div>
@@ -1042,7 +1176,7 @@
                     </div>
                     <h3 style="color: #1a1a1a; margin: 0 0 10px; font-size: 1.8rem;">Payment Successful!</h3>
                     <p style="color: #666; margin: 0 0 20px;">Your order has been confirmed</p>
-                    <p style="color: #999; font-size: 0.9rem;">Order #${orderNumber || 'DBC' + Date.now()}</p>
+                    <p style="color: #999; font-size: 0.9rem;">Order #${orderNumber || 'Origin' + Date.now()}</p>
                     <button onclick="closeInstapayModal()" style="margin-top: 20px; background: linear-gradient(135deg, #00b4d8, #0077b6); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer;">
                         Done
                     </button>

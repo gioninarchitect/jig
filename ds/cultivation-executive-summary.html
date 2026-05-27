@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultivation Dashboard — Executive Summary | Origin by ILCO Farming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A84C;
+            --gold-muted: #8B6914;
+            --gold-bright: #D4B86A;
+            --gold-light: #E8D5A3;
+            --black: #0A0A0A;
+            --dark: #141414;
+            --white: #FAFAFA;
+            --cream: #F5F0E8;
+            --green: #22C55E;
+            --green-dark: #166534;
+            --blue: #3B82F6;
+            --amber: #D97706;
+            --red: #DC2626;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0A0A0A 0%, #1a2e1a 50%, #0A0A0A 100%);
+            padding: 80px 40px;
+            text-align: center;
+            border-bottom: 2px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(34, 197, 94, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(201, 168, 76, 0.05) 0%, transparent 50%);
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+
+        .hero-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px;
+            background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8rem;
+            color: var(--gold);
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .hero h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--green);
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: #999;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .badge-pill {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge-gold { background: rgba(201, 168, 76, 0.15); color: var(--gold); border: 1px solid rgba(201, 168, 76, 0.3); }
+        .badge-green { background: rgba(34, 197, 94, 0.15); color: var(--green); border: 1px solid rgba(34, 197, 94, 0.3); }
+
+        /* Container */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+        /* Sections */
+        .section {
+            padding: 60px 0;
+            border-bottom: 1px solid #1A1A1A;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+        }
+
+        /* Value Props Grid */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .value-grid, .feature-grid, .pricing-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero { padding: 40px 20px; }
+            .container { padding: 0 20px; }
+        }
+
+        .value-card {
+            background: var(--dark);
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            border-color: var(--gold-muted);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .value-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.5rem;
+        }
+
+        .value-icon.green { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+        .value-icon.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold); }
+        .value-icon.blue { background: rgba(59, 130, 246, 0.15); color: var(--blue); }
+        .value-icon.amber { background: rgba(217, 119, 6, 0.15); color: var(--amber); }
+
+        .value-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05rem;
+            color: var(--white);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .value-card p {
+            font-size: 0.85rem;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: var(--dark);
+            border: 1px solid #1A1A1A;
+            border-radius: 12px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(34, 197, 94, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+            color: var(--green);
+        }
+
+        .feature-item h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--white);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .feature-item p {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        /* Pipeline Visual */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 24px 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .pipeline-stage {
+            background: var(--dark);
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 16px 20px;
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+        }
+
+        .pipeline-stage .stage-icon {
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+        }
+
+        .pipeline-stage .stage-label {
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .pipeline-arrow {
+            color: var(--gold-muted);
+            font-size: 1.2rem;
+        }
+
+        .pipeline-stage.propagation { border-bottom: 3px solid #A855F7; }
+        .pipeline-stage.vegetative { border-bottom: 3px solid #22C55E; }
+        .pipeline-stage.flowering { border-bottom: 3px solid #F59E0B; }
+        .pipeline-stage.harvest { border-bottom: 3px solid #EF4444; }
+        .pipeline-stage.processing { border-bottom: 3px solid #6366F1; }
+        .pipeline-stage.complete { border-bottom: 3px solid #6B7280; }
+
+        /* Pricing Grid */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .pricing-card {
+            background: var(--dark);
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--gold);
+            box-shadow: 0 0 40px rgba(201, 168, 76, 0.1);
+        }
+
+        .pricing-card.featured::before {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: #000;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .pricing-card .tier-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+
+        .pricing-card .price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin: 16px 0 4px;
+        }
+
+        .pricing-card .price-period {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+        }
+
+        .pricing-card .pricing-features {
+            list-style: none;
+            text-align: left;
+            padding: 0;
+        }
+
+        .pricing-card .pricing-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #1A1A1A;
+            font-size: 0.85rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pricing-card .pricing-features li::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        /* Competitor Table */
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .comp-table th {
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 2px solid #222;
+            color: var(--gold);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .comp-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #1A1A1A;
+            color: #ccc;
+        }
+
+        .comp-table tbody tr:hover { background: rgba(201, 168, 76, 0.03); }
+        .comp-table .highlight { color: var(--green); font-weight: 600; }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        @media (max-width: 768px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+
+        .stat-card {
+            background: var(--dark);
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #0A0A0A, #1a2e1a, #0A0A0A);
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .cta p {
+            color: #888;
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--gold);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover { background: var(--gold-bright); transform: translateY(-2px); }
+
+        /* Footer */
+        .footer {
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid #1A1A1A;
+            color: #555;
+            font-size: 0.8rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+
+        .timeline-item {
+            flex: 1;
+            min-width: 180px;
+            background: var(--dark);
+            border: 1px solid #1A1A1A;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .timeline-item .phase-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .timeline-item h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .timeline-item p {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        @media print {
+            body { background: white; color: #333; }
+            .hero { background: #f0f5f0; border-bottom-color: #C9A84C; }
+            .hero h1, .section-title, .pricing-card .tier-name, .cta h2 { color: #8B6914; }
+            .value-card, .feature-item, .pricing-card, .stat-card, .pipeline-stage, .timeline-item {
+                background: #fafafa;
+                border-color: #ddd;
+            }
+            .value-card h3, .feature-item h4, .comp-table td, .pricing-card .price { color: #333; }
+            .value-card p, .feature-item p, .pricing-card .pricing-features li { color: #666; }
+            .cta { background: #f5f5f5; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-logo">🌱</div>
+            <h1>Cultivation Dashboard</h1>
+            <h2>SAHPRA Section 22C Farm Management</h2>
+            <p>A comprehensive SaaS platform for managing licensed cannabis cultivation operations — from seed to harvest, with full SAHPRA compliance tracking built in.</p>
+            <div class="badge-row">
+                <span class="badge-pill badge-green">SAHPRA Compliant</span>
+                <span class="badge-pill badge-gold">SaaS Add-On Module</span>
+                <span class="badge-pill badge-green">Multi-Tenant Ready</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Value Proposition -->
+    <div class="section">
+        <div class="container">
+            <div class="section-title">Why Cultivation Dashboard?</div>
+            <div class="section-subtitle">Purpose-built for South African licensed cultivators operating under SAHPRA Section 22C</div>
+
+            <div class="value-grid">
+                <div class="value-card">
+                    <div class="value-icon green">🛡️</div>
+                    <h3>SAHPRA-Ready Compliance</h3>
+                    <p>Automatic compliance scoring, environmental spec tracking, and one-click audit package generation for SAHPRA submissions.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon gold">📊</div>
+                    <h3>Seed-to-Harvest Tracking</h3>
+                    <p>Visual kanban pipeline tracks every batch from propagation through flowering, harvest, processing and completion.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon blue">🌡️</div>
+                    <h3>Environmental Monitoring</h3>
+                    <p>Log and trend temperature, humidity, CO2, light hours and VPD with SAHPRA spec reference lines on every chart.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon amber">🏚️</div>
+                    <h3>Tunnel + Indoor Zones</h3>
+                    <p>Manage both tunnel greenhouses and indoor grow rooms with distinct environmental thresholds per zone.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon green">📈</div>
+                    <h3>Yield Analytics</h3>
+                    <p>Track yield by strain, zone and period. Compare wet/dry weights, quality grades and lab results across harvests.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon gold">🔐</div>
+                    <h3>White-Label SaaS</h3>
+                    <p>Multi-tenant architecture ready for white-label deployment. Setup fee + monthly subscription model.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batch Pipeline -->
+    <div class="section">
+        <div class="container">
+            <div class="section-title">Batch Lifecycle Pipeline</div>
+            <div class="section-subtitle">Track every batch through the complete cultivation lifecycle</div>
+
+            <div class="pipeline">
+                <div class="pipeline-stage propagation">
+                    <div class="stage-icon">🌱</div>
+                    <div class="stage-label">Propagation</div>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-stage vegetative">
+                    <div class="stage-icon">🌿</div>
+                    <div class="stage-label">Vegetative</div>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-stage flowering">
+                    <div class="stage-icon">🌸</div>
+                    <div class="stage-label">Flowering</div>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-stage harvest">
+                    <div class="stage-icon">✂️</div>
+                    <div class="stage-label">Harvest</div>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-stage processing">
+                    <div class="stage-icon">🧪</div>
+                    <div class="stage-label">Processing</div>
+                </div>
+                <div class="pipeline-arrow">→</div>
+                <div class="pipeline-stage complete">
+                    <div class="stage-icon">✅</div>
+                    <div class="stage-label">Complete</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Modules -->
+    <div class="section">
+        <div class="container">
+            <div class="section-title">7 Dashboard Sections</div>
+            <div class="section-subtitle">A complete cultivation management suite with hash-based single-page navigation</div>
+
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <div>
+                        <h4>Facility Overview</h4>
+                        <p>5 key KPIs (active batches, plants, yield, compliance score, days to harvest) + zone cards grid with live environmental status.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🏚️</div>
+                    <div>
+                        <h4>Zones & Rooms</h4>
+                        <p>CRUD management for tunnel greenhouses and indoor grow rooms. Per-zone thresholds, capacity, dimensions, sensor status.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌱</div>
+                    <div>
+                        <h4>Batch Management</h4>
+                        <p>Visual kanban pipeline with 7 lifecycle stages. Phase transitions, nutrient logs, pest observations, compliance checklists.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌡️</div>
+                    <div>
+                        <h4>Environmental Monitoring</h4>
+                        <p>Real-time gauges for temp/humidity/CO2/light/VPD. 24h/7d/30d trend charts with SAHPRA spec reference lines.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✂️</div>
+                    <div>
+                        <h4>Harvest Records</h4>
+                        <p>Record wet/dry/trim/waste weights, quality grades (A/B/C), lab results (THC/CBD), photo documentation.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🛡️</div>
+                    <div>
+                        <h4>SAHPRA Compliance</h4>
+                        <p>Traffic-light scoring dashboard. Document tracker with expiry alerts. One-click audit package generator.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📄</div>
+                    <div>
+                        <h4>Reports</h4>
+                        <p>Production, environmental, yield and waste reports. CSV export + print-friendly output. SAHPRA quarterly submission data.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚙️</div>
+                    <div>
+                        <h4>API-First Architecture</h4>
+                        <p>18 RESTful API endpoints. IoT sensor integration ready. Multi-tenant with role-based access (cultivator, farm_manager, compliance_officer).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Stats -->
+    <div class="section">
+        <div class="container">
+            <div class="section-title">Platform at a Glance</div>
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Dashboard Sections</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">18</div>
+                    <div class="stat-label">API Endpoints</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Data Models</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">User Roles</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Competitive Landscape -->
+    <div class="section">
+        <div class="container">
+            <div class="section-title">Competitive Landscape</div>
+            <div class="section-subtitle">How Origin Cultivation Dashboard compares to global and SA competitors</div>
+
+            <table class="comp-table">
+                <thead>
+                    <tr>
+                        <th>Platform</th>
+                        <th>Price/mo (USD)</th>
+                        <th>Market</th>
+                        <th>SAHPRA Specific</th>
+                        <th>SA Support</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CCB Folia</strong></td>
+                        <td>~$165–440 (est.)</td>
+                        <td>South Africa</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BioTrack</strong></td>
+                        <td>$200+</td>
+                        <td>US / Global</td>
+                        <td>Partial</td>
+                        <td>Limited</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Canix</strong></td>
+                        <td>$200–500</td>
+                        <td>US (23 states)</td>
+                        <td>No</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FloEnvy Essentials</strong></td>
+                        <td>~$99–299</td>
+                        <td>Global</td>
+                        <td>No</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GrowerIQ</strong></td>
+                        <td>Custom (enterprise)</td>
+                        <td>Canada / Global</td>
+                        <td>No</td>
+                        <td>Limited</td>
+                    </tr>
+                    <tr style="background: rgba(34, 197, 94, 0.05);">
+                        <td><strong class="highlight">Origin Cultivation</strong></td>
+                        <td class="highlight">~$135–410</td>
+                        <td class="highlight">South Africa</td>
+                        <td class="highlight">Yes — Built-in</td>
+                        <td class="highlight">Full Local</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="section">
+        <div class="container">
+            <div class="section-title">Pricing Tiers</div>
+            <div class="section-subtitle">One-time setup fee of R15,000 + monthly subscription</div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="tier-name">Starter</div>
+                    <div class="price">R2,500</div>
+                    <div class="price-period">per month</div>
+                    <ul class="pricing-features">
+                        <li>Up to 5 cultivation zones</li>
+                        <li>Batch lifecycle tracking</li>
+                        <li>Environmental logging</li>
+                        <li>Basic compliance dashboard</li>
+                        <li>Manual sensor entry</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="tier-name">Professional</div>
+                    <div class="price">R4,500</div>
+                    <div class="price-period">per month</div>
+                    <ul class="pricing-features">
+                        <li>Unlimited zones</li>
+                        <li>Full compliance suite</li>
+                        <li>Audit package generator</li>
+                        <li>Reports + CSV export</li>
+                        <li>Document tracker with expiry alerts</li>
+                        <li>Yield analytics dashboard</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <div class="tier-name">Enterprise</div>
+                    <div class="price">R7,500</div>
+                    <div class="price-period">per month</div>
+                    <ul class="pricing-features">
+                        <li>Everything in Professional</li>
+                        <li>Multi-facility support</li>
+                        <li>API access for integrations</li>
+                        <li>IoT sensor integration</li>
+                        <li>Dedicated support</li>
+                        <li>Custom reporting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 24px; color: #555; font-size: 0.85rem;">
+                <strong>Future Add-On:</strong> GMP Quality Management Module — additional R1,500–R3,000/mo
+            </div>
+        </div>
+    </div>
+
+    <!-- Implementation Timeline -->
+    <div class="section">
+        <div class="container">
+            <div class="section-title">Implementation Roadmap</div>
+            <div class="section-subtitle">Phased delivery approach ensuring stable, tested releases</div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="phase-num">Phase 1</div>
+                    <h4>Foundation</h4>
+                    <p>Backend models, API routes, dashboard shell, OTP authentication</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="phase-num">Phase 2</div>
+                    <h4>Zones + Environment</h4>
+                    <p>Zone CRUD, environmental monitoring, gauges, trend charts</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="phase-num">Phase 3</div>
+                    <h4>Batches + Harvests</h4>
+                    <p>Kanban pipeline, phase transitions, harvest recording, yield analytics</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="phase-num">Phase 4</div>
+                    <h4>Compliance + Reports</h4>
+                    <p>Compliance scoring, audit packages, document tracker, report generation</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="phase-num">Phase 5</div>
+                    <h4>Polish + Deploy</h4>
+                    <p>KPI overview, demo data, testing, production deployment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technology -->
+    <div class="section">
+        <div class="container">
+            <div class="section-title">Technology Stack</div>
+            <div class="section-subtitle">Built on the proven Origin POS platform — same auth, same database, same deployment</div>
+
+            <div class="value-grid">
+                <div class="value-card">
+                    <div class="value-icon blue">🖥️</div>
+                    <h3>Frontend</h3>
+                    <p>Vanilla JS + Chart.js. Responsive single-page app with hash-based navigation. Bootstrap grid. Cinzel + Inter typography.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon green">⚙️</div>
+                    <h3>Backend</h3>
+                    <p>Node.js + Express. 5 Mongoose models, controller + route architecture. RESTful API with JWT authentication.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon gold">🗄️</div>
+                    <h3>Database</h3>
+                    <p>MongoDB with Mongoose ODM. Compound indexes for performance. Pre-save hooks for auto-calculations (VPD, yield%).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+        <h2>Ready to Digitize Your Cultivation?</h2>
+        <p>Join the next generation of SAHPRA-compliant cannabis farm management. Setup in days, not months.</p>
+        <a href="mailto:floris@cleva-ai.co.za" class="cta-btn">Schedule a Demo →</a>
+        <div style="margin-top: 16px; color: #555; font-size: 0.8rem;">
+            R15,000 one-time setup | From R2,500/month | Full local support
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>Origin by ILCO Farming</strong> | Cultivation Dashboard — Executive Summary</p>
+        <p style="margin-top: 8px;">Confidential — Prepared for ILCO Farming | March 2026</p>
+        <p style="margin-top: 4px;">origin.cleva-ai.co.za</p>
+    </div>
+
+</body>
+</html>

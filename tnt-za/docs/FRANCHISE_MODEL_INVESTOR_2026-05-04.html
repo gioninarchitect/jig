@@ -1,0 +1,1723 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ORIGIN by ILCO Farming · Franchise Prospectus · South Africa · 2026</title>
+<style>
+  :root {
+    --or-gold:        #C9A84C;
+    --or-gold-bright: #D4B86A;
+    --or-gold-light:  #E8D5A3;
+    --or-gold-pale:   #F5E8C4;
+    --or-gold-deep:   #7A5C1A;
+    --or-gold-dark:   #4A3810;
+    --or-black:       #050505;
+    --or-ink:         #0A0A0A;
+    --or-dark:        #131313;
+    --or-dark-2:      #1A1A1A;
+    --or-dark-3:      #232323;
+    --or-dark-4:      #2C2C2C;
+    --or-white:       #F5F0E8;
+    --or-cream:       #E8DEC9;
+    --or-grey-1:      #C4BBA8;
+    --or-grey-2:      #A89F8C;
+    --or-grey-3:      #6B6458;
+    --or-green:       #4A7C3F;
+    --or-green-light: #7BC9A6;
+    --or-amber:       #D4A030;
+    --or-red:         #DC2626;
+
+    --serif: 'Cinzel', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--or-black);
+    color: var(--or-white);
+    font-family: var(--sans);
+    font-size: 14px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─────────────── PAGE FRAME ─────────────── */
+  .page { max-width: 920px; margin: 0 auto; }
+  .sheet {
+    position: relative;
+    padding: 16mm 14mm;
+    min-height: 100vh;
+    background: var(--or-black);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(201,168,76,0.04) 0%, transparent 60%);
+    overflow: hidden;
+  }
+  .sheet + .sheet {
+    border-top: 1px solid var(--or-dark-3);
+  }
+
+  /* ─────────────── BRAND BAR ─────────────── */
+  .brandbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(201,168,76,0.18);
+    margin-bottom: 14px;
+  }
+  .brandbar .lockup {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brandbar .lockup .marks {
+    display: flex; flex-direction: column; line-height: 1;
+  }
+  .brandbar .lockup .seal {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--or-gold);
+    margin-right: 4px;
+    flex-shrink: 0;
+  }
+  .brandbar .lockup .origin {
+    font-family: var(--serif); font-weight: 700;
+    font-size: 13px; letter-spacing: 0.18em;
+    color: var(--or-gold);
+  }
+  .brandbar .lockup .ilco {
+    font-family: var(--mono); font-weight: 500;
+    font-size: 8px; letter-spacing: 0.2em;
+    color: var(--or-grey-2); margin-top: 3px;
+    text-transform: uppercase;
+  }
+  .brandbar .stamp {
+    font-family: var(--mono);
+    font-size: 9px; color: var(--or-grey-3); text-align: right;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    line-height: 1.5;
+  }
+  .brandbar .stamp b { color: var(--or-gold-light); font-weight: 600; }
+
+  /* ─────────────── COVER PAGE ─────────────── */
+  .cover {
+    min-height: 270mm;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 22mm 18mm 18mm;
+    background: var(--or-black);
+    background-image:
+      radial-gradient(ellipse 60% 80% at 50% 35%, rgba(201,168,76,0.13) 0%, transparent 65%),
+      radial-gradient(ellipse 100% 50% at 50% 100%, rgba(201,168,76,0.05) 0%, transparent 70%);
+    position: relative;
+  }
+  .cover::before {
+    content: "";
+    position: absolute; inset: 12mm;
+    border: 1px solid rgba(201,168,76,0.25);
+    pointer-events: none;
+  }
+  .cover::after {
+    content: "";
+    position: absolute; inset: 13mm;
+    border: 1px solid rgba(201,168,76,0.08);
+    pointer-events: none;
+  }
+  .cover .top {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center;
+    margin-top: 10mm;
+  }
+  .cover .top .lockup {
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .cover .top .pre {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.5em; color: var(--or-gold);
+    text-transform: uppercase; margin-bottom: 14px;
+    padding-left: 0.5em;
+  }
+  .cover .top .wordmark {
+    font-family: var(--serif); font-weight: 700;
+    font-size: 56px; letter-spacing: 0.42em;
+    color: var(--or-gold-light);
+    line-height: 1;
+    padding-left: 0.42em;
+  }
+  .cover .top .ornaments {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 18px;
+  }
+  .cover .top .ornaments .line {
+    width: 60px; height: 1px; background: var(--or-gold-deep);
+  }
+  .cover .top .ornaments .diamond {
+    width: 5px; height: 5px;
+    background: var(--or-gold);
+    transform: rotate(45deg);
+  }
+  .cover .top .by {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.34em; color: var(--or-grey-2);
+    margin-top: 16px;
+    text-transform: uppercase;
+  }
+  .cover .top .docline {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.4em; color: var(--or-gold-light);
+    text-transform: uppercase;
+    margin-top: 28px;
+    padding: 6px 16px;
+    border-top: 1px solid rgba(201,168,76,0.4);
+    border-bottom: 1px solid rgba(201,168,76,0.4);
+  }
+
+  .cover .hero-block {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 0 14mm;
+    margin: 8mm 0;
+  }
+  .cover .hero-block h1 {
+    font-family: var(--serif); font-weight: 600;
+    font-size: 44px; line-height: 1.15;
+    color: var(--or-white);
+    letter-spacing: -0.005em;
+    margin: 0 0 14px;
+  }
+  .cover .hero-block h1 .accent {
+    color: var(--or-gold-light);
+    font-style: italic; font-weight: 500;
+    display: block; margin-top: 6px;
+  }
+  .cover .hero-block .subline {
+    font-family: var(--sans); font-size: 16px;
+    color: var(--or-grey-1); line-height: 1.55;
+    max-width: 540px; margin: 16px auto 0;
+  }
+  .cover .hero-block .subline strong { color: var(--or-white); font-weight: 600; }
+
+  .cover .pillars {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0; margin: 8mm 0 4mm;
+    padding: 0 8mm;
+  }
+  .cover .pillars .pillar {
+    text-align: center;
+    padding: 12px 8px;
+    border-right: 1px solid rgba(201,168,76,0.15);
+  }
+  .cover .pillars .pillar:last-child { border-right: none; }
+  .cover .pillars .pillar .num {
+    font-family: var(--serif); font-weight: 700;
+    font-size: 28px; color: var(--or-gold);
+    line-height: 1;
+  }
+  .cover .pillars .pillar .lab {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.18em; color: var(--or-grey-2);
+    text-transform: uppercase; margin-top: 8px;
+  }
+
+  .cover .bottom {
+    position: relative; z-index: 1;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: var(--mono); font-size: 9px;
+    color: var(--or-grey-3); letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .cover .bottom .left b { color: var(--or-gold); font-weight: 600; }
+  .cover .bottom .right { text-align: right; line-height: 1.6; }
+
+  /* ─────────────── SECTION HEAD ─────────────── */
+  .section-head {
+    display: flex; align-items: baseline; gap: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--or-dark-3);
+    margin-bottom: 18px;
+  }
+  .section-head .ix {
+    font-family: var(--mono); font-weight: 600;
+    font-size: 11px; letter-spacing: 0.2em;
+    color: var(--or-gold-deep);
+  }
+  .section-head .title {
+    font-family: var(--serif); font-weight: 600;
+    font-size: 22px; color: var(--or-gold);
+    letter-spacing: 0.005em;
+  }
+  .section-head .kicker {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--or-grey-3); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-left: auto;
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: 14px; margin: 18px 0 8px;
+    color: var(--or-gold-light); font-weight: 600;
+    letter-spacing: 0.005em;
+  }
+  p { margin: 8px 0 12px; color: var(--or-grey-1); font-size: 13px; line-height: 1.6; }
+  p strong { color: var(--or-white); font-weight: 600; }
+  p em { color: var(--or-gold-light); font-style: italic; }
+
+  /* ─────────────── BIG NUMBER CARDS ─────────────── */
+  .moneyrow {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin: 14px 0 18px;
+  }
+  .money {
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    padding: 16px 14px;
+    background:
+      linear-gradient(180deg, rgba(201,168,76,0.05) 0%, transparent 100%),
+      var(--or-dark);
+    text-align: center;
+  }
+  .money .label {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--or-grey-3); letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 600;
+    margin: 0 0 8px;
+  }
+  .money .v {
+    font-family: var(--serif); font-weight: 700;
+    font-size: 22px; color: var(--or-gold);
+    line-height: 1; margin: 0 0 4px;
+    letter-spacing: 0.005em;
+  }
+  .money .v .small {
+    font-family: var(--sans); font-size: 11px;
+    color: var(--or-gold-light); font-weight: 600;
+    margin-left: 2px;
+  }
+  .money .cap {
+    font-size: 10.5px; color: var(--or-grey-2);
+    line-height: 1.45; margin-top: 6px;
+  }
+
+  /* ─────────────── PROMISE PILLARS ─────────────── */
+  .promise {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 10px; margin: 16px 0;
+  }
+  .promise .p {
+    border: 1px solid var(--or-dark-3); border-radius: 10px;
+    padding: 18px 18px;
+    background:
+      linear-gradient(135deg, rgba(201,168,76,0.05) 0%, transparent 50%),
+      var(--or-dark);
+    border-left: 3px solid var(--or-gold);
+  }
+  .promise .p .icon {
+    width: 28px; height: 28px;
+    margin-bottom: 10px;
+  }
+  .promise .p h4 {
+    font-family: var(--serif); font-weight: 600;
+    font-size: 15px; color: var(--or-white);
+    margin: 0 0 6px;
+  }
+  .promise .p p {
+    font-size: 12px; color: var(--or-grey-1);
+    margin: 0; line-height: 1.5;
+  }
+
+  /* ─────────────── ONBOARDING WIZARD ─────────────── */
+  .wizard {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 8px; margin: 14px 0 18px;
+  }
+  .wizard .step {
+    border: 1px solid var(--or-dark-3); border-radius: 10px;
+    padding: 14px 12px;
+    background: var(--or-dark);
+    position: relative;
+    text-align: center;
+  }
+  .wizard .step .num {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--or-gold-bright) 0%, var(--or-gold) 60%, var(--or-gold-deep) 100%);
+    color: var(--or-black);
+    font-family: var(--serif); font-weight: 700; font-size: 14px;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(201,168,76,0.3);
+  }
+  .wizard .step h4 {
+    font-family: var(--serif); font-size: 12px; color: var(--or-gold-light);
+    margin: 0 0 6px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .wizard .step p {
+    font-size: 10.5px; color: var(--or-grey-1); margin: 0;
+    line-height: 1.45;
+  }
+
+  /* ─────────────── REVENUE SPLIT BAR ─────────────── */
+  .split-bar {
+    display: flex; height: 60px; border-radius: 10px;
+    overflow: hidden; margin: 16px 0 8px;
+    border: 1px solid var(--or-dark-3);
+  }
+  .split-bar .seg {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--or-black);
+    font-family: var(--serif); font-weight: 700; font-size: 18px;
+    line-height: 1;
+  }
+  .split-bar .seg .lab {
+    font-family: var(--mono); font-size: 8.5px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-top: 4px;
+    opacity: 0.85;
+  }
+  .seg.franchisee { flex: 45; background: linear-gradient(180deg, var(--or-gold-bright) 0%, var(--or-gold) 100%); }
+  .seg.farm       { flex: 45; background: linear-gradient(180deg, var(--or-gold) 0%, var(--or-gold-deep) 100%); color: var(--or-cream); }
+  .seg.it         { flex: 5;  background: linear-gradient(180deg, var(--or-dark-3) 0%, var(--or-dark-2) 100%); color: var(--or-gold-light); font-size: 11px; }
+  .seg.misc       { flex: 5;  background: linear-gradient(180deg, var(--or-dark-2) 0%, var(--or-dark) 100%); color: var(--or-gold-light); font-size: 11px; }
+  .seg.it .lab, .seg.misc .lab { font-size: 7px; }
+
+  .split-legend {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 8px; margin: 8px 0 16px;
+    font-size: 11px; color: var(--or-grey-1);
+  }
+  .split-legend .row {
+    display: flex; flex-direction: column;
+  }
+  .split-legend .row .pct {
+    font-family: var(--serif); font-size: 13px; font-weight: 700;
+    color: var(--or-gold-light);
+  }
+  .split-legend .row .who {
+    color: var(--or-white); font-weight: 600;
+  }
+  .split-legend .row .why {
+    color: var(--or-grey-2); font-size: 10.5px; margin-top: 2px;
+  }
+
+  /* ─────────────── EXAMPLE CARD ─────────────── */
+  .example {
+    border: 1px solid var(--or-gold-deep); border-radius: 12px;
+    padding: 18px 22px;
+    background:
+      linear-gradient(180deg, rgba(201,168,76,0.07) 0%, rgba(201,168,76,0.02) 100%),
+      var(--or-dark);
+    margin: 12px 0 16px;
+  }
+  .example h4 {
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--or-gold); letter-spacing: 0.16em;
+    text-transform: uppercase; font-weight: 600;
+    margin: 0 0 14px;
+  }
+  .example .calc {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px;
+    align-items: center;
+  }
+  .example .calc .left, .example .calc .right { font-size: 12px; color: var(--or-grey-1); }
+  .example .calc .left .v, .example .calc .right .v {
+    font-family: var(--serif); font-weight: 700; font-size: 24px;
+    color: var(--or-gold); line-height: 1;
+    display: block; margin-bottom: 4px;
+  }
+  .example .calc .left .lab, .example .calc .right .lab {
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--or-grey-2); letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .example .calc .arrow {
+    font-family: var(--serif); font-size: 22px;
+    color: var(--or-gold-deep); font-weight: 700;
+  }
+  .example .breakdown {
+    margin-top: 16px; padding-top: 14px;
+    border-top: 1px dashed var(--or-dark-4);
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    font-size: 11px;
+  }
+  .example .breakdown .item {
+    text-align: center;
+  }
+  .example .breakdown .item .v {
+    font-family: var(--serif); font-weight: 700; font-size: 18px;
+    color: var(--or-gold-light); line-height: 1;
+    display: block; margin-bottom: 4px;
+  }
+  .example .breakdown .item .lab {
+    font-family: var(--mono); font-size: 8.5px;
+    color: var(--or-grey-3); letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ─────────────── PHASE TIMELINE ─────────────── */
+  .phases {
+    margin: 14px 0 18px;
+  }
+  .phase {
+    display: grid; grid-template-columns: 80px 1fr 140px;
+    gap: 16px; align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--or-dark-3);
+  }
+  .phase:last-child { border-bottom: none; }
+  .phase .badge {
+    text-align: center;
+    padding: 8px 4px;
+    border: 1px solid var(--or-gold-deep); border-radius: 8px;
+    background: linear-gradient(180deg, rgba(201,168,76,0.08) 0%, transparent 100%);
+  }
+  .phase .badge .p {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--or-gold-light); letter-spacing: 0.15em;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .phase .badge .n {
+    font-family: var(--serif); font-weight: 700; font-size: 22px;
+    color: var(--or-gold); line-height: 1.1;
+    margin-top: 4px;
+  }
+  .phase .badge .l {
+    font-family: var(--mono); font-size: 8px;
+    color: var(--or-grey-3); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-top: 2px;
+  }
+  .phase .body h4 {
+    font-family: var(--serif); font-size: 14px;
+    color: var(--or-white); font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .phase .body p {
+    font-size: 11.5px; color: var(--or-grey-1);
+    margin: 0; line-height: 1.5;
+  }
+  .phase .when {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--or-gold-light); letter-spacing: 0.1em;
+    text-transform: uppercase; text-align: right;
+    line-height: 1.5;
+  }
+  .phase .when b { color: var(--or-gold); font-weight: 600; display: block; font-size: 11px; }
+
+  /* ─────────────── INCLUDED CHECKLIST ─────────────── */
+  .included {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 8px 18px; margin: 12px 0 18px;
+  }
+  .included .item {
+    display: grid; grid-template-columns: 22px 1fr;
+    gap: 10px; align-items: start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--or-dark-3);
+  }
+  .included .item .check {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--or-gold) 0%, var(--or-gold-deep) 100%);
+    color: var(--or-black);
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; line-height: 1;
+    margin-top: 1px;
+  }
+  .included .item .text {
+    font-size: 12px; color: var(--or-grey-1); line-height: 1.5;
+  }
+  .included .item .text b { color: var(--or-white); font-weight: 600; }
+
+  /* ─────────────── INVESTOR PATHS ─────────────── */
+  .paths {
+    margin: 14px 0 18px;
+  }
+  .path {
+    border: 1px solid var(--or-dark-3); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 10px;
+    background: var(--or-dark);
+    border-left: 3px solid var(--or-gold);
+    display: grid; grid-template-columns: 1fr 100px 100px 100px;
+    gap: 14px; align-items: center;
+  }
+  .path .info h4 {
+    font-family: var(--serif); font-size: 13px; color: var(--or-white);
+    margin: 0 0 4px; font-weight: 600;
+  }
+  .path .info p {
+    font-size: 11px; color: var(--or-grey-2); margin: 0;
+    line-height: 1.45;
+  }
+  .path .stat {
+    text-align: center;
+  }
+  .path .stat .v {
+    font-family: var(--serif); font-weight: 700; font-size: 16px;
+    color: var(--or-gold); line-height: 1;
+  }
+  .path .stat .l {
+    font-family: var(--mono); font-size: 8px;
+    color: var(--or-grey-3); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-top: 4px;
+  }
+
+  /* ─────────────── CEILING TABLE ─────────────── */
+  .ceiling {
+    border: 1px solid var(--or-gold-deep); border-radius: 10px;
+    padding: 16px 20px;
+    background:
+      linear-gradient(180deg, rgba(201,168,76,0.06) 0%, transparent 100%),
+      var(--or-dark);
+    margin: 14px 0 18px;
+  }
+  .ceiling table { width: 100%; border-collapse: collapse; }
+  .ceiling th, .ceiling td {
+    text-align: left; padding: 8px 4px;
+    border-bottom: 1px solid var(--or-dark-4);
+    font-size: 11.5px; color: var(--or-grey-1);
+  }
+  .ceiling th {
+    color: var(--or-gold); font-weight: 600;
+    font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    border-bottom: 1px solid var(--or-gold-deep);
+    font-family: var(--serif);
+  }
+  .ceiling td.b { color: var(--or-white); font-weight: 600; }
+  .ceiling td.r { text-align: right; font-family: var(--mono); color: var(--or-gold-light); font-weight: 600; }
+  .ceiling tr:last-child td { border-bottom: none; }
+  .ceiling tfoot td {
+    border-top: 2px solid var(--or-gold);
+    border-bottom: none;
+    color: var(--or-gold-light); font-weight: 700;
+    padding-top: 12px;
+  }
+
+  /* ─────────────── MOATS ─────────────── */
+  .moats {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 10px; margin: 14px 0 18px;
+  }
+  .moat {
+    border: 1px solid var(--or-dark-3); border-radius: 10px;
+    padding: 14px 16px;
+    background: var(--or-dark);
+  }
+  .moat h4 {
+    font-family: var(--serif); font-size: 13px; color: var(--or-gold);
+    margin: 0 0 6px; font-weight: 600;
+  }
+  .moat p {
+    font-size: 11.5px; color: var(--or-grey-1); margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ─────────────── CTA ─────────────── */
+  .cta {
+    border: 2px solid var(--or-gold);
+    border-radius: 12px;
+    padding: 24px 28px;
+    background:
+      linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(201,168,76,0.03) 100%),
+      var(--or-dark);
+    margin: 18px 0 12px;
+  }
+  .cta h3 {
+    font-family: var(--serif); font-size: 22px; color: var(--or-gold-light);
+    margin: 0 0 10px; font-weight: 600;
+  }
+  .cta p {
+    font-size: 13px; color: var(--or-grey-1); margin: 0 0 14px;
+  }
+  .cta .steps {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .cta .stp {
+    border-left: 2px solid var(--or-gold);
+    padding-left: 12px;
+  }
+  .cta .stp .n {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--or-gold); letter-spacing: 0.15em;
+    text-transform: uppercase; font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .cta .stp .t {
+    font-family: var(--serif); font-size: 13px;
+    color: var(--or-white); font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .cta .stp .d {
+    font-size: 11px; color: var(--or-grey-1); line-height: 1.45;
+  }
+
+  .contact {
+    margin-top: 14px;
+    padding: 14px 18px;
+    border: 1px solid var(--or-dark-3); border-radius: 8px;
+    background: var(--or-dark-2);
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 16px; align-items: center;
+  }
+  .contact .info {
+    font-size: 12px; color: var(--or-grey-1); line-height: 1.55;
+  }
+  .contact .info b { color: var(--or-gold-light); font-weight: 600; }
+  .contact .info code {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--or-gold-light);
+  }
+  .contact .seal {
+    font-family: var(--serif); font-weight: 700;
+    font-size: 11px; color: var(--or-gold);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    text-align: right;
+  }
+
+  .disclaimer {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border: 1px dashed var(--or-dark-4); border-radius: 6px;
+    font-size: 10px; color: var(--or-grey-3);
+    line-height: 1.5;
+  }
+  .disclaimer b { color: var(--or-grey-2); font-weight: 600; }
+
+  /* ─────────────── FOOTER ─────────────── */
+  .footer {
+    margin-top: 18px; padding-top: 12px;
+    border-top: 1px solid var(--or-dark-3);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--or-grey-3); font-family: var(--mono);
+  }
+  .footer .seal { color: var(--or-gold); font-weight: 600; }
+
+  /* ─────────────── PRINT ─────────────── */
+  @page { size: A4; margin: 0; }
+  @media print {
+    html, body {
+      background: var(--or-black) !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body { font-size: 11px; }
+    .page { max-width: none; margin: 0; }
+    .sheet {
+      padding: 12mm 12mm; min-height: auto;
+      page-break-after: always; break-after: page;
+    }
+    .sheet:last-child { page-break-after: auto; break-after: auto; }
+    .cover {
+      padding: 18mm 14mm 12mm; min-height: 273mm;
+      page-break-after: always; break-after: page;
+    }
+    .cover .top .pre { font-size: 8px; margin-bottom: 12px; }
+    .cover .top .wordmark { font-size: 46px; letter-spacing: 0.4em; }
+    .cover .top .ornaments { margin-top: 14px; gap: 10px; }
+    .cover .top .ornaments .line { width: 50px; }
+    .cover .top .by { font-size: 9px; margin-top: 14px; }
+    .cover .top .docline { font-size: 9px; margin-top: 22px; padding: 5px 14px; }
+    .brandbar .lockup .seal { width: 5px; height: 5px; }
+    .cover .hero-block h1 { font-size: 32px; }
+    .cover .hero-block h1 .accent { font-size: 22px; }
+    .cover .hero-block .subline { font-size: 13px; }
+    .cover .pillars .pillar .num { font-size: 22px; }
+    .brandbar { padding-bottom: 8px; margin-bottom: 10px; }
+    .brandbar .lockup .leaf { width: 18px; height: 18px; }
+    .brandbar .lockup .origin { font-size: 11px; }
+    .brandbar .lockup .ilco { font-size: 7px; }
+    .brandbar .stamp { font-size: 8px; }
+    .section-head { margin-bottom: 12px; padding-bottom: 8px; }
+    .section-head .ix { font-size: 9px; }
+    .section-head .title { font-size: 17px; }
+    .section-head .kicker { font-size: 8.5px; }
+    h3 { font-size: 12.5px; margin: 12px 0 6px; }
+    p { font-size: 11px; line-height: 1.55; margin: 6px 0 9px; }
+    .moneyrow { gap: 8px; margin: 10px 0 14px; }
+    .money { padding: 12px 10px; }
+    .money .label { font-size: 8px; margin-bottom: 6px; }
+    .money .v { font-size: 18px; }
+    .money .v .small { font-size: 10px; }
+    .money .cap { font-size: 9.5px; }
+    .promise { gap: 8px; margin: 10px 0; }
+    .promise .p { padding: 12px 14px; }
+    .promise .p .icon { width: 22px; height: 22px; margin-bottom: 6px; }
+    .promise .p h4 { font-size: 13px; }
+    .promise .p p { font-size: 10.5px; }
+    .wizard { gap: 6px; margin: 10px 0 14px; }
+    .wizard .step { padding: 10px 8px; }
+    .wizard .step .num { width: 24px; height: 24px; font-size: 12px; margin-bottom: 6px; }
+    .wizard .step h4 { font-size: 10.5px; }
+    .wizard .step p { font-size: 9.5px; }
+    .split-bar { height: 50px; margin: 12px 0 6px; }
+    .split-bar .seg { font-size: 16px; }
+    .split-bar .seg.it, .split-bar .seg.misc { font-size: 10px; }
+    .split-bar .seg .lab { font-size: 7.5px; }
+    .split-legend { gap: 6px; margin: 6px 0 12px; font-size: 10px; }
+    .split-legend .row .pct { font-size: 12px; }
+    .split-legend .row .why { font-size: 9.5px; }
+    .example { padding: 14px 18px; margin: 8px 0 12px; }
+    .example .calc .left .v, .example .calc .right .v { font-size: 20px; }
+    .example .calc .arrow { font-size: 18px; }
+    .example .breakdown .item .v { font-size: 16px; }
+    .phase { padding: 10px 0; gap: 12px; grid-template-columns: 64px 1fr 110px; }
+    .phase .badge { padding: 6px 4px; }
+    .phase .badge .n { font-size: 18px; }
+    .phase .badge .p, .phase .badge .l { font-size: 7.5px; }
+    .phase .body h4 { font-size: 12.5px; }
+    .phase .body p { font-size: 10.5px; }
+    .phase .when { font-size: 9px; }
+    .phase .when b { font-size: 10px; }
+    .included .item { padding: 6px 0; }
+    .included .item .text { font-size: 10.5px; }
+    .path { padding: 10px 14px; gap: 10px; grid-template-columns: 1fr 75px 75px 75px; }
+    .path .info h4 { font-size: 12px; }
+    .path .info p { font-size: 10px; }
+    .path .stat .v { font-size: 14px; }
+    .path .stat .l { font-size: 7.5px; }
+    .ceiling { padding: 12px 16px; margin: 10px 0 14px; }
+    .ceiling th { font-size: 8.5px; }
+    .ceiling td { font-size: 10.5px; padding: 6px 4px; }
+    .moats { gap: 8px; margin: 10px 0 14px; }
+    .moat { padding: 12px 14px; }
+    .moat h4 { font-size: 12px; }
+    .moat p { font-size: 10.5px; }
+    .cta { padding: 18px 22px; margin: 12px 0 8px; }
+    .cta h3 { font-size: 18px; }
+    .cta p { font-size: 12px; }
+    .cta .stp .t { font-size: 12px; }
+    .cta .stp .d { font-size: 10.5px; }
+    .contact { padding: 10px 14px; }
+    .contact .info { font-size: 11px; }
+    .contact .seal { font-size: 10px; }
+    .disclaimer { font-size: 9px; padding: 8px 12px; }
+    .footer { font-size: 8px; margin-top: 12px; padding-top: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SVG REUSABLE ICONS · defined once, referenced via <use>
+     ═══════════════════════════════════════════════════════════════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+
+    <!-- ILCO leaf logomark -->
+    <symbol id="leaf" viewBox="0 0 64 64">
+      <defs>
+        <linearGradient id="leafgrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#E8D5A3"/>
+          <stop offset="60%" stop-color="#C9A84C"/>
+          <stop offset="100%" stop-color="#7A5C1A"/>
+        </linearGradient>
+      </defs>
+      <circle cx="32" cy="32" r="30" fill="none" stroke="url(#leafgrad)" stroke-width="1.5"/>
+      <!-- Cannabis leaf, 7-pointed, stylised -->
+      <g transform="translate(32 33)" fill="url(#leafgrad)">
+        <path d="M0 -22 C-2 -10 -3 -2 0 0 C3 -2 2 -10 0 -22 Z"/>
+        <path d="M0 -2 C-8 -10 -16 -16 -19 -10 C-16 -8 -8 -2 0 4 Z" transform="rotate(-30)"/>
+        <path d="M0 -2 C-8 -10 -16 -16 -19 -10 C-16 -8 -8 -2 0 4 Z" transform="rotate(30)"/>
+        <path d="M0 -2 C-8 -10 -16 -16 -19 -10 C-16 -8 -8 -2 0 4 Z" transform="rotate(-60)"/>
+        <path d="M0 -2 C-8 -10 -16 -16 -19 -10 C-16 -8 -8 -2 0 4 Z" transform="rotate(60)"/>
+        <path d="M0 0 C-4 6 -6 12 -3 14 C0 12 0 6 0 0 Z" transform="rotate(-15)"/>
+        <path d="M0 0 C-4 6 -6 12 -3 14 C0 12 0 6 0 0 Z" transform="rotate(15)"/>
+        <line x1="0" y1="0" x2="0" y2="20" stroke="#7A5C1A" stroke-width="1.2" stroke-linecap="round"/>
+      </g>
+    </symbol>
+
+    <!-- Promise icons -->
+    <symbol id="ic-shield" viewBox="0 0 32 32" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 3l11 4v9c0 7-5 12-11 13-6-1-11-6-11-13V7l11-4z"/>
+      <path d="M11 16l3.5 3.5L21 13"/>
+    </symbol>
+    <symbol id="ic-leaf-s" viewBox="0 0 32 32" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 27c0-12 8-20 22-22-2 14-10 22-22 22z"/>
+      <path d="M5 27L18 14"/>
+    </symbol>
+    <symbol id="ic-stethoscope" viewBox="0 0 32 32" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 4v8a6 6 0 0012 0V4"/>
+      <path d="M8 4h2M18 4h2"/>
+      <path d="M14 18v3a5 5 0 0010 0v-2"/>
+      <circle cx="24" cy="14" r="2.5"/>
+    </symbol>
+    <symbol id="ic-key" viewBox="0 0 32 32" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="10" cy="22" r="6"/>
+      <path d="M14.2 17.8L28 4"/>
+      <path d="M22 10l4 4M19 13l3 3"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 1 · COVER
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="page">
+<section class="sheet cover">
+
+  <div class="top">
+    <div class="lockup">
+      <div class="pre">A South African Brand</div>
+      <div class="wordmark">ORIGIN</div>
+      <div class="ornaments">
+        <span class="line"></span>
+        <span class="diamond"></span>
+        <span class="line"></span>
+      </div>
+      <div class="by">By ILCO Farming · Republic of South Africa</div>
+    </div>
+    <div class="docline">Franchise Prospectus · 2026</div>
+  </div>
+
+  <div class="hero-block">
+    <h1>
+      Own a stake in South Africa's most regulated cannabis brand
+      <span class="accent">— turnkey, gold-standard, doctor-led.</span>
+    </h1>
+    <p class="subline">
+      A nation-wide network of <strong>Origin online stores</strong> serving patients across South Africa from a single regulated farm — built on a four-licence regulatory backbone, a live AI compliance engine, and a hash-chained audit trail SAHPRA can replay on demand.
+    </p>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar"><div class="num">9</div><div class="lab">Cities · Phase 1</div></div>
+    <div class="pillar"><div class="num">100</div><div class="lab">Sites · Phase 3</div></div>
+    <div class="pillar"><div class="num">45 / 45 / 5 / 5</div><div class="lab">Net-retail revenue split</div></div>
+  </div>
+
+  <div class="bottom">
+    <div class="left">
+      <div><b>Confidential · Investor &amp; Franchisee Pack</b></div>
+      <div>For qualified prospects only · do not redistribute</div>
+    </div>
+    <div class="right">
+      <div>04 May 2026 · v1.0</div>
+      <div>ILCO Farming (Pty) Ltd · Reg. pending</div>
+      <div>Origin™ is a trade mark of ILCO Farming</div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 2 · THE OPPORTUNITY
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="sheet">
+  <header class="brandbar">
+    <div class="lockup">
+      <span class="seal"></span>
+      <div class="marks">
+        <div class="origin">ORIGIN</div>
+        <div class="ilco">By ILCO Farming</div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div><b>The opportunity</b></div>
+      <div>Why South Africa · why now</div>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div class="ix">01</div>
+    <div class="title">The South African medical cannabis opportunity</div>
+    <div class="kicker">A new category · a regulated market · first movers win the gated estates</div>
+  </div>
+
+  <p>
+    South Africa has a four-licence regulatory stack for medical cannabis — <strong>SAHPRA Section 22C, SAPC Y-number, HPCSA prescriber, Section 21 access</strong> <em>(subject to medicines-law specialist sign-off before any final shipped copy)</em> — that allows a vertically-integrated brand to sell medical-grade product through doctor-led channels. The brands that are <em>regulated, branded and doctor-led</em> on day one are best positioned for the medium-term opportunity.
+  </p>
+
+  <div class="moneyrow">
+    <div class="money">
+      <div class="label">Phase 1 footprint</div>
+      <div class="v">9</div>
+      <div class="cap">Online stores, one per major SA metro</div>
+    </div>
+    <div class="money">
+      <div class="label">Phase 3 target</div>
+      <div class="v">100</div>
+      <div class="cap">Online stores nationwide · scaled to current + grown farm capacity</div>
+    </div>
+    <div class="money">
+      <div class="label">Channel</div>
+      <div class="v">Section 21</div>
+      <div class="cap">Doctor-led prescribing route (verification pending)</div>
+    </div>
+    <div class="money">
+      <div class="label">Origin runway</div>
+      <div class="v">Ready</div>
+      <div class="cap">Platform live · brand registered · first-tenant operational</div>
+    </div>
+  </div>
+
+  <div class="alert" style="border:1px dashed var(--or-dark-4); background: var(--or-ink); border-radius:6px; padding:8px 12px; margin:10px 0; color:var(--or-grey-3); font-size:10px; line-height:1.45;">
+    <strong style="color:var(--or-grey-2);">Market-data note.</strong> Population, estate counts, market size and CAGR figures have been deliberately omitted from this draft pending verified sources (SAHPRA annual report, New World Wealth gated-estate counts, dispensary price audits). They will be added once cited.
+  </div>
+
+  <div class="section-head" style="margin-top:24px;">
+    <div class="ix">02</div>
+    <div class="title">The Origin promise · what the brand stands for</div>
+    <div class="kicker">Four guarantees on every gram</div>
+  </div>
+
+  <div class="promise">
+    <div class="p">
+      <svg class="icon" style="color:var(--or-gold-light)"><use href="#ic-shield"/></svg>
+      <h4>Compliance-first</h4>
+      <p>Every batch tracked from seed to script under SAHPRA Section 22C. Every action hash-chained. SAHPRA inspectors can replay any decision on demand.</p>
+    </div>
+    <div class="p">
+      <svg class="icon" style="color:var(--or-gold-light)"><use href="#ic-leaf-s"/></svg>
+      <h4>SA-grown · estate-grade</h4>
+      <p>Cultivated in South Africa under GACP, processed under GMP, packaged for the world's most demanding patient channel: gated-estate medical cannabis.</p>
+    </div>
+    <div class="p">
+      <svg class="icon" style="color:var(--or-gold-light)"><use href="#ic-stethoscope"/></svg>
+      <h4>Doctor-led prescription</h4>
+      <p>Section 21 access through HPCSA-registered prescribers. Origin trains doctors on the R 3,500 cannabinoid course; they prescribe, we dispense, the patient gets care.</p>
+    </div>
+    <div class="p">
+      <svg class="icon" style="color:var(--or-gold-light)"><use href="#ic-key"/></svg>
+      <h4>Turnkey for the franchisee</h4>
+      <p>Brand · platform · SOPs · supply · doctor network · compliance backbone. You bring the location and the local relationships. We bring the rest.</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>ORIGIN · By ILCO Farming · Confidential Franchise Prospectus</div>
+    <div class="seal">Page 02</div>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 3 · THE FRANCHISE MODEL — AT A GLANCE
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="sheet">
+  <header class="brandbar">
+    <div class="lockup">
+      <span class="seal"></span>
+      <div class="marks">
+        <div class="origin">ORIGIN</div>
+        <div class="ilco">By ILCO Farming</div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div><b>The franchise model</b></div>
+      <div>The numbers up front</div>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div class="ix">03</div>
+    <div class="title">The franchise model · numbers up front</div>
+    <div class="kicker">No surprises · no platform fees on top · ZAR everywhere</div>
+  </div>
+
+  <div class="moneyrow">
+    <div class="money">
+      <div class="label">Once-off fee</div>
+      <div class="v">R 50,000</div>
+      <div class="cap"><strong style="color:var(--or-gold-light)">Deferred</strong> until your first 500g of qualifying sales</div>
+    </div>
+    <div class="money">
+      <div class="label">SaaS thereafter</div>
+      <div class="v">R 1,850<span class="small">/mo</span></div>
+      <div class="cap">Full Origin platform, AI assistants and compliance backbone</div>
+    </div>
+    <div class="money">
+      <div class="label">Doctor course</div>
+      <div class="v">R 3,500</div>
+      <div class="cap">One-off cannabinoid course for your prescribing doctor</div>
+    </div>
+    <div class="money">
+      <div class="label">Franchisee share</div>
+      <div class="v">45%</div>
+      <div class="cap">Of net retail · per the 45 / 45 / 5 / 5 split (full breakdown overleaf)</div>
+    </div>
+  </div>
+
+  <h3>Your job · sign up patients</h3>
+  <p>
+    The online-store franchisee is a <strong>patient acquirer</strong>, not a shopkeeper. Your day is spent finding patients in your catchment — gated estates, doctor referrals, social, word-of-mouth — walking them through the Section 21 onboarding flow, and managing their ongoing prescriptions. The platform handles the rest: dispensing, compliance, audit, supply, the lot. <strong>Every patient you sign up is recurring revenue.</strong>
+  </p>
+
+  <h3>Why the deferred entry fee?</h3>
+  <p>
+    We win when you win. The R 50,000 once-off only becomes payable after your store moves its first <strong>500 grams of qualifying medical-grade product</strong>. At an ILCO-confirmed average of <strong>60 g per patient per month</strong>, that's <strong>about 9 active patients</strong> — once you cross that threshold, the deferred fee triggers. We don't get paid until the model has proven itself in your hands.</em>
+  </p>
+
+  <h3>What R 1,850 / month actually buys</h3>
+  <p>
+    A live, turnkey Origin store: branded online storefront, patient onboarding wizard, prescription queue, dispensary tracker, AI concierge, Drift Daemon, audit chain, the 76 ILCO SOPs embedded as tap-to-fire workflows. Less than the cost of one part-time consultant — for the entire compliance and operational backbone.
+  </p>
+
+  <h3>Why R 3,500 for the doctor course?</h3>
+  <p>
+    Section 21 prescribing requires an HPCSA-registered doctor familiar with the SAHPRA process and cannabinoid pharmacology. The R 3,500 course is HPCSA-CPD-aligned, takes a day, and qualifies your prescribing doctor to issue Section 21 scripts the same week. <strong>One trained doctor unlocks a whole community of patients.</strong>
+  </p>
+
+  <footer class="footer">
+    <div>ORIGIN · By ILCO Farming · Confidential Franchise Prospectus</div>
+    <div class="seal">Page 03</div>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 4 · ONBOARDING WIZARD
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="sheet">
+  <header class="brandbar">
+    <div class="lockup">
+      <span class="seal"></span>
+      <div class="marks">
+        <div class="origin">ORIGIN</div>
+        <div class="ilco">By ILCO Farming</div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div><b>Five steps to launch</b></div>
+      <div>From application to first script</div>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div class="ix">04</div>
+    <div class="title">Five steps from application to first prescription</div>
+    <div class="kicker">Onboarding timeline · TBC pending owner sign-off</div>
+  </div>
+
+  <div class="wizard">
+    <div class="step">
+      <div class="num">1</div>
+      <h4>Apply</h4>
+      <p>Submit your application + community / location pack. We assess fit.</p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h4>Sign</h4>
+      <p>Franchise agreement · deferred R 50,000 · SaaS R 1,850/mo activates.</p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h4>Set up</h4>
+      <p>Origin platform provisioned · branded collateral shipped · SOPs go live.</p>
+    </div>
+    <div class="step">
+      <div class="num">4</div>
+      <h4>Doctor</h4>
+      <p>Your prescribing doctor takes the R 3,500 cannabinoid course (1 day).</p>
+    </div>
+    <div class="step">
+      <div class="num">5</div>
+      <h4>Launch</h4>
+      <p>Online store live · first Section 21 scripts · supply from ILCO farm.</p>
+    </div>
+  </div>
+
+  <h3>What you do · what we do</h3>
+  <p>
+    <strong>You bring:</strong> the patient catchment, a prescribing doctor, the local relationships and the marketing legwork to sign patients up. No physical store, no rent, no walk-in retail — Origin runs entirely online. <strong>We bring:</strong> the brand, the regulated supply, the platform, the AI assistants, the SOPs, the audit infrastructure, the marketing collateral, and ongoing compliance support.
+  </p>
+
+  <div class="example">
+    <h4>Investment summary · what hits your bank in month 1</h4>
+    <div class="calc">
+      <div class="left">
+        <span class="v">R 0</span>
+        <span class="lab">Day-one franchise fee</span>
+      </div>
+      <div class="arrow">+</div>
+      <div class="right">
+        <span class="v">R 1,850</span>
+        <span class="lab">SaaS for the month</span>
+      </div>
+    </div>
+    <div class="breakdown">
+      <div class="item"><span class="v">R 3,500</span><span class="lab">Doctor course</span></div>
+      <div class="item"><span class="v">R 50,000</span><span class="lab">Triggered at 500g sold</span></div>
+      <div class="item"><span class="v">~9 patients</span><span class="lab">Trigger threshold (60 g / patient / mo)</span></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>ORIGIN · By ILCO Farming · Confidential Franchise Prospectus</div>
+    <div class="seal">Page 04</div>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 5 · REVENUE SPLIT
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="sheet">
+  <header class="brandbar">
+    <div class="lockup">
+      <span class="seal"></span>
+      <div class="marks">
+        <div class="origin">ORIGIN</div>
+        <div class="ilco">By ILCO Farming</div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div><b>Revenue split · 45 / 45 / 5 / 5</b></div>
+      <div>Of net retail · per gram · transparent</div>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div class="ix">05</div>
+    <div class="title">Revenue split · 45 / 45 / 5 / 5</div>
+    <div class="kicker">Of net retail · benchmark R 100 / g (Green Door)</div>
+  </div>
+
+  <div class="split-bar">
+    <div class="seg franchisee">45%<div class="lab">Franchisee</div></div>
+    <div class="seg farm">45%<div class="lab">ILCO Farm</div></div>
+    <div class="seg it">5%<div class="lab">IT</div></div>
+    <div class="seg misc">5%<div class="lab">Misc</div></div>
+  </div>
+
+  <div class="split-legend">
+    <div class="row">
+      <span class="pct">45%</span>
+      <span class="who">Franchisee</span>
+      <span class="why">Patient acquisition, local team, marketing, profit</span>
+    </div>
+    <div class="row">
+      <span class="pct">45%</span>
+      <span class="who">ILCO Farm</span>
+      <span class="why">Cultivation, processing, GMP packaging, regulated supply</span>
+    </div>
+    <div class="row">
+      <span class="pct">5%</span>
+      <span class="who">IT &amp; AI Platform</span>
+      <span class="why">Origin platform, AI assistants, audit chain, R&amp;D</span>
+    </div>
+    <div class="row">
+      <span class="pct">5%</span>
+      <span class="who">Misc &amp; Distribution</span>
+      <span class="why">Last-mile distribution, network marketing, contingency</span>
+    </div>
+  </div>
+
+  <h3>Per-gram reconciliation against the R 100 retail benchmark</h3>
+  <p>
+    Green Door — South Africa's largest medical-cannabis dispensary — retails medical-grade flower at the <strong>R 100 / g benchmark</strong>. After VAT, net retail per gram is approximately <strong>R 83.33</strong>. Applying the 45 / 45 / 5 / 5 split:
+  </p>
+
+  <div class="example">
+    <h4>Per-gram split at R 100 retail · R 83.33 net</h4>
+    <div class="breakdown" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="item"><span class="v" style="color:var(--or-gold-bright);">R 37.50</span><span class="lab">Franchisee · 45%</span></div>
+      <div class="item"><span class="v">R 37.50</span><span class="lab">Farm · 45%</span></div>
+      <div class="item"><span class="v">R 4.17</span><span class="lab">IT · 5%</span></div>
+      <div class="item"><span class="v">R 4.17</span><span class="lab">Misc · 5%</span></div>
+    </div>
+  </div>
+
+  <h3>Patient acquisition is yours · the platform is ours</h3>
+  <p>
+    The R 37.50 / g to the franchisee funds the one job we ask you to own: <strong>signing up patients and keeping them prescribed</strong>. Every other variable — supply, cultivation, GMP, audit, AI, the SOP backbone — is on the platform side. Aligned incentives, not zero-sum: the more patients you sign up, the more we both earn.
+  </p>
+
+  <h3>What "net retail" means</h3>
+  <p>
+    Net retail = gross retail revenue minus VAT and any direct discount applied at point of sale. The R 1,850 / month SaaS and the once-off R 3,500 doctor course sit <em>outside</em> the per-gram split. <strong>No further fees, no advertising tax, no hidden levies.</strong>
+  </p>
+
+  <footer class="footer">
+    <div>ORIGIN · By ILCO Farming · Confidential Franchise Prospectus</div>
+    <div class="seal">Page 05</div>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 6 · WORKED EXAMPLE
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="sheet">
+  <header class="brandbar">
+    <div class="lockup">
+      <span class="seal"></span>
+      <div class="marks">
+        <div class="origin">ORIGIN</div>
+        <div class="ilco">By ILCO Farming</div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div><b>Worked example</b></div>
+      <div>3 scenarios · all on confirmed inputs</div>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div class="ix">06</div>
+    <div class="title">Worked example · scaling by patient count</div>
+    <div class="kicker">60 g / patient / month · R 100 / g retail · 45/45/5/5 of net retail · all owner-confirmed</div>
+  </div>
+
+  <p>
+    The model is fully linear: <strong>each active patient ≈ 60 g / month at R 100 / g</strong>. Below are three scenarios — at the trigger threshold, at modest scale, and at mature scale. Same maths, different patient counts.
+  </p>
+
+  <table style="width:100%; border-collapse:collapse; margin: 12px 0 16px; font-size:12px;">
+    <thead>
+      <tr>
+        <th style="text-align:left; padding:9px 10px; border-bottom:1px solid var(--or-gold-deep); color:var(--or-gold); font-family:var(--serif); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;">Line item</th>
+        <th style="text-align:right; padding:9px 10px; border-bottom:1px solid var(--or-gold-deep); color:var(--or-gold); font-family:var(--serif); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;">Trigger · 9 patients</th>
+        <th style="text-align:right; padding:9px 10px; border-bottom:1px solid var(--or-gold-deep); color:var(--or-gold); font-family:var(--serif); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;">Steady · 20 patients</th>
+        <th style="text-align:right; padding:9px 10px; border-bottom:1px solid var(--or-gold-deep); color:var(--or-gold); font-family:var(--serif); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;">Healthy · 30 patients</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-white); font-weight:600;">Active patients</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">9</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">20</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">30</td></tr>
+      <tr><td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-white); font-weight:600;">Monthly volume (× 60 g)</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">540 g</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">1,200 g</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">1,800 g</td></tr>
+      <tr><td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-white); font-weight:600;">Gross retail (× R 100)</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">R 54,000</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">R 120,000</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">R 180,000</td></tr>
+      <tr><td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2);">Net retail (gross ÷ 1.20 · split base)</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">R 45,000</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">R 100,000</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">R 150,000</td></tr>
+      <tr style="background:rgba(201,168,76,0.05);">
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-gold-bright); font-weight:700;">Franchisee · 45%</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-gold-bright); text-align:right; font-family:var(--mono); font-weight:600;">R 20,250</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-gold-bright); text-align:right; font-family:var(--mono); font-weight:600;">R 45,000</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-gold-bright); text-align:right; font-family:var(--mono); font-weight:600;">R 67,500</td></tr>
+      <tr><td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1);">Farm · 45%</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">R 20,250</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">R 45,000</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">R 67,500</td></tr>
+      <tr><td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2);">IT · 5%</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">R 2,250</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">R 5,000</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">R 7,500</td></tr>
+      <tr><td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2);">Misc · 5%</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">R 2,250</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">R 5,000</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">R 7,500</td></tr>
+      <tr><td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2);">Less monthly SaaS</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">−R 1,850</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">−R 1,850</td>
+          <td style="padding:8px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">−R 1,850</td></tr>
+      <tr style="background:rgba(123,201,166,0.06);">
+          <td style="padding:10px; border-top:2px solid var(--or-gold); color:var(--or-green-light); font-weight:700; font-family:var(--serif);">Franchisee · monthly net</td>
+          <td style="padding:10px; border-top:2px solid var(--or-gold); color:var(--or-green-light); text-align:right; font-family:var(--mono); font-weight:700;">R 18,400</td>
+          <td style="padding:10px; border-top:2px solid var(--or-gold); color:var(--or-green-light); text-align:right; font-family:var(--mono); font-weight:700;">R 43,150</td>
+          <td style="padding:10px; border-top:2px solid var(--or-gold); color:var(--or-green-light); text-align:right; font-family:var(--mono); font-weight:700;">R 65,650</td></tr>
+      <tr style="background:rgba(123,201,166,0.04);">
+          <td style="padding:8px 10px; color:var(--or-green-light); font-weight:600;">Annualised · × 12</td>
+          <td style="padding:8px 10px; color:var(--or-green-light); text-align:right; font-family:var(--mono); font-weight:600;">R 220,800</td>
+          <td style="padding:8px 10px; color:var(--or-green-light); text-align:right; font-family:var(--mono); font-weight:600;">R 517,800</td>
+          <td style="padding:8px 10px; color:var(--or-green-light); text-align:right; font-family:var(--mono); font-weight:600;">R 787,800</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Reading the table</h3>
+  <p>
+    <strong>9 patients</strong> is the deferred-fee trigger threshold (just past 500 g). <strong>20 patients</strong> represents a steady single-store run-rate. <strong>30 patients</strong> represents a healthy single-store run-rate. The model scales linearly — every additional patient adds <strong>~R 2,250 / month</strong> to the franchisee's gross before SaaS. Real per-store ceilings depend on patient sign-up rate and SA market data still pending verification.
+  </p>
+
+  <div class="alert" style="border:1px dashed var(--or-dark-4); background: var(--or-ink); border-radius:6px; padding:10px 14px; margin:12px 0 0; color:var(--or-grey-3); font-size:10px; line-height:1.5;">
+    <strong style="color:var(--or-grey-2);">Inputs.</strong> Per-patient consumption (60 g / mo), retail price (R 100 / g · Green Door benchmark) and revenue split (45 / 45 / 5 / 5 of net retail) all owner-confirmed. Net-retail base assumes a 16.67% deduction off gross (≈ VAT) to land on the R 37.50 / gram figure cited by the franchisor. Time-to-trigger and patient sign-up rates are franchisee-dependent and not modelled.
+  </div>
+
+  <footer class="footer">
+    <div>ORIGIN · By ILCO Farming · Confidential Franchise Prospectus</div>
+    <div class="seal">Page 06</div>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 7 · THREE PHASES
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="sheet">
+  <header class="brandbar">
+    <div class="lockup">
+      <span class="seal"></span>
+      <div class="marks">
+        <div class="origin">ORIGIN</div>
+        <div class="ilco">By ILCO Farming</div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div><b>Three phases</b></div>
+      <div>9 cities → 50 estates → 100 sites</div>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div class="ix">07</div>
+    <div class="title">The national rollout · three phases</div>
+    <div class="kicker">From city footprint to nation-wide partner network</div>
+  </div>
+
+  <div class="phases">
+    <div class="phase">
+      <div class="badge">
+        <div class="p">Phase</div>
+        <div class="n">1</div>
+        <div class="l">9 metros</div>
+      </div>
+      <div class="body">
+        <h4>National online footprint · 9 cities</h4>
+        <p>One online Origin store per major SA metro: Johannesburg, Pretoria, Cape Town, Durban, Port Elizabeth, Bloemfontein, East London, Polokwane, Nelspruit. Each store ships to its catchment area; one prescribing doctor per store; the brand becomes nationally visible.</p>
+      </div>
+      <div class="when">
+        <b>2026</b>
+        Year 1
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="badge">
+        <div class="p">Phase</div>
+        <div class="n">2</div>
+        <div class="l">50 estates</div>
+      </div>
+      <div class="body">
+        <h4>Gated-estate density · the 1% of 1%</h4>
+        <p>Origin online stores targeting the patient catchment inside South Africa's top-tier gated estates. Same online model — what changes is the demographic focus and marketing channel. Estate count and household-level penetration figures pending verified sources.</p>
+      </div>
+      <div class="when">
+        <b>2027</b>
+        Year 2
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="badge">
+        <div class="p">Phase</div>
+        <div class="n">3</div>
+        <div class="l">100 sites</div>
+      </div>
+      <div class="body">
+        <h4>Nation-wide partner network</h4>
+        <p>Origin scales to <strong>100 partner online stores</strong> nationwide — paced to grown farm capacity, not aspirational headcount. Every partner runs the same regulated stack, the same audit chain, the same brand. SA's first true national online medical-cannabis franchise.</p>
+      </div>
+      <div class="when">
+        <b>2028+</b>
+        Year 3 onward
+      </div>
+    </div>
+  </div>
+
+  <h3>Farm capacity · the rate-limiter on rollout</h3>
+  <p>
+    The rollout is paced to <strong>real ILCO farm capacity</strong>, not aspirational franchisee headcount. Below is what the supply side actually supports today, and how it must grow to fund Phase 2 and Phase 3.
+  </p>
+
+  <table style="width:100%; border-collapse:collapse; margin: 8px 0 14px; font-size:12px;">
+    <thead>
+      <tr>
+        <th style="text-align:left; padding:8px 10px; border-bottom:1px solid var(--or-gold-deep); color:var(--or-gold); font-family:var(--serif); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;">Layer</th>
+        <th style="text-align:right; padding:8px 10px; border-bottom:1px solid var(--or-gold-deep); color:var(--or-gold); font-family:var(--serif); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;">Today</th>
+        <th style="text-align:right; padding:8px 10px; border-bottom:1px solid var(--or-gold-deep); color:var(--or-gold); font-family:var(--serif); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;">Phase 3 (req'd)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-white); font-weight:600;">Farm output</td>
+          <td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">180 kg / mo</td>
+          <td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-gold-light); text-align:right; font-family:var(--mono);">to grow with rollout</td></tr>
+      <tr><td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-white); font-weight:600;">% allocated to online channel</td>
+          <td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">25%</td>
+          <td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-1); text-align:right; font-family:var(--mono);">25%</td></tr>
+      <tr style="background:rgba(201,168,76,0.05);">
+          <td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-gold-bright); font-weight:700;">Online supply available</td>
+          <td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-gold-bright); text-align:right; font-family:var(--mono); font-weight:600;">45 kg / mo</td>
+          <td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-gold-bright); text-align:right; font-family:var(--mono); font-weight:600;">depends on grown output</td></tr>
+      <tr><td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2);">Active sites in network</td>
+          <td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">Phase 1 · 9</td>
+          <td style="padding:7px 10px; border-bottom:1px solid var(--or-dark-3); color:var(--or-grey-2); text-align:right; font-family:var(--mono);">Phase 3 · 100</td></tr>
+      <tr style="background:rgba(123,201,166,0.05);">
+          <td style="padding:8px 10px; border-top:2px solid var(--or-gold); color:var(--or-green-light); font-weight:700; font-family:var(--serif);">Per-site supply at current capacity</td>
+          <td style="padding:8px 10px; border-top:2px solid var(--or-gold); color:var(--or-green-light); text-align:right; font-family:var(--mono); font-weight:700;">~5 kg / site / mo</td>
+          <td style="padding:8px 10px; border-top:2px solid var(--or-gold); color:var(--or-grey-3); text-align:right; font-family:var(--mono);">450 g if no grow · grows with farm</td></tr>
+      <tr><td style="padding:7px 10px; color:var(--or-grey-2);">Patients supportable per site (60 g / patient)</td>
+          <td style="padding:7px 10px; color:var(--or-green-light); text-align:right; font-family:var(--mono);">~83 / site</td>
+          <td style="padding:7px 10px; color:var(--or-grey-3); text-align:right; font-family:var(--mono);">scales with farm grow-plan</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <strong>Reading the table.</strong> Today, with 180 kg / mo farm output and 25% allocated to online, each Phase 1 store has roughly <strong>5 kg / month of supply</strong> — enough for ~83 patients (well above the trigger threshold). For Phase 3 to put 100 sites on a similar footing, ILCO farm capacity must grow alongside the rollout. The franchise plan is paced to that grow-plan, not the other way around.
+  </p>
+
+  <h3>Why gated estates first</h3>
+  <p>
+    Top-tier SA gated estates are dense, affluent patient catchments — underserved by current cannabis access channels and ideal for online prescription delivery. They concentrate high-value patient sign-ups in geographies the franchisee can market to efficiently. <em>(Estate counts pending verified sources.)</em>
+  </p>
+
+  <footer class="footer">
+    <div>ORIGIN · By ILCO Farming · Confidential Franchise Prospectus</div>
+    <div class="seal">Page 07</div>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 8 · WHAT YOU GET
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="sheet">
+  <header class="brandbar">
+    <div class="lockup">
+      <span class="seal"></span>
+      <div class="marks">
+        <div class="origin">ORIGIN</div>
+        <div class="ilco">By ILCO Farming</div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div><b>What's included</b></div>
+      <div>Turnkey · day one</div>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div class="ix">08</div>
+    <div class="title">What R 1,850 / month actually buys you</div>
+    <div class="kicker">A turnkey medical-cannabis franchise, not a software licence</div>
+  </div>
+
+  <div class="included">
+    <div class="item"><div class="check">✓</div><div class="text"><b>Origin brand &amp; collateral</b> — registered trade marks, packaging, signage, marketing assets, social-media kit.</div></div>
+    <div class="item"><div class="check">✓</div><div class="text"><b>76 SAHPRA-aligned SOPs</b> — every standard operating procedure, embedded as tap-to-fire workflows in the platform.</div></div>
+    <div class="item"><div class="check">✓</div><div class="text"><b>TnT-ZA platform access</b> — full track-and-trace from seed to script, per-role dashboards, ticket system, real-time inventory.</div></div>
+    <div class="item"><div class="check">✓</div><div class="text"><b>Five AI assistants</b> — Concierge, SMF Composer, Ops Q&amp;A, Tickets, Drift Daemon. Always on, always grounded.</div></div>
+    <div class="item"><div class="check">✓</div><div class="text"><b>Doctor network &amp; course</b> — referral pipeline of HPCSA prescribers and the R 3,500 cannabinoid course for your in-house doctor.</div></div>
+    <div class="item"><div class="check">✓</div><div class="text"><b>Compliance backbone</b> — hash-chained audit log, sign-off chain (RP → DAR → AR), Site Master File live and signed.</div></div>
+    <div class="item"><div class="check">✓</div><div class="text"><b>Regulated supply from ILCO farm</b> — GACP-cultivated, GMP-processed, fully traceable, on-demand replenishment.</div></div>
+    <div class="item"><div class="check">✓</div><div class="text"><b>SAHPRA + SAPC paperwork</b> — Section 21 packet generator, S6 register, adverse-drug-reaction workflow, all auto-filed.</div></div>
+    <div class="item"><div class="check">✓</div><div class="text"><b>Onboarding &amp; training</b> — staff training matrix, role-based dashboards, new-hire wizard, refresher reminders.</div></div>
+    <div class="item"><div class="check">✓</div><div class="text"><b>24 / 7 support</b> — platform uptime monitoring, compliance hotline, escalation to ILCO regulatory team.</div></div>
+  </div>
+
+  <h3>What this <em>replaces</em></h3>
+  <p>
+    A team of 4–6 specialists you would otherwise need to hire: a regulatory consultant, a quality manager, a software engineer, a brand director, a doctor liaison, and a compliance officer. Origin gives you all six functions, on platform, on day one — for less than the cost of one part-time consultant.
+  </p>
+
+  <footer class="footer">
+    <div>ORIGIN · By ILCO Farming · Confidential Franchise Prospectus</div>
+    <div class="seal">Page 08</div>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 9 · FOUR INVESTOR PATHS
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="sheet">
+  <header class="brandbar">
+    <div class="lockup">
+      <span class="seal"></span>
+      <div class="marks">
+        <div class="origin">ORIGIN</div>
+        <div class="ilco">By ILCO Farming</div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div><b>Four ways in</b></div>
+      <div>Investor &amp; franchisee paths</div>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div class="ix">09</div>
+    <div class="title">Four ways to participate · choose your path</div>
+    <div class="kicker">Indicative · subject to qualification &amp; ILCO board approval</div>
+  </div>
+
+  <div class="paths">
+    <div class="path">
+      <div class="info">
+        <h4>Path A · Single online store</h4>
+        <p>One Origin online store in one metro. Lowest entry, fastest payback, ideal for owner-operators who can drive patient sign-up.</p>
+      </div>
+      <div class="stat"><div class="v">R 50k</div><div class="l">Once-off · deferred</div></div>
+      <div class="stat"><div class="v">R 1,850</div><div class="l">SaaS / mo</div></div>
+      <div class="stat"><div class="v">45%</div><div class="l">of net retail</div></div>
+    </div>
+
+    <div class="path">
+      <div class="info">
+        <h4>Path B · Multi-store metro</h4>
+        <p>Multiple Origin stores across a single metro under one operator. Bundled SaaS &amp; co-marketing terms by negotiation.</p>
+      </div>
+      <div class="stat"><div class="v">By neg.</div><div class="l">Bundled entry</div></div>
+      <div class="stat"><div class="v">By neg.</div><div class="l">SaaS bundle</div></div>
+      <div class="stat"><div class="v">45%</div><div class="l">of net retail</div></div>
+    </div>
+
+    <div class="path">
+      <div class="info">
+        <h4>Path C · Gated-estate cluster</h4>
+        <p>Origin online store with a premium estate as its primary patient catchment. Marketing focused on the estate community; doctor partnerships drive sign-up. Same online economics, premium-density target.</p>
+      </div>
+      <div class="stat"><div class="v">By neg.</div><div class="l">Once-off · deferred</div></div>
+      <div class="stat"><div class="v">By neg.</div><div class="l">SaaS / mo</div></div>
+      <div class="stat"><div class="v">45%</div><div class="l">of net retail</div></div>
+    </div>
+
+    <div class="path">
+      <div class="info">
+        <h4>Path D · Equity in ILCO Farming</h4>
+        <p>Direct equity in the parent. Exposure to the farm, the platform, and the partner network. By invitation only.</p>
+      </div>
+      <div class="stat"><div class="v">By neg.</div><div class="l">Min ticket</div></div>
+      <div class="stat"><div class="v">—</div><div class="l">Board-approved</div></div>
+      <div class="stat"><div class="v">Equity</div><div class="l">in parent co.</div></div>
+    </div>
+  </div>
+
+  <div class="alert" style="border:1px solid var(--or-amber); background: rgba(212,160,48,0.06); border-left:3px solid var(--or-amber); border-radius:8px; padding:12px 16px; margin:16px 0; color:var(--or-grey-1); font-size:11.5px; line-height:1.55;">
+    <span style="font-family:var(--mono); font-size:9px; color:var(--or-amber); letter-spacing:0.12em; text-transform:uppercase; font-weight:600; display:block; margin-bottom:4px;">⚠ Year-one return projections withheld pending verified market data</span>
+    Per-path year-one net returns are deliberately not quoted in this draft. They depend on patient sign-up rates, monthly consumption, and competitive pricing — three figures that need verified SA-market sources before they can be put in front of investors. The unit economics on page 06 hold; the per-store run-rate that drives a year-one number does not yet have a defensible source.
+  </div>
+
+  <footer class="footer">
+    <div>ORIGIN · By ILCO Farming · Confidential Franchise Prospectus</div>
+    <div class="seal">Page 09</div>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 10 · WHY THIS WORKS — COMPETITIVE MOATS
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="sheet">
+  <header class="brandbar">
+    <div class="lockup">
+      <span class="seal"></span>
+      <div class="marks">
+        <div class="origin">ORIGIN</div>
+        <div class="ilco">By ILCO Farming</div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div><b>Why this works</b></div>
+      <div>Five competitive moats</div>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div class="ix">10</div>
+    <div class="title">Why this works · the five moats</div>
+    <div class="kicker">What competitors cannot copy in under 24 months</div>
+  </div>
+
+  <div class="moats">
+    <div class="moat">
+      <h4>1 · Regulatory stack</h4>
+      <p>Four South African licences (SAHPRA Section 22C, SAPC Y-number, HPCSA prescriber, Section 21 access) wired together at the platform layer. Every gram is sold under all four. Imitators need 12–18 months and a regulatory consultant to even attempt this.</p>
+    </div>
+    <div class="moat">
+      <h4>2 · The technology platform</h4>
+      <p>TnT-ZA: track &amp; trace, world-model state, hash-chained AuditLog, five purpose-built AI assistants (Opus 4.7 + Sonnet 4.6 + Haiku 4.5), Drift Daemon, ghost mode, sign-off chain. Built over 18 months on top of a regulated cultivation operation.</p>
+    </div>
+    <div class="moat">
+      <h4>3 · The brand</h4>
+      <p>Origin™ is registered, premium, gold-on-black, and aimed at the most discerning patient channel. Doctor-led, estate-grade, SA-grown. Brand equity compounds with every store launched.</p>
+    </div>
+    <div class="moat">
+      <h4>4 · The doctor network</h4>
+      <p>Origin trains and onboards prescribing doctors directly. Every franchisee gets access to the network from day one. As Section 21 prescribing scales, the network compounds with it.</p>
+    </div>
+    <div class="moat">
+      <h4>5 · The supply chain</h4>
+      <p>ILCO Farming cultivates, processes, GMP-packages and ships nationally — without a third-party in the chain. Every batch carries a hash-chained provenance trail back to the seed. No competitor in SA can match this end-to-end.</p>
+    </div>
+    <div class="moat" style="border-left: 3px solid var(--or-gold-bright);">
+      <h4>The compounding effect</h4>
+      <p>Each moat reinforces the others. The regulatory stack only works at scale because the platform automates the paperwork. The brand only premiums because the supply is regulated. The doctor network only grows because the brand is trusted. <strong>This is how a category leader is built.</strong></p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>ORIGIN · By ILCO Farming · Confidential Franchise Prospectus</div>
+    <div class="seal">Page 10</div>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHEET 11 · CALL TO ACTION
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="sheet">
+  <header class="brandbar">
+    <div class="lockup">
+      <span class="seal"></span>
+      <div class="marks">
+        <div class="origin">ORIGIN</div>
+        <div class="ilco">By ILCO Farming</div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div><b>Next steps</b></div>
+      <div>How to apply</div>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div class="ix">11</div>
+    <div class="title">How to apply · next steps</div>
+    <div class="kicker">Three steps · one decision</div>
+  </div>
+
+  <div class="cta">
+    <h3>Take the first step.</h3>
+    <p>If the model fits, here's how to move from interested to onboarded.</p>
+    <div class="steps">
+      <div class="stp">
+        <div class="n">Step 1</div>
+        <div class="t">Express interest</div>
+        <div class="d">Email or call. We arrange a 30-minute conversation to understand your location, your community and your goals.</div>
+      </div>
+      <div class="stp">
+        <div class="n">Step 2</div>
+        <div class="t">Qualify &amp; demo</div>
+        <div class="d">We invite you to a live platform demo and a visit to the ILCO farm. You meet the team, see the cultivation, and walk through a live online store on the platform.</div>
+      </div>
+      <div class="stp">
+        <div class="n">Step 3</div>
+        <div class="t">Sign &amp; launch</div>
+        <div class="d">Franchise agreement signed, platform provisioned, doctor course booked. First scripts inside 6 weeks.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact">
+    <div class="info">
+      <div><b>Origin Franchise Office · ILCO Farming (Pty) Ltd</b></div>
+      <div>Email: <code>franchise@ilcofarming.co.za</code></div>
+      <div>Phone: <code>+27 (0) 0000 0000</code></div>
+      <div>Web: <code>origin.ilcofarming.co.za</code></div>
+    </div>
+    <div class="seal">Origin™</div>
+  </div>
+
+  <div class="disclaimer">
+    <b>Disclaimer.</b> This document is a confidential indicative prospectus prepared for qualified prospective franchisees and investors only. All figures are indicative, pre-tax, in South African Rand (ZAR), and subject to ILCO Farming (Pty) Ltd board approval, regulatory consents, market conditions and the final franchise agreement. Nothing in this document constitutes a public offer of securities, financial advice, or a guarantee of returns. South African medical cannabis is governed by the Medicines and Related Substances Act, 1965 (Act 101 of 1965); SAHPRA (South African Health Products Regulatory Authority); SAPC (South African Pharmacy Council); HPCSA (Health Professions Council of South Africa); and the Drugs and Drug Trafficking Act, 1992. Section 21 access requires a prescribing doctor registered with the HPCSA. All regulatory references are indicative pending review by an admitted medicines-law specialist before any artefact is shipped publicly.
+  </div>
+
+  <footer class="footer">
+    <div>ORIGIN · By ILCO Farming · Confidential Franchise Prospectus · 04 May 2026 · v1.0</div>
+    <div class="seal">End</div>
+  </footer>
+</section>
+
+</div><!-- /.page -->
+</body>
+</html>

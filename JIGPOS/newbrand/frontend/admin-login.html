@@ -3,40 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - JIG Craft Cannabis</title>
+    <title>Admin Login - Origin by ILCO Farming</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #C9A84C;
+            --amber-light: #F8C242;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #C9A84C;
+            --gold-light: #F8C242;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -46,7 +46,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -55,19 +55,19 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
+            --shadow-pg-green: 0 8px 32px rgba(63,192,65,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
             --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #C9A84C 0%, #D4B86A 40%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            font-family: 'Barlow', sans-serif;
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             color: var(--cream);
             min-height: 100vh;
             display: flex;
@@ -76,7 +76,7 @@
         }
 
         .login-container {
-            background: rgba(244, 240, 230, 0.98);
+            background: #1A1A1A;
             padding: 40px;
             border-radius: 20px;
             width: 100%;
@@ -91,8 +91,8 @@
         }
 
         .logo h1 {
-            font-family: 'Oswald', sans-serif;
-            color: var(--purple);
+            font-family: 'Barlow Condensed', sans-serif;
+            color: var(--pg-green);
             font-size: 2rem;
             margin-bottom: 10px;
             text-transform: uppercase;
@@ -100,7 +100,7 @@
         }
 
         .logo p {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Barlow Condensed', sans-serif;
             font-style: italic;
             color: var(--gold-dark);
         }
@@ -121,17 +121,17 @@
         .form-group input {
             width: 100%;
             padding: 15px;
-            background: #0A0A0A;
-            border: 1px solid rgba(124, 58, 237, 0.3);
+            background: #0E0E0E;
+            border: 1px solid rgba(63, 192, 65, 0.3);
             border-radius: 10px;
-            color: var(--white);
+            color: var(--pg-white);
             font-size: 1rem;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: var(--purple);
-            box-shadow: 0 0 10px rgba(124, 58, 237, 0.2);
+            border-color: var(--pg-green);
+            box-shadow: 0 0 10px rgba(63, 192, 65, 0.2);
         }
 
         .btn-login {
@@ -153,7 +153,7 @@
         .btn-login:hover {
             background: var(--green-dark);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+            box-shadow: 0 10px 30px rgba(63, 192, 65, 0.4);
         }
 
         .error {
@@ -172,7 +172,7 @@
     <div class="login-container">
         <div class="logo">
             <h1>Admin Access</h1>
-            <p>JIG Craft Cannabis Control Panel</p>
+            <p>Control Panel</p>
         </div>
 
         <div id="error" class="error">Invalid credentials</div>

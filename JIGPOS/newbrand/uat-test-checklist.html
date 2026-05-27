@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UAT Test Checklist - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>UAT Test Checklist - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -45,7 +54,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -54,13 +63,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -71,21 +80,21 @@
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             min-height: 100vh;
             line-height: 1.6;
         }
 
         .header {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 2rem;
             text-align: center;
             border-bottom: 3px solid var(--gold);
         }
 
         .logo {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.75rem;
             font-weight: 700;
             margin-bottom: 0.25rem;
@@ -528,8 +537,8 @@
 </head>
 <body>
     <header class="header">
-        <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="width:60px;height:60px;margin-bottom:1rem;object-fit:contain;">
-        <div class="logo">JIG Craft Cannabis</div>
+        <img src="images/origin-logo.png" alt="Origin by ILCO Farming" style="width:60px;height:60px;margin-bottom:1rem;object-fit:contain;">
+        <div class="logo">Origin by ILCO Farming</div>
         <p style="color: var(--text-muted);">User Acceptance Testing</p>
         <span class="header-badge"><i class="fas fa-clipboard-check"></i> UAT Checklist</span>
     </header>
@@ -607,7 +616,7 @@
                     <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
                     <div class="test-content">
                         <div class="test-title">Admin Login</div>
-                        <div class="test-description">Login with admin@jig.cleva-ai.co.za credentials</div>
+                        <div class="test-description">Login with admin@cleva-ai.co.za credentials</div>
                     </div>
                     <button onclick="openTestModal('admin-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
                 </div>
@@ -615,7 +624,7 @@
                     <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
                     <div class="test-content">
                         <div class="test-title">Regular User Login</div>
-                        <div class="test-description">Login with user@jig.cleva-ai.co.za credentials</div>
+                        <div class="test-description">Login with user@cleva-ai.co.za credentials</div>
                     </div>
                     <button onclick="openTestModal('user-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
                 </div>
@@ -623,7 +632,7 @@
                     <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
                     <div class="test-content">
                         <div class="test-title">Pending Section 21 Patient Login</div>
-                        <div class="test-description">Login with pending@jig.cleva-ai.co.za - Section 21 status: pending</div>
+                        <div class="test-description">Login with pending@cleva-ai.co.za - Section 21 status: pending</div>
                     </div>
                     <button onclick="openTestModal('pending-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
                 </div>
@@ -631,7 +640,7 @@
                     <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
                     <div class="test-content">
                         <div class="test-title">Approved Section 21 Patient Login</div>
-                        <div class="test-description">Login with patient@jig.cleva-ai.co.za - Section 21 status: approved</div>
+                        <div class="test-description">Login with patient@cleva-ai.co.za - Section 21 status: approved</div>
                     </div>
                     <button onclick="openTestModal('patient-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
                 </div>
@@ -639,7 +648,7 @@
                     <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
                     <div class="test-content">
                         <div class="test-title">Sales Manager Login</div>
-                        <div class="test-description">Login with manager@jig.cleva-ai.co.za - Role: branch_manager</div>
+                        <div class="test-description">Login with manager@cleva-ai.co.za - Role: branch_manager</div>
                     </div>
                     <button onclick="openTestModal('manager-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
                 </div>
@@ -647,7 +656,7 @@
                     <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
                     <div class="test-content">
                         <div class="test-title">Assistant/Cashier Login</div>
-                        <div class="test-description">Login with assistant@jig.cleva-ai.co.za - Role: branch_assistant (POS access)</div>
+                        <div class="test-description">Login with assistant@cleva-ai.co.za - Role: branch_assistant (POS access)</div>
                     </div>
                     <button onclick="openTestModal('assistant-login')" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 0.75rem;">Test Now</button>
                 </div>
@@ -960,7 +969,7 @@
                     <div class="test-checkbox passed"><i class="fas fa-check"></i></div>
                     <div class="test-content">
                         <div class="test-title">Email From Address</div>
-                        <div class="test-description">All emails sent from hello@jig.cleva-ai.co.za</div>
+                        <div class="test-description">All emails sent from info@cleva-ai.co.za</div>
                     </div>
                     <span class="test-status passed">Verified</span>
                 </div>
@@ -978,7 +987,7 @@
     </div>
 
     <footer class="footer">
-        <p>JIG Craft Cannabis UAT Test Checklist</p>
+        <p>Origin by ILCO Farming UAT Test Checklist</p>
         <p style="margin-top: 0.5rem;">Generated: <span id="generatedDate"></span></p>
     </footer>
 
@@ -1029,7 +1038,7 @@
                     'Verify you are redirected to the Admin Dashboard'
                 ],
                 credentials: {
-                    email: 'admin@jig.cleva-ai.co.za',
+                    email: 'admin@cleva-ai.co.za',
                     password: 'Admin123!'
                 }
             },
@@ -1043,7 +1052,7 @@
                     'Verify you are redirected to the Customer Dashboard'
                 ],
                 credentials: {
-                    email: 'user@jig.cleva-ai.co.za',
+                    email: 'user@cleva-ai.co.za',
                     password: 'User123!'
                 }
             },
@@ -1057,7 +1066,7 @@
                     'Verify login succeeds - Section 21 status is "pending"'
                 ],
                 credentials: {
-                    email: 'pending@jig.cleva-ai.co.za',
+                    email: 'pending@cleva-ai.co.za',
                     password: 'Pending123!'
                 }
             },
@@ -1071,7 +1080,7 @@
                     'Verify login succeeds - Section 21 status is "approved"'
                 ],
                 credentials: {
-                    email: 'patient@jig.cleva-ai.co.za',
+                    email: 'patient@cleva-ai.co.za',
                     password: 'Patient123!'
                 }
             },
@@ -1085,7 +1094,7 @@
                     'Verify redirected to admin dashboard with branch_manager role'
                 ],
                 credentials: {
-                    email: 'manager@jig.cleva-ai.co.za',
+                    email: 'manager@cleva-ai.co.za',
                     password: 'Manager123!'
                 }
             },
@@ -1099,7 +1108,7 @@
                     'Verify login succeeds with branch_assistant role and POS permissions'
                 ],
                 credentials: {
-                    email: 'assistant@jig.cleva-ai.co.za',
+                    email: 'assistant@cleva-ai.co.za',
                     password: 'Assistant123!'
                 }
             },
@@ -1112,7 +1121,7 @@
                     'Verify phone and address fields auto-populate from profile'
                 ],
                 credentials: {
-                    email: 'user@jig.cleva-ai.co.za',
+                    email: 'user@cleva-ai.co.za',
                     password: 'User123!'
                 }
             },
@@ -1126,7 +1135,7 @@
                     'Check Section 21 card shows greyed-out carousel'
                 ],
                 credentials: {
-                    email: 'user@jig.cleva-ai.co.za',
+                    email: 'user@cleva-ai.co.za',
                     password: 'User123!'
                 }
             },
@@ -1140,7 +1149,7 @@
                     'Verify a modal popup appears explaining medical access'
                 ],
                 credentials: {
-                    email: 'user@jig.cleva-ai.co.za',
+                    email: 'user@cleva-ai.co.za',
                     password: 'User123!'
                 }
             },
@@ -1165,7 +1174,7 @@
                     'Verify all tabs are accessible'
                 ],
                 credentials: {
-                    email: 'admin@jig.cleva-ai.co.za',
+                    email: 'admin@cleva-ai.co.za',
                     password: 'Admin123!'
                 }
             },
@@ -1179,7 +1188,7 @@
                     'Process a sale with Cash or EFT payment'
                 ],
                 credentials: {
-                    email: 'admin@jig.cleva-ai.co.za',
+                    email: 'admin@cleva-ai.co.za',
                     password: 'Admin123!'
                 }
             },
@@ -1193,7 +1202,7 @@
                     'Add item to cart and process sale'
                 ],
                 credentials: {
-                    email: 'manager@jig.cleva-ai.co.za',
+                    email: 'manager@cleva-ai.co.za',
                     password: 'Manager123!'
                 }
             },
@@ -1207,7 +1216,7 @@
                     'Add item to cart and process sale'
                 ],
                 credentials: {
-                    email: 'assistant@jig.cleva-ai.co.za',
+                    email: 'assistant@cleva-ai.co.za',
                     password: 'Assistant123!'
                 }
             },
@@ -1222,7 +1231,7 @@
                     'Check Email Receipt, Print Receipt, Download PDF buttons visible'
                 ],
                 credentials: {
-                    email: 'admin@jig.cleva-ai.co.za',
+                    email: 'admin@cleva-ai.co.za',
                     password: 'Admin123!'
                 }
             },
@@ -1237,7 +1246,7 @@
                     'Verify receipt has: VAT number, line items, subtotal, VAT 15%, total'
                 ],
                 credentials: {
-                    email: 'admin@jig.cleva-ai.co.za',
+                    email: 'admin@cleva-ai.co.za',
                     password: 'Admin123!'
                 }
             },
@@ -1251,7 +1260,7 @@
                     'Click "Approve" and verify it updates successfully'
                 ],
                 credentials: {
-                    email: 'admin@jig.cleva-ai.co.za',
+                    email: 'admin@cleva-ai.co.za',
                     password: 'Admin123!'
                 }
             },

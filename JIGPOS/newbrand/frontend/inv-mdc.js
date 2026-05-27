@@ -1,5 +1,5 @@
 // inv-mdc.js — Master Digital Catalogue (MDC) 4-stage pipeline
-// Depends on: config.js (API_URL), dbc-utils.js (showToast), dbc-auth.js (getToken)
+// Depends on: config.js (API_URL), or-utils.js (showToast), or-auth.js (getToken)
 // Depends on: inv-core.js (formatTimeAgo, loadSectionData)
 // Stages: Pending > QA > Approved > Live
 
@@ -66,7 +66,7 @@ function renderPipelineColumn(stage, products) {
         const trackBadge = p.track === 'medical'
             ? '<span class="badge" style="background:#DC2626;color:#fff;font-size:0.65rem;">Medical</span>'
             : p.track === 'lifestyle'
-                ? '<span class="badge" style="background:#7C3AED;color:#fff;font-size:0.65rem;">Lifestyle</span>'
+                ? '<span class="badge" style="background:#C9A84C;color:#fff;font-size:0.65rem;">Lifestyle</span>'
                 : '<span class="badge" style="background:#999;color:#fff;font-size:0.65rem;">Untagged</span>';
 
         const actions = getMDCCardActions(stage, p._id);
@@ -159,7 +159,7 @@ async function mdcAdvance(productId) {
 }
 
 function mdcReject(productId) {
-    _dbcShowPrompt('Rejection reason:', async function(notes) {
+    _originShowPrompt('Rejection reason:', async function(notes) {
         const token = sessionStorage.getItem('token') || sessionStorage.getItem('adminToken');
         try {
             const res = await fetch(`${API_URL}/mdc/products/${productId}/reject`, {
@@ -264,7 +264,7 @@ async function savePricing(productId, btn) {
             body: JSON.stringify({ price, compareAtPrice, costPrice })
         });
         if (!res.ok) throw new Error('Failed to update');
-        btn.innerHTML = '<i class="fas fa-check-circle" style="color:#7C3AED;"></i>';
+        btn.innerHTML = '<i class="fas fa-check-circle" style="color:#C9A84C;"></i>';
         setTimeout(() => { btn.innerHTML = '<i class="fas fa-check"></i>'; }, 2000);
     } catch (err) {
         showToast('error', 'Failed to save pricing: ' + err.message);
@@ -294,7 +294,7 @@ async function openBulkTagTool() {
         const products = (data.products || []).filter(p => !p.track);
 
         if (products.length === 0) {
-            body.innerHTML = '<div class="text-center p-4 text-muted"><i class="fas fa-check-circle" style="font-size:2rem;color:#7C3AED;"></i><p class="mt-2">All products have been tagged</p></div>';
+            body.innerHTML = '<div class="text-center p-4 text-muted"><i class="fas fa-check-circle" style="font-size:2rem;color:#C9A84C;"></i><p class="mt-2">All products have been tagged</p></div>';
             return;
         }
 

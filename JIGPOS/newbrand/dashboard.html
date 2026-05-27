@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member Dashboard - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <!-- Google Fonts for JIG Craft Cannabis -->
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Member Dashboard - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <!-- Google Fonts for Origin by ILCO Farming -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Lucide Icons CDN -->
@@ -19,33 +19,42 @@
         }
 
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -55,7 +64,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -64,28 +73,28 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--black);
+            background: #0A0A0A;
             color: var(--gray-900);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* JIG Craft Cannabis Dashboard Theme */
+        /* Origin by ILCO Farming Dashboard Theme */
 
         /* Mobile-first responsive navigation */
         .dashboard-nav {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             backdrop-filter: blur(10px);
             border-bottom: 3px solid var(--gold);
             position: sticky;
@@ -128,7 +137,7 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .user-menu {
@@ -161,7 +170,7 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .mobile-menu-btn {
@@ -197,7 +206,7 @@
 
         /* Card System */
         .card {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 16px;
             padding: 1.5rem;
             border: 2px solid var(--gray-200);
@@ -207,7 +216,7 @@
 
         .card:hover {
             border-color: var(--gold);
-            box-shadow: 0 8px 25px rgba(217, 119, 6,0.15);
+            box-shadow: 0 8px 25px rgba(240, 165, 0,0.15);
         }
 
         .card-header {
@@ -220,10 +229,10 @@
         }
 
         .card-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.4rem;
             font-weight: 600;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
         }
 
@@ -235,7 +244,7 @@
 
         /* Stats Cards */
         .stat-card {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 16px;
             padding: 1.5rem;
             border: 2px solid var(--gray-200);
@@ -265,19 +274,19 @@
             justify-content: center;
             margin: 0 auto 1rem;
             font-size: 1.5rem;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .stat-value {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2rem;
             font-weight: 700;
-            color: var(--purple);
+            color: var(--or-gold);
             margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            color: var(--purple);
+            color: var(--or-gold);
             font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -326,19 +335,19 @@
         }
 
         .btn-primary:hover {
-            box-shadow: 0 8px 20px rgba(217, 119, 6,0.3);
+            box-shadow: 0 8px 20px rgba(240, 165, 0,0.3);
             transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background: var(--white);
-            color: var(--purple);
+            background: var(--or-white);
+            color: var(--or-gold);
             border: 2px solid var(--green);
         }
 
         .btn-secondary:hover {
-            background: var(--green);
-            color: var(--white);
+            background: var(--or-gold);
+            color: var(--or-white);
         }
 
         .btn-outline {
@@ -362,7 +371,7 @@
         .table {
             width: 100%;
             border-collapse: collapse;
-            background: var(--white);
+            background: var(--or-white);
         }
 
         .table th,
@@ -373,16 +382,16 @@
         }
 
         .table th {
-            background: var(--black);
+            background: var(--or-black);
             font-weight: 600;
-            color: var(--purple);
+            color: var(--or-gold);
             font-size: 0.875rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .table tbody tr:hover {
-            background: rgba(124, 58, 237,0.08);
+            background: rgba(63, 192, 65,0.08);
         }
 
         /* Status Badges */
@@ -455,7 +464,7 @@
 
         /* Tab Navigation */
         .dashboard-tabs {
-            background: var(--white);
+            background: var(--or-white);
             border-bottom: 2px solid var(--gray-200);
             margin-bottom: 2rem;
             position: sticky;
@@ -482,7 +491,7 @@
             padding: 1rem 1.5rem;
             background: transparent;
             border: none;
-            color: var(--white);
+            color: var(--or-white);
             font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
@@ -495,14 +504,14 @@
         }
 
         .tab-button:hover {
-            color: var(--purple);
-            background: rgba(124, 58, 237,0.08);
+            color: var(--or-gold);
+            background: rgba(63, 192, 65,0.08);
         }
 
         .tab-button.active {
-            color: var(--purple);
-            border-bottom-color: var(--purple);
-            background: rgba(124, 58, 237,0.06);
+            color: var(--or-gold);
+            border-bottom-color: var(--or-gold);
+            background: rgba(63, 192, 65,0.06);
         }
 
         .tab-content {
@@ -658,7 +667,7 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--green);
+            background: var(--or-gold);
             border-radius: 3px;
         }
 
@@ -688,7 +697,7 @@
 
         /* Welcome Section */
         .welcome-section {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             border: 2px solid var(--gold);
             border-radius: 12px;
             padding: 2rem;
@@ -715,7 +724,7 @@
         }
 
         .welcome-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
@@ -732,7 +741,7 @@
         .membership-level {
             display: inline-block;
             background: var(--gold);
-            color: var(--white);
+            color: var(--or-white);
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-weight: 600;
@@ -851,7 +860,7 @@
             display: flex;
             gap: 15px;
             padding: 16px;
-            background: var(--white);
+            background: var(--or-white);
             border: 1px solid var(--gray-200);
             border-radius: 12px;
             margin-bottom: 12px;
@@ -859,8 +868,8 @@
         }
 
         .cart-item:hover {
-            border-color: var(--purple);
-            box-shadow: 0 2px 8px rgba(124, 58, 237,0.08);
+            border-color: var(--or-gold);
+            box-shadow: 0 2px 8px rgba(63, 192, 65,0.08);
         }
 
         .cart-item-image {
@@ -872,7 +881,7 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .cart-item-details {
@@ -897,13 +906,13 @@
         .cart-footer {
             padding: 30px;
             border-top: 1px solid var(--gray-200);
-            background: var(--white);
+            background: var(--or-white);
         }
 
         .cart-total {
             font-size: 24px;
             font-weight: 700;
-            color: var(--white);
+            color: var(--or-white);
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
@@ -915,7 +924,7 @@
             right: -8px;
             background: var(--gold);
             border: 2px solid var(--cream);
-            color: var(--white);
+            color: var(--or-white);
             border-radius: 50%;
             width: 22px;
             height: 22px;
@@ -988,7 +997,7 @@
 
         /* Product Cards */
         .product-card {
-            background: var(--white);
+            background: var(--or-white);
             border-radius: 12px;
             border: 1px solid var(--gray-200);
             overflow: hidden;
@@ -1019,7 +1028,7 @@
         }
 
         .product-card-image .placeholder-icon {
-            color: var(--purple);
+            color: var(--or-gold);
             opacity: 0.4;
             font-size: 48px;
         }
@@ -1049,7 +1058,7 @@
             font-family: 'Inter', sans-serif;
             font-weight: 600;
             font-size: 1rem;
-            color: #0A0A0A;
+            color: #0E0E0E;
             margin-bottom: 0.375rem;
             line-height: 1.3;
         }
@@ -1066,14 +1075,14 @@
             font-family: 'Inter', sans-serif;
             font-weight: 700;
             font-size: 1.25rem;
-            color: #0A0A0A;
+            color: #0E0E0E;
             margin-bottom: 0.75rem;
         }
 
         .product-card-btn {
             width: 100%;
             height: 44px;
-            background: #7C3AED;
+            background: #C9A84C;
             color: #FFFFFF;
             border: none;
             border-radius: 8px;
@@ -1089,7 +1098,7 @@
         }
 
         .product-card-btn:hover {
-            background: #6D28D9;
+            background: #2A8C2C;
         }
 
         /* Category Filter Pills */
@@ -1103,7 +1112,7 @@
             padding: 0.5rem 1rem;
             border-radius: 20px;
             border: 1px solid var(--gray-200);
-            background: var(--white);
+            background: var(--or-white);
             color: #404040;
             font-family: 'Inter', sans-serif;
             font-size: 0.8rem;
@@ -1114,14 +1123,14 @@
         }
 
         .category-pill:hover {
-            border-color: #7C3AED;
-            color: #7C3AED;
+            border-color: #C9A84C;
+            color: #C9A84C;
         }
 
         .category-pill.active {
-            background: #7C3AED;
+            background: #C9A84C;
             color: #FFFFFF;
-            border-color: #7C3AED;
+            border-color: #C9A84C;
         }
     </style>
     <!-- Tablet Optimizations -->
@@ -1132,7 +1141,7 @@
     <nav class="dashboard-nav">
         <div class="nav-content">
             <a href="index.html" class="nav-logo">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis">
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming">
             </a>
             
             <div class="user-menu" id="userMenu">
@@ -1230,7 +1239,7 @@
             </div>
 
             <!-- Purchase Limits Widget (Configurable - Only shown if enabled) -->
-            <div id="purchaseLimitsWidget" class="card" style="display: none; background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); border: 2px solid var(--gold); margin-top: 1.5rem;">
+            <div id="purchaseLimitsWidget" class="card" style="display: none; background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); border: 2px solid var(--gold); margin-top: 1.5rem;">
                 <div class="card-header" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
                     <div>
                         <h2 class="card-title" style="color: var(--cream);"><i data-lucide="gauge" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"></i> Purchase Limits</h2>
@@ -1272,7 +1281,7 @@
                         </div>
                     </div>
                     <!-- Warning Message (shown when approaching limit) -->
-                    <div id="limitWarningBanner" style="display: none; background: rgba(217, 119, 6, 0.2); border: 1px solid var(--gold); border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+                    <div id="limitWarningBanner" style="display: none; background: rgba(240, 165, 0, 0.2); border: 1px solid var(--gold); border-radius: 8px; padding: 1rem; margin-top: 1rem;">
                         <div style="display: flex; align-items: center; gap: 0.75rem; color: var(--gold);">
                             <i data-lucide="alert-triangle" style="width: 20px; height: 20px;"></i>
                             <span id="limitWarningMessage">You are approaching your daily purchase limit</span>
@@ -1282,7 +1291,7 @@
             </div>
 
             <!-- Section 21 Medical Access (Third-Party Integration - White Label) -->
-            <div class="card" id="section21Card" style="background: var(--white); border: 2px solid var(--gold);">
+            <div class="card" id="section21Card" style="background: var(--or-white); border: 2px solid var(--gold);">
                 <div class="card-header">
                     <div>
                         <h2 class="card-title">Medical Cannabis Access (Section 21)</h2>
@@ -1304,8 +1313,8 @@
                             <p style="color: var(--text-muted); margin-bottom: 1rem;">Access medical cannabis legally with a SAHPRA-approved prescription</p>
 
                             <!-- Pricing -->
-                            <div style="background: var(--green); color: var(--cream); padding: 1.5rem; border-radius: 12px; margin: 1.5rem auto; max-width: 400px;">
-                                <p style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; font-family: 'Oswald', sans-serif;">R750</p>
+                            <div style="background: var(--or-gold); color: var(--cream); padding: 1.5rem; border-radius: 12px; margin: 1.5rem auto; max-width: 400px;">
+                                <p style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; font-family: 'Cinzel', sans-serif;">R750</p>
                                 <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Complete Section 21 Application</p>
                                 <div style="display: flex; justify-content: space-between; font-size: 0.85rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2);">
                                     <span>Doctor Consultation</span>
@@ -1317,7 +1326,7 @@
                                 </div>
                             </div>
 
-                            <div style="background: rgba(217, 119, 6, 0.1); border-left: 4px solid var(--gold); padding: 1rem; text-align: left; border-radius: 0 8px 8px 0; margin: 0 auto; max-width: 500px;">
+                            <div style="background: rgba(240, 165, 0, 0.1); border-left: 4px solid var(--gold); padding: 1rem; text-align: left; border-radius: 0 8px 8px 0; margin: 0 auto; max-width: 500px;">
                                 <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong>How it works:</strong></p>
                                 <ol style="color: var(--text-muted); margin-left: 1.25rem; font-size: 0.875rem;">
                                     <li style="margin-bottom: 0.5rem;">Quick registration (3 fields)</li>
@@ -1326,7 +1335,7 @@
                                     <li>Once approved, access medical cannabis products</li>
                                 </ol>
                             </div>
-                            <button onclick="openMedicalServicesPortal()" class="btn btn-primary" style="margin-top: 1.5rem; background: var(--gold); color: var(--white); border: none; padding: 1rem 2rem; font-size: 1rem;">
+                            <button onclick="openMedicalServicesPortal()" class="btn btn-primary" style="margin-top: 1.5rem; background: var(--gold); color: var(--or-white); border: none; padding: 1rem 2rem; font-size: 1rem;">
                                 <i class="fas fa-user-md"></i> Start Application
                             </button>
                         </div>
@@ -1353,23 +1362,23 @@
                     <div id="medicalProductsCarousel" style="display: flex; gap: 1.5rem; overflow-x: auto; padding: 1rem 0; filter: grayscale(100%) brightness(0.7); pointer-events: none;">
                         <!-- Placeholder product cards (greyed out) -->
                         <div style="flex: 0 0 200px; background: var(--gray-200); border-radius: 12px; padding: 1rem; text-align: center;">
-                            <div style="width: 100%; height: 120px; background: var(--gray-500); border-radius: 8px; margin-bottom: 0.75rem;"></div>
-                            <div style="height: 16px; background: var(--gray-500); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+                            <div style="width: 100%; height: 120px; background: var(--or-grey-2); border-radius: 8px; margin-bottom: 0.75rem;"></div>
+                            <div style="height: 16px; background: var(--or-grey-2); border-radius: 4px; margin-bottom: 0.5rem;"></div>
                             <div style="height: 12px; background: var(--gray-200); border-radius: 4px; width: 60%;"></div>
                         </div>
                         <div style="flex: 0 0 200px; background: var(--gray-200); border-radius: 12px; padding: 1rem; text-align: center;">
-                            <div style="width: 100%; height: 120px; background: var(--gray-500); border-radius: 8px; margin-bottom: 0.75rem;"></div>
-                            <div style="height: 16px; background: var(--gray-500); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+                            <div style="width: 100%; height: 120px; background: var(--or-grey-2); border-radius: 8px; margin-bottom: 0.75rem;"></div>
+                            <div style="height: 16px; background: var(--or-grey-2); border-radius: 4px; margin-bottom: 0.5rem;"></div>
                             <div style="height: 12px; background: var(--gray-200); border-radius: 4px; width: 60%;"></div>
                         </div>
                         <div style="flex: 0 0 200px; background: var(--gray-200); border-radius: 12px; padding: 1rem; text-align: center;">
-                            <div style="width: 100%; height: 120px; background: var(--gray-500); border-radius: 8px; margin-bottom: 0.75rem;"></div>
-                            <div style="height: 16px; background: var(--gray-500); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+                            <div style="width: 100%; height: 120px; background: var(--or-grey-2); border-radius: 8px; margin-bottom: 0.75rem;"></div>
+                            <div style="height: 16px; background: var(--or-grey-2); border-radius: 4px; margin-bottom: 0.5rem;"></div>
                             <div style="height: 12px; background: var(--gray-200); border-radius: 4px; width: 60%;"></div>
                         </div>
                         <div style="flex: 0 0 200px; background: var(--gray-200); border-radius: 12px; padding: 1rem; text-align: center;">
-                            <div style="width: 100%; height: 120px; background: var(--gray-500); border-radius: 8px; margin-bottom: 0.75rem;"></div>
-                            <div style="height: 16px; background: var(--gray-500); border-radius: 4px; margin-bottom: 0.5rem;"></div>
+                            <div style="width: 100%; height: 120px; background: var(--or-grey-2); border-radius: 8px; margin-bottom: 0.75rem;"></div>
+                            <div style="height: 16px; background: var(--or-grey-2); border-radius: 4px; margin-bottom: 0.5rem;"></div>
                             <div style="height: 12px; background: var(--gray-200); border-radius: 4px; width: 60%;"></div>
                         </div>
                     </div>
@@ -1387,30 +1396,30 @@
 
             <!-- Section 21 Modal -->
             <div id="section21Modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0,0.9); z-index: 9999; align-items: center; justify-content: center;">
-                <div style="background: var(--black); border: 2px solid var(--gold); border-radius: 16px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative;">
-                    <button onclick="closeSection21Modal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--gray-500); font-size: 1.5rem; cursor: pointer; padding: 0.5rem;">
+                <div style="background: var(--or-black); border: 2px solid var(--gold); border-radius: 16px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative;">
+                    <button onclick="closeSection21Modal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--or-grey-2); font-size: 1.5rem; cursor: pointer; padding: 0.5rem;">
                         <i class="fas fa-times"></i>
                     </button>
 
                     <div style="padding: 2.5rem;">
                         <div style="text-align: center; margin-bottom: 2rem;">
-                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
                                 <i class="fas fa-prescription-bottle-medical" style="font-size: 2rem; color: var(--gold);"></i>
                             </div>
-                            <h2 style="font-family: 'Oswald', sans-serif; color: var(--purple); margin-bottom: 0.5rem; font-size: 1.5rem; text-transform: uppercase;">Medical Cannabis Access</h2>
-                            <p style="color: var(--gray-500);">Section 21 Verification Required</p>
+                            <h2 style="font-family: 'Cinzel', sans-serif; color: var(--or-gold); margin-bottom: 0.5rem; font-size: 1.5rem; text-transform: uppercase;">Medical Cannabis Access</h2>
+                            <p style="color: var(--or-grey-2);">Section 21 Verification Required</p>
                         </div>
 
-                        <div style="background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                            <h3 style="color: var(--purple); font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-info-circle" style="color: var(--purple);"></i> What is Section 21?
+                        <div style="background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                            <h3 style="color: var(--or-gold); font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-info-circle" style="color: var(--or-gold);"></i> What is Section 21?
                             </h3>
                             <p style="color: var(--gray-700); font-size: 0.9rem; line-height: 1.6;">
                                 Section 21 of the Medicines Act allows patients to access medical cannabis through a licensed healthcare provider. You'll need an authorisation letter from your doctor to purchase prescription cannabis products.
                             </p>
                         </div>
 
-                        <div style="background: rgba(217, 119, 6,0.1); border: 1px solid rgba(217, 119, 6,0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                        <div style="background: rgba(240, 165, 0,0.1); border: 1px solid rgba(240, 165, 0,0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
                             <h3 style="color: var(--gold-dark); font-size: 1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
                                 <i class="fas fa-clock"></i> Integration Coming Soon
                             </h3>
@@ -1420,9 +1429,9 @@
                         </div>
 
                         <div style="border-top: 1px solid var(--gray-200); padding-top: 1.5rem;">
-                            <p style="color: var(--gray-500); font-size: 0.85rem; text-align: center; margin-bottom: 1rem;">In the meantime, please contact us for manual verification:</p>
+                            <p style="color: var(--or-grey-2); font-size: 0.85rem; text-align: center; margin-bottom: 1rem;">In the meantime, please contact us for manual verification:</p>
                             <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                                <a href="mailto:hello@jig.cleva-ai.co.za" style="flex: 1; min-width: 200px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem; background: var(--green); border: none; border-radius: 8px; color: var(--cream); text-decoration: none; transition: all 0.3s;">
+                                <a href="mailto:info@cleva-ai.co.za" style="flex: 1; min-width: 200px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem; background: var(--or-gold); border: none; border-radius: 8px; color: var(--cream); text-decoration: none; transition: all 0.3s;">
                                     <i class="fas fa-envelope"></i> Email Us
                                 </a>
                                 <a href="https://wa.me/27000000000" target="_blank" style="flex: 1; min-width: 200px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem; background: #25D366; border: none; border-radius: 8px; color: #fff; text-decoration: none; transition: all 0.3s;">
@@ -1561,7 +1570,7 @@
                     <div style="display: flex; align-items: start; gap: 1rem; padding: 1rem; background: var(--bg-tertiary); border-radius: 8px;">
                         <div style="width: 8px; height: 8px; background: var(--success-color); border-radius: 50%; margin-top: 0.5rem;"></div>
                         <div>
-                            <div style="font-weight: 500;">Welcome to JIG Craft Cannabis!</div>
+                            <div style="font-weight: 500;">Welcome to Origin by ILCO Farming!</div>
                             <div style="font-size: 0.875rem; color: var(--text-muted);">Your membership is now active</div>
                             <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Just now</div>
                         </div>
@@ -1601,8 +1610,8 @@
                     </div>
 
                     <div style="padding: 2rem;">
-                        <div style="background: var(--white); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
-                            <h3 style="margin-bottom: 1rem; color: var(--purple); font-family: 'Oswald', sans-serif; text-transform: uppercase;">
+                        <div style="background: var(--or-white); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                            <h3 style="margin-bottom: 1rem; color: var(--or-gold); font-family: 'Cinzel', sans-serif; text-transform: uppercase;">
                                 <i data-lucide="hospital" style="width: 22px; height: 22px; margin-right: 8px; vertical-align: middle;"></i> Section 21 Medical Services
                             </h3>
                             <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
@@ -1612,9 +1621,9 @@
 
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
                                 <!-- Book Appointment -->
-                                <div style="background: var(--black); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.5rem; text-align: center;">
+                                <div style="background: var(--or-black); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.5rem; text-align: center;">
                                     <div style="margin-bottom: 0.5rem;"><i data-lucide="calendar" style="width: 48px; height: 48px; color: var(--gold);"></i></div>
-                                    <h4 style="margin-bottom: 0.5rem; color: var(--purple);">Book Appointment</h4>
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--or-gold);">Book Appointment</h4>
                                     <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">
                                         Schedule a consultation with a certified cannabis doctor
                                     </p>
@@ -1624,9 +1633,9 @@
                                 </div>
 
                                 <!-- Manage Prescriptions -->
-                                <div style="background: var(--black); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.5rem; text-align: center;">
+                                <div style="background: var(--or-black); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.5rem; text-align: center;">
                                     <div style="margin-bottom: 0.5rem;"><i data-lucide="clipboard-list" style="width: 48px; height: 48px; color: var(--gold);"></i></div>
-                                    <h4 style="margin-bottom: 0.5rem; color: var(--purple);">My Prescriptions</h4>
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--or-gold);">My Prescriptions</h4>
                                     <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">
                                         View and manage your active prescriptions
                                     </p>
@@ -1636,9 +1645,9 @@
                                 </div>
 
                                 <!-- Upload Section 21 -->
-                                <div style="background: var(--black); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.5rem; text-align: center;">
+                                <div style="background: var(--or-black); border: 1px solid var(--gray-200); border-radius: 8px; padding: 1.5rem; text-align: center;">
                                     <div style="margin-bottom: 0.5rem;"><i data-lucide="file-text" style="width: 48px; height: 48px; color: var(--gold);"></i></div>
-                                    <h4 style="margin-bottom: 0.5rem; color: var(--purple);">Section 21 Letter</h4>
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--or-gold);">Section 21 Letter</h4>
                                     <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">
                                         Upload authorization to unlock medical products
                                     </p>
@@ -1650,8 +1659,8 @@
                         </div>
 
                         <!-- Information Section -->
-                        <div style="background: rgba(124, 58, 237, 0.08); border-left: 4px solid var(--gold); padding: 1.5rem; border-radius: 8px;">
-                            <h4 style="margin-bottom: 0.75rem; color: var(--purple);"><i data-lucide="info" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;"></i> How It Works</h4>
+                        <div style="background: rgba(63, 192, 65, 0.08); border-left: 4px solid var(--gold); padding: 1.5rem; border-radius: 8px;">
+                            <h4 style="margin-bottom: 0.75rem; color: var(--or-gold);"><i data-lucide="info" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;"></i> How It Works</h4>
                             <ol style="margin-left: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
                                 <li><strong>Book an Appointment</strong> - Schedule a consultation with a certified doctor</li>
                                 <li><strong>Get Your Prescription</strong> - Receive your medical cannabis prescription</li>
@@ -1983,10 +1992,10 @@
 
     <!-- Order Details Modal -->
     <div id="orderDetailsModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0,0.9); z-index: 2000; padding: 1rem;">
-        <div style="max-width: 600px; margin: 2rem auto; background: var(--black); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem; max-height: 90vh; overflow-y: auto;">
+        <div style="max-width: 600px; margin: 2rem auto; background: var(--or-black); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem; max-height: 90vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h3 style="font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--purple); text-transform: uppercase;">Order Details</h3>
-                <button onclick="closeOrderModal()" style="background: none; border: none; color: var(--gray-500); font-size: 1.5rem; cursor: pointer;">×</button>
+                <h3 style="font-family: 'Cinzel', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--or-gold); text-transform: uppercase;">Order Details</h3>
+                <button onclick="closeOrderModal()" style="background: none; border: none; color: var(--or-grey-2); font-size: 1.5rem; cursor: pointer;">×</button>
             </div>
             
             <div id="orderDetailsContent">
@@ -2000,17 +2009,17 @@
 
     <!-- Order Tracking Modal -->
     <div id="trackingModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0,0.9); z-index: 2000; padding: 1rem;">
-        <div style="max-width: 500px; margin: 2rem auto; background: var(--black); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem;">
+        <div style="max-width: 500px; margin: 2rem auto; background: var(--or-black); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h3 style="font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--purple); text-transform: uppercase;">Track Order</h3>
-                <button onclick="closeTrackingModal()" style="background: none; border: none; color: var(--gray-500); font-size: 1.5rem; cursor: pointer;">×</button>
+                <h3 style="font-family: 'Cinzel', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--or-gold); text-transform: uppercase;">Track Order</h3>
+                <button onclick="closeTrackingModal()" style="background: none; border: none; color: var(--or-grey-2); font-size: 1.5rem; cursor: pointer;">×</button>
             </div>
             
             <form id="trackingForm" onsubmit="submitTracking(event)">
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--purple);">Order Number</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--or-gold);">Order Number</label>
                     <input type="text" id="trackingNumber" placeholder="Enter order number (e.g., LD1234567890)" required
-                           style="width: 100%; padding: 0.75rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
+                           style="width: 100%; padding: 0.75rem; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Track Order</button>
@@ -2024,26 +2033,26 @@
 
     <!-- Profile Modal -->
     <div id="profileModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0,0.9); z-index: 2000; padding: 1rem;">
-        <div style="max-width: 500px; margin: 2rem auto; background: var(--black); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem; max-height: 90vh; overflow-y: auto;">
+        <div style="max-width: 500px; margin: 2rem auto; background: var(--or-black); border: 2px solid var(--gold); border-radius: 12px; padding: 2rem; max-height: 90vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h3 style="font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--purple); text-transform: uppercase;">Profile Settings</h3>
-                <button onclick="closeProfileModal()" style="background: none; border: none; color: var(--gray-500); font-size: 1.5rem; cursor: pointer;">×</button>
+                <h3 style="font-family: 'Cinzel', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--or-gold); text-transform: uppercase;">Profile Settings</h3>
+                <button onclick="closeProfileModal()" style="background: none; border: none; color: var(--or-grey-2); font-size: 1.5rem; cursor: pointer;">×</button>
             </div>
             
             <form id="profileForm">
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--purple);">Full Name</label>
-                    <input type="text" id="profileName" style="width: 100%; padding: 0.75rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--or-gold);">Full Name</label>
+                    <input type="text" id="profileName" style="width: 100%; padding: 0.75rem; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
                 </div>
 
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--purple);">Email</label>
-                    <input type="email" id="profileEmail" style="width: 100%; padding: 0.75rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--or-gold);">Email</label>
+                    <input type="email" id="profileEmail" style="width: 100%; padding: 0.75rem; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
                 </div>
 
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--purple);">Phone</label>
-                    <input type="tel" id="profilePhone" style="width: 100%; padding: 0.75rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--or-gold);">Phone</label>
+                    <input type="tel" id="profilePhone" style="width: 100%; padding: 0.75rem; background: var(--or-white); border: 1px solid var(--gray-200); border-radius: 8px; color: var(--gray-900);">
                 </div>
                 
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
@@ -2054,39 +2063,39 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal (DBC Brand) -->
+    <!-- Confirmation Modal (Origin Brand) -->
     <div id="confirmModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0,0.9); z-index: 10000; align-items: center; justify-content: center;">
-        <div style="background: #0A0A0A; border: 2px solid #D97706; border-radius: 12px; padding: 2rem; max-width: 400px; width: 90%; text-align: center;">
-            <div id="confirmIcon" style="font-size: 3rem; margin-bottom: 1rem; color: #D97706;">
+        <div style="background: #0A0A0A; border: 2px solid #C9A84C; border-radius: 12px; padding: 2rem; max-width: 400px; width: 90%; text-align: center;">
+            <div id="confirmIcon" style="font-size: 3rem; margin-bottom: 1rem; color: #C9A84C;">
                 <i class="fas fa-question-circle"></i>
             </div>
-            <h3 id="confirmTitle" style="color: #0A0A0A; margin-bottom: 1rem;">Confirm Action</h3>
-            <p id="confirmMessage" style="color: #7C3AED; margin-bottom: 2rem;">Are you sure you want to proceed?</p>
+            <h3 id="confirmTitle" style="color: #0E0E0E; margin-bottom: 1rem;">Confirm Action</h3>
+            <p id="confirmMessage" style="color: #C9A84C; margin-bottom: 2rem;">Are you sure you want to proceed?</p>
             <div id="confirmButtons" style="display: flex; gap: 1rem;">
-                <button id="cancelBtn" onclick="closeConfirmModal()" style="flex: 1; padding: 0.75rem 1.5rem; background: #7C3AED; color: #0A0A0A; border: 1px solid #6D28D9; border-radius: 8px; cursor: pointer; font-weight: bold;">Cancel</button>
-                <button id="confirmBtn" onclick="confirmAction()" style="flex: 1; padding: 0.75rem 1.5rem; background: #D97706; color: #0A0A0A; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Confirm</button>
+                <button id="cancelBtn" onclick="closeConfirmModal()" style="flex: 1; padding: 0.75rem 1.5rem; background: #C9A84C; color: #0E0E0E; border: 1px solid #2A8C2C; border-radius: 8px; cursor: pointer; font-weight: bold;">Cancel</button>
+                <button id="confirmBtn" onclick="confirmAction()" style="flex: 1; padding: 0.75rem 1.5rem; background: #C9A84C; color: #0E0E0E; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Confirm</button>
             </div>
         </div>
     </div>
 
-    <!-- JIG Shared Libraries -->
-    <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <!-- Origin Shared Libraries -->
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-utils.js"></script>
+    <script src="frontend/or-auth.js"></script>
 
 
     <!-- Dashboard modules — core first, then rest in any order -->
-    <script src="/frontend/dash-core.js"></script>
-    <script src="/frontend/dash-user.js"></script>
-    <script src="/frontend/dash-orders.js"></script>
-    <script src="/frontend/dash-products.js"></script>
-    <script src="/frontend/dash-section21.js"></script>
+    <script src="frontend/dash-core.js"></script>
+    <script src="frontend/dash-user.js"></script>
+    <script src="frontend/dash-orders.js"></script>
+    <script src="frontend/dash-products.js"></script>
+    <script src="frontend/dash-section21.js"></script>
 
     <!-- Shopping Cart Sidebar -->
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h2 style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--white);"><i class="fas fa-shopping-cart" style="color: var(--purple); margin-right: 8px;"></i>Shopping Cart</h2>
-            <button onclick="toggleCart()" style="position: static; margin: 0; background: var(--gray-200); border: none; color: var(--white); width: 36px; height: 36px; border-radius: 50%; font-size: 20px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>
+            <h2 style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--or-white);"><i class="fas fa-shopping-cart" style="color: var(--or-gold); margin-right: 8px;"></i>Shopping Cart</h2>
+            <button onclick="toggleCart()" style="position: static; margin: 0; background: var(--gray-200); border: none; color: var(--or-white); width: 36px; height: 36px; border-radius: 50%; font-size: 20px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>
         </div>
         <div class="cart-items" id="cartItemsContainer">
             <p style="text-align: center; color: var(--text-muted); padding: 40px;">Your cart is empty</p>
@@ -2096,7 +2105,7 @@
                 <span>Total:</span>
                 <span id="cartTotal">R0.00</span>
             </div>
-            <button style="width: 100%; padding: 16px; font-size: 16px; border: none; background: var(--green); color: var(--white); border-radius: 8px; cursor: pointer; font-weight: 600; letter-spacing: 0.5px; transition: background 0.2s;" onmouseover="this.style.background='var(--green-dark)'" onmouseout="this.style.background='var(--green)'" onclick="proceedToCheckout()">
+            <button style="width: 100%; padding: 16px; font-size: 16px; border: none; background: var(--or-gold); color: var(--or-white); border-radius: 8px; cursor: pointer; font-weight: 600; letter-spacing: 0.5px; transition: background 0.2s;" onmouseover="this.style.background='var(--green-dark)'" onmouseout="this.style.background='var(--green)'" onclick="proceedToCheckout()">
                 <i class="fas fa-credit-card"></i> Proceed to Checkout
             </button>
             <button style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid var(--gray-200); background: transparent; color: var(--text-secondary); border-radius: 8px; cursor: pointer; margin-top: 10px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--gray-200)';this.style.color='var(--text-secondary)'" onclick="clearCart()">
@@ -2106,8 +2115,8 @@
     </div>
 
     <!-- Cart & Points modules -->
-    <script src="/frontend/dash-cart.js"></script>
-    <script src="/frontend/dash-points.js"></script>
+    <script src="frontend/dash-cart.js"></script>
+    <script src="frontend/dash-points.js"></script>
 
     <!-- Mobile Bottom Nav -->
     <nav class="bottom-nav" id="bottomNav">

@@ -117,7 +117,7 @@ class EmailService {
       total: order.total,
       bankDetails: {
         bank: 'Capitec',
-        accountHolder: 'JIG Craft Cannabis',
+        accountHolder: 'Origin by ILCO Farming',
         accountType: 'Current Account',
         accountNumber: '2320619824',
         branchCode: '470010',

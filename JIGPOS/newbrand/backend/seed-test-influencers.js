@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const Affiliate = require('./modules/database/models/Affiliate');
 
 // MongoDB connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
 
 // Test influencer data with different follower counts for tier testing
 const testInfluencers = [

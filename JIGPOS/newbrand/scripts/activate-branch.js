@@ -5,7 +5,7 @@
  *
  * This script:
  * 1. Activates the branch in the database
- * 2. Allocates initial inventory (copies from Ormonde)
+ * 2. Allocates initial inventory (copies from Potchefstroom)
  * 3. Outputs the checklist status
  */
 
@@ -21,7 +21,7 @@ if (!branchCode) {
   console.log('Usage: node scripts/activate-branch.js <branch-code>');
   console.log('Example: node scripts/activate-branch.js SPR-001');
   console.log('\nAvailable branch codes:');
-  console.log('  ORM-001 - Ormonde (HQ)');
+  console.log('  ORM-001 - Potchefstroom (HQ)');
   console.log('  SPR-001 - Spruitview');
   console.log('  RUS-001 - Rustenburg');
   console.log('  KLK-001 - Klerksdorp');
@@ -34,7 +34,7 @@ if (!branchCode) {
 
 async function activateBranch() {
   try {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
     await mongoose.connect(mongoUri);
     console.log('Connected to MongoDB');
 

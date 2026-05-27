@@ -12,10 +12,10 @@ export default function NetworkStatusBar({ branches, ownerStats }) {
   const totalOrders = ownerStats?.todayOrders || active.reduce((sum, b) => sum + (b.stats?.todayOrders || 0), 0);
 
   return (
-    <div className="flex items-center gap-6 px-4 py-2 bg-jig-slate text-white rounded-xl">
+    <div className="flex items-center gap-6 px-4 py-2 bg-origin-slate text-white rounded-xl">
       {/* Branches online */}
       <div className="flex items-center gap-2">
-        <div className={`w-2.5 h-2.5 rounded-full ${openNow.length > 0 ? 'bg-jig-purple animate-pulse' : 'bg-gray-500'}`} />
+        <div className={`w-2.5 h-2.5 rounded-full ${openNow.length > 0 ? 'bg-or-gold animate-pulse' : 'bg-gray-500'}`} />
         <span className="text-xs">
           <span className="font-heading text-sm">{openNow.length}</span>
           <span className="text-white/60">/{active.length} branches open</span>
@@ -49,7 +49,7 @@ export default function NetworkStatusBar({ branches, ownerStats }) {
       {/* Low Stock */}
       {ownerStats?.lowStockCount > 0 && (
         <div className="text-xs">
-          <span className="text-jig-amber font-bold">{ownerStats.lowStockCount} low stock</span>
+          <span className="text-or-gold font-bold">{ownerStats.lowStockCount} low stock</span>
         </div>
       )}
     </div>

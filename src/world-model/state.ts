@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Client World State Management
+ * PureGro Premium Cannabis Care - Client World State Management
  *
  * Event-sourced state for each wholesale client. Every event flows
  * through clientWorldReducer to produce an updated ClientWorldState
@@ -31,7 +31,7 @@ import { TIER_THRESHOLDS } from './types';
 // STORAGE CONFIGURATION
 // ─────────────────────────────────────────────────────────────
 
-const STORAGE_KEY_PREFIX = '@jig_client_';
+const STORAGE_KEY_PREFIX = '@puregro_client_';
 const getStorageKey = (clientId: string): string =>
   `${STORAGE_KEY_PREFIX}${clientId}`;
 

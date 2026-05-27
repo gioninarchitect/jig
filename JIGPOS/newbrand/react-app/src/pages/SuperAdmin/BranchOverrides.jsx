@@ -101,7 +101,7 @@ export default function BranchOverrides({ config, onSaveOverride, saving }) {
   if (loadingBranches) {
     return (
       <div className="flex justify-center py-8">
-        <div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -134,8 +134,8 @@ export default function BranchOverrides({ config, onSaveOverride, saving }) {
                   className={`
                     text-left p-4 rounded-xl border-2 transition-all duration-200
                     ${isSelected
-                      ? 'border-jig-amber bg-jig-slate shadow-md'
-                      : 'border-gray-200 hover:border-jig-purple/30 bg-white'}
+                      ? 'border-or-gold bg-origin-slate shadow-md'
+                      : 'border-gray-200 hover:border-or-gold/30 bg-white'}
                   `}
                 >
                   <div className="font-heading text-sm text-white">{branch.name}</div>
@@ -185,8 +185,8 @@ export default function BranchOverrides({ config, onSaveOverride, saving }) {
                 const overrideVal = overrides?.features?.[def.key]?.enabled;
                 const hasOverride = overrideVal !== undefined;
                 return (
-                  <tr key={def.key} className={`border-b border-gray-50 ${hasOverride ? 'bg-jig-slate/30' : ''}`}>
-                    <td className="px-6 py-2.5 text-jig-purple-dark">{def.label}</td>
+                  <tr key={def.key} className={`border-b border-gray-50 ${hasOverride ? 'bg-origin-slate/30' : ''}`}>
+                    <td className="px-6 py-2.5 text-or-gold-dark">{def.label}</td>
                     <td className="px-4 py-2.5 text-center">
                       <Badge status={globalEnabled ? 'active' : 'pending'} className="text-[9px]">
                         {globalEnabled ? 'ON' : 'OFF'}
@@ -203,8 +203,8 @@ export default function BranchOverrides({ config, onSaveOverride, saving }) {
                             handleFeatureToggle(def.key, 'enabled', v === 'on');
                           }
                         }}
-                        className={`px-2 py-1 border rounded-lg text-xs focus:outline-none focus:border-jig-amber
-                          ${hasOverride ? 'border-jig-amber bg-jig-slate font-bold' : 'border-gray-200'}`}
+                        className={`px-2 py-1 border rounded-lg text-xs focus:outline-none focus:border-or-gold
+                          ${hasOverride ? 'border-or-gold bg-origin-slate font-bold' : 'border-gray-200'}`}
                       >
                         <option value="inherit">Inherit</option>
                         <option value="on">ON</option>
@@ -215,7 +215,7 @@ export default function BranchOverrides({ config, onSaveOverride, saving }) {
                       {hasOverride && (
                         <button
                           onClick={() => handleFeatureReset(def.key)}
-                          className="text-[10px] text-jig-red hover:text-jig-red-dark"
+                          className="text-[10px] text-origin-red hover:text-origin-red-dark"
                         >
                           Reset
                         </button>
@@ -248,9 +248,9 @@ export default function BranchOverrides({ config, onSaveOverride, saving }) {
                 const isEditing = editingThreshold === def.key;
 
                 return (
-                  <tr key={def.key} className={`border-b border-gray-50 ${hasOverride ? 'bg-jig-slate/30' : ''}`}>
+                  <tr key={def.key} className={`border-b border-gray-50 ${hasOverride ? 'bg-origin-slate/30' : ''}`}>
                     <td className="px-6 py-2.5">
-                      <div className="text-jig-purple-dark">{def.label}</div>
+                      <div className="text-or-gold-dark">{def.label}</div>
                       <div className="text-[10px] text-gray-400">{def.unit}</div>
                     </td>
                     <td className="px-4 py-2.5 text-center text-gray-500">
@@ -272,19 +272,19 @@ export default function BranchOverrides({ config, onSaveOverride, saving }) {
                           }}
                           onBlur={() => setEditingThreshold(null)}
                           onKeyDown={e => e.key === 'Enter' && setEditingThreshold(null)}
-                          className="w-20 px-2 py-1 border-2 border-jig-amber rounded-lg text-sm text-center focus:outline-none"
+                          className="w-20 px-2 py-1 border-2 border-or-gold rounded-lg text-sm text-center focus:outline-none"
                         />
                       ) : hasOverride ? (
                         <button
                           onClick={() => setEditingThreshold(def.key)}
-                          className="px-2 py-0.5 rounded bg-jig-slate border border-jig-amber/30 font-bold text-white text-xs"
+                          className="px-2 py-0.5 rounded bg-origin-slate border border-or-gold/30 font-bold text-white text-xs"
                         >
                           {overrideVal} {def.unit}
                         </button>
                       ) : (
                         <button
                           onClick={() => setEditingThreshold(def.key)}
-                          className="text-[10px] text-gray-300 hover:text-jig-purple cursor-pointer"
+                          className="text-[10px] text-gray-300 hover:text-or-gold cursor-pointer"
                         >
                           -- (inherits)
                         </button>
@@ -294,14 +294,14 @@ export default function BranchOverrides({ config, onSaveOverride, saving }) {
                       {hasOverride ? (
                         <button
                           onClick={() => handleThresholdReset(def.key)}
-                          className="text-[10px] text-jig-red hover:text-jig-red-dark"
+                          className="text-[10px] text-origin-red hover:text-origin-red-dark"
                         >
                           Reset
                         </button>
                       ) : !isEditing ? (
                         <button
                           onClick={() => setEditingThreshold(def.key)}
-                          className="text-[10px] text-jig-purple hover:text-jig-purple-dark"
+                          className="text-[10px] text-or-gold hover:text-or-gold-dark"
                         >
                           Edit
                         </button>
@@ -321,7 +321,7 @@ export default function BranchOverrides({ config, onSaveOverride, saving }) {
               value={reason}
               onChange={e => setReason(e.target.value)}
               className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg text-sm
-                focus:outline-none focus:border-jig-amber placeholder:text-gray-400 bg-white"
+                focus:outline-none focus:border-or-gold placeholder:text-gray-400 bg-white"
             />
             <Button variant="primary" size="sm" onClick={handleSave} disabled={saving}>
               {saving ? 'Saving...' : 'Save Override'}

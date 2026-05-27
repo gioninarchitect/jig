@@ -22,7 +22,7 @@ const OFFER_ITEMS = [
   { title: 'Lifestyle Products', desc: 'CBD oils, edibles, accessories, apparel, and wellness products.' },
   { title: 'Section 21 Medical', desc: 'Prescription cannabis products for registered patients.' },
   { title: 'Expert Guidance', desc: 'Trained staff at every location to help you find the right product.' },
-  { title: '8 Collection Points', desc: 'Convenient access across Gauteng, Free State, and North West.' },
+  { title: 'Potchefstroom + Online', desc: 'Convenient access from our North West location or shop online nationwide.' },
   { title: 'Quality Assurance', desc: 'Every product reviewed and approved through our MDC system.' },
   { title: 'Wellness Points', desc: 'Earn rewards with every purchase through our loyalty programme.' },
   { title: 'Online Ordering', desc: 'Browse and order from anywhere — collect at your nearest store.' },
@@ -32,9 +32,9 @@ export default function AboutPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-jig-slate via-jig-purple-dark to-jig-purple py-20 sm:py-28">
+      <section className="bg-gradient-to-br from-origin-slate via-or-gold-dark to-or-gold py-20 sm:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-white uppercase mb-4">About JIG Craft Cannabis</h1>
+          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-white uppercase mb-4">About Origin by ILCO Farming</h1>
           <p className="text-lg sm:text-xl text-white/70 max-w-2xl font-accent italic">Quality Counts</p>
         </div>
       </section>
@@ -42,26 +42,26 @@ export default function AboutPage() {
       {/* Our Story */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-heading text-3xl sm:text-[2.625rem] text-jig-purple uppercase mb-8">Our Story</h2>
-          <div className="border-l-4 border-jig-amber pl-5 space-y-4 text-gray-600 leading-relaxed">
-            <p>Born from a passion for quality cannabis and a vision for a better retail experience, JIG Craft Cannabis was founded to bridge the gap between premium growers and discerning consumers.</p>
-            <p>With 8 locations across Gauteng, Free State, and North West, we've built a network that connects local farms and suppliers directly to customers — with rigorous quality control at every step.</p>
-            <p>Our Master Digital Catalogue (MDC) system ensures that every product on our shelves has been reviewed, tested, and approved by our team. From lifestyle wellness products to Section 21 medical cannabis, quality counts at JIG Craft Cannabis.</p>
+          <h2 className="font-heading text-3xl sm:text-[2.625rem] text-or-gold uppercase mb-8">Our Story</h2>
+          <div className="border-l-4 border-or-gold pl-5 space-y-4 text-gray-600 leading-relaxed">
+            <p>ILCO Farming (Pty) Ltd is a North West-based agricultural company with deep roots in responsible farming and community wellness. Origin by ILCO Farming was created to bring premium, lab-tested cannabis products directly to consumers through a trusted, compliant retail experience.</p>
+            <p>Operating from Potchefstroom with nationwide online delivery, we connect local farms and suppliers directly to customers — with rigorous quality control at every step.</p>
+            <p>Our Master Digital Catalogue (MDC) system ensures that every product has been reviewed, tested, and approved by our team. From lifestyle wellness products to Section 21 medical cannabis, quality counts at Origin by ILCO Farming.</p>
           </div>
         </div>
       </section>
 
       {/* Mission */}
-      <section className="py-16 sm:py-20 bg-jig-slate">
+      <section className="py-16 sm:py-20 bg-origin-slate">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-heading text-3xl sm:text-[2.625rem] text-jig-purple uppercase mb-6">Our Mission</h2>
+          <h2 className="font-heading text-3xl sm:text-[2.625rem] text-or-gold uppercase mb-6">Our Mission</h2>
           <p className="text-lg text-gray-600 leading-relaxed mb-8">
             To make premium, lab-tested cannabis products accessible to every South African through a trusted retail network built on transparency, compliance, and expert curation.
           </p>
           <ul className="space-y-3">
             {MISSION_ITEMS.map((item) => (
               <li key={item} className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-jig-purple mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 512 512">
+                <svg className="w-5 h-5 text-or-gold mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 512 512">
                   <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
                 </svg>
                 <span className="text-gray-700">{item}</span>
@@ -72,7 +72,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-16 sm:py-20" style={{ background: 'linear-gradient(135deg, #1E1E1E 0%, #6D28D9 100%)' }}>
+      <section className="py-16 sm:py-20" style={{ background: 'linear-gradient(135deg, #1A1A1A 0%, #8B6914 100%)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-heading text-3xl sm:text-[2.625rem] text-gray-100 uppercase mb-10 text-center">Our Values</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -82,7 +82,7 @@ export default function AboutPage() {
                 className="rounded-2xl p-8 text-center hover:-translate-y-1 transition-all duration-300"
                 style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(212,175,55,0.2)', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}
               >
-                <div className="text-jig-amber mb-4 flex justify-center">{v.icon}</div>
+                <div className="text-or-gold mb-4 flex justify-center">{v.icon}</div>
                 <h3 className="font-heading text-xl text-gray-100 uppercase mb-3">{v.title}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'rgba(244,240,230,0.7)' }}>{v.desc}</p>
               </div>
@@ -92,13 +92,13 @@ export default function AboutPage() {
       </section>
 
       {/* What We Offer — green background like vanilla */}
-      <section className="py-16 sm:py-20" style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)' }}>
+      <section className="py-16 sm:py-20" style={{ background: 'linear-gradient(135deg, #C9A84C 0%, #8B6914 100%)' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-heading text-3xl sm:text-[2.625rem] text-gray-100 uppercase mb-8 text-center">What We Offer</h2>
           <div className="space-y-4">
             {OFFER_ITEMS.map((item) => (
               <div key={item.title} className="flex items-start gap-3" style={{ color: 'rgba(244,240,230,0.9)' }}>
-                <span className="text-jig-amber mt-1 shrink-0">&#9679;</span>
+                <span className="text-or-gold mt-1 shrink-0">&#9679;</span>
                 <p><strong>{item.title}:</strong> {item.desc}</p>
               </div>
             ))}
@@ -107,13 +107,13 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 sm:py-24 bg-jig-slate">
+      <section className="py-16 sm:py-24 bg-origin-slate">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="font-heading text-3xl sm:text-4xl text-white uppercase mb-4">Join Our Wellness Community</h2>
-          <p className="text-gray-500 mb-8 max-w-xl mx-auto">Experience the JIG Craft Cannabis difference — quality products, expert guidance, and a community built on trust.</p>
+          <p className="text-gray-500 mb-8 max-w-xl mx-auto">Experience the Origin by ILCO Farming difference — quality products, expert guidance, and a community built on trust.</p>
           <Link
             to="/products"
-            className="inline-flex items-center gap-2 px-8 py-4 text-sm font-bold uppercase tracking-wider bg-gradient-to-br from-jig-amber-light via-jig-amber to-jig-amber-dark text-gray-900 rounded-xl hover:-translate-y-1 transition-all"
+            className="inline-flex items-center gap-2 px-8 py-4 text-sm font-bold uppercase tracking-wider bg-gradient-to-br from-or-gold-light via-or-gold to-or-gold-dark text-gray-900 rounded-xl hover:-translate-y-1 transition-all"
           >
             Shop Now
           </Link>

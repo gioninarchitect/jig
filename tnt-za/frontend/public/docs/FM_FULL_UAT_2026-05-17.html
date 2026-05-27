@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TnT-ZA - Facility Manager Full UAT Pack</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--green:#16a34a;--green2:#22c55e;--dark:#0a0a0a;--panel:#111;--panel2:#171717;--text:#f5f5f5;--muted:rgba(255,255,255,.62);--dim:rgba(255,255,255,.38);--line:rgba(255,255,255,.08);--amber:#f59e0b;--red:#ef4444;--blue:#38bdf8}
+*{box-sizing:border-box;margin:0;padding:0;letter-spacing:0}
+body{font-family:Outfit,Inter,system-ui,sans-serif;background:radial-gradient(circle at 16% -12%,rgba(34,197,94,.11),transparent 28rem),linear-gradient(180deg,#0a0a0a,#0d0d0d 45%,#080808);color:var(--text);line-height:1.65}
+a{color:#4ade80;text-decoration:none}a:hover{text-decoration:underline}
+.top{position:sticky;top:0;z-index:10;background:rgba(10,10,10,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:.75rem max(1rem,calc((100vw - 1120px)/2));font-size:.72rem;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,.72);letter-spacing:.12em;display:flex;justify-content:space-between;gap:1rem}
+.hero{padding:3.2rem max(1.25rem,calc((100vw - 1120px)/2)) 2.35rem;background:linear-gradient(135deg,rgba(18,18,18,.98),rgba(12,12,12,.96));border-bottom:1px solid var(--line)}
+.badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:#4ade80;border-radius:999px;padding:.38rem .75rem;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;margin-bottom:1rem}
+h1{font-size:clamp(2rem,4vw,3.35rem);line-height:1.04;max-width:920px}
+.hero p{max-width:820px;color:var(--muted);margin-top:.9rem;font-size:1.02rem}
+.hero-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.25rem}
+.wrap{max-width:1120px;margin:0 auto;padding:2rem 1.25rem 4rem}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem}
+.card{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:8px;padding:1.15rem;box-shadow:0 18px 50px rgba(0,0,0,.22)}
+.span4{grid-column:span 4}.span6{grid-column:span 6}.span8{grid-column:span 8}.span12{grid-column:span 12}
+.label{font-size:.7rem;text-transform:uppercase;color:var(--dim);font-weight:800;letter-spacing:.13em;margin-bottom:.55rem}
+.metric{font-size:1.7rem;font-weight:800}.muted{color:var(--muted)}.dim{color:var(--dim)}
+.ok{color:#4ade80}.warn{color:#fbbf24}.bad{color:#f87171}
+.pill{display:inline-flex;border-radius:999px;padding:.25rem .55rem;font-size:.72rem;font-weight:800;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.22);color:#4ade80;margin:.15rem .2rem .15rem 0}
+h2{font-size:1.25rem;margin:2rem 0 .75rem}h3{font-size:1rem;margin-bottom:.35rem}
+ul,ol{padding-left:1.2rem}.card li{color:var(--muted);margin:.25rem 0}.card strong{color:#fff}
+table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{text-align:left;padding:.7rem;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}th{color:var(--dim);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em}td{color:var(--muted)}
+code{font-family:"JetBrains Mono",monospace;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.18);color:#22c55e;border-radius:5px;padding:.12rem .35rem;font-size:.85em}
+.test{display:grid;grid-template-columns:90px 1fr;gap:1rem;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.test:last-child{border-bottom:0}
+.tc{font-family:"JetBrains Mono",monospace;color:#4ade80;font-size:.78rem;font-weight:800}
+.pass{margin-top:.6rem;padding:.55rem .7rem;border:1px solid rgba(34,197,94,.2);background:rgba(34,197,94,.08);border-radius:8px;color:rgba(255,255,255,.72);font-size:.88rem}
+.alert{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08)}.alert .label,.alert strong{color:#fbbf24}
+.route{display:flex;align-items:center;justify-content:space-between;gap:1rem;border-bottom:1px solid rgba(255,255,255,.06);padding:.6rem 0}.route:last-child{border-bottom:0}.route span{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:#16a34a;color:#fff;border-radius:8px;padding:.65rem .9rem;font-weight:800;text-decoration:none}.btn:hover{background:#22c55e;text-decoration:none}.btn.secondary{background:rgba(255,255,255,.06);border:1px solid var(--line);color:#fff}.btn.secondary:hover{background:rgba(255,255,255,.1)}
+.btn.small{font-size:.78rem;padding:.42rem .65rem}.btn.ghost{background:transparent;border:1px solid rgba(34,197,94,.28);color:#4ade80}.btn.ghost:hover{background:rgba(34,197,94,.1)}
+.checks{display:grid;grid-template-columns:1.2rem 1fr 7rem 1fr;gap:.5rem;align-items:center;border-bottom:1px solid rgba(255,255,255,.06);padding:.55rem 0;color:var(--muted);font-size:.9rem}.box{width:1rem;height:1rem;border:1px solid var(--line);border-radius:3px}
+.nav{display:flex;gap:.45rem;flex-wrap:wrap;margin:1rem 0 0}.nav a{font-size:.78rem;color:rgba(255,255,255,.76);border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:999px;padding:.34rem .65rem}.nav a:hover{background:rgba(34,197,94,.12);text-decoration:none}
+.feature{position:relative;overflow:hidden}.feature::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--green),var(--blue));opacity:.9}
+.feature h2{margin-top:.2rem}.lead{font-size:1.05rem;color:rgba(255,255,255,.74);max-width:880px}
+.steps{counter-reset:step;display:grid;gap:.7rem;margin-top:.9rem}.step{display:grid;grid-template-columns:2.2rem 1fr;gap:.75rem;align-items:start}.step::before{counter-increment:step;content:counter(step);width:2.2rem;height:2.2rem;border-radius:8px;background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.25);display:grid;place-items:center;color:#4ade80;font-weight:900}.step strong{display:block;color:#fff}.step span{color:var(--muted)}
+.accordion{display:grid;gap:.65rem}.acc{border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.032);overflow:hidden}.acc-btn{width:100%;border:0;background:transparent;color:#fff;padding:1rem 1rem;display:grid;grid-template-columns:auto 1fr auto;gap:.8rem;align-items:center;text-align:left;cursor:pointer;font:inherit}.acc-btn:hover{background:rgba(255,255,255,.035)}.acc-id{font-family:"JetBrains Mono",monospace;color:#4ade80;font-size:.78rem;font-weight:900}.acc-title{font-weight:800}.acc-meta{color:var(--dim);font-size:.8rem}.acc-icon{color:#4ade80;transition:transform .18s}.acc.open .acc-icon{transform:rotate(180deg)}.acc-panel{display:none;padding:0 1rem 1rem 1rem}.acc.open .acc-panel{display:block}.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.prompt{font-size:.98rem;color:#fff;background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.17);border-radius:8px;padding:.7rem}.cta-list{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.55rem}.mini{display:inline-flex;border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:.22rem .5rem;color:rgba(255,255,255,.7);font-size:.75rem}
+.action-row{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.65rem}.toast{position:fixed;right:1rem;bottom:1rem;background:#111;border:1px solid rgba(34,197,94,.32);color:#fff;border-radius:8px;padding:.75rem 1rem;box-shadow:0 20px 80px rgba(0,0,0,.45);opacity:0;transform:translateY(.5rem);pointer-events:none;transition:.18s;z-index:20}.toast.show{opacity:1;transform:translateY(0)}
+.progress-card{display:flex;align-items:center;justify-content:space-between;gap:1rem}.progress-track{height:.55rem;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;min-width:220px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#16a34a,#38bdf8);transition:width .2s}.done-row{cursor:pointer}.done-row .box{transition:.15s}.done-row.done .box{background:#16a34a;border-color:#22c55e}.done-row.done .box::after{content:"✓";display:grid;place-items:center;color:#fff;font-size:.72rem;font-weight:900}.done-row.done{color:rgba(255,255,255,.86)}
+.defect-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1.4fr;gap:.5rem}.field{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:.65rem;color:rgba(255,255,255,.72);min-height:2.7rem}.field.big{grid-column:span 4;min-height:4.8rem}
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:1rem}
+footer{border-top:1px solid var(--line);padding:1.5rem;text-align:center;color:var(--dim);font-size:.8rem}
+@media(max-width:760px){.top{display:block}.span4,.span6,.span8,.span12{grid-column:span 12}.test{grid-template-columns:1fr}.checks{grid-template-columns:1.2rem 1fr}.checks .dim{display:none}.acc-grid,.split{grid-template-columns:1fr}.hero-actions .btn{width:100%}}
+</style>
+</head>
+<body>
+<div class="top"><span>TnT-ZA Full UAT Pack - Facility Manager</span><span>Role workflow + assistant + evidence</span></div>
+<header class="hero">
+  <div class="badge">Full UAT - Facility Manager</div>
+  <h1>Facility Manager Full UAT Pack</h1>
+  <p>End-to-end UAT for the Facility Manager role. This pack tests access, dashboard CTAs, operational tickets, QMS deviations, QR/label controls, assets, batches, daily checks, mortality, SOP/checklist/training linkage, AI assistant support, database persistence, and audit evidence.</p>
+  <div class="hero-actions">
+    <a class="btn" href="https://tntilco.cleva-ai.co.za" target="_blank">Open UAT App</a>
+    <a class="btn secondary" href="#uat">Start UAT Cases</a>
+    <a class="btn secondary" href="#assistant">Assistant Section</a>
+    <a class="btn secondary" href="#defects">Defects Log</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="nav">
+    <a href="#overview">Overview</a>
+    <a href="#scope">Scope</a>
+    <a href="#routes">Routes</a>
+    <a href="#uat">UAT Cases</a>
+    <a href="#assistant">Assistant</a>
+    <a href="#defects">Defects</a>
+    <a href="#signoff">Sign-Off</a>
+  </nav>
+
+  <section id="overview" class="grid" style="margin-top:1rem">
+    <div class="card span12 feature">
+      <div class="label">Executive Message</div>
+      <p class="lead">This is the full UAT pack for the Facility Manager. The assistant is included as a high-value workflow accelerator, but the pass/fail decision is based on the full FM role working end to end with persisted records and audit evidence.</p>
+      <div style="margin-top:.85rem">
+        <span class="pill">Full FM role coverage</span>
+        <span class="pill">All CTAs tested</span>
+        <span class="pill">Database persistence</span>
+        <span class="pill">Audit evidence</span>
+        <span class="pill">EU GMP grounded</span>
+      </div>
+    </div>
+    <div class="card span12">
+      <div class="progress-card">
+        <div>
+          <div class="label">Demo Progress</div>
+          <div><strong id="progressText">0 of 12 checks complete</strong></div>
+          <p class="muted">Tap sign-off rows as you complete each FM UAT proof point.</p>
+        </div>
+        <div class="progress-track" aria-label="Demo progress"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <h2 id="scope">UAT Scope</h2>
+  <section class="grid">
+    <div class="card span6">
+      <div class="label">In Scope</div>
+      <ul>
+        <li>FM login, session, RBAC, and route access.</li>
+        <li>Dashboard widgets and all FM-facing CTAs.</li>
+        <li>Tickets, deviations, assets, labels, QR, BCR, checks, mortality, and audit.</li>
+        <li>SOP, checklist, training, task category, and EU GMP linkage.</li>
+        <li>Assistant prompts and context action buttons for the FM role.</li>
+      </ul>
+    </div>
+    <div class="card span6">
+      <div class="label">Out Of Scope Unless Enabled</div>
+      <ul>
+        <li>Outbound PIN email delivery while email sending is intentionally disabled.</li>
+        <li>Production load testing.</li>
+        <li>Third-party integrations that are not connected to the UAT tenant.</li>
+        <li>Super Admin-only configuration workflows.</li>
+      </ul>
+    </div>
+    <div class="card span12">
+      <div class="label">Pass Standard</div>
+      <p class="muted">A test passes only when the CTA opens, the action completes, the record survives refresh, the data is linked to the correct tenant/role/workflow, and audit evidence exists for regulated actions.</p>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card span4">
+      <div class="label">Live Environment</div>
+      <div class="metric">UAT</div>
+      <p class="muted"><a href="https://tntilco.cleva-ai.co.za" target="_blank">https://tntilco.cleva-ai.co.za</a></p>
+    </div>
+    <div class="card span4">
+      <div class="label">Role Under Test</div>
+      <div class="metric">FM</div>
+      <p class="muted"><code>FACILITY_MANAGER</code></p>
+    </div>
+    <div class="card span4 alert">
+      <div class="label">Email Note</div>
+      <div class="metric">Off</div>
+      <p class="muted">PIN emails are intentionally suppressed until enabled.</p>
+    </div>
+    <div class="card span12">
+      <div class="label">EU GMP Grounding Rule</div>
+      <p class="muted">EU GMP is the regulatory source of truth for this UAT. FM workflows must show operational control, auditability, deviation handling, and role-linked SOP/checklist/training evidence.</p>
+      <span class="pill">13/13 EU GMP sources</span>
+      <span class="pill">7/7 controls</span>
+      <span class="pill">58 SMF sections</span>
+      <span class="pill">38 task templates</span>
+      <span class="pill">0 pending training</span>
+    </div>
+  </section>
+
+  <h2>FM Accounts In Baseline</h2>
+  <section class="grid">
+    <div class="card span12">
+      <table>
+        <thead><tr><th>Email</th><th>Expected Role</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td><code>fmilco@cleva-ai.co.za</code></td><td>FACILITY_MANAGER</td><td>Primary Cleva UAT alias</td></tr>
+          <tr><td><code>ray@ilcofarms.co.za</code></td><td>FACILITY_MANAGER</td><td>Operational baseline account</td></tr>
+          <tr><td><code>ray@ilcofarming.co.za</code></td><td>FACILITY_MANAGER</td><td>Legacy operational baseline account</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <h2 id="routes">FM Route Map</h2>
+  <section class="grid">
+    <div class="card span6">
+      <div class="route"><span>Dashboard</span><a href="/dashboard" target="_blank">/dashboard</a></div>
+      <div class="route"><span>Tickets</span><a href="/tickets" target="_blank">/tickets</a></div>
+      <div class="route"><span>QMS</span><a href="/qms" target="_blank">/qms</a></div>
+      <div class="route"><span>Batches</span><a href="/batches" target="_blank">/batches</a></div>
+      <div class="route"><span>SMF</span><a href="/site-master-file" target="_blank">/site-master-file</a></div>
+    </div>
+    <div class="card span6">
+      <div class="route"><span>SOP Library</span><a href="/sop-library" target="_blank">/sop-library</a></div>
+      <div class="route"><span>Audit</span><a href="/audit" target="_blank">/audit</a></div>
+      <div class="route"><span>Scan</span><a href="/scan" target="_blank">/scan</a></div>
+      <div class="route"><span>Assets</span><a href="/assets" target="_blank">/assets</a></div>
+      <div class="route"><span>Mortality</span><a href="/mortality" target="_blank">/mortality</a></div>
+    </div>
+  </section>
+
+  <h2 id="uat">Full FM UAT Cases</h2>
+  <section class="card">
+    <div class="accordion">
+      <div class="acc open"><button class="acc-btn" type="button"><span class="acc-id">FM-001</span><span><span class="acc-title">Login, Session And Role Boundary</span><br><span class="acc-meta">Authentication, tenant, FM access and no Super Admin leakage</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open the live app.</li><li>Login as an active FM account using the approved UAT method.</li><li>Open <code>/dashboard</code>, <code>/users</code>, <code>/owner</code>, and <code>/audit</code>.</li><li>Confirm permitted routes load and restricted routes are blocked or hidden.</li></ol><div class="pass"><strong>Pass:</strong> user is authenticated as <code>FACILITY_MANAGER</code>, tenant context is correct, session persists, and Super Admin-only controls are unavailable.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-002</span><span><span class="acc-title">Dashboard And CTA Coverage</span><br><span class="acc-meta">Every FM-facing button must work</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open <code>/dashboard</code>.</li><li>Review tickets, batches, tasks, risk, compliance, and operational activity.</li><li>Click each visible FM dashboard CTA.</li><li>Return to the dashboard and confirm no blank widgets or dead actions.</li></ol><div class="pass"><strong>Pass:</strong> dashboard loads real data, every visible CTA opens a valid workflow, and no forbidden setup-only control is exposed.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-003</span><span><span class="acc-title">Ticket Creation, Assignment And Persistence</span><br><span class="acc-meta">Facility issue to persisted work item</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open <code>/tickets</code>.</li><li>Create a facility operations ticket with category, severity, owner, due date, and notes.</li><li>Save, refresh, and reopen the ticket.</li><li>Change status or add a note if available.</li></ol><div class="pass"><strong>Pass:</strong> ticket persists with creator, tenant, status, timestamps, category, and audit evidence.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-004</span><span><span class="acc-title">EU GMP Linked Deviation</span><br><span class="acc-meta">Controlled exception handling</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open <code>/qms</code>.</li><li>Raise an operational deviation.</li><li>Link SOP/control where available.</li><li>Add severity, root cause placeholder, CAPA, owner, and due date.</li><li>Refresh and reopen the deviation.</li></ol><div class="pass"><strong>Pass:</strong> deviation persists, remains linked to QMS context, and creates audit evidence.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-005</span><span><span class="acc-title">QR And Label Accountability</span><br><span class="acc-meta">Asset/container name, unique ID and exception states</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open <code>/scan</code>, <code>/assets</code>, or <code>/containers</code>.</li><li>Validate a QR or label-linked asset/container.</li><li>Confirm label identity includes asset/container name plus unique ID.</li><li>Record or review a misprinted, destroyed, unused, or exception label state where available.</li></ol><div class="pass"><strong>Pass:</strong> label state is accountable, persists, and chain-of-custody evidence exists.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-006</span><span><span class="acc-title">Asset And Maintenance Workflow</span><br><span class="acc-meta">Equipment readiness and calibration evidence</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open <code>/assets</code>.</li><li>Register or review a facility asset.</li><li>Confirm asset ID, asset name, category, status, and maintenance/calibration data.</li><li>Trigger or review linked maintenance ticketing if available.</li></ol><div class="pass"><strong>Pass:</strong> asset record persists and links to maintenance/ticket/audit evidence.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-007</span><span><span class="acc-title">Batch And BCR Review</span><br><span class="acc-meta">Batch record is operational evidence, not a display card</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open <code>/batches</code>.</li><li>Review a batch and its Batch Cultivation Record.</li><li>Confirm linked checklist, SOP, daily/environmental checks, and outstanding tasks.</li><li>Refresh and verify the same record state remains.</li></ol><div class="pass"><strong>Pass:</strong> BCR is persisted, linked to required checks/tasks, and visible for FM review.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-008</span><span><span class="acc-title">Daily Checks And Environmental Logs</span><br><span class="acc-meta">Temp/humidity, escalation and signature/accountability</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open <code>/daily-check</code> or <code>/env-log</code>.</li><li>Record or review temperature and humidity checks.</li><li>Check out-of-range escalation into ticket/deviation workflow.</li><li>Confirm user/time accountability.</li></ol><div class="pass"><strong>Pass:</strong> readings persist and out-of-range values create traceable workflow evidence where configured.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-009</span><span><span class="acc-title">Mortality Event Review</span><br><span class="acc-meta">Batch/location impact and escalation</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open <code>/mortality</code>.</li><li>Record or review a mortality event.</li><li>Confirm affected batch, location, reason, count, and user accountability.</li><li>Check threshold escalation to ticket/deviation workflow.</li></ol><div class="pass"><strong>Pass:</strong> mortality event persists, is linked to batch/location, and is auditable.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-010</span><span><span class="acc-title">SOP, Checklist, Training And Task Linkage</span><br><span class="acc-meta">No orphan responsibility</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open <code>/sop-library</code>.</li><li>Confirm FM-relevant SOPs are visible.</li><li>Open <code>/tasks</code> and confirm task templates/checklists.</li><li>Check training responsibility where available.</li></ol><div class="pass"><strong>Pass:</strong> FM SOPs, checklist tasks, training records, and task categories are connected.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-011</span><span><span class="acc-title">AI Assistant For FM Role</span><br><span class="acc-meta">Role-aware support, not generic chat</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open the chat bubble.</li><li>Run the prompts in the Assistant Section below.</li><li>Click returned context actions.</li><li>Confirm answers and CTAs stay within FM responsibilities.</li></ol><div class="pass"><strong>Pass:</strong> assistant returns FM-specific guidance and CTAs into persisted workflows.</div></div></div>
+      <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">FM-012</span><span><span class="acc-title">Audit Evidence And Final Traceability</span><br><span class="acc-meta">Who, what, when, entity and hash chain</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><ol><li>Open <code>/audit</code>.</li><li>Search for recent FM actions.</li><li>Confirm who, what, when, tenant, entity type, and entity ID.</li><li>Run or review audit verification where available.</li></ol><div class="pass"><strong>Pass:</strong> FM actions remain traceable after refresh and audit hash chain stays valid.</div></div></div>
+    </div>
+  </section>
+
+  <h2 id="assistant">Assistant Section</h2>
+  <section class="grid">
+    <div class="card span12 feature">
+      <div class="label">FM Command Layer</div>
+      <p class="lead">The strongest FM demo is to show the assistant as the Facility Manager's daily control point, not a generic chatbot. It should recognise the FM role, return FM-specific context actions, and route the user into controlled workflows that persist to the database and audit trail.</p>
+      <div class="pass"><strong>Talk track:</strong> As Facility Manager, I do not need to hunt through every module first. I can ask the assistant what needs my attention in my role. It reads my role context, points me to the right operational areas, and gives me action buttons into tickets, QMS, batches, labels, daily checks, assets, and audit evidence.</div>
+    </div>
+    <div class="card span12">
+      <div class="label">Live Prompts - Open Each During The Demo</div>
+      <div class="accordion">
+        <div class="acc open"><button class="acc-btn" type="button"><span class="acc-id">00</span><span><span class="acc-title">FM Oversight Wizard</span><br><span class="acc-meta">Start here to prove department oversight</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><div class="acc-grid"><div><div class="prompt">Start my FM oversight wizard for all departments.</div><div class="action-row"><button class="btn small copy" data-copy="Start my FM oversight wizard for all departments.">Copy Prompt</button><a class="btn small ghost" href="/tickets" target="_blank">Open Tickets</a><a class="btn small ghost" href="/tasks" target="_blank">Open Tasks</a><a class="btn small ghost" href="/qms" target="_blank">Open QMS</a></div><p class="muted">Expected: shows department ticket queues, workflow-stage pressure, outstanding task/checklist load, and action buttons to create a ticket or SOP reminder.</p></div><div><div class="label">Showcase CTAs</div><div class="cta-list"><span class="mini">Tickets</span><span class="mini">Tasks</span><span class="mini">QMS</span><span class="mini">Labels</span></div></div></div></div></div>
+        <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">01</span><span><span class="acc-title">Daily FM Attention</span><br><span class="acc-meta">Role-specific daily summary</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><div class="acc-grid"><div><div class="prompt">What needs my attention as Facility Manager today?</div><div class="action-row"><button class="btn small copy" data-copy="What needs my attention as Facility Manager today?">Copy Prompt</button><a class="btn small ghost" href="/dashboard" target="_blank">Open Dashboard</a><a class="btn small ghost" href="/tickets" target="_blank">Open Tickets</a></div><p class="muted">Expected: summarises FM work across tickets, batches, labels, daily checks, deviations, maintenance, mortality, and audit signals.</p></div><div><div class="label">Showcase CTAs</div><div class="cta-list"><span class="mini">Dashboard</span><span class="mini">Tickets</span><span class="mini">Batches</span><span class="mini">QMS</span></div></div></div></div></div>
+        <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">02</span><span><span class="acc-title">EU GMP Risk Framing</span><br><span class="acc-meta">Shows regulatory grounding</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><div class="acc-grid"><div><div class="prompt">Show me my EU GMP risks for facility operations.</div><div class="action-row"><button class="btn small copy" data-copy="Show me my EU GMP risks for facility operations.">Copy Prompt</button><a class="btn small ghost" href="/qms" target="_blank">Open QMS</a><a class="btn small ghost" href="/sop-library" target="_blank">Open SOPs</a><a class="btn small ghost" href="/audit" target="_blank">Open Audit</a></div><p class="muted">Expected: frames risks around controlled records, deviations, environmental checks, equipment, labels, and audit readiness.</p></div><div><div class="label">Showcase CTAs</div><div class="cta-list"><span class="mini">QMS</span><span class="mini">SOP Library</span><span class="mini">Audit</span><span class="mini">Daily Checks</span></div></div></div></div></div>
+        <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">03</span><span><span class="acc-title">Label Accountability</span><br><span class="acc-meta">Highlights QR and chain of custody</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><div class="acc-grid"><div><div class="prompt">Help me investigate a label accountability issue.</div><div class="action-row"><button class="btn small copy" data-copy="Help me investigate a label accountability issue.">Copy Prompt</button><a class="btn small ghost" href="/scan" target="_blank">Open Scan</a><a class="btn small ghost" href="/assets" target="_blank">Open Assets</a><a class="btn small ghost" href="/containers" target="_blank">Open Containers</a></div><p class="muted">Expected: guides through asset/container ID, label status, reason code, user accountability, and deviation/ticket trigger.</p></div><div><div class="label">Showcase CTAs</div><div class="cta-list"><span class="mini">Scan</span><span class="mini">Assets</span><span class="mini">Containers</span><span class="mini">Tickets</span><span class="mini">QMS</span></div></div></div></div></div>
+        <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">04</span><span><span class="acc-title">Batch Record Review</span><br><span class="acc-meta">Connects BCR, tasks, checks and audit</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><div class="acc-grid"><div><div class="prompt">What batch records need FM review?</div><div class="action-row"><button class="btn small copy" data-copy="What batch records need FM review?">Copy Prompt</button><a class="btn small ghost" href="/batches" target="_blank">Open Batches</a><a class="btn small ghost" href="/daily-check" target="_blank">Open Daily Checks</a><a class="btn small ghost" href="/audit" target="_blank">Open Audit</a></div><p class="muted">Expected: directs FM to BCR status, missing checks, daily/environmental records, and batch-linked tasks.</p></div><div><div class="label">Showcase CTAs</div><div class="cta-list"><span class="mini">Batches</span><span class="mini">Daily Checks</span><span class="mini">Audit</span></div></div></div></div></div>
+        <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">05</span><span><span class="acc-title">Environmental Escalation</span><br><span class="acc-meta">Turns an issue into a controlled action</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><div class="acc-grid"><div><div class="prompt">Create a ticket for an out-of-range humidity reading and assign it to Facility Manager.</div><div class="action-row"><button class="btn small copy" data-copy="Create a ticket for an out-of-range humidity reading and assign it to Facility Manager.">Copy Prompt</button><a class="btn small ghost" href="/tickets" target="_blank">Open Tickets</a><a class="btn small ghost" href="/audit" target="_blank">Open Audit</a></div><p class="muted">Expected: creates a persisted ticket with ticket ID, environment category, FM assignment, and workflow CTAs.</p></div><div><div class="label">Showcase CTAs</div><div class="cta-list"><span class="mini">Tickets</span><span class="mini">Audit</span></div></div></div></div></div>
+        <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">05B</span><span><span class="acc-title">SOP Checklist Reminder</span><br><span class="acc-meta">Creates a persisted FM task</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><div class="acc-grid"><div><div class="prompt">Create a SOP checklist reminder for facility readiness today.</div><div class="action-row"><button class="btn small copy" data-copy="Create a SOP checklist reminder for facility readiness today.">Copy Prompt</button><a class="btn small ghost" href="/tasks" target="_blank">Open Tasks</a><a class="btn small ghost" href="/sop-library" target="_blank">Open SOPs</a></div><p class="muted">Expected: creates a persisted task/reminder with task ID, due date, priority, and task/SOP CTAs.</p></div><div><div class="label">Showcase CTAs</div><div class="cta-list"><span class="mini">Tasks</span><span class="mini">SOP Library</span></div></div></div></div></div>
+        <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">05C</span><span><span class="acc-title">Ticket Assignment Command</span><br><span class="acc-meta">Assigns a persisted ticket by ID/prefix</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><div class="acc-grid"><div><div class="prompt">Assign ticket &lt;ticket-id-prefix&gt; to Maintenance Manager.</div><div class="action-row"><button class="btn small copy" data-copy="Assign ticket <ticket-id-prefix> to Maintenance Manager.">Copy Prompt</button><a class="btn small ghost" href="/tickets" target="_blank">Open Tickets</a><a class="btn small ghost" href="/audit" target="_blank">Open Audit</a></div><p class="muted">Expected: updates the matching persisted ticket to assigned status with role owner.</p></div><div><div class="label">Showcase CTAs</div><div class="cta-list"><span class="mini">Tickets</span><span class="mini">Audit</span></div></div></div></div></div>
+        <div class="acc"><button class="acc-btn" type="button"><span class="acc-id">06</span><span><span class="acc-title">Auditor Evidence</span><br><span class="acc-meta">Closes the demo with traceability</span></span><span class="acc-icon">▼</span></button><div class="acc-panel"><div class="acc-grid"><div><div class="prompt">What evidence would an auditor ask me for on this issue?</div><div class="action-row"><button class="btn small copy" data-copy="What evidence would an auditor ask me for on this issue?">Copy Prompt</button><a class="btn small ghost" href="/audit" target="_blank">Open Audit</a><a class="btn small ghost" href="/qms" target="_blank">Open QMS</a><a class="btn small ghost" href="/site-master-file" target="_blank">Open SMF</a></div><p class="muted">Expected: lists audit trail, ticket, deviation, SOP, checklist, BCR, label record, user, and timestamp evidence.</p></div><div><div class="label">Showcase CTAs</div><div class="cta-list"><span class="mini">Audit</span><span class="mini">QMS</span><span class="mini">SMF</span></div></div></div></div></div>
+      </div>
+    </div>
+    <div class="card span12">
+      <div class="label">Live Demo Sequence</div>
+      <div class="steps">
+        <div class="step"><div><strong>Open as Facility Manager</strong><span>Start on the dashboard and confirm this is the FM operational view.</span></div></div>
+        <div class="step"><div><strong>Start the oversight wizard</strong><span>Use <code>Start my FM oversight wizard for all departments.</code> and confirm department queues plus outstanding task/checklist load.</span></div></div>
+        <div class="step"><div><strong>Create persisted work from chat</strong><span>Click <code>Create Issue Ticket</code> or <code>Create SOP Reminder</code>, then open Tickets or Tasks to prove the record persisted.</span></div></div>
+        <div class="step"><div><strong>Ask the EU GMP prompt</strong><span>Open QMS or SOP Library to show the assistant is grounded in controlled workflows.</span></div></div>
+        <div class="step"><div><strong>Ask the auditor evidence prompt</strong><span>Open Audit and show that the system keeps traceable records.</span></div></div>
+      </div>
+      <div class="pass"><strong>Close:</strong> The assistant reduces role drift, guides the FM into the correct controlled workflow, and keeps work tied to EU GMP, QMS, labels, BCRs, tickets, deviations, and audit evidence.</div>
+    </div>
+  </section>
+
+  <h2>Exit Criteria</h2>
+  <section class="grid">
+    <div class="card span12">
+      <ul>
+        <li>All FM CTAs open valid pages.</li>
+        <li>All create/update actions persist to the database.</li>
+        <li>All regulated actions create audit evidence.</li>
+        <li>EU GMP source/control context is visible in QMS workflows.</li>
+        <li>Labels include asset/container name and unique ID.</li>
+        <li>Ticket/deviation workflow triggers for operational exceptions.</li>
+        <li>FM AI assistant actions are role-appropriate.</li>
+        <li>No Super Admin-only controls are exposed to FM.</li>
+      </ul>
+    </div>
+  </section>
+
+  <h2 id="defects">Defects Log</h2>
+  <section class="card">
+    <div class="defect-grid">
+      <div class="field"><strong>Defect ID</strong><br><span class="dim">FM-UAT-___</span></div>
+      <div class="field"><strong>Severity</strong><br><span class="dim">Critical / High / Medium / Low</span></div>
+      <div class="field"><strong>Owner</strong><br><span class="dim">Assigned role/person</span></div>
+      <div class="field"><strong>Status</strong><br><span class="dim">Open / Fixed / Retest / Closed</span></div>
+      <div class="field big"><strong>Description / Steps To Reproduce</strong><br><span class="dim">Capture exact route, CTA, expected result, actual result, and evidence screenshot.</span></div>
+    </div>
+  </section>
+
+  <h2 id="signoff">Sign-Off</h2>
+  <section class="card">
+    <div class="checks done-row"><div class="box"></div><div>Login and role access</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>Dashboard CTAs</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>AI assistant actions</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>Tickets</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>Deviations</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>Labels and QR</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>BCR and batches</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>Daily checks</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>Assets and maintenance</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>Mortality</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>SOP, checklist, training links</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+    <div class="checks done-row"><div class="box"></div><div>Audit trail</div><div class="dim">Tap to mark</div><div class="dim">Evidence / notes</div></div>
+  </section>
+</main>
+
+<footer>TnT-ZA - ILCO Farms - Facility Manager Full UAT Pack - 17 May 2026</footer>
+<div class="toast" id="toast">Copied</div>
+<script>
+document.querySelectorAll('.acc-btn').forEach((button) => {
+  button.addEventListener('click', () => {
+    const current = button.closest('.acc');
+    const group = current.parentElement;
+    group.querySelectorAll('.acc.open').forEach((item) => {
+      if (item !== current) item.classList.remove('open');
+    });
+    current.classList.toggle('open');
+  });
+});
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  window.clearTimeout(window.toastTimer);
+  window.toastTimer = window.setTimeout(() => toast.classList.remove('show'), 1600);
+}
+
+document.querySelectorAll('.copy').forEach((button) => {
+  button.addEventListener('click', async (event) => {
+    event.stopPropagation();
+    const value = button.dataset.copy || '';
+    try {
+      await navigator.clipboard.writeText(value);
+      showToast('Prompt copied');
+    } catch {
+      showToast('Copy blocked by browser');
+    }
+  });
+});
+
+function updateProgress() {
+  const rows = Array.from(document.querySelectorAll('.done-row'));
+  const done = rows.filter((row) => row.classList.contains('done')).length;
+  const total = rows.length;
+  document.getElementById('progressText').textContent = `${done} of ${total} checks complete`;
+  document.getElementById('progressFill').style.width = `${total ? (done / total) * 100 : 0}%`;
+}
+
+document.querySelectorAll('.done-row').forEach((row) => {
+  row.addEventListener('click', () => {
+    row.classList.toggle('done');
+    updateProgress();
+  });
+});
+
+updateProgress();
+</script>
+</body>
+</html>

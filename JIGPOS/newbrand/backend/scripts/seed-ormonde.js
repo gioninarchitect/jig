@@ -11,7 +11,7 @@ const Branch = require('../modules/database/models/Branch');
 const Product = require('../modules/database/models/Product');
 const BranchInventory = require('../modules/database/models/BranchInventory');
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
 
 // ─── ORMONDE BRANCH ───────────────────────────────────────────
 const ormondeBranch = {
@@ -28,7 +28,7 @@ const ormondeBranch = {
     country: 'South Africa'
   },
   phone: '+27 11 000 0000',
-  email: 'ormonde@jig.cleva-ai.co.za',
+  email: 'ormonde@cleva-ai.co.za',
   timezone: 'Africa/Johannesburg',
   operatingHours: [
     { day: 'Monday', open: '09:00', close: '18:00' },

@@ -2,18 +2,18 @@
 // Aggregated stock health across all branches
 
 import { formatCurrency } from '../../config';
-import { useDBCWorldModel } from '../../world-model/WorldModelContext';
+import { useOriginWorldModel } from '../../world-model/WorldModelContext';
 
 function healthBar(value, max = 100) {
   const pct = Math.min(100, Math.max(0, (value / max) * 100));
-  let color = 'bg-jig-purple';
-  if (pct < 40) color = 'bg-jig-red';
-  else if (pct < 70) color = 'bg-jig-amber';
+  let color = 'bg-or-gold';
+  if (pct < 40) color = 'bg-origin-red';
+  else if (pct < 70) color = 'bg-or-gold';
   return { pct, color };
 }
 
 export default function StockHealthMap({ branches }) {
-  const { allBranches } = useDBCWorldModel();
+  const { allBranches } = useOriginWorldModel();
 
   const activeBranches = branches.filter(b => b.isActive);
 
@@ -30,17 +30,17 @@ export default function StockHealthMap({ branches }) {
     <div className="space-y-4">
       {/* Network Totals */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Network Stock Value</div>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Network Stock Value</div>
           <div className="font-heading text-lg text-white">{formatCurrency(network.totalValue)}</div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Total Units</div>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Total Units</div>
           <div className="font-heading text-lg text-white">{network.totalQuantity.toLocaleString()}</div>
         </div>
-        <div className="p-3 rounded-lg bg-jig-slate border border-jig-purple/20 text-center">
-          <div className="text-xs text-jig-purple-light">Low Stock Items</div>
-          <div className={`font-heading text-lg ${network.totalLowStock > 5 ? 'text-jig-red' : 'text-white'}`}>
+        <div className="p-3 rounded-lg bg-origin-slate border border-or-gold/20 text-center">
+          <div className="text-xs text-or-gold-light">Low Stock Items</div>
+          <div className={`font-heading text-lg ${network.totalLowStock > 5 ? 'text-origin-red' : 'text-white'}`}>
             {network.totalLowStock}
           </div>
         </div>

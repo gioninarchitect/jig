@@ -56,7 +56,7 @@ export default function Table({ columns = [], data = [], searchable = false, pag
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(0); }}
             placeholder="Search..."
-            className="w-full sm:w-72 px-4 py-2.5 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-jig-amber focus:shadow-[0_0_0_4px_rgba(124,58,237,0.15)] font-body"
+            className="w-full sm:w-72 px-4 py-2.5 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-or-gold focus:shadow-[0_0_0_4px_rgba(63,192,65,0.15)] font-body"
           />
         </div>
       )}
@@ -70,9 +70,9 @@ export default function Table({ columns = [], data = [], searchable = false, pag
                   key={col.accessor || col.header}
                   onClick={() => col.sortable !== false && handleSort(col.accessor)}
                   className={`
-                    bg-jig-purple px-4 py-3.5 text-left text-gray-100 text-sm font-semibold
-                    border-b-2 border-jig-amber
-                    ${col.accessor && col.sortable !== false ? 'cursor-pointer select-none hover:bg-jig-purple-dark' : ''}
+                    bg-or-gold px-4 py-3.5 text-left text-gray-100 text-sm font-semibold
+                    border-b-2 border-or-gold
+                    ${col.accessor && col.sortable !== false ? 'cursor-pointer select-none hover:bg-or-gold-dark' : ''}
                   `}
                 >
                   <span className="flex items-center gap-1">
@@ -124,14 +124,14 @@ export default function Table({ columns = [], data = [], searchable = false, pag
             <button
               disabled={page === 0}
               onClick={() => setPage((p) => p - 1)}
-              className="px-3 py-1.5 rounded-lg border border-gray-200 disabled:opacity-40 hover:border-jig-amber transition-colors"
+              className="px-3 py-1.5 rounded-lg border border-gray-200 disabled:opacity-40 hover:border-or-gold transition-colors"
             >
               Prev
             </button>
             <button
               disabled={page >= totalPages - 1}
               onClick={() => setPage((p) => p + 1)}
-              className="px-3 py-1.5 rounded-lg border border-gray-200 disabled:opacity-40 hover:border-jig-amber transition-colors"
+              className="px-3 py-1.5 rounded-lg border border-gray-200 disabled:opacity-40 hover:border-or-gold transition-colors"
             >
               Next
             </button>

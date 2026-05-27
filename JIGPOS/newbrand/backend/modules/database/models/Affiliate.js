@@ -219,7 +219,7 @@ affiliateSchema.methods.generateAffiliateCode = function() {
 
 // Generate affiliate link
 affiliateSchema.methods.generateLink = function(productId = null, customSlug = null) {
-  const baseUrl = process.env.BASE_URL || 'https://loosedraw.co.za';
+  const baseUrl = process.env.BASE_URL || 'https://origin.cleva-ai.co.za';
   if (productId) {
     return `${baseUrl}/p/${productId}?ref=${this.affiliateCode}`;
   }

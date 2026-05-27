@@ -8,9 +8,12 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 
 // Initialize audit event listeners (side-effect import)
 import './services/audit.service';
+// SMF Drift Daemon — deterministic rule-based drift detection
+import './services/smf-drift.service';
 
 const app = express();
 
+app.set('trust proxy', 1);
 app.use(helmet());
 app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
 app.use(express.json());

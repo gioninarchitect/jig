@@ -128,7 +128,7 @@ function renderPreCashupStatus(tillSummary, message) {
         <div style="text-align: center; margin-bottom: 20px;">
             <i class="fas ${hasOpenTills ? 'fa-exclamation-circle' : 'fa-check-circle'}"
                style="font-size: 3rem; color: ${hasOpenTills ? 'var(--gold)' : 'var(--green)'}; margin-bottom: 10px;"></i>
-            <h3 style="font-family: 'Oswald', sans-serif; color: var(--green-deep); font-size: 1.3rem; text-transform: uppercase;">${message || 'Till Status'}</h3>
+            <h3 style="font-family: 'Barlow Condensed', sans-serif; color: var(--green-deep); font-size: 1.3rem; text-transform: uppercase;">${message || 'Till Status'}</h3>
         </div>
 
         ${sessionsHtml ? `
@@ -141,7 +141,7 @@ function renderPreCashupStatus(tillSummary, message) {
         </div>`}
 
         ${!hasOpenTills && hasClosedTills ? `
-        <button onclick="startDailyCashup()" style="width: 100%; padding: 16px; background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700; cursor: pointer; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px;">
+        <button onclick="startDailyCashup()" style="width: 100%; padding: 16px; background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; letter-spacing: 1px;">
             <i class="fas fa-calculator"></i> Start Daily Cashup
         </button>` : ''}
     `;
@@ -221,7 +221,7 @@ function renderCashupStatus(cashup) {
             <div style="display: inline-block; background: ${s.bg}; color: white; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; margin-bottom: 10px;">
                 <i class="fas ${s.icon}"></i> ${s.label}
             </div>
-            <h3 style="font-family: 'Oswald', sans-serif; color: var(--green-deep); font-size: 1.3rem; text-transform: uppercase;">
+            <h3 style="font-family: 'Barlow Condensed', sans-serif; color: var(--green-deep); font-size: 1.3rem; text-transform: uppercase;">
                 ${cashup.cashupNumber || 'Daily Cashup'}
             </h3>
             <p style="color: #666; font-size: 0.85rem;">${cashupDate}</p>
@@ -230,28 +230,28 @@ function renderCashupStatus(cashup) {
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
             <div style="background: white; padding: 14px; border-radius: 10px; text-align: center;">
-                <div style="font-family: 'Oswald', sans-serif; font-size: 1.8rem; color: var(--green);">R${(cashup.totalSales || 0).toFixed(2)}</div>
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; color: var(--green);">R${(cashup.totalSales || 0).toFixed(2)}</div>
                 <div style="font-size: 0.8rem; color: #666;">Total Sales</div>
             </div>
             <div style="background: white; padding: 14px; border-radius: 10px; text-align: center;">
-                <div style="font-family: 'Oswald', sans-serif; font-size: 1.8rem; color: var(--green);">${cashup.totalTransactions || 0}</div>
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; color: var(--green);">${cashup.totalTransactions || 0}</div>
                 <div style="font-size: 0.8rem; color: #666;">Transactions</div>
             </div>
             <div style="background: white; padding: 14px; border-radius: 10px; text-align: center;">
-                <div style="font-family: 'Oswald', sans-serif; font-size: 1.8rem; color: ${(cashup.totalVariance || 0) < 0 ? 'var(--red)' : 'var(--green)'};">
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; color: ${(cashup.totalVariance || 0) < 0 ? 'var(--red)' : 'var(--green)'};">
                     ${(cashup.totalVariance || 0) >= 0 ? '+' : ''}R${(cashup.totalVariance || 0).toFixed(2)}
                 </div>
                 <div style="font-size: 0.8rem; color: #666;">Variance</div>
             </div>
             <div style="background: white; padding: 14px; border-radius: 10px; text-align: center;">
-                <div style="font-family: 'Oswald', sans-serif; font-size: 1.8rem; color: var(--green);">${(cashup.tillSessions || []).length}</div>
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; color: var(--green);">${(cashup.tillSessions || []).length}</div>
                 <div style="font-size: 0.8rem; color: #666;">Till Sessions</div>
             </div>
         </div>
 
         ${cashup.status === 'draft' ? `
         <div style="display: flex; gap: 10px;">
-            <button onclick="submitCurrentCashup()" style="flex: 1; padding: 14px; background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px;">
+            <button onclick="submitCurrentCashup()" style="flex: 1; padding: 14px; background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; letter-spacing: 1px;">
                 <i class="fas fa-paper-plane"></i> Submit for Approval
             </button>
         </div>` : ''}
@@ -291,7 +291,7 @@ function renderSalesSummary(cashup) {
 
         <div style="background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); padding: 16px; border-radius: 10px; text-align: center; color: white; margin-bottom: 16px;">
             <div style="font-size: 0.85rem; opacity: 0.8;">Total Sales</div>
-            <div style="font-family: 'Oswald', sans-serif; font-size: 2rem;">R${(cashup.totalSales || 0).toFixed(2)}</div>
+            <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 2rem;">R${(cashup.totalSales || 0).toFixed(2)}</div>
             <div style="font-size: 0.8rem; opacity: 0.7;">${cashup.totalTransactions || 0} transactions</div>
         </div>
 
@@ -302,7 +302,7 @@ function renderSalesSummary(cashup) {
                     <div style="font-weight: 600; color: var(--red);"><i class="fas fa-undo"></i> Refunds</div>
                     <div style="font-size: 0.8rem; color: #666;">${cashup.refundCount || 0} refunds processed</div>
                 </div>
-                <div style="font-family: 'Oswald', sans-serif; font-size: 1.4rem; color: var(--red);">-R${(cashup.totalRefunds || 0).toFixed(2)}</div>
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; color: var(--red);">-R${(cashup.totalRefunds || 0).toFixed(2)}</div>
             </div>
         </div>` : ''}
 
@@ -318,7 +318,7 @@ function renderSalesSummary(cashup) {
             </div>
             <div style="background: var(--cream); padding: 14px; border-radius: 10px; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; border: 2px solid var(--green);">
                 <span style="font-weight: 700;">Expected Cash in Till</span>
-                <span style="font-family: 'Oswald', sans-serif; font-size: 1.3rem; color: var(--green);">R${(cashup.totalExpectedCash || 0).toFixed(2)}</span>
+                <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; color: var(--green);">R${(cashup.totalExpectedCash || 0).toFixed(2)}</span>
             </div>
         </div>
     `;
@@ -331,7 +331,7 @@ function renderSalesRow(label, amount, icon, color) {
             <i class="fas ${icon}" style="color: ${color}; width: 20px; text-align: center;"></i>
             <span style="font-weight: 500;">${label}</span>
         </div>
-        <span style="font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: ${isNeg ? 'var(--red)' : 'var(--green-deep)'};">
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; color: ${isNeg ? 'var(--red)' : 'var(--green-deep)'};">
             ${isNeg ? '-' : ''}R${Math.abs(amount).toFixed(2)}
         </span>
     </div>`;
@@ -377,8 +377,8 @@ function renderCashCount(cashup) {
                    onchange="updateCashupDenom('${d.key}', this.value)"
                    oninput="updateCashupDenom('${d.key}', this.value)"
                    ${!isEditable ? 'disabled' : ''}
-                   style="width: 100%; padding: 8px 10px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1rem; text-align: center; font-weight: 600; ${!isEditable ? 'opacity: 0.6;' : ''}">
-            <span style="text-align: right; font-family: 'Oswald', sans-serif; font-size: 1rem; color: var(--green);" id="deCashTotal_${d.key}">R${total}</span>
+                   style="width: 100%; padding: 8px 10px; border: 2px solid #222222; border-radius: 8px; font-size: 1rem; text-align: center; font-weight: 600; ${!isEditable ? 'opacity: 0.6;' : ''}">
+            <span style="text-align: right; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: var(--green);" id="deCashTotal_${d.key}">R${total}</span>
         </div>`;
     }).join('');
 
@@ -398,15 +398,15 @@ function renderCashCount(cashup) {
         <div style="margin-top: 16px; display: grid; gap: 8px;">
             <div style="background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); padding: 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; color: white;">
                 <span style="font-weight: 600;">Counted Total</span>
-                <span style="font-family: 'Oswald', sans-serif; font-size: 1.5rem;" id="deCashGrandTotal">R${currentTotal.toFixed(2)}</span>
+                <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem;" id="deCashGrandTotal">R${currentTotal.toFixed(2)}</span>
             </div>
             <div style="background: var(--cream); padding: 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 2px solid var(--green);">
                 <span style="font-weight: 600;">Expected (incl. safe drops)</span>
-                <span style="font-family: 'Oswald', sans-serif; font-size: 1.3rem; color: var(--green);">R${expected.toFixed(2)}</span>
+                <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; color: var(--green);">R${expected.toFixed(2)}</span>
             </div>
-            <div style="background: ${Math.abs(variance) > 100 ? 'rgba(220, 38, 38,0.1)' : Math.abs(variance) > 50 ? 'rgba(217, 119, 6,0.15)' : 'rgba(124, 58, 237,0.1)'}; padding: 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 2px solid ${Math.abs(variance) > 100 ? 'var(--red)' : Math.abs(variance) > 50 ? 'var(--gold)' : 'var(--green)'};">
+            <div style="background: ${Math.abs(variance) > 100 ? 'rgba(220, 38, 38,0.1)' : Math.abs(variance) > 50 ? 'rgba(240, 165, 0,0.15)' : 'rgba(63, 192, 65,0.1)'}; padding: 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 2px solid ${Math.abs(variance) > 100 ? 'var(--red)' : Math.abs(variance) > 50 ? 'var(--gold)' : 'var(--green)'};">
                 <span style="font-weight: 600;">Variance</span>
-                <span style="font-family: 'Oswald', sans-serif; font-size: 1.3rem; color: ${variance < 0 ? 'var(--red)' : 'var(--green)'};" id="deCashVariance">
+                <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; color: ${variance < 0 ? 'var(--red)' : 'var(--green)'};" id="deCashVariance">
                     ${variance >= 0 ? '+' : ''}R${variance.toFixed(2)}
                 </span>
             </div>
@@ -515,7 +515,7 @@ function renderSafeDrops(cashup) {
                     <span style="color: #999; font-size: 0.85rem; margin-left: 8px;">${time}</span>
                     ${drop.notes ? `<div style="font-size: 0.8rem; color: #666; margin-top: 2px;">${drop.notes}</div>` : ''}
                 </div>
-                <span style="font-family: 'Oswald', sans-serif; font-size: 1.2rem; color: var(--green);">R${(drop.amount || 0).toFixed(2)}</span>
+                <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; color: var(--green);">R${(drop.amount || 0).toFixed(2)}</span>
             </div>`;
         }).join('')
         : '<div style="text-align: center; padding: 20px; color: #999;">No safe drops recorded</div>';
@@ -529,7 +529,7 @@ function renderSafeDrops(cashup) {
 
         <div style="background: var(--cream); padding: 14px; border-radius: 10px; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; border: 2px solid var(--green);">
             <span style="font-weight: 700;">Total Safe Drops</span>
-            <span style="font-family: 'Oswald', sans-serif; font-size: 1.3rem; color: var(--green);">R${(cashup.totalSafeDrops || 0).toFixed(2)}</span>
+            <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; color: var(--green);">R${(cashup.totalSafeDrops || 0).toFixed(2)}</span>
         </div>
 
         ${isEditable ? `
@@ -540,12 +540,12 @@ function renderSafeDrops(cashup) {
             <div style="margin-bottom: 10px;">
                 <label style="display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.85rem;">Amount (R)</label>
                 <input type="number" id="safeDropAmount" min="0" step="10" placeholder="0.00"
-                       style="width: 100%; padding: 10px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1.1rem; text-align: center; font-weight: 700;">
+                       style="width: 100%; padding: 10px; border: 2px solid #222222; border-radius: 8px; font-size: 1.1rem; text-align: center; font-weight: 700;">
             </div>
             <div style="margin-bottom: 12px;">
                 <label style="display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.85rem;">Notes (optional)</label>
                 <input type="text" id="safeDropNotes" placeholder="Reason for safe drop..."
-                       style="width: 100%; padding: 10px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 0.9rem;">
+                       style="width: 100%; padding: 10px; border: 2px solid #222222; border-radius: 8px; font-size: 0.9rem;">
             </div>
             <button onclick="recordSafeDrop()" style="width: 100%; padding: 12px; background: var(--green); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">
                 <i class="fas fa-vault"></i> Record Drop
@@ -561,14 +561,14 @@ function renderSafeDrops(cashup) {
                 <input type="number" id="bankingAmount" min="0" step="10" placeholder="0.00"
                        value="${cashup.bankingAmount || ''}"
                        ${!isEditable ? 'disabled' : ''}
-                       style="width: 100%; padding: 10px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1.1rem; text-align: center; font-weight: 700; ${!isEditable ? 'opacity: 0.6;' : ''}">
+                       style="width: 100%; padding: 10px; border: 2px solid #222222; border-radius: 8px; font-size: 1.1rem; text-align: center; font-weight: 700; ${!isEditable ? 'opacity: 0.6;' : ''}">
             </div>
             <div style="margin-bottom: 12px;">
                 <label style="display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.85rem;">Reference</label>
                 <input type="text" id="bankingReference" placeholder="Deposit reference..."
                        value="${cashup.bankingReference || ''}"
                        ${!isEditable ? 'disabled' : ''}
-                       style="width: 100%; padding: 10px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 0.9rem; ${!isEditable ? 'opacity: 0.6;' : ''}">
+                       style="width: 100%; padding: 10px; border: 2px solid #222222; border-radius: 8px; font-size: 0.9rem; ${!isEditable ? 'opacity: 0.6;' : ''}">
             </div>
             ${isEditable ? `
             <button onclick="saveBanking()" style="width: 100%; padding: 12px; background: var(--green); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">
@@ -680,6 +680,27 @@ async function submitCurrentCashup() {
         await saveCashCount();
     }
 
+    // ── High-Value Stocktake Gate ──────────────────
+    // Block cashup submission if daily high-value count hasn't been done
+    try {
+        const branchId = getSelectedBranchId();
+        if (branchId) {
+            const compRes = await fetch(`${API_URL}/stocktake/compliance/${branchId}`, {
+                headers: { 'Authorization': `Bearer ${getToken()}` }
+            });
+            const compData = await compRes.json();
+
+            if (compData.success && !compData.compliance.dailyHighValue.completedToday) {
+                // Show blocking modal
+                showStocktakeGateModal();
+                return;
+            }
+        }
+    } catch (compError) {
+        console.warn('Stocktake compliance check failed, allowing cashup:', compError);
+        // Don't block cashup if compliance check itself fails
+    }
+
     // Check variance
     const variance = (currentCashup.managerCashTotal || calculateCashupTotal()) - (currentCashup.totalExpectedCash || 0) + (currentCashup.totalSafeDrops || 0);
 
@@ -690,6 +711,52 @@ async function submitCurrentCashup() {
     }
 
     await doSubmitCashup('');
+}
+
+function showStocktakeGateModal() {
+    // Remove existing if any
+    const existing = document.getElementById('stocktakeGateOverlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'stocktakeGateOverlay';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML = `
+        <div style="background:#1A1A1A;border-radius:16px;max-width:420px;width:100%;border:2px solid #ef4444;overflow:hidden;">
+            <div style="background:linear-gradient(135deg,#ef4444 0%,#dc2626 100%);padding:20px;text-align:center;">
+                <i class="fas fa-lock" style="font-size:2.5rem;color:white;margin-bottom:8px;display:block;"></i>
+                <h3 style="color:white;font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;text-transform:uppercase;letter-spacing:1px;margin:0;">
+                    Daily Stock Count Required
+                </h3>
+            </div>
+            <div style="padding:24px;">
+                <p style="color:#ccc;font-size:0.95rem;line-height:1.5;margin-bottom:16px;">
+                    You cannot submit the day-end cashup until the <strong style="color:#ef4444;">daily high-value stock count</strong> has been completed and submitted.
+                </p>
+                <div style="background:rgba(63,192,65,0.1);border:1px solid rgba(63,192,65,0.3);border-radius:10px;padding:14px;margin-bottom:16px;">
+                    <div style="font-weight:700;color:#C9A84C;font-size:0.85rem;margin-bottom:8px;">
+                        <i class="fas fa-clipboard-list"></i> Required Categories:
+                    </div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <span style="padding:4px 10px;background:rgba(63,192,65,0.2);border-radius:6px;font-size:0.8rem;color:#C9A84C;">Flower</span>
+                        <span style="padding:4px 10px;background:rgba(63,192,65,0.2);border-radius:6px;font-size:0.8rem;color:#C9A84C;">Pre-rolls</span>
+                        <span style="padding:4px 10px;background:rgba(63,192,65,0.2);border-radius:6px;font-size:0.8rem;color:#C9A84C;">Concentrates</span>
+                    </div>
+                </div>
+                <div style="display:flex;gap:10px;">
+                    <button onclick="document.getElementById('stocktakeGateOverlay').remove();"
+                        style="flex:1;padding:14px;background:#222;color:white;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-family:'Barlow',sans-serif;">
+                        Close
+                    </button>
+                    <button onclick="document.getElementById('stocktakeGateOverlay').remove(); window.open('stocktake-app.html','_blank');"
+                        style="flex:1;padding:14px;background:#C9A84C;color:white;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:0.5px;">
+                        <i class="fas fa-clipboard-check"></i> Open Stock Take
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
 }
 
 function showVarianceExplanationForm(variance) {
@@ -706,10 +773,10 @@ function showVarianceExplanationForm(variance) {
         </div>
         <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">An explanation is required before submission.</p>
         <textarea id="varianceExplanation" rows="3" placeholder="Explain the variance..."
-                  style="width: 100%; padding: 10px; border: 2px solid #2A2A2A; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; resize: vertical; box-sizing: border-box;"></textarea>
+                  style="width: 100%; padding: 10px; border: 2px solid #222222; border-radius: 8px; font-family: 'Barlow', sans-serif; font-size: 0.9rem; resize: vertical; box-sizing: border-box;"></textarea>
         <div style="display: flex; gap: 8px; margin-top: 10px;">
             <button onclick="document.getElementById('varianceExplanationForm').remove();"
-                    style="flex: 1; padding: 10px; background: white; border: 2px solid #2A2A2A; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                    style="flex: 1; padding: 10px; background: white; border: 2px solid #222222; border-radius: 8px; font-weight: 600; cursor: pointer;">
                 Cancel
             </button>
             <button onclick="submitWithExplanation()"
@@ -780,143 +847,110 @@ async function loadStockReconciliation() {
         const token = getToken();
         const branchId = getSelectedBranchId();
 
-        // Fetch today's sales and current inventory in parallel
-        const [salesRes, productsRes] = await Promise.all([
-            fetch(`${API_URL}/pos/sales/today?branchId=${branchId}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            }),
-            fetch(`${API_URL}/products?branchId=${branchId}&limit=500`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            })
-        ]);
+        const res = await fetch(`${API_URL}/reconciliation/${branchId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
 
-        const salesData = await salesRes.json();
-        const productsData = await productsRes.json();
+        const data = await res.json();
 
-        if (!salesData.success || !productsData.success) {
-            el.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--red);">Failed to load data</div>';
+        if (!data.success) {
+            el.innerHTML = `<div style="text-align: center; padding: 20px; color: var(--red);">${data.message || 'Failed to load reconciliation'}</div>`;
             return;
         }
 
-        const sales = salesData.sales || [];
-        const products = productsData.products || productsData.data || [];
+        if (!data.hasBaseline) {
+            el.innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <i class="fas fa-clipboard-question" style="font-size: 2.5rem; color: #ccc; margin-bottom: 10px;"></i>
+                    <h3 style="font-family: 'Barlow Condensed', sans-serif; color: var(--green-deep); margin-bottom: 6px;">No Baseline Stocktake</h3>
+                    <p style="color: #666; font-size: 0.9rem;">Complete and approve a stocktake to establish a baseline for reconciliation.</p>
+                    <a href="stocktake-app.html" style="display: inline-block; margin-top: 12px; padding: 8px 20px; background: var(--green); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem;">Start Stocktake</a>
+                </div>`;
+            return;
+        }
 
-        // Aggregate sold quantities per product
-        const soldMap = {};
-        sales.forEach(sale => {
-            if (!sale.items) return;
-            sale.items.forEach(item => {
-                const pid = item.productId?._id || item.productId;
-                if (!pid) return;
-                if (!soldMap[pid]) soldMap[pid] = { quantity: 0, name: '' };
-                soldMap[pid].quantity += item.quantity || 0;
-                if (item.productId?.name) soldMap[pid].name = item.productId.name;
-            });
-        });
-
-        // Build reconciliation data for products that were sold today
-        const reconItems = [];
-        const productMap = {};
-        products.forEach(p => {
-            productMap[p._id] = p;
-        });
-
-        Object.keys(soldMap).forEach(pid => {
-            const product = productMap[pid];
-            const sold = soldMap[pid];
-
-            const currentQty = product ? (product.inventory?.quantity ?? product.quantity ?? 0) : 0;
-            const productName = product?.name || sold.name || 'Unknown';
-            const sku = product?.sku || '';
-            const soldQty = sold.quantity;
-
-            // Last Stock Count = Current qty + today's sold qty (reverse-calculate)
-            const lastStockCount = currentQty + soldQty;
-            const expectedNow = lastStockCount - soldQty; // Same as currentQty if no other movements
-            const variance = currentQty - expectedNow;
-
-            reconItems.push({
-                name: productName,
-                sku,
-                lastStockCount,
-                soldToday: soldQty,
-                expectedNow,
-                actualNow: currentQty,
-                variance
-            });
-        });
-
-        // Sort by name
-        reconItems.sort((a, b) => a.name.localeCompare(b.name));
-
-        renderStockReconciliation(reconItems, sales.length);
+        renderStockReconciliation(data);
     } catch (error) {
         console.error('Stock reconciliation error:', error);
-        el.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--red);">Error loading stock data</div>';
+        el.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--red);">Error loading stock reconciliation</div>';
     }
 }
 
-function renderStockReconciliation(items, saleCount) {
+function renderStockReconciliation(data) {
     const el = document.getElementById('deTab_stock');
+    const items = data.items || [];
+    const summary = data.summary || {};
+    const baselineDate = new Date(data.baselineDate).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' });
 
     if (items.length === 0) {
         el.innerHTML = `
             <div style="text-align: center; padding: 30px;">
                 <i class="fas fa-box-open" style="font-size: 2.5rem; color: #ccc; margin-bottom: 10px;"></i>
-                <h3 style="font-family: 'Oswald', sans-serif; color: var(--green-deep); margin-bottom: 6px;">No Sales Today</h3>
-                <p style="color: #666; font-size: 0.9rem;">No stock movements from sales to reconcile</p>
+                <h3 style="font-family: 'Barlow Condensed', sans-serif; color: var(--green-deep); margin-bottom: 6px;">No Items to Reconcile</h3>
+                <p style="color: #666; font-size: 0.9rem;">Baseline stocktake from ${baselineDate} had no items.</p>
             </div>`;
         return;
     }
 
-    const totalSold = items.reduce((sum, i) => sum + i.soldToday, 0);
     const discrepancies = items.filter(i => i.variance !== 0);
+    const totalSold = items.reduce((sum, i) => sum + i.sold, 0);
+    const fmtR = (v) => 'R' + Math.abs(v).toLocaleString('en-ZA', { minimumFractionDigits: 2 });
 
     let tableRows = items.map(item => {
         const hasVariance = item.variance !== 0;
         const rowBg = hasVariance ? 'background: rgba(220, 38, 38, 0.06);' : '';
+        const varColor = item.variance > 0 ? 'var(--green)' : item.variance < 0 ? 'var(--red)' : 'var(--green)';
         return `<tr style="${rowBg}">
             <td style="padding: 10px 8px; border-bottom: 1px solid #f0ece4;">
                 <div style="font-weight: 600; font-size: 0.85rem;">${item.name}</div>
                 ${item.sku ? `<div style="font-size: 0.7rem; color: #999;">${item.sku}</div>` : ''}
             </td>
-            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; font-weight: 600;">${item.lastStockCount}</td>
-            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; color: var(--red); font-weight: 600;">-${item.soldToday}</td>
-            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; font-weight: 600;">${item.expectedNow}</td>
-            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; font-weight: 700;">${item.actualNow}</td>
-            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; font-weight: 700; color: ${hasVariance ? 'var(--red)' : 'var(--green)'};">
-                ${hasVariance ? item.variance : '<i class="fas fa-check" style="color: var(--green);"></i>'}
+            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; font-weight: 600;">${item.baselineQty}</td>
+            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; color: var(--red); font-weight: 600;">${item.sold > 0 ? '-' + item.sold : '0'}</td>
+            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; color: var(--green); font-weight: 600;">${item.transferredIn > 0 ? '+' + item.transferredIn : '0'}</td>
+            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; font-weight: 600;">${item.expected}</td>
+            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; font-weight: 700;">${item.actual}</td>
+            <td style="padding: 10px 6px; border-bottom: 1px solid #f0ece4; text-align: center; font-weight: 700; color: ${varColor};">
+                ${hasVariance ? (item.variance > 0 ? '+' : '') + item.variance : '<i class="fas fa-check" style="color: var(--green);"></i>'}
             </td>
         </tr>`;
     }).join('');
 
     el.innerHTML = `
-        <div style="font-weight: 700; font-size: 1rem; color: var(--green-deep); margin-bottom: 12px;">
-            <i class="fas fa-boxes-stacked"></i> Stock vs Sales Reconciliation
+        <div style="font-weight: 700; font-size: 1rem; color: var(--green-deep); margin-bottom: 4px;">
+            <i class="fas fa-boxes-stacked"></i> Rolling Stock Reconciliation
+        </div>
+        <div style="font-size: 0.8rem; color: #888; margin-bottom: 12px;">
+            Baseline from stocktake on <strong>${baselineDate}</strong> (${data.daysSinceBaseline} day${data.daysSinceBaseline !== 1 ? 's' : ''} ago)
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px;">
             <div style="background: white; padding: 12px; border-radius: 10px; text-align: center;">
-                <div style="font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: var(--green);">${items.length}</div>
-                <div style="font-size: 0.75rem; color: #666;">Products Sold</div>
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; color: var(--green);">${summary.totalItems}</div>
+                <div style="font-size: 0.75rem; color: #666;">Products</div>
             </div>
             <div style="background: white; padding: 12px; border-radius: 10px; text-align: center;">
-                <div style="font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: var(--green);">${totalSold}</div>
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; color: var(--green);">${totalSold}</div>
                 <div style="font-size: 0.75rem; color: #666;">Units Sold</div>
             </div>
             <div style="background: white; padding: 12px; border-radius: 10px; text-align: center;">
-                <div style="font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: ${discrepancies.length > 0 ? 'var(--red)' : 'var(--green)'};">${discrepancies.length}</div>
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; color: ${summary.discrepancies > 0 ? 'var(--red)' : 'var(--green)'};">${summary.discrepancies}</div>
                 <div style="font-size: 0.75rem; color: #666;">Discrepancies</div>
+            </div>
+            <div style="background: white; padding: 12px; border-radius: 10px; text-align: center;">
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; color: ${summary.totalVarianceValue < 0 ? 'var(--red)' : 'var(--green)'};">${fmtR(summary.totalVarianceValue)}</div>
+                <div style="font-size: 0.75rem; color: #666;">Variance Value</div>
             </div>
         </div>
 
         <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
-            <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; min-width: 500px;">
+            <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; min-width: 600px;">
                 <thead>
                     <tr style="background: var(--green-deep); color: white;">
                         <th style="padding: 10px 8px; text-align: left; font-size: 0.8rem; font-weight: 600;">Product</th>
-                        <th style="padding: 10px 6px; text-align: center; font-size: 0.8rem; font-weight: 600;">Start</th>
+                        <th style="padding: 10px 6px; text-align: center; font-size: 0.8rem; font-weight: 600;">Baseline</th>
                         <th style="padding: 10px 6px; text-align: center; font-size: 0.8rem; font-weight: 600;">Sold</th>
+                        <th style="padding: 10px 6px; text-align: center; font-size: 0.8rem; font-weight: 600;">Transfers</th>
                         <th style="padding: 10px 6px; text-align: center; font-size: 0.8rem; font-weight: 600;">Expected</th>
                         <th style="padding: 10px 6px; text-align: center; font-size: 0.8rem; font-weight: 600;">Actual</th>
                         <th style="padding: 10px 6px; text-align: center; font-size: 0.8rem; font-weight: 600;">Var</th>
@@ -933,15 +967,16 @@ function renderStockReconciliation(items, saleCount) {
             <div style="font-weight: 700; color: var(--red); font-size: 0.9rem; margin-bottom: 4px;">
                 <i class="fas fa-exclamation-triangle"></i> ${discrepancies.length} Discrepanc${discrepancies.length === 1 ? 'y' : 'ies'} Found
             </div>
-            <div style="font-size: 0.8rem; color: #666;">
-                Stock levels differ from expected. This may indicate theft, waste, damage, or returns processed outside POS.
+            <div style="font-size: 0.8rem; color: #666; margin-bottom: 8px;">
+                Stock levels differ from expected since the ${baselineDate} stocktake. Investigate possible shrinkage, damage, or counting errors.
             </div>
+            <a href="stocktake-app.html" style="display: inline-block; padding: 6px 16px; background: var(--red); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.8rem;">Create Stocktake Session</a>
         </div>` : `
-        <div style="margin-top: 12px; background: rgba(124, 58, 237, 0.1); border: 1px solid var(--green); padding: 12px; border-radius: 10px;">
+        <div style="margin-top: 12px; background: rgba(63, 192, 65, 0.1); border: 1px solid var(--green); padding: 12px; border-radius: 10px;">
             <div style="font-weight: 700; color: var(--green); font-size: 0.9rem;">
                 <i class="fas fa-check-circle"></i> All Stock Balanced
             </div>
-            <div style="font-size: 0.8rem; color: #666;">Stock levels match expected quantities after today's sales.</div>
+            <div style="font-size: 0.8rem; color: #666;">Stock levels match expected quantities since the ${baselineDate} stocktake.</div>
         </div>`}
     `;
 }
@@ -995,7 +1030,7 @@ async function loadCashupHistory() {
                     <div style="font-weight: 600; font-size: 0.85rem;">${c.cashupNumber || '-'}</div>
                     <div style="font-size: 0.75rem; color: #999;">${preparedBy}</div>
                 </div>
-                <div style="font-family: 'Oswald', sans-serif; text-align: right; font-size: 1rem; color: var(--green);">R${(c.totalSales || 0).toFixed(0)}</div>
+                <div style="font-family: 'Barlow Condensed', sans-serif; text-align: right; font-size: 1rem; color: var(--green);">R${(c.totalSales || 0).toFixed(0)}</div>
                 <div style="text-align: center;">
                     <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${statusColor};"></span>
                 </div>
@@ -1020,11 +1055,11 @@ async function loadCashupHistory() {
             <div style="margin-top: 12px; background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); padding: 14px; border-radius: 10px; color: white; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <div style="text-align: center;">
                     <div style="font-size: 0.8rem; opacity: 0.8;">Period Sales</div>
-                    <div style="font-family: 'Oswald', sans-serif; font-size: 1.3rem;">R${(data.totals.totalSales || 0).toFixed(2)}</div>
+                    <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem;">R${(data.totals.totalSales || 0).toFixed(2)}</div>
                 </div>
                 <div style="text-align: center;">
                     <div style="font-size: 0.8rem; opacity: 0.8;">Total Variance</div>
-                    <div style="font-family: 'Oswald', sans-serif; font-size: 1.3rem;">${(data.totals.totalVariance || 0) >= 0 ? '+' : ''}R${(data.totals.totalVariance || 0).toFixed(2)}</div>
+                    <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem;">${(data.totals.totalVariance || 0) >= 0 ? '+' : ''}R${(data.totals.totalVariance || 0).toFixed(2)}</div>
                 </div>
             </div>` : ''}
         `;

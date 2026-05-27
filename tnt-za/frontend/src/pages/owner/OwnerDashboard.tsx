@@ -5,17 +5,20 @@ import { useAuth } from '../../hooks/useAuth';
 import StatCard from '../../components/StatCard';
 import { SkeletonCard } from '../../components/Skeleton';
 import {
-  Leaf, ShoppingBag, Egg, Wheat, Beef, Building2, ArrowRight,
-  TrendingUp, AlertTriangle, TicketCheck, Users, Shield, Package,
+  Leaf, ShoppingBag, Egg, Wheat, Beef, Building2,
+  AlertTriangle, TicketCheck, Users, Package,
 } from 'lucide-react';
 import api from '../../services/api';
+import ApprovalsWaitingBanner from '../../components/ApprovalsWaitingBanner';
+import BottleneckRadarWidget from '../dashboard/widgets/BottleneckRadarWidget';
+import OwnerConciergeWidget from '../dashboard/widgets/OwnerConciergeWidget';
 
 // Business units
 const UNITS = [
   { id: 'cannabis', label: 'Origin Cannabis', icon: Leaf, color: 'text-green-400', border: 'border-green-500/20', bg: 'bg-green-500/5' },
   { id: 'retail', label: 'Origin Retail', icon: ShoppingBag, color: 'text-primary', border: 'border-primary/20', bg: 'bg-primary/5' },
   { id: 'chickens', label: 'Chickens', icon: Egg, color: 'text-amber-400', border: 'border-amber-500/20', bg: 'bg-amber-500/5' },
-  { id: 'maize', label: 'Maize', icon: Wheat, color: 'text-yellow-400', border: 'border-yellow-500/20', bg: 'bg-yellow-500/5' },
+  { id: 'mielies', label: 'Mielies', icon: Wheat, color: 'text-yellow-400', border: 'border-yellow-500/20', bg: 'bg-yellow-500/5' },
   { id: 'cattle', label: 'Cattle', icon: Beef, color: 'text-orange-400', border: 'border-orange-500/20', bg: 'bg-orange-500/5' },
 ];
 
@@ -40,7 +43,6 @@ export default function OwnerDashboard() {
 
   const openTickets = tickets?.filter((t: any) => t.status !== 'COMPLETED' && t.status !== 'CLOSED').length || 0;
   const criticalTickets = tickets?.filter((t: any) => t.priority === 'CRITICAL' && t.status !== 'COMPLETED').length || 0;
-  const pendingApprovals = tickets?.filter((t: any) => (t.ticketType === 'REQUISITION' || t.ticketType === 'APPROVAL') && !t.approvedAt && t.status !== 'COMPLETED').length || 0;
   const totalStaff = users?.filter((u: any) => u.active !== false).length || 0;
 
   return (
@@ -94,18 +96,14 @@ export default function OwnerDashboard() {
             <StatCard label="Open Tickets" value={openTickets} icon={<TicketCheck size={18} />} danger={criticalTickets > 0} />
           </div>
 
-          {/* Approval queue */}
-          {pendingApprovals > 0 && (
-            <Link to="/tickets" className="block bg-primary/5 border border-primary/20 rounded-xl p-4 hover:bg-primary/10 transition">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm font-semibold text-primary">{pendingApprovals} approval{pendingApprovals > 1 ? 's' : ''} waiting</div>
-                  <div className="text-xs text-white/30">Requisitions + compliance docs need your sign-off</div>
-                </div>
-                <ArrowRight size={16} className="text-primary" />
-              </div>
-            </Link>
-          )}
+          {/* Owner Concierge — AI morning brief (Opus 4.7) */}
+          <OwnerConciergeWidget />
+
+          {/* Approvals waiting — shared, role-aware */}
+          <ApprovalsWaitingBanner />
+
+          {/* Bottleneck radar — ageing queues across RP/Owner/Maintenance/Lab/Dispatch */}
+          <BottleneckRadarWidget />
 
           {/* Compliance overview */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -166,10 +164,10 @@ export default function OwnerDashboard() {
         />
       )}
 
-      {/* ═══ MAIZE TAB ═══ */}
-      {activeUnit === 'maize' && (
+      {/* ═══ MIELIES TAB ═══ */}
+      {activeUnit === 'mielies' && (
         <FarmUnit
-          title="Maize Operations"
+          title="Mielies Operations"
           icon={Wheat}
           color="text-yellow-400"
           stats={[

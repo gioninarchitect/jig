@@ -1,7 +1,7 @@
-// P36 — Full-screen age verification overlay. DOB dropdowns, stores jig_age_verified in localStorage
+// P36 — Full-screen age verification overlay. DOB dropdowns, stores origin_age_verified in localStorage
 import { useState, useMemo } from 'react';
 
-const STORAGE_KEY = 'jig_age_verified';
+const STORAGE_KEY = 'origin_age_verified';
 
 function isVerified() {
   return localStorage.getItem(STORAGE_KEY) === 'true';
@@ -48,10 +48,10 @@ export default function AgeGateModal() {
   }
 
   return (
-    <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-jig-slate/95">
+    <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-origin-slate/95">
       <div className="bg-white rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.4)] max-w-md w-full p-8 text-center animate-[modalSlide_0.3s_ease-out]">
         {/* Logo */}
-        <div className="w-16 h-16 bg-gradient-to-br from-jig-amber to-jig-amber-dark rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+        <div className="w-16 h-16 bg-gradient-to-br from-or-gold to-or-gold-dark rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
           <span className="text-white font-heading text-2xl">D</span>
         </div>
 
@@ -65,7 +65,7 @@ export default function AgeGateModal() {
           <select
             value={day}
             onChange={(e) => setDay(e.target.value)}
-            className="px-3 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-jig-amber transition-colors"
+            className="px-3 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-or-gold transition-colors"
           >
             <option value="">Day</option>
             {days.map((d) => (
@@ -75,7 +75,7 @@ export default function AgeGateModal() {
           <select
             value={month}
             onChange={(e) => setMonth(e.target.value)}
-            className="px-3 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-jig-amber transition-colors"
+            className="px-3 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-or-gold transition-colors"
           >
             <option value="">Month</option>
             {months.map((m) => (
@@ -85,7 +85,7 @@ export default function AgeGateModal() {
           <select
             value={year}
             onChange={(e) => setYear(e.target.value)}
-            className="px-3 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-jig-amber transition-colors"
+            className="px-3 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-or-gold transition-colors"
           >
             <option value="">Year</option>
             {years.map((y) => (
@@ -94,19 +94,19 @@ export default function AgeGateModal() {
           </select>
         </div>
 
-        {error && <p className="text-sm text-jig-red font-medium mb-4">{error}</p>}
+        {error && <p className="text-sm text-origin-red font-medium mb-4">{error}</p>}
 
         <button
           onClick={handleVerify}
-          className="w-full py-3 text-sm font-bold uppercase tracking-wider bg-gradient-to-br from-jig-amber-light via-jig-amber to-jig-amber-dark text-gray-900 rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all"
+          className="w-full py-3 text-sm font-bold uppercase tracking-wider bg-gradient-to-br from-or-gold-light via-or-gold to-or-gold-dark text-gray-900 rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all"
         >
           Verify Age
         </button>
 
         <p className="text-xs text-gray-400 mt-4">
           By entering this site you agree to our{' '}
-          <span className="text-jig-purple underline cursor-pointer">Terms & Conditions</span> and{' '}
-          <span className="text-jig-purple underline cursor-pointer">Privacy Policy</span>.
+          <span className="text-or-gold underline cursor-pointer">Terms & Conditions</span> and{' '}
+          <span className="text-or-gold underline cursor-pointer">Privacy Policy</span>.
         </p>
       </div>
     </div>

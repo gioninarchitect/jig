@@ -6,39 +6,48 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Admin Dashboard - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Admin Dashboard - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -48,7 +57,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -57,30 +66,30 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: #0A0A0A; color: var(--white); }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: #0A0A0A; color: var(--or-white); }
 
-        /* JIG Typography - Headings use Oswald */
+        /* Origin Typography - Headings use Barlow Condensed */
         h1, h2, h3, h4, h5, h6,
         .section-title span,
         .stat-value,
         .modal-content h2,
         .modal-content h3 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0.02em;
         }
 
         .admin-nav {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 12px 0;
             border-bottom: none;
             position: sticky;
@@ -116,14 +125,14 @@
         }
 
         .admin-badge {
-            background: rgba(217, 119, 6, 0.15);
+            background: rgba(240, 165, 0, 0.15);
             color: var(--gold);
             padding: 5px 14px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.06em;
-            border: 1px solid rgba(217, 119, 6, 0.3);
+            border: 1px solid rgba(240, 165, 0, 0.3);
         }
 
         .logout-btn {
@@ -186,7 +195,7 @@
             border-radius: 5px;
         }
 
-        /* Left Sidebar Drawer - JIG Craft Cannabis Branding (Cream Theme) */
+        /* Left Sidebar Drawer - Origin by ILCO Farming Branding (Cream Theme) */
         .sidebar-drawer {
             position: fixed;
             top: 0;
@@ -194,7 +203,7 @@
             width: 280px;
             height: 100vh;
             background: #0A0A0A;
-            border-right: 3px solid #D97706;
+            border-right: 3px solid #C9A84C;
             z-index: 2500;
             transition: left 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             display: flex;
@@ -208,17 +217,17 @@
 
         .sidebar-header {
             padding: 20px;
-            border-bottom: 2px solid #D97706;
+            border-bottom: 2px solid #C9A84C;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #7C3AED;
+            background: #C9A84C;
         }
 
         .sidebar-header h2 {
             font-size: 1.3rem;
-            color: #0A0A0A;
-            font-family: 'Oswald', sans-serif;
+            color: #0E0E0E;
+            font-family: 'Cinzel', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
@@ -226,7 +235,7 @@
         .sidebar-close {
             background: none;
             border: none;
-            color: #D97706;
+            color: #0E0E0E;
             font-size: 2rem;
             cursor: pointer;
             padding: 0;
@@ -235,7 +244,7 @@
         }
 
         .sidebar-close:hover {
-            color: #F59E0B;
+            color: #F8C242;
             transform: rotate(90deg);
         }
 
@@ -252,7 +261,7 @@
             gap: 14px;
             padding: 12px 20px;
             margin: 2px 8px;
-            color: #0A0A0A;
+            color: #FAFAFA;
             text-decoration: none;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -262,15 +271,15 @@
         }
 
         .sidebar-menu-item:hover {
-            background: rgba(124, 58, 237, 0.08);
-            color: #7C3AED;
+            background: rgba(63, 192, 65, 0.08);
+            color: #C9A84C;
         }
 
         .sidebar-menu-item.active {
-            background: var(--green);
+            background: var(--or-gold);
             font-weight: 600;
             color: var(--cream);
-            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
+            box-shadow: 0 2px 8px rgba(63, 192, 65, 0.2);
         }
 
         .sidebar-menu-item.active i {
@@ -310,8 +319,8 @@
         }
         
         .alert-bar {
-            background: linear-gradient(135deg, rgba(217, 119, 6, 0.08) 0%, rgba(217, 119, 6, 0.04) 100%);
-            border: 1.5px solid rgba(217, 119, 6, 0.3);
+            background: linear-gradient(135deg, rgba(240, 165, 0, 0.08) 0%, rgba(240, 165, 0, 0.04) 100%);
+            border: 1.5px solid rgba(240, 165, 0, 0.3);
             border-left: 4px solid var(--gold);
             padding: 16px 20px;
             border-radius: 12px;
@@ -319,8 +328,8 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            color: var(--white);
-            box-shadow: 0 2px 12px rgba(217, 119, 6, 0.08);
+            color: var(--or-white);
+            box-shadow: 0 2px 12px rgba(240, 165, 0, 0.08);
         }
 
         @keyframes slideInRight {
@@ -353,11 +362,11 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.06) 0%, rgba(217, 119, 6, 0.08) 100%);
+            background: linear-gradient(135deg, rgba(63, 192, 65, 0.06) 0%, rgba(240, 165, 0, 0.08) 100%);
             backdrop-filter: blur(10px);
             border-radius: 16px;
             padding: 28px;
-            border: 1px solid rgba(124, 58, 237, 0.15);
+            border: 1px solid rgba(63, 192, 65, 0.15);
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
@@ -390,7 +399,7 @@
         .stat-value {
             font-size: 2.5rem;
             font-weight: bold;
-            color: var(--white);
+            color: var(--or-white);
             line-height: 1.1;
         }
 
@@ -406,7 +415,7 @@
             border-radius: 16px;
             padding: 30px;
             margin-bottom: 30px;
-            border: 1px solid rgba(124, 58, 237, 0.12);
+            border: 1px solid rgba(63, 192, 65, 0.12);
             box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
             transition: box-shadow 0.3s;
         }
@@ -416,7 +425,7 @@
         }
 
         .section-title {
-            color: var(--white);
+            color: var(--or-white);
             font-size: 1.5rem;
             margin-bottom: 20px;
             display: flex;
@@ -429,7 +438,7 @@
             gap: 6px;
             margin-bottom: 20px;
             border-bottom: none;
-            background: rgba(124, 58, 237, 0.06);
+            background: rgba(63, 192, 65, 0.06);
             padding: 6px;
             border-radius: 12px;
         }
@@ -446,7 +455,7 @@
             padding: 10px 20px;
             background: none;
             border: 1px solid transparent;
-            color: var(--white);
+            color: var(--or-white);
             cursor: pointer;
             border-bottom: none;
             border-radius: 8px;
@@ -456,14 +465,14 @@
         }
 
         .tab:hover {
-            background: rgba(124, 58, 237, 0.12);
-            color: var(--white);
+            background: rgba(63, 192, 65, 0.12);
+            color: var(--or-white);
         }
 
         .tab.active {
             color: var(--cream);
-            background: var(--green);
-            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+            background: var(--or-gold);
+            box-shadow: 0 2px 8px rgba(63, 192, 65, 0.25);
             border-color: transparent;
         }
 
@@ -478,7 +487,7 @@
         }
 
         th {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 14px 16px;
             text-align: left;
             color: var(--cream);
@@ -491,13 +500,13 @@
 
         td {
             padding: 14px 16px;
-            border-bottom: 1px solid rgba(124, 58, 237, 0.08);
-            color: var(--white);
+            border-bottom: 1px solid rgba(63, 192, 65, 0.08);
+            color: var(--or-white);
             font-size: 0.92rem;
         }
 
         tr:hover td {
-            background: rgba(124, 58, 237, 0.03);
+            background: rgba(63, 192, 65, 0.03);
         }
 
         tr:last-child td {
@@ -515,14 +524,14 @@
             gap: 4px;
         }
 
-        .status-pending { background: rgba(217, 119, 6, 0.15); color: var(--gold-dark); }
-        .status-approved { background: rgba(124, 58, 237, 0.12); color: var(--purple); }
+        .status-pending { background: rgba(240, 165, 0, 0.15); color: var(--gold-dark); }
+        .status-approved { background: rgba(63, 192, 65, 0.12); color: var(--or-gold); }
         .status-rejected { background: rgba(220, 38, 38, 0.12); color: var(--red); }
-        .status-processing { background: rgba(217, 119, 6, 0.15); color: var(--gold-dark); }
-        .status-active { background: rgba(124, 58, 237, 0.12); color: var(--purple); }
+        .status-processing { background: rgba(240, 165, 0, 0.15); color: var(--gold-dark); }
+        .status-active { background: rgba(63, 192, 65, 0.12); color: var(--or-gold); }
         .status-redeemed { background: rgba(74, 122, 93, 0.12); color: var(--green-light); }
-        .status-paid { background: rgba(109, 40, 217, 0.12); color: var(--green-dark); }
-        .status-completed { background: rgba(109, 40, 217, 0.12); color: var(--green-dark); }
+        .status-paid { background: rgba(42, 140, 44, 0.12); color: var(--or-gold-muted); }
+        .status-completed { background: rgba(42, 140, 44, 0.12); color: var(--or-gold-muted); }
 
         .action-btn {
             padding: 8px 16px;
@@ -532,32 +541,32 @@
             font-weight: 600;
             margin-right: 5px;
             transition: all 0.25s ease;
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
             font-size: 0.88rem;
-            box-shadow: 0 2px 6px rgba(124, 58, 237, 0.2);
+            box-shadow: 0 2px 6px rgba(63, 192, 65, 0.2);
         }
 
         .action-btn:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+            box-shadow: 0 4px 12px rgba(63, 192, 65, 0.3);
         }
 
         .action-btn:active {
             transform: translateY(0);
-            box-shadow: 0 1px 3px rgba(124, 58, 237, 0.15);
+            box-shadow: 0 1px 3px rgba(63, 192, 65, 0.15);
         }
 
         .approve-btn {
             background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: var(--white);
-            box-shadow: 0 2px 6px rgba(217, 119, 6, 0.3);
+            color: var(--or-white);
+            box-shadow: 0 2px 6px rgba(240, 165, 0, 0.3);
         }
 
         .approve-btn:hover {
             background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            color: var(--white);
-            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4);
+            color: var(--or-white);
+            box-shadow: 0 4px 12px rgba(240, 165, 0, 0.4);
         }
 
         .reject-btn {
@@ -573,17 +582,17 @@
         }
 
         .view-btn {
-            background: rgba(124, 58, 237, 0.08);
-            color: var(--purple);
-            border: 1.5px solid rgba(124, 58, 237, 0.2);
+            background: rgba(63, 192, 65, 0.08);
+            color: var(--or-gold);
+            border: 1.5px solid rgba(63, 192, 65, 0.2);
             box-shadow: none;
         }
 
         .view-btn:hover {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
-            border-color: var(--purple);
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+            border-color: var(--or-gold);
+            box-shadow: 0 4px 12px rgba(63, 192, 65, 0.25);
         }
 
         .modal {
@@ -617,9 +626,9 @@
             position: absolute;
             top: 16px;
             right: 16px;
-            background: rgba(124, 58, 237, 0.06);
+            background: rgba(63, 192, 65, 0.06);
             border: none;
-            color: var(--white);
+            color: var(--or-white);
             font-size: 1.3rem;
             cursor: pointer;
             width: 36px;
@@ -646,31 +655,31 @@
             flex: 1;
             padding: 11px 14px;
             border-radius: 10px;
-            border: 1.5px solid rgba(124, 58, 237, 0.15) !important;
-            background: rgba(244, 240, 230, 0.5) !important;
-            color: var(--white) !important;
+            border: 1.5px solid #2A2A2A !important;
+            background: #222222 !important;
+            color: var(--or-white) !important;
             transition: all 0.25s;
         }
 
         .filter-bar input:focus {
-            border-color: var(--purple) !important;
-            background: #0A0A0A !important;
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+            border-color: var(--or-gold) !important;
+            background: #1A1A1A !important;
+            box-shadow: 0 0 0 3px rgba(63, 192, 65, 0.08);
         }
 
         .filter-bar select {
             padding: 11px 14px;
             border-radius: 10px;
-            border: 1.5px solid rgba(124, 58, 237, 0.15) !important;
-            background: rgba(244, 240, 230, 0.5) !important;
-            color: var(--white) !important;
+            border: 1.5px solid #2A2A2A !important;
+            background: #222222 !important;
+            color: var(--or-white) !important;
             transition: all 0.25s;
         }
 
         .filter-bar select:focus {
-            border-color: var(--purple) !important;
-            background: #0A0A0A !important;
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+            border-color: var(--or-gold) !important;
+            background: #1A1A1A !important;
+            box-shadow: 0 0 0 3px rgba(63, 192, 65, 0.08);
         }
 
         .proof-img {
@@ -961,41 +970,41 @@
             }
         }
 
-        /* DBC Utility Classes for JavaScript */
+        /* Origin Utility Classes for JavaScript */
         .text-muted { color: var(--green-light) !important; }
         .text-cream { color: var(--cream) !important; }
         .text-gold { color: var(--gold) !important; }
-        .text-green { color: var(--purple) !important; }
-        .text-green-deep { color: var(--white) !important; }
-        .bg-cream { background: var(--black) !important; }
-        .bg-green { background: var(--green) !important; }
+        .text-green { color: var(--or-gold) !important; }
+        .text-green-deep { color: var(--or-white) !important; }
+        .bg-cream { background: var(--or-black) !important; }
+        .bg-green { background: var(--or-gold) !important; }
         .bg-gold { background: var(--gold) !important; }
-        .border-green { border-color: var(--purple) !important; }
+        .border-green { border-color: var(--or-gold) !important; }
         .border-gold { border-color: var(--gold) !important; }
 
-        /* Form inputs DBC styling */
+        /* Form inputs Origin styling */
         input, select, textarea {
             background: #0A0A0A !important;
-            color: var(--white) !important;
-            border: 1.5px solid rgba(124, 58, 237, 0.15) !important;
+            color: var(--or-white) !important;
+            border: 1.5px solid rgba(63, 192, 65, 0.15) !important;
             border-radius: 8px;
             transition: all 0.25s;
         }
         input:focus, select:focus, textarea:focus {
-            border-color: var(--purple) !important;
+            border-color: var(--or-gold) !important;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+            box-shadow: 0 0 0 3px rgba(63, 192, 65, 0.08);
         }
         input::placeholder, textarea::placeholder {
             color: var(--green-light) !important;
             opacity: 0.5;
         }
 
-        /* Status badges - DBC colors */
-        .badge-beta { background: var(--gold) !important; color: var(--white) !important; }
+        /* Status badges - Origin colors */
+        .badge-beta { background: var(--gold) !important; color: var(--or-white) !important; }
         .badge-coming-soon { background: var(--green-light) !important; color: var(--cream) !important; }
-        .badge-available { background: var(--green) !important; color: var(--cream) !important; }
-        .badge-active { background: var(--green) !important; color: var(--cream) !important; }
+        .badge-available { background: var(--or-gold) !important; color: var(--cream) !important; }
+        .badge-active { background: var(--or-gold) !important; color: var(--cream) !important; }
         .badge-error { background: var(--red) !important; color: var(--cream) !important; }
 
         /* ===== OTP LOGIN SCREEN STYLES ===== */
@@ -1005,40 +1014,47 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background:
+                radial-gradient(circle at 50% 18%, rgba(201, 168, 76, 0.16), transparent 30rem),
+                radial-gradient(circle at 12% 84%, rgba(201, 168, 76, 0.08), transparent 22rem),
+                linear-gradient(145deg, #050505 0%, #10100f 45%, #060606 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 99999;
+            padding: 2rem 1rem;
         }
 
         .login-card {
-            background: var(--black);
-            border-radius: 16px;
-            padding: 2.5rem;
+            background: linear-gradient(180deg, rgba(16,16,15,0.98), rgba(7,7,7,0.98));
+            border: 1px solid rgba(201, 168, 76, 0.18);
+            border-radius: 18px;
+            padding: 2.2rem;
             width: 100%;
-            max-width: 420px;
-            margin: 1rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 460px;
+            margin: auto;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.58), 0 0 0 1px rgba(255,255,255,0.025) inset;
         }
 
         .login-card h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2rem;
-            color: var(--white);
+            color: var(--or-white);
             text-transform: uppercase;
             margin-bottom: 0.25rem;
         }
 
         .login-card .tagline {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
             color: var(--gold);
             margin-bottom: 0.5rem;
         }
 
         .login-card .subtitle {
-            color: #737373;
+            color: rgba(245, 240, 232, 0.58);
             font-size: 0.9rem;
             margin-bottom: 2rem;
         }
@@ -1050,7 +1066,7 @@
         .login-form-group label {
             display: block;
             font-weight: 600;
-            color: var(--white);
+            color: var(--or-white);
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
         }
@@ -1058,7 +1074,9 @@
         .login-form-group input {
             width: 100%;
             padding: 0.875rem 1rem;
-            border: 2px solid #2A2A2A;
+            background: rgba(0,0,0,0.58);
+            color: #FAFAFA;
+            border: 1.5px solid rgba(201, 168, 76, 0.22);
             border-radius: 8px;
             font-size: 1rem;
             transition: all 0.3s;
@@ -1066,29 +1084,45 @@
 
         .login-form-group input:focus {
             outline: none;
-            border-color: var(--purple);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+            border-color: var(--or-gold);
+            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.14);
+        }
+
+        #pinEmail,
+        #pinInput {
+            background: rgba(0,0,0,0.58) !important;
+            color: var(--or-white) !important;
+            border: 1.5px solid rgba(201, 168, 76, 0.22) !important;
+            border-radius: 10px !important;
+        }
+
+        #pinEmail:focus,
+        #pinInput:focus {
+            outline: none !important;
+            border-color: var(--or-gold) !important;
+            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.14) !important;
         }
 
         .login-btn {
             width: 100%;
             padding: 1rem;
-            background: var(--green);
-            color: white;
+            background: linear-gradient(135deg, #9B7A25 0%, #C9A84C 50%, #E8D5A3 100%);
+            color: #0A0A0A;
             border: none;
             border-radius: 8px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 800;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            box-shadow: 0 12px 32px rgba(201, 168, 76, 0.16);
         }
 
         .login-btn:hover {
-            background: var(--green-dark);
+            background: linear-gradient(135deg, #C9A84C 0%, #E8D5A3 58%, #C9A84C 100%);
             transform: translateY(-2px);
         }
 
@@ -1100,13 +1134,13 @@
 
         .login-btn-secondary {
             background: transparent;
-            color: var(--purple);
-            border: 2px solid var(--green);
+            color: var(--or-gold);
+            border: 1.5px solid rgba(201, 168, 76, 0.36);
             margin-top: 1rem;
         }
 
         .login-btn-secondary:hover {
-            background: rgba(124, 58, 237, 0.1);
+            background: rgba(201, 168, 76, 0.1);
         }
 
         .login-message {
@@ -1128,9 +1162,9 @@
         }
 
         .login-message.success {
-            background: rgba(124, 58, 237, 0.1);
-            color: var(--purple);
-            border: 1px solid var(--green);
+            background: rgba(201, 168, 76, 0.1);
+            color: var(--or-gold);
+            border: 1px solid rgba(201, 168, 76, 0.34);
         }
 
         .otp-inputs {
@@ -1146,15 +1180,17 @@
             text-align: center;
             font-size: 1.5rem;
             font-weight: 700;
-            border: 2px solid #2A2A2A;
+            background: rgba(0,0,0,0.58);
+            color: var(--or-white);
+            border: 1.5px solid rgba(201, 168, 76, 0.22);
             border-radius: 10px;
             transition: all 0.3s;
         }
 
         .otp-inputs input:focus {
             outline: none;
-            border-color: var(--purple);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+            border-color: var(--or-gold);
+            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.14);
         }
 
         .otp-step {
@@ -1173,7 +1209,7 @@
         }
 
         .resend-link {
-            color: var(--purple);
+            color: var(--or-gold);
             cursor: pointer;
             text-decoration: none;
             font-weight: 600;
@@ -1186,14 +1222,14 @@
         .dev-hint {
             margin-top: 1.5rem;
             padding-top: 1rem;
-            border-top: 1px solid #2A2A2A;
+            border-top: 1px solid #222222;
             font-size: 0.8rem;
             color: #737373;
             text-align: center;
         }
 
         .dev-hint strong {
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         /* Hide admin content when not logged in */
@@ -1261,9 +1297,7 @@
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <div style="text-align: center;">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="height: 100px; margin: 0 auto 15px; display: block;">
-                <h1>JIG Craft Cannabis</h1>
-                <p class="tagline">"Craft Cannabis"</p>
+                <img src="images/origin-logo.png" alt="Origin" style="height: 80px; margin: 0 auto 10px; display: block;">
                 <p class="subtitle">Admin Dashboard</p>
             </div>
 
@@ -1285,6 +1319,27 @@
                 <div class="dev-hint" id="devHint" style="display: none;">
                     Dev Mode: Use code <strong>123456</strong>
                 </div>
+
+                <div style="text-align: center; margin-top: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 12px 0;">
+                        <hr style="flex: 1; border: none; border-top: 1px solid #222222;">
+                        <span style="color: #999; font-size: 0.8rem;">or login with PIN</span>
+                        <hr style="flex: 1; border: none; border-top: 1px solid #222222;">
+                    </div>
+                    <form id="pinForm" onsubmit="loginWithPin(event)" style="display: flex; flex-direction: column; gap: 8px;">
+                        <input type="email" id="pinEmail" required placeholder="your@email.com" autocomplete="email" style="padding: 10px 14px; background: #0A0A0A; color: #FAFAFA; border: 2px solid #222222; border-radius: 10px; font-size: 0.95rem; font-family: 'Inter', sans-serif;">
+                        <div style="position: relative;">
+                            <input type="password" id="pinInput" required placeholder="Enter PIN" inputmode="numeric" pattern="[0-9]*" style="padding: 10px 14px; padding-right: 44px; background: #0A0A0A; color: #FAFAFA; border: 2px solid #222222; border-radius: 10px; font-size: 0.95rem; font-family: 'Inter', sans-serif; letter-spacing: 4px; text-align: center; width: 100%; box-sizing: border-box;">
+                            <button type="button" onclick="togglePinVisibility('pinInput', this)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #999; font-size: 1.1rem; padding: 4px;" title="Show/Hide PIN">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <button type="submit" class="login-btn" id="pinLoginBtn">
+                            <i class="fas fa-key"></i> Login with PIN
+                        </button>
+                    </form>
+                    <div class="login-message error" id="pinError"></div>
+                </div>
             </div>
 
             <!-- Step 2: OTP Verification -->
@@ -1295,7 +1350,7 @@
                 <p style="text-align: center; color: #737373; margin-bottom: 0.5rem; font-size: 0.9rem;">
                     Enter the 6-digit code sent to
                 </p>
-                <p style="text-align: center; color: var(--white); font-weight: 600; margin-bottom: 1.5rem;" id="displayEmail"></p>
+                <p style="text-align: center; color: var(--or-white); font-weight: 600; margin-bottom: 1.5rem;" id="displayEmail"></p>
 
                 <form id="otpForm">
                     <div class="otp-inputs" id="otpInputs">
@@ -1379,6 +1434,10 @@
                 <i class="fas fa-shopping-cart"></i>
                 <span>Orders</span>
             </div>
+            <div class="sidebar-menu-item" onclick="window.location.href='origin-retail-pharmacy.html'">
+                <i class="fas fa-prescription-bottle-medical"></i>
+                <span>Origin Retail Pharmacy</span>
+            </div>
             <div class="sidebar-menu-item" onclick="window.location.href='wholesale-pos.html'">
                 <i class="fas fa-store"></i>
                 <span>Wholesale POS</span>
@@ -1432,11 +1491,11 @@
                 <button class="hamburger-btn" onclick="toggleSidebar()" title="Menu">
                     <i class="fas fa-bars"></i>
                 </button>
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="width:100%;height:100%;object-fit:contain;" class="brand-logo">
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming" style="width:100%;height:100%;object-fit:contain;" class="brand-logo">
                 <span class="admin-badge">ADMIN PANEL</span>
             </div>
             <div>
-                <span id="adminEmail" style="margin-right: 20px; color: var(--cream); opacity: 0.8;">office@jig.cleva-ai.co.za</span>
+                <span id="adminEmail" style="margin-right: 20px; color: var(--cream); opacity: 0.8;">admin@cleva-ai.co.za</span>
                 <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
         </div>
@@ -1483,7 +1542,7 @@
                 <div style="display: flex; gap: 10px;">
                     <button class="action-btn" style="background: var(--green-light);" onclick="downloadCSVTemplate()"><i class="fas fa-download"></i> Download CSV Template</button>
                     <button class="action-btn" style="background: var(--green-light);" onclick="document.getElementById('csvUploadInput').click()"><i class="fas fa-upload"></i> Bulk Upload CSV</button>
-                    <button class="action-btn" style="background: var(--gold-dark); color: var(--white);" onclick="exportProducts()"><i class="fas fa-chart-bar"></i> Export Products</button>
+                    <button class="action-btn" style="background: var(--gold-dark); color: var(--or-white);" onclick="exportProducts()"><i class="fas fa-chart-bar"></i> Export Products</button>
                     <button class="action-btn approve-btn" onclick="openAddProductModal()"><i class="fas fa-plus"></i> Add New Product</button>
                 </div>
             </div>
@@ -1499,7 +1558,7 @@
                 </select>
                 <select id="categoryCategoryFilter" onchange="filterInventory()">
                     <option value="all">All Categories</option>
-                    <option value="lifestyle-cbd">DBC Wellness</option>
+                    <option value="lifestyle-cbd">Origin Wellness</option>
                     <option value="flower">Flower (Medical)</option>
                     <option value="oils">Oils</option>
                     <option value="edibles">Edibles</option>
@@ -1547,7 +1606,7 @@
                 <div style="background: #0A0A0A; border-radius: 10px; padding: 20px; border: 1px solid var(--green);">
                     <div style="margin-bottom: 15px; display: flex; gap: 10px;">
                         <input type="text" id="posSearch" placeholder="Search products by name or type SKU..."
-                               style="flex: 1; padding: 15px; font-size: 1.1rem; background: #0A0A0A; border: 2px solid var(--green); border-radius: 8px; color: var(--white);"
+                               style="flex: 1; padding: 15px; font-size: 1.1rem; background: #0A0A0A; border: 2px solid var(--green); border-radius: 8px; color: var(--or-white);"
                                onkeyup="handlePOSSearch(event)">
                         <button onclick="openBarcodeScanner()" class="action-btn" style="background: var(--green-light); padding: 15px 20px; white-space: nowrap;">
                             <i class="fas fa-camera"></i> Scan
@@ -1575,8 +1634,8 @@
                 </div>
 
                 <!-- Right: Cart & Checkout -->
-                <div style="background: var(--black); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; border: 1px solid var(--green);">
-                    <h3 style="margin-top: 0; color: var(--white); border-bottom: 2px solid var(--gold); padding-bottom: 10px;">Shopping Cart</h3>
+                <div style="background: var(--or-black); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; border: 1px solid var(--green);">
+                    <h3 style="margin-top: 0; color: var(--or-white); border-bottom: 2px solid var(--gold); padding-bottom: 10px;">Shopping Cart</h3>
 
                     <div id="posCartItems" style="flex: 1; overflow-y: auto; margin-bottom: 15px; min-height: 200px;">
                         <div style="text-align: center; padding: 40px; color: var(--green-light);">
@@ -1592,22 +1651,22 @@
                         </div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                             <span>Discount:</span>
-                            <span id="posDiscount" style="color: var(--purple);">-R0.00</span>
+                            <span id="posDiscount" style="color: var(--or-gold);">-R0.00</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 1.3rem; font-weight: bold; color: var(--white);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 1.3rem; font-weight: bold; color: var(--or-white);">
                             <span>Total:</span>
                             <span id="posTotal">R0.00</span>
                         </div>
 
                         <input type="text" id="posCustomerPhone" placeholder="Customer Phone (optional)"
-                               style="width: 100%; padding: 12px; background: #0A0A0A; border: 1px solid var(--green); border-radius: 6px; color: var(--white); margin-bottom: 10px;">
+                               style="width: 100%; padding: 12px; background: #0A0A0A; border: 1px solid var(--green); border-radius: 6px; color: var(--or-white); margin-bottom: 10px;">
 
                         <input type="text" id="posCouponCode" placeholder="Coupon Code (optional)"
-                               style="width: 100%; padding: 12px; background: #0A0A0A; border: 1px solid var(--green); border-radius: 6px; color: var(--white); margin-bottom: 10px;"
+                               style="width: 100%; padding: 12px; background: #0A0A0A; border: 1px solid var(--green); border-radius: 6px; color: var(--or-white); margin-bottom: 10px;"
                                onchange="applyPOSCoupon()">
 
                         <button class="action-btn approve-btn" onclick="processPOSCheckout()"
-                                style="width: 100%; padding: 18px; font-size: 1.2rem; background: var(--gold); border: 2px solid var(--gold-dark); color: var(--white);">
+                                style="width: 100%; padding: 18px; font-size: 1.2rem; background: var(--gold); border: 2px solid var(--gold-dark); color: var(--or-white);">
                             <i class="fas fa-credit-card"></i> Process Payment
                         </button>
 
@@ -1707,8 +1766,8 @@
 
             <!-- CSV Export for Accounting -->
             <div id="csv-export" class="payment-type-section" style="display: none;">
-                <div style="background: var(--black); padding: 24px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--green);">
-                    <h3 style="margin: 0 0 16px 0; color: var(--white);">
+                <div style="background: var(--or-black); padding: 24px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--green);">
+                    <h3 style="margin: 0 0 16px 0; color: var(--or-white);">
                         Export Sales to Accounting Software
                     </h3>
                     <p style="margin: 0 0 24px 0; color: var(--green-light); line-height: 1.6;">
@@ -1718,15 +1777,15 @@
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
                         <div>
                             <label style="display: block; margin-bottom: 8px; color: var(--green-light); font-size: 0.9rem;">Start Date</label>
-                            <input type="date" id="exportStartDate" style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); border-radius: 4px; color: var(--white);">
+                            <input type="date" id="exportStartDate" style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); border-radius: 4px; color: var(--or-white);">
                         </div>
                         <div>
                             <label style="display: block; margin-bottom: 8px; color: var(--green-light); font-size: 0.9rem;">End Date</label>
-                            <input type="date" id="exportEndDate" style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); border-radius: 4px; color: var(--white);">
+                            <input type="date" id="exportEndDate" style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); border-radius: 4px; color: var(--or-white);">
                         </div>
                         <div>
                             <label style="display: block; margin-bottom: 8px; color: var(--green-light); font-size: 0.9rem;">Format</label>
-                            <select id="exportFormat" style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); border-radius: 4px; color: var(--white);">
+                            <select id="exportFormat" style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); border-radius: 4px; color: var(--or-white);">
                                 <option value="generic">Generic (All Data)</option>
                                 <option value="xero">Xero</option>
                                 <option value="quickbooks">QuickBooks Online</option>
@@ -1735,25 +1794,25 @@
                         </div>
                     </div>
 
-                    <button onclick="exportSalesToCSV()" class="action-btn" style="width: 100%; padding: 14px; background: var(--gold); color: var(--white); border: none; border-radius: 4px; font-size: 1rem; cursor: pointer;">
+                    <button onclick="exportSalesToCSV()" class="action-btn" style="width: 100%; padding: 14px; background: var(--gold); color: var(--or-white); border: none; border-radius: 4px; font-size: 1rem; cursor: pointer;">
                         <i class="fas fa-download"></i> Download CSV Export
                     </button>
                 </div>
 
-                <div style="background: var(--black); padding: 20px; border-radius: 8px; border: 1px solid var(--green);">
-                    <h4 style="margin: 0 0 12px 0; color: var(--white);">Export Format Guide</h4>
+                <div style="background: var(--or-black); padding: 20px; border-radius: 8px; border: 1px solid var(--green);">
+                    <h4 style="margin: 0 0 12px 0; color: var(--or-white);">Export Format Guide</h4>
                     <div style="display: grid; gap: 12px; color: var(--green-light); font-size: 0.9rem;">
                         <div>
-                            <strong style="color: var(--white);">Generic:</strong> Complete sales data with all fields - use for any accounting software
+                            <strong style="color: var(--or-white);">Generic:</strong> Complete sales data with all fields - use for any accounting software
                         </div>
                         <div>
-                            <strong style="color: var(--white);">Xero:</strong> Formatted for direct import into Xero (InvoiceNumber, Date, Customer, Line Items, Tax)
+                            <strong style="color: var(--or-white);">Xero:</strong> Formatted for direct import into Xero (InvoiceNumber, Date, Customer, Line Items, Tax)
                         </div>
                         <div>
-                            <strong style="color: var(--white);">QuickBooks:</strong> Optimized for QuickBooks Online import (Date, Transaction Type, Amount, Tax)
+                            <strong style="color: var(--or-white);">QuickBooks:</strong> Optimized for QuickBooks Online import (Date, Transaction Type, Amount, Tax)
                         </div>
                         <div>
-                            <strong style="color: var(--white);">Sage:</strong> Sage-specific format (Type, Invoice Number, Net Amount, Tax Code, Gross Amount)
+                            <strong style="color: var(--or-white);">Sage:</strong> Sage-specific format (Type, Invoice Number, Net Amount, Tax Code, Gross Amount)
                         </div>
                     </div>
                 </div>
@@ -1960,7 +2019,7 @@
             </div>
 
             <div style="margin-bottom: 20px;">
-                <select id="moduleCategory" onchange="filterModules()" style="padding: 10px; background: #0A0A0A; color: var(--white); border: 1px solid var(--green); border-radius: 5px; margin-right: 10px;">
+                <select id="moduleCategory" onchange="filterModules()" style="padding: 10px; background: #0A0A0A; color: var(--or-white); border: 1px solid var(--green); border-radius: 5px; margin-right: 10px;">
                     <option value="all">All Categories</option>
                     <option value="marketing">Marketing</option>
                     <option value="operations">Operations</option>
@@ -1968,7 +2027,7 @@
                     <option value="analytics">Analytics</option>
                     <option value="engagement">Engagement</option>
                 </select>
-                <select id="moduleStatus" onchange="filterModules()" style="padding: 10px; background: #0A0A0A; color: var(--white); border: 1px solid var(--green); border-radius: 5px;">
+                <select id="moduleStatus" onchange="filterModules()" style="padding: 10px; background: #0A0A0A; color: var(--or-white); border: 1px solid var(--green); border-radius: 5px;">
                     <option value="all">All Status</option>
                     <option value="available">Available</option>
                     <option value="beta">Beta</option>
@@ -2094,23 +2153,23 @@
         <div id="userEditModal" class="modal" style="display: none;">
             <div class="modal-content" style="max-width: 750px; max-height: 90vh; overflow-y: auto;">
                 <div class="modal-header">
-                    <h2 style="font-family: 'Oswald', sans-serif; text-transform: uppercase;">User Profile</h2>
+                    <h2 style="font-family: 'Cinzel', sans-serif; text-transform: uppercase;">User Profile</h2>
                     <button class="modal-close" onclick="closeUserEditModal()">&times;</button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="editUserId">
 
                     <!-- User Profile Summary -->
-                    <div id="userProfileSummary" style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); color: var(--cream); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <div id="userProfileSummary" style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); color: var(--cream); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
                         <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 70px; height: 70px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: bold; color: var(--green-dark);">
+                            <div style="width: 70px; height: 70px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: bold; color: var(--or-gold-muted);">
                                 <span id="userInitials">--</span>
                             </div>
                             <div>
-                                <h3 id="userFullName" style="font-family: 'Oswald', sans-serif; font-size: 1.6rem; margin: 0;">User Name</h3>
+                                <h3 id="userFullName" style="font-family: 'Cinzel', sans-serif; font-size: 1.6rem; margin: 0;">User Name</h3>
                                 <p id="userEmailDisplay" style="opacity: 0.9; margin: 0.25rem 0;">email@example.com</p>
                                 <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                                    <span id="userRoleBadge" class="status-badge" style="background: var(--gold); color: var(--green-dark);">Customer</span>
+                                    <span id="userRoleBadge" class="status-badge" style="background: var(--gold); color: var(--or-gold-muted);">Customer</span>
                                     <span id="userStatusBadge" class="status-badge">Active</span>
                                 </div>
                             </div>
@@ -2133,7 +2192,7 @@
 
                     <!-- Section 21 / Medical Track Panel (shown only for patients) -->
                     <div id="section21Panel" style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border: 2px solid var(--gold); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; display: none;">
-                        <h4 style="font-family: 'Oswald', sans-serif; color: var(--green-dark); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                        <h4 style="font-family: 'Cinzel', sans-serif; color: var(--or-gold-muted); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
                             <span style="font-size: 1.2rem;">&#9763;</span> MEDICAL TRACK (Section 21) PATIENT
                         </h4>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem;">
@@ -2161,7 +2220,7 @@
                     </div>
 
                     <!-- Edit Form -->
-                    <h4 style="font-family: 'Oswald', sans-serif; color: var(--purple); border-bottom: 2px solid var(--gold); padding-bottom: 0.5rem; margin-bottom: 1rem;">EDIT DETAILS</h4>
+                    <h4 style="font-family: 'Cinzel', sans-serif; color: var(--or-gold); border-bottom: 2px solid var(--gold); padding-bottom: 0.5rem; margin-bottom: 1rem;">EDIT DETAILS</h4>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <div class="form-group">
@@ -2204,8 +2263,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group" id="section21Group" style="background: var(--black); padding: 1rem; border-radius: 8px; border: 1px solid var(--gold);">
-                        <label style="font-weight: 700; color: var(--purple);">Section 21 (Medical Track) Status</label>
+                    <div class="form-group" id="section21Group" style="background: var(--or-black); padding: 1rem; border-radius: 8px; border: 1px solid var(--gold);">
+                        <label style="font-weight: 700; color: var(--or-gold);">Section 21 (Medical Track) Status</label>
                         <select id="editUserSection21">
                             <option value="none">No Application</option>
                             <option value="pending">Pending Review</option>
@@ -2213,7 +2272,7 @@
                             <option value="rejected">Rejected</option>
                             <option value="expired">Expired</option>
                         </select>
-                        <small style="color: var(--gray-500); display: block; margin-top: 0.5rem;">
+                        <small style="color: var(--or-grey-2); display: block; margin-top: 0.5rem;">
                             MT = Medical Track. Only approved patients can purchase Section 21 products.
                         </small>
                     </div>
@@ -2221,11 +2280,11 @@
                     <!-- Member Since & Joined -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; padding: 1rem; background: #1A1A1A; border-radius: 8px;">
                         <div>
-                            <small style="color: var(--gray-500);">Account Created</small>
+                            <small style="color: var(--or-grey-2);">Account Created</small>
                             <div id="userCreatedAt" style="font-weight: 500;">-</div>
                         </div>
                         <div>
-                            <small style="color: var(--gray-500);">Last Login</small>
+                            <small style="color: var(--or-grey-2);">Last Login</small>
                             <div id="userLastLogin" style="font-weight: 500;">-</div>
                         </div>
                     </div>
@@ -2289,11 +2348,11 @@
 
             <!-- Payroll Summary Stats -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                <div style="background: var(--green); color: var(--cream); padding: 20px; border-radius: 10px; text-align: center;">
+                <div style="background: var(--or-gold); color: var(--cream); padding: 20px; border-radius: 10px; text-align: center;">
                     <p style="font-size: 2rem; font-weight: bold; margin: 0;" id="payrollTotalHours">0</p>
                     <small>Total Hours</small>
                 </div>
-                <div style="background: var(--gold); color: var(--white); padding: 20px; border-radius: 10px; text-align: center;">
+                <div style="background: var(--gold); color: var(--or-white); padding: 20px; border-radius: 10px; text-align: center;">
                     <p style="font-size: 2rem; font-weight: bold; margin: 0;" id="payrollTotalPay">R0</p>
                     <small>Gross Pay</small>
                 </div>
@@ -2384,11 +2443,11 @@
 
             <!-- Daily Summary Cards -->
             <div id="ledgerSummaryCards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px;">
-                <div style="background: var(--green); color: var(--cream); padding: 20px; border-radius: 10px;">
+                <div style="background: var(--or-gold); color: var(--cream); padding: 20px; border-radius: 10px;">
                     <p style="font-size: 2rem; font-weight: bold; margin: 0;" id="ledgerOpeningBal">R0</p>
                     <small>Opening Balance</small>
                 </div>
-                <div style="background: var(--gold); color: var(--white); padding: 20px; border-radius: 10px;">
+                <div style="background: var(--gold); color: var(--or-white); padding: 20px; border-radius: 10px;">
                     <p style="font-size: 2rem; font-weight: bold; margin: 0;" id="ledgerTotalSales">R0</p>
                     <small>Total Sales</small>
                 </div>
@@ -2403,13 +2462,13 @@
             </div>
 
             <!-- Ledger Entries Table -->
-            <h3 style="color: var(--white); margin-bottom: 15px; font-family: 'Oswald', sans-serif;">
+            <h3 style="color: var(--or-white); margin-bottom: 15px; font-family: 'Cinzel', sans-serif;">
                 <i class="fas fa-list-alt"></i> Ledger Entries
             </h3>
             <div style="background: #0A0A0A; border: 1px solid var(--green); border-radius: 8px; overflow: hidden;">
                 <table style="width: 100%; border-collapse: collapse;">
                     <thead>
-                        <tr style="background: var(--green); color: var(--cream);">
+                        <tr style="background: var(--or-gold); color: var(--cream);">
                             <th style="padding: 12px; text-align: left;">Time</th>
                             <th style="padding: 12px; text-align: left;">Type</th>
                             <th style="padding: 12px; text-align: left;">Description</th>
@@ -2429,7 +2488,7 @@
             </div>
 
             <!-- Cashup History -->
-            <h3 style="color: var(--white); margin: 25px 0 15px; font-family: 'Oswald', sans-serif;">
+            <h3 style="color: var(--or-white); margin: 25px 0 15px; font-family: 'Cinzel', sans-serif;">
                 <i class="fas fa-history"></i> Cashup History
             </h3>
             <table id="cashupHistoryTable">
@@ -2490,10 +2549,10 @@
                     <span class="status-badge" style="background: var(--red); color: var(--cream); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
                         <span id="newLeadsCount">0</span> New
                     </span>
-                    <span class="status-badge" style="background: var(--green); color: var(--cream); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                    <span class="status-badge" style="background: var(--or-gold); color: var(--cream); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
                         <span id="convertedLeadsCount">0</span> Converted
                     </span>
-                    <span class="status-badge" style="background: var(--gold); color: var(--white); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                    <span class="status-badge" style="background: var(--gold); color: var(--or-white); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
                         <span id="totalLeadsCount">0</span> Total
                     </span>
                 </div>
@@ -2546,10 +2605,10 @@
             <div class="section-title">
                 <span>Wellness Points Management</span>
                 <div class="stat-badges" style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <span class="status-badge" style="background: var(--green); color: var(--cream); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                    <span class="status-badge" style="background: var(--or-gold); color: var(--cream); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
                         <span id="totalPointsIssued">0</span> Points Issued
                     </span>
-                    <span class="status-badge" style="background: var(--gold); color: var(--white); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                    <span class="status-badge" style="background: var(--gold); color: var(--or-white); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
                         <span id="totalPointsRedeemed">0</span> Points Redeemed
                     </span>
                     <span class="status-badge" style="background: var(--gold-dark); color: var(--cream); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
@@ -2559,14 +2618,14 @@
             </div>
 
             <!-- User Search & Manual Adjustment Card -->
-            <div style="background: var(--black); border: 1px solid var(--green); border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-                <h3 style="color: var(--white); margin-bottom: 15px; font-size: 1.1rem;">Manual Points Adjustment</h3>
+            <div style="background: var(--or-black); border: 1px solid var(--green); border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <h3 style="color: var(--or-white); margin-bottom: 15px; font-size: 1.1rem;">Manual Points Adjustment</h3>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                     <div>
                         <label style="display: block; color: var(--green-light); font-size: 0.9rem; margin-bottom: 5px;">Search User</label>
                         <input type="text" id="pointsUserSearch" placeholder="Search by email or name..."
-                               style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--white); border-radius: 5px;">
+                               style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--or-white); border-radius: 5px;">
                         <div id="userSearchResults" style="background: #0A0A0A; border: 1px solid var(--green); border-radius: 5px; margin-top: 5px; max-height: 200px; overflow-y: auto; display: none;">
                             <!-- Search results will appear here -->
                         </div>
@@ -2584,13 +2643,13 @@
                     <div>
                         <label style="display: block; color: var(--green-light); font-size: 0.9rem; margin-bottom: 5px;">Points Amount</label>
                         <input type="number" id="pointsAmount" placeholder="100"
-                               style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--white); border-radius: 5px;">
+                               style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--or-white); border-radius: 5px;">
                     </div>
 
                     <div>
                         <label style="display: block; color: var(--green-light); font-size: 0.9rem; margin-bottom: 5px;">Action Type</label>
                         <select id="pointsActionType"
-                                style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--white); border-radius: 5px;">
+                                style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--or-white); border-radius: 5px;">
                             <option value="add">Add Points</option>
                             <option value="subtract">Subtract Points</option>
                             <option value="set">Set Balance</option>
@@ -2600,19 +2659,19 @@
                     <div>
                         <label style="display: block; color: var(--green-light); font-size: 0.9rem; margin-bottom: 5px;">Reason</label>
                         <input type="text" id="pointsReason" placeholder="E.g. Compensation, Birthday bonus, etc."
-                               style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--white); border-radius: 5px;">
+                               style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--or-white); border-radius: 5px;">
                     </div>
                 </div>
 
                 <button class="action-btn" onclick="adjustUserPoints()" id="adjustPointsBtn" disabled
-                        style="background: var(--green); width: 100%; padding: 12px;">
+                        style="background: var(--or-gold); width: 100%; padding: 12px;">
                     Apply Points Adjustment
                 </button>
             </div>
 
             <!-- Tier Override Card -->
-            <div style="background: var(--black); border: 1px solid var(--green); border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-                <h3 style="color: var(--white); margin-bottom: 15px; font-size: 1.1rem;">Tier Override</h3>
+            <div style="background: var(--or-black); border: 1px solid var(--green); border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                <h3 style="color: var(--or-white); margin-bottom: 15px; font-size: 1.1rem;">Tier Override</h3>
 
                 <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 15px;">
                     <div>
@@ -2623,7 +2682,7 @@
 
                     <div>
                         <select id="tierOverrideSelect"
-                                style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--white); border-radius: 5px;" disabled>
+                                style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--or-white); border-radius: 5px;" disabled>
                             <option value="seedling">Seedling (R0+)</option>
                             <option value="vegetative">Vegetative (R1,000+)</option>
                             <option value="flowering">Flowering (R5,000+)</option>
@@ -2633,7 +2692,7 @@
 
                     <div>
                         <button class="action-btn" onclick="overrideUserTier()" id="overrideTierBtn" disabled
-                                style="background: var(--gold); color: var(--white); width: 100%; padding: 12px;">
+                                style="background: var(--gold); color: var(--or-white); width: 100%; padding: 12px;">
                             Override Tier
                         </button>
                     </div>
@@ -2656,7 +2715,7 @@
                     <option value="week">This Week</option>
                     <option value="month">This Month</option>
                 </select>
-                <button class="action-btn" onclick="loadPointsTransactions()" style="background: var(--green);">
+                <button class="action-btn" onclick="loadPointsTransactions()" style="background: var(--or-gold);">
                     <i class="fas fa-sync-alt"></i> Refresh
                 </button>
             </div>
@@ -2685,17 +2744,17 @@
             </table>
 
             <!-- Bulk Actions -->
-            <div style="background: var(--black); border: 1px solid var(--green); border-radius: 8px; padding: 20px; margin-top: 20px;">
-                <h3 style="color: var(--white); margin-bottom: 15px; font-size: 1.1rem;">Bulk Actions</h3>
+            <div style="background: var(--or-black); border: 1px solid var(--green); border-radius: 8px; padding: 20px; margin-top: 20px;">
+                <h3 style="color: var(--or-white); margin-bottom: 15px; font-size: 1.1rem;">Bulk Actions</h3>
 
                 <div style="display: flex; gap: 15px; flex-wrap: wrap;">
                     <button class="action-btn" onclick="exportPointsData()" style="background: var(--green-light);">
                         <i class="fas fa-download"></i> Export Points Data (CSV)
                     </button>
-                    <button class="action-btn" onclick="expireOldPoints()" style="background: var(--gold); color: var(--white);">
+                    <button class="action-btn" onclick="expireOldPoints()" style="background: var(--gold); color: var(--or-white);">
                         <i class="fas fa-clock"></i> Process Expired Points
                     </button>
-                    <button class="action-btn" onclick="generatePointsReport()" style="background: var(--green);">
+                    <button class="action-btn" onclick="generatePointsReport()" style="background: var(--or-gold);">
                         <i class="fas fa-chart-bar"></i> Generate Points Report
                     </button>
                 </div>
@@ -2713,19 +2772,19 @@
 
             <!-- Stats Overview -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 25px;">
-                <div style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); padding: 20px; border-radius: 8px; border: 2px solid var(--gold);">
+                <div style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); padding: 20px; border-radius: 8px; border: 2px solid var(--gold);">
                     <div style="color: var(--cream); opacity: 0.9; font-size: 0.875rem; margin-bottom: 5px;">Active Influencers</div>
                     <div style="color: var(--gold); font-size: 2rem; font-weight: 700;" id="viralActiveInfluencers">0</div>
                 </div>
-                <div style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); padding: 20px; border-radius: 8px; border: 2px solid var(--gold);">
+                <div style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); padding: 20px; border-radius: 8px; border: 2px solid var(--gold);">
                     <div style="color: var(--cream); opacity: 0.9; font-size: 0.875rem; margin-bottom: 5px;">Total Viral Score</div>
                     <div style="color: var(--gold); font-size: 2rem; font-weight: 700;" id="viralTotalScore">0</div>
                 </div>
-                <div style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); padding: 20px; border-radius: 8px; border: 2px solid var(--gold);">
+                <div style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); padding: 20px; border-radius: 8px; border: 2px solid var(--gold);">
                     <div style="color: var(--cream); opacity: 0.9; font-size: 0.875rem; margin-bottom: 5px;">Active Campaigns</div>
                     <div style="color: var(--gold); font-size: 2rem; font-weight: 700;" id="viralActiveCampaigns">0</div>
                 </div>
-                <div style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); padding: 20px; border-radius: 8px; border: 2px solid var(--gold);">
+                <div style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); padding: 20px; border-radius: 8px; border: 2px solid var(--gold);">
                     <div style="color: var(--cream); opacity: 0.9; font-size: 0.875rem; margin-bottom: 5px;">Viral Reach</div>
                     <div style="color: var(--gold); font-size: 2rem; font-weight: 700;" id="viralTotalReach">0</div>
                 </div>
@@ -2742,9 +2801,9 @@
             <!-- Campaigns Section -->
             <div id="viral-campaigns-section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 style="color: var(--white); font-size: 1.2rem; margin: 0;">Marketing Campaigns</h3>
+                    <h3 style="color: var(--or-white); font-size: 1.2rem; margin: 0;">Marketing Campaigns</h3>
                     <input type="text" placeholder="Search campaigns..." id="campaignSearch" onkeyup="filterCampaigns()"
-                           style="width: 300px; padding: 8px 12px; background: #0A0A0A; border: 1px solid var(--green); color: var(--white); border-radius: 5px;">
+                           style="width: 300px; padding: 8px 12px; background: #0A0A0A; border: 1px solid var(--green); color: var(--or-white); border-radius: 5px;">
                 </div>
 
                 <div class="table-container">
@@ -2775,10 +2834,10 @@
             <!-- Influencers Section -->
             <div id="viral-influencers-section" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 style="color: var(--white); font-size: 1.2rem; margin: 0;">Influencer Network</h3>
+                    <h3 style="color: var(--or-white); font-size: 1.2rem; margin: 0;">Influencer Network</h3>
                     <div style="display: flex; gap: 10px;">
                         <select id="influencerTierFilter" onchange="filterInfluencers()"
-                                style="padding: 8px 12px; background: #0A0A0A; border: 1px solid var(--green); color: var(--white); border-radius: 5px;">
+                                style="padding: 8px 12px; background: #0A0A0A; border: 1px solid var(--green); color: var(--or-white); border-radius: 5px;">
                             <option value="all">All Tiers</option>
                             <option value="mega">Mega (1M+)</option>
                             <option value="macro">Macro (500K-1M)</option>
@@ -2787,7 +2846,7 @@
                             <option value="nano">Nano (1K-10K)</option>
                         </select>
                         <input type="text" placeholder="Search influencers..." id="influencerSearch" onkeyup="filterInfluencers()"
-                               style="width: 300px; padding: 8px 12px; background: #0A0A0A; border: 1px solid var(--green); color: var(--white); border-radius: 5px;">
+                               style="width: 300px; padding: 8px 12px; background: #0A0A0A; border: 1px solid var(--green); color: var(--or-white); border-radius: 5px;">
                     </div>
                 </div>
 
@@ -2819,8 +2878,8 @@
             <!-- Product Scores Section -->
             <div id="viral-products-section" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 style="color: var(--white); font-size: 1.2rem; margin: 0;">Viral Product Scores</h3>
-                    <button class="action-btn" onclick="recalculateAllScores()" style="background: var(--green);">
+                    <h3 style="color: var(--or-white); font-size: 1.2rem; margin: 0;">Viral Product Scores</h3>
+                    <button class="action-btn" onclick="recalculateAllScores()" style="background: var(--or-gold);">
                         <i class="fas fa-sync"></i> Recalculate Scores
                     </button>
                 </div>
@@ -2852,32 +2911,32 @@
 
             <!-- Analytics Section -->
             <div id="viral-analytics-section" style="display: none;">
-                <h3 style="color: var(--white); font-size: 1.2rem; margin-bottom: 20px;">Viral Analytics & Insights</h3>
+                <h3 style="color: var(--or-white); font-size: 1.2rem; margin-bottom: 20px;">Viral Analytics & Insights</h3>
 
-                <div style="background: var(--black); border: 1px solid var(--green); border-radius: 8px; padding: 25px; margin-bottom: 20px;">
-                    <h4 style="color: var(--white); margin-bottom: 15px;">Performance Metrics</h4>
+                <div style="background: var(--or-black); border: 1px solid var(--green); border-radius: 8px; padding: 25px; margin-bottom: 20px;">
+                    <h4 style="color: var(--or-white); margin-bottom: 15px;">Performance Metrics</h4>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
                         <div>
                             <div style="color: var(--green-light); font-size: 0.875rem; margin-bottom: 5px;">Total Impressions</div>
-                            <div style="color: var(--white); font-size: 1.5rem; font-weight: 700;" id="analyticsImpressions">0</div>
+                            <div style="color: var(--or-white); font-size: 1.5rem; font-weight: 700;" id="analyticsImpressions">0</div>
                         </div>
                         <div>
                             <div style="color: var(--green-light); font-size: 0.875rem; margin-bottom: 5px;">Click-Through Rate</div>
-                            <div style="color: var(--white); font-size: 1.5rem; font-weight: 700;" id="analyticsCTR">0%</div>
+                            <div style="color: var(--or-white); font-size: 1.5rem; font-weight: 700;" id="analyticsCTR">0%</div>
                         </div>
                         <div>
                             <div style="color: var(--green-light); font-size: 0.875rem; margin-bottom: 5px;">Conversion Rate</div>
-                            <div style="color: var(--white); font-size: 1.5rem; font-weight: 700;" id="analyticsConversion">0%</div>
+                            <div style="color: var(--or-white); font-size: 1.5rem; font-weight: 700;" id="analyticsConversion">0%</div>
                         </div>
                         <div>
                             <div style="color: var(--green-light); font-size: 0.875rem; margin-bottom: 5px;">Revenue from Viral</div>
-                            <div style="color: var(--white); font-size: 1.5rem; font-weight: 700;" id="analyticsRevenue">R0</div>
+                            <div style="color: var(--or-white); font-size: 1.5rem; font-weight: 700;" id="analyticsRevenue">R0</div>
                         </div>
                     </div>
                 </div>
 
-                <div style="background: var(--black); border: 1px solid var(--green); border-radius: 8px; padding: 25px;">
-                    <h4 style="color: var(--white); margin-bottom: 15px;">Top Performing Content</h4>
+                <div style="background: var(--or-black); border: 1px solid var(--green); border-radius: 8px; padding: 25px;">
+                    <h4 style="color: var(--or-white); margin-bottom: 15px;">Top Performing Content</h4>
                     <div id="topContentList">
                         <p style="color: var(--green-light); text-align: center; padding: 20px;">No data available</p>
                     </div>
@@ -2890,14 +2949,14 @@
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal('paymentModal')">&times;</button>
-            <h2 style="color: var(--white); margin-bottom: 20px;"><i class="fas fa-search"></i> Payment Verification</h2>
+            <h2 style="color: var(--or-white); margin-bottom: 20px;"><i class="fas fa-search"></i> Payment Verification</h2>
 
             <div id="paymentDetails">
                 <!-- Payment details will be loaded here -->
             </div>
 
             <div style="margin-top: 20px;">
-                <textarea id="approvalNotes" placeholder="Add notes (optional)..." style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--white); border-radius: 5px; margin-bottom: 15px;" rows="3"></textarea>
+                <textarea id="approvalNotes" placeholder="Add notes (optional)..." style="width: 100%; padding: 10px; background: #0A0A0A; border: 1px solid var(--green); color: var(--or-white); border-radius: 5px; margin-bottom: 15px;" rows="3"></textarea>
                 
                 <div style="display: flex; gap: 10px;" id="localStoragePOPButtons">
                     <button class="action-btn approve-btn" style="flex: 1; padding: 15px;" onclick="if(currentPaymentIndex !== null) { quickApprove(currentPaymentIndex); closeModal('paymentModal'); }">
@@ -2915,7 +2974,7 @@
     <div id="voucherModal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal('voucherModal')">&times;</button>
-            <h2 style="color: var(--white); margin-bottom: 20px;"><i class="fas fa-ticket-alt"></i> Voucher Details</h2>
+            <h2 style="color: var(--or-white); margin-bottom: 20px;"><i class="fas fa-ticket-alt"></i> Voucher Details</h2>
             
             <div id="voucherDetails">
                 <!-- Voucher details will be loaded here -->
@@ -2932,42 +2991,42 @@
     <div id="staffModal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeStaffModal()">&times;</button>
-            <h2 style="color: var(--white); margin-bottom: 20px;" id="staffModalTitle">Add Staff Member</h2>
+            <h2 style="color: var(--or-white); margin-bottom: 20px;" id="staffModalTitle">Add Staff Member</h2>
 
             <form id="staffForm" onsubmit="saveStaff(event)">
                 <input type="hidden" id="staffId">
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div>
-                        <label style="color: var(--white); display: block; margin-bottom: 5px;">First Name *</label>
-                        <input type="text" id="staffFirstName" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);">
+                        <label style="color: var(--or-white); display: block; margin-bottom: 5px;">First Name *</label>
+                        <input type="text" id="staffFirstName" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);">
                     </div>
 
                     <div>
-                        <label style="color: var(--white); display: block; margin-bottom: 5px;">Last Name *</label>
-                        <input type="text" id="staffLastName" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);">
+                        <label style="color: var(--or-white); display: block; margin-bottom: 5px;">Last Name *</label>
+                        <input type="text" id="staffLastName" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);">
                     </div>
                 </div>
 
                 <div style="margin-top: 15px;">
-                    <label style="color: var(--white); display: block; margin-bottom: 5px;">Email *</label>
-                    <input type="email" id="staffEmail" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);">
+                    <label style="color: var(--or-white); display: block; margin-bottom: 5px;">Email *</label>
+                    <input type="email" id="staffEmail" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);">
                 </div>
 
                 <div style="margin-top: 15px;" id="passwordField">
-                    <label style="color: var(--white); display: block; margin-bottom: 5px;">Password * (min 8 characters)</label>
-                    <input type="password" id="staffPassword" minlength="8" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);">
+                    <label style="color: var(--or-white); display: block; margin-bottom: 5px;">Password * (min 8 characters)</label>
+                    <input type="password" id="staffPassword" minlength="8" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);">
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                     <div>
-                        <label style="color: var(--white); display: block; margin-bottom: 5px;">Phone</label>
-                        <input type="tel" id="staffPhone" placeholder="+27 XX XXX XXXX" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);">
+                        <label style="color: var(--or-white); display: block; margin-bottom: 5px;">Phone</label>
+                        <input type="tel" id="staffPhone" placeholder="+27 XX XXX XXXX" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);">
                     </div>
 
                     <div>
-                        <label style="color: var(--white); display: block; margin-bottom: 5px;">Role *</label>
-                        <select id="staffRole" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);">
+                        <label style="color: var(--or-white); display: block; margin-bottom: 5px;">Role *</label>
+                        <select id="staffRole" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);">
                             <option value="">Select Role</option>
                             <option value="branch_manager">Store Manager</option>
                             <option value="branch_assistant">Shop Assistant</option>
@@ -2977,13 +3036,13 @@
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                     <div>
-                        <label style="color: var(--white); display: block; margin-bottom: 5px;">Department</label>
-                        <input type="text" id="staffDepartment" placeholder="e.g., Operations, Sales" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);">
+                        <label style="color: var(--or-white); display: block; margin-bottom: 5px;">Department</label>
+                        <input type="text" id="staffDepartment" placeholder="e.g., Operations, Sales" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);">
                     </div>
 
                     <div>
-                        <label style="color: var(--white); display: block; margin-bottom: 5px;">Work Schedule</label>
-                        <select id="staffWorkSchedule" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);">
+                        <label style="color: var(--or-white); display: block; margin-bottom: 5px;">Work Schedule</label>
+                        <select id="staffWorkSchedule" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);">
                             <option value="full-time">Full-time</option>
                             <option value="part-time">Part-time</option>
                             <option value="contract">Contract</option>
@@ -3003,7 +3062,7 @@
     <div id="leadModal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeLeadModal()">&times;</button>
-            <h2 style="color: var(--white); margin-bottom: 20px;">Lead Details</h2>
+            <h2 style="color: var(--or-white); margin-bottom: 20px;">Lead Details</h2>
 
             <div id="leadDetails" style="margin-bottom: 20px;">
                 <!-- Lead details will be loaded here -->
@@ -3013,8 +3072,8 @@
                 <input type="hidden" id="leadId">
 
                 <div style="margin-top: 15px;">
-                    <label style="color: var(--white); display: block; margin-bottom: 5px;">Status *</label>
-                    <select id="leadStatus" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);">
+                    <label style="color: var(--or-white); display: block; margin-bottom: 5px;">Status *</label>
+                    <select id="leadStatus" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);">
                         <option value="new">New</option>
                         <option value="contacted">Contacted</option>
                         <option value="qualified">Qualified</option>
@@ -3024,16 +3083,16 @@
                 </div>
 
                 <div style="margin-top: 15px;">
-                    <label style="color: var(--white); display: block; margin-bottom: 5px;">Assign To</label>
-                    <select id="leadAssignedTo" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);">
+                    <label style="color: var(--or-white); display: block; margin-bottom: 5px;">Assign To</label>
+                    <select id="leadAssignedTo" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);">
                         <option value="">Unassigned</option>
                         <!-- Staff options will be loaded dynamically -->
                     </select>
                 </div>
 
                 <div style="margin-top: 15px;">
-                    <label style="color: var(--white); display: block; margin-bottom: 5px;">Notes</label>
-                    <textarea id="leadNotes" rows="4" placeholder="Add notes about this lead..." style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--white);"></textarea>
+                    <label style="color: var(--or-white); display: block; margin-bottom: 5px;">Notes</label>
+                    <textarea id="leadNotes" rows="4" placeholder="Add notes about this lead..." style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--green); background: #0A0A0A; color: var(--or-white);"></textarea>
                 </div>
 
                 <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: space-between;">
@@ -3168,13 +3227,13 @@
                 <i class="fas fa-plus"></i> Create Menu Board
             </button>
         </div>
-        <p style="color: var(--gray-500); margin-bottom: 1.5rem;">Configure LED displays for your branches. Each board can show different products, promotions, and layouts.</p>
+        <p style="color: var(--or-grey-2); margin-bottom: 1.5rem;">Configure LED displays for your branches. Each board can show different products, promotions, and layouts.</p>
 
         <!-- Menu Boards Grid -->
         <div id="menuBoardsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">
             <div style="text-align: center; padding: 3rem; grid-column: 1/-1;">
                 <div class="spinner"></div>
-                <p style="margin-top: 1rem; color: var(--gray-500);">Loading menu boards...</p>
+                <p style="margin-top: 1rem; color: var(--or-grey-2);">Loading menu boards...</p>
             </div>
         </div>
     </div>
@@ -3195,21 +3254,21 @@
 
         <!-- B2B Stats Cards -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-            <div class="stat-card" style="background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); color: var(--cream); padding: 1.2rem; border-radius: 10px;">
+            <div class="stat-card" style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); color: var(--cream); padding: 1.2rem; border-radius: 10px;">
                 <div style="font-size: 0.85rem; opacity: 0.9;">Pending Orders</div>
-                <div id="b2bPendingCount" style="font-size: 2rem; font-weight: bold; font-family: 'Oswald', sans-serif;">0</div>
+                <div id="b2bPendingCount" style="font-size: 2rem; font-weight: bold; font-family: 'Cinzel', sans-serif;">0</div>
             </div>
-            <div class="stat-card" style="background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: var(--white); padding: 1.2rem; border-radius: 10px;">
+            <div class="stat-card" style="background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: var(--or-white); padding: 1.2rem; border-radius: 10px;">
                 <div style="font-size: 0.85rem;">Overdue Invoices</div>
-                <div id="b2bOverdueCount" style="font-size: 2rem; font-weight: bold; font-family: 'Oswald', sans-serif;">0</div>
+                <div id="b2bOverdueCount" style="font-size: 2rem; font-weight: bold; font-family: 'Cinzel', sans-serif;">0</div>
             </div>
             <div class="stat-card" style="background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%); color: var(--cream); padding: 1.2rem; border-radius: 10px;">
                 <div style="font-size: 0.85rem; opacity: 0.9;">Outstanding Balance</div>
-                <div id="b2bOutstanding" style="font-size: 2rem; font-weight: bold; font-family: 'Oswald', sans-serif;">R0</div>
+                <div id="b2bOutstanding" style="font-size: 2rem; font-weight: bold; font-family: 'Cinzel', sans-serif;">R0</div>
             </div>
-            <div class="stat-card" style="background: var(--black); border: 2px solid var(--green); padding: 1.2rem; border-radius: 10px;">
-                <div style="font-size: 0.85rem; color: var(--purple);">This Month Revenue</div>
-                <div id="b2bMonthRevenue" style="font-size: 2rem; font-weight: bold; font-family: 'Oswald', sans-serif; color: var(--purple);">R0</div>
+            <div class="stat-card" style="background: var(--or-black); border: 2px solid var(--green); padding: 1.2rem; border-radius: 10px;">
+                <div style="font-size: 0.85rem; color: var(--or-gold);">This Month Revenue</div>
+                <div id="b2bMonthRevenue" style="font-size: 2rem; font-weight: bold; font-family: 'Cinzel', sans-serif; color: var(--or-gold);">R0</div>
             </div>
         </div>
 
@@ -3242,7 +3301,7 @@
     <!-- B2B Customers Modal -->
     <div id="b2bCustomersModal" class="modal" style="display: none;">
         <div class="modal-content" style="max-width: 900px;">
-            <div class="modal-header" style="background: var(--green); color: var(--cream);">
+            <div class="modal-header" style="background: var(--or-gold); color: var(--cream);">
                 <h3><i class="fas fa-users"></i> B2B Customers</h3>
                 <button class="modal-close" onclick="closeB2BCustomersModal()" style="color: var(--cream);">&times;</button>
             </div>
@@ -3254,7 +3313,7 @@
                     </button>
                 </div>
                 <table style="width: 100%; border-collapse: collapse;">
-                    <thead style="background: var(--black);">
+                    <thead style="background: var(--or-black);">
                         <tr>
                             <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--green);">Business Name</th>
                             <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--green);">Contact</th>
@@ -3285,7 +3344,7 @@
 
                     <div class="form-group">
                         <label>Board Name *</label>
-                        <input type="text" id="boardName" required placeholder="e.g., Ormonde Main Display">
+                        <input type="text" id="boardName" required placeholder="e.g., Potchefstroom Main Display">
                     </div>
 
                     <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
@@ -3322,7 +3381,7 @@
                             <select id="boardTheme">
                                 <option value="dark">Dark</option>
                                 <option value="light">Light</option>
-                                <option value="dbc-brand">DBC Brand</option>
+                                <option value="or-brand">Origin Brand</option>
                             </select>
                         </div>
                     </div>
@@ -3371,40 +3430,40 @@
     <!-- Daily Cashup Wizard Modal -->
     <div id="cashupWizardModal" class="modal" style="display: none;">
         <div class="modal-content" style="max-width: 800px;">
-            <div class="modal-header" style="background: var(--green); color: var(--cream);">
+            <div class="modal-header" style="background: var(--or-gold); color: var(--cream);">
                 <h3><i class="fas fa-cash-register"></i> End of Day Cashup</h3>
                 <button class="modal-close" onclick="closeCashupWizard()" style="color: var(--cream);">&times;</button>
             </div>
             <div class="modal-body" style="padding: 0;">
                 <!-- Wizard Steps Indicator -->
-                <div style="display: flex; background: var(--black); padding: 15px 20px; border-bottom: 2px solid var(--green);">
+                <div style="display: flex; background: var(--or-black); padding: 15px 20px; border-bottom: 2px solid var(--green);">
                     <div class="cashup-step" id="cashupStep1Indicator" style="flex: 1; text-align: center; opacity: 1;">
-                        <div style="width: 30px; height: 30px; background: var(--green); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
-                        <div style="font-size: 0.75rem; margin-top: 5px; color: var(--white);">Check Tills</div>
+                        <div style="width: 30px; height: 30px; background: var(--or-gold); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+                        <div style="font-size: 0.75rem; margin-top: 5px; color: var(--or-white);">Check Tills</div>
                     </div>
                     <div class="cashup-step" id="cashupStep2Indicator" style="flex: 1; text-align: center; opacity: 0.4;">
                         <div style="width: 30px; height: 30px; background: var(--green-light); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
-                        <div style="font-size: 0.75rem; margin-top: 5px; color: var(--white);">Cash Count</div>
+                        <div style="font-size: 0.75rem; margin-top: 5px; color: var(--or-white);">Cash Count</div>
                     </div>
                     <div class="cashup-step" id="cashupStep3Indicator" style="flex: 1; text-align: center; opacity: 0.4;">
                         <div style="width: 30px; height: 30px; background: var(--green-light); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
-                        <div style="font-size: 0.75rem; margin-top: 5px; color: var(--white);">Banking</div>
+                        <div style="font-size: 0.75rem; margin-top: 5px; color: var(--or-white);">Banking</div>
                     </div>
                     <div class="cashup-step" id="cashupStep4Indicator" style="flex: 1; text-align: center; opacity: 0.4;">
                         <div style="width: 30px; height: 30px; background: var(--green-light); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold;">4</div>
-                        <div style="font-size: 0.75rem; margin-top: 5px; color: var(--white);">Submit</div>
+                        <div style="font-size: 0.75rem; margin-top: 5px; color: var(--or-white);">Submit</div>
                     </div>
                 </div>
 
                 <!-- Step 1: Check Tills -->
                 <div id="cashupStep1" class="cashup-wizard-step" style="padding: 25px;">
-                    <h4 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 20px;">
+                    <h4 style="font-family: 'Cinzel', sans-serif; color: var(--or-white); margin-bottom: 20px;">
                         <i class="fas fa-check-double"></i> Step 1: Verify All Tills Closed
                     </h4>
-                    <div id="tillStatusList" style="background: var(--black); border-radius: 10px; padding: 20px;">
+                    <div id="tillStatusList" style="background: var(--or-black); border-radius: 10px; padding: 20px;">
                         <p style="color: var(--green-light);">Checking till sessions...</p>
                     </div>
-                    <div id="tillWarning" style="display: none; margin-top: 15px; padding: 15px; background: rgba(217, 119, 6, 0.15); border-left: 4px solid var(--gold); border-radius: 4px;">
+                    <div id="tillWarning" style="display: none; margin-top: 15px; padding: 15px; background: rgba(240, 165, 0, 0.15); border-left: 4px solid var(--gold); border-radius: 4px;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--gold);"></i>
                         <span id="tillWarningText">Some tills are still open. Please close all tills before proceeding.</span>
                     </div>
@@ -3412,79 +3471,79 @@
 
                 <!-- Step 2: Manager Cash Count -->
                 <div id="cashupStep2" class="cashup-wizard-step" style="display: none; padding: 25px;">
-                    <h4 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 15px;">
+                    <h4 style="font-family: 'Cinzel', sans-serif; color: var(--or-white); margin-bottom: 15px;">
                         <i class="fas fa-coins"></i> Step 2: Manager Cash Count
                     </h4>
                     <p style="color: #666; margin-bottom: 20px;">Count ALL physical cash in the store (safe + all tills)</p>
 
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;">
                         <!-- Notes -->
-                        <div class="denom-item" style="background: var(--black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
+                        <div class="denom-item" style="background: var(--or-black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
                             <label style="font-weight: 600; font-size: 0.85rem;">R200</label>
                             <input type="number" id="mgr_r200" value="0" min="0" onchange="updateManagerTotal()" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
-                            <div style="font-size: 0.75rem; color: var(--purple);" id="mgr_r200_total">R0</div>
+                            <div style="font-size: 0.75rem; color: var(--or-gold);" id="mgr_r200_total">R0</div>
                         </div>
-                        <div class="denom-item" style="background: var(--black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
+                        <div class="denom-item" style="background: var(--or-black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
                             <label style="font-weight: 600; font-size: 0.85rem;">R100</label>
                             <input type="number" id="mgr_r100" value="0" min="0" onchange="updateManagerTotal()" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
-                            <div style="font-size: 0.75rem; color: var(--purple);" id="mgr_r100_total">R0</div>
+                            <div style="font-size: 0.75rem; color: var(--or-gold);" id="mgr_r100_total">R0</div>
                         </div>
-                        <div class="denom-item" style="background: var(--black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
+                        <div class="denom-item" style="background: var(--or-black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
                             <label style="font-weight: 600; font-size: 0.85rem;">R50</label>
                             <input type="number" id="mgr_r50" value="0" min="0" onchange="updateManagerTotal()" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
-                            <div style="font-size: 0.75rem; color: var(--purple);" id="mgr_r50_total">R0</div>
+                            <div style="font-size: 0.75rem; color: var(--or-gold);" id="mgr_r50_total">R0</div>
                         </div>
-                        <div class="denom-item" style="background: var(--black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
+                        <div class="denom-item" style="background: var(--or-black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
                             <label style="font-weight: 600; font-size: 0.85rem;">R20</label>
                             <input type="number" id="mgr_r20" value="0" min="0" onchange="updateManagerTotal()" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
-                            <div style="font-size: 0.75rem; color: var(--purple);" id="mgr_r20_total">R0</div>
+                            <div style="font-size: 0.75rem; color: var(--or-gold);" id="mgr_r20_total">R0</div>
                         </div>
-                        <div class="denom-item" style="background: var(--black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
+                        <div class="denom-item" style="background: var(--or-black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
                             <label style="font-weight: 600; font-size: 0.85rem;">R10</label>
                             <input type="number" id="mgr_r10" value="0" min="0" onchange="updateManagerTotal()" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
-                            <div style="font-size: 0.75rem; color: var(--purple);" id="mgr_r10_total">R0</div>
+                            <div style="font-size: 0.75rem; color: var(--or-gold);" id="mgr_r10_total">R0</div>
                         </div>
-                        <div class="denom-item" style="background: var(--black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
+                        <div class="denom-item" style="background: var(--or-black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
                             <label style="font-weight: 600; font-size: 0.85rem;">R5</label>
                             <input type="number" id="mgr_r5" value="0" min="0" onchange="updateManagerTotal()" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
-                            <div style="font-size: 0.75rem; color: var(--purple);" id="mgr_r5_total">R0</div>
+                            <div style="font-size: 0.75rem; color: var(--or-gold);" id="mgr_r5_total">R0</div>
                         </div>
-                        <div class="denom-item" style="background: var(--black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
+                        <div class="denom-item" style="background: var(--or-black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
                             <label style="font-weight: 600; font-size: 0.85rem;">R2</label>
                             <input type="number" id="mgr_r2" value="0" min="0" onchange="updateManagerTotal()" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
-                            <div style="font-size: 0.75rem; color: var(--purple);" id="mgr_r2_total">R0</div>
+                            <div style="font-size: 0.75rem; color: var(--or-gold);" id="mgr_r2_total">R0</div>
                         </div>
-                        <div class="denom-item" style="background: var(--black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
+                        <div class="denom-item" style="background: var(--or-black); padding: 10px; border-radius: 8px; border: 1px solid var(--green-light);">
                             <label style="font-weight: 600; font-size: 0.85rem;">R1</label>
                             <input type="number" id="mgr_r1" value="0" min="0" onchange="updateManagerTotal()" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
-                            <div style="font-size: 0.75rem; color: var(--purple);" id="mgr_r1_total">R0</div>
+                            <div style="font-size: 0.75rem; color: var(--or-gold);" id="mgr_r1_total">R0</div>
                         </div>
                     </div>
 
-                    <div style="background: var(--green); color: var(--cream); padding: 20px; border-radius: 10px; text-align: center;">
+                    <div style="background: var(--or-gold); color: var(--cream); padding: 20px; border-radius: 10px; text-align: center;">
                         <div style="font-size: 0.9rem;">Total Cash Counted</div>
-                        <div style="font-family: 'Oswald', sans-serif; font-size: 2.5rem;" id="managerCashTotal">R 0.00</div>
+                        <div style="font-family: 'Cinzel', sans-serif; font-size: 2.5rem;" id="managerCashTotal">R 0.00</div>
                     </div>
                 </div>
 
                 <!-- Step 3: Banking -->
                 <div id="cashupStep3" class="cashup-wizard-step" style="display: none; padding: 25px;">
-                    <h4 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 20px;">
+                    <h4 style="font-family: 'Cinzel', sans-serif; color: var(--or-white); margin-bottom: 20px;">
                         <i class="fas fa-university"></i> Step 3: Banking & Float
                     </h4>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-                        <div style="background: var(--black); padding: 20px; border-radius: 10px;">
+                        <div style="background: var(--or-black); padding: 20px; border-radius: 10px;">
                             <label style="font-weight: 600; display: block; margin-bottom: 10px;">Amount for Banking (R)</label>
                             <input type="number" id="bankingAmount" value="0" min="0" style="width: 100%; padding: 12px; border: 2px solid var(--green); border-radius: 8px; font-size: 1.2rem; text-align: center;">
                         </div>
-                        <div style="background: var(--black); padding: 20px; border-radius: 10px;">
+                        <div style="background: var(--or-black); padding: 20px; border-radius: 10px;">
                             <label style="font-weight: 600; display: block; margin-bottom: 10px;">Next Day Float (R)</label>
                             <input type="number" id="nextDayFloat" value="500" min="0" style="width: 100%; padding: 12px; border: 2px solid var(--green); border-radius: 8px; font-size: 1.2rem; text-align: center;">
                         </div>
                     </div>
 
-                    <div style="background: var(--black); padding: 20px; border-radius: 10px;">
+                    <div style="background: var(--or-black); padding: 20px; border-radius: 10px;">
                         <label style="font-weight: 600; display: block; margin-bottom: 10px;">Banking Reference (Optional)</label>
                         <input type="text" id="bankingReference" placeholder="e.g., Deposit slip number" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
                     </div>
@@ -3492,30 +3551,30 @@
 
                 <!-- Step 4: Review & Submit -->
                 <div id="cashupStep4" class="cashup-wizard-step" style="display: none; padding: 25px;">
-                    <h4 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 20px;">
+                    <h4 style="font-family: 'Cinzel', sans-serif; color: var(--or-white); margin-bottom: 20px;">
                         <i class="fas fa-clipboard-check"></i> Step 4: Review & Submit
                     </h4>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                        <div style="background: var(--black); padding: 15px; border-radius: 8px;">
+                        <div style="background: var(--or-black); padding: 15px; border-radius: 8px;">
                             <div style="font-size: 0.85rem; color: #666;">Total Sales</div>
-                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--purple);" id="reviewTotalSales">R 0.00</div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--or-gold);" id="reviewTotalSales">R 0.00</div>
                         </div>
-                        <div style="background: var(--black); padding: 15px; border-radius: 8px;">
+                        <div style="background: var(--or-black); padding: 15px; border-radius: 8px;">
                             <div style="font-size: 0.85rem; color: #666;">Cash Counted</div>
-                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--purple);" id="reviewCashCounted">R 0.00</div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--or-gold);" id="reviewCashCounted">R 0.00</div>
                         </div>
-                        <div style="background: var(--black); padding: 15px; border-radius: 8px;">
+                        <div style="background: var(--or-black); padding: 15px; border-radius: 8px;">
                             <div style="font-size: 0.85rem; color: #666;">Banking</div>
-                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--purple);" id="reviewBanking">R 0.00</div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--or-gold);" id="reviewBanking">R 0.00</div>
                         </div>
-                        <div style="background: var(--black); padding: 15px; border-radius: 8px;" id="varianceBox">
+                        <div style="background: var(--or-black); padding: 15px; border-radius: 8px;" id="varianceBox">
                             <div style="font-size: 0.85rem; color: #666;">Variance</div>
                             <div style="font-size: 1.5rem; font-weight: bold;" id="reviewVariance">R 0.00</div>
                         </div>
                     </div>
 
-                    <div id="varianceExplanationBox" style="display: none; background: rgba(217, 119, 6, 0.15); padding: 15px; border-radius: 8px; border-left: 4px solid var(--gold); margin-bottom: 15px;">
+                    <div id="varianceExplanationBox" style="display: none; background: rgba(240, 165, 0, 0.15); padding: 15px; border-radius: 8px; border-left: 4px solid var(--gold); margin-bottom: 15px;">
                         <label style="font-weight: 600; display: block; margin-bottom: 10px;">
                             <i class="fas fa-exclamation-triangle" style="color: var(--gold);"></i>
                             Variance Explanation Required
@@ -3523,14 +3582,14 @@
                         <textarea id="discrepancyExplanation" rows="3" placeholder="Please explain the variance..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;"></textarea>
                     </div>
 
-                    <div style="background: var(--black); padding: 15px; border-radius: 8px;">
+                    <div style="background: var(--or-black); padding: 15px; border-radius: 8px;">
                         <label style="font-weight: 600; display: block; margin-bottom: 10px;">Notes (Optional)</label>
                         <textarea id="cashupNotes" rows="2" placeholder="Any additional notes..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;"></textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="modal-footer" style="display: flex; justify-content: space-between; padding: 15px 25px; background: var(--black);">
+            <div class="modal-footer" style="display: flex; justify-content: space-between; padding: 15px 25px; background: var(--or-black);">
                 <button id="cashupPrevBtn" class="btn-secondary" onclick="prevCashupStep()" style="display: none;">
                     <i class="fas fa-arrow-left"></i> Back
                 </button>
@@ -3538,40 +3597,40 @@
                 <button id="cashupNextBtn" class="btn-primary" onclick="nextCashupStep()">
                     Next <i class="fas fa-arrow-right"></i>
                 </button>
-                <button id="cashupSubmitBtn" class="btn-primary" onclick="submitCashup()" style="display: none; background: var(--gold); color: var(--white);">
+                <button id="cashupSubmitBtn" class="btn-primary" onclick="submitCashup()" style="display: none; background: var(--gold); color: var(--or-white);">
                     <i class="fas fa-paper-plane"></i> Submit for Approval
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- JIG Shared Libraries -->
-    <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
-    <script src="/frontend/jig-core.js"></script>
+    <!-- Origin Shared Libraries -->
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-utils.js"></script>
+    <script src="frontend/or-auth.js"></script>
+    <script src="frontend/or-core.js"></script>
 
     <!-- Admin Auth & RBAC (must load first) -->
-    <script src="/frontend/admin-auth.js"></script>
+    <script src="frontend/admin-auth.js"></script>
 
     <!-- Admin Core UI (must load second) -->
-    <script src="/frontend/admin-core.js"></script>
+    <script src="frontend/admin-core.js"></script>
 
     <!-- Admin Tab Modules -->
-    <script src="/frontend/admin-payments.js"></script>
-    <script src="/frontend/admin-pos.js"></script>
-    <script src="/frontend/admin-pos-payments.js"></script>
-    <script src="/frontend/admin-inventory.js"></script>
-    <script src="/frontend/admin-users.js"></script>
-    <script src="/frontend/admin-staff.js"></script>
-    <script src="/frontend/admin-vouchers.js"></script>
-    <script src="/frontend/admin-affiliates.js"></script>
-    <script src="/frontend/admin-modules.js"></script>
-    <script src="/frontend/admin-leads.js"></script>
-    <script src="/frontend/admin-payroll.js"></script>
-    <script src="/frontend/admin-ledger.js"></script>
-    <script src="/frontend/admin-menu-boards.js"></script>
-    <script src="/frontend/admin-advanced.js"></script>
+    <script src="frontend/admin-payments.js"></script>
+    <script src="frontend/admin-pos.js"></script>
+    <script src="frontend/admin-pos-payments.js"></script>
+    <script src="frontend/admin-inventory.js"></script>
+    <script src="frontend/admin-users.js"></script>
+    <script src="frontend/admin-staff.js"></script>
+    <script src="frontend/admin-vouchers.js"></script>
+    <script src="frontend/admin-affiliates.js"></script>
+    <script src="frontend/admin-modules.js"></script>
+    <script src="frontend/admin-leads.js"></script>
+    <script src="frontend/admin-payroll.js"></script>
+    <script src="frontend/admin-ledger.js"></script>
+    <script src="frontend/admin-menu-boards.js"></script>
+    <script src="frontend/admin-advanced.js"></script>
 
     <!-- Till Management Modals -->
     <script>
@@ -3587,15 +3646,15 @@
     </script>
 
     <!-- Till Management JavaScript -->
-    <script src="/frontend/admin-till-management.js"></script>
+    <script src="frontend/admin-till-management.js"></script>
 
     <!-- POS Printing System -->
-    <script src="/frontend/pos-printing.js"></script>
+    <script src="frontend/pos-printing.js"></script>
 
     <!-- UAT Bug Reporter -->
 
     <!-- Viral Management -->
-    <script src="/frontend/admin-viral-management.js"></script>
+    <script src="frontend/admin-viral-management.js"></script>
 
     <!-- Mobile Bottom Nav -->
     <nav class="bottom-nav" id="bottomNav">

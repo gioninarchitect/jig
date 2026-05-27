@@ -1,5 +1,5 @@
 #!/bin/bash
-# Set SMTP password and restart JIG
+# Set SMTP password and restart PureGro
 
 APP_DIR="/var/www/jig"
 
@@ -18,7 +18,7 @@ print('SMTP password updated')
 grep 'SMTP_PASS' "$APP_DIR/.env"
 
 # Restart
-pm2 restart jig-api
+pm2 restart puregro-api
 sleep 3
 
 # Health check

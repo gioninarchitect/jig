@@ -126,7 +126,7 @@ export default function ConfigHistory({ fetchHistory, onConfigReverted }) {
   if (loading) {
     return (
       <div className="flex justify-center py-8">
-        <div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -141,7 +141,7 @@ export default function ConfigHistory({ fetchHistory, onConfigReverted }) {
             type="date"
             value={dateFrom}
             onChange={e => setDateFrom(e.target.value)}
-            className="px-3 py-1.5 border-2 border-gray-200 rounded-lg text-xs focus:outline-none focus:border-jig-amber"
+            className="px-3 py-1.5 border-2 border-gray-200 rounded-lg text-xs focus:outline-none focus:border-or-gold"
           />
         </div>
         <div>
@@ -150,19 +150,19 @@ export default function ConfigHistory({ fetchHistory, onConfigReverted }) {
             type="date"
             value={dateTo}
             onChange={e => setDateTo(e.target.value)}
-            className="px-3 py-1.5 border-2 border-gray-200 rounded-lg text-xs focus:outline-none focus:border-jig-amber"
+            className="px-3 py-1.5 border-2 border-gray-200 rounded-lg text-xs focus:outline-none focus:border-or-gold"
           />
         </div>
         <button
           onClick={handleDateFilter}
-          className="px-3 py-1.5 text-xs bg-jig-purple text-white rounded-lg hover:bg-jig-purple-dark transition-colors"
+          className="px-3 py-1.5 text-xs bg-or-gold text-white rounded-lg hover:bg-or-gold-dark transition-colors"
         >
           Filter
         </button>
         {(dateFrom || dateTo) && (
           <button
             onClick={clearDateFilter}
-            className="px-3 py-1.5 text-xs text-gray-500 hover:text-jig-red transition-colors"
+            className="px-3 py-1.5 text-xs text-gray-500 hover:text-origin-red transition-colors"
           >
             Clear
           </button>
@@ -171,7 +171,7 @@ export default function ConfigHistory({ fetchHistory, onConfigReverted }) {
         <button
           onClick={handleExportCSV}
           disabled={entries.length === 0}
-          className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg hover:bg-jig-slate disabled:opacity-40 transition-colors"
+          className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg hover:bg-origin-slate disabled:opacity-40 transition-colors"
         >
           Export CSV
         </button>
@@ -190,9 +190,9 @@ export default function ConfigHistory({ fetchHistory, onConfigReverted }) {
           const isRevert = entry.reason?.startsWith('Reverted change from');
 
           return (
-            <div key={entry._id || i} className={`bg-white rounded-xl border overflow-hidden ${isRevert ? 'border-jig-amber/40' : 'border-gray-200'}`}>
+            <div key={entry._id || i} className={`bg-white rounded-xl border overflow-hidden ${isRevert ? 'border-or-gold/40' : 'border-gray-200'}`}>
               {/* Timeline bar */}
-              <div className="h-1 bg-gradient-to-r from-jig-purple to-jig-amber" />
+              <div className="h-1 bg-gradient-to-r from-or-gold to-or-gold" />
 
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
@@ -208,7 +208,7 @@ export default function ConfigHistory({ fetchHistory, onConfigReverted }) {
                     {!isRevert && (
                       <button
                         onClick={() => setRevertTarget(entry)}
-                        className="text-[10px] text-jig-red hover:text-jig-red-dark font-medium"
+                        className="text-[10px] text-origin-red hover:text-origin-red-dark font-medium"
                       >
                         Revert
                       </button>
@@ -231,9 +231,9 @@ export default function ConfigHistory({ fetchHistory, onConfigReverted }) {
                     {changes.slice(0, 10).map((ch, ci) => (
                       <div key={ci} className="flex items-center gap-2 text-xs">
                         <span className="text-gray-500 font-mono">{ch.path}</span>
-                        <span className="text-jig-red line-through">{String(ch.from ?? 'null')}</span>
+                        <span className="text-origin-red line-through">{String(ch.from ?? 'null')}</span>
                         <span className="text-gray-400">&rarr;</span>
-                        <span className="text-jig-purple font-medium">{String(ch.to ?? 'null')}</span>
+                        <span className="text-or-gold font-medium">{String(ch.to ?? 'null')}</span>
                       </div>
                     ))}
                     {changes.length > 10 && (
@@ -257,7 +257,7 @@ export default function ConfigHistory({ fetchHistory, onConfigReverted }) {
           <button
             onClick={() => setPage(p => Math.max(1, p - 1))}
             disabled={page <= 1}
-            className="px-3 py-1 text-xs border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-jig-slate"
+            className="px-3 py-1 text-xs border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-origin-slate"
           >
             Prev
           </button>
@@ -265,7 +265,7 @@ export default function ConfigHistory({ fetchHistory, onConfigReverted }) {
           <button
             onClick={() => setPage(p => p + 1)}
             disabled={page >= Math.ceil(total / 20)}
-            className="px-3 py-1 text-xs border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-jig-slate"
+            className="px-3 py-1 text-xs border border-gray-200 rounded-lg disabled:opacity-40 hover:bg-origin-slate"
           >
             Next
           </button>
@@ -307,7 +307,7 @@ export default function ConfigHistory({ fetchHistory, onConfigReverted }) {
                 <strong>Type:</strong> {revertTarget.changeType === 'branch_override' ? 'Branch Override' : 'Global Change'}
               </div>
             </div>
-            <p className="text-xs text-jig-red">
+            <p className="text-xs text-origin-red">
               A new history entry will be created recording this revert. Config will propagate to all sessions.
             </p>
           </div>

@@ -17,14 +17,14 @@ const Input = forwardRef(function Input(
         className={`
           w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-base
           text-gray-900 font-body transition-all duration-300
-          focus:outline-none focus:border-jig-amber focus:shadow-[0_0_0_4px_rgba(124,58,237,0.15)]
+          focus:outline-none focus:border-or-gold focus:shadow-[0_0_0_4px_rgba(63,192,65,0.15)]
           placeholder:text-gray-400
-          ${error ? 'border-jig-red focus:border-jig-red focus:shadow-[0_0_0_4px_rgba(166,52,41,0.15)]' : ''}
+          ${error ? 'border-origin-red focus:border-origin-red focus:shadow-[0_0_0_4px_rgba(166,52,41,0.15)]' : ''}
           ${className}
         `}
         {...props}
       />
-      {error && <p className="mt-1 text-xs text-jig-red font-medium">{error}</p>}
+      {error && <p className="mt-1 text-xs text-origin-red font-medium">{error}</p>}
     </div>
   );
 });

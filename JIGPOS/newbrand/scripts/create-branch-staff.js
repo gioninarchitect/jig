@@ -28,7 +28,7 @@ if (!branchCode || !phone || !firstName || !lastName) {
 
 async function createBranchStaff() {
   try {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
     await mongoose.connect(mongoUri);
     console.log('Connected to MongoDB');
 
@@ -77,7 +77,7 @@ async function createBranchStaff() {
       // Create new user
       const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@jig.cleva-ai.co.za`;
       const username = `${firstName.toLowerCase()}${lastName.toLowerCase()}${Date.now().toString().slice(-4)}`;
-      const tempPassword = `JIG${Date.now().toString().slice(-6)}!`;
+      const tempPassword = `Origin${Date.now().toString().slice(-6)}!`;
       const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
       user = new User({

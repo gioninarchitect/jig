@@ -1,19 +1,19 @@
 #!/bin/bash
 # ──────────────────────────────────────────────
-# JIG Craft Cannabis - Chat Bot Deployment
+# PureGro Premium Cannabis Care - Chat Bot Deployment
 # Run locally: bash deploy/deploy-chat.sh
 # ──────────────────────────────────────────────
 set -euo pipefail
 
 SERVER="154.66.197.199"
 APP_DIR="/var/www/jig"
-PM2_NAME="jig-api"
+PM2_NAME="puregro-api"
 DB_NAME="jig"
-TARBALL="/tmp/jig-deploy.tar.gz"
+TARBALL="/tmp/puregro-deploy.tar.gz"
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 echo "========================================"
-echo "  JIG CHAT DEPLOY - $(date)"
+echo "  PureGro CHAT DEPLOY - $(date)"
 echo "========================================"
 
 # ── 1. Build ─────────────────────────────────
@@ -64,7 +64,7 @@ echo "  Package verified (no .env, all critical files present)"
 # ── 4. Upload ────────────────────────────────
 echo ""
 echo "[4/6] Uploading to server..."
-scp "$TARBALL" "root@${SERVER}:/tmp/jig-deploy.tar.gz"
+scp "$TARBALL" "root@${SERVER}:/tmp/puregro-deploy.tar.gz"
 echo "  Upload complete"
 
 # ── 5. Deploy on server ─────────────────────
@@ -74,12 +74,12 @@ ssh "root@${SERVER}" bash -s <<'REMOTE'
 set -euo pipefail
 APP_DIR="/var/www/jig"
 DB_NAME="jig"
-PM2_NAME="jig-api"
+PM2_NAME="puregro-api"
 
 cd "$APP_DIR"
 
 # Extract
-tar -xzf /tmp/jig-deploy.tar.gz
+tar -xzf /tmp/puregro-deploy.tar.gz
 echo "  Extracted"
 
 # Install deps
@@ -118,7 +118,7 @@ pm2 save
 echo "  PM2 restarted"
 
 # Cleanup
-rm -f /tmp/jig-deploy.tar.gz
+rm -f /tmp/puregro-deploy.tar.gz
 REMOTE
 echo "  Server deployment complete"
 
@@ -126,7 +126,7 @@ echo "  Server deployment complete"
 echo ""
 echo "[6/6] Health check..."
 sleep 3
-ssh "root@${SERVER}" "curl -sf http://127.0.0.1:3002/health" && echo "" || echo "  WARNING: Health check failed - check pm2 logs jig-api"
+ssh "root@${SERVER}" "curl -sf http://127.0.0.1:3002/health" && echo "" || echo "  WARNING: Health check failed - check pm2 logs puregro-api"
 
 # ── Done ─────────────────────────────────────
 echo ""

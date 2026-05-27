@@ -92,7 +92,7 @@ async function clockIn() {
 }
 
 async function clockOut() {
-    _dbcShowConfirm('Are you sure you want to clock out?', async function() {
+    _originShowConfirm('Are you sure you want to clock out?', async function() {
         try {
             const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
             const res = await fetch(`${API_URL}/staff-shifts/clock-out`, {

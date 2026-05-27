@@ -1,12 +1,12 @@
 #!/bin/bash
 # ──────────────────────────────────────────────────────────────
-# JIG Craft Cannabis - n8n Cloud Integration Setup
+# PureGro Premium Cannabis Care - n8n Cloud Integration Setup
 #
 # This script generates the commands you need to run to connect
-# JIG (on the server) with your n8n cloud instance.
+# PureGro (on the server) with your n8n cloud instance.
 #
 # n8n Cloud: https://cleva-ai.app.n8n.cloud/
-# JIG API:   https://jig.cleva-ai.co.za/api/v1
+# PureGro API:   https://jig.cleva-ai.co.za/api/v1
 # Server:    154.66.197.199
 #
 # Usage:
@@ -22,8 +22,8 @@ set -euo pipefail
 
 SERVER="154.66.197.199"
 APP_DIR="/var/www/jig"
-PM2_NAME="jig-api"
-JIG_API="https://jig.cleva-ai.co.za/api/v1"
+PM2_NAME="puregro-api"
+PureGro_API="https://jig.cleva-ai.co.za/api/v1"
 N8N_CLOUD="https://cleva-ai.app.n8n.cloud"
 N8N_WEBHOOK_URL="${N8N_CLOUD}/webhook"
 
@@ -35,11 +35,11 @@ API_KEY=$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9' | head -c 48)
 
 echo ""
 echo "========================================================"
-echo "  JIG x n8n Cloud - Integration Setup"
+echo "  PureGro x n8n Cloud - Integration Setup"
 echo "========================================================"
 echo ""
 echo "  n8n Cloud:  ${N8N_CLOUD}"
-echo "  JIG API:    ${JIG_API}"
+echo "  PureGro API:    ${PureGro_API}"
 echo "  Server:     ${SERVER}"
 echo ""
 echo "--------------------------------------------------------"
@@ -72,14 +72,14 @@ echo ""
 # ── Step 2: Verify ───────────────────────────────────────────
 
 cat << 'STEP2_HEADER'
-STEP 2: Verify JIG is responding
+STEP 2: Verify PureGro is responding
 ─────────────────────────────────
 After running Step 1, test the n8n data API:
 
 STEP2_HEADER
 
 cat << EOF
-curl -s -H "X-N8N-API-KEY: ${API_KEY}" ${JIG_API}/n8n/data/stats | python3 -m json.tool
+curl -s -H "X-N8N-API-KEY: ${API_KEY}" ${PureGro_API}/n8n/data/stats | python3 -m json.tool
 EOF
 
 echo ""
@@ -99,23 +99,23 @@ STEP3_HEADER
 
 cat << EOF
   A. Create an "HTTP Header Auth" credential:
-     - Name:         JIG API Key
+     - Name:         PureGro API Key
      - Header Name:  X-N8N-API-KEY
      - Header Value: ${API_KEY}
 
-  B. JIG Data Endpoints (use HTTP Request node with the credential above):
+  B. PureGro Data Endpoints (use HTTP Request node with the credential above):
 
-     Clients list:         GET  ${JIG_API}/n8n/data/clients
-     Single client:        GET  ${JIG_API}/n8n/data/clients/{id}
-     Unpaid orders:        GET  ${JIG_API}/n8n/data/orders/unpaid
-     Recent orders:        GET  ${JIG_API}/n8n/data/orders/recent?days=7
-     Restock predictions:  GET  ${JIG_API}/n8n/data/restock-predictions
-     All products:         GET  ${JIG_API}/n8n/data/products
-     Dashboard stats:      GET  ${JIG_API}/n8n/data/stats
+     Clients list:         GET  ${PureGro_API}/n8n/data/clients
+     Single client:        GET  ${PureGro_API}/n8n/data/clients/{id}
+     Unpaid orders:        GET  ${PureGro_API}/n8n/data/orders/unpaid
+     Recent orders:        GET  ${PureGro_API}/n8n/data/orders/recent?days=7
+     Restock predictions:  GET  ${PureGro_API}/n8n/data/restock-predictions
+     All products:         GET  ${PureGro_API}/n8n/data/products
+     Dashboard stats:      GET  ${PureGro_API}/n8n/data/stats
 
-  C. JIG Webhook Events (use Webhook trigger nodes):
+  C. PureGro Webhook Events (use Webhook trigger nodes):
 
-     JIG fires POST requests to these URLs when events occur.
+     PureGro fires POST requests to these URLs when events occur.
      Create Webhook nodes for the events you want to automate:
 
      ${N8N_WEBHOOK_URL}/order-created        Order placed
@@ -151,13 +151,13 @@ echo ""
 cat << 'STEP4_HEADER'
 STEP 4: Test the webhook round-trip
 ─────────────────────────────────────
-Once you have a Webhook node active in n8n, test that JIG can
+Once you have a Webhook node active in n8n, test that PureGro can
 reach it by sending a test event from the server:
 
 STEP4_HEADER
 
 cat << EOF
-ssh root@${SERVER} "curl -s -X POST ${N8N_WEBHOOK_URL}/test -H 'Content-Type: application/json' -d '{\"type\":\"test\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)\",\"payload\":{\"message\":\"Hello from JIG\"}}' && echo '' && echo 'Test webhook sent'"
+ssh root@${SERVER} "curl -s -X POST ${N8N_WEBHOOK_URL}/test -H 'Content-Type: application/json' -d '{\"type\":\"test\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%S.000Z)\",\"payload\":{\"message\":\"Hello from PureGro\"}}' && echo '' && echo 'Test webhook sent'"
 EOF
 
 echo ""

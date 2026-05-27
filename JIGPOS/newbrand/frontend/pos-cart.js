@@ -51,15 +51,15 @@ function showPerfectJointModal() {
     modal.style.cssText = 'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10000;align-items:center;justify-content:center;';
     modal.innerHTML = `
         <div style="background:#fff;border-radius:16px;width:90%;max-width:380px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-            <div style="background:linear-gradient(135deg,var(--green-deep,#6D28D9),var(--green,#7C3AED));color:#fff;padding:18px 20px;text-align:center;">
-                <div style="font-family:'Oswald', sans-serif;font-size:1.3rem;letter-spacing:1px;">Perfect Joint</div>
+            <div style="background:linear-gradient(135deg,var(--green-deep,#8B6914),var(--green,#C9A84C));color:#fff;padding:18px 20px;text-align:center;">
+                <div style="font-family:'Barlow Condensed', sans-serif;font-size:1.3rem;letter-spacing:1px;">Perfect Joint</div>
                 <div style="font-size:0.85rem;opacity:0.8;margin-top:4px;">Select type</div>
             </div>
             <div style="padding:16px;display:flex;flex-direction:column;gap:10px;" id="pjVariants">
                 <div style="text-align:center;color:#999;padding:12px;"><i class="fas fa-spinner fa-spin"></i> Loading variants...</div>
             </div>
             <div style="padding:0 16px 16px;">
-                <button onclick="document.getElementById('perfectJointModal').remove()" style="width:100%;padding:12px;background:var(--cream,#0A0A0A);border:none;border-radius:10px;font-weight:600;color:var(--green-deep,#6D28D9);cursor:pointer;font-size:0.95rem;">Cancel</button>
+                <button onclick="document.getElementById('perfectJointModal').remove()" style="width:100%;padding:12px;background:var(--cream,#0E0E0E);border:none;border-radius:10px;font-weight:600;color:var(--green-deep,#8B6914);cursor:pointer;font-size:0.95rem;">Cancel</button>
             </div>
         </div>
     `;
@@ -85,16 +85,16 @@ function showPerfectJointModal() {
 
         buttons.push(`
             <button onclick="selectPerfectJointVariant('${v.sku}')" ${outOfStock ? 'disabled' : ''}
-                style="display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;border:2px solid ${outOfStock ? '#ddd' : 'rgba(124, 58, 237,0.2)'};border-radius:12px;background:${outOfStock ? '#f5f5f5' : 'var(--cream,#0A0A0A)'};cursor:${outOfStock ? 'not-allowed' : 'pointer'};text-align:left;transition:all 0.15s;opacity:${outOfStock ? '0.5' : '1'}"
-                ${outOfStock ? '' : 'onmouseenter="this.style.borderColor=\'var(--gold,#D97706)\';this.style.transform=\'scale(1.02)\'" onmouseleave="this.style.borderColor=\'rgba(124, 58, 237,0.2)\';this.style.transform=\'scale(1)\'"'}>
-                <div style="width:48px;height:48px;border-radius:12px;background:${outOfStock ? '#eee' : 'var(--green,#7C3AED)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <i class="fas ${v.icon}" style="color:${outOfStock ? '#999' : 'var(--gold,#D97706)'};font-size:1.2rem;"></i>
+                style="display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;border:2px solid ${outOfStock ? '#ddd' : 'rgba(63, 192, 65,0.2)'};border-radius:12px;background:${outOfStock ? '#f5f5f5' : 'var(--cream,#0E0E0E)'};cursor:${outOfStock ? 'not-allowed' : 'pointer'};text-align:left;transition:all 0.15s;opacity:${outOfStock ? '0.5' : '1'}"
+                ${outOfStock ? '' : 'onmouseenter="this.style.borderColor=\'var(--gold,#C9A84C)\';this.style.transform=\'scale(1.02)\'" onmouseleave="this.style.borderColor=\'rgba(63, 192, 65,0.2)\';this.style.transform=\'scale(1)\'"'}>
+                <div style="width:48px;height:48px;border-radius:12px;background:${outOfStock ? '#eee' : 'var(--green,#C9A84C)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fas ${v.icon}" style="color:${outOfStock ? '#999' : 'var(--gold,#C9A84C)'};font-size:1.2rem;"></i>
                 </div>
                 <div style="flex:1;">
-                    <div style="font-weight:700;color:var(--green-deep,#6D28D9);font-size:1.05rem;">${v.label}</div>
+                    <div style="font-weight:700;color:var(--green-deep,#8B6914);font-size:1.05rem;">${v.label}</div>
                     <div style="font-size:0.8rem;color:#888;margin-top:2px;">${outOfStock ? 'Out of stock' : stock + ' available'}</div>
                 </div>
-                <div style="font-weight:800;font-size:1.2rem;color:var(--green,#7C3AED);">R${v.price}</div>
+                <div style="font-weight:800;font-size:1.2rem;color:var(--green,#C9A84C);">R${v.price}</div>
             </button>
         `);
     }
@@ -186,7 +186,7 @@ function clearCart() {
 
 function updateTotals() {
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const vat = subtotal * 0.15;
+    const vat = subtotal * VAT_RATE;
     const total = subtotal + vat;
 
     document.getElementById('subtotal').textContent = `R ${subtotal.toFixed(2)}`;

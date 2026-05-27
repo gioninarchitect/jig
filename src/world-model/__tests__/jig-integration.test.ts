@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - World Model Integration Tests
+ * PureGro Premium Cannabis Care - World Model Integration Tests
  *
  * Covers:
  *   1. Order flow
@@ -89,7 +89,7 @@ function mockOrderItems(count = 2): OrderItem[] {
   const items: OrderItem[] = [
     {
       productId: 'prod-001',
-      sku: 'JIG-PH-250',
+      sku: 'PureGro-PH-250',
       name: 'Purple Haze Premium 250g',
       quantity: 250,
       unitPrice: 650,
@@ -97,7 +97,7 @@ function mockOrderItems(count = 2): OrderItem[] {
     },
     {
       productId: 'prod-002',
-      sku: 'JIG-PR-50',
+      sku: 'PureGro-PR-50',
       name: 'Pre-Roll 6-Pack',
       quantity: 50,
       unitPrice: 150,
@@ -105,7 +105,7 @@ function mockOrderItems(count = 2): OrderItem[] {
     },
     {
       productId: 'prod-003',
-      sku: 'JIG-ED-20',
+      sku: 'PureGro-ED-20',
       name: 'Edible Gummy 10-Pack',
       quantity: 20,
       unitPrice: 200,
@@ -119,7 +119,7 @@ function mockProducts(): Product[] {
   return [
     {
       id: 'prod-001',
-      sku: 'JIG-PH-250',
+      sku: 'PureGro-PH-250',
       name: 'Purple Haze Premium',
       category: 'flower',
       strain: 'hybrid',
@@ -139,7 +139,7 @@ function mockProducts(): Product[] {
     },
     {
       id: 'prod-002',
-      sku: 'JIG-PR-50',
+      sku: 'PureGro-PR-50',
       name: 'Pre-Roll 6-Pack',
       category: 'pre_rolls',
       unit: 'packs',
@@ -153,7 +153,7 @@ function mockProducts(): Product[] {
     },
     {
       id: 'prod-003',
-      sku: 'JIG-ED-20',
+      sku: 'PureGro-ED-20',
       name: 'Edible Gummy 10-Pack',
       category: 'edibles',
       unit: 'packs',
@@ -167,7 +167,7 @@ function mockProducts(): Product[] {
     },
     {
       id: 'prod-004',
-      sku: 'JIG-VPE-10',
+      sku: 'PureGro-VPE-10',
       name: 'Vape Cartridge Premium',
       category: 'vapes',
       unit: 'units',
@@ -219,7 +219,7 @@ function buildStateWithOrders(
 
     state = clientWorldReducer(state, {
       type: 'ORDER_PLACED',
-      orderId: `JIG-${String(i + 1).padStart(6, '0')}`,
+      orderId: `PureGro-${String(i + 1).padStart(6, '0')}`,
       items,
       subtotal,
       total,
@@ -230,7 +230,7 @@ function buildStateWithOrders(
     dateSpy.mockReturnValue(orderTimestamp + MS_PER_DAY);
     state = clientWorldReducer(state, {
       type: 'PAYMENT_RECEIVED',
-      orderId: `JIG-${String(i + 1).padStart(6, '0')}`,
+      orderId: `PureGro-${String(i + 1).padStart(6, '0')}`,
       amount: total,
       method: 'eft',
     });
@@ -259,7 +259,7 @@ describe('Order Flow', () => {
 
     state = clientWorldReducer(state, {
       type: 'ORDER_PLACED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       items,
       subtotal,
       total,
@@ -272,7 +272,7 @@ describe('Order Flow', () => {
     expect(state.purchasing.lastOrderAt).toBeTruthy();
     expect(state.purchasing.averageOrderValue).toBe(total);
     expect(state.orders).toHaveLength(1);
-    expect(state.orders[0].id).toBe('JIG-000001');
+    expect(state.orders[0].id).toBe('PureGro-000001');
     expect(state.orders[0].status).toBe('pending');
   });
 
@@ -287,7 +287,7 @@ describe('Order Flow', () => {
 
     state = clientWorldReducer(state, {
       type: 'ORDER_PLACED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       items,
       subtotal: 170000,
       total: 195500,
@@ -301,7 +301,7 @@ describe('Order Flow', () => {
   test('ORDER_CONFIRMED updates order status', () => {
     state = clientWorldReducer(state, {
       type: 'ORDER_PLACED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       items: mockOrderItems(1),
       subtotal: 162500,
       total: 186875,
@@ -310,7 +310,7 @@ describe('Order Flow', () => {
 
     state = clientWorldReducer(state, {
       type: 'ORDER_CONFIRMED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
     });
 
     expect(state.orders[0].status).toBe('confirmed');
@@ -319,7 +319,7 @@ describe('Order Flow', () => {
   test('ORDER_SHIPPED sets tracking number', () => {
     state = clientWorldReducer(state, {
       type: 'ORDER_PLACED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       items: mockOrderItems(1),
       subtotal: 162500,
       total: 186875,
@@ -328,7 +328,7 @@ describe('Order Flow', () => {
 
     state = clientWorldReducer(state, {
       type: 'ORDER_SHIPPED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       trackingNumber: 'TRACK-12345',
     });
 
@@ -339,7 +339,7 @@ describe('Order Flow', () => {
   test('ORDER_CANCELLED reverses LTV', () => {
     state = clientWorldReducer(state, {
       type: 'ORDER_PLACED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       items: mockOrderItems(1),
       subtotal: 162500,
       total: 186875,
@@ -350,7 +350,7 @@ describe('Order Flow', () => {
 
     state = clientWorldReducer(state, {
       type: 'ORDER_CANCELLED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       reason: 'Client request',
     });
 
@@ -362,7 +362,7 @@ describe('Order Flow', () => {
   test('ORDER_DELIVERED resets stock estimate', () => {
     state = clientWorldReducer(state, {
       type: 'ORDER_PLACED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       items: mockOrderItems(1),
       subtotal: 162500,
       total: 186875,
@@ -371,7 +371,7 @@ describe('Order Flow', () => {
 
     state = clientWorldReducer(state, {
       type: 'ORDER_DELIVERED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
     });
 
     expect(state.orders[0].status).toBe('delivered');
@@ -398,7 +398,7 @@ describe('Payment Flow', () => {
 
     state = clientWorldReducer(state, {
       type: 'ORDER_PLACED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       items: mockOrderItems(1),
       subtotal: 162500,
       total: 186875,
@@ -407,7 +407,7 @@ describe('Payment Flow', () => {
 
     state = clientWorldReducer(state, {
       type: 'PAYMENT_OVERDUE',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       daysOverdue: 7,
       amount: 186875,
     });
@@ -423,7 +423,7 @@ describe('Payment Flow', () => {
     for (let i = 0; i < 3; i++) {
       state = clientWorldReducer(state, {
         type: 'ORDER_PLACED',
-        orderId: `JIG-${i}`,
+        orderId: `PureGro-${i}`,
         items: mockOrderItems(1),
         subtotal: 10000,
         total: 11500,
@@ -432,7 +432,7 @@ describe('Payment Flow', () => {
 
       state = clientWorldReducer(state, {
         type: 'PAYMENT_OVERDUE',
-        orderId: `JIG-${i}`,
+        orderId: `PureGro-${i}`,
         daysOverdue: 14,
         amount: 11500,
       });
@@ -538,7 +538,7 @@ describe('Intervention Triggers', () => {
 
     state = clientWorldReducer(state, {
       type: 'ORDER_PLACED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       items: mockOrderItems(1),
       subtotal: 50000,
       total: 57500,
@@ -645,7 +645,7 @@ describe('Pattern Detection', () => {
     for (let i = 0; i < 4; i++) {
       state = clientWorldReducer(state, {
         type: 'ORDER_PLACED',
-        orderId: `JIG-${i}`,
+        orderId: `PureGro-${i}`,
         items: mockOrderItems(1),
         subtotal: 10000,
         total: 11500,
@@ -653,7 +653,7 @@ describe('Pattern Detection', () => {
       });
       state = clientWorldReducer(state, {
         type: 'PAYMENT_OVERDUE',
-        orderId: `JIG-${i}`,
+        orderId: `PureGro-${i}`,
         daysOverdue: 21,
         amount: 11500,
       });
@@ -857,7 +857,7 @@ describe('End-to-End Scenarios', () => {
     // 3. Places first order
     state = clientWorldReducer(state, {
       type: 'ORDER_PLACED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       items: mockOrderItems(2),
       subtotal: 170000,
       total: 195500,
@@ -869,7 +869,7 @@ describe('End-to-End Scenarios', () => {
     // 4. Pays on time
     state = clientWorldReducer(state, {
       type: 'PAYMENT_RECEIVED',
-      orderId: 'JIG-000001',
+      orderId: 'PureGro-000001',
       amount: 195500,
       method: 'eft',
     });
@@ -1004,7 +1004,7 @@ describe('Helper Functions', () => {
     const existing = [
       {
         productId: 'prod-001',
-        sku: 'JIG-PH',
+        sku: 'PureGro-PH',
         name: 'Purple Haze',
         orderCount: 3,
         totalQuantity: 600,
@@ -1015,7 +1015,7 @@ describe('Helper Functions', () => {
     const newItems: OrderItem[] = [
       {
         productId: 'prod-001',
-        sku: 'JIG-PH',
+        sku: 'PureGro-PH',
         name: 'Purple Haze',
         quantity: 250,
         unitPrice: 650,
@@ -1023,7 +1023,7 @@ describe('Helper Functions', () => {
       },
       {
         productId: 'prod-002',
-        sku: 'JIG-PR',
+        sku: 'PureGro-PR',
         name: 'Pre-Roll',
         quantity: 50,
         unitPrice: 150,

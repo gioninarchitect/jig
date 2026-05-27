@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - World Model barrel exports
+ * PureGro Premium Cannabis Care - World Model barrel exports
  *
  * Phase 1: Types & Constants
  * Phase 2: Events & State

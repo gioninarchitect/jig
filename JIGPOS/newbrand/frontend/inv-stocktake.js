@@ -1,5 +1,5 @@
 // inv-stocktake.js — Stocktake review & approval for inventory manager dashboard
-// Depends on: config.js (API_URL), dbc-utils.js (showToast), dbc-auth.js (getToken), inv-core.js
+// Depends on: config.js (API_URL), or-utils.js (showToast), or-auth.js (getToken), inv-core.js
 
 let allStocktakeSessions = [];
 let currentStocktakeSession = null;
@@ -155,8 +155,8 @@ function getStatusBadge(status) {
     const map = {
         'scheduled': '<span class="badge" style="background: #6c757d;">Scheduled</span>',
         'in_progress': '<span class="badge" style="background: #0d6efd;">In Progress</span>',
-        'pending_review': '<span class="badge" style="background: var(--gold, #D97706); color: #000;">Pending Review</span>',
-        'approved': '<span class="badge" style="background: var(--green, #7C3AED);">Approved</span>',
+        'pending_review': '<span class="badge" style="background: var(--gold, #C9A84C); color: #000;">Pending Review</span>',
+        'approved': '<span class="badge" style="background: var(--green, #C9A84C);">Approved</span>',
         'rejected': '<span class="badge" style="background: #DC2626;">Rejected</span>'
     };
     return map[status] || `<span class="badge bg-secondary">${status}</span>`;
@@ -199,7 +199,7 @@ async function loadStocktakeBranchFilter() {
             container.innerHTML = labelHtml +
                 `<button class="st-branch-tab active" onclick="selectStBranch('', this)">All<span class="tab-badge" id="stBadgeAll" style="display:none">0</span></button>` +
                 stBranchList.map(b => {
-                    const name = (b.name || b.branchCode || '').replace('JIG ', '');
+                    const name = (b.name || b.branchCode || '').replace('Origin ', '');
                     return `<button class="st-branch-tab" data-branch-id="${b._id}" onclick="selectStBranch('${b._id}', this)">${name}<span class="tab-badge" id="stBadge-${b._id}" style="display:none">0</span></button>`;
                 }).join('');
             stBranchesLoaded = true;
@@ -319,8 +319,8 @@ function renderStocktakeDetail(session) {
 
     document.getElementById('stDetailSummary').innerHTML = `
         <div class="col-3">
-            <div class="card text-center p-3" style="border-left: 4px solid var(--green, #7C3AED);">
-                <div style="font-size: 1.8rem; font-weight: 700; color: var(--green, #7C3AED);">${total}</div>
+            <div class="card text-center p-3" style="border-left: 4px solid var(--green, #C9A84C);">
+                <div style="font-size: 1.8rem; font-weight: 700; color: var(--green, #C9A84C);">${total}</div>
                 <div class="text-muted" style="font-size: 0.8rem;">Total Items</div>
             </div>
         </div>
@@ -331,8 +331,8 @@ function renderStocktakeDetail(session) {
             </div>
         </div>
         <div class="col-3">
-            <div class="card text-center p-3" style="border-left: 4px solid var(--gold, #D97706);">
-                <div style="font-size: 1.8rem; font-weight: 700; color: var(--gold, #D97706);">${withVariance}</div>
+            <div class="card text-center p-3" style="border-left: 4px solid var(--gold, #C9A84C);">
+                <div style="font-size: 1.8rem; font-weight: 700; color: var(--gold, #C9A84C);">${withVariance}</div>
                 <div class="text-muted" style="font-size: 0.8rem;">With Variance</div>
             </div>
         </div>
@@ -507,7 +507,7 @@ async function rejectStocktake() {
         return;
     }
 
-    _dbcShowConfirm('Reject this stocktake? The branch will need to recount.', async function() {
+    _originShowConfirm('Reject this stocktake? The branch will need to recount.', async function() {
         try {
             const response = await fetch(`${API_URL}/stocktake/session/${currentStocktakeSession._id}/approve`, {
                 method: 'POST',

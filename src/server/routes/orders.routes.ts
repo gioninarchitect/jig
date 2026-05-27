@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Order Routes
+ * PureGro Premium Cannabis Care - Order Routes
  *
  * POST   /orders                      - Create a new order
  * GET    /orders                      - List all orders (admin, with filters)
@@ -27,6 +27,7 @@ import { sendOrderNotification } from '../email';
 import * as chatDb from '../chat/chatDb';
 import * as telegram from '../chat/telegramService';
 import { emitEvent } from '../n8n/emitter';
+import * as posBridge from '../pos-bridge';
 
 const router = Router();
 
@@ -174,7 +175,7 @@ router.post(
 
       // Generate unique order ID from total count
       const { total: orderCount } = await db.listAllOrders({ limit: 0 });
-      const orderId = `JIG-${String(orderCount + 1).padStart(6, '0')}`;
+      const orderId = `PureGro-${String(orderCount + 1).padStart(6, '0')}`;
 
       const deliveryAddr = client.deliveryAddress ?? client.address ?? {
         street: '', city: '', province: '', postalCode: '', country: 'South Africa',
@@ -293,8 +294,50 @@ router.patch(
         return;
       }
 
+      // Check POS stock availability (non-blocking -- order confirms regardless)
+      let stockCheckResult: { ok: boolean; shortages: posBridge.StockShortage[] } | null = null;
+      let transferResult: posBridge.TransferResult | null = null;
+      try {
+        const hqBranchId = await posBridge.getHQBranchId();
+        if (hqBranchId && existing.items && existing.items.length > 0) {
+          // Resolve order items for stock check
+          const orderWithItems = await db.getOrderById(orderId);
+          if (orderWithItems) {
+            stockCheckResult = await posBridge.checkStockForOrder(
+              hqBranchId,
+              orderWithItems.items.map(i => ({ name: i.name, sku: i.sku, quantity: i.quantity })),
+            );
+          }
+        }
+      } catch (err) {
+        console.error('[OrderConfirm] POS stock check failed (non-blocking):', (err as Error).message);
+      }
+
       await db.updateOrderStatus(orderId, 'confirmed');
       const invoiceNumber = await db.assignInvoiceNumber(orderId);
+
+      // Create POS stock transfer (non-blocking -- order is already confirmed)
+      try {
+        const hqBranchId = await posBridge.getHQBranchId();
+        if (hqBranchId) {
+          const orderForTransfer = await db.getOrderById(orderId);
+          if (orderForTransfer) {
+            transferResult = await posBridge.createStockTransfer(
+              hqBranchId,
+              hqBranchId, // same branch for now (wholesale pickup)
+              orderForTransfer.items.map(i => ({ name: i.name, sku: i.sku, quantity: i.quantity })),
+              `Wholesale order ${orderId} (${invoiceNumber})`,
+            );
+            if (transferResult.success && transferResult.transferId) {
+              await db.updateOrderPosTransfer(orderId, transferResult.transferId, transferResult.transferNumber || '');
+              console.log(`[OrderConfirm] POS transfer created: ${transferResult.transferNumber} for order ${orderId}`);
+            }
+          }
+        }
+      } catch (err) {
+        console.error('[OrderConfirm] POS transfer creation failed (non-blocking):', (err as Error).message);
+      }
+
       const order = await db.getOrderById(orderId);
 
       // Notify client via Telegram with full invoice
@@ -318,10 +361,10 @@ router.patch(
           `<b>Total: R${order.total.toLocaleString('en-ZA', { minimumFractionDigits: 2 })}</b>`,
           ``,
           `<b>Payment Details:</b>`,
-          `Bank: ${process.env.JIG_BANK_NAME || 'FNB'}`,
-          `Account: ${process.env.JIG_BANK_ACCOUNT_NAME || 'JIG Craft Cannabis'}`,
-          `Acc No: ${process.env.JIG_BANK_ACCOUNT_NUMBER || 'Contact admin'}`,
-          `Branch: ${process.env.JIG_BANK_BRANCH_CODE || 'Contact admin'}`,
+          `Bank: ${process.env.PureGro_BANK_NAME || 'FNB'}`,
+          `Account: ${process.env.PureGro_BANK_ACCOUNT_NAME || 'PureGro Premium Cannabis Care'}`,
+          `Acc No: ${process.env.PureGro_BANK_ACCOUNT_NUMBER || 'Contact admin'}`,
+          `Branch: ${process.env.PureGro_BANK_BRANCH_CODE || 'Contact admin'}`,
           `Ref: ${order.poNumber}`,
           ``,
           `Full invoice: jig.cleva-ai.co.za`,
@@ -336,6 +379,9 @@ router.patch(
         total: order?.total,
         poNumber: order?.poNumber,
         items: order?.items.map((i) => ({ name: i.name, quantity: i.quantity, unitPrice: i.unitPrice })),
+        posTransferNumber: transferResult?.transferNumber || null,
+        stockCheckPassed: stockCheckResult?.ok ?? null,
+        stockShortages: stockCheckResult?.shortages || [],
       });
 
       res.json({ order, invoiceNumber });
@@ -477,19 +523,19 @@ router.get(
           address: client.address,
         } : null,
         company: {
-          name: process.env.JIG_COMPANY_NAME || 'JIG Craft Cannabis (Pty) Ltd',
-          registration: process.env.JIG_COMPANY_REG || '',
-          vat: process.env.JIG_COMPANY_VAT || '',
-          address: process.env.JIG_COMPANY_ADDRESS || 'Johannesburg, Gauteng, South Africa',
-          email: process.env.JIG_COMPANY_EMAIL || 'info@jigcannabis.com',
-          phone: process.env.JIG_COMPANY_PHONE || '',
+          name: process.env.PureGro_COMPANY_NAME || 'PureGro Premium Cannabis Care (Pty) Ltd',
+          registration: process.env.PureGro_COMPANY_REG || '',
+          vat: process.env.PureGro_COMPANY_VAT || '',
+          address: process.env.PureGro_COMPANY_ADDRESS || 'Johannesburg, Gauteng, South Africa',
+          email: process.env.PureGro_COMPANY_EMAIL || 'info@jigcannabis.com',
+          phone: process.env.PureGro_COMPANY_PHONE || '',
         },
         banking: {
-          bankName: process.env.JIG_BANK_NAME || 'First National Bank',
-          accountName: process.env.JIG_BANK_ACCOUNT_NAME || 'JIG Craft Cannabis (Pty) Ltd',
-          accountNumber: process.env.JIG_BANK_ACCOUNT_NUMBER || '',
-          branchCode: process.env.JIG_BANK_BRANCH_CODE || '',
-          reference: process.env.JIG_BANK_REFERENCE || 'Use your PO number as reference',
+          bankName: process.env.PureGro_BANK_NAME || 'First National Bank',
+          accountName: process.env.PureGro_BANK_ACCOUNT_NAME || 'PureGro Premium Cannabis Care (Pty) Ltd',
+          accountNumber: process.env.PureGro_BANK_ACCOUNT_NUMBER || '',
+          branchCode: process.env.PureGro_BANK_BRANCH_CODE || '',
+          reference: process.env.PureGro_BANK_REFERENCE || 'Use your PO number as reference',
         },
       });
     } catch (err) {

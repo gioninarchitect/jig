@@ -1,15 +1,21 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import { env } from '../config/env';
 dotenv.config();
 
-export async function sendPinEmail(email: string, pin: string): Promise<void> {
+export async function sendPinEmail(email: string, pin: string, options: { allowWhenDisabled?: boolean } = {}): Promise<void> {
   const smtpUser = process.env.SMTP_USER || '';
   const smtpPass = process.env.SMTP_PASS || '';
   const smtpHost = process.env.SMTP_HOST || 'mail.cleva-ai.co.za';
   const smtpPort = parseInt(process.env.SMTP_PORT || '465');
 
+  if (!env.EMAIL_DELIVERY_ENABLED && !options.allowWhenDisabled) {
+    console.log(`[Email] Delivery disabled — suppressed PIN email to ${email}`);
+    return;
+  }
+
   if (!smtpUser || !smtpPass) {
-    console.log(`[Email] SMTP not configured — PIN for ${email}: ${pin}`);
+    console.log(`[Email] SMTP not configured — suppressed PIN email to ${email}`);
     return;
   }
 

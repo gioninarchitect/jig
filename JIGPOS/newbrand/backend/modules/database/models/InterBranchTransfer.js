@@ -27,7 +27,7 @@ const interBranchTransferSchema = new mongoose.Schema({
   // Transfer Type
   type: {
     type: String,
-    enum: ['stock_transfer', 'emergency_supply', 'rebalancing', 'return'],
+    enum: ['stock_transfer', 'emergency_supply', 'rebalancing', 'return', 'wholesale_fulfillment'],
     default: 'stock_transfer'
   },
   priority: {

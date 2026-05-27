@@ -3,42 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viral Influencer Hub - JIG Craft Cannabis</title>
+    <title>Viral Influencer Hub - Origin by ILCO Farming</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -48,7 +57,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -57,13 +66,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -74,19 +83,19 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
         }
 
         .header {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             border-bottom: 3px solid var(--gold);
             padding: 1.5rem 2rem;
             text-align: center;
         }
 
         .logo {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -95,7 +104,7 @@
         }
 
         .tagline {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-style: italic;
             color: var(--gold);
             font-size: 1rem;
@@ -111,20 +120,20 @@
 
         .hub-header {
             text-align: center;
-            color: var(--white);
+            color: var(--or-white);
             margin-bottom: 40px;
             padding-top: 20px;
         }
 
         .hub-header h1 {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 2.5rem;
-            color: var(--purple);
+            color: var(--or-gold);
             text-transform: uppercase;
         }
 
         .hub-header p {
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             font-size: 1.1rem;
         }
 
@@ -141,18 +150,18 @@
             border-radius: 15px;
             text-align: center;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(63, 192, 65, 0.1);
         }
 
         .stat-number {
             font-size: 2.5em;
             font-weight: bold;
-            color: var(--purple);
+            color: var(--or-gold);
             display: block;
         }
 
         .stat-card span:last-child {
-            color: var(--green-dark);
+            color: var(--or-gold-muted);
             font-size: 0.9rem;
         }
 
@@ -162,12 +171,12 @@
             padding: 30px;
             margin-bottom: 30px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(63, 192, 65, 0.1);
         }
 
         .product-showcase h2 {
-            font-family: 'Oswald', sans-serif;
-            color: var(--purple);
+            font-family: 'Cinzel', sans-serif;
+            color: var(--or-gold);
             font-size: 1.5rem;
             text-transform: uppercase;
         }
@@ -180,19 +189,19 @@
         }
 
         .product-card {
-            border: 2px solid rgba(124, 58, 237, 0.2);
+            border: 2px solid rgba(63, 192, 65, 0.2);
             border-radius: 15px;
             padding: 20px;
             position: relative;
             transition: all 0.3s ease;
             cursor: pointer;
-            background: var(--black);
+            background: var(--or-black);
         }
 
         .product-card:hover {
             border-color: var(--gold);
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(217, 119, 6, 0.2);
+            box-shadow: 0 10px 30px rgba(240, 165, 0, 0.2);
         }
 
         .viral-indicator {
@@ -208,7 +217,7 @@
         }
 
         .link-generator {
-            background: rgba(124, 58, 237, 0.05);
+            background: rgba(63, 192, 65, 0.05);
             border-radius: 15px;
             padding: 25px;
             margin-top: 20px;
@@ -225,7 +234,7 @@
         }
 
         .copy-btn {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
             border: none;
             padding: 10px 20px;
@@ -245,12 +254,12 @@
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 30px;
-            border: 1px solid rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(63, 192, 65, 0.1);
         }
 
         .viral-metrics h2 {
-            font-family: 'Oswald', sans-serif;
-            color: var(--purple);
+            font-family: 'Cinzel', sans-serif;
+            color: var(--or-gold);
             font-size: 1.5rem;
             text-transform: uppercase;
         }
@@ -294,11 +303,11 @@
         }
 
         .secondary-btn {
-            background: var(--green);
+            background: var(--or-gold);
         }
 
         .secondary-btn:hover {
-            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
+            box-shadow: 0 10px 25px rgba(63, 192, 65, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -322,14 +331,14 @@
 </head>
 <body>
     <header class="header">
-        <div class="logo">JIG Craft Cannabis</div>
-        <div class="tagline">Craft Cannabis</div>
+        <div class="logo">Origin by ILCO Farming</div>
+        <div class="tagline">Premium Cannabis Care</div>
     </header>
 
     <div class="viral-hub">
         <div class="hub-header">
             <h1><i class="fas fa-fire"></i> Viral Influencer Hub</h1>
-            <p>Turn Your Content Into Cash with JIG Craft Cannabis</p>
+            <p>Turn Your Content Into Cash with Origin by ILCO Farming</p>
         </div>
 
         <div class="viral-stats">
@@ -391,10 +400,10 @@
         </div>
     </div>
 
-    <!-- JIG Shared Libraries -->
+    <!-- Origin Shared Libraries -->
     <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <script src="/frontend/or-utils.js"></script>
+    <script src="/frontend/or-auth.js"></script>
 
     <script>
         let currentAffiliate = null;
@@ -585,7 +594,7 @@
         }
 
         function shareToSocial(link, productName) {
-            const message = `Check out this awesome ${productName} from JIG Craft Cannabis! 🔥 ${link}`;
+            const message = `Check out this awesome ${productName} from Origin by ILCO Farming! 🔥 ${link}`;
             const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         }

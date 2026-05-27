@@ -34,7 +34,7 @@ export default function Select({ label, options = [], value, onChange, placehold
           className={`
             w-full px-4 py-3 bg-gray-50 border-2 rounded-xl text-base text-left
             font-body transition-all duration-300 flex items-center justify-between
-            ${open ? 'border-jig-amber shadow-[0_0_0_4px_rgba(212,175,55,0.15)]' : 'border-gray-200'}
+            ${open ? 'border-or-gold shadow-[0_0_0_4px_rgba(212,175,55,0.15)]' : 'border-gray-200'}
           `}
         >
           <span className={displayLabel ? 'text-gray-900' : 'text-gray-400'}>
@@ -54,7 +54,7 @@ export default function Select({ label, options = [], value, onChange, placehold
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search..."
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-jig-amber"
+                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-or-gold"
                   autoFocus
                 />
               </div>
@@ -73,7 +73,7 @@ export default function Select({ label, options = [], value, onChange, placehold
                     onClick={() => { onChange(val); setOpen(false); setSearch(''); }}
                     className={`
                       w-full text-left px-4 py-3 text-sm transition-colors
-                      ${isActive ? 'bg-jig-purple/10 text-jig-purple font-semibold' : 'hover:bg-jig-amber/10 text-gray-700'}
+                      ${isActive ? 'bg-or-gold/10 text-or-gold font-semibold' : 'hover:bg-or-gold/10 text-gray-700'}
                     `}
                   >
                     {lbl}

@@ -9,19 +9,35 @@ function generatePin(): string {
   return String(Math.floor(100000 + Math.random() * 900000));
 }
 
+const OPEN_LOGIN_ROLES = new Set(['SUPER_ADMIN', 'FACILITY_MANAGER']);
+
 export async function requestPin(email: string, ip?: string) {
-  const user = await prisma.user.findUnique({ where: { email } });
+  const normalizedEmail = email.trim().toLowerCase();
+  const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
   if (!user) throw Object.assign(new Error('No account found with this email'), { status: 404 });
   if (!user.active) throw Object.assign(new Error('Account is disabled'), { status: 403 });
   if (user.lockedAt && Date.now() - user.lockedAt.getTime() < 3600_000) {
     throw Object.assign(new Error('Account locked. Try again in 1 hour.'), { status: 429 });
   }
 
-  // Rate limit: max 3 requests per 15 min
+  const openLoginRole = OPEN_LOGIN_ROLES.has(user.role);
+
+  if (openLoginRole) {
+    await prisma.session.deleteMany({
+      where: {
+        userId: user.id,
+        expiresAt: { gt: new Date() },
+        token: { startsWith: '$2' },
+      },
+    });
+  }
+
+  // Rate limit: max 3 requests per 15 min, opened wider for UAT super admins and FMs.
   const recent = await prisma.session.count({
     where: { userId: user.id, createdAt: { gte: new Date(Date.now() - 15 * 60_000) } },
   });
-  if (recent >= 3) throw Object.assign(new Error('Too many PIN requests. Wait 15 minutes.'), { status: 429 });
+  const maxRecent = openLoginRole ? 10 : 3;
+  if (recent >= maxRecent) throw Object.assign(new Error('Too many PIN requests. Wait 15 minutes.'), { status: 429 });
 
   const pin = generatePin();
   const pinHash = await bcrypt.hash(pin, 10);
@@ -35,13 +51,15 @@ export async function requestPin(email: string, ip?: string) {
     },
   });
 
-  // Send email + log to console as fallback
+  // Send email. PIN logging is disabled in production unless explicitly enabled.
   try {
-    await sendPinEmail(email, pin);
+    await sendPinEmail(normalizedEmail, pin, { allowWhenDisabled: openLoginRole });
   } catch (e) {
     console.error('[Auth] Email send failed:', e);
   }
-  console.log(`[Auth] PIN for ${email}: ${pin}`);
+  if (env.LOG_AUTH_PINS || env.NODE_ENV !== 'production') {
+    console.log(`[Auth] PIN for ${email}: ${pin}`);
+  }
 
   eventBus.emit('LOGIN_PIN_REQUESTED', { userId: user.id, tenantId: user.tenantId, entityType: 'User', entityId: user.id });
 
@@ -49,7 +67,9 @@ export async function requestPin(email: string, ip?: string) {
 }
 
 export async function verifyPin(email: string, pin: string, ip?: string) {
-  const user = await prisma.user.findUnique({ where: { email } });
+  const normalizedEmail = email.trim().toLowerCase();
+  const normalizedPin = pin.trim();
+  const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
   if (!user) throw Object.assign(new Error('Invalid credentials'), { status: 401 });
 
   if (user.lockedAt && Date.now() - user.lockedAt.getTime() < 3600_000) {
@@ -60,13 +80,16 @@ export async function verifyPin(email: string, pin: string, ip?: string) {
   const sessions = await prisma.session.findMany({
     where: { userId: user.id, expiresAt: { gt: new Date() } },
     orderBy: { createdAt: 'desc' },
-    take: 1,
+    take: 5,
   });
 
-  // If no active session, fallback to stored PIN (UAT/dev convenience)
+  // If no active session, optionally fallback to stored PIN for UAT/dev only.
   if (sessions.length === 0) {
     if (user.pinHash) {
-      const storedValid = await bcrypt.compare(pin, user.pinHash);
+      if (!env.ALLOW_STORED_PIN_LOGIN && env.NODE_ENV === 'production' && !OPEN_LOGIN_ROLES.has(user.role)) {
+        throw Object.assign(new Error('No active PIN request. Request a new PIN.'), { status: 401 });
+      }
+      const storedValid = await bcrypt.compare(normalizedPin, user.pinHash);
       if (storedValid) {
         // Create a session for the JWT
         const token = jwt.sign({ userId: user.id, tenantId: user.tenantId, role: user.role, facilityId: user.facilityId }, env.JWT_SECRET, { expiresIn: '24h' });
@@ -78,10 +101,16 @@ export async function verifyPin(email: string, pin: string, ip?: string) {
     throw Object.assign(new Error('No active PIN request. Request a new PIN.'), { status: 401 });
   }
 
-  const session = sessions[0];
-  const valid = await bcrypt.compare(pin, session.token!);
+  let session = null as typeof sessions[number] | null;
+  for (const candidate of sessions) {
+    const valid = await bcrypt.compare(normalizedPin, candidate.token!);
+    if (valid) {
+      session = candidate;
+      break;
+    }
+  }
 
-  if (!valid) {
+  if (!session) {
     const attempts = user.failedAttempts + 1;
     const update: any = { failedAttempts: attempts };
     if (attempts >= 5) {
@@ -101,6 +130,13 @@ export async function verifyPin(email: string, pin: string, ip?: string) {
 
   // Update session with JWT
   await prisma.session.update({ where: { id: session.id }, data: { token } });
+  await prisma.session.deleteMany({
+    where: {
+      userId: user.id,
+      id: { not: session.id },
+      expiresAt: { gt: new Date() },
+    },
+  });
 
   eventBus.emit('LOGIN_SUCCESS', { userId: user.id, tenantId: user.tenantId, entityType: 'User', entityId: user.id, ip });
 

@@ -4,7 +4,7 @@
 import { useMemo } from 'react';
 
 const DOMAIN_LABELS = {
-  overall: { label: 'Overall', color: 'bg-jig-slate' },
+  overall: { label: 'Overall', color: 'bg-origin-slate' },
   regulatory: { label: 'Regulatory', color: 'bg-red-500' },
   financial: { label: 'Financial', color: 'bg-green-500' },
   inventory: { label: 'Inventory', color: 'bg-blue-500' },
@@ -69,18 +69,18 @@ export default function RiskTrendChart({ history, branchName }) {
           const trend = trends[domain];
           if (!trend) return null;
           return (
-            <div key={domain} className="p-2 rounded-lg bg-jig-slate border border-jig-purple/10 text-center">
+            <div key={domain} className="p-2 rounded-lg bg-origin-slate border border-or-gold/10 text-center">
               <div className="text-[10px] text-gray-400">{cfg.label}</div>
               <div className={`font-heading text-sm ${
-                trend.current >= 70 ? 'text-jig-red' :
-                trend.current >= 40 ? 'text-jig-amber-dark' :
-                'text-jig-purple'
+                trend.current >= 70 ? 'text-origin-red' :
+                trend.current >= 40 ? 'text-or-gold-dark' :
+                'text-or-gold'
               }`}>
                 {trend.current}
               </div>
               <div className={`text-[10px] font-bold ${
-                trend.direction === 'rising' ? 'text-jig-red' :
-                trend.direction === 'falling' ? 'text-jig-purple' :
+                trend.direction === 'rising' ? 'text-origin-red' :
+                trend.direction === 'falling' ? 'text-or-gold' :
                 'text-gray-400'
               }`}>
                 {trend.direction === 'rising' ? '+' : trend.direction === 'falling' ? '' : ''}
@@ -105,9 +105,9 @@ export default function RiskTrendChart({ history, branchName }) {
                 <div className="w-full bg-gray-100 rounded-t overflow-hidden" style={{ height: 120 }}>
                   <div
                     className={`w-full rounded-t transition-all duration-300 absolute bottom-0 left-0 ${
-                      overall >= 70 ? 'bg-jig-red/70' :
-                      overall >= 40 ? 'bg-jig-amber/70' :
-                      'bg-jig-purple/50'
+                      overall >= 70 ? 'bg-origin-red/70' :
+                      overall >= 40 ? 'bg-or-gold/70' :
+                      'bg-or-gold/50'
                     }`}
                     style={{ height: `${(height / 100) * 120}px` }}
                   />
@@ -132,7 +132,7 @@ export default function RiskTrendChart({ history, branchName }) {
                           {cfg.label}
                         </span>
                         <span className={`font-bold ${
-                          val >= 70 ? 'text-jig-red' : val >= 40 ? 'text-jig-amber-dark' : 'text-jig-purple'
+                          val >= 70 ? 'text-origin-red' : val >= 40 ? 'text-or-gold-dark' : 'text-or-gold'
                         }`}>{val}</span>
                       </div>
                     );
@@ -166,7 +166,7 @@ export default function RiskTrendChart({ history, branchName }) {
                 ))}
               </div>
               <div className={`w-8 text-right text-[10px] font-bold ${
-                latest >= 70 ? 'text-jig-red' : latest >= 40 ? 'text-jig-amber-dark' : 'text-jig-purple'
+                latest >= 70 ? 'text-origin-red' : latest >= 40 ? 'text-or-gold-dark' : 'text-or-gold'
               }`}>
                 {latest}
               </div>

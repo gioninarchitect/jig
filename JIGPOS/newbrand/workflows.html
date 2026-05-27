@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Workflows - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --or-black: #0A0A0A;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --pg-dark-3: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-bright: #D4B86A;
+            --or-gold-muted: #8B6914;
+            --or-white: #F5F0E8;
+            --pg-grey: #9CA3AF;
+            --tier-core: #C9A84C;
+            --tier-wholesale: #3B82F6;
+            --tier-owner: #F0A500;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--or-black);
+            color: var(--or-white);
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+
+        .header img {
+            height: 64px;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .header h1 span {
+            color: var(--or-gold);
+        }
+
+        .header p {
+            color: var(--pg-grey);
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ── Filter Pills ── */
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin: 30px auto 40px;
+            background: var(--or-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 560px;
+            border: 1px solid var(--pg-dark-3);
+        }
+
+        .filter-btn {
+            flex: 1;
+            padding: 14px 20px;
+            background: transparent;
+            color: var(--pg-grey);
+            border: none;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: var(--or-gold);
+            color: var(--or-black);
+        }
+
+        .filter-btn:hover:not(.active) {
+            color: var(--or-white);
+            background: var(--or-dark-2);
+        }
+
+        /* ── Tier Section ── */
+        .tier-section {
+            margin-bottom: 48px;
+        }
+
+        .tier-section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--pg-dark-3);
+        }
+
+        .tier-section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .tier-section-badge.core {
+            background: rgba(63, 192, 65, 0.15);
+            color: var(--tier-core);
+            border: 1px solid rgba(63, 192, 65, 0.3);
+        }
+
+        .tier-section-badge.wholesale {
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--tier-wholesale);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .tier-section-badge.owner {
+            background: rgba(240, 165, 0, 0.12);
+            color: var(--tier-owner);
+            border: 1px solid rgba(240, 165, 0, 0.3);
+        }
+
+        .tier-section-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+
+        .tier-section-price {
+            margin-left: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--pg-grey);
+        }
+
+        .tier-section-price strong {
+            color: var(--or-gold);
+        }
+
+        /* ── Accordion ── */
+        .accordion-item {
+            background: var(--or-dark);
+            border: 1px solid var(--pg-dark-3);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .accordion-item:hover {
+            border-color: #3A3A3A;
+        }
+
+        .accordion-item.open {
+            border-color: var(--pg-dark-3);
+        }
+
+        .accordion-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: none;
+            border: none;
+            color: var(--or-white);
+            cursor: pointer;
+            text-align: left;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .accordion-trigger:hover {
+            background: var(--or-dark-2);
+        }
+
+        .accordion-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            flex-shrink: 0;
+            font-size: 0.95rem;
+        }
+
+        .accordion-icon.core {
+            background: rgba(63, 192, 65, 0.12);
+            color: var(--tier-core);
+        }
+
+        .accordion-icon.wholesale {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--tier-wholesale);
+        }
+
+        .accordion-icon.owner {
+            background: rgba(240, 165, 0, 0.1);
+            color: var(--tier-owner);
+        }
+
+        .accordion-title {
+            flex: 1;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .accordion-badge {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .accordion-badge.core {
+            background: rgba(63, 192, 65, 0.12);
+            color: var(--tier-core);
+        }
+
+        .accordion-badge.wholesale {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--tier-wholesale);
+        }
+
+        .accordion-badge.owner {
+            background: rgba(240, 165, 0, 0.1);
+            color: var(--tier-owner);
+        }
+
+        .accordion-chevron {
+            color: var(--pg-grey);
+            font-size: 0.8rem;
+            transition: transform 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .accordion-item.open .accordion-chevron {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .accordion-item.open .accordion-body {
+            max-height: 600px;
+        }
+
+        .accordion-content {
+            padding: 0 20px 20px 70px;
+        }
+
+        .wf-desc {
+            color: var(--pg-grey);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        /* ── Workflow Steps ── */
+        .wf-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .wf-step {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--or-dark-2);
+            border: 1px solid var(--pg-dark-3);
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            color: var(--or-white);
+        }
+
+        .wf-step .step-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--or-gold);
+            background: rgba(63, 192, 65, 0.1);
+            width: 18px;
+            height: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .wf-arrow {
+            color: #444;
+            font-size: 0.7rem;
+        }
+
+        /* ── Role Chips ── */
+        .wf-roles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .wf-roles-label {
+            font-size: 0.7rem;
+            font-family: 'Cinzel', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--pg-grey);
+            margin-right: 4px;
+        }
+
+        .role-chip {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: var(--or-dark-2);
+            border: 1px solid var(--pg-dark-3);
+            color: var(--pg-grey);
+        }
+
+        /* ── Live Link ── */
+        .wf-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--or-gold);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .wf-link:hover {
+            color: var(--or-gold-bright);
+        }
+
+        .wf-link i {
+            font-size: 0.7rem;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--pg-grey);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--pg-dark-3);
+            margin-top: 40px;
+        }
+
+        .footer strong {
+            color: var(--or-gold);
+        }
+
+        .footer a {
+            color: var(--or-gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            color: var(--or-gold-bright);
+        }
+
+        .footer-links {
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            .header h1 { font-size: 1.8rem; }
+            .filter-bar { flex-wrap: wrap; max-width: 100%; }
+            .filter-btn { font-size: 0.85rem; padding: 12px 14px; }
+            .tier-section-header { flex-wrap: wrap; gap: 10px; }
+            .tier-section-price { margin-left: 0; }
+            .accordion-content { padding-left: 20px; }
+            .wf-steps { gap: 4px; }
+            .wf-step { font-size: 0.75rem; padding: 4px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="images/origin-logo.png" alt="Origin">
+        <h1>Platform <span>Workflows</span></h1>
+        <p>See exactly what powers each tier</p>
+    </div>
+
+    <div class="container">
+
+        <!-- Filter Pills -->
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="core">Core</button>
+            <button class="filter-btn" data-filter="wholesale">+ Wholesale</button>
+            <button class="filter-btn" data-filter="owner">+ 360View</button>
+        </div>
+
+        <!-- ══════════════════════ TIER 1: CORE ══════════════════════ -->
+        <div class="tier-section" data-tier="core" id="tier-core">
+            <div class="tier-section-header">
+                <span class="tier-section-badge core"><i class="fas fa-store"></i> TIER 1</span>
+                <span class="tier-section-title">Core</span>
+                <span class="tier-section-price"><strong>R1,350.99</strong>/mo per store</span>
+            </div>
+
+            <!-- 1. POS Terminal -->
+            <div class="accordion-item" data-tier="core">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon core"><i class="fas fa-cash-register"></i></span>
+                    <span class="accordion-title">POS Terminal</span>
+                    <span class="accordion-badge core">Core</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Full point-of-sale workflow from product browsing through payment processing to shift reconciliation. Supports cash, card, and mixed payments with real-time stock deduction.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Browse Products</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Add to Cart</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Apply Discount</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Process Payment</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> Print Receipt</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">6</span> Close Shift</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Cashier</span>
+                            <span class="role-chip">Shift Manager</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/pos.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Stock Take App -->
+            <div class="accordion-item" data-tier="core">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon core"><i class="fas fa-clipboard-check"></i></span>
+                    <span class="accordion-title">Stock Take App</span>
+                    <span class="accordion-badge core">Core</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Physical stock counting with barcode scanning and camera support. Calculates variance against system stock automatically and routes discrepancies for supervisor approval.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Start Session</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Scan / Count Items</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Review Variance</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Submit Count</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> Supervisor Approve</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Stock Counter</span>
+                            <span class="role-chip">Supervisor</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/stocktake-app.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Inventory Manager -->
+            <div class="accordion-item" data-tier="core">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon core"><i class="fas fa-boxes-stacked"></i></span>
+                    <span class="accordion-title">Inventory Manager</span>
+                    <span class="accordion-badge core">Core</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Central stock management dashboard. Receive goods, track batches with expiry dates, manage inter-branch transfers, and set automated reorder points.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Receive Goods</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Assign Batch</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Track Expiry</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Inter-Branch Transfer</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> Reorder Alert</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Inventory Manager</span>
+                            <span class="role-chip">Branch Manager</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/inventory-manager-dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Admin Dashboard -->
+            <div class="accordion-item" data-tier="core">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon core"><i class="fas fa-shield-halved"></i></span>
+                    <span class="accordion-title">Admin Dashboard</span>
+                    <span class="accordion-badge core">Core</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Manage staff accounts, assign tills, configure PINs, reconcile day-end reports, and generate sales summaries. Central control for store operations.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Create Staff</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Assign Tills</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Set PIN & Role</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Reconcile</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> View Reports</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Admin</span>
+                            <span class="role-chip">Branch Manager</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/admin.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Product Catalog & Storefront -->
+            <div class="accordion-item" data-tier="core">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon core"><i class="fas fa-leaf"></i></span>
+                    <span class="accordion-title">Product Catalog & Storefront</span>
+                    <span class="accordion-badge core">Core</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Customer-facing product browsing with category filters, strain details, potency info, and availability by branch. Feeds directly into the POS product browser.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Browse Categories</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> View Product</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Check Availability</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Add to Cart</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Customer</span>
+                            <span class="role-chip">Walk-in</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/products.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Shift & Cash-up -->
+            <div class="accordion-item" data-tier="core">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon core"><i class="fas fa-money-bill-wave"></i></span>
+                    <span class="accordion-title">Shift & Cash-up</span>
+                    <span class="accordion-badge core">Core</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">End-to-end shift lifecycle. Open a shift with a float, process sales throughout the day, count the till at close, and reconcile against system totals.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Open Shift</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Set Float</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Sell</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Count Cash</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> Reconcile</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">6</span> Close Shift</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Cashier</span>
+                            <span class="role-chip">Shift Manager</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/pos.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Branch Receiving -->
+            <div class="accordion-item" data-tier="core">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon core"><i class="fas fa-truck-ramp-box"></i></span>
+                    <span class="accordion-title">Branch Receiving</span>
+                    <span class="accordion-badge core">Core</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Goods intake workflow. Scan or search a purchase order, count received items, record batch numbers and expiry dates, then confirm to update stock levels.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Scan PO</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Count Items</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Record Batch/Expiry</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Confirm Receipt</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Receiving Clerk</span>
+                            <span class="role-chip">Inventory Manager</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/branch-receiving.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Receipt Printing -->
+            <div class="accordion-item" data-tier="core">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon core"><i class="fas fa-receipt"></i></span>
+                    <span class="accordion-title">Receipt Printing</span>
+                    <span class="accordion-badge core">Core</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Thermal receipt generation with line items, payment breakdown, VAT calculation, and branch details. Auto-prints on sale completion or reprints on demand.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Complete Sale</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Generate Receipt</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Print / Email</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Cashier</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/pos.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════ TIER 2: WHOLESALE HUB ══════════════════════ -->
+        <div class="tier-section" data-tier="wholesale" id="tier-wholesale">
+            <div class="tier-section-header">
+                <span class="tier-section-badge wholesale"><i class="fas fa-building"></i> TIER 2</span>
+                <span class="tier-section-title">+ Wholesale Hub</span>
+                <span class="tier-section-price"><strong>R1,000</strong>/mo flat</span>
+            </div>
+
+            <!-- 1. B2B Wholesale Portal -->
+            <div class="accordion-item" data-tier="wholesale">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon wholesale"><i class="fas fa-handshake"></i></span>
+                    <span class="accordion-title">B2B Wholesale Portal</span>
+                    <span class="accordion-badge wholesale">Wholesale</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">End-to-end B2B client journey. Retail clients register, submit verification documents, browse the wholesale catalog, place orders, upload proof of payment, and track delivery.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Register</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Verify Docs</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Browse Catalog</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Place Order</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> Upload POP</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">6</span> Track Delivery</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">B2B Client</span>
+                            <span class="role-chip">Sales Admin</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Client Verification -->
+            <div class="accordion-item" data-tier="wholesale">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon wholesale"><i class="fas fa-file-shield"></i></span>
+                    <span class="accordion-title">Client Verification</span>
+                    <span class="accordion-badge wholesale">Wholesale</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Document upload and admin review process. 5 required documents (ID, CIPC, Section 21, BEE, proof of address) plus 2 optional. Admin approves or requests re-upload.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Upload Documents</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Auto-Validate</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Admin Review</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Approve / Reject</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> Account Activated</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">B2B Client</span>
+                            <span class="role-chip">Verification Admin</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Order Management -->
+            <div class="accordion-item" data-tier="wholesale">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon wholesale"><i class="fas fa-list-check"></i></span>
+                    <span class="accordion-title">Order Management</span>
+                    <span class="accordion-badge wholesale">Wholesale</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Full order lifecycle management. Track orders from placement through confirmation, invoicing, dispatch, and delivery with real-time status updates.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Place Order</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Admin Confirm</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Generate Invoice</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Ship</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> Deliver</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">B2B Client</span>
+                            <span class="role-chip">Sales Admin</span>
+                            <span class="role-chip">Dispatcher</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/order.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Proof of Payment -->
+            <div class="accordion-item" data-tier="wholesale">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon wholesale"><i class="fas fa-file-invoice-dollar"></i></span>
+                    <span class="accordion-title">Proof of Payment</span>
+                    <span class="accordion-badge wholesale">Wholesale</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Clients upload proof of payment against their invoice. Admin reviews, marks as verified, and the order moves to fulfillment. Supports image and PDF uploads.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Receive Invoice</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Upload POP</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Admin Review</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Mark Verified</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">B2B Client</span>
+                            <span class="role-chip">Finance Admin</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Dispatch App -->
+            <div class="accordion-item" data-tier="wholesale">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon wholesale"><i class="fas fa-truck-fast"></i></span>
+                    <span class="accordion-title">Dispatch App</span>
+                    <span class="accordion-badge wholesale">Wholesale</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Courier management with batch grouping, waybill generation, real-time tracking, and delivery confirmation with photo proof. Works offline for in-field use.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Batch Orders</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Generate Waybill</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Assign Driver</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Track</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> Confirm Delivery</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Dispatcher</span>
+                            <span class="role-chip">Driver</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/dispatch-app.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Packer App -->
+            <div class="accordion-item" data-tier="wholesale">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon wholesale"><i class="fas fa-box-open"></i></span>
+                    <span class="accordion-title">Packer App</span>
+                    <span class="accordion-badge wholesale">Wholesale</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Warehouse picking and packing workflow. Pick items from shelves, run quality check, pack into shipping containers, generate packing slip, and hand off to dispatch.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Pick Items</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Quality Check</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Pack</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Packing Slip</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> Hand Off</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Packer</span>
+                            <span class="role-chip">QC Lead</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/packer-app.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Telegram Bot -->
+            <div class="accordion-item" data-tier="wholesale">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon wholesale"><i class="fab fa-telegram"></i></span>
+                    <span class="accordion-title">Telegram Bot</span>
+                    <span class="accordion-badge wholesale">Wholesale</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Conversational ordering via Telegram. Clients link their account, browse products, place orders, upload proof of payment, and receive delivery notifications — all in-chat.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Link Account</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Browse Products</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Place Order</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Upload POP</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">5</span> Get Notifications</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">B2B Client</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/contact.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Customer Loyalty -->
+            <div class="accordion-item" data-tier="wholesale">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon wholesale"><i class="fas fa-star"></i></span>
+                    <span class="accordion-title">Customer Loyalty</span>
+                    <span class="accordion-badge wholesale">Wholesale</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Points-based loyalty system. Clients earn points on every order, progress through tiers (Bronze, Silver, Gold), and redeem points for discounts on future purchases.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Place Order</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Earn Points</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Tier Progression</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Redeem</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">B2B Client</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. Automated Invoicing -->
+            <div class="accordion-item" data-tier="wholesale">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon wholesale"><i class="fas fa-file-pdf"></i></span>
+                    <span class="accordion-title">Automated Invoicing</span>
+                    <span class="accordion-badge wholesale">Wholesale</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">PDF invoice generation with line items, VAT breakdown, banking details, and payment terms. Auto-emailed to clients on order confirmation. Tracks payment status.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Order Confirmed</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Generate PDF</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Email to Client</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Track Payment</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">System (Auto)</span>
+                            <span class="role-chip">Finance Admin</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/order.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Lead Tracking -->
+            <div class="accordion-item" data-tier="wholesale">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon wholesale"><i class="fas fa-funnel-dollar"></i></span>
+                    <span class="accordion-title">Lead Tracking</span>
+                    <span class="accordion-badge wholesale">Wholesale</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Pipeline management for new business. Capture leads from enquiries, track through stages (New, Contacted, Qualified, Won/Lost), and convert to verified clients.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Capture Lead</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Contact</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Qualify</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Convert to Client</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Sales Admin</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/admin.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════ TIER 3: 360VIEW OWNER ══════════════════════ -->
+        <div class="tier-section" data-tier="owner" id="tier-owner">
+            <div class="tier-section-header">
+                <span class="tier-section-badge owner"><i class="fas fa-crown"></i> TIER 3</span>
+                <span class="tier-section-title">+ 360View Owner</span>
+                <span class="tier-section-price"><strong>R2,000</strong>/mo flat</span>
+            </div>
+
+            <!-- 1. Multi-Branch Command Center -->
+            <div class="accordion-item" data-tier="owner">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon owner"><i class="fas fa-satellite-dish"></i></span>
+                    <span class="accordion-title">Multi-Branch Command Center</span>
+                    <span class="accordion-badge owner">360View</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">All branches on one screen. See real-time status, today's sales, active alerts, and staff on shift. Drill down into any branch for full detail.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> View All Branches</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Check Alerts</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Drill Down</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Take Action</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Franchise Owner</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/owner-dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Stock Health Map -->
+            <div class="accordion-item" data-tier="owner">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon owner"><i class="fas fa-map-location-dot"></i></span>
+                    <span class="accordion-title">Stock Health Map</span>
+                    <span class="accordion-badge owner">360View</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Visual stock levels across all branches. Colour-coded health indicators show overstocked, healthy, low, and critical items at a glance. Trigger transfers between branches.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> View Health Map</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Spot Imbalance</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Trigger Transfer</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Confirm Balance</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Franchise Owner</span>
+                            <span class="role-chip">Ops Manager</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/owner-dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Risk Heatmap -->
+            <div class="accordion-item" data-tier="owner">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon owner"><i class="fas fa-triangle-exclamation"></i></span>
+                    <span class="accordion-title">Risk Heatmap</span>
+                    <span class="accordion-badge owner">360View</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Identify problem areas across the network. Visualise shrinkage, stock variance, late cash-ups, and compliance gaps. Risk scores update in real-time as events flow in.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Scan Heatmap</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Identify Risk</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Investigate</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Resolve</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Franchise Owner</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/owner-dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Approval Queue -->
+            <div class="accordion-item" data-tier="owner">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon owner"><i class="fas fa-stamp"></i></span>
+                    <span class="accordion-title">Approval Queue</span>
+                    <span class="accordion-badge owner">360View</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Centralised sign-off for high-impact actions. Write-offs, inter-branch transfers, price adjustments, and stock adjustments all require owner approval before execution.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Staff Submits Request</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Owner Notified</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Review Details</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Approve / Reject</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Branch Manager</span>
+                            <span class="role-chip">Franchise Owner</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/owner-dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Live Event Stream -->
+            <div class="accordion-item" data-tier="owner">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon owner"><i class="fas fa-rss"></i></span>
+                    <span class="accordion-title">Live Event Stream</span>
+                    <span class="accordion-badge owner">360View</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Real-time activity feed from all branches. See sales, stock movements, shift opens/closes, cash-ups, and alerts as they happen. Filter by branch or event type.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> Events Stream In</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Filter by Branch</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Spot Anomaly</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Investigate</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Franchise Owner</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/owner-dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Staff Scoreboard -->
+            <div class="accordion-item" data-tier="owner">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon owner"><i class="fas fa-ranking-star"></i></span>
+                    <span class="accordion-title">Staff Scoreboard</span>
+                    <span class="accordion-badge owner">360View</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">Performance ranking across all branches. Track sales per cashier, cash-up accuracy, shift punctuality, and stock count precision. Identify top performers and those needing support.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> View Rankings</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Compare Branches</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Identify Trends</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Take Action</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">Franchise Owner</span>
+                            <span class="role-chip">HR Manager</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/owner-dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Cross-Domain Alerts -->
+            <div class="accordion-item" data-tier="owner">
+                <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                    <span class="accordion-icon owner"><i class="fas fa-brain"></i></span>
+                    <span class="accordion-title">Cross-Domain Alerts</span>
+                    <span class="accordion-badge owner">360View</span>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </button>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p class="wf-desc">AI-powered anomaly detection that correlates signals across sales, stock, cash, and compliance domains. Detects patterns humans miss — like cash-up shortages correlated with specific shifts.</p>
+                        <div class="wf-steps">
+                            <span class="wf-step"><span class="step-num">1</span> AI Scans Events</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">2</span> Detect Anomaly</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">3</span> Push Alert</span>
+                            <span class="wf-arrow"><i class="fas fa-arrow-right"></i></span>
+                            <span class="wf-step"><span class="step-num">4</span> Owner Reviews</span>
+                        </div>
+                        <div class="wf-roles">
+                            <span class="wf-roles-label">Roles:</span>
+                            <span class="role-chip">System (AI)</span>
+                            <span class="role-chip">Franchise Owner</span>
+                        </div>
+                        <a href="https://origin.cleva-ai.co.za/owner-dashboard.html" target="_blank" class="wf-link"><i class="fas fa-external-link-alt"></i> See it live</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-links">
+            <a href="pricing.html"><i class="fas fa-tags"></i> View Pricing</a>
+            <a href="architecture.html"><i class="fas fa-sitemap"></i> System Architecture</a>
+            <a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a>
+        </div>
+        <p>Origin by ILCO Farming &copy; 2026. Powered by <strong>Cleva AI</strong>.</p>
+    </div>
+
+    <script>
+        /* ── Accordion ── */
+        function toggleAccordion(trigger) {
+            var item = trigger.closest('.accordion-item');
+            var isOpen = item.classList.contains('open');
+
+            /* Close siblings in the same tier section */
+            var section = item.closest('.tier-section');
+            section.querySelectorAll('.accordion-item.open').forEach(function(el) {
+                el.classList.remove('open');
+            });
+
+            /* Toggle clicked */
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        /* ── Tier Filter ── */
+        document.querySelectorAll('.filter-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var filter = this.getAttribute('data-filter');
+
+                /* Update active pill */
+                document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+
+                /* Show/hide tier sections */
+                document.querySelectorAll('.tier-section').forEach(function(section) {
+                    var tier = section.getAttribute('data-tier');
+                    if (filter === 'all') {
+                        section.style.display = '';
+                    } else {
+                        section.style.display = (tier === filter) ? '' : 'none';
+                    }
+                });
+            });
+        });
+
+        /* ── Smooth scroll for anchor links ── */
+        document.querySelectorAll('.tier-section-badge').forEach(function(badge) {
+            badge.style.cursor = 'pointer';
+            badge.addEventListener('click', function() {
+                window.location.href = 'pricing.html';
+            });
+        });
+    </script>
+
+</body>
+</html>

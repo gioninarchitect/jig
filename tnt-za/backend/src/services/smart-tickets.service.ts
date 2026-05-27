@@ -368,5 +368,60 @@ export async function generateSmartNotifications(userId: string, tenantId: strin
     }
   }
 
+  // 11. EU GMP / QMS governance — role-aware compliance signals
+  if (['SUPER_ADMIN', 'TENANT_ADMIN', 'RESPONSIBLE_PHARMACIST', 'FACILITY_MANAGER', 'QA_INSPECTOR', 'HEAD_OF_CULTIVATION', 'PROCESSING_MANAGER'].includes(user.role)) {
+    const qmsTickets = await prisma.ticket.count({
+      where: {
+        tenantId,
+        ticketType: { in: ['QMS_GOVERNANCE', 'BCR_REVIEW', 'LABEL_CONTROL'] },
+        status: { in: ['OPEN', 'ASSIGNED', 'IN_PROGRESS'] },
+        OR: [
+          { assignedToId: userId },
+          { assignedToRole: user.role },
+          { assignedToId: null, assignedToRole: null },
+        ],
+      },
+    });
+    if (qmsTickets > 0) {
+      notifications.push({
+        type: 'eu_gmp_governance',
+        priority: 1,
+        title: `${qmsTickets} EU GMP governance item${qmsTickets > 1 ? 's' : ''}`,
+        message: 'SOP, BCR, label, or QMS control evidence needs action',
+        link: '/tickets',
+      });
+    }
+  }
+
+  if (['SUPER_ADMIN', 'TENANT_ADMIN', 'FACILITY_MANAGER', 'QA_INSPECTOR'].includes(user.role)) {
+    const unreconciledLabels = await prisma.labelLifecycleRecord.count({
+      where: { tenantId, status: { in: ['ISSUED', 'PRINTED', 'REPRINTED'] } },
+    });
+    if (unreconciledLabels > 0) {
+      notifications.push({
+        type: 'label_reconciliation',
+        priority: 1,
+        title: `${unreconciledLabels} unreconciled label${unreconciledLabels > 1 ? 's' : ''}`,
+        message: 'Stationary/QR label accountability requires apply, void, destroy, or reconcile status',
+        link: '/assets',
+      });
+    }
+  }
+
+  if (['SUPER_ADMIN', 'TENANT_ADMIN', 'RESPONSIBLE_PHARMACIST', 'QA_INSPECTOR', 'HEAD_OF_CULTIVATION'].includes(user.role)) {
+    const openBcrs = await prisma.batchCultivationRecord.count({
+      where: { tenantId, status: { in: ['OPEN', 'IN_REVIEW'] } },
+    });
+    if (openBcrs > 0) {
+      notifications.push({
+        type: 'bcr_review',
+        priority: 2,
+        title: `${openBcrs} Batch Cultivation Record${openBcrs > 1 ? 's' : ''} open`,
+        message: 'Review linked SOP checklists, mortality, deviations, labels, and signatures',
+        link: '/batches',
+      });
+    }
+  }
+
   return notifications.sort((a, b) => a.priority - b.priority);
 }

@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Admin Client List
+ * PureGro Premium Cannabis Care - Admin Client List
  *
  * Full client list with search, status filter, and churn risk indicators.
  */
@@ -36,7 +36,7 @@ export default function AdminClientsPage() {
 
   return (
     <div className="p-6">
-      <h1 className="mb-6 font-heading text-2xl font-bold uppercase tracking-wide text-jig-white">Clients</h1>
+      <h1 className="mb-6 font-heading text-2xl font-bold uppercase tracking-wide text-pg-white">Clients</h1>
 
       <div className="mb-6 flex items-center gap-4">
         <input
@@ -44,7 +44,7 @@ export default function AdminClientsPage() {
           placeholder="Search clients..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-64 rounded border border-white/[0.1] bg-jig-gray-900 px-3.5 py-2 text-sm text-jig-white outline-none transition-all placeholder:text-jig-gray-700 focus:border-jig-purple focus:ring-2 focus:ring-jig-purple/15"
+          className="w-64 rounded border border-white/[0.1] bg-pg-gray-900 px-3.5 py-2 text-sm text-pg-white outline-none transition-all placeholder:text-pg-gray-700 focus:border-pg-green focus:ring-2 focus:ring-pg-green/15"
         />
         <div className="flex gap-2">
           {['', 'active', 'pending', 'suspended'].map((status) => (
@@ -53,8 +53,8 @@ export default function AdminClientsPage() {
               onClick={() => setStatusFilter(status)}
               className={`rounded px-3 py-1.5 font-heading text-[11px] font-medium uppercase tracking-wider transition-all ${
                 statusFilter === status
-                  ? 'bg-jig-purple text-jig-white'
-                  : 'border border-white/[0.1] bg-white/[0.04] text-jig-gray-500 hover:border-white/[0.2] hover:text-jig-white'
+                  ? 'bg-pg-green text-pg-white'
+                  : 'border border-white/[0.1] bg-white/[0.04] text-pg-gray-500 hover:border-white/[0.2] hover:text-pg-white'
               }`}
             >
               {status || 'All'}
@@ -65,15 +65,15 @@ export default function AdminClientsPage() {
 
       {loading ? (
         <div className="flex h-40 items-center justify-center">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-jig-gray-700 border-t-jig-purple" />
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-pg-gray-700 border-t-pg-green" />
         </div>
       ) : (
-        <div className="overflow-hidden rounded-lg border border-white/[0.06] bg-jig-slate">
+        <div className="overflow-hidden rounded-lg border border-white/[0.06] bg-pg-dark">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-white/[0.06]">
               <tr>
                 {['Business', 'Contact', 'Location', 'Tier', 'Orders', 'Lifetime Value', 'Status'].map((h) => (
-                  <th key={h} className="px-4 py-3 font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-jig-gray-500">{h}</th>
+                  <th key={h} className="px-4 py-3 font-heading text-[10px] font-semibold uppercase tracking-[0.15em] text-pg-gray-500">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -83,16 +83,16 @@ export default function AdminClientsPage() {
                   <td className="px-4 py-3">
                     <Link
                       to={`/admin/clients/${c.id}`}
-                      className="font-medium text-jig-purple hover:text-jig-purple-light"
+                      className="font-medium text-pg-green hover:text-pg-green-light"
                     >
                       {c.businessName}
                     </Link>
                   </td>
                   <td className="px-4 py-3">
-                    <div className="text-jig-gray-300">{c.contactName}</div>
-                    <div className="text-xs text-jig-gray-500">{c.email}</div>
+                    <div className="text-pg-gray-300">{c.contactName}</div>
+                    <div className="text-xs text-pg-gray-500">{c.email}</div>
                   </td>
-                  <td className="px-4 py-3 text-jig-gray-300">
+                  <td className="px-4 py-3 text-pg-gray-300">
                     {c.city}, {c.province}
                   </td>
                   <td className="px-4 py-3">
@@ -100,8 +100,8 @@ export default function AdminClientsPage() {
                       {capitalize(c.tier)}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-jig-gray-300">{safeNum(c.totalOrders)}</td>
-                  <td className="px-4 py-3 text-jig-amber">{formatRand(c.lifetimeValue)}</td>
+                  <td className="px-4 py-3 text-pg-gray-300">{safeNum(c.totalOrders)}</td>
+                  <td className="px-4 py-3 text-pg-gold">{formatRand(c.lifetimeValue)}</td>
                   <td className="px-4 py-3">
                     <span className={`rounded px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider status-${c.status}`}>
                       {c.status}
@@ -111,7 +111,7 @@ export default function AdminClientsPage() {
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-sm text-jig-gray-500">
+                  <td colSpan={7} className="px-4 py-8 text-center text-sm text-pg-gray-500">
                     No clients match your search.
                   </td>
                 </tr>
@@ -121,7 +121,7 @@ export default function AdminClientsPage() {
         </div>
       )}
 
-      <p className="mt-4 text-xs text-jig-gray-500">
+      <p className="mt-4 text-xs text-pg-gray-500">
         Showing {filtered.length} of {clientList.length} clients
       </p>
     </div>

@@ -1,5 +1,5 @@
 -- ============================================================
--- JIG Craft Cannabis - HEADCASE EVOLVE Database Schema
+-- PureGro Premium Cannabis Care - HEADCASE EVOLVE Database Schema
 -- PostgreSQL 15+
 -- ============================================================
 
@@ -157,7 +157,7 @@ CREATE INDEX idx_price_tiers_product ON product_price_tiers (product_id);
 -- ────────────────────────────────────────────────────────────
 
 CREATE TABLE orders (
-    id                  VARCHAR(20) PRIMARY KEY, -- JIG-XXXXXX
+    id                  VARCHAR(20) PRIMARY KEY, -- PureGro-XXXXXX
     client_id           UUID NOT NULL REFERENCES clients(id),
     subtotal            NUMERIC(12, 2) NOT NULL,
     vat_amount          NUMERIC(12, 2) NOT NULL,

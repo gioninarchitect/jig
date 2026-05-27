@@ -1,5 +1,5 @@
 // owner-cameras.js — Surveillance camera grid with multi-camera tabs per branch
-// Depends on: config.js (API_URL), owner-auth.js (token), dbc-utils.js (showToast)
+// Depends on: config.js (API_URL), owner-auth.js (token), or-utils.js (showToast)
 
 // Cache branch camera data for the configure modal
 let _branchCameraCache = {};
@@ -97,7 +97,7 @@ function configureCameraModal(branchId, branchName) {
     modal.innerHTML = `
         <div style="background:var(--surface-card);border:1px solid var(--border-dark);border-radius:16px;width:90%;max-width:500px;overflow:hidden;">
             <div style="background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;">
-                <h3 style="color:var(--cream);margin:0;font-family:'Oswald', sans-serif;font-size:1.2rem;"><i class="fas fa-video"></i> Cameras - ${branchName}</h3>
+                <h3 style="color:var(--cream);margin:0;font-family:'Barlow Condensed', sans-serif;font-size:1.2rem;"><i class="fas fa-video"></i> Cameras - ${branchName}</h3>
                 <button onclick="document.getElementById('cameraConfigModal').remove()" style="background:none;border:none;color:var(--cream);font-size:1.3rem;cursor:pointer;"><i class="fas fa-times"></i></button>
             </div>
             <div style="padding:1.25rem;" id="cameraConfigBody">

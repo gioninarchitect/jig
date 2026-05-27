@@ -1,5 +1,5 @@
 /**
- * JIG Chat Bot - Core Orchestrator
+ * PureGro Chat Bot - Core Orchestrator
  *
  * Entry point: processMessage(msg) handles the full flow:
  * - Unlinked users: email -> OTP -> linked
@@ -189,7 +189,7 @@ async function handlePendingEmail(
   if (trimmed.startsWith('/start')) {
     return {
       text: [
-        "<b>Welcome to JIG Craft Cannabis!</b>",
+        "<b>Welcome to PureGro Premium Cannabis Care!</b>",
         "",
         "South Africa's premium B2B cannabis wholesale platform.",
         "",
@@ -207,7 +207,7 @@ async function handlePendingEmail(
   // Handle button callbacks
   if (trimmed === '__reg_existing') {
     return {
-      text: "Please enter the <b>email address</b> registered with your JIG account.",
+      text: "Please enter the <b>email address</b> registered with your PureGro account.",
     };
   }
 
@@ -248,7 +248,7 @@ async function handlePendingEmail(
   // Check if this email belongs to a client
   const client = await db.getClientByEmail(email);
   if (!client) {
-    return { text: "No JIG account found for that email. Please check and try again, or contact your sales rep." };
+    return { text: "No PureGro account found for that email. Please check and try again, or contact your sales rep." };
   }
 
   if (client.status === 'suspended') {
@@ -319,7 +319,7 @@ async function handlePendingOtp(
   if (client.status === 'pending') {
     lines.splice(4, 0,
       '',
-      'Complete your verification at jig.cleva-ai.co.za/verification to fast-track orders.',
+      'Complete your verification at puregro.cleva-ai.co.za/verification to fast-track orders.',
     );
   }
 
@@ -410,7 +410,7 @@ async function handleGreeting(clientId: string): Promise<ChatReply> {
 
   // Soft verification nudge for pending clients
   if (client && client.status === 'pending') {
-    lines.push('', 'Tip: Verify your account at jig.cleva-ai.co.za/verification to fast-track orders.');
+    lines.push('', 'Tip: Verify your account at puregro.cleva-ai.co.za/verification to fast-track orders.');
   }
 
   return {
@@ -422,7 +422,7 @@ async function handleGreeting(clientId: string): Promise<ChatReply> {
 function handleHelp(): ChatReply {
   return {
     text: [
-      "<b>JIG Bot - What I Can Do</b>",
+      "<b>PureGro Bot - What I Can Do</b>",
       "",
       "<b>Ordering</b>",
       "  /order - Start a new order",
@@ -489,7 +489,7 @@ async function handleOrderList(clientId: string): Promise<ChatReply> {
 async function handleOrderStatus(clientId: string, orderId?: string): Promise<ChatReply> {
   if (!orderId) {
     return {
-      text: 'Which order? Include the PO number, e.g. "Status of JIG-000012"',
+      text: 'Which order? Include the PO number, e.g. "Status of PureGro-000012"',
       keyboard: [[{ text: 'My Orders', callback_data: 'cmd:orders' }]],
     };
   }
@@ -744,7 +744,7 @@ async function handleAccountInfo(clientId: string): Promise<ChatReply> {
   // Verification nudge
   if (client.status === 'pending') {
     lines.push('');
-    lines.push('Tip: Upload your documents at jig.cleva-ai.co.za/verification to fast-track orders.');
+    lines.push('Tip: Upload your documents at puregro.cleva-ai.co.za/verification to fast-track orders.');
   }
 
   return {
@@ -1073,7 +1073,7 @@ async function handleInvoiceView(clientId: string, orderId?: string): Promise<Ch
 
     if (withInvoice.length === 0) {
       return {
-        text: "No invoices available yet. Invoices are generated when orders are confirmed by the JIG team.",
+        text: "No invoices available yet. Invoices are generated when orders are confirmed by the PureGro team.",
         keyboard: KB_BACK_MAIN,
       };
     }
@@ -1083,7 +1083,7 @@ async function handleInvoiceView(clientId: string, orderId?: string): Promise<Ch
       const date = new Date(o.createdAt).toLocaleDateString('en-ZA');
       lines.push(`${o.invoiceNumber} (${o.poNumber || o.id.slice(0, 8)}) - R${o.total.toFixed(2)} - ${date}`);
     }
-    lines.push('', 'For full PDF invoices, visit jig.cleva-ai.co.za');
+    lines.push('', 'For full PDF invoices, visit puregro.cleva-ai.co.za');
     return { text: lines.join('\n'), keyboard: KB_BACK_MAIN };
   }
 
@@ -1117,7 +1117,7 @@ async function handleInvoiceView(clientId: string, orderId?: string): Promise<Ch
       '',
       `Payment: ${order.paymentStatus}`,
       '',
-      'For a full PDF invoice, visit jig.cleva-ai.co.za',
+      'For a full PDF invoice, visit puregro.cleva-ai.co.za',
     ].join('\n'),
     keyboard: order.paymentStatus !== 'paid'
       ? [[{ text: 'Upload POP', callback_data: `pop:${order.id}` }], ...KB_BACK_MAIN]
@@ -1255,7 +1255,7 @@ async function handleVerificationStatus(clientId: string): Promise<ChatReply> {
 
   if (!allRequiredUploaded || !allApproved) {
     lines.push('');
-    lines.push('Upload your documents at jig.cleva-ai.co.za/verification');
+    lines.push('Upload your documents at puregro.cleva-ai.co.za/verification');
   }
 
   return { text: lines.join('\n'), keyboard: KB_BACK_MAIN };
@@ -1264,9 +1264,9 @@ async function handleVerificationStatus(clientId: string): Promise<ChatReply> {
 function handleUnlink(): ChatReply {
   return {
     text: [
-      "To unlink your account, please contact your admin or use the JIG portal at jig.cleva-ai.co.za",
+      "To unlink your account, please contact your admin or use the PureGro portal at puregro.cleva-ai.co.za",
       "",
-      "This will disconnect your chat account from JIG.",
+      "This will disconnect your chat account from PureGro.",
       "You'll need to verify again to reconnect.",
     ].join('\n'),
     keyboard: KB_BACK_MAIN,
@@ -1341,7 +1341,7 @@ async function handleRegistrationStep(
         await chatDb.updateLinkState(linkId, 'pending_email');
         return {
           text: [
-            "That email is already registered with JIG!",
+            "That email is already registered with PureGro!",
             "",
             "Let's link your account instead. I've sent a verification code to your email.",
           ].join('\n'),
@@ -1432,7 +1432,7 @@ async function handleRegistrationStep(
 
         // Notify admins
         notifyAdmins(
-          `<b>New Client Registration</b>\n\n${client.companyName}\n${client.contactPerson}\n${client.email}\n\nReview at jig.cleva-ai.co.za/admin/verifications`,
+          `<b>New Client Registration</b>\n\n${client.companyName}\n${client.contactPerson}\n${client.email}\n\nReview at puregro.cleva-ai.co.za/admin/verifications`,
         ).catch(() => {});
 
         // Emit n8n event
@@ -1450,7 +1450,7 @@ async function handleRegistrationStep(
           text: [
             `<b>Account Created!</b>`,
             ``,
-            `Welcome to JIG, ${action.data.contactPerson!.split(' ')[0]}!`,
+            `Welcome to PureGro, ${action.data.contactPerson!.split(' ')[0]}!`,
             ``,
             `<b>Next: Upload your compliance documents</b>`,
             `This unlocks ordering. Let's do it now - it's quick.`,
@@ -1490,7 +1490,7 @@ async function handleDocUploadStep(
   if (text === '/cancel' || text === 'cancel') {
     await chatDb.updatePendingAction(session.id, null);
     return {
-      text: "Document upload paused. You can upload remaining docs anytime at jig.cleva-ai.co.za/verification or type /verification.",
+      text: "Document upload paused. You can upload remaining docs anytime at puregro.cleva-ai.co.za/verification or type /verification.",
       keyboard: KB_MAIN,
     };
   }
@@ -1508,7 +1508,7 @@ async function handleDocUploadStep(
         return {
           text: [
             "You can upload remaining documents at:",
-            "jig.cleva-ai.co.za/verification",
+            "puregro.cleva-ai.co.za/verification",
             "",
             "Once all required docs are approved, your account will be activated.",
           ].join('\n'),
@@ -1812,7 +1812,7 @@ async function handlePopUploadStep(
     } catch (err) {
       console.error('[ChatEngine] createPopUpload failed:', err);
       return {
-        text: "Failed to save your upload. Please try again or upload via the web portal at jig.cleva-ai.co.za",
+        text: "Failed to save your upload. Please try again or upload via the web portal at puregro.cleva-ai.co.za",
         keyboard: KB_MAIN,
       };
     }
@@ -1831,7 +1831,7 @@ async function handlePopUploadStep(
         `Order: ${poLabel}`,
         `File: ${fileName}`,
         '',
-        'Your proof of payment has been submitted for review. The JIG team will verify it shortly.',
+        'Your proof of payment has been submitted for review. The PureGro team will verify it shortly.',
       ].join('\n'),
       keyboard: KB_AFTER_ORDER,
     };
@@ -1870,7 +1870,7 @@ async function handleOrderCreateStep(
         const total = subtotal + vatAmount;
 
         const { total: orderCount } = await db.listAllOrders({ limit: 0 });
-        const orderId = `JIG-${String(orderCount + 1).padStart(6, '0')}`;
+        const orderId = `PureGro-${String(orderCount + 1).padStart(6, '0')}`;
         const order = await db.createOrder({
           id: orderId,
           clientId,
@@ -1902,7 +1902,7 @@ async function handleOrderCreateStep(
             `PO: <b>${order.poNumber}</b>`,
             `Total: R${order.total.toFixed(2)} (incl. VAT)`,
             '',
-            'Your order is pending confirmation from the JIG team.',
+            'Your order is pending confirmation from the PureGro team.',
             '',
             `Upload your proof of payment to speed things up:`,
           ].join('\n'),
@@ -1915,7 +1915,7 @@ async function handleOrderCreateStep(
         console.error('[ChatEngine] createOrder failed:', err);
         await chatDb.updatePendingAction(sessionId, null);
         return {
-          text: "Failed to place order. Please try again or order via jig.cleva-ai.co.za",
+          text: "Failed to place order. Please try again or order via puregro.cleva-ai.co.za",
           keyboard: KB_MAIN,
         };
       }

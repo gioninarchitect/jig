@@ -8,7 +8,7 @@ CREATE TYPE chat_platform AS ENUM ('telegram', 'whatsapp', 'slack');
 CREATE TYPE chat_link_state AS ENUM ('pending_email', 'pending_otp', 'linked');
 
 -- ── chat_user_links ─────────────────────────────────────────
--- Maps a platform chat user to a JIG client account.
+-- Maps a platform chat user to a PureGro client account.
 -- One link per user per platform.
 
 CREATE TABLE IF NOT EXISTS chat_user_links (

@@ -8,6 +8,8 @@ import Badge from '../../components/ui/Badge';
 
 const TYPE_LABELS = {
   purchase_order: 'PO',
+  transfer: 'Transfer',
+  batch: 'Batch QA',
   cashup: 'Cashup',
   stocktake: 'Stocktake',
   payment: 'Payment',
@@ -15,6 +17,8 @@ const TYPE_LABELS = {
 
 const TYPE_BADGE = {
   purchase_order: 'pending',
+  transfer: 'info',
+  batch: 'warning',
   cashup: 'warning',
   stocktake: 'info',
   payment: 'processing',
@@ -62,6 +66,8 @@ export default function ApprovalQueue({ approvals, counts, onApprove, onReject }
   const FILTERS = [
     { key: null, label: 'All', count: approvals.length },
     { key: 'purchase_order', label: 'POs', count: counts.purchaseOrders || 0 },
+    { key: 'transfer', label: 'Transfers', count: counts.transfers || 0 },
+    { key: 'batch', label: 'Batch QA', count: counts.batches || 0 },
     { key: 'cashup', label: 'Cashups', count: counts.cashups || 0 },
     { key: 'stocktake', label: 'Stocktakes', count: counts.stocktakes || 0 },
     { key: 'payment', label: 'Payments', count: counts.payments || 0 },
@@ -77,7 +83,7 @@ export default function ApprovalQueue({ approvals, counts, onApprove, onReject }
             onClick={() => setTypeFilter(f.key)}
             className={`shrink-0 px-3 py-1 rounded text-xs font-bold transition-colors ${
               typeFilter === f.key
-                ? 'bg-jig-purple text-white'
+                ? 'bg-or-gold text-white'
                 : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
             }`}
           >
@@ -99,7 +105,7 @@ export default function ApprovalQueue({ approvals, counts, onApprove, onReject }
               key={`${item.type}-${item.id}`}
               className={`p-3 rounded-lg border bg-white ${
                 item.priority === 'high' || item.priority === 'critical'
-                  ? 'border-jig-red/30'
+                  ? 'border-origin-red/30'
                   : 'border-gray-200'
               }`}
             >
@@ -113,7 +119,7 @@ export default function ApprovalQueue({ approvals, counts, onApprove, onReject }
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">
                     {item.subtitle}
-                    {item.branch && <span className="ml-2 text-jig-purple-light">{item.branch}</span>}
+                    {item.branch && <span className="ml-2 text-or-gold-light">{item.branch}</span>}
                   </div>
                 </div>
                 <div className="text-right shrink-0">
@@ -129,15 +135,15 @@ export default function ApprovalQueue({ approvals, counts, onApprove, onReject }
                 <button
                   onClick={() => handleApprove(item)}
                   disabled={processing === item.id}
-                  className="flex-1 py-1.5 rounded bg-jig-purple text-white text-xs font-bold hover:bg-jig-purple-dark disabled:opacity-50 transition-colors"
+                  className="flex-1 py-1.5 rounded bg-or-gold text-white text-xs font-bold hover:bg-or-gold-dark disabled:opacity-50 transition-colors"
                 >
                   {processing === item.id ? '...' : 'Approve'}
                 </button>
-                {item.type === 'purchase_order' && (
+                {['purchase_order', 'transfer', 'batch'].includes(item.type) && (
                   <button
                     onClick={() => handleReject(item)}
                     disabled={processing === item.id}
-                    className="flex-1 py-1.5 rounded bg-jig-red/10 text-jig-red text-xs font-bold hover:bg-jig-red/20 disabled:opacity-50 transition-colors"
+                    className="flex-1 py-1.5 rounded bg-origin-red/10 text-origin-red text-xs font-bold hover:bg-origin-red/20 disabled:opacity-50 transition-colors"
                   >
                     Reject
                   </button>

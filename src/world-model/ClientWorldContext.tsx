@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Client World React Context
+ * PureGro Premium Cannabis Care - Client World React Context
  *
  * Provides the full intelligence layer to any React component tree.
  *

@@ -1,0 +1,344 @@
+{
+  "$schema": "internal/gmp-processing-sops-v1",
+  "version": "1.0.0",
+  "country": "ZA",
+  "scope": "Post-harvest GMP processing — receiving, drying, trimming, weighing, packing, cleaning, calibration",
+  "regulators": [
+    {
+      "code": "SAHPRA",
+      "name": "South African Health Products Regulatory Authority",
+      "scope": "Section 22C cultivation + manufacturing licence; GMP compliance for medicinal cannabis processing"
+    },
+    {
+      "code": "GMP",
+      "name": "Good Manufacturing Practice (PIC/S aligned)",
+      "scope": "Batch records, cleaning validation, equipment qualification, deviation control"
+    },
+    {
+      "code": "EU_MONOGRAPH_CANNABIS",
+      "name": "European Pharmacopoeia Monograph for Cannabis Flowers",
+      "scope": "Quality testing standards for finished product"
+    }
+  ],
+  "audit_pain_points_observed": [
+    "Cleaning logs missing dates / initials / QC sign-off",
+    "BMR sections left blank — issuance vs receipt sign-off",
+    "Balance verification not performed before weighing operations (±0.5% drift undetected)",
+    "Per-trimmer weight reconciliation gaps (issued vs returned)",
+    "Sanitizer rotation not enforced — same chemical used consecutively",
+    "Pack-out yield reconciliation (Gross → Waste → Net → Loss%) breaks chain-of-custody",
+    "Receiving Register approvals/rejections not tied to invoice match"
+  ],
+  "sops": [
+    {
+      "id": "GMP-REC-01",
+      "title": "Outside Receiving Area · Cleaning Schedule",
+      "category": "CLEANING",
+      "regulator_codes": ["SAHPRA", "GMP"],
+      "responsible_role": "HOUSEKEEPING",
+      "frequency": "DAILY",
+      "area": "OUTSIDE_RECEIVING",
+      "sanitizers_used": ["Steri-S", "Triple Orange Wonder Gel"],
+      "key_records": [
+        "Date + per-task tick (✓) for each cleaning task",
+        "Tasks: walls / insect catcher / lights / ceiling / doors & handles / pallets / wipe flat surfaces / sweep & scrub floors / pass-through box",
+        "QC/QA sign-off",
+        "Sanitizer dispenser refill log"
+      ],
+      "failure_modes": ["Daily tick missing", "QC/QA sign-off blank", "Same sanitizer used 2+ days running"]
+    },
+    {
+      "id": "GMP-REC-02",
+      "title": "Receiving Register",
+      "sop_ref": "SOP 5-PDT-4",
+      "category": "RECEIVING",
+      "regulator_codes": ["SAHPRA", "GMP"],
+      "responsible_role": "PROCESSING_SUPERVISOR",
+      "frequency": "EVENT",
+      "area": "RECEIVING_STORAGE",
+      "key_records": [
+        "Date",
+        "Supplier name",
+        "Type of stock",
+        "Corresponds with invoice? (Y/N)",
+        "Approved (✓) or Rejected (✓)",
+        "Received by",
+        "Signature",
+        "Comments / Remarks"
+      ],
+      "failure_modes": [
+        "Invoice mismatch but approved",
+        "Rejected items not segregated to quarantine",
+        "Receipt without signature"
+      ]
+    },
+    {
+      "id": "GMP-WMR-03",
+      "title": "Wet Material Receiving · Cleaning Schedule",
+      "category": "CLEANING",
+      "regulator_codes": ["SAHPRA", "GMP"],
+      "responsible_role": "HOUSEKEEPING",
+      "frequency": "DAILY",
+      "area": "WET_MATERIAL_RECEIVING",
+      "key_records": ["Daily task tick + QC/QA sign-off (same shape as GMP-REC-01)"],
+      "failure_modes": ["Wet residue cross-contamination if not cleaned same day"]
+    },
+    {
+      "id": "GMP-DRY-04",
+      "title": "BMR — Drying",
+      "category": "BMR",
+      "regulator_codes": ["SAHPRA", "GMP", "EU_MONOGRAPH_CANNABIS"],
+      "responsible_role": "PROCESSING_MANAGER",
+      "frequency": "BATCH",
+      "area": "DRYING_ROOM_2",
+      "operating_envelope": {
+        "temperature_c": "15-25",
+        "rh_percent": "50-60",
+        "input_range_kg": "120-1000 wet harvest plants"
+      },
+      "key_records": [
+        "Strain · Batch number · Batch size",
+        "Output (actual) kg",
+        "Drying conditions log (T + RH continuous)",
+        "Start Date · End Date",
+        "Issued By (QA) signature + date",
+        "Issued To (Production) signature + date",
+        "Dual sign-off chain: Production complete → QA review → AR release"
+      ],
+      "failure_modes": [
+        "Conditions out of envelope > 30 min",
+        "Sign-off chain incomplete",
+        "Output weight not recorded"
+      ]
+    },
+    {
+      "id": "GMP-DRY-05",
+      "title": "Processing Dry · WMR Hallway · Cleaning Schedule",
+      "category": "CLEANING",
+      "regulator_codes": ["SAHPRA", "GMP"],
+      "responsible_role": "HOUSEKEEPING",
+      "frequency": "DAILY",
+      "area": "DRY_WMR_HALLWAY",
+      "key_records": ["Daily task tick + QC/QA sign-off"],
+      "failure_modes": ["Hallway is shared cross-flow risk if not cleaned"]
+    },
+    {
+      "id": "GMP-TRM-06",
+      "title": "BMR — Trimming",
+      "category": "BMR",
+      "regulator_codes": ["SAHPRA", "GMP", "EU_MONOGRAPH_CANNABIS"],
+      "responsible_role": "PROCESSING_MANAGER",
+      "frequency": "BATCH",
+      "area": "TRIMMING_ROOM",
+      "operating_envelope": {
+        "temperature_c": "15-25",
+        "rh_percent": "protect from light",
+        "input_range_kg": "200-1000 dried flower",
+        "output_range_kg": "120-500 trimmed (Trimmings + Flos)"
+      },
+      "key_records": [
+        "Description · Strain · Product Code · Batch size",
+        "Input weight (actual)",
+        "Output: Trimmings kg + Flos kg",
+        "Storage conditions",
+        "Start Date · End Date",
+        "QA Issuance signature + Production signature + Receipt signature"
+      ],
+      "failure_modes": [
+        "Yield outside expected range without deviation raised",
+        "Trimmings + Flos do not reconcile to input - waste",
+        "Storage temperature breach"
+      ]
+    },
+    {
+      "id": "GMP-TRM-07",
+      "title": "Daily Trimming Weights Register",
+      "category": "WEIGHTS_REGISTER",
+      "regulator_codes": ["SAHPRA", "GMP"],
+      "responsible_role": "TRIMMER",
+      "frequency": "DAILY",
+      "area": "TRIMMING_ROOM",
+      "key_records": [
+        "Date · Strain · Batch No",
+        "Time start / Time end (per shift)",
+        "Per-trimmer row (named individuals): Issued weight / Pops / M-L / Trimmings / Sticks-Seeds / Untrimmed / Total",
+        "Grand total reconciliation"
+      ],
+      "failure_modes": [
+        "Per-trimmer issued vs returned mismatch > 5%",
+        "Row missing for any trimmer who worked the shift",
+        "Grand total doesn't reconcile to BMR-TRM input"
+      ]
+    },
+    {
+      "id": "GMP-TRM-08",
+      "title": "Trimming Room · Deep Clean Schedule",
+      "category": "CLEANING",
+      "regulator_codes": ["SAHPRA", "GMP"],
+      "responsible_role": "HOUSEKEEPING",
+      "frequency": "BATCH",
+      "area": "TRIMMING_ROOM",
+      "sanitizers_used": ["Steri-S", "HOCL (Hypochlorous Acid)", "Triple Orange Gel"],
+      "key_records": [
+        "Batch No (deep clean is between batches)",
+        "Per-task tick: walls / tables-chairs-shelves / equipment / dustbins / doors / sweep+scrub floors / ceiling+lights / aircons & dehumidifiers / scissors / trimming trays / sanitizer dispensers / storage containers / sticky residue removal",
+        "Sanitizer used per surface (Steri-S residue removal with Triple Orange specifically called out)",
+        "QC/QA checked + sign-off"
+      ],
+      "failure_modes": [
+        "Sanitizer residue not removed before next batch",
+        "Sticky residue on tables → contamination risk",
+        "Equipment not cleaned (scissors, trays)"
+      ]
+    },
+    {
+      "id": "GMP-WSH-09",
+      "title": "Wash Bay · Cleaning Schedule",
+      "category": "CLEANING",
+      "regulator_codes": ["SAHPRA", "GMP"],
+      "responsible_role": "HOUSEKEEPING",
+      "frequency": "DAILY",
+      "area": "WASH_BAY",
+      "key_records": ["Daily task tick + QC/QA sign-off"],
+      "failure_modes": ["Wash bay is decontamination point — failure compromises downstream cleanrooms"]
+    },
+    {
+      "id": "GMP-WP-10",
+      "title": "Weighing & Pack Area · Cleaning Schedule",
+      "category": "CLEANING",
+      "regulator_codes": ["SAHPRA", "GMP"],
+      "responsible_role": "HOUSEKEEPING",
+      "frequency": "DAILY",
+      "area": "WEIGHING_PACK",
+      "key_records": ["Daily task tick + QC/QA sign-off"],
+      "failure_modes": ["Weighing surface contamination invalidates batch weights"]
+    },
+    {
+      "id": "GMP-WP-11",
+      "title": "Processing W-P Hallway · Cleaning Schedule",
+      "category": "CLEANING",
+      "regulator_codes": ["SAHPRA", "GMP"],
+      "responsible_role": "HOUSEKEEPING",
+      "frequency": "DAILY",
+      "area": "WEIGHING_PACK_HALLWAY",
+      "key_records": ["Daily task tick + QC/QA sign-off"],
+      "failure_modes": ["Hallway is cross-flow path between weighing and packing zones"]
+    },
+    {
+      "id": "GMP-CAL-12",
+      "title": "Daily Balance Verification",
+      "sop_ref": "SOP 4-FAC-3 v04",
+      "category": "CALIBRATION",
+      "regulator_codes": ["SAHPRA", "GMP"],
+      "responsible_role": "PROCESSING_SUPERVISOR",
+      "frequency": "DAILY",
+      "area": "WEIGHING_PACK",
+      "verification_limits_pct": 0.5,
+      "verification_masses": [
+        { "nominal": "500 g", "lower": "499.5 g", "upper": "500.5 g" },
+        { "nominal": "1 kg",  "lower": "999.5 g", "upper": "1.005 kg" },
+        { "nominal": "10 kg", "lower": "9.95 kg", "upper": "10.05 kg" }
+      ],
+      "preconditions": [
+        "Balance stabilized for at least 30 min before use",
+        "Balance levelled",
+        "Reads zero prior to use"
+      ],
+      "key_records": [
+        "Date",
+        "Actual readings per mass piece",
+        "Pass/Fail per reading",
+        "Operator signature",
+        "On Fail: balance taken offline + deviation raised + service call logged"
+      ],
+      "failure_modes": [
+        "Verification skipped on a weighing day → all batch weights from that day suspect",
+        "Out-of-limit reading without deviation",
+        "Mass pieces themselves not calibrated (annual external cal)"
+      ]
+    },
+    {
+      "id": "GMP-PCK-13",
+      "title": "ILCO Pack-outs · Master Yield Tracker",
+      "category": "WEIGHTS_REGISTER",
+      "regulator_codes": ["SAHPRA", "GMP", "EU_MONOGRAPH_CANNABIS"],
+      "responsible_role": "PROCESSING_MANAGER",
+      "frequency": "BATCH",
+      "area": "CROSS_CUTTING",
+      "key_records": [
+        "Strain · Harvest Date · Pad # · Batch #",
+        "Sqm of Canopy · Plant Population",
+        "Gross Harvest incl. Waste (kg) · Waste · Waste %",
+        "Net Flower delivered to Trim Room (kg)",
+        "Untrimmed/Trimmed Wet Flower delivered to MF (kg)",
+        "Trimmings delivered to MF (kg) · Total Wet Flower delivered to MF (kg)",
+        "Rejects · Reject % · Waste (kg)",
+        "Difference total received vs total dispatched (kg) · Loss %",
+        "Start-Time / End-Time / Harvest & Trim Period (hrs)",
+        "Gross Wet Flower g/plant · Net Wet Flower g/plant",
+        "Wet CN Bulk COA % · Wet Micro Bulk COA",
+        "Flower Received (kg) · Receiving + Loading Waste (kg + %)",
+        "QA Release to Loading (kg) · Flower Loaded (kg)",
+        "Dried Flower on Tray (kg) · Mass Remaining after Drying (%)",
+        "QC Samples Taken (kg) · Comments",
+        "Unloading Waste (kg + %)",
+        "Dried Cannabis in Barrels (kg)",
+        "Flower issued for Hand Sort & Finishing (kg)",
+        "Hand Trimmings Collected (kg) · Hand Sorted Flower Collected (kg)",
+        "QC Samples Taken in HSF (kg)"
+      ],
+      "definitions": [
+        "Micro < 10 g/ml on COA → recorded as 0",
+        "BTGN classified as E.coli + EnteroBacteriaceae",
+        "CN: THC/CBD = 0 if < LOQ/LOD",
+        "Micro > 10 g/ml: total = average of individual sample results"
+      ],
+      "failure_modes": [
+        "Loss % > 5% without deviation raised",
+        "Reject % > industry baseline (~3%) without root-cause investigation",
+        "Gross-to-Net reconciliation gap (chain-of-custody break)",
+        "QC samples not pulled from each batch"
+      ]
+    }
+  ],
+  "ticket_substrate_mapping": {
+    "note": "Each SOP execution is a Ticket. When the ticket closes, the rich row is written to its specialised model + an AuditLog entry. Same 3-layer pattern as cultivation SOPs.",
+    "mapping": [
+      { "sop_id": "GMP-REC-01", "ticket_category": "CLEANING_OUTSIDE_RECEIVING", "specialised_model": "CleaningInitial (existing — extend)" },
+      { "sop_id": "GMP-REC-02", "ticket_category": "RECEIVING_CHECK",           "specialised_model": "ReceivingRegister (NEW)" },
+      { "sop_id": "GMP-WMR-03", "ticket_category": "CLEANING_WET_RECEIVING",    "specialised_model": "CleaningInitial (extend area enum)" },
+      { "sop_id": "GMP-DRY-04", "ticket_category": "BMR_DRYING",                "specialised_model": "BatchManufacturingRecord (NEW)" },
+      { "sop_id": "GMP-DRY-05", "ticket_category": "CLEANING_DRY_HALLWAY",      "specialised_model": "CleaningInitial" },
+      { "sop_id": "GMP-TRM-06", "ticket_category": "BMR_TRIMMING",              "specialised_model": "BatchManufacturingRecord" },
+      { "sop_id": "GMP-TRM-07", "ticket_category": "TRIM_WEIGHTS_DAILY",        "specialised_model": "TrimSession (extend with per-trimmer rows)" },
+      { "sop_id": "GMP-TRM-08", "ticket_category": "DEEP_CLEAN_TRIM",           "specialised_model": "CleaningInitial (mark frequency=BATCH)" },
+      { "sop_id": "GMP-WSH-09", "ticket_category": "CLEANING_WASH_BAY",         "specialised_model": "CleaningInitial" },
+      { "sop_id": "GMP-WP-10",  "ticket_category": "CLEANING_WEIGH_PACK",       "specialised_model": "CleaningInitial" },
+      { "sop_id": "GMP-WP-11",  "ticket_category": "CLEANING_WP_HALLWAY",       "specialised_model": "CleaningInitial" },
+      { "sop_id": "GMP-CAL-12", "ticket_category": "BALANCE_VERIFICATION",      "specialised_model": "BalanceVerification (NEW)" },
+      { "sop_id": "GMP-PCK-13", "ticket_category": "PACKOUT_YIELD",             "specialised_model": "PackOutRecord (NEW — comprehensive yield)" }
+    ]
+  },
+  "next_steps": [
+    "Add 4 new specialised Prisma models: ReceivingRegister, BatchManufacturingRecord, BalanceVerification, PackOutRecord",
+    "Extend CleaningInitial with `area` enum (currently has zone) covering 7 cleaning zones",
+    "Wire each SOP to spawn a Ticket on schedule (daily/batch) with assignedToRole = responsible_role",
+    "Form pages mirror paper layouts (per-task ticks for cleaning, dual sign-off for BMRs)",
+    "On submit: write specialised row + emit AuditLog + close Ticket with resolvedById"
+  ],
+  "sources": [
+    "doc2/OUTSIDE RECEIVING CLEANING SCHEDULE2025.docx",
+    "doc2/RECEIVING  REGISTER2025 (1).docx",
+    "doc2/ILCO Packouts.xlsx",
+    "doc2/doc3/BATCH MANUFACTURING RECORD DRYING.docx",
+    "doc2/doc3/BMR Trimming 02.docx",
+    "doc2/doc3/Daily Balance verification.docx",
+    "doc2/doc3/NEW DAILY TRIMMING WEIGHTS REGISTER.docx",
+    "doc2/doc3/PROCESSING DRY- WMR HALLWAY CLEANING SCHEDULE2025.docx",
+    "doc2/doc3/PROCESSING W-P HALLWAY CLEANING SCHEDULE2025.docx",
+    "doc2/doc3/TRIMMING ROOM DEEP CLEAN SCHEDULE2025.docx",
+    "doc2/doc3/WASH BAY CLEANING SCHEDULE2025.docx",
+    "doc2/doc3/WEIGHING & PACK CLEANING SCHEDULE2025.docx",
+    "doc2/doc3/WET MATERIAL RECEIVING CLEANING SCHEDULE2025.docx"
+  ]
+}

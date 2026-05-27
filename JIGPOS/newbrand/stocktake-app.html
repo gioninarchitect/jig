@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0A0A0A">
+    <meta name="theme-color" content="#0E0E0E">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Stock Take - JIG Craft Cannabis</title>
-    <link rel="manifest" href="/manifest-stocktake.json">
-    <link rel="apple-touch-icon" href="/images/jig-logo-nobg.png">
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Stock Take - Origin by ILCO Farming</title>
+    <link rel="manifest" href="manifest-stocktake.json">
+    <link rel="apple-touch-icon" href="images/origin-logo.png">
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
@@ -20,33 +20,42 @@
         }
 
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -56,7 +65,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -65,13 +74,25 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
+            /* Theme tokens (dark mode) */
+            --primary: #C9A84C;
+            --primary-dark: #8B6914;
+            --primary-light: #D4B96A;
+            --bg-dark: #0E0E0E;
+            --bg-card: #1A1A1A;
+            --bg-input: #222222;
+            --text-primary: #FAFAFA;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --border: #2A2A2A;
+            --border-light: #333333;
         }
 
         body {
@@ -82,14 +103,14 @@
             padding-bottom: 80px;
         }
 
-        /* Header - DBC Branded */
+        /* Header - Origin Branded */
         .header {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             padding: 1rem;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 3px solid var(--gold);
+            border-bottom: 2px solid rgba(201,168,76,0.4);
         }
 
         .header-top {
@@ -100,7 +121,7 @@
         }
 
         .logo {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
             color: white;
@@ -202,7 +223,7 @@
             color: var(--text-secondary);
         }
 
-        /* Category Buttons - DBC Style */
+        /* Category Buttons - Origin Style */
         .cat-btn {
             display: inline-flex;
             align-items: center;
@@ -221,7 +242,7 @@
 
         .cat-btn:hover {
             background: var(--bg-input);
-            border-color: var(--gold);
+            border-color: #C9A84C;
             color: var(--text-primary);
         }
 
@@ -242,9 +263,9 @@
         }
 
         .sub-btn.active {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: #0A0A0A;
+            background: #C9A84C;
+            border-color: #C9A84C;
+            color: #0E0E0E;
         }
 
         /* Item Cards */
@@ -740,8 +761,8 @@
         .login-card h1 {
             text-align: center;
             margin-bottom: 0.5rem;
-            color: var(--gold);
-            font-family: 'Oswald', sans-serif;
+            color: #C9A84C;
+            font-family: 'Cinzel', sans-serif;
         }
 
         .login-card p {
@@ -952,17 +973,17 @@
 
         .otp-inputs input:focus {
             outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.3);
+            border-color: #C9A84C;
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.3);
         }
 
-        /* Gold accent for primary buttons */
+        /* Green accent for primary buttons */
         .btn-primary {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%) !important;
-            color: var(--bg-dark) !important;
+            background: linear-gradient(135deg, #C9A84C 0%, #8B6914 100%) !important;
+            color: #FFFFFF !important;
         }
         .btn-primary:hover {
-            background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%) !important;
+            background: linear-gradient(135deg, #D4B96A 0%, #C9A84C 100%) !important;
         }
     </style>
 </head>
@@ -973,7 +994,7 @@
     <!-- Login Screen -->
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
-            <h1><img src="/images/jig-logo-nobg.png" alt="DBC" style="height: 50px; vertical-align: middle;"> DBC</h1>
+            <h1><img src="images/origin-logo.png" alt="Origin" style="height: 50px; vertical-align: middle;"> Origin</h1>
             <p>Stock Take App</p>
 
             <!-- Step 1: Email Input -->
@@ -998,7 +1019,7 @@
                                 </button>
                             </div>
                         </div>
-                        <button type="button" onclick="loginWithPin()" class="btn btn-primary" style="width: 100%; background: var(--green);">
+                        <button type="button" onclick="loginWithPin()" class="btn btn-primary" style="width: 100%; background: var(--or-gold);">
                             <i class="fas fa-key"></i> Login with PIN
                         </button>
                     </div>
@@ -1056,7 +1077,7 @@
     <div class="login-screen" id="registrationScreen" style="display: none;">
         <div class="login-card" style="max-width: 400px;">
             <div class="login-header">
-                <img src="images/jig-logo-nobg.png" alt="JIG Craft Cannabis" style="height: 100px; margin-bottom: 10px;">
+                <img src="images/origin-logo.png" alt="Origin by ILCO Farming" style="height: 100px; margin-bottom: 10px;">
                 <h1>Complete Your Profile</h1>
                 <p>Please fill in your details to continue</p>
             </div>
@@ -1103,7 +1124,7 @@
             </div>
             <!-- Tab Navigation -->
             <div style="display: flex; gap: 8px; margin-top: 10px;">
-                <button class="mode-tab active" id="tabStockTake" onclick="switchMode('stocktake')" style="flex: 1; padding: 10px; background: var(--gold); color: var(--primary-dark); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <button class="mode-tab active" id="tabStockTake" onclick="switchMode('stocktake')" style="flex: 1; padding: 10px; background: #C9A84C; color: #0E0E0E; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
                     <i class="fas fa-clipboard-list"></i> Stock Take
                 </button>
                 <button class="mode-tab" id="tabReceive" onclick="switchMode('receive')" style="flex: 1; padding: 10px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
@@ -1144,7 +1165,7 @@
                     <button id="viewModeBtn" onclick="toggleViewMode()" style="padding: 12px 14px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 0.8rem; cursor: pointer; white-space: nowrap;" title="Switch view mode">
                         <i class="fas fa-th-list"></i> Batch
                     </button>
-                    <button onclick="openAddProductModal()" style="padding: 12px 14px; background: var(--gold, #D97706); color: var(--primary-dark, #6D28D9); border: none; border-radius: 10px; font-weight: 700; font-size: 1.1rem; cursor: pointer; white-space: nowrap;" title="Add missing product">
+                    <button onclick="openAddProductModal()" style="padding: 12px 14px; background: var(--gold, #C9A84C); color: var(--primary-dark, #8B6914); border: none; border-radius: 10px; font-weight: 700; font-size: 1.1rem; cursor: pointer; white-space: nowrap;" title="Add missing product">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
@@ -1158,9 +1179,9 @@
                         'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letter => {
                             const btn = document.createElement('button');
                             btn.textContent = letter;
-                            btn.style.cssText = 'width:28px;height:28px;border:1px solid #2A2A2A;border-radius:4px;background: #0A0A0A;color:var(--green-deep,#6D28D9);font-size:11px;font-weight:700;cursor:pointer;padding:0;';
-                            btn.onmouseenter = function() { this.style.background = 'var(--gold,#D97706)'; this.style.color = 'white'; };
-                            btn.onmouseleave = function() { this.style.background = 'white'; this.style.color = 'var(--green-deep,#6D28D9)'; };
+                            btn.style.cssText = 'width:28px;height:28px;border:1px solid #333;border-radius:4px;background:#0A0A0A;color:#9CA3AF;font-size:11px;font-weight:700;cursor:pointer;padding:0;';
+                            btn.onmouseenter = function() { this.style.background = '#C9A84C'; this.style.color = '#0E0E0E'; };
+                            btn.onmouseleave = function() { this.style.background = '#0E0E0E'; this.style.color = '#9CA3AF'; };
                             btn.onclick = function() {
                                 document.getElementById('searchInput').value = letter.toLowerCase();
                                 renderItems();
@@ -1175,14 +1196,14 @@
                         // Clear button
                         const clr = document.createElement('button');
                         clr.innerHTML = '<i class="fas fa-times"></i>';
-                        clr.style.cssText = 'width:28px;height:28px;border:1px solid #2A2A2A;border-radius:4px;background:var(--cream,#0A0A0A);color:#999;font-size:11px;cursor:pointer;padding:0;';
+                        clr.style.cssText = 'width:28px;height:28px;border:1px solid #222222;border-radius:4px;background:var(--cream,#0E0E0E);color:#999;font-size:11px;cursor:pointer;padding:0;';
                         clr.onclick = function() { document.getElementById('searchInput').value = ''; renderItems(); };
                         idx.appendChild(clr);
                     });
                 </script>
             </div>
 
-            <!-- Category Hierarchy - DBC Style -->
+            <!-- Category Hierarchy - Origin Style -->
             <div id="categoryHierarchy" style="padding: 0 15px; margin-bottom: 10px;">
                 <div class="category-row main-row" id="mainCategoryRow" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
                     <button class="cat-btn active" data-filter="all" onclick="selectMainCategory('all')">
@@ -1210,7 +1231,7 @@
                         <i class="fas fa-tools"></i> ACCESSORIES
                     </button>
                 </div>
-                <div class="category-row growmethod-row" id="growMethodRow" style="display: none; flex-wrap: nowrap; gap: 8px; margin-bottom: 8px; padding: 10px; background: rgba(124, 58, 237, 0.3); border-radius: 8px; border-left: 3px solid var(--primary);">
+                <div class="category-row growmethod-row" id="growMethodRow" style="display: none; flex-wrap: nowrap; gap: 8px; margin-bottom: 8px; padding: 10px; background: rgba(201, 168, 76, 0.3); border-radius: 8px; border-left: 3px solid var(--primary);">
                     <span style="color: var(--text-secondary); font-size: 12px; margin-right: 8px;">Grow:</span>
                     <button class="cat-btn sub-btn" data-growmethod="indoor" onclick="selectGrowMethod('indoor')">
                         <i class="fas fa-warehouse"></i> Indoor
@@ -1219,7 +1240,7 @@
                         <i class="fas fa-door-open"></i> Greendoor
                     </button>
                 </div>
-                <div class="category-row producttype-row" id="productTypeRow" style="display: none; flex-wrap: nowrap; gap: 8px; padding: 10px; background: rgba(217, 119, 6, 0.15); border-radius: 8px; border-left: 3px solid var(--gold);">
+                <div class="category-row producttype-row" id="productTypeRow" style="display: none; flex-wrap: nowrap; gap: 8px; padding: 10px; background: rgba(201,168,76,0.1); border-radius: 8px; border-left: 3px solid #C9A84C;">
                     <span style="color: var(--text-secondary); font-size: 12px; margin-right: 8px;">Type:</span>
                     <button class="cat-btn sub-btn" data-type="pre-roll" onclick="selectProductType('pre-roll')">
                         <i class="fas fa-joint"></i> Pre Rolls
@@ -1279,7 +1300,7 @@
                 <i class="fas fa-exclamation-triangle"></i>
                 <span>Variance</span>
             </button>
-            <button class="nav-btn" onclick="exportStockTakeCSV()" style="background: var(--gold); color: var(--primary-dark);">
+            <button class="nav-btn" onclick="exportStockTakeCSV()" style="background: #C9A84C; color: #0E0E0E;">
                 <i class="fas fa-file-csv"></i>
                 <span>Export</span>
             </button>
@@ -1334,6 +1355,7 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+            <div id="complianceBanner" style="padding: 12px 16px; margin: 0 16px 12px; border-radius: 10px; display: none;"></div>
             <div class="modal-body" id="sessionList">
                 <!-- Sessions will be rendered here -->
             </div>
@@ -1356,26 +1378,52 @@
             </div>
             <div class="modal-body" style="padding: 24px;">
                 <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #ccc;">Quick Templates</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <button onclick="selectQuickTemplate('daily-high-value')" id="tpl-daily-high-value"
+                            style="padding: 14px 12px; background: rgba(220,38,38,0.15); border: 2px solid rgba(220,38,38,0.4); border-radius: 10px; color: #ff6b6b; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-align: left; font-family: 'Cinzel', sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">
+                            <i class="fas fa-fire" style="margin-right: 6px;"></i> Daily High-Value
+                            <div style="font-size: 0.7rem; font-weight: 400; color: #999; margin-top: 4px; text-transform: none; letter-spacing: 0;">Flower, Pre-rolls, Concentrates</div>
+                        </button>
+                        <button onclick="selectQuickTemplate('weekly-medium')" id="tpl-weekly-medium"
+                            style="padding: 14px 12px; background: rgba(245,158,11,0.15); border: 2px solid rgba(245,158,11,0.4); border-radius: 10px; color: #f59e0b; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-align: left; font-family: 'Cinzel', sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">
+                            <i class="fas fa-calendar-week" style="margin-right: 6px;"></i> Weekly Medium
+                            <div style="font-size: 0.7rem; font-weight: 400; color: #999; margin-top: 4px; text-transform: none; letter-spacing: 0;">Edibles, Oils, Vapes</div>
+                        </button>
+                        <button onclick="selectQuickTemplate('full-count')" id="tpl-full-count"
+                            style="padding: 14px 12px; background: rgba(201,168,76,0.15); border: 2px solid rgba(201,168,76,0.4); border-radius: 10px; color: #C9A84C; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-align: left; font-family: 'Cinzel', sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">
+                            <i class="fas fa-clipboard-check" style="margin-right: 6px;"></i> Full Count
+                            <div style="font-size: 0.7rem; font-weight: 400; color: #999; margin-top: 4px; text-transform: none; letter-spacing: 0;">All categories</div>
+                        </button>
+                        <button onclick="selectQuickTemplate('spot-check')" id="tpl-spot-check"
+                            style="padding: 14px 12px; background: rgba(99,102,241,0.15); border: 2px solid rgba(99,102,241,0.4); border-radius: 10px; color: #818cf8; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-align: left; font-family: 'Cinzel', sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">
+                            <i class="fas fa-random" style="margin-right: 6px;"></i> Spot Check
+                            <div style="font-size: 0.7rem; font-weight: 400; color: #999; margin-top: 4px; text-transform: none; letter-spacing: 0;">Quick verification</div>
+                        </button>
+                    </div>
+                </div>
+                <div style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #ccc;">Stock Take Type</label>
-                    <select id="newSessionType" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #7C3AED; background: #0A0A0A; color: white; font-size: 1rem;">
+                    <select id="newSessionType" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #C9A84C; background: #0A0A0A; color: white; font-size: 1rem;">
                         <option value="full">Full Count</option>
                         <option value="cycle">Cycle Count</option>
                         <option value="spot">Spot Check</option>
                     </select>
+                    <input type="hidden" id="newSessionCategories" value="">
                 </div>
-                <div style="background: rgba(124, 58, 237, 0.2); padding: 16px; border-radius: 8px; border-left: 3px solid #7C3AED;">
+                <div style="background: rgba(201, 168, 76, 0.2); padding: 16px; border-radius: 8px; border-left: 3px solid #C9A84C;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                        <i class="fas fa-store" style="color: #7C3AED;"></i>
+                        <i class="fas fa-store" style="color: #C9A84C;"></i>
                         <span style="font-weight: 600;">Branch</span>
                     </div>
                     <p id="createSessionBranchName" style="color: #aaa; font-size: 0.9rem;">Loading...</p>
                 </div>
             </div>
             <div class="modal-footer" style="display: flex; gap: 12px; padding: 16px 24px;">
-                <button onclick="closeCreateSessionModal()" style="flex: 1; padding: 14px; background: #2A2A2A; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                <button onclick="closeCreateSessionModal()" style="flex: 1; padding: 14px; background: #222222; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
                     Cancel
                 </button>
-                <button onclick="confirmCreateSession()" style="flex: 1; padding: 14px; background: #7C3AED; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                <button onclick="confirmCreateSession()" style="flex: 1; padding: 14px; background: #C9A84C; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
                     <i class="fas fa-check"></i> Create
                 </button>
             </div>
@@ -1385,9 +1433,9 @@
     <!-- Add Product Modal -->
     <div class="modal-overlay" id="addProductModal" style="display: none;">
         <div class="modal-content" style="max-width: 500px; max-height: 85vh; display: flex; flex-direction: column;">
-            <div class="modal-header" style="background: linear-gradient(135deg, var(--gold, #D97706) 0%, var(--gold-dark, #B45309) 100%);">
-                <h3 style="color: var(--primary-dark, #6D28D9);"><i class="fas fa-plus-circle"></i> Add Product to Stock Take</h3>
-                <button onclick="closeAddProductModal()" style="background: none; border: none; color: var(--primary-dark, #6D28D9); font-size: 1.25rem; cursor: pointer;">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--gold, #C9A84C) 0%, var(--gold-dark, #C9A84C) 100%);">
+                <h3 style="color: var(--primary-dark, #8B6914);"><i class="fas fa-plus-circle"></i> Add Product to Stock Take</h3>
+                <button onclick="closeAddProductModal()" style="background: none; border: none; color: var(--primary-dark, #8B6914); font-size: 1.25rem; cursor: pointer;">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -1395,7 +1443,7 @@
                 <div style="position: relative;">
                     <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
                     <input type="text" id="addProductSearch" placeholder="Search all products..." oninput="searchProductsToAdd(this.value)"
-                        style="width: 100%; padding: 12px 12px 12px 40px; background: var(--bg-input, #7C3AED); border: 1px solid var(--border, #A855F7); border-radius: 10px; color: white; font-size: 1rem;">
+                        style="width: 100%; padding: 12px 12px 12px 40px; background: var(--bg-input, #C9A84C); border: 1px solid var(--border, #D4B96A); border-radius: 10px; color: white; font-size: 1rem;">
                 </div>
             </div>
             <div id="addProductResults" style="flex: 1; overflow-y: auto; padding: 0 16px 16px; max-height: 50vh;">
@@ -1420,7 +1468,7 @@
                 <p id="confirmMessage" style="font-size: 1.1rem; color: #ccc; line-height: 1.5;"></p>
             </div>
             <div class="modal-footer" style="display: flex; gap: 12px; padding: 16px 24px;">
-                <button onclick="closeConfirmModal(false)" style="flex: 1; padding: 14px; background: #2A2A2A; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                <button onclick="closeConfirmModal(false)" style="flex: 1; padding: 14px; background: #222222; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
                     Cancel
                 </button>
                 <button onclick="closeConfirmModal(true)" id="confirmYesBtn" style="flex: 1; padding: 14px; background: #DC2626; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
@@ -1430,17 +1478,17 @@
         </div>
     </div>
 
-    <!-- JIG Shared Libraries -->
-    <script src="/frontend/config.js?v=20260212b"></script>
-    <script src="/frontend/jig-utils.js?v=20260212b"></script>
-    <script src="/frontend/jig-auth.js?v=20260212b"></script>
+    <!-- Origin Shared Libraries -->
+    <script src="frontend/config.js?v=20260212b"></script>
+    <script src="frontend/or-utils.js?v=20260212b"></script>
+    <script src="frontend/or-auth.js?v=20260212b"></script>
 
     <!-- Stocktake modules — auth first, then sessions, counting, camera, items last -->
-    <script src="/frontend/st-auth.js?v=20260212b"></script>
-    <script src="/frontend/st-sessions.js?v=20260212b"></script>
-    <script src="/frontend/st-counting.js?v=20260212b"></script>
-    <script src="/frontend/st-camera.js?v=20260212b"></script>
-    <script src="/frontend/st-receiving.js?v=20260212b"></script>
-    <script src="/frontend/st-items.js?v=20260212b"></script>
+    <script src="frontend/st-auth.js?v=20260212b"></script>
+    <script src="frontend/st-sessions.js?v=20260212b"></script>
+    <script src="frontend/st-counting.js?v=20260212b"></script>
+    <script src="frontend/st-camera.js?v=20260212b"></script>
+    <script src="frontend/st-receiving.js?v=20260212b"></script>
+    <script src="frontend/st-items.js?v=20260212b"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 // dash-section21.js — Section 21 medical access, verification, medical products
-// Depends on: config.js (API_URL), dbc-utils.js (showNotification)
+// Depends on: config.js (API_URL), or-utils.js (showNotification)
 // Depends on: dash-core.js (showConfirmModal), dash-products.js (updateCartCount)
 
 // ===== SECTION 21 MEDICAL ACCESS FUNCTIONS =====
@@ -95,7 +95,7 @@ async function checkSection21Status() {
         // Show pending status with yellow banner
         statusContainer.innerHTML = `
             <div style="padding: 2rem;">
-                <div style="background: #f59e0b; color: #000; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center;">
+                <div style="background: #F8C242; color: #000; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center;">
                     <i class="fas fa-clock" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
                     <h3 style="margin-bottom: 0.5rem;">Application Pending</h3>
                     <p>Your Section 21 application is currently under review. This typically takes 2-5 business days.</p>
@@ -112,7 +112,7 @@ async function checkSection21Status() {
         `;
         // Add pending badge to Medical Cannabis tab
         if (medicalTab) {
-            medicalTab.innerHTML = 'Medical Cannabis <span style="background: #f59e0b; color: #000; font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; margin-left: 5px;">PENDING</span>';
+            medicalTab.innerHTML = 'Medical Cannabis <span style="background: #F8C242; color: #000; font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; margin-left: 5px;">PENDING</span>';
         }
     } else if (section21Status === 'approved') {
         // Show approved status with green banner
@@ -376,7 +376,7 @@ async function loadMedicalProducts() {
 
     try {
         const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-        const response = await fetch('/api/v1/products/medical', {
+        const response = await fetch(`${API_URL}/products/medical`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -415,12 +415,12 @@ function displayMedicalProducts(products) {
     products.forEach(product => {
         const imageUrl = product.images && product.images.length > 0
             ? product.images[0].url
-            : '/images/jig-logo-nobg.png';
+            : '/images/origin-logo.png';
 
         html += `
             <div style="flex: 0 0 280px; background: var(--bg-tertiary); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.3s;" onclick="viewMedicalProduct('${product._id}')">
                 <div style="width: 100%; height: 150px; background: rgba(255, 255, 255, 0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
-                    <img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;" onerror="this.src='/images/jig-logo-nobg.png'">
+                    <img src="${imageUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;" onerror="this.src='/images/origin-logo.png'">
                 </div>
                 <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">${product.name}</h3>
                 <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem; line-height: 1.4;">
@@ -441,7 +441,7 @@ async function viewMedicalProduct(productId) {
     // Reuse the existing product detail modal
     try {
         const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-        const response = await fetch(`/api/v1/products/${productId}`, {
+        const response = await fetch(`${API_URL}/products/${productId}`, {
             headers: token ? { 'Authorization': `Bearer ${token}` } : {}
         });
         if (response.ok) {

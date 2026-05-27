@@ -37,7 +37,7 @@ export default function SubstitutionFinder({ products }) {
           placeholder="Search by name or SKU..."
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-jig-purple/30"
+          className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-or-gold/30"
         />
 
         {/* Product list */}
@@ -50,7 +50,7 @@ export default function SubstitutionFinder({ products }) {
                 <button
                   key={p._id || p.productId}
                   onClick={() => { setSelectedProduct(p); setSearchTerm(''); }}
-                  className="w-full px-3 py-2 text-left hover:bg-jig-slate border-b border-gray-100 last:border-0"
+                  className="w-full px-3 py-2 text-left hover:bg-origin-slate border-b border-gray-100 last:border-0"
                 >
                   <div className="text-xs font-semibold text-white">{p.name}</div>
                   <div className="text-[10px] text-gray-400">
@@ -66,7 +66,7 @@ export default function SubstitutionFinder({ products }) {
 
       {/* Selected product */}
       {selectedProduct && (
-        <div className="p-4 rounded-lg border border-jig-purple/30 bg-jig-slate">
+        <div className="p-4 rounded-lg border border-or-gold/30 bg-origin-slate">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-xs text-gray-400 uppercase">Target Product</div>
@@ -80,7 +80,7 @@ export default function SubstitutionFinder({ products }) {
             </div>
             <button
               onClick={() => setSelectedProduct(null)}
-              className="px-2 py-1 rounded text-xs text-gray-500 hover:text-jig-red hover:bg-jig-red/5 transition-colors"
+              className="px-2 py-1 rounded text-xs text-gray-500 hover:text-origin-red hover:bg-origin-red/5 transition-colors"
             >
               Clear
             </button>
@@ -98,16 +98,16 @@ export default function SubstitutionFinder({ products }) {
             <div
               key={sub.productId || i}
               className={`p-3 rounded-lg border ${
-                sub.similarity >= 80 ? 'border-jig-purple/30 bg-jig-purple/5' :
-                sub.similarity >= 60 ? 'border-jig-amber/20 bg-jig-amber/5' :
+                sub.similarity >= 80 ? 'border-or-gold/30 bg-or-gold/5' :
+                sub.similarity >= 60 ? 'border-or-gold/20 bg-or-gold/5' :
                 'border-gray-200 bg-white'
               }`}
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2 min-w-0">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0 ${
-                    sub.similarity >= 80 ? 'bg-jig-purple' :
-                    sub.similarity >= 60 ? 'bg-jig-amber' :
+                    sub.similarity >= 80 ? 'bg-or-gold' :
+                    sub.similarity >= 60 ? 'bg-or-gold' :
                     'bg-gray-400'
                   }`}>
                     {sub.similarity}%
@@ -123,7 +123,7 @@ export default function SubstitutionFinder({ products }) {
                 </div>
                 <div className="text-right shrink-0">
                   {sub.price && <div className="text-xs font-bold text-white">{formatCurrency(sub.price)}</div>}
-                  <div className={`text-[10px] font-bold ${sub.inStock ? 'text-jig-purple' : 'text-jig-red'}`}>
+                  <div className={`text-[10px] font-bold ${sub.inStock ? 'text-or-gold' : 'text-origin-red'}`}>
                     {sub.inStock ? 'In Stock' : 'Out of Stock'}
                   </div>
                 </div>
@@ -141,13 +141,13 @@ export default function SubstitutionFinder({ products }) {
                 </div>
                 <div>
                   <span className="text-gray-400">THC diff: </span>
-                  <span className={`font-bold ${sub.thcDiff <= 2 ? 'text-jig-purple' : sub.thcDiff <= 5 ? 'text-jig-amber-dark' : 'text-jig-red'}`}>
+                  <span className={`font-bold ${sub.thcDiff <= 2 ? 'text-or-gold' : sub.thcDiff <= 5 ? 'text-or-gold-dark' : 'text-origin-red'}`}>
                     {sub.thcDiff > 0 ? '+' : ''}{sub.thcDiff}%
                   </span>
                 </div>
                 <div>
                   <span className="text-gray-400">CBD diff: </span>
-                  <span className={`font-bold ${sub.cbdDiff <= 2 ? 'text-jig-purple' : sub.cbdDiff <= 5 ? 'text-jig-amber-dark' : 'text-jig-red'}`}>
+                  <span className={`font-bold ${sub.cbdDiff <= 2 ? 'text-or-gold' : sub.cbdDiff <= 5 ? 'text-or-gold-dark' : 'text-origin-red'}`}>
                     {sub.cbdDiff > 0 ? '+' : ''}{sub.cbdDiff}%
                   </span>
                 </div>
@@ -157,8 +157,8 @@ export default function SubstitutionFinder({ products }) {
               <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
-                    sub.similarity >= 80 ? 'bg-jig-purple' :
-                    sub.similarity >= 60 ? 'bg-jig-amber' :
+                    sub.similarity >= 80 ? 'bg-or-gold' :
+                    sub.similarity >= 60 ? 'bg-or-gold' :
                     'bg-gray-400'
                   }`}
                   style={{ width: `${sub.similarity}%` }}

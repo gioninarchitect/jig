@@ -1,5 +1,5 @@
 // owner-livefeed.js — Real-time live activity feed for owner dashboard
-// Depends on: config.js (API_URL), owner-auth.js (token), dbc-utils.js (showToast)
+// Depends on: config.js (API_URL), owner-auth.js (token), or-utils.js (showToast)
 
 let liveFeedSocket = null;
 let liveFeedEvents = [];
@@ -137,7 +137,7 @@ function renderLiveFeed() {
 
     if (filtered.length === 0) {
         container.innerHTML = `
-            <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+            <div style="text-align: center; padding: 2rem; color: var(--or-grey-2);">
                 <i class="fas fa-satellite-dish" style="font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4;"></i>
                 <p>Waiting for live activity...</p>
                 <p style="font-size: 0.8rem; margin-top: 0.25rem;">Events will appear here as they happen</p>
@@ -172,7 +172,7 @@ function renderLiveFeed() {
 function pulseFeedItem() {
     const first = document.querySelector('.feed-item-new');
     if (first) {
-        first.style.background = 'rgba(217, 119, 6,0.1)';
+        first.style.background = 'rgba(240, 165, 0,0.1)';
         setTimeout(() => { first.style.background = 'transparent'; }, 1500);
     }
 }

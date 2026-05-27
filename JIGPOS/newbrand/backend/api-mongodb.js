@@ -248,7 +248,7 @@ app.get('/api/admin/orders', authenticateToken, async (req, res) => {
     try {
         // Check admin (simple check - improve in production)
         const user = await User.findById(req.userId);
-        if (user.email !== 'admin@loosedraw.co.za') {
+        if (user.email !== 'admin@origin.cleva-ai.co.za') {
             return res.status(403).json({ error: 'Admin access required' });
         }
         
@@ -263,7 +263,7 @@ app.get('/api/admin/orders', authenticateToken, async (req, res) => {
 app.get('/api/admin/users', authenticateToken, async (req, res) => {
     try {
         const user = await User.findById(req.userId);
-        if (user.email !== 'admin@loosedraw.co.za') {
+        if (user.email !== 'admin@origin.cleva-ai.co.za') {
             return res.status(403).json({ error: 'Admin access required' });
         }
         

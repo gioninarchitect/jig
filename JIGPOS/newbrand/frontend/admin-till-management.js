@@ -1,5 +1,5 @@
 /**
- * Till Management System for Basotho Medical Herbs Admin POS
+ * Till Management System for Origin by ILCO Farming Admin POS
  * Handles shift open/close, cash reconciliation, and cash operations
  */
 

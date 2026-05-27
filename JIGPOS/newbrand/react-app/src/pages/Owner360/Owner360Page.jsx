@@ -1,5 +1,5 @@
 // P22+P34 — Owner 360View Command Centre
-// P34: Lazy-load drill-down components
+// All panels wired to real backend APIs
 
 import { useState, lazy, Suspense } from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
@@ -10,6 +10,8 @@ import { useAuth } from '../../contexts/AuthContext';
 // Hooks
 import useAllBranches from './hooks/useAllBranches';
 import useApprovals from './hooks/useApprovals';
+import useRiskData from './hooks/useRiskData';
+import useStaffLeaderboard from './hooks/useStaffLeaderboard';
 
 // Components (eagerly loaded — always visible on 360View)
 import NetworkStatusBar from './NetworkStatusBar';
@@ -17,11 +19,13 @@ import BranchGrid from './BranchGrid';
 import LiveEventStream from './LiveEventStream';
 import ApprovalQueue from './ApprovalQueue';
 import InsightsBar from './InsightsBar';
+import CrossDomainAlerts from './CrossDomainAlerts';
 
-// P34: Lazy-loaded components (only loaded when user interacts)
+// Lazy-loaded components
 const BranchDrillDown = lazy(() => import('./BranchDrillDown'));
 const RiskHeatmap = lazy(() => import('./RiskHeatmap'));
 const StockHealthMap = lazy(() => import('./StockHealthMap'));
+const StaffScoreBoard = lazy(() => import('./StaffScoreBoard'));
 
 function SvgIcon({ d }) {
   return <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={d} /></svg>;
@@ -36,18 +40,32 @@ const menuItems = [
   { key: 'financials', label: 'Financials', icon: <SvgIcon d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /> },
 ];
 
+const LazySpinner = () => (
+  <div className="flex justify-center py-8">
+    <div className="w-6 h-6 border-2 border-or-gold border-t-transparent rounded-full animate-spin" />
+  </div>
+);
+
 export default function Owner360Page() {
   const { user } = useAuth();
   const { branches, ownerStats, loading, refresh } = useAllBranches();
   const approvals = useApprovals();
+  const { networkRisk, crossDomainAlerts, error: riskError } = useRiskData();
+
+  // Staff leaderboard — use first active branch as default
+  const firstBranch = branches.find(b => b.isActive);
+  const [staffBranchId, setStaffBranchId] = useState(null);
+  const activeBranchId = staffBranchId || firstBranch?._id;
+  const staffData = useStaffLeaderboard(activeBranchId);
 
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [activePanel, setActivePanel] = useState('branches');
 
   const PANELS = [
     { key: 'branches', label: 'Branches' },
-    { key: 'risk', label: 'Risk' },
+    { key: 'risk', label: 'Risk', badge: networkRisk?.networkAverage },
     { key: 'stock', label: 'Stock' },
+    { key: 'staff', label: 'Staff' },
   ];
 
   return (
@@ -60,7 +78,7 @@ export default function Owner360Page() {
         </div>
         <button
           onClick={refresh}
-          className="px-3 py-1.5 rounded-lg bg-jig-purple/10 text-jig-purple text-xs font-bold hover:bg-jig-purple/20 transition-colors"
+          className="px-3 py-1.5 rounded-lg bg-or-gold/10 text-or-gold text-xs font-bold hover:bg-or-gold/20 transition-colors"
         >
           Refresh
         </button>
@@ -73,11 +91,11 @@ export default function Owner360Page() {
 
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <div className="w-8 h-8 border-3 border-jig-purple border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-3 border-or-gold border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* LEFT COLUMN: Branch Grid / Risk / Stock (2/3 width) */}
+          {/* LEFT COLUMN: Main panels (2/3 width) */}
           <div className="lg:col-span-2 space-y-6">
             {/* Panel Tabs */}
             <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
@@ -85,13 +103,22 @@ export default function Owner360Page() {
                 <button
                   key={p.key}
                   onClick={() => setActivePanel(p.key)}
-                  className={`flex-1 py-2 rounded text-xs font-bold uppercase transition-colors ${
+                  className={`flex-1 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center justify-center gap-1 ${
                     activePanel === p.key
                       ? 'bg-white text-white shadow-sm'
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
                   {p.label}
+                  {p.badge != null && p.badge > 0 && (
+                    <span className={`ml-1 px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
+                      p.badge >= 50 ? 'bg-origin-red text-white' :
+                      p.badge >= 30 ? 'bg-or-gold text-white' :
+                      'bg-or-gold/20 text-or-gold'
+                    }`}>
+                      {p.badge}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -105,22 +132,52 @@ export default function Owner360Page() {
               />
             )}
 
-            {/* Risk Heatmap — P34: lazy loaded */}
+            {/* Risk Heatmap */}
             {activePanel === 'risk' && (
               <div className="bg-white rounded-xl border border-gray-200 p-4">
                 <h3 className="font-heading text-sm text-white uppercase mb-4">Risk Heatmap</h3>
-                <Suspense fallback={<div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>}>
-                  <RiskHeatmap branches={branches} />
+                <Suspense fallback={<LazySpinner />}>
+                  <RiskHeatmap
+                    branches={branches}
+                    networkRisk={networkRisk}
+                    riskError={riskError}
+                  />
                 </Suspense>
               </div>
             )}
 
-            {/* Stock Health — P34: lazy loaded */}
+            {/* Stock Health */}
             {activePanel === 'stock' && (
               <div className="bg-white rounded-xl border border-gray-200 p-4">
                 <h3 className="font-heading text-sm text-white uppercase mb-4">Stock Health</h3>
-                <Suspense fallback={<div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>}>
+                <Suspense fallback={<LazySpinner />}>
                   <StockHealthMap branches={branches} />
+                </Suspense>
+              </div>
+            )}
+
+            {/* Staff Scoreboard */}
+            {activePanel === 'staff' && (
+              <div className="bg-white rounded-xl border border-gray-200 p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-heading text-sm text-white uppercase">Staff Scoreboard</h3>
+                  {/* Branch selector for staff */}
+                  <select
+                    value={activeBranchId || ''}
+                    onChange={(e) => setStaffBranchId(e.target.value)}
+                    className="text-xs bg-origin-slate text-white border border-or-gold/20 rounded px-2 py-1"
+                  >
+                    {branches.filter(b => b.isActive).map(b => (
+                      <option key={b._id} value={b._id}>{b.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <Suspense fallback={<LazySpinner />}>
+                  <StaffScoreBoard
+                    leaderboard={staffData.leaderboard}
+                    loading={staffData.loading}
+                    error={staffData.error}
+                  />
                 </Suspense>
               </div>
             )}
@@ -129,25 +186,25 @@ export default function Owner360Page() {
             <div className="bg-white rounded-xl border border-gray-200 p-4">
               <h3 className="font-heading text-sm text-white uppercase mb-3">
                 Intelligence
-                <span className="ml-2 text-[10px] text-jig-amber font-body normal-case">World Model</span>
+                <span className="ml-2 text-[10px] text-or-gold font-body normal-case">World Model</span>
               </h3>
               <InsightsBar />
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Approvals + Event Stream (1/3 width) */}
+          {/* RIGHT COLUMN: Approvals + Alerts + Events (1/3 width) */}
           <div className="space-y-6">
             {/* Approval Queue */}
             <div className="bg-white rounded-xl border border-gray-200 p-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-heading text-sm text-white uppercase">Approvals</h3>
                 {approvals.totalCount > 0 && (
-                  <span className="px-2 py-0.5 rounded-full bg-jig-red text-white text-xs font-bold">
+                  <span className="px-2 py-0.5 rounded-full bg-origin-red text-white text-xs font-bold">
                     {approvals.totalCount}
                   </span>
                 )}
               </div>
-              <div className="h-[350px]">
+              <div className="h-[280px]">
                 <ApprovalQueue
                   approvals={approvals.approvals}
                   counts={approvals.counts}
@@ -157,10 +214,25 @@ export default function Owner360Page() {
               </div>
             </div>
 
+            {/* Cross-Domain Alerts */}
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-heading text-sm text-white uppercase">Alerts</h3>
+                {crossDomainAlerts.length > 0 && (
+                  <span className="px-2 py-0.5 rounded-full bg-origin-red text-white text-xs font-bold">
+                    {crossDomainAlerts.length}
+                  </span>
+                )}
+              </div>
+              <div className="h-[250px] overflow-y-auto">
+                <CrossDomainAlerts alerts={crossDomainAlerts} />
+              </div>
+            </div>
+
             {/* Live Event Stream */}
             <div className="bg-white rounded-xl border border-gray-200 p-4">
               <h3 className="font-heading text-sm text-white uppercase mb-3">Live Events</h3>
-              <div className="h-[350px]">
+              <div className="h-[300px]">
                 <LiveEventStream />
               </div>
             </div>
@@ -168,7 +240,7 @@ export default function Owner360Page() {
         </div>
       )}
 
-      {/* Branch Drill-Down Modal — P34: lazy loaded */}
+      {/* Branch Drill-Down Modal */}
       <Modal
         open={!!selectedBranch}
         onClose={() => setSelectedBranch(null)}
@@ -176,7 +248,7 @@ export default function Owner360Page() {
         size="xl"
       >
         {selectedBranch && (
-          <Suspense fallback={<div className="flex justify-center py-8"><div className="w-6 h-6 border-2 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>}>
+          <Suspense fallback={<LazySpinner />}>
             <BranchDrillDown
               branch={selectedBranch}
               onClose={() => setSelectedBranch(null)}

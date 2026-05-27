@@ -1,6 +1,6 @@
 // owner-core.js — Core dashboard functions for owner dashboard
 // Depends on: owner-auth.js (token, userData, clearAuth, showLogin, showDashboard)
-// Depends on: config.js (API_URL), dbc-utils.js (showToast)
+// Depends on: config.js (API_URL), or-utils.js (showToast)
 
 function initDashboard() {
     // Set current date
@@ -21,9 +21,19 @@ function initDashboard() {
     loadPendingApprovals();
     loadStaffOverview();
     loadBudgetData();
+    loadB2BStats();
+
+    // Load stocktake compliance widget
+    if (typeof loadStocktakeCompliance === 'function') loadStocktakeCompliance();
 
     // Initialize live feed WebSocket
     if (typeof initLiveFeed === 'function') initLiveFeed();
+
+    // Initialize 360 Command Centre
+    if (typeof load360Data === 'function') {
+        load360Data();
+        start360Polling();
+    }
 }
 
 // Load user data
@@ -73,6 +83,76 @@ async function loadDashboardStats() {
     }
 }
 
+// B2B Wholesale Stats — fetched from B2B app via nginx proxy (key injected server-side)
+let b2bStatsLoaded = false;
+
+async function loadB2BStats() {
+    if (b2bStatsLoaded) return;
+    const panel = document.getElementById('b2bStatsPanel');
+    if (!panel) return;
+
+    try {
+        // Use /b2b/api/v1/ path — nginx injects X-Internal-Key server-side
+        const baseUrl = window.location.hostname === 'localhost'
+            ? 'http://localhost:3002/api/v1'
+            : '/b2b/api/v1';
+        const headers = {};
+        // Local dev needs the key in the header; production nginx injects it
+        if (window.location.hostname === 'localhost') {
+            headers['X-Internal-Key'] = 'origin_internal_2026';
+        }
+
+        const res = await fetch(`${baseUrl}/b2b-stats`, { headers });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        b2bStatsLoaded = true;
+        renderB2BStats(data);
+    } catch (error) {
+        console.error('[B2B Stats] Load error:', error);
+        panel.innerHTML = '<div style="text-align:center;padding:1rem;color:var(--or-grey-3);font-size:0.85rem;">B2B stats unavailable</div>';
+    }
+}
+
+function renderB2BStats(data) {
+    const panel = document.getElementById('b2bStatsPanel');
+    if (!panel) return;
+
+    const fmt = (n) => Number(n).toLocaleString('en-ZA', { minimumFractionDigits: 0 });
+    const fmtR = (n) => 'R' + Number(n).toLocaleString('en-ZA', { minimumFractionDigits: 2 });
+    const growthColor = data.growth >= 0 ? 'var(--or-gold)' : 'var(--red)';
+    const growthIcon = data.growth >= 0 ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down';
+
+    panel.innerHTML = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
+            <div style="background: var(--surface-elevated); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid var(--border-dark);">
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--or-gold);">${fmt(data.clients.total)}</div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">Total Clients</div>
+                <div style="font-size: 0.7rem; color: var(--or-gold); margin-top: 4px;">${fmt(data.clients.active)} active</div>
+            </div>
+            <div style="background: var(--surface-elevated); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid var(--border-dark);">
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--or-gold);">${fmtR(data.orders.mtdRevenue)}</div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">MTD Revenue</div>
+                <div style="font-size: 0.7rem; color: ${growthColor}; margin-top: 4px;"><i class="fas ${growthIcon}"></i> ${data.growth}% vs prev</div>
+            </div>
+            <div style="background: var(--surface-elevated); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid var(--border-dark);">
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--or-gold);">${fmt(data.orders.mtdCount)}</div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">MTD Orders</div>
+                <div style="font-size: 0.7rem; color: var(--warning); margin-top: 4px;">${fmt(data.orders.pending)} pending</div>
+            </div>
+            <div style="background: var(--surface-elevated); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid ${data.orders.overdue > 0 ? 'var(--red)' : 'var(--border-dark)'};">
+                <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 700; color: ${data.orders.overdue > 0 ? 'var(--red)' : 'var(--or-gold)'};">${fmt(data.orders.overdue)}</div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">Overdue</div>
+                ${data.orders.overdueAmount > 0 ? `<div style="font-size: 0.7rem; color: var(--red); margin-top: 4px;">${fmtR(data.orders.overdueAmount)}</div>` : '<div style="font-size: 0.7rem; color: var(--or-gold); margin-top: 4px;">All clear</div>'}
+            </div>
+        </div>
+        <div style="margin-top: 12px; display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary); padding: 0 4px;">
+            <span>All-time: ${fmtR(data.allTime.revenue)} across ${fmt(data.allTime.orderCount)} orders</span>
+            <span style="color: var(--or-gold);">B2B Portal Live</span>
+        </div>
+    `;
+}
+
 function updateOwnerKPIs(kpis) {
     const fmt = (n) => (n || 0).toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -111,7 +191,7 @@ function updateOwnerKPIs(kpis) {
     }
 }
 
-// showToast provided by /frontend/dbc-utils.js
+// showToast provided by /frontend/or-utils.js
 
 // Logout
 function logout() {
@@ -160,7 +240,7 @@ function updateCartDisplay() {
         total += itemTotal;
         return `
             <div class="cart-item">
-                <img src="${item.image || '/images/jig-logo-nobg.png'}" alt="${item.name}" class="cart-item-image" onerror="this.src='/images/jig-logo-nobg.png'">
+                <img src="${item.image || '/images/origin-logo.png'}" alt="${item.name}" class="cart-item-image" onerror="this.src='/images/origin-logo.png'">
                 <div class="cart-item-details">
                     <div class="cart-item-name">${item.name}</div>
                     <div class="cart-item-price">R${item.price.toFixed(2)}</div>
@@ -213,7 +293,8 @@ function goToCheckout() {
 document.addEventListener('DOMContentLoaded', function() {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-    document.getElementById('cartBadge').textContent = totalItems;
+    const badge = document.getElementById('cartBadge');
+    if (badge) badge.textContent = totalItems;
 });
 
 // Close drawers with Escape key

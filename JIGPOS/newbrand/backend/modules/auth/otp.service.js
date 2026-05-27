@@ -75,23 +75,23 @@ class OTPService {
     // Get role-specific email template
     getRoleTemplate(role, otp, userName) {
         const brandColors = {
-            green: '#7C3AED',
-            greenDark: '#6D28D9',
-            cream: '#0A0A0A',
-            gold: '#D97706'
+            gold: '#C9A84C',
+            goldDark: '#8B6914',
+            dark: '#0E0E0E',
+            white: '#F5F0E8'
         };
 
         const roleConfig = {
             admin: { title: 'Admin Portal', icon: 'shield-alt', color: brandColors.gold },
             owner: { title: 'Owner Dashboard', icon: 'crown', color: brandColors.gold },
-            inventory_manager: { title: 'Inventory Management', icon: 'boxes', color: brandColors.green },
-            packer: { title: 'Packing Station', icon: 'box', color: brandColors.green },
+            inventory_manager: { title: 'Inventory Management', icon: 'boxes', color: brandColors.gold },
+            packer: { title: 'Packing Station', icon: 'box', color: brandColors.gold },
             dispatch_manager: { title: 'Dispatch Hub', icon: 'truck', color: '#3b82f6' },
             patient: { title: 'Patient Portal', icon: 'user-md', color: '#DC2626' },
-            affiliate: { title: 'Affiliate Dashboard', icon: 'handshake', color: brandColors.green },
+            affiliate: { title: 'Affiliate Dashboard', icon: 'handshake', color: brandColors.gold },
             influencer: { title: 'Influencer Hub', icon: 'fire', color: '#f97316' },
-            user: { title: 'JIG Craft Cannabis', icon: 'cannabis', color: brandColors.green },
-            customer: { title: 'JIG Craft Cannabis', icon: 'user', color: brandColors.green }
+            user: { title: 'Origin by ILCO Farming', icon: 'cannabis', color: brandColors.gold },
+            customer: { title: 'Origin by ILCO Farming', icon: 'user', color: brandColors.gold }
         };
 
         const config = roleConfig[role] || roleConfig.user;
@@ -102,38 +102,39 @@ class OTPService {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Login Code - JIG Craft Cannabis</title>
+    <title>Your Login Code - Origin by ILCO Farming</title>
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Inter', Arial, sans-serif; background-color: ${brandColors.cream};">
-    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: ${brandColors.cream}; padding: 40px 20px;">
+<body style="margin: 0; padding: 0; font-family: 'Barlow', Arial, sans-serif; background-color: ${brandColors.dark};">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: ${brandColors.dark}; padding: 40px 20px;">
         <tr>
             <td align="center">
                 <table width="100%" style="max-width: 500px; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
                     <!-- Header -->
                     <tr>
-                        <td style="background: linear-gradient(135deg, ${brandColors.green} 0%, ${brandColors.greenDark} 100%); padding: 30px; text-align: center; border-bottom: 4px solid ${brandColors.gold};">
-                            <img src="https://jig.cleva-ai.co.za/images/logo-removebg-preview.png" alt="JIG Craft Cannabis" style="width: 160px; height: auto;" />
+                        <td style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); padding: 30px; text-align: center; border-bottom: 4px solid ${brandColors.gold};">
+                            <img src="https://origin.cleva-ai.co.za/images/origin-logo.png" alt="Origin by ILCO Farming" style="width: 80px; height: auto; border-radius: 12px;" />
+                            <p style="margin: 10px 0 0; color: ${brandColors.gold}; font-family: 'Cinzel', serif; font-size: 20px; letter-spacing: 3px;">ORIGIN</p>
                         </td>
                     </tr>
 
                     <!-- Body -->
                     <tr>
                         <td style="padding: 40px 30px;">
-                            <p style="margin: 0 0 20px; color: ${brandColors.greenDark}; font-size: 16px;">
+                            <p style="margin: 0 0 20px; color: #333; font-size: 16px;">
                                 Hello${userName ? ` ${userName}` : ''},
                             </p>
-                            <p style="margin: 0 0 30px; color: ${brandColors.greenDark}; font-size: 16px;">
+                            <p style="margin: 0 0 30px; color: #333; font-size: 16px;">
                                 Your one-time verification code is:
                             </p>
 
                             <!-- OTP Box -->
-                            <div style="background: ${brandColors.cream}; border: 2px solid ${brandColors.green}; border-radius: 12px; padding: 25px; text-align: center; margin-bottom: 30px;">
-                                <span style="font-family: 'Courier New', monospace; font-size: 36px; font-weight: bold; letter-spacing: 8px; color: ${brandColors.green};">
+                            <div style="background: ${brandColors.dark}; border: 2px solid ${brandColors.gold}; border-radius: 12px; padding: 25px; text-align: center; margin-bottom: 30px;">
+                                <span style="font-family: 'Courier New', monospace; font-size: 36px; font-weight: bold; letter-spacing: 8px; color: ${brandColors.gold};">
                                     ${otp}
                                 </span>
                             </div>
 
-                            <p style="margin: 0 0 10px; color: ${brandColors.greenDark}; font-size: 14px;">
+                            <p style="margin: 0 0 10px; color: #333; font-size: 14px;">
                                 <strong>This code expires in 10 minutes.</strong>
                             </p>
                             <p style="margin: 0; color: #666; font-size: 14px;">
@@ -144,9 +145,9 @@ class OTPService {
 
                     <!-- Footer -->
                     <tr>
-                        <td style="background: ${brandColors.cream}; padding: 20px 30px; text-align: center; border-top: 1px solid rgba(124, 58, 237,0.2);">
-                            <p style="margin: 0; color: ${brandColors.greenDark}; font-size: 12px;">
-                                JIG Craft Cannabis | Craft Cannabis
+                        <td style="background: ${brandColors.dark}; padding: 20px 30px; text-align: center; border-top: 1px solid rgba(201,168,76,0.3);">
+                            <p style="margin: 0; color: ${brandColors.gold}; font-size: 12px;">
+                                Origin by ILCO Farming | Premium Cannabis Care
                             </p>
                             <p style="margin: 5px 0 0; color: #999; font-size: 11px;">
                                 This is an automated message. Please do not reply.
@@ -169,11 +170,11 @@ class OTPService {
         const html = this.getRoleTemplate(role, otp, userName);
 
         const mailOptions = {
-            from: `"JIG Craft Cannabis" <${config.otp.from}>`,
+            from: `"Origin by ILCO Farming" <${config.otp.from}>`,
             to: email,
-            subject: `Your Login Code: ${otp} - JIG Craft Cannabis`,
+            subject: `Your Login Code: ${otp} - Origin by ILCO Farming`,
             html: html,
-            text: `Your JIG Craft Cannabis verification code is: ${otp}\n\nThis code expires in 10 minutes.\n\nIf you didn't request this code, please ignore this email.`
+            text: `Your Origin by ILCO Farming verification code is: ${otp}\n\nThis code expires in 10 minutes.\n\nIf you didn't request this code, please ignore this email.`
         };
 
         // Always log OTP for dev/debugging (check pm2 logs)

@@ -23,7 +23,7 @@ if (!branchCode) {
 
 async function allocateStock() {
   try {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/jig';
+    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin';
     await mongoose.connect(mongoUri);
     console.log('Connected to MongoDB');
 

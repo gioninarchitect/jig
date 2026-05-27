@@ -20,6 +20,7 @@ enum UserRole {
   GMP_PARTNER          // External GMP audit partner — scoped, read-mostly + observations + findings
   RESPONSIBLE_PHARMACIST
   MAINTENANCE_MANAGER
+  IT_MANAGER          // IT support at the facility — printers, network, computers. NOT platform admin.
   HEAD_OF_CULTIVATION
   NURSERY_MANAGER
   CULTIVATOR
@@ -214,6 +215,7 @@ model Tenant {
   anomalies  Anomaly[]
   sops       SOP[]
   strains    Strain[]
+  complianceControls ComplianceControl[]
 }
 
 model User {
@@ -912,9 +914,13 @@ model Ticket {
   approvedAt    DateTime?
   approvalNotes String?
 
-  reportedById  String         // who created it
-  assignedToId  String?        // who's working on it
-  tenantId      String
+  reportedById    String         // who created it
+  assignedToId    String?        // who's working on it (specific person)
+  assignedToRole  String?        // OR assigned to a role/department — anyone of that role can claim
+  resolvedById    String?        // who closed/resolved the ticket (audit trail)
+  reopenedById    String?        // who last reopened (if ever closed and reopened)
+  reopenedAt      DateTime?
+  tenantId        String
 
   comments      TicketComment[]
 
@@ -1091,6 +1097,62 @@ model SensorReading {
   @@index([assetId, timestamp])
 }
 
+// ── EU GMP SOURCE REGISTRY ───────────────────────────────────────────────────
+
+model ComplianceSource {
+  id             String   @id @default(uuid())
+  sourceId       String   @unique // e.g. EU_GMP_VOL4_ANNEX11
+  title          String
+  part           String   // Part I, Part III, Annex
+  chapter        String?
+  annex          String?
+  version        String?
+  effectiveDate  DateTime?
+  officialUrl    String
+  status         String   @default("ACTIVE") // ACTIVE, DRAFT_TRACKED, RETIRED
+  notes          String?  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  controls ComplianceControlSource[]
+
+  @@index([part])
+  @@index([status])
+}
+
+model ComplianceControl {
+  id          String   @id @default(uuid())
+  controlId   String   @unique // e.g. LABEL_RECONCILIATION
+  domain      String   // LABELS, QMS, BCR, TRAINING, MEDICALS, VALIDATION, SMF, SIGNATURES
+  title       String
+  description String   @db.Text
+  status      String   @default("ACTIVE") // ACTIVE, PLANNED, RETIRED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenantId String?
+  tenant   Tenant? @relation(fields: [tenantId], references: [id])
+
+  sources ComplianceControlSource[]
+
+  @@index([domain])
+  @@index([status])
+  @@index([tenantId])
+}
+
+model ComplianceControlSource {
+  id                  String @id @default(uuid())
+  rationale           String? @db.Text
+  complianceControlId String
+  complianceSourceId  String
+
+  control ComplianceControl @relation(fields: [complianceControlId], references: [id], onDelete: Cascade)
+  source  ComplianceSource  @relation(fields: [complianceSourceId], references: [id], onDelete: Cascade)
+
+  @@unique([complianceControlId, complianceSourceId])
+  @@index([complianceSourceId])
+}
+
 // ── ZONES (original) ────────────────────────────────────────────────────────
 
 model Zone {
@@ -1178,9 +1240,62 @@ model Batch {
   labResults   LabResult[]
   coas         COA[]
   destructions DestructionEvent[]
+  cultivationRecord BatchCultivationRecord?
+  labelRecords LabelLifecycleRecord[]
 
   @@index([tenantId])
   @@index([status])
+}
+
+model BatchCultivationRecord {
+  id               String   @id @default(uuid())
+  recordNumber     String   @unique
+  status           String   @default("OPEN") // OPEN, IN_REVIEW, APPROVED, RELEASED
+  euGmpControls    Json     // string[]
+  sourceSummary    Json?    // source plants/clones/mother/date
+  checklistSummary Json?    // linked SOP checklist templates
+  dailyChecks      Json?    // lightweight evidence pointers/counts
+  environmentalLogs Json?   // lightweight evidence pointers/counts
+  deviations       Json?    // linked deviation/ticket ids
+  signatures       Json?    // electronic signature placeholders
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  batchId          String   @unique
+  batch            Batch    @relation(fields: [batchId], references: [id])
+  tenantId         String
+  facilityId       String
+  createdById      String
+
+  @@index([tenantId])
+  @@index([status])
+}
+
+model LabelLifecycleRecord {
+  id            String   @id @default(uuid())
+  labelCode     String   @unique
+  labelType     String   // ASSET, PLANT, CONTAINER, BATCH, 45_50, 50_50
+  status        String   @default("ISSUED") // ISSUED, PRINTED, APPLIED, VOID, MISPRINTED, DAMAGED, DESTROYED, MISSING, REPRINTED, RECONCILED
+  entityType    String?
+  entityId      String?
+  entityName    String?
+  reasonCode    String?
+  reason        String?
+  signature     String?
+  issuedAt      DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  reconciledAt  DateTime?
+
+  batchId       String?
+  batch         Batch?   @relation(fields: [batchId], references: [id])
+  tenantId      String
+  issuedById    String
+  updatedById   String?
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([labelType])
+  @@index([batchId])
 }
 
 model BatchPlant {
@@ -1435,6 +1550,129 @@ model EquipmentCalibration {
 
 // ── SYSTEM ───────────────────────────────────────────────────────────────────
 
+// ── SITE MASTER FILE — canonical sections + sign-off chain ─────────────────
+//
+// Each row is one numbered SMF section (e.g. C.3.5 Water systems).
+// Sign-off chain: DRAFT → RP_SIGNED → DAR_SIGNED → AR_APPROVED.
+// On full sign-off, a SMFSectionVersion snapshot is frozen for the regulator
+// PDF export.  Drift detection (later) will mark `staleSince` when a TnT-ZA
+// event invalidates a signed section.
+//
+model SMFSection {
+  id            String   @id @default(uuid())
+  sectionId     String   // SMF reference, e.g. "C.1.1", "C.3.5"
+  chapter       String   // "C.1", "C.2", ..., "C.6"
+  title         String
+  bodyText      String?  @db.Text  // canonical narrative (editable until signed)
+
+  status        String   @default("DRAFT") // DRAFT | RP_SIGNED | DAR_SIGNED | AR_APPROVED
+
+  rpSignedById   String?
+  rpSignedAt     DateTime?
+  rpNotes        String?
+  darSignedById  String?
+  darSignedAt    DateTime?
+  darNotes       String?
+  arApprovedById String?
+  arApprovedAt   DateTime?
+  arNotes        String?
+
+  // Drift tracking — populated when source data changes after a signed snapshot
+  staleSince    DateTime?
+  staleReason   String?
+
+  // Composer agent (Opus 4.7) draft — proposed new bodyText for human review.
+  // RP can accept (copy to bodyText + sign) or discard.
+  composedDraft       String?  @db.Text
+  composedDraftAt     DateTime?
+  composedThinking    String?  @db.Text  // adaptive thinking summary if surfaced
+
+  // Multi-unit ready (cannabis | chicken | mielies | cattle)
+  unit          String   @default("cannabis")
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenantId      String
+
+  versions      SMFSectionVersion[]
+
+  @@unique([tenantId, sectionId, unit])
+  @@index([tenantId])
+  @@index([status])
+  @@index([unit])
+}
+
+model SMFSectionVersion {
+  id              String   @id @default(uuid())
+  versionNumber   Int      // monotonically increasing per parent section
+
+  // Frozen snapshot of section state at full sign-off
+  bodyText        String?  @db.Text
+  signedAt        DateTime
+  rpSignedById    String?
+  darSignedById   String?
+  arApprovedById  String?
+
+  createdAt       DateTime @default(now())
+
+  sectionFkId     String
+  section         SMFSection @relation(fields: [sectionFkId], references: [id], onDelete: Cascade)
+
+  @@unique([sectionFkId, versionNumber])
+  @@index([sectionFkId])
+}
+
+// ── AI CALL AUDIT — provenance for every Claude API call ─────────────────
+//
+// Hash-chained, append-only. Captures: which agent, which model, who
+// triggered (real + ghost if applicable), the prompt summary, response
+// preview, sources used (the live DB facts that grounded the call), and
+// token usage. SAHPRA-grade reproducibility for AI-generated artefacts.
+//
+model AICall {
+  id              String   @id @default(uuid())
+  timestamp       DateTime @default(now())
+
+  // Provenance — who triggered the call
+  tenantId        String
+  userId          String   // real actor (always set)
+  ghostAsUserId   String?  // populated when ghost-mode active
+
+  // Which agent
+  agent           String   // MAESTRO | CONCIERGE | COMPOSER | GENERAL_OPS
+  model           String   // claude-opus-4-7 | claude-sonnet-4-6 | claude-haiku-4-5
+  intent          String?  // Maestro's classified intent (for routed calls)
+
+  // I/O — full request stored as JSON for reproducibility
+  systemPrompt    String?  @db.Text
+  userPrompt      String?  @db.Text
+  response        String?  @db.Text  // full response text (or first ~10k chars)
+  thinkingSummary String?  @db.Text
+  sources         Json?    // {ticketsCount: 4, smfStaleCount: 1, ...} — what DB facts grounded it
+
+  // Usage + cost
+  inputTokens          Int?
+  outputTokens         Int?
+  cacheReadTokens      Int?
+  cacheCreationTokens  Int?
+
+  durationMs      Int?
+
+  // Tamper-evident chain
+  hashChain       String   // SHA-256 chained to previous AICall row
+
+  // Optional link to artefact (if call produced a stored output e.g. SMFSection)
+  entityType      String?  // SMFSection | Ticket | Brief
+  entityId        String?
+
+  @@index([tenantId])
+  @@index([agent])
+  @@index([userId])
+  @@index([timestamp])
+  @@index([entityType, entityId])
+}
+
 model AuditLog {
   id         String   @id @default(uuid())
   action     String
@@ -1452,9 +1690,13 @@ model AuditLog {
   userId     String
   user       User     @relation(fields: [userId], references: [id])
 
+  // Ghost mode: when populated, userId is the REAL actor and this is the ghost target
+  ghostAsUserId String?
+
   @@index([tenantId])
   @@index([entityType, entityId])
   @@index([timestamp])
+  @@index([ghostAsUserId])
 }
 
 model Anomaly {
@@ -1546,9 +1788,13 @@ model IPMObservation {
   tenantId          String
   createdAt         DateTime @default(now())
 
+  // Substrate link — populated when this row was captured by closing a Ticket
+  ticketId          String?
+
   @@index([tenantId])
   @@index([zone])
   @@index([degree])
+  @@index([ticketId])
 }
 
 // SOP 3-CUL-6 / 3-CUL-8 · Daily Zone Check Sheets
@@ -1563,10 +1809,12 @@ model DailyCheckRecord {
   signedAt   DateTime @default(now())
   tenantId   String
   createdAt  DateTime @default(now())
+  ticketId   String?
 
   @@index([tenantId])
   @@index([zone])
   @@index([date])
+  @@index([ticketId])
 }
 
 // SOPs 8-CLN-7 / 8-CLN-8 / 8-CLN-9 · Cleaning Schedule (per-task initial)
@@ -1582,9 +1830,11 @@ model CleaningInitial {
   signedAt   DateTime @default(now())
   tenantId   String
   createdAt  DateTime @default(now())
+  ticketId   String?
 
   @@index([tenantId])
   @@index([zone, day])
+  @@index([ticketId])
 }
 
 // SOPs 3-CUL-6 / 3-CUL-7 / 3-CUL-9 · Cultivation Activity Log
@@ -1603,9 +1853,11 @@ model CultivationActivity {
   signedAt          DateTime @default(now())
   tenantId          String
   createdAt         DateTime @default(now())
+  ticketId          String?
 
   @@index([tenantId])
   @@index([zone])
+  @@index([ticketId])
 }
 
 // SOP 4-FAC-2 · Temperature & Humidity Daily Check
@@ -1623,9 +1875,11 @@ model EnvReading {
   signedAt  DateTime @default(now())
   tenantId  String
   createdAt DateTime @default(now())
+  ticketId  String?
 
   @@index([tenantId])
   @@index([zone, date])
+  @@index([ticketId])
 }
 
 // SOP 3-CUL-012 · Harvest Request Form + Check Sheet

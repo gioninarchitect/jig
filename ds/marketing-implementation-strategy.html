@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Marketing Automation — Implementation Strategy | Origin by ILCO Farming</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --or-black: #0A0A0A; --or-dark: #141414; --or-dark-2: #1C1C1C; --or-dark-3: #252525;
+  --or-gold: #C9A84C; --or-gold-bright: #D4B86A; --or-gold-muted: #8B6914; --or-gold-light: #E8D5A3;
+  --or-white: #F5F0E8; --or-grey-1: #C4BBA8; --or-grey-2: #A89F8C; --or-grey-3: #6B6458; --or-grey-4: #3D3830;
+  --or-green: #22C55E; --or-green-dim: rgba(34,197,94,0.12);
+  --or-blue: #3B82F6; --or-blue-dim: rgba(59,130,246,0.12);
+  --or-amber: #D97706; --or-amber-dim: rgba(217,119,6,0.12);
+  --or-purple: #8B5CF6; --or-purple-dim: rgba(139,92,246,0.12);
+  --font-display: 'Cinzel', serif; --font-body: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-body);background:var(--or-black);color:var(--or-grey-1);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+.print-bar{position:fixed;top:20px;right:20px;z-index:100}
+.print-btn{background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:var(--or-gold);padding:8px 20px;border-radius:8px;font-family:var(--font-body);font-size:0.8rem;cursor:pointer;backdrop-filter:blur(12px)}
+.print-btn:hover{background:rgba(201,168,76,0.25)}
+
+.hero{background:linear-gradient(135deg,#0A0A0A 0%,#1a1a2e 40%,#0A0A0A 100%);padding:80px 40px 60px;text-align:center;border-bottom:3px solid var(--or-gold);position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(139,92,246,0.06) 0%,transparent 50%),radial-gradient(circle at 70% 50%,rgba(201,168,76,0.06) 0%,transparent 50%)}
+.hero-inner{position:relative;z-index:1;max-width:800px;margin:0 auto}
+.hero h1{font-family:var(--font-display);font-size:2.2rem;color:var(--or-gold);letter-spacing:3px;margin-bottom:8px}
+.hero h2{font-family:var(--font-display);font-size:1rem;color:var(--or-purple);font-weight:400;letter-spacing:1px;margin-bottom:16px}
+.hero p{color:var(--or-grey-2);max-width:600px;margin:0 auto;font-size:0.9rem}
+.badges{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap}
+.badge{font-family:var(--font-mono);font-size:0.65rem;padding:4px 12px;border-radius:20px;letter-spacing:0.05em}
+.b-gold{background:rgba(201,168,76,0.12);color:var(--or-gold);border:1px solid rgba(201,168,76,0.25)}
+.b-green{background:var(--or-green-dim);color:var(--or-green);border:1px solid rgba(34,197,94,0.25)}
+.b-purple{background:var(--or-purple-dim);color:var(--or-purple);border:1px solid rgba(139,92,246,0.25)}
+.b-blue{background:var(--or-blue-dim);color:var(--or-blue);border:1px solid rgba(59,130,246,0.25)}
+
+.container{max-width:800px;margin:0 auto;padding:0 24px}
+.section{padding:48px 0;border-bottom:1px solid var(--or-dark-3)}
+.section:last-child{border-bottom:none}
+.s-num{font-family:var(--font-mono);font-size:0.7rem;color:var(--or-gold-muted);letter-spacing:0.15em;margin-bottom:6px}
+.s-title{font-family:var(--font-display);font-size:1.4rem;color:var(--or-gold);letter-spacing:2px;margin-bottom:6px}
+.s-sub{font-size:0.88rem;color:var(--or-grey-3);margin-bottom:24px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card{background:var(--or-dark);border:1px solid var(--or-dark-3);border-radius:12px;padding:20px;transition:border-color 0.2s}
+.card:hover{border-color:rgba(201,168,76,0.25)}
+.card h4{font-size:0.9rem;color:var(--or-white);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.card p{font-size:0.8rem;color:var(--or-grey-3);line-height:1.5}
+.icon{width:26px;height:26px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0}
+.i-green{background:var(--or-green-dim)}.i-gold{background:rgba(201,168,76,0.12)}.i-blue{background:var(--or-blue-dim)}.i-purple{background:var(--or-purple-dim)}.i-amber{background:var(--or-amber-dim)}
+
+table{width:100%;border-collapse:collapse;margin-top:16px}
+th{background:var(--or-dark-2);color:var(--or-gold);font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,0.12)}
+td{padding:12px 14px;border-bottom:1px solid var(--or-dark-3);font-size:0.82rem;vertical-align:top}
+td:first-child{color:var(--or-white);font-weight:500}
+
+.flow{display:flex;gap:4px;margin:20px 0;overflow-x:auto;flex-wrap:wrap}
+.flow-step{flex:1;min-width:100px;padding:14px 10px;border-radius:8px;text-align:center;font-size:0.72rem;font-weight:600;color:var(--or-white)}
+.flow-arrow{display:flex;align-items:center;color:var(--or-grey-4);font-size:0.9rem}
+
+.cmd-table td:first-child{font-family:var(--font-mono);font-size:0.75rem;color:var(--or-purple);white-space:nowrap}
+.cmd-table td:nth-child(2){color:var(--or-grey-2)}
+.cmd-table td:nth-child(3){font-family:var(--font-mono);font-size:0.72rem;color:var(--or-gold-muted)}
+
+.timeline-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--or-dark-3)}
+.timeline-item:last-child{border-bottom:none}
+.t-week{font-family:var(--font-mono);font-size:0.7rem;color:var(--or-gold);min-width:60px;padding-top:2px}
+.t-content h4{font-size:0.88rem;color:var(--or-white);margin-bottom:4px}
+.t-content p{font-size:0.78rem;color:var(--or-grey-3)}
+
+.footer{background:var(--or-dark);border-top:2px solid var(--or-gold);padding:40px;text-align:center}
+.footer h3{font-family:var(--font-display);color:var(--or-gold);font-size:1.1rem;letter-spacing:2px;margin-bottom:8px}
+.footer p{color:var(--or-grey-3);font-size:0.82rem;max-width:500px;margin:0 auto}
+
+@media print{
+  body{background:white;color:#333}
+  .print-bar{display:none!important}
+  .hero{background:white;border-bottom-color:#8B6914}
+  .hero h1,.s-title{color:#8B6914}
+  .card{background:#f9f7f2;border-color:#ddd}
+  th{background:#f5f0e8;color:#8B6914}
+  .footer{background:#f5f0e8;border-top-color:#8B6914}
+}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}.hero h1{font-size:1.6rem}.hero{padding:50px 20px}}
+</style>
+</head>
+<body>
+
+<div class="print-bar no-print"><button class="print-btn" onclick="window.print()">Print / Save PDF</button></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div style="font-size:2.5rem;margin-bottom:12px">&#129302;</div>
+    <h1>AI MARKETING AUTOMATION</h1>
+    <h2>Implementation Strategy for Origin by ILCO Farming</h2>
+    <p>Automated marketing suite powered by Claude AI. Website audits, email sequences, social calendars, SEO analysis, competitor intelligence, and client-ready reports — all automated.</p>
+    <div class="badges">
+      <span class="badge b-purple">Claude AI Powered</span>
+      <span class="badge b-green">14 Marketing Skills</span>
+      <span class="badge b-gold">5 Parallel Agents</span>
+      <span class="badge b-blue">scrape.do Integration</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 01 — WHAT WE'RE BUILDING -->
+  <div class="section">
+    <div class="s-num">01 — OVERVIEW</div>
+    <div class="s-title">What We're Building</div>
+    <div class="s-sub">An AI marketing engine that runs on autopilot for Origin by ILCO Farming — generating content, auditing performance, and producing client-ready deliverables.</div>
+
+    <div class="grid-3">
+      <div class="card">
+        <h4><span class="icon i-purple">&#128270;</span> Audit & Analyse</h4>
+        <p>Full marketing audit with 5 parallel AI agents scoring your site across 6 dimensions. Instant competitive intelligence.</p>
+      </div>
+      <div class="card">
+        <h4><span class="icon i-green">&#128231;</span> Generate Content</h4>
+        <p>Email sequences, social media calendars, ad copy, landing page copy — all generated to match your brand voice.</p>
+      </div>
+      <div class="card">
+        <h4><span class="icon i-gold">&#128200;</span> Report & Propose</h4>
+        <p>Professional marketing reports (MD + PDF), client proposals, SEO audits, and funnel analysis — client-ready.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 — TECH ARCHITECTURE -->
+  <div class="section">
+    <div class="s-num">02 — ARCHITECTURE</div>
+    <div class="s-title">Technical Architecture</div>
+    <div class="s-sub">How the marketing suite integrates with the Origin platform and scrape.do for web intelligence.</div>
+
+    <div class="flow">
+      <div class="flow-step" style="background:var(--or-purple-dim)">Claude Code<br>CLI</div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step" style="background:rgba(201,168,76,0.12)">/market<br>Orchestrator</div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step" style="background:var(--or-blue-dim)">14 Sub-Skills<br>(SKILL.md)</div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step" style="background:var(--or-green-dim)">5 Parallel<br>AI Agents</div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step" style="background:var(--or-amber-dim)">scrape.do<br>Web Data</div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step" style="background:rgba(201,168,76,0.15)">Reports<br>MD / PDF</div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Technology</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Orchestrator</td>
+          <td style="color:var(--or-grey-2)">market/SKILL.md</td>
+          <td style="color:var(--or-grey-2)">Routes /market commands to the correct sub-skill</td>
+        </tr>
+        <tr>
+          <td>14 Sub-Skills</td>
+          <td style="color:var(--or-grey-2)">skills/market-*/SKILL.md</td>
+          <td style="color:var(--or-grey-2)">Audit, copy, emails, social, ads, funnel, competitors, landing, launch, proposal, report, SEO, brand</td>
+        </tr>
+        <tr>
+          <td>5 AI Agents</td>
+          <td style="color:var(--or-grey-2)">agents/market-*.md</td>
+          <td style="color:var(--or-grey-2)">Content, conversion, competitive, technical, strategy — run in parallel for audits</td>
+        </tr>
+        <tr>
+          <td>Web Scraping</td>
+          <td style="color:var(--or-grey-2)">scrape.do API</td>
+          <td style="color:var(--or-grey-2)">Fetches competitor sites, target URLs, and marketing data. Replaces Firecrawl.</td>
+        </tr>
+        <tr>
+          <td>Python Scripts</td>
+          <td style="color:var(--or-grey-2)">analyze_page.py, competitor_scanner.py, social_calendar.py, generate_pdf_report.py</td>
+          <td style="color:var(--or-grey-2)">Automated page analysis, competitor scanning, calendar generation, PDF output</td>
+        </tr>
+        <tr>
+          <td>Templates</td>
+          <td style="color:var(--or-grey-2)">6 Markdown templates</td>
+          <td style="color:var(--or-grey-2)">Welcome emails, nurture sequences, launch sequences, proposals, content calendars, checklists</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 03 — COMMANDS -->
+  <div class="section">
+    <div class="s-num">03 — COMMANDS</div>
+    <div class="s-title">Available Commands</div>
+    <div class="s-sub">15 marketing commands available in Claude Code. Each produces actionable, client-ready output.</div>
+
+    <table class="cmd-table">
+      <thead>
+        <tr><th>Command</th><th>What It Does</th><th>Output</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>/market audit &lt;url&gt;</td><td style="color:var(--or-grey-2)">Full marketing audit — 5 parallel agents, 6-dimension scoring</td><td>MARKETING-AUDIT.md</td></tr>
+        <tr><td>/market quick &lt;url&gt;</td><td style="color:var(--or-grey-2)">60-second snapshot: headline, CTA, value prop, trust signals</td><td>Terminal output</td></tr>
+        <tr><td>/market copy &lt;url&gt;</td><td style="color:var(--or-grey-2)">Generate optimized copy with before/after examples</td><td>COPY-SUGGESTIONS.md</td></tr>
+        <tr><td>/market emails &lt;topic&gt;</td><td style="color:var(--or-grey-2)">Complete email sequences (welcome, nurture, launch, re-engage)</td><td>EMAIL-SEQUENCES.md</td></tr>
+        <tr><td>/market social &lt;topic&gt;</td><td style="color:var(--or-grey-2)">30-day content calendar with platform-specific posts</td><td>SOCIAL-CALENDAR.md</td></tr>
+        <tr><td>/market ads &lt;url&gt;</td><td style="color:var(--or-grey-2)">Ad creative and copy for all platforms</td><td>AD-CAMPAIGNS.md</td></tr>
+        <tr><td>/market funnel &lt;url&gt;</td><td style="color:var(--or-grey-2)">Sales funnel analysis and optimization</td><td>FUNNEL-ANALYSIS.md</td></tr>
+        <tr><td>/market competitors &lt;url&gt;</td><td style="color:var(--or-grey-2)">Competitive intelligence report</td><td>COMPETITOR-REPORT.md</td></tr>
+        <tr><td>/market landing &lt;url&gt;</td><td style="color:var(--or-grey-2)">Landing page CRO analysis</td><td>LANDING-CRO.md</td></tr>
+        <tr><td>/market launch &lt;product&gt;</td><td style="color:var(--or-grey-2)">Product launch playbook</td><td>LAUNCH-PLAYBOOK.md</td></tr>
+        <tr><td>/market proposal &lt;client&gt;</td><td style="color:var(--or-grey-2)">Client proposal with findings and pricing</td><td>CLIENT-PROPOSAL.md</td></tr>
+        <tr><td>/market report &lt;url&gt;</td><td style="color:var(--or-grey-2)">Full marketing report (Markdown)</td><td>MARKETING-REPORT.md</td></tr>
+        <tr><td>/market report-pdf &lt;url&gt;</td><td style="color:var(--or-grey-2)">Professional marketing report (PDF)</td><td>MARKETING-REPORT.pdf</td></tr>
+        <tr><td>/market seo &lt;url&gt;</td><td style="color:var(--or-grey-2)">SEO content audit with technical analysis</td><td>SEO-AUDIT.md</td></tr>
+        <tr><td>/market brand &lt;url&gt;</td><td style="color:var(--or-grey-2)">Brand voice analysis and guidelines</td><td>BRAND-VOICE.md</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 04 — SCRAPE.DO INTEGRATION -->
+  <div class="section">
+    <div class="s-num">04 — WEB INTELLIGENCE</div>
+    <div class="s-title">scrape.do Integration</div>
+    <div class="s-sub">All web scraping powered by scrape.do API — replacing Firecrawl for competitor analysis, site auditing, and content extraction.</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h4><span class="icon i-blue">&#127760;</span> Site Scraping</h4>
+        <p>Fetch any URL with JavaScript rendering, proxy rotation, and anti-bot bypass. Extract clean HTML/text for AI analysis.</p>
+      </div>
+      <div class="card">
+        <h4><span class="icon i-purple">&#128373;</span> Competitor Intel</h4>
+        <p>Scrape competitor websites to extract pricing, features, messaging, and positioning for competitive analysis reports.</p>
+      </div>
+      <div class="card">
+        <h4><span class="icon i-green">&#128202;</span> SEO Data</h4>
+        <p>Extract meta tags, heading structure, schema markup, link profiles, and page speed indicators for SEO audits.</p>
+      </div>
+      <div class="card">
+        <h4><span class="icon i-gold">&#128196;</span> Content Extraction</h4>
+        <p>Pull blog posts, landing page copy, and product descriptions for brand voice analysis and copy optimization.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;border-left:3px solid var(--or-blue)">
+      <h4><span class="icon i-blue">&#128273;</span> API Configuration</h4>
+      <p>scrape.do API key configured. Base URL: <code style="color:var(--or-gold);font-family:var(--font-mono);font-size:0.78rem">https://api.scrape.do?token=YOUR_KEY&url=TARGET</code>. Supports JS rendering, residential proxies, and custom headers. Rate limit: 100 req/min on standard plan.</p>
+    </div>
+  </div>
+
+  <!-- 05 — ORIGIN ILCO USE CASES -->
+  <div class="section">
+    <div class="s-num">05 — USE CASES</div>
+    <div class="s-title">How ILCO Uses This</div>
+    <div class="s-sub">Practical marketing automation scenarios for Origin by ILCO Farming's cannabis collection point business.</div>
+
+    <div class="grid-2">
+      <div class="card" style="border-left:3px solid var(--or-green)">
+        <h4><span class="icon i-green">&#128231;</span> Monthly Email Campaigns</h4>
+        <p><strong>Command:</strong> <code style="color:var(--or-purple);font-size:0.75rem">/market emails "Origin cannabis collection point Potchefstroom"</code><br><br>Auto-generates: welcome sequences for new customers, product launch emails for new strains, re-engagement for inactive customers, Section 21 education series.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--or-purple)">
+        <h4><span class="icon i-purple">&#128241;</span> Social Media Calendar</h4>
+        <p><strong>Command:</strong> <code style="color:var(--or-purple);font-size:0.75rem">/market social "Origin cannabis lifestyle South Africa"</code><br><br>Auto-generates: 30-day content calendar for Instagram, Facebook, and Twitter. Strain spotlights, education posts, behind-the-scenes, community engagement. Cannabis-compliant copy.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--or-gold)">
+        <h4><span class="icon i-gold">&#128270;</span> Competitor Monitoring</h4>
+        <p><strong>Command:</strong> <code style="color:var(--or-purple);font-size:0.75rem">/market competitors https://origin.cleva-ai.co.za</code><br><br>Monitors: competitor pricing, product range, messaging, SEO positioning. Generates competitive intelligence reports to identify gaps and opportunities in the SA cannabis market.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--or-blue)">
+        <h4><span class="icon i-blue">&#128200;</span> Monthly Performance Audit</h4>
+        <p><strong>Command:</strong> <code style="color:var(--or-purple);font-size:0.75rem">/market audit https://origin.cleva-ai.co.za</code><br><br>Monthly audit: 5 parallel agents score the site across content, conversion, SEO, competitive positioning, brand trust, and growth strategy. Track score improvement over time.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--or-amber)">
+        <h4><span class="icon i-amber">&#128640;</span> New Branch Launches</h4>
+        <p><strong>Command:</strong> <code style="color:var(--or-purple);font-size:0.75rem">/market launch "Origin Potchefstroom cannabis collection point"</code><br><br>Complete launch playbook: pre-launch buzz, launch week campaigns, email sequences, social content, ad copy, influencer outreach strategy.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--or-green)">
+        <h4><span class="icon i-green">&#127919;</span> SEO Domination</h4>
+        <p><strong>Command:</strong> <code style="color:var(--or-purple);font-size:0.75rem">/market seo https://origin.cleva-ai.co.za</code><br><br>Full SEO audit: on-page optimization, meta tags, heading structure, schema markup, content gaps, keyword recommendations. Target: "cannabis Potchefstroom", "Section 21 South Africa", "CBD near me".</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 — MONTHLY WORKFLOW -->
+  <div class="section">
+    <div class="s-num">06 — WORKFLOW</div>
+    <div class="s-title">Monthly Marketing Cycle</div>
+    <div class="s-sub">Automated monthly marketing workflow — what runs, when, and what it produces.</div>
+
+    <table>
+      <thead>
+        <tr><th>Week</th><th>Action</th><th>Output</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Week 1</td>
+          <td style="color:var(--or-grey-2)"><code style="color:var(--or-purple);font-size:0.75rem">/market audit</code> + <code style="color:var(--or-purple);font-size:0.75rem">/market seo</code> — Monthly site audit and SEO check</td>
+          <td style="color:var(--or-grey-3)">MARKETING-AUDIT.md, SEO-AUDIT.md</td>
+        </tr>
+        <tr>
+          <td>Week 1</td>
+          <td style="color:var(--or-grey-2)"><code style="color:var(--or-purple);font-size:0.75rem">/market competitors</code> — Competitive landscape scan</td>
+          <td style="color:var(--or-grey-3)">COMPETITOR-REPORT.md</td>
+        </tr>
+        <tr>
+          <td>Week 2</td>
+          <td style="color:var(--or-grey-2)"><code style="color:var(--or-purple);font-size:0.75rem">/market social</code> — Generate next month's social calendar</td>
+          <td style="color:var(--or-grey-3)">SOCIAL-CALENDAR.md (30-day plan)</td>
+        </tr>
+        <tr>
+          <td>Week 2</td>
+          <td style="color:var(--or-grey-2)"><code style="color:var(--or-purple);font-size:0.75rem">/market emails</code> — Monthly email campaigns</td>
+          <td style="color:var(--or-grey-3)">EMAIL-SEQUENCES.md</td>
+        </tr>
+        <tr>
+          <td>Week 3</td>
+          <td style="color:var(--or-grey-2)"><code style="color:var(--or-purple);font-size:0.75rem">/market ads</code> — Ad copy for campaigns</td>
+          <td style="color:var(--or-grey-3)">AD-CAMPAIGNS.md</td>
+        </tr>
+        <tr>
+          <td>Week 3</td>
+          <td style="color:var(--or-grey-2)"><code style="color:var(--or-purple);font-size:0.75rem">/market copy</code> — Landing page optimization</td>
+          <td style="color:var(--or-grey-3)">COPY-SUGGESTIONS.md</td>
+        </tr>
+        <tr>
+          <td>Week 4</td>
+          <td style="color:var(--or-grey-2)"><code style="color:var(--or-purple);font-size:0.75rem">/market report-pdf</code> — Monthly performance report for client</td>
+          <td style="color:var(--or-grey-3)">MARKETING-REPORT.pdf</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 07 — IMPLEMENTATION TIMELINE -->
+  <div class="section">
+    <div class="s-num">07 — TIMELINE</div>
+    <div class="s-title">Implementation Timeline</div>
+    <div class="s-sub">From installation to fully operational marketing automation.</div>
+
+    <div class="timeline-item">
+      <div class="t-week"><span class="badge b-green">Done</span></div>
+      <div class="t-content">
+        <h4>Phase 1 — Install Marketing Suite</h4>
+        <p>14 skills, 5 agents, 4 Python scripts, 6 templates installed into Claude Code. reportlab installed for PDF generation.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="t-week"><span class="badge b-gold">Week 1</span></div>
+      <div class="t-content">
+        <h4>Phase 2 — scrape.do Integration</h4>
+        <p>Configure scrape.do API key in Python scripts. Replace default WebFetch calls with scrape.do for JavaScript-rendered pages. Test against origin.cleva-ai.co.za and 3 competitor sites.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="t-week"><span class="badge b-gold">Week 1</span></div>
+      <div class="t-content">
+        <h4>Phase 3 — Brand Voice Configuration</h4>
+        <p>Run <code style="color:var(--or-purple)">/market brand</code> to extract Origin brand voice guidelines. Configure all content generation to match: Cinzel headings, Inter body, gold palette, premium cannabis positioning, SAHPRA-compliant language.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="t-week"><span class="badge b-purple">Week 2</span></div>
+      <div class="t-content">
+        <h4>Phase 4 — First Full Audit</h4>
+        <p>Run <code style="color:var(--or-purple)">/market audit</code> on origin.cleva-ai.co.za. Baseline marketing score across 6 dimensions. Identify top 10 quick wins and implement.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="t-week"><span class="badge b-purple">Week 2</span></div>
+      <div class="t-content">
+        <h4>Phase 5 — Content Pipeline Launch</h4>
+        <p>Generate first social calendar, email sequences, and ad campaigns. Client review and approval workflow. Schedule first month of automated content.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="t-week"><span class="badge b-blue">Week 3+</span></div>
+      <div class="t-content">
+        <h4>Phase 6 — Ongoing Automation</h4>
+        <p>Monthly marketing cycle operational. Weekly audits, monthly reports, continuous content generation. Track marketing score improvement month-over-month.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 — SCORING -->
+  <div class="section">
+    <div class="s-num">08 — SCORING</div>
+    <div class="s-title">Marketing Score Methodology</div>
+    <div class="s-sub">How we measure and track marketing performance over time.</div>
+
+    <table>
+      <thead>
+        <tr><th>Category</th><th>Weight</th><th>What It Measures</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Content & Messaging</td><td style="color:var(--or-grey-2)">25%</td><td style="color:var(--or-grey-2)">Copy quality, value propositions, headlines, CTAs, cannabis-specific compliance</td></tr>
+        <tr><td>Conversion Optimization</td><td style="color:var(--or-grey-2)">20%</td><td style="color:var(--or-grey-2)">Funnels, forms, social proof, friction points, age gate, Section 21 flow</td></tr>
+        <tr><td>SEO & Discoverability</td><td style="color:var(--or-grey-2)">20%</td><td style="color:var(--or-grey-2)">On-page SEO, technical SEO, local SEO (Potchefstroom), schema markup</td></tr>
+        <tr><td>Competitive Positioning</td><td style="color:var(--or-grey-2)">15%</td><td style="color:var(--or-grey-2)">Differentiation, market awareness, pricing positioning vs SA cannabis market</td></tr>
+        <tr><td>Brand & Trust</td><td style="color:var(--or-grey-2)">10%</td><td style="color:var(--or-grey-2)">Brand consistency, trust signals, SAHPRA compliance visibility, reviews</td></tr>
+        <tr><td>Growth & Strategy</td><td style="color:var(--or-grey-2)">10%</td><td style="color:var(--or-grey-2)">Pricing strategy, acquisition channels, loyalty/points program, referral</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:16px;font-size:0.82rem;color:var(--or-grey-3)"><strong style="color:var(--or-gold)">Target:</strong> Baseline audit in Week 2 → improve marketing score by 15+ points within 3 months through automated content, SEO fixes, and conversion optimization.</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <h3>ORIGIN MARKETING AUTOMATION</h3>
+  <p>Powered by Claude AI + scrape.do. 14 skills, 5 parallel agents, automated content pipeline for ILCO Farming.</p>
+  <p style="font-size:0.7rem;color:var(--or-grey-4);margin-top:16px">Implementation Strategy &middot; 13 March 2026 &middot; FloRouter AI &middot; Confidential</p>
+</div>
+
+</body>
+</html>

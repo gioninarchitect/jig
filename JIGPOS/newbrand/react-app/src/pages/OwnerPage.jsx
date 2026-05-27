@@ -75,7 +75,7 @@ export default function OwnerPage() {
           </div>
 
           {loading ? (
-            <div className="flex justify-center py-12"><div className="w-8 h-8 border-3 border-jig-purple border-t-transparent rounded-full animate-spin" /></div>
+            <div className="flex justify-center py-12"><div className="w-8 h-8 border-3 border-or-gold border-t-transparent rounded-full animate-spin" /></div>
           ) : (
             <div className="space-y-6">
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -120,10 +120,10 @@ function QuickCard({ title, desc, link, onClick, icon }) {
   const Tag = link ? 'a' : 'button';
   const props = link ? { href: link } : { onClick };
   return (
-    <Tag {...props} className="p-5 rounded-xl border border-gray-200 bg-white hover:border-jig-purple/30 hover:shadow-md transition-all text-left group block w-full">
+    <Tag {...props} className="p-5 rounded-xl border border-gray-200 bg-white hover:border-or-gold/30 hover:shadow-md transition-all text-left group block w-full">
       <div className="flex items-center gap-3 mb-2">
-        <div className="w-10 h-10 rounded-lg bg-jig-slate flex items-center justify-center">
-          <Icon d={icon} className="w-5 h-5 text-jig-purple group-hover:text-jig-amber transition-colors" />
+        <div className="w-10 h-10 rounded-lg bg-origin-slate flex items-center justify-center">
+          <Icon d={icon} className="w-5 h-5 text-or-gold group-hover:text-or-gold transition-colors" />
         </div>
         <span className="font-heading text-sm text-white uppercase">{title}</span>
       </div>
@@ -135,12 +135,12 @@ function QuickCard({ title, desc, link, onClick, icon }) {
 function PlaceholderSection({ title, desc, icon }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-jig-slate flex items-center justify-center mb-4" style={{ border: '2px solid rgba(58,95,72,0.2)' }}>
-        <Icon d={icon} className="w-8 h-8 text-jig-purple" />
+      <div className="w-16 h-16 rounded-2xl bg-origin-slate flex items-center justify-center mb-4" style={{ border: '2px solid rgba(58,95,72,0.2)' }}>
+        <Icon d={icon} className="w-8 h-8 text-or-gold" />
       </div>
       <h3 className="font-heading text-xl text-white uppercase mb-2">{title}</h3>
       <p className="text-sm text-gray-500 max-w-md">{desc}</p>
-      <div className="mt-4 px-4 py-2 rounded-full bg-jig-slate text-xs text-jig-purple font-semibold" style={{ border: '1px solid rgba(58,95,72,0.2)' }}>
+      <div className="mt-4 px-4 py-2 rounded-full bg-origin-slate text-xs text-or-gold font-semibold" style={{ border: '1px solid rgba(58,95,72,0.2)' }}>
         Coming Soon
       </div>
     </div>

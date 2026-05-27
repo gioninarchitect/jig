@@ -25,7 +25,7 @@ export default function ProductCard({ product }) {
       onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(58,95,72,0.08)'; }}
     >
       {/* Image */}
-      <div className="w-full h-[250px] bg-jig-slate overflow-hidden relative">
+      <div className="w-full h-[250px] bg-origin-slate overflow-hidden relative">
         {image ? (
           <img src={image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
         ) : (
@@ -37,20 +37,20 @@ export default function ProductCard({ product }) {
         )}
         {/* Strain badge — absolute top-left */}
         {product.strain && (
-          <span className="absolute top-2.5 left-2.5 px-2 py-0.5 text-[0.7rem] font-bold bg-jig-purple text-gray-100 rounded">
+          <span className="absolute top-2.5 left-2.5 px-2 py-0.5 text-[0.7rem] font-bold bg-or-gold text-gray-100 rounded">
             {product.strain}
           </span>
         )}
         {!inStock && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span className="px-3 py-1 bg-jig-red text-white text-xs font-bold uppercase rounded-md">Out of Stock</span>
+            <span className="px-3 py-1 bg-origin-red text-white text-xs font-bold uppercase rounded-md">Out of Stock</span>
           </div>
         )}
       </div>
 
       {/* Info */}
       <div className="p-4 flex-1 flex flex-col">
-        <h3 className="text-[1.1rem] font-semibold text-jig-purple-dark mb-1 truncate">{product.name}</h3>
+        <h3 className="text-[1.1rem] font-semibold text-or-gold-dark mb-1 truncate">{product.name}</h3>
         <p className="text-[1.25rem] font-bold mb-3" style={{ color: '#B8922D' }}>{formatCurrency(product.price)}</p>
         <div className="mt-auto">
           <button
@@ -58,7 +58,7 @@ export default function ProductCard({ product }) {
             disabled={!inStock}
             className={`w-full py-3 text-sm font-semibold rounded-[5px] transition-colors ${
               inStock
-                ? 'bg-jig-purple text-gray-100 hover:bg-jig-purple-dark'
+                ? 'bg-or-gold text-gray-100 hover:bg-or-gold-dark'
                 : 'bg-gray-400 text-gray-100 cursor-not-allowed'
             }`}
           >

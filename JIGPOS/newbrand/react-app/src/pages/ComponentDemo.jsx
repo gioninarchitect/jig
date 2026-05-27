@@ -19,7 +19,7 @@ import BranchSelector from '../components/ui/BranchSelector';
 function Section({ title, children }) {
   return (
     <section className="mb-12">
-      <h2 className="font-heading text-3xl text-white uppercase mb-6 border-b-2 border-jig-amber pb-2">
+      <h2 className="font-heading text-3xl text-white uppercase mb-6 border-b-2 border-or-gold pb-2">
         {title}
       </h2>
       {children}
@@ -93,8 +93,8 @@ function DemoContent() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         <div className="mb-8">
-          <h1 className="font-heading text-5xl text-jig-purple uppercase">JIG Components</h1>
-          <p className="font-accent text-xl text-jig-amber italic mt-1">P16 Shared Component Library</p>
+          <h1 className="font-heading text-5xl text-or-gold uppercase">Origin Components</h1>
+          <p className="font-accent text-xl text-or-gold italic mt-1">P16 Shared Component Library</p>
         </div>
 
         {/* BUTTONS */}
@@ -130,7 +130,7 @@ function DemoContent() {
         <Section title="Card">
           <div className="grid sm:grid-cols-2 gap-6">
             <Card header="Standard Card" hoverable>
-              <p className="text-sm text-gray-600">Card with header, body, and hover lift effect. Matches vanilla jig-brand.css card styles.</p>
+              <p className="text-sm text-gray-600">Card with header, body, and hover lift effect. Matches vanilla or-brand.css card styles.</p>
             </Card>
             <Card
               header="Card with Footer"
@@ -155,7 +155,7 @@ function DemoContent() {
           <div className="max-w-md space-y-2">
             <Input label="Product Name" placeholder="Enter product name..." />
             <Input label="Price (R)" type="number" placeholder="0.00" />
-            <Input label="Email" type="email" placeholder="user@jig.cleva-ai.co.za" error="Invalid email address" />
+            <Input label="Email" type="email" placeholder="user@origin.cleva-ai.co.za" error="Invalid email address" />
           </div>
         </Section>
 
@@ -223,7 +223,7 @@ function DemoContent() {
           >
             <p className="text-sm text-gray-600 mb-4">
               Centered modal with backdrop overlay, keyboard close (Esc), and click-outside-to-close.
-              Matches the vanilla jig-core.js confirm modal pattern.
+              Matches the vanilla or-core.js confirm modal pattern.
             </p>
             <Input label="Example Field" placeholder="Type something..." />
           </Modal>

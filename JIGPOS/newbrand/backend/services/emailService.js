@@ -1,13 +1,15 @@
 const logger = require("../modules/logger");
-// Email Service - JIG Craft Cannabis
+// Email Service - Origin by ILCO Farming
 const nodemailer = require('nodemailer');
 require('dotenv').config();
+const config = require('../config');
+const VAT_RATE = config.business.vatRate;
 
 class EmailService {
   constructor() {
     // Create transporter with SMTP settings from environment variables
     this.transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'mail.jig.cleva-ai.co.za',
+      host: process.env.SMTP_HOST || 'mail.cleva-ai.co.za',
       port: parseInt(process.env.SMTP_PORT) || 465,
       secure: process.env.SMTP_SECURE === 'true',
       auth: {
@@ -19,12 +21,12 @@ class EmailService {
       }
     });
 
-    this.fromEmail = process.env.SMTP_FROM_EMAIL || 'hello@jig.cleva-ai.co.za';
-    this.fromName = process.env.SMTP_FROM_NAME || 'JIG Craft Cannabis';
+    this.fromEmail = process.env.SMTP_FROM_EMAIL || 'info@cleva-ai.co.za';
+    this.fromName = process.env.SMTP_FROM_NAME || 'Origin by ILCO Farming';
 
-    // JIG Small Logo (no background) embedded as base64 for email templates
+    // Origin logo embedded as base64 for email templates
     try {
-      this.logoDataUri = require('fs').readFileSync(require('path').join(__dirname, '../../images/jig-logo-nobg.png')).toString('base64');
+      this.logoDataUri = require('fs').readFileSync(require('path').join(__dirname, '../../images/origin-logo.png')).toString('base64');
     } catch (e) {
       // Fallback if logo not found
       this.logoDataUri = '';
@@ -125,7 +127,7 @@ class EmailService {
    * @returns {Promise<Object>} Send result
    */
   async sendInvoice(email, pdfBuffer, saleNumber, totalAmount) {
-    const subject = `Invoice ${saleNumber} - JIG Craft Cannabis`;
+    const subject = `Invoice ${saleNumber} - Origin by ILCO Farming`;
     const html = this.getInvoiceEmailTemplate(saleNumber, totalAmount);
 
     return this.sendInvoiceEmail({
@@ -147,7 +149,7 @@ class EmailService {
    * @returns {Promise<Object>} Send result
    */
   async sendReceipt(email, pdfBuffer, saleNumber, totalAmount, saleData = null) {
-    const subject = `Receipt ${saleNumber} - JIG Craft Cannabis`;
+    const subject = `Receipt ${saleNumber} - Origin by ILCO Farming`;
     const html = saleData
       ? this.getDetailedReceiptTemplate(saleData)
       : this.getReceiptEmailTemplate(saleNumber, totalAmount);
@@ -221,10 +223,10 @@ class EmailService {
   <div class="content">
     <!-- Business Details -->
     <div class="business-info">
-      <strong style="font-size: 16px; color: #000000;">JIG Craft Cannabis</strong><br>
+      <strong style="font-size: 16px; color: #000000;">Origin by ILCO Farming</strong><br>
       <span style="font-size: 13px; color: #666;">
-        18 Crownwood Street, Ormonde, Gauteng, South Africa<br>
-        Email: hello@jig.cleva-ai.co.za
+        North West, South Africa<br>
+        Email: origin@cleva-ai.co.za | Tel: +27 84 796 8457
       </span>
     </div>
 
@@ -264,7 +266,7 @@ class EmailService {
           <td style="text-align: right; width: 120px;">${formatCurrency(subtotal)}</td>
         </tr>
         <tr class="totals-row">
-          <td style="text-align: right; padding-right: 20px;"><strong>VAT (15%):</strong></td>
+          <td style="text-align: right; padding-right: 20px;"><strong>VAT (${VAT_RATE * 100}%):</strong></td>
           <td style="text-align: right;">${formatCurrency(vatAmount)}</td>
         </tr>
         <tr class="totals-row" style="border-top: 2px solid #000000;">
@@ -282,7 +284,7 @@ class EmailService {
 
   <div class="footer">
     <p>
-      <strong>JIG Craft Cannabis</strong> | www.jig.cleva-ai.co.za<br>
+      <strong>Origin by ILCO Farming</strong> | origin.cleva-ai.co.za<br>
       This is an official tax invoice for VAT purposes.<br>
       Please retain for your records.
     </p>
@@ -347,7 +349,7 @@ class EmailService {
       display: flex;
       justify-content: space-between;
       padding: 8px 0;
-      border-bottom: 1px solid #2A2A2A;
+      border-bottom: 1px solid #222222;
     }
     .detail-row:last-child {
       border-bottom: none;
@@ -392,7 +394,7 @@ class EmailService {
 <body>
   <div class="header">
     <h1>📄 Invoice Attached</h1>
-    <p>Thank you for your purchase at JIG Craft Cannabis</p>
+    <p>Thank you for your purchase at Origin by ILCO Farming</p>
   </div>
 
   <div class="content">
@@ -415,7 +417,7 @@ class EmailService {
     <p>The invoice PDF is attached to this email. If you have any questions about this invoice, please don't hesitate to contact us.</p>
 
     <center>
-      <a href="https://jig.cleva-ai.co.za" class="button">Visit Our Website</a>
+      <a href="https://origin.cleva-ai.co.za" class="button">Visit Our Website</a>
     </center>
 
     <p style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #ddd;">
@@ -426,13 +428,13 @@ class EmailService {
 
   <div class="footer">
     <p>
-      <strong>JIG Craft Cannabis</strong><br>
-            Email: <a href="mailto:hello@jig.cleva-ai.co.za">hello@jig.cleva-ai.co.za</a><br>
-      🌐 Website: <a href="https://jig.cleva-ai.co.za">www.jig.cleva-ai.co.za</a>
+      <strong>Origin by ILCO Farming</strong><br>
+            Email: <a href="mailto:origin@cleva-ai.co.za">origin@cleva-ai.co.za</a><br>
+      🌐 Website: <a href="https://origin.cleva-ai.co.za">origin.cleva-ai.co.za</a>
     </p>
     <p style="margin-top: 15px; color: #999;">
       This is an automated email. Please do not reply to this message.<br>
-      For support, contact us at hello@jig.cleva-ai.co.za
+      For support, contact us at origin@cleva-ai.co.za
     </p>
   </div>
 </body>
@@ -495,7 +497,7 @@ class EmailService {
       display: flex;
       justify-content: space-between;
       padding: 8px 0;
-      border-bottom: 1px solid #2A2A2A;
+      border-bottom: 1px solid #222222;
     }
     .detail-row:last-child {
       border-bottom: none;
@@ -542,7 +544,7 @@ class EmailService {
   <div class="content">
     <p>Dear Valued Customer,</p>
 
-    <p>Your payment has been successfully processed. Thank you for choosing JIG Craft Cannabis!</p>
+    <p>Your payment has been successfully processed. Thank you for choosing Origin by ILCO Farming!</p>
 
     <center>
       <span class="success-badge">✓ PAYMENT CONFIRMED</span>
@@ -564,19 +566,19 @@ class EmailService {
 
     <p style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #ddd;">
       <strong>Cultivating Excellence</strong><br>
-      Thank you for supporting JIG Craft Cannabis. We appreciate your business!
+      Thank you for supporting Origin by ILCO Farming. We appreciate your business!
     </p>
   </div>
 
   <div class="footer">
     <p>
-      <strong>JIG Craft Cannabis</strong><br>
-            Email: <a href="mailto:hello@jig.cleva-ai.co.za">hello@jig.cleva-ai.co.za</a><br>
-      🌐 Website: <a href="https://jig.cleva-ai.co.za">www.jig.cleva-ai.co.za</a>
+      <strong>Origin by ILCO Farming</strong><br>
+            Email: <a href="mailto:origin@cleva-ai.co.za">origin@cleva-ai.co.za</a><br>
+      🌐 Website: <a href="https://origin.cleva-ai.co.za">origin.cleva-ai.co.za</a>
     </p>
     <p style="margin-top: 15px; color: #999;">
       This is an automated email. Please do not reply to this message.<br>
-      For support, contact us at hello@jig.cleva-ai.co.za
+      For support, contact us at origin@cleva-ai.co.za
     </p>
   </div>
 </body>
@@ -611,14 +613,14 @@ class EmailService {
    * @returns {Promise<Object>} Send result
    */
   async sendOrderConfirmation({ to, orderNumber, customerName, total, items, pdfBuffer }) {
-    const subject = `Order Confirmation ${orderNumber} - JIG Craft Cannabis`;
+    const subject = `Order Confirmation ${orderNumber} - Origin by ILCO Farming`;
 
     const itemsHtml = items.map(item => `
       <tr>
-        <td style="padding: 10px; border-bottom: 1px solid #2A2A2A;">${item.name}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #2A2A2A; text-align: center;">${item.quantity}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #2A2A2A; text-align: right;">R${(item.price || 0).toFixed(2)}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #2A2A2A; text-align: right;">R${(item.subtotal || item.price * item.quantity).toFixed(2)}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #222222;">${item.name}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #222222; text-align: center;">${item.quantity}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #222222; text-align: right;">R${(item.price || 0).toFixed(2)}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #222222; text-align: right;">R${(item.subtotal || item.price * item.quantity).toFixed(2)}</td>
       </tr>
     `).join('');
 
@@ -684,7 +686,7 @@ class EmailService {
 </head>
 <body>
   <div class="header">
-    <h1>JIG CRAFT CANNABIS</h1>
+    <h1>Origin</h1>
     <p style="margin: 10px 0 0 0; font-size: 14px;">Order Confirmation</p>
   </div>
 
@@ -721,14 +723,14 @@ class EmailService {
       <li>You can track your order status in your dashboard.</li>
     </ul>
 
-    <p>If you have any questions, please contact us at <a href="mailto:hello@jig.cleva-ai.co.za">hello@jig.cleva-ai.co.za</a></p>
+    <p>If you have any questions, please contact us at <a href="mailto:origin@cleva-ai.co.za">origin@cleva-ai.co.za</a></p>
   </div>
 
   <div class="footer">
     <p>
-      <strong>JIG Craft Cannabis</strong><br>
-      Email: <a href="mailto:hello@jig.cleva-ai.co.za">hello@jig.cleva-ai.co.za</a><br>
-      Website: <a href="https://jig.cleva-ai.co.za">www.jig.cleva-ai.co.za</a>
+      <strong>Origin by ILCO Farming</strong><br>
+      Email: <a href="mailto:origin@cleva-ai.co.za">origin@cleva-ai.co.za</a><br>
+      Website: <a href="https://origin.cleva-ai.co.za">origin.cleva-ai.co.za</a>
     </p>
     <p style="margin-top: 15px; color: #999;">
       This is an automated email. Please do not reply to this message.
@@ -739,7 +741,7 @@ class EmailService {
     `;
 
     const mailOptions = {
-      from: '"JIG Craft Cannabis" <' + this.fromEmail + '>',
+      from: '"Origin by ILCO Farming" <' + this.fromEmail + '>',
       to: to,
       subject: subject,
       html: html
@@ -776,7 +778,7 @@ class EmailService {
    * @returns {Promise<Object>} Send result
    */
   async sendWelcomeEmail({ to, firstName, temporaryPassword, orderNumber }) {
-    const subject = 'Welcome to JIG Craft Cannabis - Your Account Details';
+    const subject = 'Welcome to Origin by ILCO Farming - Your Account Details';
 
     const html = `
 <!DOCTYPE html>
@@ -799,7 +801,7 @@ class EmailService {
 </head>
 <body>
   <div class="header">
-    <h1>Welcome to JIG Craft Cannabis</h1>
+    <h1>Welcome to Origin by ILCO Farming</h1>
     <p style="margin: 10px 0 0 0; font-size: 14px;">Your account has been created</p>
   </div>
 
@@ -820,7 +822,7 @@ class EmailService {
     </div>
 
     <center>
-      <a href="https://jig.cleva-ai.co.za/login.html" class="button">Login to Your Account</a>
+      <a href="https://origin.cleva-ai.co.za/login.html" class="button">Login to Your Account</a>
     </center>
 
     <p><strong>With your account, you can:</strong></p>
@@ -834,9 +836,9 @@ class EmailService {
   </div>
 
   <div class="footer">
-    <p><strong>JIG Craft Cannabis</strong><br>
-    Email: <a href="mailto:hello@jig.cleva-ai.co.za">hello@jig.cleva-ai.co.za</a><br>
-    Website: <a href="https://jig.cleva-ai.co.za">www.jig.cleva-ai.co.za</a></p>
+    <p><strong>Origin by ILCO Farming</strong><br>
+    Email: <a href="mailto:origin@cleva-ai.co.za">origin@cleva-ai.co.za</a><br>
+    Website: <a href="https://origin.cleva-ai.co.za">origin.cleva-ai.co.za</a></p>
   </div>
 </body>
 </html>
@@ -868,7 +870,7 @@ class EmailService {
    * @returns {Promise<Object>} Send result
    */
   async sendMembershipActivationEmail({ to, firstName, orderNumber, orderTotal }) {
-    const subject = 'Congratulations! Your JIG Craft Cannabis Membership is Active';
+    const subject = 'Congratulations! Your Origin by ILCO Farming Membership is Active';
 
     const html = `
 <!DOCTYPE html>
@@ -882,7 +884,7 @@ class EmailService {
     .badge { background: #C9A961; color: #000; padding: 8px 20px; border-radius: 20px; display: inline-block; margin: 15px 0; font-weight: bold; font-size: 14px; }
     .content { background: #F5F5F5; padding: 30px; border-radius: 0 0 8px 8px; }
     .benefits-box { background: white; padding: 25px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #C9A961; }
-    .benefit-item { padding: 12px 0; border-bottom: 1px solid #2A2A2A; display: flex; align-items: center; }
+    .benefit-item { padding: 12px 0; border-bottom: 1px solid #222222; display: flex; align-items: center; }
     .benefit-item:last-child { border-bottom: none; }
     .benefit-icon { background: #C9A961; color: #000; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; }
     .button { display: inline-block; background: #000000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 20px 0; }
@@ -924,16 +926,16 @@ class EmailService {
     </div>
 
     <center>
-      <a href="https://jig.cleva-ai.co.za/dashboard.html" class="button">Visit Your Dashboard</a>
+      <a href="https://origin.cleva-ai.co.za/dashboard.html" class="button">Visit Your Dashboard</a>
     </center>
 
-    <p>Your membership benefits are now active and will be automatically applied to your future orders. Thank you for being a valued member of the JIG Craft Cannabis family!</p>
+    <p>Your membership benefits are now active and will be automatically applied to your future orders. Thank you for being a valued member of the Origin by ILCO Farming family!</p>
   </div>
 
   <div class="footer">
-    <p><strong>JIG Craft Cannabis</strong><br>
-    Email: <a href="mailto:hello@jig.cleva-ai.co.za">hello@jig.cleva-ai.co.za</a><br>
-    Website: <a href="https://jig.cleva-ai.co.za">www.jig.cleva-ai.co.za</a></p>
+    <p><strong>Origin by ILCO Farming</strong><br>
+    Email: <a href="mailto:origin@cleva-ai.co.za">origin@cleva-ai.co.za</a><br>
+    Website: <a href="https://origin.cleva-ai.co.za">origin.cleva-ai.co.za</a></p>
   </div>
 </body>
 </html>
@@ -964,7 +966,7 @@ class EmailService {
    * @returns {Promise<Object>} Send result
    */
   async sendRegistrationConfirmationEmail({ to, firstName, loginUrl }) {
-    const subject = 'Welcome to JIG Craft Cannabis - Account Created Successfully';
+    const subject = 'Welcome to Origin by ILCO Farming - Account Created Successfully';
 
     const html = `
 <!DOCTYPE html>
@@ -984,13 +986,13 @@ class EmailService {
 </head>
 <body>
   <div class="header">
-    <h1>Welcome to JIG Craft Cannabis</h1>
+    <h1>Welcome to Origin by ILCO Farming</h1>
     <p style="margin: 10px 0 0 0; opacity: 0.9;">Cultivating Excellence</p>
   </div>
 
   <div class="content">
     <p>Dear ${firstName},</p>
-    <p>Thank you for creating an account with JIG Craft Cannabis! Your account has been successfully set up.</p>
+    <p>Thank you for creating an account with Origin by ILCO Farming! Your account has been successfully set up.</p>
 
     <div class="info-box">
       <h3 style="margin: 0 0 15px 0;">Your Login Details</h3>
@@ -1012,9 +1014,9 @@ class EmailService {
   </div>
 
   <div class="footer">
-    <p><strong>JIG Craft Cannabis</strong><br>
-    Email: <a href="mailto:hello@jig.cleva-ai.co.za">hello@jig.cleva-ai.co.za</a><br>
-    Website: <a href="https://jig.cleva-ai.co.za">www.jig.cleva-ai.co.za</a></p>
+    <p><strong>Origin by ILCO Farming</strong><br>
+    Email: <a href="mailto:origin@cleva-ai.co.za">origin@cleva-ai.co.za</a><br>
+    Website: <a href="https://origin.cleva-ai.co.za">origin.cleva-ai.co.za</a></p>
   </div>
 </body>
 </html>
@@ -1045,7 +1047,7 @@ class EmailService {
    * @param {string} options.resetUrl - Full URL for password reset
    */
   async sendPasswordResetEmail({ to, firstName, resetToken, resetUrl }) {
-    const subject = 'Password Reset Request - JIG Craft Cannabis';
+    const subject = 'Password Reset Request - Origin by ILCO Farming';
 
     const html = `
       <!DOCTYPE html>
@@ -1063,7 +1065,7 @@ class EmailService {
                 <!-- Header -->
                 <tr>
                   <td style="background-color: #1a1a1a; padding: 30px 40px; border-radius: 8px 8px 0 0; text-align: center;">
-                    <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600;">JIG Craft Cannabis</h1>
+                    <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600;">Origin by ILCO Farming</h1>
                     <p style="color: #888888; margin: 5px 0 0 0; font-size: 12px;">Cultivating Excellence</p>
                   </td>
                 </tr>
@@ -1078,7 +1080,7 @@ class EmailService {
                     </p>
 
                     <p style="color: #333333; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                      We received a request to reset the password for your JIG Craft Cannabis account. Click the button below to create a new password:
+                      We received a request to reset the password for your Origin by ILCO Farming account. Click the button below to create a new password:
                     </p>
 
                     <!-- Reset Button -->
@@ -1110,7 +1112,7 @@ class EmailService {
 
                     <p style="color: #333333; font-size: 16px; line-height: 1.6; margin: 20px 0 0 0;">
                       Stay well,<br>
-                      <strong>The JIG Craft Cannabis Team</strong>
+                      <strong>The Origin by ILCO Farming Team</strong>
                     </p>
                   </td>
                 </tr>
@@ -1119,10 +1121,10 @@ class EmailService {
                 <tr>
                   <td style="background-color: #111111; padding: 25px 40px; border-radius: 0 0 8px 8px; border-top: 1px solid #eeeeee;">
                     <p style="color: #888888; font-size: 12px; margin: 0 0 10px 0; text-align: center;">
-                      JIG Craft Cannabis | Cultivating Excellence
+                      Origin by ILCO Farming | Cultivating Excellence
                     </p>
                     <p style="color: #888888; font-size: 12px; margin: 0; text-align: center;">
-                      Questions? Contact us at <a href="mailto:hello@jig.cleva-ai.co.za" style="color: #1a1a1a;">hello@jig.cleva-ai.co.za</a>
+                      Questions? Contact us at <a href="mailto:origin@cleva-ai.co.za" style="color: #1a1a1a;">origin@cleva-ai.co.za</a>
                     </p>
                   </td>
                 </tr>
@@ -1168,7 +1170,7 @@ class EmailService {
       two_factor: 'complete two-factor authentication'
     };
 
-    const subject = `Your JIG Craft Cannabis Verification Code: ${otpCode}`;
+    const subject = `Your Origin by ILCO Farming Verification Code: ${otpCode}`;
 
     const html = `
 <!DOCTYPE html>
@@ -1178,36 +1180,37 @@ class EmailService {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Verification Code</title>
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Inter', Arial, sans-serif; background-color: #0A0A0A;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0A0A0A; padding: 40px 20px;">
+<body style="margin: 0; padding: 0; font-family: 'Barlow', Arial, sans-serif; background-color: #0E0E0E;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0E0E0E; padding: 40px 20px;">
     <tr>
       <td align="center">
         <table role="presentation" width="100%" style="max-width: 500px; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
           <!-- Header -->
           <tr>
-            <td style="background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%); padding: 30px; text-align: center; border-bottom: 4px solid #D97706;">
-              <img src="${this.getLogoDataUri()}" alt="JIG Craft Cannabis" style="width: 160px; height: auto;" />
+            <td style="background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%); padding: 30px; text-align: center; border-bottom: 4px solid #C9A84C;">
+              <img src="https://origin.cleva-ai.co.za/images/origin-logo.png" alt="Origin by ILCO Farming" style="width: 80px; height: auto; border-radius: 12px;" />
+              <p style="margin: 10px 0 0; color: #C9A84C; font-size: 20px; letter-spacing: 3px; font-weight: bold;">ORIGIN</p>
             </td>
           </tr>
 
           <!-- Body -->
           <tr>
             <td style="padding: 40px 30px;">
-              <p style="margin: 0 0 20px; color: #6D28D9; font-size: 16px;">
+              <p style="margin: 0 0 20px; color: #8B6914; font-size: 16px;">
                 Hello,
               </p>
-              <p style="margin: 0 0 30px; color: #6D28D9; font-size: 16px;">
+              <p style="margin: 0 0 30px; color: #8B6914; font-size: 16px;">
                 Your one-time verification code to ${purposeText[purpose] || 'verify your identity'} is:
               </p>
 
               <!-- OTP Box -->
-              <div style="background: #0A0A0A; border: 2px solid #7C3AED; border-radius: 12px; padding: 25px; text-align: center; margin-bottom: 30px;">
-                <span style="font-family: 'Courier New', monospace; font-size: 36px; font-weight: bold; letter-spacing: 8px; color: #7C3AED;">
+              <div style="background: #0E0E0E; border: 2px solid #C9A84C; border-radius: 12px; padding: 25px; text-align: center; margin-bottom: 30px;">
+                <span style="font-family: 'Courier New', monospace; font-size: 36px; font-weight: bold; letter-spacing: 8px; color: #C9A84C;">
                   ${otpCode}
                 </span>
               </div>
 
-              <p style="margin: 0 0 10px; color: #6D28D9; font-size: 14px;">
+              <p style="margin: 0 0 10px; color: #8B6914; font-size: 14px;">
                 <strong>This code expires in ${expiryMinutes} minutes.</strong>
               </p>
               <p style="margin: 0; color: #666; font-size: 14px;">
@@ -1218,9 +1221,9 @@ class EmailService {
 
           <!-- Footer -->
           <tr>
-            <td style="background: #0A0A0A; padding: 20px 30px; text-align: center; border-top: 1px solid rgba(124, 58, 237,0.2);">
-              <p style="margin: 0; color: #6D28D9; font-size: 12px;">
-                JIG Craft Cannabis | Craft Cannabis
+            <td style="background: #0E0E0E; padding: 20px 30px; text-align: center; border-top: 1px solid rgba(201, 168, 76,0.2);">
+              <p style="margin: 0; color: #8B6914; font-size: 12px;">
+                Origin by ILCO Farming | Premium Cannabis Care
               </p>
               <p style="margin: 5px 0 0; color: #999; font-size: 11px;">
                 This is an automated message. Please do not reply.
@@ -1236,11 +1239,11 @@ class EmailService {
 
     try {
       const info = await this.transporter.sendMail({
-        from: `"JIG Craft Cannabis" <${this.fromEmail}>`,
+        from: `"Origin by ILCO Farming" <${this.fromEmail}>`,
         to: to,
         subject: subject,
         html: html,
-        text: `Your JIG Craft Cannabis verification code is: ${otpCode}\n\nThis code expires in ${expiryMinutes} minutes.\n\nIf you didn't request this code, please ignore this email.`
+        text: `Your Origin by ILCO Farming verification code is: ${otpCode}\n\nThis code expires in ${expiryMinutes} minutes.\n\nIf you didn't request this code, please ignore this email.`
       });
 
       logger.info('OTP email sent:', { to, messageId: info.messageId });

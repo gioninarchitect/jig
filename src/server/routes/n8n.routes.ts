@@ -1,8 +1,8 @@
 /**
- * JIG Craft Cannabis - n8n Integration Routes
+ * PureGro Premium Cannabis Care - n8n Integration Routes
  *
  * Two groups of endpoints:
- * 1. Data API (auth: X-N8N-API-KEY) - for n8n to query JIG data
+ * 1. Data API (auth: X-N8N-API-KEY) - for n8n to query PureGro data
  * 2. Admin config (auth: JWT admin) - for frontend to manage n8n settings
  *
  * Data API:

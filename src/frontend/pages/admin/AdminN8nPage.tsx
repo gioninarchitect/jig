@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Admin n8n Settings Page
+ * PureGro Premium Cannabis Care - Admin n8n Settings Page
  *
  * Configure n8n workflow automation: enable/disable, webhook URL,
  * API key, and toggle individual workflows.
@@ -115,7 +115,7 @@ export default function AdminN8nPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-jig-gray-700 border-t-jig-purple" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-pg-gray-700 border-t-pg-green" />
       </div>
     );
   }
@@ -124,10 +124,10 @@ export default function AdminN8nPage() {
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="font-heading text-2xl font-bold text-jig-white">
+        <h1 className="font-heading text-2xl font-bold text-pg-white">
           Workflow Automation
         </h1>
-        <p className="mt-1 text-sm text-jig-gray-500">
+        <p className="mt-1 text-sm text-pg-gray-500">
           Configure n8n workflow automation for notifications, reminders, and business processes.
         </p>
       </div>
@@ -145,13 +145,13 @@ export default function AdminN8nPage() {
       )}
 
       {/* Master Toggle */}
-      <div className="mb-6 rounded-lg border border-white/[0.08] bg-jig-slate p-5">
+      <div className="mb-6 rounded-lg border border-white/[0.08] bg-pg-dark p-5">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-heading text-sm font-semibold uppercase tracking-wide text-jig-white">
+            <h2 className="font-heading text-sm font-semibold uppercase tracking-wide text-pg-white">
               n8n Automation
             </h2>
-            <p className="mt-0.5 text-xs text-jig-gray-500">
+            <p className="mt-0.5 text-xs text-pg-gray-500">
               {config?.enabled
                 ? 'Events are being sent to n8n workflows'
                 : 'No events are being sent - automation is off'}
@@ -161,7 +161,7 @@ export default function AdminN8nPage() {
             onClick={() => handleToggle(!config?.enabled)}
             disabled={saving}
             className={`relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full transition-colors ${
-              config?.enabled ? 'bg-jig-purple' : 'bg-jig-gray-700'
+              config?.enabled ? 'bg-pg-green' : 'bg-pg-gray-700'
             }`}
           >
             <span
@@ -174,14 +174,14 @@ export default function AdminN8nPage() {
       </div>
 
       {/* Connection Settings */}
-      <div className="mb-6 rounded-lg border border-white/[0.08] bg-jig-slate p-5">
-        <h2 className="mb-4 font-heading text-sm font-semibold uppercase tracking-wide text-jig-white">
+      <div className="mb-6 rounded-lg border border-white/[0.08] bg-pg-dark p-5">
+        <h2 className="mb-4 font-heading text-sm font-semibold uppercase tracking-wide text-pg-white">
           Connection
         </h2>
 
         <div className="space-y-4">
           <div>
-            <label className="mb-1 block text-xs font-medium text-jig-gray-400">
+            <label className="mb-1 block text-xs font-medium text-puregro-gray-400">
               n8n Webhook Base URL
             </label>
             <input
@@ -189,15 +189,15 @@ export default function AdminN8nPage() {
               value={webhookUrl}
               onChange={(e) => setWebhookUrl(e.target.value)}
               placeholder="https://your-instance.app.n8n.cloud/webhook"
-              className="w-full rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-jig-white placeholder-jig-gray-600 focus:border-jig-purple/50 focus:outline-none"
+              className="w-full rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-white placeholder-puregro-gray-600 focus:border-pg-green/50 focus:outline-none"
             />
-            <p className="mt-1 text-[11px] text-jig-gray-600">
+            <p className="mt-1 text-[11px] text-puregro-gray-600">
               Events are POSTed to: {webhookUrl || '...'}/event-type
             </p>
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-jig-gray-400">
+            <label className="mb-1 block text-xs font-medium text-puregro-gray-400">
               API Key {config?.apiKeySet && <span className="text-green-500">(set)</span>}
             </label>
             <div className="flex gap-2">
@@ -206,34 +206,34 @@ export default function AdminN8nPage() {
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder={config?.apiKeySet ? 'Enter new key to change' : 'Generate or enter an API key'}
-                className="flex-1 rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-jig-white placeholder-jig-gray-600 focus:border-jig-purple/50 focus:outline-none"
+                className="flex-1 rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-white placeholder-puregro-gray-600 focus:border-pg-green/50 focus:outline-none"
               />
               <button
                 onClick={() => setShowApiKey(!showApiKey)}
-                className="rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-xs text-jig-gray-400 hover:bg-white/[0.08] hover:text-jig-white"
+                className="rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-xs text-puregro-gray-400 hover:bg-white/[0.08] hover:text-pg-white"
               >
                 {showApiKey ? 'Hide' : 'Show'}
               </button>
               <button
                 onClick={() => {
-                  const key = `jig_${crypto.randomUUID().replace(/-/g, '').slice(0, 24)}`;
+                  const key = `puregro_${crypto.randomUUID().replace(/-/g, '').slice(0, 24)}`;
                   setApiKey(key);
                   setShowApiKey(true);
                 }}
-                className="rounded-md border border-jig-purple/25 bg-jig-purple/10 px-3 py-2 text-xs text-jig-purple-light hover:bg-jig-purple/20"
+                className="rounded-md border border-pg-green/25 bg-pg-green/10 px-3 py-2 text-xs text-pg-green-light hover:bg-pg-green/20"
               >
                 Generate
               </button>
             </div>
-            <p className="mt-1 text-[11px] text-jig-gray-600">
-              n8n uses this key in the X-N8N-API-KEY header when calling JIG data endpoints.
+            <p className="mt-1 text-[11px] text-puregro-gray-600">
+              n8n uses this key in the X-N8N-API-KEY header when calling PureGro data endpoints.
             </p>
           </div>
 
           <button
             onClick={handleSaveConnection}
             disabled={saving}
-            className="rounded-md bg-jig-purple px-4 py-2 text-sm font-medium text-white hover:bg-jig-purple-light disabled:opacity-50"
+            className="rounded-md bg-pg-green px-4 py-2 text-sm font-medium text-white hover:bg-pg-green-light disabled:opacity-50"
           >
             {saving ? 'Saving...' : 'Save Connection'}
           </button>
@@ -241,11 +241,11 @@ export default function AdminN8nPage() {
       </div>
 
       {/* Workflow Toggles */}
-      <div className="rounded-lg border border-white/[0.08] bg-jig-slate p-5">
-        <h2 className="mb-4 font-heading text-sm font-semibold uppercase tracking-wide text-jig-white">
+      <div className="rounded-lg border border-white/[0.08] bg-pg-dark p-5">
+        <h2 className="mb-4 font-heading text-sm font-semibold uppercase tracking-wide text-pg-white">
           Workflows
         </h2>
-        <p className="mb-4 text-xs text-jig-gray-500">
+        <p className="mb-4 text-xs text-pg-gray-500">
           Enable or disable individual automation workflows. Disabled workflows won't receive events.
         </p>
 
@@ -256,8 +256,8 @@ export default function AdminN8nPage() {
               className="flex items-center justify-between rounded-md border border-white/[0.06] bg-white/[0.02] px-4 py-3"
             >
               <div>
-                <p className="text-sm font-medium text-jig-white">{label}</p>
-                <p className="text-xs text-jig-gray-500">{description}</p>
+                <p className="text-sm font-medium text-pg-white">{label}</p>
+                <p className="text-xs text-pg-gray-500">{description}</p>
               </div>
               <button
                 onClick={() =>
@@ -269,8 +269,8 @@ export default function AdminN8nPage() {
                 disabled={saving}
                 className={`relative inline-flex h-6 w-10 shrink-0 cursor-pointer items-center rounded-full transition-colors ${
                   config?.workflows[key as keyof N8nConfigData['workflows']]
-                    ? 'bg-jig-purple'
-                    : 'bg-jig-gray-700'
+                    ? 'bg-pg-green'
+                    : 'bg-pg-gray-700'
                 }`}
               >
                 <span
@@ -288,15 +288,15 @@ export default function AdminN8nPage() {
 
       {/* n8n Cloud Link */}
       {webhookUrl && (
-        <div className="mt-6 rounded-lg border border-white/[0.08] bg-jig-slate p-5">
-          <h2 className="mb-2 font-heading text-sm font-semibold uppercase tracking-wide text-jig-white">
+        <div className="mt-6 rounded-lg border border-white/[0.08] bg-pg-dark p-5">
+          <h2 className="mb-2 font-heading text-sm font-semibold uppercase tracking-wide text-pg-white">
             n8n Dashboard
           </h2>
           <a
             href={webhookUrl.replace('/webhook', '')}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-jig-purple hover:text-jig-purple-light"
+            className="inline-flex items-center gap-2 text-sm text-pg-green hover:text-pg-green-light"
           >
             Open n8n workflow editor
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -307,14 +307,14 @@ export default function AdminN8nPage() {
       )}
 
       {/* Data Endpoints Reference */}
-      <div className="mt-6 rounded-lg border border-white/[0.08] bg-jig-slate p-5">
-        <h2 className="mb-3 font-heading text-sm font-semibold uppercase tracking-wide text-jig-white">
+      <div className="mt-6 rounded-lg border border-white/[0.08] bg-pg-dark p-5">
+        <h2 className="mb-3 font-heading text-sm font-semibold uppercase tracking-wide text-pg-white">
           n8n Data Endpoints
         </h2>
-        <p className="mb-3 text-xs text-jig-gray-500">
+        <p className="mb-3 text-xs text-pg-gray-500">
           Use these endpoints in your n8n HTTP Request nodes. Add header: X-N8N-API-KEY
         </p>
-        <div className="space-y-1 font-mono text-xs text-jig-gray-400">
+        <div className="space-y-1 font-mono text-xs text-puregro-gray-400">
           <p>GET /api/v1/n8n/data/clients</p>
           <p>GET /api/v1/n8n/data/clients/:id</p>
           <p>GET /api/v1/n8n/data/orders/unpaid</p>

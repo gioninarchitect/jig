@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PureGro - System Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --pg-black: #0E0E0E;
+            --pg-dark: #1A1A1A;
+            --pg-dark-2: #222222;
+            --pg-dark-3: #2A2A2A;
+            --pg-green: #3FC041;
+            --pg-green-bright: #56D458;
+            --pg-green-muted: #2A8C2C;
+            --pg-white: #FAFAFA;
+            --border: #333333;
+            --text-dim: #777777;
+            --text-mid: #999999;
+            --red: #DC2626;
+            --amber: #F8C242;
+        }
+
+        body {
+            background: var(--pg-black);
+            color: var(--pg-white);
+            font-family: 'Barlow', sans-serif;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page { max-width: 960px; margin: 0 auto; padding: 32px 20px 60px; }
+
+        /* ── Header ── */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 28px;
+            border-bottom: 2px solid var(--pg-green-muted);
+        }
+        .header img { height: 80px; margin-bottom: 12px; }
+        .header h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 800;
+            font-size: 32px;
+            color: var(--pg-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .header .sub {
+            font-size: 14px;
+            color: var(--text-mid);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* ── Demo Tiles ── */
+        .tiles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+
+        .tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 28px 16px 22px;
+            background: var(--pg-dark);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--pg-white);
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .tile:hover {
+            border-color: var(--pg-green);
+            background: var(--pg-dark-2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(63, 192, 65, 0.15);
+        }
+
+        .tile-icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            font-size: 22px;
+            transition: all 0.2s ease;
+        }
+        .tile:hover .tile-icon { transform: scale(1.1); }
+
+        .tile-icon.green { background: rgba(63,192,65,0.12); color: var(--pg-green); }
+        .tile:hover .tile-icon.green { background: var(--pg-green); color: white; }
+
+        .tile-icon.amber { background: rgba(248,194,66,0.12); color: var(--amber); }
+        .tile:hover .tile-icon.amber { background: var(--amber); color: var(--pg-black); }
+
+        .tile-icon.blue { background: rgba(59,130,246,0.12); color: #3B82F6; }
+        .tile:hover .tile-icon.blue { background: #3B82F6; color: white; }
+
+        .tile-icon.purple { background: rgba(139,92,246,0.12); color: #8B5CF6; }
+        .tile:hover .tile-icon.purple { background: #8B5CF6; color: white; }
+
+        .tile-icon.red { background: rgba(220,38,38,0.12); color: var(--red); }
+        .tile:hover .tile-icon.red { background: var(--red); color: white; }
+
+        .tile-icon.teal { background: rgba(20,184,166,0.12); color: #14B8A6; }
+        .tile:hover .tile-icon.teal { background: #14B8A6; color: white; }
+
+        .tile-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tile-desc {
+            font-size: 12px;
+            color: var(--text-mid);
+            line-height: 1.4;
+        }
+        .tile-role {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-top: 2px;
+        }
+        .role-owner { background: rgba(248,194,66,0.15); color: var(--amber); }
+        .role-admin { background: rgba(139,92,246,0.15); color: #8B5CF6; }
+        .role-staff { background: rgba(63,192,65,0.15); color: var(--pg-green); }
+        .role-client { background: rgba(59,130,246,0.15); color: #3B82F6; }
+
+        /* ── Credentials ── */
+        .creds {
+            background: var(--pg-dark);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .creds h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--pg-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+        .creds-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .cred-group-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+        .cred-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+        .cred-label {
+            font-size: 12px;
+            color: var(--text-mid);
+            min-width: 55px;
+            font-weight: 500;
+        }
+        .cred-val {
+            font-size: 13px;
+            font-weight: 500;
+            background: var(--pg-dark-2);
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+        .cred-val:hover {
+            border-color: var(--pg-green-muted);
+            background: var(--pg-black);
+        }
+        .cred-val.copied {
+            border-color: var(--pg-green);
+            color: var(--pg-green);
+        }
+        .cred-note {
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        @media (max-width: 768px) {
+            .tiles { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .creds-grid { grid-template-columns: 1fr; }
+            .header img { height: 60px; }
+            .header h1 { font-size: 24px; }
+        }
+        @media (max-width: 480px) {
+            .tiles { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+
+        <div class="header">
+            <img src="https://puregro.cleva-ai.co.za/pos/images/puregro-logo-nobg.png" alt="PureGro">
+            <h1>PureGro Premium Cannabis Care</h1>
+            <div class="sub">System Demo &mdash; February 2026</div>
+        </div>
+
+        <!-- 6 Demo Tiles -->
+        <div class="tiles">
+
+            <a class="tile" href="https://puregro.cleva-ai.co.za/pos/pos.html" target="_blank">
+                <div class="tile-icon green"><i class="fas fa-cash-register"></i></div>
+                <div class="tile-name">POS Terminal</div>
+                <div class="tile-desc">Ring up sales, process payments, view product catalog</div>
+                <div class="tile-role role-staff">Staff / Manager</div>
+            </a>
+
+            <a class="tile" href="https://puregro.cleva-ai.co.za/pos/admin.html" target="_blank">
+                <div class="tile-icon purple"><i class="fas fa-screwdriver-wrench"></i></div>
+                <div class="tile-name">Admin Panel</div>
+                <div class="tile-desc">Users, products, MDC pipeline, branch config, POS settings</div>
+                <div class="tile-role role-admin">Admin</div>
+            </a>
+
+            <a class="tile" href="https://puregro.cleva-ai.co.za/pos/owner-dashboard.html" target="_blank">
+                <div class="tile-icon amber"><i class="fas fa-gauge-high"></i></div>
+                <div class="tile-name">Owner Dashboard</div>
+                <div class="tile-desc">360 command centre, branch stats, live feed, budgets</div>
+                <div class="tile-role role-owner">Owner</div>
+            </a>
+
+            <a class="tile" href="https://puregro.cleva-ai.co.za/pos/inventory-manager-dashboard.html" target="_blank">
+                <div class="tile-icon teal"><i class="fas fa-warehouse"></i></div>
+                <div class="tile-name">Inventory Manager</div>
+                <div class="tile-desc">Stock levels, purchase orders, suppliers, batch tracking</div>
+                <div class="tile-role role-admin">Inventory Manager</div>
+            </a>
+
+            <a class="tile" href="https://puregro.cleva-ai.co.za/pos/stocktake-app.html" target="_blank">
+                <div class="tile-icon red"><i class="fas fa-clipboard-check"></i></div>
+                <div class="tile-name">Stocktake</div>
+                <div class="tile-desc">Count stock, reconcile variances, approve sessions</div>
+                <div class="tile-role role-staff">Staff / Manager</div>
+            </a>
+
+            <a class="tile" href="https://puregro.cleva-ai.co.za/login" target="_blank">
+                <div class="tile-icon blue"><i class="fas fa-handshake"></i></div>
+                <div class="tile-name">B2B Wholesale</div>
+                <div class="tile-desc">Client portal, product catalog, orders, invoicing, Telegram bot</div>
+                <div class="tile-role role-client">Client / Admin</div>
+            </a>
+
+        </div>
+
+        <!-- Credentials -->
+        <div class="creds">
+            <h3><i class="fas fa-key" style="margin-right: 8px;"></i> Demo Credentials</h3>
+            <div class="creds-grid">
+                <div>
+                    <div class="cred-group-title">POS / Admin / Owner / Stocktake</div>
+                    <div class="cred-row">
+                        <span class="cred-label">Owner</span>
+                        <span class="cred-val" onclick="cp(this)" data-v="florisolivier7@gmail.com">florisolivier7@gmail.com</span>
+                    </div>
+                    <div class="cred-row">
+                        <span class="cred-label">Admin</span>
+                        <span class="cred-val" onclick="cp(this)" data-v="admin@cleva-ai.co.za">admin@cleva-ai.co.za</span>
+                    </div>
+                    <div class="cred-row">
+                        <span class="cred-label">Manager</span>
+                        <span class="cred-val" onclick="cp(this)" data-v="sunningdale.manager@cleva-ai.co.za">sunningdale.manager@cleva-ai.co.za</span>
+                    </div>
+                    <div class="cred-row">
+                        <span class="cred-label">Inventory</span>
+                        <span class="cred-val" onclick="cp(this)" data-v="inventory@cleva-ai.co.za">inventory@cleva-ai.co.za</span>
+                    </div>
+                    <div class="cred-row">
+                        <span class="cred-label">PIN</span>
+                        <span class="cred-val" onclick="cp(this)" data-v="123456" style="font-size:16px;font-weight:700;letter-spacing:4px;">123456</span>
+                        <span class="cred-note">all users</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="cred-group-title">B2B Wholesale Portal</div>
+                    <div class="cred-row">
+                        <span class="cred-label">Admin</span>
+                        <span class="cred-val" onclick="cp(this)" data-v="admin@cleva-ai.co.za">admin@cleva-ai.co.za</span>
+                    </div>
+                    <div class="cred-row">
+                        <span class="cred-label">Client</span>
+                        <span class="cred-val" onclick="cp(this)" data-v="b2b@cleva-ai.co.za">b2b@cleva-ai.co.za</span>
+                    </div>
+                    <div class="cred-row">
+                        <span class="cred-label">OTP</span>
+                        <span class="cred-val" onclick="cp(this)" data-v="830101" style="font-size:16px;font-weight:700;letter-spacing:4px;">830101</span>
+                        <span class="cred-note">bypass pin</span>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 11px; color: var(--text-dim); line-height: 1.5;">
+                        Enter email, then use bypass pin as OTP code.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">PureGro Premium Cannabis Care &mdash; Cleva AI</div>
+
+    </div>
+
+    <script>
+        function cp(el) {
+            var text = el.getAttribute('data-v') || el.textContent.trim();
+            navigator.clipboard.writeText(text).then(function() {
+                el.classList.add('copied');
+                setTimeout(function() { el.classList.remove('copied'); }, 1200);
+            });
+        }
+    </script>
+</body>
+</html>

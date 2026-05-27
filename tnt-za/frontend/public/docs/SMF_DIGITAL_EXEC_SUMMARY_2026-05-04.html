@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ORIGIN · Live Digital Site Master File · 04 May 2026</title>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-soft: #E5C97A;
+    --green: #0D6B3D;
+    --green-deep: #07401E;
+    --ink: #0B0F0C;
+    --paper: #FAF7EE;
+    --line: rgba(11,15,12,0.10);
+    --muted: rgba(11,15,12,0.55);
+    --rose: #B43E25;
+    --opus: #7B3F00;
+    --sonnet: #4A6FA5;
+    --rp: #B43E25;        /* RP rose */
+    --dar: #4A6FA5;       /* DAR blue */
+    --ar: #0D6B3D;        /* AR green */
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, system-ui, sans-serif;
+    line-height: 1.55;
+    font-size: 13.5px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 880px; margin: 0 auto; padding: 40px 36px 56px; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 16px; border-bottom: 2px solid var(--gold); margin-bottom: 24px;
+  }
+  .brandmark {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Iowan Old Style', Georgia, serif;
+    letter-spacing: 0.18em; text-transform: uppercase; font-size: 12px;
+    color: var(--green-deep); font-weight: 600;
+  }
+  .brandmark .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--gold); box-shadow: 0 0 0 4px rgba(201,168,76,0.18);
+  }
+  .stamp {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 10px; color: var(--muted); text-align: right; line-height: 1.4;
+  }
+  .stamp b { color: var(--ink); }
+
+  h1.hero {
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-weight: 600; font-size: 38px; line-height: 1.06;
+    margin: 18px 0 8px; letter-spacing: -0.01em; color: var(--green-deep);
+  }
+  h1.hero .accent { color: var(--gold); font-style: italic; font-weight: 400; }
+  .lede { font-size: 15px; max-width: 720px; margin: 0 0 20px; color: rgba(11,15,12,0.72); }
+
+  h2 {
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-size: 22px; margin: 36px 0 4px; color: var(--green-deep);
+  }
+  h2 .num {
+    color: var(--gold); font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12px; margin-right: 14px; vertical-align: 4px; letter-spacing: 0.04em;
+  }
+  h2 + .sub {
+    color: var(--muted); font-size: 12px;
+    border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 18px;
+  }
+  h3 { font-size: 14px; margin: 18px 0 6px; color: var(--green-deep); font-weight: 600; }
+  p { margin: 8px 0 10px; }
+  code {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 11.5px; background: rgba(13,107,61,0.08);
+    color: var(--green-deep); padding: 1px 5px; border-radius: 3px;
+  }
+
+  /* ── Then vs Now ────────────────────── */
+  .then-now {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    margin: 12px 0 18px;
+  }
+  .col {
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 16px; background: rgba(255,255,255,0.5);
+  }
+  .col.then { border-left: 4px solid rgba(11,15,12,0.18); }
+  .col.now  { border-left: 4px solid var(--gold); background: rgba(201,168,76,0.05); }
+  .col h4 {
+    margin: 0 0 6px; font-size: 13.5px; font-weight: 700; color: var(--ink);
+    text-transform: uppercase; letter-spacing: 0.08em; font-size: 10.5px;
+  }
+  .col h4.now { color: var(--green-deep); }
+  .col ul { margin: 6px 0 0; padding-left: 18px; }
+  .col li { font-size: 12.5px; color: rgba(11,15,12,0.75); margin: 4px 0; }
+
+  /* ── 3-layer architecture ───────────── */
+  .layer-stack {
+    display: flex; flex-direction: column; gap: 8px; margin: 12px 0 16px;
+  }
+  .l-row {
+    display: grid; grid-template-columns: 140px 1fr; gap: 12px;
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; background: rgba(255,255,255,0.6);
+    break-inside: avoid;
+  }
+  .l-row .label {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--gold); padding-top: 2px;
+  }
+  .l-row .body { font-size: 12.5px; color: rgba(11,15,12,0.75); }
+  .l-row .body b { color: var(--green-deep); }
+  .l-row.b1 { border-left: 4px solid var(--rose); }
+  .l-row.b2 { border-left: 4px solid var(--sonnet); }
+  .l-row.b3 { border-left: 4px solid var(--green); }
+
+  /* ── Chapter table ──────────────────── */
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 14px; font-size: 12.5px; }
+  table th, table td {
+    text-align: left; padding: 8px 10px;
+    border-bottom: 1px solid var(--line); vertical-align: top;
+  }
+  table th {
+    color: var(--green-deep); font-weight: 700; font-size: 10.5px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    border-bottom-color: var(--gold);
+  }
+  table td.b { font-weight: 700; color: var(--green-deep); font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
+  table td.right { text-align: right; font-family: ui-monospace, 'SF Mono', Menlo, monospace; color: var(--muted); }
+
+  /* ── Sign-off chain visual ──────────── */
+  .signchain {
+    margin: 16px 0;
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px; background: white;
+    break-inside: avoid;
+  }
+  .signchain svg { width: 100%; height: auto; display: block; }
+
+  /* ── Flow steps ─────────────────────── */
+  .flow { margin: 12px 0 18px; }
+  .flow .step {
+    display: grid; grid-template-columns: 28px 1fr; gap: 12px;
+    margin-bottom: 8px; break-inside: avoid;
+  }
+  .flow .step .num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--green); color: white;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-weight: 700; font-size: 12px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .flow.outbound .step .num { background: var(--gold); color: var(--ink); }
+  .flow.inbound .step .num { background: var(--sonnet); color: white; }
+  .flow .body {
+    border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 14px; background: rgba(255,255,255,0.5);
+  }
+  .flow .body .actor {
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--green-deep); font-weight: 700; margin-bottom: 2px;
+  }
+  .flow .body .what { font-size: 13px; color: var(--ink); line-height: 1.5; }
+  .flow .body .what code { font-size: 11px; }
+
+  /* ── Status badges ──────────────────── */
+  .status-row {
+    display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0 14px;
+  }
+  .badge {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 10.5px; padding: 4px 10px; border-radius: 999px;
+    font-weight: 600; letter-spacing: 0.04em;
+  }
+  .badge.draft  { background: rgba(11,15,12,0.08); color: var(--muted); }
+  .badge.rp     { background: rgba(180,62,37,0.12); color: var(--rose); }
+  .badge.dar    { background: rgba(74,111,165,0.13); color: var(--sonnet); }
+  .badge.ar     { background: rgba(13,107,61,0.13); color: var(--green-deep); }
+  .badge.stale  { background: rgba(201,168,76,0.18); color: #7B3F00; }
+  .badge.frozen { background: var(--green-deep); color: white; }
+
+  .footer {
+    margin-top: 36px; padding-top: 16px;
+    border-top: 2px solid var(--gold);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  }
+  .footer .seal { color: var(--green-deep); font-weight: 700; }
+
+  @media print {
+    body { background: white; }
+    .page { padding: 24px; max-width: none; }
+    .page-break { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brandmark">
+      <span class="dot"></span>
+      ORIGIN <span style="color:var(--gold);opacity:.6">·</span> by ILCO Farming
+    </div>
+    <div class="stamp">
+      <div><b>LIVE DIGITAL SITE MASTER FILE</b></div>
+      <div>Cannabis · v4.6 baseline · 58 canonical sections</div>
+      <div>04 May 2026 · v1.0</div>
+    </div>
+  </header>
+
+  <h1 class="hero">
+    The SMF stops being a PDF <span class="accent">— it becomes the system.</span>
+  </h1>
+
+  <p class="lede">
+    Every section of your 47-page Site Master File v4.6 is now a live database row with its own
+    sign-off chain, version history, drift detection, and AI-assisted authoring. The PDF stays as
+    the regulator-handed artefact; the source-of-truth is the live system, regenerated whenever an
+    operational change touches it.
+  </p>
+
+  <!-- ───────── Section 1 ───────── -->
+  <h2><span class="num">01</span>What changed</h2>
+  <div class="sub">From paper-frozen to live-and-auditable.</div>
+
+  <div class="then-now">
+    <div class="col then">
+      <h4>BEFORE — Paper-frozen SMF</h4>
+      <ul>
+        <li>One 47-page PDF, version 4.6, signed Sept 2025</li>
+        <li>Every change requires a manual re-issue</li>
+        <li>Drift between SMF and reality detected at audit time, not before</li>
+        <li>Sign-off captured as ink + scan</li>
+        <li>No way to know which fields are stale until SAHPRA asks</li>
+        <li>Re-drafting a section = open Word doc, find the right paragraph, type</li>
+      </ul>
+    </div>
+    <div class="col now">
+      <h4 class="now">NOW — Live digital SMF</h4>
+      <ul>
+        <li>58 canonical sections as live DB rows, versioned per section</li>
+        <li>Operational changes auto-flag affected sections stale</li>
+        <li>RP → DAR → AR sign-off chain enforced in code, with timestamps + signer IDs</li>
+        <li>Each AR approval freezes a snapshot for the regulator PDF</li>
+        <li>Hash-chained audit log captures every read, edit, and signature</li>
+        <li>AI Composer (Opus 4.7) drafts revisions in 14s — RP reviews before applying</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───────── Section 2 ───────── -->
+  <h2><span class="num">02</span>The 3-layer architecture</h2>
+  <div class="sub">One operational substrate, three layers, each with one purpose.</div>
+
+  <div class="layer-stack">
+    <div class="l-row b1">
+      <div class="label">Tickets</div>
+      <div class="body">
+        <b>"What needs to happen"</b> — actionable items with assignees + due dates.
+        SMF-related tickets carry <code>ticketType: SMF_DRIFT</code> or <code>RP_SIGNOFF</code>.
+        Routed automatically to RP / DAR / AR queues via the new "assign to person OR department" mechanism.
+      </div>
+    </div>
+    <div class="l-row b2">
+      <div class="label">Specialised data</div>
+      <div class="body">
+        <b>"What the work captured"</b> — <code>SMFSection</code> (current state, body, sign-off chain), <code>SMFSectionVersion</code> (frozen snapshots), plus the full operational rich models (BayGrid, Calibrations, Deviations, Permits, Users) that feed the SMF body text via the Composer.
+      </div>
+    </div>
+    <div class="l-row b3">
+      <div class="label">AuditLog</div>
+      <div class="body">
+        <b>"What happened, immutably"</b> — every action SHA-256 hash-chained. Captures real userId + ghostAsUserId (ghost mode), hash of prior entry, timestamp.
+        Companion <code>AICall</code> table for every Claude API call (prompt, response, sources, tokens). SAHPRA-grade reproducibility.
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── Section 3 ───────── -->
+  <h2><span class="num">03</span>The 6 chapters · 58 sections</h2>
+  <div class="sub">Mirrors the v4.6 Table of Contents one-to-one. Body text seeded from the actual PDF.</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:8%">Ref</th>
+        <th>Chapter</th>
+        <th style="width:14%" class="right">Sections</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="b">C.1</td><td>General Information — firm, licensing, products, employees, vendors, QMS</td><td class="right">19</td></tr>
+      <tr><td class="b">C.2</td><td>Personnel — org chart, qualifications, training, hygiene, PPE</td><td class="right">12</td></tr>
+      <tr><td class="b">C.3</td><td>Premises &amp; Equipment — floor plan, ventilation, water, maintenance, validation</td><td class="right">18</td></tr>
+      <tr><td class="b">C.4</td><td>Documentation — preparation, revision, distribution</td><td class="right">2</td></tr>
+      <tr><td class="b">C.5</td><td>Production — MBR, materials, rework, validation policy</td><td class="right">6</td></tr>
+      <tr><td class="b">C.6</td><td>Quality Control — QC department activities</td><td class="right">1</td></tr>
+      <tr><td colspan="2" style="text-align:right; font-weight:700; color:var(--green-deep);">TOTAL</td><td class="right" style="font-weight:700; color:var(--green-deep);">58</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ───────── Section 4 ───────── -->
+  <h2><span class="num">04</span>Sign-off chain &amp; status lifecycle</h2>
+  <div class="sub">Every section moves through 4 states. Frozen snapshot recorded at full approval.</div>
+
+  <div class="status-row">
+    <span class="badge draft">DRAFT</span>
+    <span style="color: var(--muted); font-size: 14px;">→</span>
+    <span class="badge rp">RP_SIGNED</span>
+    <span style="color: var(--muted); font-size: 14px;">→</span>
+    <span class="badge dar">DAR_SIGNED</span>
+    <span style="color: var(--muted); font-size: 14px;">→</span>
+    <span class="badge ar">AR_APPROVED</span>
+    <span style="color: var(--muted); font-size: 14px;">+</span>
+    <span class="badge frozen">FROZEN VERSION</span>
+  </div>
+
+  <div class="signchain">
+    <svg viewBox="0 0 820 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#0B0F0C"/>
+        </marker>
+      </defs>
+
+      <!-- DRAFT -->
+      <g>
+        <rect x="20" y="80" width="120" height="60" rx="10" fill="rgba(11,15,12,0.05)" stroke="rgba(11,15,12,0.2)" stroke-width="1.5"/>
+        <text x="80" y="105" text-anchor="middle" font-size="13" font-weight="700" fill="#0B0F0C">DRAFT</text>
+        <text x="80" y="124" text-anchor="middle" font-size="10" fill="#555">editable</text>
+      </g>
+
+      <!-- ARROW + RP -->
+      <line x1="142" y1="110" x2="178" y2="110" stroke="#0B0F0C" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="160" y="100" text-anchor="middle" font-size="9" fill="#B43E25" font-weight="600">Berne</text>
+
+      <g>
+        <rect x="180" y="80" width="120" height="60" rx="10" fill="rgba(180,62,37,0.07)" stroke="#B43E25" stroke-width="1.5"/>
+        <text x="240" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#B43E25">RP SIGNED</text>
+        <text x="240" y="118" text-anchor="middle" font-size="10" fill="#B43E25">Responsible</text>
+        <text x="240" y="131" text-anchor="middle" font-size="10" fill="#B43E25">Pharmacist</text>
+      </g>
+
+      <!-- ARROW + DAR -->
+      <line x1="302" y1="110" x2="338" y2="110" stroke="#0B0F0C" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="320" y="100" text-anchor="middle" font-size="9" fill="#4A6FA5" font-weight="600">Coenie</text>
+
+      <g>
+        <rect x="340" y="80" width="120" height="60" rx="10" fill="rgba(74,111,165,0.07)" stroke="#4A6FA5" stroke-width="1.5"/>
+        <text x="400" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#4A6FA5">DAR SIGNED</text>
+        <text x="400" y="118" text-anchor="middle" font-size="10" fill="#4A6FA5">Deputy</text>
+        <text x="400" y="131" text-anchor="middle" font-size="10" fill="#4A6FA5">Authorised Rep</text>
+      </g>
+
+      <!-- ARROW + AR -->
+      <line x1="462" y1="110" x2="498" y2="110" stroke="#0B0F0C" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="480" y="100" text-anchor="middle" font-size="9" fill="#0D6B3D" font-weight="600">Ilse</text>
+
+      <g>
+        <rect x="500" y="80" width="120" height="60" rx="10" fill="rgba(13,107,61,0.07)" stroke="#0D6B3D" stroke-width="1.5"/>
+        <text x="560" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#0D6B3D">AR APPROVED</text>
+        <text x="560" y="118" text-anchor="middle" font-size="10" fill="#0D6B3D">Authorised</text>
+        <text x="560" y="131" text-anchor="middle" font-size="10" fill="#0D6B3D">Representative</text>
+      </g>
+
+      <!-- ARROW + FROZEN -->
+      <line x1="622" y1="110" x2="658" y2="110" stroke="#0B0F0C" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="640" y="100" text-anchor="middle" font-size="9" fill="#07401E" font-weight="600">freeze</text>
+
+      <g>
+        <rect x="660" y="70" width="140" height="80" rx="10" fill="#07401E" stroke="#07401E" stroke-width="2"/>
+        <text x="730" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="white">FROZEN</text>
+        <text x="730" y="113" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">SMFSectionVersion</text>
+        <text x="730" y="128" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.85)">snapshot v++</text>
+        <text x="730" y="142" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.7)" font-style="italic">regulator-PDF source</text>
+      </g>
+
+      <!-- Reset arrow back to DRAFT -->
+      <path d="M 720 70 Q 720 30 80 30 Q 80 30 80 80" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+      <text x="400" y="22" text-anchor="middle" font-size="10" fill="#7B3F00" font-style="italic">edit body OR apply AI draft → resets entire chain</text>
+    </svg>
+  </div>
+
+  <!-- ───────── Section 5 ───────── -->
+  <div class="page-break"></div>
+  <h2><span class="num">05</span>Inbound flow · Operational change → SMF stale flag</h2>
+  <div class="sub">How the system catches drift before SAHPRA does. Closed-loop, no human in the trigger path.</div>
+
+  <div class="flow inbound">
+    <div class="step">
+      <div class="num">1</div>
+      <div class="body">
+        <div class="actor">User · Renae (FM) — operational action</div>
+        <div class="what">Adds a new greenhouse via BayGrid → POST /baygrid/greenhouses → backend creates row → emits <code>GREENHOUSE_CREATED</code> event onto the eventBus.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <div class="body">
+        <div class="actor">SMF Drift Daemon · always-on listener</div>
+        <div class="what">Catches the event. Looks up the rule table — <code>GREENHOUSE_CREATED</code> affects sections C.3.1 (floor plan), C.1.6 (site description), C.1.6.2 (size of site).</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <div class="body">
+        <div class="actor">Backend · per affected section</div>
+        <div class="what">For each section: skip if currently DRAFT (no signed chain to invalidate). Otherwise mark <code>staleSince = now</code>, <code>staleReason = "New greenhouse added — floor plan + site description need re-review"</code>.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">4</div>
+      <div class="body">
+        <div class="actor">Backend · ticket emission</div>
+        <div class="what">Idempotent check: no existing open SMF_DRIFT ticket for this section? Then create one — <code>ticketType: SMF_DRIFT</code>, priority HIGH, assignedToRole: <code>RESPONSIBLE_PHARMACIST</code>. Lands in Berne's queue.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">5</div>
+      <div class="body">
+        <div class="actor">User · Berne sees it</div>
+        <div class="what">Berne's TicketsWidget shows the new SMF_DRIFT ticket with SLA timer. Bottleneck Radar surfaces the RP queue depth. Approvals Waiting banner appears at top of her dashboard.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2><span class="num">06</span>Composer flow · AI assists Berne to redraft</h2>
+  <div class="sub">RP-triggered. AI proposes; RP reviews; sign-off chain restarts from DRAFT.</div>
+
+  <div class="flow">
+    <div class="step">
+      <div class="num">1</div>
+      <div class="body">
+        <div class="actor">User · Berne (RP)</div>
+        <div class="what">Opens C.3.1 → sees stale amber banner with reason → clicks <strong>"Draft with AI"</strong>.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <div class="body">
+        <div class="actor">Backend · POST /sections/:id/compose</div>
+        <div class="what">Pulls fresh facility data: live greenhouse register, room sizes, equipment list, water spec, key personnel, permit data. Bundles into the AI prompt context. Forbids invention via system prompt.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <div class="body">
+        <div class="actor">SMF Composer · Opus 4.7 + adaptive thinking</div>
+        <div class="what">~14 seconds. Returns regulator-grade prose mentioning the actual greenhouse names. Ends with <em>"Outstanding: &lt;list of fields the RP still needs to gather&gt;"</em> when data is thin.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">4</div>
+      <div class="body">
+        <div class="actor">Backend · audit + persist</div>
+        <div class="what">Logs the call to <code>AICall</code> with prompt, response, sources, tokens, hash-chained. Writes the AI text to <code>composedDraft</code> field — <strong style="color:var(--rose)">never</strong> to <code>bodyText</code>.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">5</div>
+      <div class="body">
+        <div class="actor">Frontend · SMF section modal</div>
+        <div class="what">Renders the draft below the current body in a <strong style="color:var(--rose)">RED-bordered panel</strong> with bold "🤖 AI-GENERATED · NOT YET APPROVED" banner. Apply and Discard buttons appear.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">6</div>
+      <div class="body">
+        <div class="actor">User · Berne reviews</div>
+        <div class="what">Reads the AI proposal. Verifies factual accuracy. If accurate → clicks <strong>Apply</strong>. The draft text is copied to <code>bodyText</code>; sign-off chain resets to DRAFT (every prior signature cleared); stale flag cleared.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">7</div>
+      <div class="body">
+        <div class="actor">Sign-off chain restarts</div>
+        <div class="what">Berne clicks "RP Sign" → status RP_SIGNED. Coenie clicks "DAR Sign" → DAR_SIGNED. Ilse clicks "AR Approve &amp; Freeze v" → AR_APPROVED. New <code>SMFSectionVersion</code> snapshot frozen with version number bumped, all 3 signatory IDs + timestamps.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── Section 7 ───────── -->
+  <h2><span class="num">07</span>Outbound flow · How the SMF is consumed</h2>
+  <div class="sub">Same canonical sections power four different surfaces.</div>
+
+  <div class="flow outbound">
+    <div class="step">
+      <div class="num">1</div>
+      <div class="body">
+        <div class="actor">SAHPRA Inspector — read-only view</div>
+        <div class="what">Logs in as VIEWER. Opens <code>/site-master-file</code>. Sees all 58 sections grouped by chapter. Each shows: status badge (Draft / RP / DAR / AR), sign-off pip dots (rose → blue → green), stale warning if drifted, last-signed timestamp. No edit buttons. Hash-chained audit log accessible at <code>/audit</code>.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <div class="body">
+        <div class="actor">Owner Concierge — daily synthesis</div>
+        <div class="what">Owner Brief includes "Compliance &amp; SMF" section: how many sections stale, how many pending RP sign-off, current effective version. Numbers come from <code>SMFSection</code> table directly.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <div class="body">
+        <div class="actor">FM Compliance widget — at-a-glance</div>
+        <div class="what">9-card compliance grid surfaces SMF-relevant indicators inline on Renae's dashboard: SOPs Due Review, Calibration Overdue, Open Deviations — each correlated to specific SMF sections.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">4</div>
+      <div class="body">
+        <div class="actor">Regulator-submittable PDF export</div>
+        <div class="what">Emitted from frozen <code>SMFSectionVersion</code> snapshots — never from the live (potentially stale) section text. Print-ready HTML output with all signatures, version numbers, and timestamps embedded.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── Section 8 ───────── -->
+  <h2><span class="num">08</span>What it looks like for the RP</h2>
+  <div class="sub">Berne's mental model in 5 lines.</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:30%">She sees</th>
+        <th>What it means</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="badge draft">DRAFT</span></td><td>Section text not yet locked. Editable. Doesn't count.</td></tr>
+      <tr><td><span class="badge rp">RP SIGNED</span></td><td>I signed. Coenie hasn't yet.</td></tr>
+      <tr><td><span class="badge dar">DAR SIGNED</span></td><td>Coenie signed. Ilse needs to approve.</td></tr>
+      <tr><td><span class="badge ar">AR APPROVED</span></td><td>Final. Frozen as a version snapshot. This IS the SMF for now.</td></tr>
+      <tr><td><span class="badge stale">STALE</span></td><td>Was AR-approved, but reality changed. Time to redraft + re-sign.</td></tr>
+      <tr><td>🤖 <span style="color: var(--rose); font-weight: 700;">AI-GENERATED</span> red banner</td><td>This text was drafted by Opus 4.7. I review carefully and decide: Apply (resets sign-off chain) or Discard.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ───────── Section 9 ───────── -->
+  <h2><span class="num">09</span>Multi-unit ready</h2>
+  <div class="sub">Same architecture, different content per farming unit.</div>
+
+  <p>
+    The <code>SMFSection</code> model carries a <code>unit</code> field (<code>cannabis</code> by default).
+    The same data model + sign-off chain + drift daemon + Composer pattern extends to:
+  </p>
+  <ul>
+    <li><strong>Chickens</strong> — DALRRD + SAPA aligned Poultry Master File. 15 SOPs already catalogued in JSON, schema drafted, awaiting flock data to wire</li>
+    <li><strong>Mielies</strong> — DALRRD + GAP aligned. Awaiting paddock register + planting plan data</li>
+    <li><strong>Cattle</strong> — DALRRD + Animal Identification Act. Awaiting herd register data</li>
+  </ul>
+  <p>
+    Each unit gets its own canonical sections, its own drift daemon (rules tuned to that regulator),
+    its own AI Composer with the right domain prompt. Owner Concierge synthesises across all units.
+  </p>
+
+  <!-- ───────── Footer ───────── -->
+  <div class="footer">
+    <div>ORIGIN · by ILCO Farming · TnT-ZA · Live Digital SMF · Confidential — internal exec brief</div>
+    <div class="seal">04 May 2026 · v1.0</div>
+  </div>
+
+</div>
+</body>
+</html>

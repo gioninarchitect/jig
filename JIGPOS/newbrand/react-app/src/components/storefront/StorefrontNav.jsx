@@ -42,7 +42,7 @@ export default function StorefrontNav({ onCartOpen }) {
       className="fixed top-0 left-0 right-0 z-[1000] transition-all duration-300"
       style={
         scrolled
-          ? { background: 'rgba(244,240,230,0.95)', backdropFilter: 'blur(12px)', borderBottom: '2px solid #D97706', boxShadow: '0 2px 20px rgba(0,0,0,0.08)' }
+          ? { background: 'rgba(244,240,230,0.95)', backdropFilter: 'blur(12px)', borderBottom: '2px solid #F0A500', boxShadow: '0 2px 20px rgba(0,0,0,0.08)' }
           : { background: 'transparent' }
       }
     >
@@ -51,16 +51,16 @@ export default function StorefrontNav({ onCartOpen }) {
           {/* Logo with crest */}
           <Link to="/home" className="flex items-center gap-3 shrink-0">
             <img
-              src="/app/images/jig-logo-nobg.png"
-              alt="JIG Craft Cannabis"
+              src="/app/images/origin-logo.png"
+              alt="Origin by ILCO Farming"
               className="w-12 h-12 object-contain"
             />
             <div className="hidden sm:block">
               <div className={`font-heading text-[1.4rem] uppercase leading-none transition-colors ${scrolled ? 'text-white' : 'text-white'}`}>
-                JIG Craft Cannabis
+                Origin by ILCO Farming
               </div>
-              <div className={`font-accent text-[0.55rem] tracking-wider transition-colors ${scrolled ? 'text-jig-purple-light' : 'text-white/60'}`}>
-                Quality Counts
+              <div className={`font-accent text-[0.55rem] tracking-wider transition-colors ${scrolled ? 'text-or-gold-light' : 'text-white/60'}`}>
+                From Soil to Soul
               </div>
             </div>
           </Link>
@@ -76,8 +76,8 @@ export default function StorefrontNav({ onCartOpen }) {
                   onClick={() => handleNavClick(link)}
                   className={`px-4 py-2 text-sm font-semibold uppercase tracking-wider rounded-lg transition-all duration-200 ${
                     active
-                      ? scrolled ? 'text-jig-amber' : 'text-jig-amber'
-                      : scrolled ? 'text-jig-purple-dark hover:text-jig-amber' : 'text-white/90 hover:text-jig-amber'
+                      ? scrolled ? 'text-or-gold' : 'text-or-gold'
+                      : scrolled ? 'text-or-gold-dark hover:text-or-gold' : 'text-white/90 hover:text-or-gold'
                   }`}
                 >
                   {link.label}
@@ -91,7 +91,7 @@ export default function StorefrontNav({ onCartOpen }) {
             {/* Cart icon */}
             <button
               onClick={onCartOpen}
-              className={`relative w-11 h-11 flex items-center justify-center rounded-xl transition-colors ${scrolled ? 'text-jig-purple-dark hover:text-jig-amber' : 'text-white hover:text-jig-amber'}`}
+              className={`relative w-11 h-11 flex items-center justify-center rounded-xl transition-colors ${scrolled ? 'text-or-gold-dark hover:text-or-gold' : 'text-white hover:text-or-gold'}`}
               aria-label="Open cart"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 576 512">
@@ -100,7 +100,7 @@ export default function StorefrontNav({ onCartOpen }) {
               {itemCount > 0 && (
                 <span
                   className="absolute -top-1 -right-1 w-5 h-5 text-[10px] font-bold rounded-full flex items-center justify-center"
-                  style={{ background: '#D97706', color: '#1E1E1E' }}
+                  style={{ background: '#F0A500', color: '#1A1A1A' }}
                 >
                   {itemCount > 99 ? '99+' : itemCount}
                 </span>
@@ -113,7 +113,7 @@ export default function StorefrontNav({ onCartOpen }) {
                 <Link
                   to="/my-account"
                   className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border-2 transition-all ${
-                    scrolled ? 'border-jig-purple text-jig-purple-dark hover:bg-jig-purple hover:text-white' : 'border-white/40 text-white hover:bg-white/10'
+                    scrolled ? 'border-or-gold text-or-gold-dark hover:bg-or-gold hover:text-white' : 'border-white/40 text-white hover:bg-white/10'
                   }`}
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" /></svg>
@@ -121,7 +121,7 @@ export default function StorefrontNav({ onCartOpen }) {
                 </Link>
                 <button
                   onClick={logout}
-                  className="px-4 py-2 text-sm font-semibold text-jig-red hover:text-jig-red-dark transition-colors"
+                  className="px-4 py-2 text-sm font-semibold text-origin-red hover:text-origin-red-dark transition-colors"
                 >
                   Logout
                 </button>
@@ -131,7 +131,7 @@ export default function StorefrontNav({ onCartOpen }) {
                 <Link
                   to="/login"
                   className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border-2 transition-all ${
-                    scrolled ? 'border-jig-purple text-jig-purple-dark hover:bg-jig-purple hover:text-white' : 'border-white/40 text-white hover:bg-white/10'
+                    scrolled ? 'border-or-gold text-or-gold-dark hover:bg-or-gold hover:text-white' : 'border-white/40 text-white hover:bg-white/10'
                   }`}
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" /></svg>
@@ -151,7 +151,7 @@ export default function StorefrontNav({ onCartOpen }) {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`md:hidden p-2 rounded-lg transition-colors ${scrolled ? 'text-jig-purple-dark' : 'text-white'}`}
+              className={`md:hidden p-2 rounded-lg transition-colors ${scrolled ? 'text-or-gold-dark' : 'text-white'}`}
               aria-label="Toggle menu"
             >
               {mobileOpen ? (
@@ -170,7 +170,7 @@ export default function StorefrontNav({ onCartOpen }) {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-jig-slate/98 backdrop-blur-md border-t border-gray-200">
+        <div className="md:hidden bg-origin-slate/98 backdrop-blur-md border-t border-gray-200">
           <div className="px-4 py-3 space-y-1">
             {NAV_LINKS.map((link) => {
               const active = location.pathname === link.to;
@@ -179,7 +179,7 @@ export default function StorefrontNav({ onCartOpen }) {
                   key={link.label}
                   to={link.hash ? `${link.to}${link.hash}` : link.to}
                   className={`block px-4 py-3 text-sm font-semibold uppercase tracking-wider rounded-lg ${
-                    active ? 'text-jig-amber bg-jig-slate/5' : 'text-jig-purple-dark'
+                    active ? 'text-or-gold bg-origin-slate/5' : 'text-or-gold-dark'
                   }`}
                 >
                   {link.label}
@@ -189,12 +189,12 @@ export default function StorefrontNav({ onCartOpen }) {
             <div className="pt-2 border-t border-gray-200 mt-2">
               {isAuthenticated ? (
                 <>
-                  <Link to="/my-account" className="block px-4 py-3 text-sm font-semibold text-jig-purple-dark">My Account</Link>
-                  <button onClick={logout} className="block w-full text-left px-4 py-3 text-sm font-semibold text-jig-red">Logout</button>
+                  <Link to="/my-account" className="block px-4 py-3 text-sm font-semibold text-or-gold-dark">My Account</Link>
+                  <button onClick={logout} className="block w-full text-left px-4 py-3 text-sm font-semibold text-origin-red">Logout</button>
                 </>
               ) : (
                 <>
-                  <Link to="/login" className="block px-4 py-3 text-sm font-semibold text-jig-purple-dark">Login</Link>
+                  <Link to="/login" className="block px-4 py-3 text-sm font-semibold text-or-gold-dark">Login</Link>
                   <Link to="/register" className="block px-4 py-3 text-sm font-semibold" style={{ color: '#DC2626' }}>Register</Link>
                 </>
               )}

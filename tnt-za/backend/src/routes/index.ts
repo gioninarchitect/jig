@@ -33,6 +33,11 @@ import hrRoutes from './hr.routes';
 import forecastRoutes from './forecast.routes';
 import smartRoutes from './smart.routes';
 import cultivationSopsRoutes from './cultivation-sops.routes';
+import gmpRoutes from './gmp.routes';
+import ghostAuditRoutes from './ghost-audit.routes';
+import conciergeRoutes from './concierge.routes';
+import chatRoutes from './chat.routes';
+import labelRoutes from './labels.routes';
 
 const router = Router();
 
@@ -69,11 +74,17 @@ router.use('/world-model', worldModelRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/facilities', facilityRoutes);
 router.use('/audit', auditRoutes);
-// Cultivation SOP surfaces — digitised paper SOPs (3-CUL / 8-CLN / 4-FAC)
-router.use('/', cultivationSopsRoutes);
+router.use('/gmp', gmpRoutes);
+router.use('/audit/ghost', ghostAuditRoutes);
+router.use('/concierge', conciergeRoutes);
+router.use('/chat', chatRoutes);
+router.use('/labels', labelRoutes);
 
 router.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'tnt-za', timestamp: new Date().toISOString() });
 });
+
+// Cultivation SOP surfaces — digitised paper SOPs (3-CUL / 8-CLN / 4-FAC)
+router.use('/', cultivationSopsRoutes);
 
 export default router;

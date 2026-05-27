@@ -1,5 +1,5 @@
 /**
- * JIG Craft Cannabis - Client Pattern Detection
+ * PureGro Premium Cannabis Care - Client Pattern Detection
  *
  * 21 behavioural patterns across 4 categories, each with a
  * detect() predicate and confidence() scorer. The pattern engine

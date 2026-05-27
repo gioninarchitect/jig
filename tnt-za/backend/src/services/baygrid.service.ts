@@ -452,6 +452,8 @@ export async function createTicket(data: {
   greenhouseId?: string; bayId?: string; plantId?: string; batchId?: string; taskId?: string;
   estimatedCost?: number; quantity?: number; supplier?: string;
   photos?: string[];
+  assignedToId?: string;        // specific user
+  assignedToRole?: string;      // OR a role/department (any of that role can pick up)
   tenantId: string; userId: string;
 }) {
   const ticket = await prisma.ticket.create({
@@ -465,16 +467,20 @@ export async function createTicket(data: {
       plantId: data.plantId, batchId: data.batchId, taskId: data.taskId,
       estimatedCost: data.estimatedCost, quantity: data.quantity, supplier: data.supplier,
       photos: data.photos || [],
+      assignedToId: data.assignedToId,
+      assignedToRole: data.assignedToRole,
       reportedById: data.userId, tenantId: data.tenantId,
     },
   });
   eventBus.emit('TICKET_CREATED', { userId: data.userId, tenantId: data.tenantId, entityType: 'Ticket', entityId: ticket.id });
 
-  // Smart: auto-route to the right person
-  try {
-    const smartService = require('./smart-tickets.service');
-    await smartService.autoRouteTicket(ticket.id, data.tenantId);
-  } catch (e) { /* non-critical */ }
+  // Skip auto-route if the creator already chose an assignee or department
+  if (!data.assignedToId && !data.assignedToRole) {
+    try {
+      const smartService = require('./smart-tickets.service');
+      await smartService.autoRouteTicket(ticket.id, data.tenantId);
+    } catch (e) { /* non-critical */ }
+  }
 
   return ticket;
 }
@@ -526,18 +532,43 @@ export async function getTicket(id: string, tenantId: string) {
 }
 
 export async function updateTicket(id: string, data: {
-  status?: string; assignedToId?: string; resolution?: string;
+  status?: string; assignedToId?: string; assignedToRole?: string; resolution?: string;
   rpSignedById?: string; rpNotes?: string;
   approvedById?: string; approvalNotes?: string;
+  reopen?: boolean;
+  actorId?: string;  // userId of the person performing the update — used for closedBy / reopenedBy audit
 }) {
   const updates: any = {};
   if (data.status) updates.status = data.status;
-  if (data.assignedToId) updates.assignedToId = data.assignedToId;
-  if (data.resolution) { updates.resolution = data.resolution; updates.resolvedAt = new Date(); }
+  if (data.assignedToId !== undefined) updates.assignedToId = data.assignedToId || null;
+  if (data.assignedToRole !== undefined) updates.assignedToRole = data.assignedToRole || null;
+  if (data.resolution) {
+    updates.resolution = data.resolution;
+    updates.resolvedAt = new Date();
+    if (data.actorId) updates.resolvedById = data.actorId;  // audit: who closed it
+  }
   // RP sign-off
   if (data.rpSignedById) { updates.rpSignedById = data.rpSignedById; updates.rpSignedAt = new Date(); updates.rpNotes = data.rpNotes; }
   // Tenant Admin approval
-  if (data.approvedById) { updates.approvedById = data.approvedById; updates.approvedAt = new Date(); updates.approvalNotes = data.approvalNotes; updates.status = 'COMPLETED'; updates.resolvedAt = new Date(); }
+  if (data.approvedById) {
+    updates.approvedById = data.approvedById;
+    updates.approvedAt = new Date();
+    updates.approvalNotes = data.approvalNotes;
+    updates.status = 'COMPLETED';
+    updates.resolvedAt = new Date();
+    updates.resolvedById = data.approvedById;
+  }
+  // Reopen path — undo a close
+  if (data.reopen) {
+    updates.status = 'OPEN';
+    updates.resolvedAt = null;
+    updates.resolvedById = null;
+    updates.resolution = null;
+    if (data.actorId) {
+      updates.reopenedById = data.actorId;
+      updates.reopenedAt = new Date();
+    }
+  }
   return prisma.ticket.update({ where: { id }, data: updates });
 }
 

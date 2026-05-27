@@ -1,5 +1,5 @@
 /**
- * JIG Chat Bot - Scheduled Notifications
+ * PureGro Chat Bot - Scheduled Notifications
  *
  * Runs periodic checks and sends proactive Telegram notifications:
  * - Daily restock reminders (products due within 3 days)

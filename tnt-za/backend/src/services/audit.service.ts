@@ -1,9 +1,10 @@
 import { prisma } from '../config/db';
 import { computeHashChain } from '../utils/hash';
 import { eventBus } from './eventBus';
+import { requestContext } from '../utils/requestContext';
 
 interface AuditInput {
-  userId: string;
+  userId: string;          // REAL actor (ignore ghost target here)
   tenantId: string;
   action: string;
   entityType: string;
@@ -12,12 +13,13 @@ interface AuditInput {
   after?: any;
   ip?: string;
   device?: string;
+  ghostAsUserId?: string;  // OPTIONAL — when populated, this row is "userId acting as ghostAsUserId"
 }
 
 async function getLastHash(tenantId: string): Promise<string> {
   const last = await prisma.auditLog.findFirst({
     where: { tenantId },
-    orderBy: { timestamp: 'desc' },
+    orderBy: [{ timestamp: 'desc' }, { id: 'desc' }],
     select: { hashChain: true },
   });
   return last?.hashChain || 'GENESIS';
@@ -25,8 +27,8 @@ async function getLastHash(tenantId: string): Promise<string> {
 
 export async function logAction(input: AuditInput) {
   const prevHash = await getLastHash(input.tenantId);
-  const ts = new Date().toISOString();
-  const hash = computeHashChain(prevHash, ts, input.userId, input.action, input.entityId);
+  const timestamp = new Date();
+  const hash = computeHashChain(prevHash, timestamp.toISOString(), input.userId, input.action, input.entityId);
 
   const entry = await prisma.auditLog.create({
     data: {
@@ -38,8 +40,10 @@ export async function logAction(input: AuditInput) {
       ipAddress: input.ip || null,
       deviceId: input.device || null,
       hashChain: hash,
+      timestamp,
       tenantId: input.tenantId,
       userId: input.userId,
+      ghostAsUserId: input.ghostAsUserId || null,
     },
   });
 
@@ -49,7 +53,7 @@ export async function logAction(input: AuditInput) {
 export async function verifyHashChain(tenantId: string) {
   const entries = await prisma.auditLog.findMany({
     where: { tenantId },
-    orderBy: { timestamp: 'asc' },
+    orderBy: [{ timestamp: 'asc' }, { id: 'asc' }],
     select: { id: true, hashChain: true, timestamp: true, userId: true, action: true, entityId: true },
   });
 
@@ -71,9 +75,15 @@ export async function verifyHashChain(tenantId: string) {
 // Subscribe to all events and auto-log
 eventBus.on('*', async (event) => {
   if (!event.userId || !event.tenantId) return;
+  // Pull request context (set by auth middleware) so we can rewrite the
+  // log to attribute the action to the REAL actor while preserving the
+  // ghost target — gives a complete accountability trail.
+  const ctx = requestContext.getStore();
+  const realUserId = ctx?.realUserId ?? event.userId;
+  const ghostAsUserId = ctx?.ghostAsUserId;
   try {
     await logAction({
-      userId: event.userId,
+      userId: realUserId,
       tenantId: event.tenantId,
       action: event.type,
       entityType: event.entityType || 'System',
@@ -82,6 +92,7 @@ eventBus.on('*', async (event) => {
       after: event.after,
       ip: event.ip,
       device: event.device,
+      ghostAsUserId,
     });
   } catch (err) {
     console.error('[Audit] Auto-log failed:', err);

@@ -6,42 +6,51 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#7C3AED">
-    <title>POS - JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <meta name="theme-color" content="#C9A84C">
+    <title>POS - Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="images/jig-logo-nobg.png">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
-            /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
+            /* Legacy aliases (dark theme) */
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -51,7 +60,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -60,13 +69,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -78,23 +87,23 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: #0A0A0A;
+            color: var(--or-white);
             overflow: hidden;
             height: 100vh;
             touch-action: pan-y;
         }
 
-        /* Header - JIG STYLE: Dark header */
+        /* Header - Origin STYLE: Dark header with green accent */
         .pos-header {
-            background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%);
+            background: linear-gradient(135deg, #1A1A1A 0%, #0E0E0E 100%);
             color: white;
             padding: 10px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            border-bottom: 3px solid var(--gold);
+            border-bottom: 2px solid rgba(201,168,76,0.4);
         }
 
         .header-left {
@@ -104,7 +113,7 @@
         }
 
         .header-logo {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.6rem;
             font-weight: 700;
             letter-spacing: 2px;
@@ -152,19 +161,19 @@
             background: rgba(255,255,255,0.25);
         }
 
-        /* Main Layout - JIG STYLE: Cart LEFT, Products RIGHT */
+        /* Main Layout - Origin STYLE: Cart LEFT, Products RIGHT */
         .pos-container {
             display: flex;
             height: calc(100vh - 64px);
             flex-direction: row-reverse; /* Swap: Products right, Cart left */
         }
 
-        /* Right Panel - Products (now on RIGHT JIG design) */
+        /* Right Panel - Products (now on RIGHT Origin design) */
         .products-panel {
             flex: 1;
             overflow-y: auto;
             padding: 15px;
-            background: #0A0A0A; /* Dark background JIG design */
+            background: #0A0A0A; /* Dark background Origin design */
         }
 
         /* Track Selector - Dark theme */
@@ -178,9 +187,9 @@
             flex: 1;
             padding: 12px;
             border: none;
-            background: #2A2A2A;
+            background: #222222;
             color: white;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-weight: 400;
             font-size: 1rem;
             letter-spacing: 1px;
@@ -195,8 +204,8 @@
         }
 
         .track-btn.active {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-            color: #0A0A0A;
+            background: linear-gradient(135deg, #C9A84C 0%, #8B6914 100%);
+            color: #0E0E0E;
         }
 
         .track-btn:hover:not(.active) {
@@ -236,7 +245,7 @@
         }
 
         .category-tabs::-webkit-scrollbar-thumb {
-            background: var(--gold);
+            background: #C9A84C;
             border-radius: 4px;
         }
 
@@ -248,7 +257,7 @@
             padding: 8px 14px;
             border: 1px solid #3A3A3A;
             border-radius: 25px;
-            background: #2A2A2A;
+            background: #222222;
             color: #ccc;
             font-size: 12px;
             font-weight: 600;
@@ -264,9 +273,9 @@
         }
 
         .cat-btn.active {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            background: linear-gradient(135deg, #C9A84C 0%, #8B6914 100%);
             border-color: var(--gold);
-            color: #0A0A0A;
+            color: #0E0E0E;
         }
 
         .cat-btn i {
@@ -280,16 +289,16 @@
         }
 
         .sub-btn.active {
-            background: var(--gold);
-            color: #0A0A0A;
+            background: #C9A84C;
+            color: #0E0E0E;
         }
 
         .category-tab {
             padding: 12px 10px;
-            background: #2A2A2A;
-            border: none;
+            background: #1A1A1A;
+            border: 1px solid #2A2A2A;
             border-radius: 8px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-weight: 700;
             font-size: 0.8rem;
             white-space: nowrap;
@@ -301,13 +310,15 @@
         }
 
         .category-tab:hover:not(.active) {
-            background: #3A3A3A;
+            background: #222;
+            border-color: rgba(201,168,76,0.3);
             transform: scale(1.02);
         }
 
         .category-tab.active {
-            background: var(--gold);
-            color: #0A0A0A;
+            background: #C9A84C;
+            color: #FFFFFF;
+            border-color: #C9A84C;
         }
 
         /* Search Bar - Dark theme */
@@ -319,11 +330,11 @@
         .search-input {
             width: 100%;
             padding: 12px 45px 12px 15px;
-            border: 2px solid #2A2A2A;
+            border: 2px solid #222222;
             border-radius: 8px;
             font-size: 0.95rem;
             transition: all 0.2s;
-            background: #1E1E1E;
+            background: #1A1A1A;
             color: white;
         }
 
@@ -334,7 +345,7 @@
         .search-input:focus {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2);
+            box-shadow: 0 0 0 3px rgba(240, 165, 0, 0.2);
         }
 
         .search-icon {
@@ -346,7 +357,7 @@
             font-size: 1.1rem;
         }
 
-        /* Product Grid - JIG STYLE: Large colorful tiles */
+        /* Product Grid - Origin STYLE: Large colorful tiles */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -361,9 +372,9 @@
         }
 
         .product-card {
-            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
-            border: none;
-            border-radius: 10px;
+            background: #1A1A1A;
+            border: 1px solid #2A2A2A;
+            border-radius: 12px;
             padding: 12px;
             cursor: pointer;
             transition: all 0.15s;
@@ -379,84 +390,59 @@
 
         .product-card:hover {
             transform: scale(1.02);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            border-color: rgba(201,168,76,0.4);
+            box-shadow: 0 8px 24px rgba(201,168,76,0.15);
         }
 
         .product-card:active {
             transform: scale(0.96);
         }
 
-        /* Colorful product categories */
-        /* JIG Brand Colors for Product Cards */
-        .product-card[data-category="flower"] { background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); }
-        .product-card[data-category="pre-rolls"] { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: var(--white); }
-        .product-card[data-category="edibles"] { background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%); }
-        .product-card[data-category="concentrates"] { background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-deep) 100%); }
-        .product-card[data-category="accessories"] { background: linear-gradient(135deg, #2A2A2A 0%, #1E1E1E 100%); color: var(--white); }
-        .product-card[data-category="vapes"] { background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%); }
-        .product-card[data-category="oils"] { background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%); color: var(--white); }
-        .product-card[data-category="lifestyle-cbd"] { background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%); }
-        .product-card[data-category="cbd"] { background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%); }
-
-        /* Dark text for light background cards */
-        .product-card[data-category="accessories"] .product-icon,
-        .product-card[data-category="accessories"] .product-name,
-        .product-card[data-category="accessories"] .product-price,
-        .product-card[data-category="accessories"] .product-sku,
-        .product-card[data-category="accessories"] .product-stock,
-        .product-card[data-category="oils"] .product-icon,
-        .product-card[data-category="oils"] .product-name,
-        .product-card[data-category="oils"] .product-price,
-        .product-card[data-category="oils"] .product-sku,
-        .product-card[data-category="oils"] .product-stock,
-        .product-card[data-category="pre-rolls"] .product-icon,
-        .product-card[data-category="pre-rolls"] .product-name,
-        .product-card[data-category="pre-rolls"] .product-price,
-        .product-card[data-category="pre-rolls"] .product-sku,
-        .product-card[data-category="pre-rolls"] .product-stock {
-            color: var(--white);
-            text-shadow: none;
+        /* All product cards use dark theme per design system */
+        .product-card[data-category] {
+            background: #1A1A1A;
+            border: 1px solid #2A2A2A;
+            color: var(--or-white);
         }
 
         .product-icon {
             font-size: 1.8rem;
             text-align: center;
             margin-bottom: 6px;
-            color: white;
+            color: #C9A84C;
         }
 
         .product-name {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             margin-bottom: 4px;
-            color: white;
+            color: #FFFFFF;
             line-height: 1.2;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            text-transform: uppercase;
         }
 
         .product-sku {
-            font-family: 'Inter', sans-serif;
+            font-family: 'JetBrains Mono', 'Inter', monospace;
             font-size: 0.6rem;
             font-weight: 400;
-            color: rgba(255,255,255,0.6);
+            color: #666;
             margin-bottom: 2px;
             letter-spacing: 0.5px;
         }
 
         .product-price {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.4rem;
-            font-weight: 400;
-            color: white;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            font-weight: 800;
+            color: #C9A84C;
         }
 
         .product-stock {
-            font-family: 'Inter', sans-serif;
+            font-family: 'JetBrains Mono', 'Inter', monospace;
             font-size: 0.65rem;
             font-weight: 600;
-            color: rgba(255,255,255,0.5);
+            color: #999;
             margin-top: 2px;
         }
 
@@ -477,7 +463,7 @@
 
         .stock-low {
             background: rgba(255,255,255,0.9);
-            color: #d97706;
+            color: #C9A84C;
         }
 
         .stock-out {
@@ -485,7 +471,7 @@
             color: #dc2626;
         }
 
-        /* Left Panel - Cart (JIG STYLE: Cart on LEFT) */
+        /* Left Panel - Cart (Origin STYLE: Cart on LEFT) */
         .cart-panel {
             width: 380px;
             background: #0A0A0A;
@@ -864,8 +850,8 @@
 
         /* Customer Selector - Dark theme */
         .customer-selector {
-            background: #1E1E1E;
-            border-bottom: 1px solid #2A2A2A;
+            background: #1A1A1A;
+            border-bottom: 1px solid #222222;
         }
 
         .customer-header {
@@ -878,7 +864,7 @@
         }
 
         .customer-header:hover {
-            background: #2A2A2A;
+            background: #222222;
         }
 
         .customer-info {
@@ -898,13 +884,13 @@
         .customer-search-panel {
             padding: 12px 16px;
             background: #0A0A0A;
-            border-top: 1px solid #2A2A2A;
+            border-top: 1px solid #222222;
         }
 
         .customer-search-input {
             width: 100%;
             padding: 10px 14px;
-            border: 2px solid #2A2A2A;
+            border: 2px solid #222222;
             border-radius: 8px;
             font-size: 0.95rem;
             margin-bottom: 10px;
@@ -912,7 +898,7 @@
 
         .customer-search-input:focus {
             outline: none;
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         .customer-results {
@@ -931,7 +917,7 @@
         }
 
         .customer-option:hover {
-            background: var(--black);
+            background: var(--or-black);
         }
 
         .customer-option i {
@@ -941,7 +927,7 @@
         }
 
         .customer-option.selected {
-            background: rgba(124, 58, 237, 0.1);
+            background: rgba(63, 192, 65, 0.1);
             border: 1px solid var(--green);
         }
 
@@ -958,7 +944,7 @@
             align-items: center;
             gap: 12px;
             padding: 12px;
-            background: var(--black);
+            background: var(--or-black);
             border-radius: 8px;
             margin-bottom: 10px;
         }
@@ -966,7 +952,7 @@
         .payment-split-row select {
             flex: 1;
             padding: 10px;
-            border: 2px solid #2A2A2A;
+            border: 2px solid #222222;
             border-radius: 6px;
             font-size: 0.95rem;
         }
@@ -974,7 +960,7 @@
         .payment-split-row input {
             width: 120px;
             padding: 10px;
-            border: 2px solid #2A2A2A;
+            border: 2px solid #222222;
             border-radius: 6px;
             font-size: 0.95rem;
             text-align: right;
@@ -983,7 +969,7 @@
         .payment-split-row input:focus,
         .payment-split-row select:focus {
             outline: none;
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         .split-remove-btn {
@@ -1000,10 +986,10 @@
         .split-add-btn {
             width: 100%;
             padding: 12px;
-            background: rgba(124, 58, 237, 0.1);
+            background: rgba(63, 192, 65, 0.1);
             border: 2px dashed var(--green);
             border-radius: 8px;
-            color: var(--purple);
+            color: var(--or-gold);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -1011,11 +997,11 @@
         }
 
         .split-add-btn:hover {
-            background: rgba(124, 58, 237, 0.2);
+            background: rgba(63, 192, 65, 0.2);
         }
 
         .payment-balance {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
             padding: 15px;
             border-radius: 8px;
@@ -1030,32 +1016,32 @@
         }
 
         .payment-balance.overpaid {
-            background: var(--gold);
-            color: var(--white);
+            background: #C9A84C;
+            color: var(--or-white);
         }
 
         .cart-header {
-            background: #1E1E1E;
+            background: #1A1A1A;
             color: white;
             padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--gold);
+            border-bottom: 1px solid #2A2A2A;
         }
 
         .cart-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.3rem;
-            font-weight: 400;
+            font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: var(--gold);
+            color: #FFFFFF;
         }
 
         .item-count {
-            background: var(--gold);
-            color: #0A0A0A;
+            background: #C9A84C;
+            color: #FFFFFF;
             padding: 4px 12px;
             border-radius: 20px;
             font-weight: 700;
@@ -1071,7 +1057,7 @@
         }
 
         .cart-item {
-            background: #1E1E1E;
+            background: #1A1A1A;
             border-radius: 8px;
             padding: 10px 12px;
             margin-bottom: 8px;
@@ -1079,7 +1065,7 @@
             justify-content: space-between;
             align-items: center;
             gap: 10px;
-            border-left: 3px solid var(--gold);
+            border-left: 3px solid #C9A84C;
         }
 
         .item-info {
@@ -1110,11 +1096,11 @@
             width: 28px;
             height: 28px;
             border: none;
-            background: var(--gold);
+            background: #C9A84C;
             border-radius: 6px;
             font-size: 1rem;
             font-weight: 700;
-            color: #0A0A0A;
+            color: #0E0E0E;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1123,7 +1109,7 @@
         }
 
         .qty-btn:hover {
-            background: #F59E0B;
+            background: #F8C242;
         }
 
         .qty-btn:active {
@@ -1138,7 +1124,7 @@
             border-radius: 6px;
             font-size: 0.9rem;
             font-weight: 700;
-            background: #2A2A2A;
+            background: #222222;
             color: white;
         }
 
@@ -1181,8 +1167,8 @@
         /* Cart Summary - Dark theme */
         .cart-summary {
             padding: 12px 15px;
-            background: #1E1E1E;
-            border-top: 2px solid #2A2A2A;
+            background: #1A1A1A;
+            border-top: 2px solid #222222;
         }
 
         .summary-row {
@@ -1194,12 +1180,12 @@
         }
 
         .summary-row.total {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.8rem;
             font-weight: 400;
             color: var(--gold);
             padding-top: 10px;
-            border-top: 2px solid #2A2A2A;
+            border-top: 2px solid #222222;
         }
 
         /* Action Buttons - Always visible payment buttons */
@@ -1214,11 +1200,11 @@
 
         .btn-primary {
             padding: 14px;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-            color: #0A0A0A;
+            background: linear-gradient(135deg, #C9A84C 0%, #8B6914 100%);
+            color: #FFFFFF;
             border: none;
             border-radius: 8px;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
@@ -1229,12 +1215,12 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+            box-shadow: 0 4px 16px rgba(201,168,76,0.3);
         }
 
         .btn-primary:hover {
             transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4);
+            box-shadow: 0 8px 24px rgba(201,168,76,0.4);
         }
 
         .btn-primary:active {
@@ -1250,7 +1236,7 @@
 
         .btn-secondary {
             padding: 12px;
-            background: #2A2A2A;
+            background: #222222;
             color: white;
             border: none;
             border-radius: 8px;
@@ -1313,7 +1299,7 @@
         }
 
         .modal-header {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
             padding: 25px;
             border-radius: 20px 20px 0 0;
@@ -1323,7 +1309,7 @@
         }
 
         .modal-title {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-size: 1.6rem;
             font-weight: 400;
             letter-spacing: 1px;
@@ -1360,7 +1346,7 @@
         }
 
         .spinner {
-            border: 4px solid #2A2A2A;
+            border: 4px solid #222222;
             border-top: 4px solid var(--green);
             border-radius: 50%;
             width: 50px;
@@ -1380,7 +1366,7 @@
             bottom: 24px;
             right: 24px;
             background: #0A0A0A;
-            color: var(--white);
+            color: var(--or-white);
             padding: 16px 24px;
             border-radius: 8px;
             border-left: 4px solid var(--green);
@@ -1393,7 +1379,7 @@
             z-index: 10000;
         }
 
-        .toast.success { border-left-color: var(--purple); }
+        .toast.success { border-left-color: var(--or-gold); }
         .toast.error { border-left-color: var(--red); }
         .toast.info { border-left-color: var(--gold); }
 
@@ -1453,7 +1439,7 @@
         }
 
         .till-status.open .till-status-indicator {
-            background: var(--gold);
+            background: #C9A84C;
         }
 
         .till-status.closed .till-status-indicator {
@@ -1485,9 +1471,9 @@
         }
 
         .denomination-label {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Cinzel', sans-serif;
             font-weight: 400;
-            color: var(--white);
+            color: var(--or-white);
             font-size: 1.1rem;
         }
 
@@ -1508,7 +1494,7 @@
         }
 
         .cash-summary {
-            background: rgba(124, 58, 237, 0.08);
+            background: rgba(63, 192, 65, 0.08);
             border: 2px solid var(--green);
             border-radius: 10px;
             padding: 20px;
@@ -1516,7 +1502,7 @@
         }
 
         .cash-summary.warning {
-            background: rgba(217, 119, 6, 0.1);
+            background: rgba(201,168,76,0.08);
             border-color: var(--gold);
         }
 
@@ -1540,7 +1526,7 @@
         }
 
         .variance-positive {
-            color: var(--purple);
+            color: var(--or-gold);
         }
 
         .variance-negative {
@@ -1599,46 +1585,46 @@
 </head>
 <body>
     <!-- Login Screen -->
-    <div id="posLoginScreen" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%); z-index: 9999; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 20px 0;">
+    <div id="posLoginScreen" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0A0A0A; z-index: 9999; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 20px 0;">
         <div style="background: #0A0A0A; padding: 30px; border-radius: 16px; width: 100%; max-width: 400px; margin: auto 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
             <div style="text-align: center; margin-bottom: 30px;">
-                <img src="/images/jig-logo-nobg.png" alt="DBC" style="height: 60px; margin-bottom: 10px;">
-                <h1 style="font-family: 'Oswald', sans-serif; font-size: 1.8rem; color: var(--white); margin: 0;">POS LOGIN</h1>
+                <img src="images/origin-logo.png" alt="Origin" style="height: 60px; margin-bottom: 10px;">
+                <h1 style="font-family: 'Cinzel', sans-serif; font-size: 1.8rem; color: var(--or-white); margin: 0;">POS LOGIN</h1>
                 <p style="color: #666; margin-top: 5px;">Enter your credentials</p>
             </div>
 
             <div id="posLoginError" style="display: none; background: #fee; color: #c00; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9rem;"></div>
 
             <div style="margin-bottom: 20px;">
-                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--white);">Email Address</label>
-                <input type="email" id="posLoginEmail" placeholder="your@email.com" style="width: 100%; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1rem;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--or-white);">Email Address</label>
+                <input type="email" id="posLoginEmail" placeholder="your@email.com" style="width: 100%; padding: 12px; background: #0A0A0A; color: #FAFAFA; border: 2px solid #222222; border-radius: 8px; font-size: 1rem;">
             </div>
 
             <div style="margin-bottom: 20px;">
-                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--white);">PIN</label>
+                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--or-white);">PIN</label>
                 <div style="position: relative;">
-                    <input type="password" id="posLoginPin" placeholder="6-digit PIN" maxlength="6" inputmode="numeric" style="width: 100%; padding: 12px; padding-right: 44px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1.2rem; text-align: center; letter-spacing: 8px;">
+                    <input type="password" id="posLoginPin" placeholder="6-digit PIN" maxlength="6" inputmode="numeric" style="width: 100%; padding: 12px; padding-right: 44px; background: #0A0A0A; color: #FAFAFA; border: 2px solid #222222; border-radius: 8px; font-size: 1.2rem; text-align: center; letter-spacing: 8px;">
                     <button type="button" onclick="togglePinVisibility('posLoginPin', this)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #999; font-size: 1.1rem; padding: 4px;" title="Show/Hide PIN">
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
             </div>
 
-            <button onclick="posLoginWithPin()" style="width: 100%; padding: 15px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-bottom: 15px;">
+            <button onclick="posLoginWithPin()" style="width: 100%; padding: 15px; background: var(--or-gold); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-bottom: 15px;">
                 <i class="fas fa-key"></i> Login with PIN
             </button>
 
             <div style="text-align: center; color: #999; margin: 15px 0;">— or —</div>
 
-            <button onclick="posRequestOTP()" id="posOtpBtn" style="width: 100%; padding: 15px; background: var(--gold); color: var(--white); border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+            <button onclick="posRequestOTP()" id="posOtpBtn" style="width: 100%; padding: 15px; background: #C9A84C; color: var(--or-white); border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">
                 <i class="fas fa-paper-plane"></i> Send OTP Code
             </button>
 
             <!-- OTP Input (hidden by default) -->
-            <div id="posOtpSection" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #2A2A2A;">
-                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--white);">Enter OTP Code</label>
-                <input type="text" id="posOtpCode" placeholder="6-digit code" maxlength="6" inputmode="numeric" style="width: 100%; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; font-size: 1.2rem; text-align: center; letter-spacing: 8px; margin-bottom: 15px;">
-                <button onclick="posVerifyOTP()" style="width: 100%; padding: 15px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+            <div id="posOtpSection" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #222222;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--or-white);">Enter OTP Code</label>
+                <input type="text" id="posOtpCode" placeholder="6-digit code" maxlength="6" inputmode="numeric" style="width: 100%; padding: 12px; background: #0A0A0A; color: #FAFAFA; border: 2px solid #222222; border-radius: 8px; font-size: 1.2rem; text-align: center; letter-spacing: 8px; margin-bottom: 15px;">
+                <button onclick="posVerifyOTP()" style="width: 100%; padding: 15px; background: var(--or-gold); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">
                     <i class="fas fa-check"></i> Verify & Login
                 </button>
             </div>
@@ -1653,8 +1639,8 @@
             </div>
             <div class="modal-body">
                 <div style="text-align: center; margin-bottom: 24px;">
-                    <i class="fas fa-store" style="font-size: 2.5rem; color: var(--purple); margin-bottom: 12px;"></i>
-                    <h3 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 8px; font-size: 1.3rem; letter-spacing: 1px;">Which branch are you working from?</h3>
+                    <i class="fas fa-store" style="font-size: 2.5rem; color: var(--or-gold); margin-bottom: 12px;"></i>
+                    <h3 style="font-family: 'Cinzel', sans-serif; color: var(--or-white); margin-bottom: 8px; font-size: 1.3rem; letter-spacing: 1px;">Which branch are you working from?</h3>
                     <p style="color: #666; font-size: 0.9rem;">This sets your POS location for this session</p>
                 </div>
                 <div id="branchSelectList" style="display: flex; flex-direction: column; gap: 10px;">
@@ -1669,7 +1655,7 @@
     <!-- Header -->
     <header class="pos-header">
         <div class="header-left">
-            <div class="header-logo" style="font-family: 'Oswald', sans-serif;">JIG CRAFT CANNABIS</div>
+            <div class="header-logo" style="font-family: 'Cinzel', sans-serif; display:flex; align-items:center; gap:8px;"><img src="images/origin-logo.png" alt="Origin" style="height:32px; width:auto;"> ORIGIN</div>
             <div class="header-branch" id="headerBranch" style="cursor: default;">
                 <i class="fas fa-store"></i>
                 <span id="branchName">Loading...</span>
@@ -1682,7 +1668,7 @@
                 <i class="fas fa-mug-hot"></i>
             </button>
             <!-- Clock In/Out Button -->
-            <button class="icon-btn clock-btn" id="clockBtn" onclick="toggleClock()" title="Clock In/Out" style="background: var(--gold); color: var(--white); position: relative;">
+            <button class="icon-btn clock-btn" id="clockBtn" onclick="toggleClock()" title="Clock In/Out" style="background: #C9A84C; color: var(--or-white); position: relative;">
                 <i class="fas fa-clock" id="clockIcon"></i>
                 <span id="clockStatus" style="font-size: 0.7rem; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); white-space: nowrap;"></span>
             </button>
@@ -1695,7 +1681,7 @@
                 <i class="fas fa-chart-bar"></i>
             </button>
             <!-- Day End Button (managers/admin/owner only) -->
-            <button class="icon-btn" id="dayEndBtn" onclick="openDayEnd()" title="Day End Cashup" style="background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--white); display: none;">
+            <button class="icon-btn" id="dayEndBtn" onclick="openDayEnd()" title="Day End Cashup" style="background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--or-white); display: none;">
                 <i class="fas fa-cash-register"></i>
             </button>
             <div class="till-status closed" id="tillStatus" onclick="manageTillSession()" title="Click to manage shift">
@@ -1717,22 +1703,22 @@
     </header>
 
     <!-- KPI Slide-in Panel -->
-    <div id="kpiPanel" style="max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1); background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%); border-bottom: 3px solid var(--gold);">
+    <div id="kpiPanel" style="max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1); background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%); border-bottom: 1px solid #2A2A2A;">
         <div style="display: flex; gap: 10px; padding: 12px 16px; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 120px; background: rgba(255,255,255,0.12); padding: 10px 14px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 18px; font-weight: bold; font-family: 'Oswald', sans-serif; color: var(--gold);" id="kpiMySales">R0</div>
+                <div style="font-size: 18px; font-weight: bold; font-family: 'Cinzel', sans-serif; color: var(--gold);" id="kpiMySales">R0</div>
                 <div style="font-size: 11px; color: rgba(255,255,255,0.75);">My Sales Today</div>
             </div>
             <div style="flex: 1; min-width: 120px; background: rgba(255,255,255,0.12); padding: 10px 14px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 18px; font-weight: bold; font-family: 'Oswald', sans-serif; color: var(--gold);" id="kpiMyTxns">0</div>
+                <div style="font-size: 18px; font-weight: bold; font-family: 'Cinzel', sans-serif; color: var(--gold);" id="kpiMyTxns">0</div>
                 <div style="font-size: 11px; color: rgba(255,255,255,0.75);">Transactions</div>
             </div>
             <div style="flex: 1; min-width: 120px; background: rgba(255,255,255,0.12); padding: 10px 14px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 18px; font-weight: bold; font-family: 'Oswald', sans-serif; color: var(--gold);" id="kpiItemsSold">0</div>
+                <div style="font-size: 18px; font-weight: bold; font-family: 'Cinzel', sans-serif; color: var(--gold);" id="kpiItemsSold">0</div>
                 <div style="font-size: 11px; color: rgba(255,255,255,0.75);">Items Sold</div>
             </div>
             <div style="flex: 1; min-width: 120px; background: rgba(255,255,255,0.12); padding: 10px 14px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 18px; font-weight: bold; font-family: 'Oswald', sans-serif; color: var(--gold);" id="kpiAvgTxn">R0</div>
+                <div style="font-size: 18px; font-weight: bold; font-family: 'Cinzel', sans-serif; color: var(--gold);" id="kpiAvgTxn">R0</div>
                 <div style="font-size: 11px; color: rgba(255,255,255,0.75);">Avg Transaction</div>
             </div>
         </div>
@@ -1745,7 +1731,7 @@
     <div class="pos-container">
         <!-- Left Panel: Products -->
         <div class="products-panel">
-            <!-- Track Selector - HIDDEN for Ormonde launch -->
+            <!-- Track Selector - HIDDEN for Potchefstroom launch -->
             <div class="track-selector" style="display: none;">
                 <button class="track-btn active" data-track="lifestyle" onclick="selectTrack('lifestyle')">
                     <i class="fas fa-shopping-bag"></i>
@@ -1758,21 +1744,21 @@
             </div>
 
             <!-- Section 21 Verification Panel (Medical Track) -->
-            <div id="section21VerificationPanel" style="display: none; background: linear-gradient(135deg, var(--cream) 0%, #fff 100%); border: 2px solid var(--gold); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;">
+            <div id="section21VerificationPanel" style="display: none; background: linear-gradient(135deg, var(--cream) 0%, #fff 100%); border: 1px solid rgba(201,168,76,0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;">
                 <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
                     <i class="fas fa-prescription-bottle-medical" style="font-size: 2rem; color: var(--gold);"></i>
                     <div>
-                        <h3 style="font-family: 'Oswald', sans-serif; color: var(--white); margin: 0; font-size: 1.3rem; text-transform: uppercase;">Medical Track - Section 21 Required</h3>
-                        <p style="color: var(--gray-500); font-size: 0.85rem; margin: 0;">Verify customer has valid Section 21 prescription before sale</p>
+                        <h3 style="font-family: 'Cinzel', sans-serif; color: var(--or-white); margin: 0; font-size: 1.3rem; text-transform: uppercase;">Medical Track - Section 21 Required</h3>
+                        <p style="color: var(--or-grey-2); font-size: 0.85rem; margin: 0;">Verify customer has valid Section 21 prescription before sale</p>
                     </div>
                 </div>
 
                 <!-- Customer Section 21 Status Check -->
-                <div style="background: var(--white); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                <div style="background: var(--or-white); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
                         <input type="text" id="section21CustomerSearch" placeholder="Search customer by phone or ID..."
                                style="flex: 1; padding: 0.75rem; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 0.9rem;">
-                        <button onclick="checkSection21Status()" style="padding: 0.75rem 1.25rem; background: var(--green); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                        <button onclick="checkSection21Status()" style="padding: 0.75rem 1.25rem; background: var(--or-gold); color: white; border: none; border-radius: 8px; cursor: pointer;">
                             <i class="fas fa-search"></i> Check
                         </button>
                     </div>
@@ -1782,16 +1768,16 @@
                 </div>
 
                 <!-- Refer Customer to Medical Portal -->
-                <div style="background: rgba(217, 119, 6, 0.1); border-radius: 8px; padding: 1rem;">
+                <div style="background: rgba(201,168,76,0.08); border-radius: 8px; padding: 1rem;">
                     <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
                         <strong>Customer needs Section 21?</strong> Direct them to apply:
                     </p>
                     <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
                         <div style="flex: 1; min-width: 200px;">
-                            <p style="font-size: 1.25rem; font-weight: 700; color: var(--white); margin: 0;">R750</p>
-                            <p style="font-size: 0.75rem; color: var(--gray-500); margin: 0;">R300 Doctor + R450 SAHPRA</p>
+                            <p style="font-size: 1.25rem; font-weight: 700; color: var(--or-white); margin: 0;">R750</p>
+                            <p style="font-size: 0.75rem; color: var(--or-grey-2); margin: 0;">R300 Doctor + R450 SAHPRA</p>
                         </div>
-                        <button onclick="openMedicalServicesPortal()" style="padding: 0.75rem 1.5rem; background: var(--gold); color: var(--white); border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        <button onclick="openMedicalServicesPortal()" style="padding: 0.75rem 1.5rem; background: #C9A84C; color: var(--or-white); border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
                             <i class="fas fa-user-md"></i> Open Application Portal
                         </button>
                     </div>
@@ -1800,8 +1786,8 @@
                 <!-- Medical Services Iframe Container (Hidden by default) -->
                 <div id="medicalServicesIframeContainer" style="margin-top: 1rem; display: none;">
                     <div id="medicalServicesPlaceholder" style="text-align: center; padding: 2rem; background: var(--gray-100); border-radius: 8px;">
-                        <i class="fas fa-clinic-medical" style="font-size: 2rem; color: var(--gray-400); margin-bottom: 0.5rem;"></i>
-                        <p style="color: var(--gray-500);">Medical services portal will load here</p>
+                        <i class="fas fa-clinic-medical" style="font-size: 2rem; color: var(--or-grey-3); margin-bottom: 0.5rem;"></i>
+                        <p style="color: var(--or-grey-2);">Medical services portal will load here</p>
                     </div>
                     <iframe id="medicalServicesIframe" style="width: 100%; height: 600px; border: none; border-radius: 8px; display: none;"></iframe>
                 </div>
@@ -1815,19 +1801,19 @@
 
             <!-- Quick Add Buttons -->
             <div class="quick-add-bar" style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
-                <button class="quick-add-btn" onclick="quickAddPreroll()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: white; border: none; border-radius: 10px; font-family: 'Oswald', sans-serif; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);">
+                <button class="quick-add-btn" onclick="quickAddPreroll()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, #C9A84C 0%, #8B6914 100%); color: #fff; border: none; border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 8px rgba(201,168,76,0.3);">
                     <i class="fas fa-scroll"></i>
                     Sheet/Cone R10
                 </button>
-                <button class="quick-add-btn" onclick="quickAddGram()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, #1E1E1E 0%, #0A0A0A 100%); color: white; border: none; border-radius: 10px; font-family: 'Oswald', sans-serif; font-size: 1rem; cursor: pointer;">
+                <button class="quick-add-btn" onclick="quickAddGram()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #1A1A1A; color: #fff; border: 1px solid #2A2A2A; border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer;">
                     <i class="fas fa-leaf"></i>
                     1g Flower
                 </button>
-                <button class="quick-add-btn" onclick="quickAdd3gRack()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, var(--green-light) 0%, var(--green) 100%); color: white; border: none; border-radius: 10px; font-family: 'Oswald', sans-serif; font-size: 1rem; cursor: pointer;">
+                <button class="quick-add-btn" onclick="quickAdd3gRack()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, #D4B96A 0%, #C9A84C 100%); color: #fff; border: none; border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer;">
                     <i class="fas fa-cannabis"></i>
                     3g Pack
                 </button>
-                <button class="quick-add-btn" onclick="quickAdd5gBag()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: var(--black); color: var(--white); border: 2px solid var(--green); border-radius: 10px; font-family: 'Oswald', sans-serif; font-size: 1rem; cursor: pointer;">
+                <button class="quick-add-btn" onclick="quickAdd5gBag()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #0A0A0A; color: #fff; border: 1px solid rgba(201,168,76,0.4); border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer;">
                     <i class="fas fa-box"></i>
                     5g Bag
                 </button>
@@ -1847,7 +1833,7 @@
                     <button class="category-tab" data-cat="accessories" onclick="selectMainCategory('accessories')">ACCESSORIES</button>
                 </div>
                 <!-- Grow Method Row (for FLOWER) - Same style as Stock Take App -->
-                <div id="growMethodRow" style="display: none; flex-wrap: nowrap; gap: 8px; margin-bottom: 8px; padding: 10px; background: rgba(124, 58, 237, 0.3); border-radius: 8px; border-left: 3px solid var(--green);">
+                <div id="growMethodRow" style="display: none; flex-wrap: nowrap; gap: 8px; margin-bottom: 8px; padding: 10px; background: rgba(63, 192, 65, 0.3); border-radius: 8px; border-left: 3px solid var(--green);">
                     <span style="color: #aaa; font-size: 12px; margin-right: 8px;">Grow:</span>
                     <button class="cat-btn sub-btn" data-grow="indoor" onclick="selectGrowMethod('indoor')">
                         <i class="fas fa-warehouse"></i> Indoor
@@ -1857,7 +1843,7 @@
                     </button>
                 </div>
                 <!-- Product Type Row -->
-                <div id="productTypeRow" style="display: none; flex-wrap: nowrap; gap: 8px; padding: 10px; background: rgba(217, 119, 6, 0.15); border-radius: 8px; border-left: 3px solid var(--gold);">
+                <div id="productTypeRow" style="display: none; flex-wrap: nowrap; gap: 8px; padding: 10px; background: rgba(201,168,76,0.1); border-radius: 8px; border-left: 3px solid #C9A84C;">
                     <span style="color: #aaa; font-size: 12px; margin-right: 8px;">Type:</span>
                     <button class="cat-btn sub-btn" data-type="pre-roll" onclick="selectProductType('pre-roll')">Pre Rolls</button>
                     <button class="cat-btn sub-btn" data-type="pre-pack" onclick="selectProductType('pre-pack')">Pre Packs</button>
@@ -1893,7 +1879,7 @@
                             <span>Walk-in Customer</span>
                         </div>
                     </div>
-                    <div id="purchaseLimitWarning" style="display: none; background: rgba(217, 119, 6, 0.15); border: 1px solid var(--gold); padding: 10px; border-radius: 8px; margin-top: 10px;">
+                    <div id="purchaseLimitWarning" style="display: none; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); padding: 10px; border-radius: 8px; margin-top: 10px;">
                         <div style="display: flex; align-items: center; gap: 8px; color: var(--gold-dark);">
                             <i class="fas fa-exclamation-triangle"></i>
                             <span id="limitWarningText">Patient approaching daily limit</span>
@@ -1946,10 +1932,10 @@
         </div>
     </div>
 
-    <!-- JIG Shared Libraries -->
-    <script src="/frontend/config.js"></script>
-    <script src="/frontend/jig-utils.js"></script>
-    <script src="/frontend/jig-auth.js"></script>
+    <!-- Origin Shared Libraries -->
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-utils.js"></script>
+    <script src="frontend/or-auth.js"></script>
 
     <!-- POS State Variables (shared across modules) -->
     <script>
@@ -1960,12 +1946,12 @@
     </script>
 
     <!-- POS Modules — auth first, then shifts, products, cart, checkout, inventory -->
-    <script src="/frontend/pos-auth.js"></script>
-    <script src="/frontend/pos-shifts.js"></script>
-    <script src="/frontend/pos-products.js"></script>
-    <script src="/frontend/pos-cart.js"></script>
-    <script src="/frontend/pos-checkout.js"></script>
-    <script src="/frontend/pos-cashup.js"></script>
+    <script src="frontend/pos-auth.js"></script>
+    <script src="frontend/pos-shifts.js"></script>
+    <script src="frontend/pos-products.js"></script>
+    <script src="frontend/pos-cart.js"></script>
+    <script src="frontend/pos-checkout.js"></script>
+    <script src="frontend/pos-cashup.js"></script>
     <!-- pos-inventory.js removed — stock managed via Stocktake App only -->
 
 
@@ -1979,7 +1965,7 @@
             <div class="modal-body" style="padding: 15px;">
                 <div style="text-align: center; margin-bottom: 15px;">
                     <div style="font-size: 0.85rem; color: #666;">Amount Due</div>
-                    <div id="paymentTotal" style="font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 400; color: var(--purple);">R 0.00</div>
+                    <div id="paymentTotal" style="font-family: 'Cinzel', sans-serif; font-size: 2.2rem; font-weight: 400; color: var(--or-gold);">R 0.00</div>
                 </div>
 
                 <!-- Payment Method Tabs -->
@@ -1993,14 +1979,14 @@
                     <button class="payment-tab" onclick="selectPaymentMethod('eft')">
                         <i class="fas fa-university"></i> Manual EFT
                     </button>
-                    <button class="payment-tab" onclick="selectPaymentMethod('split')" style="background: linear-gradient(135deg, var(--gold-light), var(--gold));">
+                    <button class="payment-tab" onclick="selectPaymentMethod('split')" style="background: linear-gradient(135deg, #D4B96A, #C9A84C);">
                         <i class="fas fa-divide"></i> Split Payment
                     </button>
                 </div>
 
                 <!-- Card (Speedpoint) Content - COMPACT -->
                 <div class="payment-content" id="cardPayment">
-                    <div style="background: var(--black); padding: 15px; border-radius: 12px; border: 1px solid #2A2A2A;">
+                    <div style="background: var(--or-black); padding: 15px; border-radius: 12px; border: 1px solid #222222;">
                         <div style="margin-bottom: 12px;">
                             <label style="display: block; margin-bottom: 6px; font-weight: 600;">Speedpoint Reference *</label>
                             <input type="text" id="speedpointReference" class="search-input" placeholder="Enter reference from receipt" style="margin-bottom: 0; font-size: 1rem; text-align: center;">
@@ -2019,16 +2005,16 @@
 
                 <!-- Cash Content -->
                 <div class="payment-content" id="cashPayment" style="display: none;">
-                    <div style="background: var(--black); padding: 30px; border-radius: 15px; border: 1px solid #2A2A2A;">
-                        <h3 style="font-family: 'Oswald', sans-serif; margin-bottom: 20px; color: var(--white); font-size: 1.4rem; letter-spacing: 1px;">Cash Payment</h3>
+                    <div style="background: var(--or-black); padding: 30px; border-radius: 15px; border: 1px solid #222222;">
+                        <h3 style="font-family: 'Cinzel', sans-serif; margin-bottom: 20px; color: var(--or-white); font-size: 1.4rem; letter-spacing: 1px;">Cash Payment</h3>
                         <div style="margin-bottom: 20px;">
                             <label style="display: block; margin-bottom: 8px; font-weight: 600;">Amount Received</label>
                             <input type="number" class="search-input" placeholder="Enter amount" id="cashReceived" style="margin-bottom: 0;">
                         </div>
-                        <div style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--green);">
+                        <div style="background: rgba(63, 192, 65, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--green);">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                                 <span>Change Due:</span>
-                                <span style="font-family: 'Oswald', sans-serif; font-size: 1.6rem; font-weight: 400; color: var(--purple);" id="changeDue">R 0.00</span>
+                                <span style="font-family: 'Cinzel', sans-serif; font-size: 1.6rem; font-weight: 400; color: var(--or-gold);" id="changeDue">R 0.00</span>
                             </div>
                         </div>
                         <button class="btn-primary" onclick="completeSale('cash', 'CASH-' + Date.now())">
@@ -2039,27 +2025,27 @@
 
                 <!-- Manual EFT Content -->
                 <div class="payment-content" id="eftPayment" style="display: none;">
-                    <div style="background: var(--black); padding: 25px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #2A2A2A;">
-                        <h3 style="font-family: 'Oswald', sans-serif; margin-bottom: 15px; color: var(--white); font-size: 1.4rem; letter-spacing: 1px;">Bank Transfer Details</h3>
+                    <div style="background: var(--or-black); padding: 25px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #222222;">
+                        <h3 style="font-family: 'Cinzel', sans-serif; margin-bottom: 15px; color: var(--or-white); font-size: 1.4rem; letter-spacing: 1px;">Bank Transfer Details</h3>
                         <div style="background: #0A0A0A; padding: 20px; border-radius: 10px; border: 2px dashed var(--green);">
                             <div style="margin-bottom: 12px;"><strong>Bank:</strong> Standard Bank</div>
-                            <div style="margin-bottom: 12px;"><strong>Account Name:</strong> JIG Craft Cannabis</div>
+                            <div style="margin-bottom: 12px;"><strong>Account Name:</strong> Origin by ILCO Farming</div>
                             <div style="margin-bottom: 12px;"><strong>Account Number:</strong> 123456789</div>
                             <div style="margin-bottom: 12px;"><strong>Branch Code:</strong> 051001</div>
-                            <div style="margin-bottom: 12px;"><strong>Reference:</strong> <span style="color: var(--purple); font-weight: 700;" id="eftReference"></span></div>
+                            <div style="margin-bottom: 12px;"><strong>Reference:</strong> <span style="color: var(--or-gold); font-weight: 700;" id="eftReference"></span></div>
                         </div>
                         <button class="btn-secondary" onclick="copyBankDetails()" style="width: 100%; margin-top: 15px;">
                             <i class="fas fa-copy"></i> Copy Bank Details
                         </button>
                     </div>
 
-                    <div style="background: rgba(217, 119, 6, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--gold); margin-bottom: 20px;">
+                    <div style="background: rgba(201,168,76,0.08); padding: 20px; border-radius: 10px; border-left: 4px solid #C9A84C; margin-bottom: 20px;">
                         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                             <i class="fas fa-exclamation-triangle" style="color: var(--gold);"></i>
                             <strong>Upload Proof of Payment</strong>
                         </div>
                         <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">Payment requires admin approval</p>
-                        <input type="file" id="proofFile" accept="image/*,.pdf" style="margin-bottom: 15px; width: 100%; padding: 10px; border: 2px solid #2A2A2A; border-radius: 8px;">
+                        <input type="file" id="proofFile" accept="image/*,.pdf" style="margin-bottom: 15px; width: 100%; padding: 10px; border: 2px solid #222222; border-radius: 8px;">
                         <button class="btn-primary" onclick="uploadProof()">
                             <i class="fas fa-upload"></i> UPLOAD & SUBMIT
                         </button>
@@ -2081,7 +2067,7 @@
             flex: 1;
             padding: 14px;
             background: #0A0A0A;
-            border: 2px solid #2A2A2A;
+            border: 2px solid #222222;
             border-radius: 10px;
             font-family: 'Inter', sans-serif;
             font-weight: 600;
@@ -2091,18 +2077,18 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .payment-tab:hover:not(.active) {
-            border-color: var(--purple);
-            background: var(--black);
+            border-color: var(--or-gold);
+            background: var(--or-black);
         }
 
         .payment-tab.active {
-            background: var(--green);
+            background: var(--or-gold);
             color: var(--cream);
-            border-color: var(--purple);
+            border-color: var(--or-gold);
         }
 
         .payment-tab:active {
@@ -2130,8 +2116,8 @@
             </div>
             <div class="modal-body">
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <i class="fas fa-cash-register" style="font-size: 3rem; color: var(--purple); margin-bottom: 15px;"></i>
-                    <h3 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 10px; font-size: 1.4rem; letter-spacing: 1px;">Start Your Shift</h3>
+                    <i class="fas fa-cash-register" style="font-size: 3rem; color: var(--or-gold); margin-bottom: 15px;"></i>
+                    <h3 style="font-family: 'Cinzel', sans-serif; color: var(--or-white); margin-bottom: 10px; font-size: 1.4rem; letter-spacing: 1px;">Start Your Shift</h3>
                     <p style="color: #666;">Enter your opening float to begin</p>
                 </div>
 
@@ -2171,7 +2157,7 @@
             <div class="modal-body">
                 <div style="text-align: center; margin-bottom: 20px;">
                     <i class="fas fa-coins" style="font-size: 2.5rem; color: var(--gold); margin-bottom: 10px;"></i>
-                    <h3 style="font-family: 'Oswald', sans-serif; color: var(--white); margin-bottom: 10px; font-size: 1.4rem; letter-spacing: 1px;">Cash Reconciliation</h3>
+                    <h3 style="font-family: 'Cinzel', sans-serif; color: var(--or-white); margin-bottom: 10px; font-size: 1.4rem; letter-spacing: 1px;">Cash Reconciliation</h3>
                     <p style="color: #666;">Count your physical cash and enter denominations below</p>
                 </div>
 
@@ -2198,7 +2184,7 @@
                     </div>
                 </div>
 
-                <h4 style="font-family: 'Oswald', sans-serif; margin-bottom: 15px; color: var(--white); font-size: 1.2rem; letter-spacing: 1px;">Count Physical Cash</h4>
+                <h4 style="font-family: 'Cinzel', sans-serif; margin-bottom: 15px; color: var(--or-white); font-size: 1.2rem; letter-spacing: 1px;">Count Physical Cash</h4>
                 <div class="denomination-grid">
                     <!-- Notes -->
                     <div class="denomination-item">
@@ -2301,7 +2287,7 @@
                         <span>Variance:</span>
                         <span id="varianceAmount">R 0.00</span>
                     </div>
-                    <div id="varianceWarning" style="display: none; margin-top: 10px; padding: 10px; background: rgba(217, 119, 6, 0.15); border-radius: 6px; font-size: 0.9rem;">
+                    <div id="varianceWarning" style="display: none; margin-top: 10px; padding: 10px; background: rgba(201,168,76,0.1); border-radius: 6px; font-size: 0.9rem;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--gold);"></i>
                         Variance exceeds R50 - Manager approval required
                     </div>
@@ -2329,7 +2315,7 @@
             </div>
             <div class="modal-body">
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <i class="fas" id="cashOperationIcon" style="font-size: 2.5rem; color: var(--purple); margin-bottom: 10px;"></i>
+                    <i class="fas" id="cashOperationIcon" style="font-size: 2.5rem; color: var(--or-gold); margin-bottom: 10px;"></i>
                     <p style="color: #666;" id="cashOperationDesc"></p>
                 </div>
 
@@ -2362,7 +2348,7 @@
             <div class="modal-body">
                 <div style="text-align: center; margin-bottom: 20px;">
                     <div id="shiftSummaryTime" style="font-size: 0.9rem; color: #666;">Shift started at --:--</div>
-                    <div id="shiftSummaryDuration" style="font-family: 'Oswald', sans-serif; font-size: 2rem; color: var(--purple);">0h 0m</div>
+                    <div id="shiftSummaryDuration" style="font-family: 'Cinzel', sans-serif; font-size: 2rem; color: var(--or-gold);">0h 0m</div>
                 </div>
 
                 <div class="cash-summary" style="margin-bottom: 15px;">
@@ -2372,12 +2358,12 @@
                     </div>
                     <div class="cash-summary-row">
                         <span><i class="fas fa-coins" style="width: 20px;"></i> Total Sales</span>
-                        <span id="summaryTotalSales" style="font-weight: 700; color: var(--purple);">R 0.00</span>
+                        <span id="summaryTotalSales" style="font-weight: 700; color: var(--or-gold);">R 0.00</span>
                     </div>
                 </div>
 
                 <div class="cash-summary">
-                    <h4 style="font-family: 'Oswald', sans-serif; margin-bottom: 15px; font-size: 1.1rem; color: var(--white);">Payment Breakdown</h4>
+                    <h4 style="font-family: 'Cinzel', sans-serif; margin-bottom: 15px; font-size: 1.1rem; color: var(--or-white);">Payment Breakdown</h4>
                     <div class="cash-summary-row">
                         <span><i class="fas fa-money-bill-wave" style="width: 20px; color: #22c55e;"></i> Cash</span>
                         <span id="summaryCash">R 0.00</span>
@@ -2387,7 +2373,7 @@
                         <span id="summaryCard">R 0.00</span>
                     </div>
                     <div class="cash-summary-row">
-                        <span><i class="fas fa-mobile-alt" style="width: 20px; color: #f59e0b;"></i> Instapay</span>
+                        <span><i class="fas fa-mobile-alt" style="width: 20px; color: #F8C242;"></i> Instapay</span>
                         <span id="summaryInstapay">R 0.00</span>
                     </div>
                     <div class="cash-summary-row">
@@ -2397,10 +2383,10 @@
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button class="btn-secondary" onclick="showCashInModal()" style="flex: 1; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; background: #0A0A0A; cursor: pointer;">
-                        <i class="fas fa-arrow-down" style="color: var(--purple);"></i> Cash In
+                    <button class="btn-secondary" onclick="showCashInModal()" style="flex: 1; padding: 12px; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; cursor: pointer;">
+                        <i class="fas fa-arrow-down" style="color: var(--or-gold);"></i> Cash In
                     </button>
-                    <button class="btn-secondary" onclick="showCashOutModal()" style="flex: 1; padding: 12px; border: 2px solid #2A2A2A; border-radius: 8px; background: #0A0A0A; cursor: pointer;">
+                    <button class="btn-secondary" onclick="showCashOutModal()" style="flex: 1; padding: 12px; border: 2px solid #222222; border-radius: 8px; background: #0A0A0A; cursor: pointer;">
                         <i class="fas fa-arrow-up" style="color: var(--red);"></i> Cash Out
                     </button>
                 </div>
@@ -2411,20 +2397,20 @@
     <!-- Sale Complete Modal -->
     <div class="modal" id="saleCompleteModal">
         <div class="modal-content" style="max-width: 450px;">
-            <div class="modal-header" style="background: var(--green); color: var(--cream);">
+            <div class="modal-header" style="background: var(--or-gold); color: #0E0E0E;">
                 <div class="modal-title">
-                    <i class="fas fa-check-circle"></i> Sale Complete
+                    <i class="fas fa-check-circle"></i> SALE COMPLETE
                 </div>
             </div>
             <div class="modal-body" style="text-align: center;">
                 <div style="padding: 20px 0;">
-                    <i class="fas fa-receipt" style="font-size: 3rem; color: var(--purple); margin-bottom: 15px;"></i>
-                    <h3 id="saleCompleteNumber" style="font-family: 'Inter', sans-serif; color: var(--white); margin-bottom: 5px;">SALE-2025-000001</h3>
-                    <div id="saleCompleteTotal" style="font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 400; color: var(--purple);">R 0.00</div>
+                    <img src="images/origin-logo.png" alt="Origin" style="height: 50px; margin-bottom: 15px;">
+                    <h3 id="saleCompleteNumber" style="font-family: 'Inter', sans-serif; color: var(--or-white); margin-bottom: 5px;">SALE-2025-000001</h3>
+                    <div id="saleCompleteTotal" style="font-family: 'Cinzel', sans-serif; font-size: 2.2rem; font-weight: 400; color: var(--or-gold);">R 0.00</div>
                 </div>
 
                 <!-- Email Receipt Section -->
-                <div style="background: var(--black); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #2A2A2A;">
+                <div style="background: var(--or-black); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #222222;">
                     <label style="display: block; margin-bottom: 8px; font-weight: 600; text-align: left;">
                         <i class="fas fa-envelope"></i> Email Receipt to Customer
                     </label>
@@ -2464,8 +2450,8 @@
         }
         #saleCompleteModal .btn-secondary {
             background: #0A0A0A;
-            border: 2px solid #2A2A2A;
-            color: var(--white);
+            border: 2px solid #222222;
+            color: var(--or-white);
             padding: 12px 20px;
             border-radius: 8px;
             font-weight: 600;
@@ -2473,8 +2459,8 @@
             transition: all 0.2s;
         }
         #saleCompleteModal .btn-secondary:hover {
-            border-color: var(--purple);
-            color: var(--purple);
+            border-color: var(--or-gold);
+            color: var(--or-gold);
         }
     </style>
 
@@ -2489,7 +2475,7 @@
             </div>
 
             <!-- Tab Navigation -->
-            <div style="display: flex; gap: 0; background: var(--black); border-bottom: 2px solid #2A2A2A; flex-shrink: 0; overflow-x: auto;">
+            <div style="display: flex; gap: 0; background: var(--or-black); border-bottom: 2px solid #222222; flex-shrink: 0; overflow-x: auto;">
                 <button class="de-tab-btn active" data-tab="status" onclick="switchDayEndTab('status')" style="flex: 1; padding: 10px 8px; border: none; background: none; font-weight: 600; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid transparent; color: #666; white-space: nowrap;">
                     <i class="fas fa-info-circle"></i> Status
                 </button>
@@ -2524,18 +2510,18 @@
 
     <style>
         .de-tab-btn.active {
-            color: var(--purple) !important;
-            border-bottom-color: var(--purple) !important;
+            color: var(--or-gold) !important;
+            border-bottom-color: var(--or-gold) !important;
         }
         .de-tab-btn:hover:not(.active) {
-            color: var(--white) !important;
-            background: rgba(124, 58, 237, 0.05) !important;
+            color: var(--or-white) !important;
+            background: rgba(63, 192, 65, 0.05) !important;
         }
         #dayEndModal .modal-content {
             animation: scaleIn 0.25s ease;
         }
         #dayEndModal .modal-body {
-            background: var(--black);
+            background: #0A0A0A;
         }
         /* Make denomination inputs more touch-friendly */
         #dayEndModal input[type="number"] {
@@ -2551,8 +2537,8 @@
     <!-- UAT Bug Reporter -->
 
     <!-- Offline Mode Support -->
-    <script src="/frontend/offline-manager.js"></script>
-    <script src="/frontend/pos-offline.js"></script>
+    <script src="frontend/offline-manager.js"></script>
+    <script src="frontend/pos-offline.js"></script>
     <script>
     // Section 21 status check for POS medical track
     async function checkSection21Status() {
@@ -2590,7 +2576,7 @@
                 resultDiv.innerHTML = `<i class="fas fa-check-circle" style="color:#22C55E;"></i> Section 21 Approved${expiry}`;
             } else if (data.document) {
                 resultDiv.style.background = 'rgba(245, 158, 11, 0.15)';
-                resultDiv.innerHTML = '<i class="fas fa-clock" style="color:#D97706;"></i> Section 21 document found but not active/approved';
+                resultDiv.innerHTML = '<i class="fas fa-clock" style="color:#C9A84C;"></i> Section 21 document found but not active/approved';
             } else {
                 resultDiv.style.background = 'rgba(220, 38, 38, 0.15)';
                 resultDiv.innerHTML = '<i class="fas fa-times-circle" style="color:#DC2626;"></i> No Section 21 authorization found';
@@ -2609,7 +2595,7 @@
         if (!panel) return;
         kpiPanelOpen = !kpiPanelOpen;
         panel.style.maxHeight = kpiPanelOpen ? '120px' : '0';
-        if (btn) btn.style.background = kpiPanelOpen ? 'var(--gold)' : 'rgba(255,255,255,0.15)';
+        if (btn) btn.style.background = kpiPanelOpen ? '#C9A84C' : 'rgba(255,255,255,0.15)';
         if (btn) btn.style.color = kpiPanelOpen ? 'var(--green-deep)' : '';
         if (kpiPanelOpen) loadPosKPIs();
     }
@@ -2640,7 +2626,7 @@
     </script>
 
     <!-- Digital Catalogue Overlay -->
-    <div id="catalogueOverlay" style="display:none; position:fixed; inset:0; z-index:10000; background:var(--cream, #0A0A0A); overflow-y:auto;">
+    <div id="catalogueOverlay" style="display:none; position:fixed; inset:0; z-index:10000; background:var(--cream, #0E0E0E); overflow-y:auto;">
         <style>
             .cat-header {
                 background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%);
@@ -2653,7 +2639,7 @@
                 z-index: 10;
             }
             .cat-header h1 {
-                font-family: 'Oswald', sans-serif;
+                font-family: 'Cinzel', sans-serif;
                 color: white;
                 font-size: 1.6rem;
                 margin: 0;
@@ -2683,7 +2669,7 @@
             .cat-search {
                 padding: 12px 20px;
                 background: #0A0A0A;
-                border-bottom: 1px solid #2A2A2A;
+                border-bottom: 1px solid #222222;
                 position: sticky;
                 top: 62px;
                 z-index: 9;
@@ -2691,7 +2677,7 @@
             .cat-search input {
                 width: 100%;
                 padding: 10px 14px 10px 38px;
-                border: 2px solid #2A2A2A;
+                border: 2px solid #222222;
                 border-radius: 10px;
                 font-size: 1rem;
                 font-family: 'Inter', sans-serif;
@@ -2700,9 +2686,9 @@
             }
             .cat-body { padding: 16px 20px 80px; }
             .cat-category-title {
-                font-family: 'Oswald', sans-serif;
+                font-family: 'Cinzel', sans-serif;
                 font-size: 1.3rem;
-                color: var(--white);
+                color: var(--or-white);
                 text-transform: uppercase;
                 letter-spacing: 1px;
                 margin: 20px 0 10px;
@@ -2728,7 +2714,7 @@
                 font-family: 'Inter', sans-serif;
                 font-weight: 700;
                 font-size: 0.9rem;
-                color: var(--white);
+                color: var(--or-white);
                 line-height: 1.2;
             }
             .cat-item-sku {
@@ -2737,24 +2723,24 @@
                 color: #999;
             }
             .cat-item-price {
-                font-family: 'Oswald', sans-serif;
+                font-family: 'Cinzel', sans-serif;
                 font-size: 1.5rem;
-                color: var(--purple);
+                color: var(--or-gold);
             }
             .cat-item-stock {
                 font-family: 'Inter', sans-serif;
                 font-size: 0.7rem;
                 color: #999;
             }
-            .cat-item-stock .in { color: var(--purple); font-weight: 600; }
-            .cat-item-stock .low { color: #D97706; font-weight: 600; }
+            .cat-item-stock .in { color: var(--or-gold); font-weight: 600; }
+            .cat-item-stock .low { color: #C9A84C; font-weight: 600; }
             .cat-footer {
                 position: fixed;
                 bottom: 0;
                 left: 0;
                 right: 0;
                 background: #0A0A0A;
-                border-top: 1px solid #2A2A2A;
+                border-top: 1px solid #222222;
                 padding: 12px 20px;
                 display: flex;
                 align-items: center;
@@ -2762,8 +2748,8 @@
                 z-index: 10;
             }
             .cat-footer-brand {
-                font-family: 'Oswald', sans-serif;
-                color: var(--white);
+                font-family: 'Cinzel', sans-serif;
+                color: var(--or-white);
                 font-size: 1rem;
             }
             .cat-footer-count {
@@ -2780,7 +2766,7 @@
 
         <div class="cat-header">
             <div>
-                <h1>JIG Craft Cannabis</h1>
+                <h1>Origin by ILCO Farming</h1>
                 <div class="cat-branch" id="catBranchName"></div>
             </div>
             <button class="cat-close" onclick="closeCatalogue()"><i class="fas fa-times"></i></button>
@@ -2790,7 +2776,7 @@
         </div>
         <div class="cat-body" id="catBody"></div>
         <div class="cat-footer">
-            <div class="cat-footer-brand">JIG Craft Cannabis</div>
+            <div class="cat-footer-brand">Origin by ILCO Farming</div>
             <div class="cat-footer-count" id="catCount"></div>
         </div>
     </div>

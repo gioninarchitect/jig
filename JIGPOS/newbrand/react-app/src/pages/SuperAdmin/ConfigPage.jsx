@@ -137,7 +137,7 @@ export default function SuperAdminConfigPage() {
     return (
       <DashboardLayout title="Config" menuItems={MENU_ITEMS} user={user}>
         <div className="flex justify-center py-16">
-          <div className="w-10 h-10 border-3 border-jig-purple border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-3 border-or-gold border-t-transparent rounded-full animate-spin" />
         </div>
       </DashboardLayout>
     );
@@ -165,7 +165,7 @@ export default function SuperAdminConfigPage() {
       </div>
 
       {error && (
-        <div className="mb-4 px-4 py-3 rounded-lg bg-jig-red/10 border border-jig-red/20 text-sm text-jig-red">
+        <div className="mb-4 px-4 py-3 rounded-lg bg-origin-red/10 border border-origin-red/20 text-sm text-origin-red">
           {error}
         </div>
       )}
@@ -189,7 +189,7 @@ export default function SuperAdminConfigPage() {
                 value={reason}
                 onChange={e => setReason(e.target.value)}
                 className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg text-sm
-                  focus:outline-none focus:border-jig-amber placeholder:text-gray-400"
+                  focus:outline-none focus:border-or-gold placeholder:text-gray-400"
               />
               <Button variant="primary" size="sm" onClick={handlePreview}>
                 Review & Save
@@ -214,7 +214,7 @@ export default function SuperAdminConfigPage() {
                 value={reason}
                 onChange={e => setReason(e.target.value)}
                 className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg text-sm
-                  focus:outline-none focus:border-jig-amber placeholder:text-gray-400"
+                  focus:outline-none focus:border-or-gold placeholder:text-gray-400"
               />
               <Button variant="primary" size="sm" onClick={handlePreview}>
                 Review & Save

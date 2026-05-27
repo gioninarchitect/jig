@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ORIGIN · Post-Demo Sprint · Exec Summary · 03 May 2026</title>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-soft: #E5C97A;
+    --green: #0D6B3D;
+    --green-deep: #07401E;
+    --ink: #0B0F0C;
+    --paper: #F7F4EB;
+    --line: rgba(255,255,255,0.08);
+    --muted: rgba(255,255,255,0.55);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--ink);
+    color: #F1ECDD;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, system-ui, sans-serif;
+    line-height: 1.55;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 56px 32px 96px; }
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--line);
+  }
+  .brandmark {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+    letter-spacing: 0.18em; text-transform: uppercase; font-size: 13px;
+    color: var(--gold);
+  }
+  .brandmark .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 4px rgba(201,168,76,0.18);
+  }
+  .stamp {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 11px; color: var(--muted);
+    text-align: right; line-height: 1.35;
+  }
+  .stamp b { color: #F1ECDD; }
+  h1 {
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-weight: 600;
+    font-size: 44px; line-height: 1.05;
+    margin: 36px 0 12px;
+    letter-spacing: -0.01em;
+  }
+  h1 .tag {
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .lede {
+    font-size: 17px; max-width: 760px;
+    color: rgba(241,236,221,0.85);
+    margin: 0 0 24px;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 24px 0 48px;
+  }
+  .meta {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.02);
+  }
+  .meta .k {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .meta .v {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 13px; color: #F1ECDD;
+  }
+  .meta .v.ok { color: var(--gold-soft); }
+  .meta .v.warn { color: #F2B25B; }
+
+  h2 {
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-size: 24px; margin: 48px 0 4px;
+    letter-spacing: -0.005em;
+  }
+  h2 .num {
+    color: var(--gold);
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 13px; margin-right: 14px;
+    vertical-align: 4px;
+    letter-spacing: 0.04em;
+  }
+  h2 + .sub {
+    color: var(--muted); font-size: 13px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 16px; margin-bottom: 20px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0));
+  }
+  .card.ok { border-left: 3px solid var(--green); }
+  .card.parked { border-left: 3px solid var(--gold); }
+  .card.blocker { border-left: 3px solid #D7553B; }
+  .card h3 {
+    margin: 0 0 8px; font-size: 15px; font-weight: 600;
+    color: #F1ECDD;
+  }
+  .card h3 .pill {
+    margin-left: 10px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 10px; letter-spacing: 0.08em;
+    padding: 2px 8px; border-radius: 999px;
+    text-transform: uppercase;
+    background: rgba(13,107,61,0.18); color: var(--gold-soft);
+    border: 1px solid rgba(201,168,76,0.25);
+    vertical-align: 2px;
+  }
+  .card h3 .pill.warn { background: rgba(215,85,59,0.15); color: #F2B25B; border-color: rgba(242,178,91,0.3); }
+  .card ul { margin: 8px 0 0; padding-left: 18px; }
+  .card li { margin: 4px 0; color: rgba(241,236,221,0.82); }
+  .card li code, code.inline {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12px; color: var(--gold-soft);
+    background: rgba(201,168,76,0.08);
+    padding: 1px 6px; border-radius: 4px;
+  }
+
+  table.matrix {
+    width: 100%; border-collapse: collapse;
+    margin-top: 8px; font-size: 13px;
+  }
+  table.matrix th, table.matrix td {
+    text-align: left; padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  table.matrix th {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500;
+  }
+  table.matrix td.role {
+    font-weight: 600; color: var(--gold-soft);
+  }
+  table.matrix td.lvl {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    color: var(--gold);
+  }
+  .check { color: #6FCF97; }
+  .nope  { color: rgba(241,236,221,0.35); }
+
+  .decision {
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    gap: 14px; align-items: start;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    background: rgba(255,255,255,0.02);
+  }
+  .decision .idx {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12px; color: var(--gold);
+    padding-top: 2px;
+  }
+  .decision h4 {
+    margin: 0 0 4px; font-size: 14px; font-weight: 600;
+  }
+  .decision p {
+    margin: 0; font-size: 13px;
+    color: rgba(241,236,221,0.7);
+  }
+  .decision .ask {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.35);
+    padding: 4px 10px; border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .footer {
+    margin-top: 64px; padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .footer .seal {
+    color: var(--gold);
+  }
+
+  @media (max-width: 760px) {
+    .meta-grid { grid-template-columns: 1fr 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    h1 { font-size: 32px; }
+    .wrap { padding: 32px 20px 64px; }
+  }
+
+  @media print {
+    body { background: white; color: #111; }
+    .wrap { max-width: none; padding: 24px; }
+    .card, .decision, .meta {
+      background: white; border-color: #ddd;
+      break-inside: avoid;
+    }
+    .topbar, h1, h2, h3 { color: #111; }
+    .brandmark, .stamp b, h2 .num, .meta .v.ok, .card h3 .pill {
+      color: #6B5410;
+    }
+    .lede, .meta .k, .sub, .footer, .card li, .decision p {
+      color: #444;
+    }
+    .card.ok { border-left-color: #0D6B3D; }
+    .card.parked { border-left-color: #C9A84C; }
+    .card.blocker { border-left-color: #B43E25; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <div class="brandmark">
+      <span class="dot"></span>
+      ORIGIN <span style="color:#fff;opacity:.4">·</span> by ILCO Farming
+    </div>
+    <div class="stamp">
+      <div><b>EXECUTIVE SUMMARY</b></div>
+      <div>Post-Demo Sprint · 25 Apr → 03 May 2026</div>
+      <div>Branch: <b>post-demo-cultivation-and-dispatch-25apr</b></div>
+    </div>
+  </header>
+
+  <h1>Post-demo cultivation &amp; dispatch sprint <span class="tag">— shipped, parked, decided.</span></h1>
+  <p class="lede">
+    A two-day live demo (FM + Cultivation + Dispatch) drove a focused iteration on bay calibration,
+    harvest automation, driver chain-of-custody, and the architectural foundations for the
+    Origin Concierge clinical layer. This memo captures what's in the branch, what's queued, and
+    the four decisions waiting on you.
+  </p>
+
+  <div class="meta-grid">
+    <div class="meta">
+      <div class="k">Branch</div>
+      <div class="v ok">post-demo-cultivation-and-dispatch-25apr</div>
+    </div>
+    <div class="meta">
+      <div class="k">Seed Commit</div>
+      <div class="v">b1f5895 · 241 files · +39 870 LoC</div>
+    </div>
+    <div class="meta">
+      <div class="k">Remote</div>
+      <div class="v warn">Not yet pushed</div>
+    </div>
+    <div class="meta">
+      <div class="k">Launch Blockers</div>
+      <div class="v warn">2 open · #23 #29</div>
+    </div>
+  </div>
+
+  <!-- ───────── 1 ───────── -->
+  <h2><span class="num">01</span>Demo recovery</h2>
+  <div class="sub">Live-fire fixes during the 14:00 SAST run.</div>
+
+  <div class="grid-2">
+    <div class="card ok">
+      <h3>Vite proxy port mismatch <span class="pill">fixed</span></h3>
+      <p>One-line cause behind every "auto-login 500" + dead API call during the demo.</p>
+      <ul>
+        <li><code class="inline">vite.config.ts</code> proxy <code class="inline">:6000</code> → <code class="inline">:3002</code></li>
+        <li>Restored entire app surface in a single commit</li>
+      </ul>
+    </div>
+    <div class="card ok">
+      <h3>Tasks modal hardened <span class="pill">fixed</span></h3>
+      <p>Create button was disabled because the upstream <code class="inline">/users</code> call failed silently.</p>
+      <ul>
+        <li>Assign-To dropdown now always renders</li>
+        <li>Defaults <code class="inline">assignedToId</code> to current user</li>
+        <li>Added Section (category) selector + assigner→assignee in card</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───────── 2 ───────── -->
+  <h2><span class="num">02</span>Cultivation — shipped this sprint</h2>
+  <div class="sub">From bay layout through harvest trigger and post-harvest cleanup.</div>
+
+  <div class="grid-2">
+    <div class="card ok">
+      <h3>BayGrid calibrated to ILCO physical reality</h3>
+      <ul>
+        <li>4 rows × 130 pots = <b>520 plants per bay</b> (was 8)</li>
+        <li>Greenhouse create form now takes rows + pots/row with live capacity preview</li>
+        <li>Card &amp; detail modal redrawn as row-stripe occupancy bars</li>
+        <li>Full CRUD on greenhouses (create / rename / grow-shrink / delete) with FK-safe shrink + soft-archive</li>
+      </ul>
+    </div>
+    <div class="card ok">
+      <h3>Harvest workflow — bay trigger to clean bay</h3>
+      <ul>
+        <li>Cultivation Manager flags bay → auto-creates <code class="inline">HarvestRequest</code> with expected yield</li>
+        <li>Yield baseline pulled from strain record; duplicate-open guard returns 409</li>
+        <li>Approval (HoC + QAM) → harvest → <code class="inline">clearBay</code></li>
+        <li><code class="inline">clearBay</code> auto-spawns a <b>DEEP_CLEAN task</b> (HIGH, due +2d)</li>
+      </ul>
+    </div>
+    <div class="card ok">
+      <h3>Harvest Request — potential vs actual</h3>
+      <ul>
+        <li>Form captures grams/plant + plant count + expected harvest date</li>
+        <li>Backend computes total kg if grower gave g/plant only</li>
+        <li>List shows <b>Potential vs Actual</b> with variance %</li>
+      </ul>
+    </div>
+    <div class="card ok">
+      <h3>Onboarding — zone FK crash fix + custom builder</h3>
+      <ul>
+        <li>Replaced blind <code class="inline">prisma.zone.deleteMany()</code> with upsert-by-name</li>
+        <li>Soft-deactivate zones with FK refs; hard-delete unreferenced</li>
+        <li>Custom zone builder UI: temp / RH / light / access knobs</li>
+      </ul>
+    </div>
+    <div class="card ok">
+      <h3>FM dashboard · Grow Calendar widget</h3>
+      <ul>
+        <li>New <code class="inline">GrowCalendarSnapshot.tsx</code> on FM dashboard</li>
+        <li>Active schedule, current day/phase, next 5 tasks</li>
+        <li>Reads <code class="inline">phases[]</code> shape from <code class="inline">/baygrid/schedules</code></li>
+      </ul>
+    </div>
+    <div class="card ok">
+      <h3>Staff additions</h3>
+      <ul>
+        <li><b>Loraine</b> — Cultivation Admin (T&amp;A, HR), TENANT_ADMIN, PIN 228855</li>
+        <li><b>JR Botha</b> — Trimmer, PIN 119922</li>
+        <li>Both wired into auto-login aliases for demo CTAs</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───────── 3 ───────── -->
+  <h2><span class="num">03</span>Dispatch — chain of custody</h2>
+  <div class="sub">From driver identity through pre-dispatch vehicle inspection.</div>
+
+  <div class="grid-2">
+    <div class="card ok">
+      <h3>Driver identity capture</h3>
+      <ul>
+        <li>Manifest now requires <b>name · ID number · phone · licence expiry</b></li>
+        <li>Multer disk upload for licence photo (10 MB, <code class="inline">uploads/transport/</code>)</li>
+        <li>POST <code class="inline">/manifests/:id/driver-license</code></li>
+      </ul>
+    </div>
+    <div class="card ok">
+      <h3>Pre-dispatch vehicle inspection</h3>
+      <ul>
+        <li>7-item checklist: seals · cargo · temp logger · GPS · brief · sign · licence</li>
+        <li>POST <code class="inline">/manifests/:id/vehicle-inspection</code> with optional photo</li>
+        <li><b>Dispatch button is gated</b> — blocks until inspection passes</li>
+        <li>Stored as JSON in <code class="inline">vehicleInspectionChecks</code> + audit fields</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───────── 4 ───────── -->
+  <h2><span class="num">04</span>Origin Concierge — architecture parked, foundations next</h2>
+  <div class="sub">Multi-agent clinical layer linking patient → prescriber → RP → SAHPRA.</div>
+
+  <p style="color:rgba(241,236,221,0.78); margin: 0 0 20px;">
+    Survey of <code class="inline">JIGPOS/newbrand</code> confirmed three controllers we extend rather than rebuild:
+    <code class="inline">section21.controller</code> (patient-side S21 upload + POS gate),
+    <code class="inline">medical-providers.controller</code> (16-endpoint prescriber registry),
+    and <code class="inline">mdc.controller</code> (4-stage product pipeline). Clinical roles will live in
+    TnT-ZA's <code class="inline">UserRole</code> enum where PHARMACIST + GMP_PARTNER already sit; the public
+    prescriber directory in Origin Retail joins via <code class="inline">MedicalProvider.tntUserId</code>.
+  </p>
+
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>Lvl</th>
+        <th>Where modelled</th>
+        <th>Prescribe</th>
+        <th>Sign S21</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="role">CMO</td><td class="lvl">5</td><td>TnT-ZA</td><td class="check">✓</td><td class="check">✓</td><td>+ new</td></tr>
+      <tr><td class="role">Senior Prescriber</td><td class="lvl">4</td><td>TnT-ZA</td><td class="check">✓</td><td class="check">✓</td><td>+ new</td></tr>
+      <tr><td class="role">Prescriber</td><td class="lvl">3</td><td>TnT-ZA</td><td class="check">✓</td><td class="check">✓ own pts</td><td>+ new</td></tr>
+      <tr><td class="role">Dr Assistant</td><td class="lvl">2</td><td>TnT-ZA</td><td class="nope">—</td><td>drafts only</td><td>+ new</td></tr>
+      <tr><td class="role">Resident</td><td class="lvl">2</td><td>TnT-ZA</td><td>co-sign</td><td class="nope">—</td><td>+ new</td></tr>
+      <tr><td class="role">Pharmacist (RP)</td><td class="lvl">4</td><td>TnT-ZA</td><td class="nope">—</td><td class="check">✓ validates</td><td>existing</td></tr>
+      <tr><td class="role">GMP Partner</td><td class="lvl">4</td><td>TnT-ZA</td><td class="nope">—</td><td>audit-only</td><td>existing · dashboard live</td></tr>
+      <tr><td class="role">Triage Nurse</td><td class="lvl">1</td><td>TnT-ZA</td><td class="nope">—</td><td class="nope">—</td><td>+ new</td></tr>
+      <tr><td class="role">Patient</td><td class="lvl">0</td><td>Origin Retail</td><td class="nope">—</td><td class="nope">—</td><td>existing</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:32px; font-size:14px; letter-spacing:.04em; text-transform:uppercase; color:var(--gold);">Persona stack</h3>
+  <table class="matrix">
+    <thead>
+      <tr><th>Agent</th><th>User</th><th>LLM</th><th>Specialty</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="role">Maestro</td><td>(invisible)</td><td>Haiku 4.5</td><td>Routing &amp; classification only</td></tr>
+      <tr><td class="role">Anela</td><td>Patient</td><td>Sonnet 4.6</td><td>Eligibility · dossier · booking · aftercare</td></tr>
+      <tr><td class="role">Dr Co-Pilot</td><td>Prescriber + CMO</td><td>Opus 4.7</td><td>Listens to consult · drafts Rx + S21 packet</td></tr>
+      <tr><td class="role">Asha</td><td>Dr Assistant</td><td>Sonnet 4.6</td><td>Round-robin queue · SAHPRA chase</td></tr>
+      <tr><td class="role">RP Auditor</td><td>Pharmacist (RP)</td><td>Sonnet 4.6</td><td>Validates packets · regulator-ready PDF</td></tr>
+      <tr><td class="role">GMP Sentinel</td><td>GMP Partner</td><td>Sonnet 4.6</td><td>30d deviation digest · QA escalation</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ───────── 5 ───────── -->
+  <h2><span class="num">05</span>Parked &amp; queued</h2>
+  <div class="sub">Captured in the spec, not yet in code.</div>
+
+  <div class="grid-2">
+    <div class="card parked">
+      <h3>INCB quota model revision <span class="pill">parked</span></h3>
+      <ul>
+        <li>Quotas are kg of dried flower, not plant counts</li>
+        <li>Existing 50/25 ceiling logic flagged as wrong</li>
+        <li>Awaiting product-side decision before refactor</li>
+      </ul>
+    </div>
+    <div class="card parked">
+      <h3>SA-native concierge defaults <span class="pill">parked</span></h3>
+      <ul>
+        <li>Currency: ZAR throughout</li>
+        <li>Booking bias: 17:00–21:00 SAST slots</li>
+        <li>Video: Zoom (S2S OAuth) + Google Meet only</li>
+        <li>Languages: EN · AF · ST · TS · XH · TN</li>
+      </ul>
+    </div>
+    <div class="card parked">
+      <h3>Localisation <span class="pill">parked</span></h3>
+      <ul>
+        <li>Six-language toggle approved by stakeholder</li>
+        <li>Implementation scoped post-concierge MVP</li>
+      </ul>
+    </div>
+    <div class="card parked">
+      <h3>3rd-party HR integration <span class="pill">parked</span></h3>
+      <ul>
+        <li>Loraine fronts HR ops to a 3rd-party SP</li>
+        <li>Provider TBD; data contract drafted</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───────── 6 ───────── -->
+  <h2><span class="num">06</span>Open blockers</h2>
+  <div class="sub">Non-engineering — not in scope for this branch.</div>
+
+  <div class="grid-2">
+    <div class="card blocker">
+      <h3>#23 Regulatory &amp; compliance review <span class="pill warn">launch blocker</span></h3>
+      <ul>
+        <li>Medicines-law specialist sign-off required</li>
+        <li>Covers Section 21 packet, prescriber portal, retail gating</li>
+      </ul>
+    </div>
+    <div class="card blocker">
+      <h3>#29 Regulatory copy audit <span class="pill warn">launch blocker</span></h3>
+      <ul>
+        <li>Replace all in-code regulatory copy with reviewed text</li>
+        <li>No SAHPRA / Section 21 / scheduling assertions ship without sign-off</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───────── 7 ───────── -->
+  <h2><span class="num">07</span>Decisions waiting on you</h2>
+  <div class="sub">Each unblocks the next move.</div>
+
+  <div class="decision">
+    <div class="idx">D-1</div>
+    <div>
+      <h4>Push <code class="inline">post-demo-cultivation-and-dispatch-25apr</code> to <code class="inline">gioninarchitect/jig</code>?</h4>
+      <p>Branch is clean, no secrets, ready. I'm holding until you greenlight — wanted to avoid surprising the GitHub side mid-sprint.</p>
+    </div>
+    <div class="ask">Push? Y / N</div>
+  </div>
+
+  <div class="decision">
+    <div class="idx">D-2</div>
+    <div>
+      <h4>Commit clinical role-enum extensions next?</h4>
+      <p>Adds CMO · Senior Prescriber · Prescriber · Dr Assistant · Resident · Triage Nurse to TnT-ZA <code class="inline">UserRole</code>, plus <code class="inline">Referral</code> + <code class="inline">ClinicalEscalation</code> Prisma models. No concierge code yet — DB foundations only.</p>
+    </div>
+    <div class="ask">Greenlight</div>
+  </div>
+
+  <div class="decision">
+    <div class="idx">D-3</div>
+    <div>
+      <h4>S21C — initialise its own git repo, fold into <code class="inline">origin/</code>, or leave?</h4>
+      <p>S21C currently has no <code class="inline">.git</code>. The status HTML doc lives there. Folding loses isolation; standalone needs a remote; leaving means it stays untracked.</p>
+    </div>
+    <div class="ask">Init / Fold / Leave</div>
+  </div>
+
+  <div class="decision">
+    <div class="idx">D-4</div>
+    <div>
+      <h4>Legacy JIGPOS audit — separate session?</h4>
+      <p>Repo carries 170 deletions and 392 modifications from the legacy JIGPOS surface (rebrand cleanup work). Recommend a dedicated session to land that as its own branch + PR rather than mixing with concierge.</p>
+    </div>
+    <div class="ask">Schedule</div>
+  </div>
+
+  <div class="footer">
+    <div>ORIGIN · ILCO Farming · Confidential — internal exec brief</div>
+    <div class="seal">03 May 2026 · v1</div>
+  </div>
+
+</div>
+</body>
+</html>

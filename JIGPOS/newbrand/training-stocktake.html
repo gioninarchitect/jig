@@ -3,41 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Take App - Training &amp; UAT | JIG Craft Cannabis</title>
-    <link rel="icon" type="image/png" href="images/jig-logo-nobg.png">
+    <title>Stock Take App - Training &amp; UAT | Origin by ILCO Farming</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            /* JIG Craft Cannabis Brand Colors */
-            --black: #0A0A0A;
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
             --white: #FAFAFA;
-            --purple: #7C3AED;
-            --purple-dark: #6D28D9;
-            --purple-light: #A855F7;
-            --green: #15803D;
-            --green-dark: #166534;
-            --green-light: #22C55E;
-            --amber: #D97706;
-            --amber-dark: #B45309;
-            --amber-light: #F59E0B;
-            --slate: #1E1E1E;
-            --slate-light: #2A2A2A;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
             /* Legacy aliases */
-            --cream: #0A0A0A;
-            --green-deep: #0A0A0A;
-            --gold: #D97706;
-            --gold-dark: #B45309;
-            --gold-light: #F59E0B;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
             --red: #DC2626;
             --red-dark: #B91C1C;
             --red-light: #EF4444;
             /* Neutrals (inverted for dark theme) */
             --gray-50: #111111;
             --gray-100: #1A1A1A;
-            --gray-200: #2A2A2A;
+            --gray-200: #222222;
             --gray-300: #3A3A3A;
             --gray-400: #6B7280;
             --gray-500: #9CA3AF;
@@ -47,7 +56,7 @@
             --gray-900: #FAFAFA;
             /* Semantic */
             --success: #22C55E;
-            --warning: #F59E0B;
+            --warning: #F8C242;
             --danger: #DC2626;
             --error: #EF4444;
             --info: #3B82F6;
@@ -56,13 +65,13 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
             --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
             --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
-            --shadow-purple: 0 8px 32px rgba(124,58,237,0.25);
-            --shadow-gold: 0 8px 32px rgba(217,119,6,0.2);
-            --shadow-green: 0 8px 32px rgba(21,128,61,0.2);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
             --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
             /* Gradients */
-            --gradient-brand: linear-gradient(135deg, #7C3AED 0%, #A855F7 40%, #D97706 100%);
-            --gradient-dark: linear-gradient(180deg, #1E1E1E 0%, #0A0A0A 100%);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
         }
 
         * {
@@ -73,7 +82,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--black);
+            background: #0A0A0A;
             color: var(--charcoal);
             line-height: 1.7;
             min-height: 100vh;
@@ -83,7 +92,7 @@
         /* ─── HEADER ─── */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, var(--primary-deep) 100%);
-            color: var(--white);
+            color: var(--or-white);
             padding: 2rem 1.5rem;
             text-align: center;
             border-bottom: 3px solid var(--gold);
@@ -133,7 +142,7 @@
 
         /* ─── SECTION NAV ─── */
         .section-nav {
-            background: var(--white);
+            background: var(--or-white);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -176,7 +185,7 @@
 
         .section-nav-btn:hover {
             color: var(--primary);
-            background: rgba(124, 58, 237, 0.04);
+            background: rgba(63, 192, 65, 0.04);
         }
 
         .section-nav-btn.active {
@@ -205,7 +214,7 @@
         }
 
         .section-intro {
-            background: var(--white);
+            background: var(--or-white);
             border: 1px solid var(--border-light);
             border-radius: var(--radius-lg);
             padding: 1.5rem;
@@ -240,7 +249,7 @@
 
         .accordion-trigger {
             width: 100%;
-            background: var(--white);
+            background: var(--or-white);
             border: 1px solid var(--border-light);
             border-radius: var(--radius);
             padding: 1rem 1.25rem;
@@ -264,7 +273,7 @@
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .accordion.open .accordion-trigger .acc-icon {
@@ -273,7 +282,7 @@
         }
 
         .accordion.open .accordion-trigger .acc-title {
-            color: var(--white);
+            color: var(--or-white);
         }
 
         .accordion.open .accordion-trigger .acc-subtitle {
@@ -287,7 +296,7 @@
         .acc-icon {
             width: 40px;
             height: 40px;
-            background: rgba(124, 58, 237, 0.08);
+            background: rgba(63, 192, 65, 0.08);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -339,7 +348,7 @@
         }
 
         .accordion-content {
-            background: var(--white);
+            background: var(--or-white);
             border: 1px solid var(--border-light);
             border-top: none;
             border-bottom-left-radius: var(--radius);
@@ -409,7 +418,7 @@
             width: 24px;
             height: 24px;
             background: var(--primary);
-            color: var(--white);
+            color: var(--or-white);
             border-radius: 50%;
             font-size: 0.72rem;
             font-weight: 700;
@@ -418,7 +427,7 @@
         }
 
         .highlight-box {
-            background: rgba(124, 58, 237, 0.06);
+            background: rgba(63, 192, 65, 0.06);
             border-left: 3px solid var(--primary);
             padding: 0.875rem 1rem;
             border-radius: 0 6px 6px 0;
@@ -432,7 +441,7 @@
         }
 
         .highlight-box.gold {
-            background: rgba(217, 119, 6, 0.08);
+            background: rgba(240, 165, 0, 0.08);
             border-left-color: var(--gold);
         }
 
@@ -453,7 +462,7 @@
         }
 
         .role-badge.owner {
-            background: rgba(217, 119, 6, 0.15);
+            background: rgba(240, 165, 0, 0.15);
             color: var(--gold-dark);
         }
 
@@ -463,13 +472,13 @@
         }
 
         .role-badge.staff {
-            background: rgba(124, 58, 237, 0.12);
+            background: rgba(63, 192, 65, 0.12);
             color: var(--primary);
         }
 
         /* ─── SIGN-OFF FORM ─── */
         .signoff-section {
-            background: var(--white);
+            background: var(--or-white);
             border: 2px solid var(--gold);
             border-radius: var(--radius-lg);
             padding: 1.5rem;
@@ -544,14 +553,14 @@
             border-radius: 6px;
             font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
-            background: var(--black);
+            background: var(--or-black);
             transition: border-color 0.2s;
         }
 
         .signoff-field input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+            box-shadow: 0 0 0 3px rgba(63, 192, 65, 0.1);
         }
 
         /* ─── ROLLOUT TABLE ─── */
@@ -570,7 +579,7 @@
 
         .rollout-table thead th {
             background: var(--primary);
-            color: var(--white);
+            color: var(--or-white);
             padding: 10px 12px;
             text-align: left;
             font-weight: 600;
@@ -599,7 +608,7 @@
         }
 
         .rollout-table tbody tr:hover {
-            background: rgba(124, 58, 237, 0.03);
+            background: rgba(63, 192, 65, 0.03);
         }
 
         .status-pill {
@@ -648,7 +657,7 @@
             }
 
             .accordion-trigger {
-                background: var(--black) !important;
+                background: var(--or-black) !important;
                 color: var(--charcoal) !important;
                 border-color: var(--border-light) !important;
             }
@@ -782,12 +791,12 @@
 
     <!-- HEADER -->
     <header class="header">
-        <img src="/images/jig-logo-nobg.png" alt="JIG Craft Cannabis" class="header-logo">
+        <img src="/images/origin-logo.png" alt="Origin by ILCO Farming" class="header-logo">
         <h1>Stock Take App</h1>
         <p class="header-subtitle">Training &amp; UAT Documentation</p>
         <div class="header-meta">
             <span class="header-meta-item"><i class="fa-solid fa-code-branch"></i> Version 1.0</span>
-            <span class="header-meta-item"><i class="fa-solid fa-location-dot"></i> Ormonde Launch</span>
+            <span class="header-meta-item"><i class="fa-solid fa-location-dot"></i> Potchefstroom Launch</span>
             <span class="header-meta-item"><i class="fa-solid fa-file-lines"></i> Internal Document</span>
         </div>
     </header>
@@ -821,8 +830,8 @@
             <a href="training-hub.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Training Hub</a>
 
             <div class="section-intro">
-                <h2><i class="fa-solid fa-clipboard-check"></i> Ormonde Go-Live &mdash; UAT Checklist</h2>
-                <p>User Acceptance Testing for the Stock Take App. Complete all items before going live at Ormonde branch. Each role must be tested independently to confirm correct access levels.</p>
+                <h2><i class="fa-solid fa-clipboard-check"></i> Potchefstroom Go-Live &mdash; UAT Checklist</h2>
+                <p>User Acceptance Testing for the Stock Take App. Complete all items before going live at Potchefstroom branch. Each role must be tested independently to confirm correct access levels.</p>
             </div>
 
             <!-- 1. Pre-Launch Checks -->
@@ -1001,7 +1010,7 @@
                                 </div>
                                 <div class="signoff-field">
                                     <label for="signoff-branch">Branch</label>
-                                    <input type="text" id="signoff-branch" placeholder="e.g. Ormonde">
+                                    <input type="text" id="signoff-branch" placeholder="e.g. Potchefstroom">
                                 </div>
                             </div>
                         </div>
@@ -1037,7 +1046,7 @@
                 <div class="accordion-body">
                     <div class="accordion-content">
                         <ul class="checklist">
-                            <li><span class="step-number">1</span> Open the app on the tablet browser: <strong>app.jig.cleva-ai.co.za/stocktake-app.html</strong></li>
+                            <li><span class="step-number">1</span> Open the app on the tablet browser: <strong>origin.cleva-ai.co.za/stocktake-app.html</strong></li>
                             <li><span class="step-number">2</span> Enter your email address</li>
                             <li><span class="step-number">3</span> Enter your 6-digit PIN</li>
                             <li><span class="step-number">4</span> Tap <strong>"Login with PIN"</strong></li>
@@ -1143,7 +1152,7 @@
 
             <div class="section-intro">
                 <h2><i class="fa-solid fa-rocket"></i> Branch Rollout Plan</h2>
-                <p>Standardised process for rolling out the Stock Take App to each branch. Ormonde is the pilot location. Follow these steps in order for each subsequent branch.</p>
+                <p>Standardised process for rolling out the Stock Take App to each branch. Potchefstroom is the pilot location. Follow these steps in order for each subsequent branch.</p>
             </div>
 
             <!-- Step 1: Collect Stock Sheet -->
@@ -1185,7 +1194,7 @@
                         <ul class="checklist">
                             <li><i class="fa-solid fa-circle-check"></i> All staff already have PINs &mdash; no email setup needed</li>
                             <li><i class="fa-solid fa-circle-check"></i> Tablets are already in store</li>
-                            <li><i class="fa-solid fa-circle-dot"></i> Bookmark <strong>app.jig.cleva-ai.co.za/stocktake-app.html</strong> on each tablet</li>
+                            <li><i class="fa-solid fa-circle-dot"></i> Bookmark <strong>origin.cleva-ai.co.za/stocktake-app.html</strong> on each tablet</li>
                         </ul>
                         <div class="highlight-box">
                             <strong>Verify each PIN works</strong> by having every staff member log in during setup. This avoids delays on the day of the first count.
@@ -1208,7 +1217,7 @@
                     <div class="accordion-content">
                         <ul class="checklist">
                             <li><span class="step-number">1</span> Open <strong>Chrome</strong> on the tablet</li>
-                            <li><span class="step-number">2</span> Navigate to <strong>app.jig.cleva-ai.co.za/stocktake-app.html</strong></li>
+                            <li><span class="step-number">2</span> Navigate to <strong>origin.cleva-ai.co.za/stocktake-app.html</strong></li>
                             <li><span class="step-number">3</span> Add to Home Screen (optional, for quick access)</li>
                             <li><span class="step-number">4</span> Test login with one staff PIN to confirm connectivity</li>
                         </ul>
@@ -1264,7 +1273,7 @@
                             <li><i class="fa-solid fa-circle-check"></i> Physical stock sheets are retired</li>
                         </ul>
                         <div class="highlight-box">
-                            <strong>Support:</strong> If any issues arise after going live, contact the branch manager or system administrator. The app URL remains <strong>app.jig.cleva-ai.co.za/stocktake-app.html</strong>.
+                            <strong>Support:</strong> If any issues arise after going live, contact the branch manager or system administrator. The app URL remains <strong>origin.cleva-ai.co.za/stocktake-app.html</strong>.
                         </div>
                     </div>
                 </div>
@@ -1296,7 +1305,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><strong>Ormonde</strong></td>
+                                        <td><strong>Potchefstroom</strong></td>
                                         <td><i class="fa-solid fa-circle-check" style="color: var(--success);"></i> Collected</td>
                                         <td><i class="fa-solid fa-circle-check" style="color: var(--success);"></i> Verified</td>
                                         <td class="placeholder-text">TBC</td>
@@ -1363,7 +1372,7 @@
                             </table>
                         </div>
                         <div class="highlight-box" style="margin-top: 1.25rem;">
-                            <strong>Rollout order:</strong> Ormonde serves as the pilot. Remaining branches will be scheduled after the pilot is validated and any process refinements are incorporated.
+                            <strong>Rollout order:</strong> Potchefstroom serves as the pilot. Remaining branches will be scheduled after the pilot is validated and any process refinements are incorporated.
                         </div>
                     </div>
                 </div>
@@ -1375,7 +1384,7 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-        <strong>JIG Craft Cannabis</strong> &mdash; Stock Take App Training &amp; UAT<br>
+        <strong>Origin by ILCO Farming</strong> &mdash; Stock Take App Training &amp; UAT<br>
         Internal document. Not for distribution.
     </footer>
 

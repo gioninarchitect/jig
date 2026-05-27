@@ -8,14 +8,14 @@ module.exports = {
    * Welcome email for new users
    */
   welcome: (data) => ({
-    subject: 'Welcome to Basotho Medical Herbs!',
+    subject: 'Welcome to Origin by ILCO Farming!',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #2D5016;">Welcome to Basotho Medical Herbs!</h1>
+        <h1 style="color: #2D5016;">Welcome to Origin by ILCO Farming!</h1>
         <p>Hello ${data.name},</p>
         <p>Thank you for joining our wellness community. We're excited to have you!</p>
         <p>Your account has been successfully created.</p>
-        <p>Best regards,<br>Basotho Medical Herbs Team</p>
+        <p>Best regards,<br>Origin by ILCO Farming Team</p>
       </div>
     `
   }),
@@ -32,7 +32,7 @@ module.exports = {
         <p>Your order <strong>${data.orderNumber}</strong> has been confirmed.</p>
         <p><strong>Total:</strong> R${data.total.toFixed(2)}</p>
         <p>Thank you for shopping with us!</p>
-        <p>Best regards,<br>Basotho Medical Herbs Team</p>
+        <p>Best regards,<br>Origin by ILCO Farming Team</p>
       </div>
     `
   }),
@@ -49,7 +49,7 @@ module.exports = {
         <p>You requested a password reset. Click the link below to reset your password:</p>
         <p><a href="${data.resetLink}" style="color: #2D5016;">Reset Password</a></p>
         <p>If you didn't request this, please ignore this email.</p>
-        <p>Best regards,<br>Basotho Medical Herbs Team</p>
+        <p>Best regards,<br>Origin by ILCO Farming Team</p>
       </div>
     `
   }),
@@ -67,7 +67,7 @@ module.exports = {
         <p><strong>Price:</strong> R${data.price.toFixed(2)}/month</p>
         <p><strong>Trial ends:</strong> ${data.trialEnd}</p>
         <p>Enjoy your new features!</p>
-        <p>Best regards,<br>Basotho Medical Herbs Team</p>
+        <p>Best regards,<br>Origin by ILCO Farming Team</p>
       </div>
     `
   }),
@@ -84,7 +84,7 @@ module.exports = {
         <p>We have received your payment of <strong>R${data.amount.toFixed(2)}</strong>.</p>
         <p><strong>Order:</strong> ${data.orderNumber}</p>
         <p>Thank you!</p>
-        <p>Best regards,<br>Basotho Medical Herbs Team</p>
+        <p>Best regards,<br>Origin by ILCO Farming Team</p>
       </div>
     `
   }),
@@ -93,12 +93,12 @@ module.exports = {
    * Generic notification email
    */
   notification: (data) => ({
-    subject: data.subject || 'Notification from Basotho Medical Herbs',
+    subject: data.subject || 'Notification from Origin by ILCO Farming',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h1 style="color: #2D5016;">${data.title || 'Notification'}</h1>
         <p>${data.message}</p>
-        <p>Best regards,<br>Basotho Medical Herbs Team</p>
+        <p>Best regards,<br>Origin by ILCO Farming Team</p>
       </div>
     `
   })

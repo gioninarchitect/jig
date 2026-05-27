@@ -1,5 +1,5 @@
 // st-auth.js — Auth, login, OTP, registration, screen management
-// Depends on: config.js (API_URL, DEV_MODE), dbc-utils.js (showToast), dbc-auth.js (getToken, setStocktakeToken)
+// Depends on: config.js (API_URL, DEV_MODE), or-utils.js (showToast), or-auth.js (getToken, setStocktakeToken)
 
 // App State (shared across all modules)
 let currentUser = null;
@@ -16,7 +16,7 @@ let countdownTimer = null;
 // ============================================
 
 function setToken(token) {
-    setStocktakeToken(token); // from dbc-auth.js
+    setStocktakeToken(token); // from or-auth.js
 }
 
 function clearAuth() {
@@ -481,7 +481,7 @@ function showApp() {
     document.getElementById('registrationScreen').style.display = 'none';
     document.getElementById('appContainer').style.display = 'block';
     document.getElementById('userName').textContent = currentUser?.firstName || currentUser?.username || 'User';
-    document.getElementById('branchName').textContent = currentUser?.branch?.name || currentUser?.branchName || localStorage.getItem('selectedBranchName') || 'Ormonde';
+    document.getElementById('branchName').textContent = currentUser?.branch?.name || currentUser?.branchName || localStorage.getItem('selectedBranchName') || 'Origin';
 
     // Reset category filters
     selectedCategory = 'all';

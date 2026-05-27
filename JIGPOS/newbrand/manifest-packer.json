@@ -1,22 +1,22 @@
 {
-  "name": "JIG Packer App",
-  "short_name": "JIG Packer",
-  "description": "JIG Craft Cannabis - Packing Station App",
+  "name": "Origin Packer App",
+  "short_name": "Origin Packer",
+  "description": "Origin by ILCO Farming - Packing Station App",
   "start_url": "/packer-app.html",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#0A0A0A",
-  "theme_color": "#7C3AED",
+  "background_color": "#0E0E0E",
+  "theme_color": "#C9A84C",
   "orientation": "any",
   "icons": [
     {
-      "src": "/images/jig-logo-nobg.png",
+      "src": "/images/origin-logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/images/jig-logo-nobg.png",
+      "src": "/images/origin-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
@@ -27,7 +27,7 @@
     {
       "name": "Packing Queue",
       "url": "/packer-app.html",
-      "icons": [{"src": "/images/jig-logo-nobg.png", "sizes": "96x96"}],
+      "icons": [{"src": "/images/origin-logo.png", "sizes": "96x96"}],
       "description": "View orders ready to pack"
     }
   ],
