@@ -82,7 +82,8 @@ const productSchema = new mongoose.Schema({
       'skincare',            // Skincare range (Lamelle topicals)
       'haircare',            // Hair care products
       'nail-care',           // Nail gel products (Bio Sculpture Gemini)
-      'wellness'             // Functional wellness (HM mushrooms, botanicals)
+      'wellness',            // Functional wellness (HM mushrooms, botanicals)
+      'teas'                 // Herbal teas (Origin Teas — OT range)
     ],
     index: true
   },
@@ -116,7 +117,7 @@ const productSchema = new mongoose.Schema({
       'thc-cartridges', 'cbd-cartridges', 'balanced-cartridges',
       // Wellness & Pharmacy subcategories
       'capsules-supp', 'powder', 'extract', 'tincture', 'botanical',
-      'grow-kit', 'wellness-bundle', 'mushroom',
+      'grow-kit', 'wellness-bundle', 'mushroom', 'herbal-tea',
       'gel-colour', 'nail-treatment', 'nail-tool',
       'anti-ageing', 'scar-repair', 'uv-protection', 'womens-health', 'mens-health'
     ]

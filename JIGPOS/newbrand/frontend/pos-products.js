@@ -3,7 +3,7 @@
 
 // ── Product Group (Cannabis / Wellness) ─────────────────────────────────────
 const CANNABIS_CATS = new Set(['flower','pre-rolls','edibles','concentrates','topicals','oils','lifestyle-cbd','accessories','glassware','vaporizers','vapes','bundles','la-brewha','bean-bud','coffee','merchandise']);
-const WELLNESS_CATS = new Set(['supplements','pharmacy','skincare','haircare','nail-care','wellness']);
+const WELLNESS_CATS = new Set(['supplements','pharmacy','skincare','haircare','nail-care','wellness','teas']);
 
 let activeGroup = 'cannabis';
 
@@ -320,6 +320,7 @@ function getProductIconConfig(category) {
         'merchandise':   { fa: 'ph-t-shirt-fill',          color: '#9CA3AF', bg: 'rgba(156,163,175,0.14)' },
         'la-brewha':     { fa: 'ph-coffee-fill',           color: '#FBBF24', bg: 'rgba(251,191,36,0.14)'  },
         'bean-bud':      { fa: 'ph-potted-plant-fill',     color: '#34D399', bg: 'rgba(52,211,153,0.14)'  },
+        'teas':          { fa: 'ph-leaf-fill',             color: '#4ADE80', bg: 'rgba(74,222,128,0.14)'  },
     };
     return map[category] || { fa: 'ph-package-fill', color: '#9CA3AF', bg: 'rgba(156,163,175,0.14)' };
 }
