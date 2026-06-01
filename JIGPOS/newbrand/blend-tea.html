@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <meta name="description" content="Origin Tea Blend Wizard — craft personalised herbal teas with guided health benefits" />
+  <title>Origin — Tea Blend Wizard</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/phosphor-icons@1.4.2"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/tea-blend.css" />
+</head>
+<body>
+
+  <!-- ===== TOAST NOTIFICATIONS ===== -->
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ===== XP LEVEL-UP OVERLAY ===== -->
+  <div id="levelup-overlay" class="levelup-overlay" role="alert" aria-hidden="true">
+    <div class="levelup-inner">
+      <i class="levelup-badge"></i>
+      <p class="levelup-title">Level Up!</p>
+      <p class="levelup-name"></p>
+    </div>
+  </div>
+
+  <!-- ===== APP ROOT ===== -->
+  <div id="app" class="app">
+
+    <!-- ============================================================
+         SCREEN 0: LANDING
+    ============================================================ -->
+    <section id="screen-landing" class="screen screen--landing" data-screen="0" aria-label="Welcome">
+
+      <!-- Steam / particle canvas layer -->
+      <div class="steam-field" aria-hidden="true">
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+        <span class="steam-particle"></span>
+      </div>
+
+      <!-- Decorative orbits -->
+      <div class="orbit orbit--1" aria-hidden="true"></div>
+      <div class="orbit orbit--2" aria-hidden="true"></div>
+      <div class="orbit orbit--3" aria-hidden="true"></div>
+
+      <!-- Brand mark -->
+      <header class="landing-header">
+        <div class="brand-lockup">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span class="brand-name">ORIGIN</span>
+        </div>
+      </header>
+
+      <!-- Hero content -->
+      <main class="landing-hero">
+        <div class="landing-eyebrow">
+          <span class="eyebrow-line" aria-hidden="true"></span>
+          <span class="eyebrow-text">HERBAL ALCHEMY</span>
+          <span class="eyebrow-line" aria-hidden="true"></span>
+        </div>
+
+        <h1 class="landing-headline">
+          <span class="headline-line headline-line--1">Craft Your</span>
+          <span class="headline-line headline-line--2">Perfect</span>
+          <span class="headline-line headline-line--3">Blend</span>
+        </h1>
+
+        <p class="landing-sub">
+          Personalised herbal teas with the health benefits of each ingredient
+          revealed as you blend — guided by your wellness goals.
+        </p>
+
+        <div class="landing-ctas">
+          <button id="btn-start-blending" class="btn btn--gold btn--large" aria-label="Start blending your tea">
+            <i class="ph-magic-wand-fill btn-icon" aria-hidden="true"></i>
+            Start Blending
+          </button>
+        </div>
+
+        <p class="landing-signin">
+          Already have an account?
+          <button id="btn-signin" class="link-btn">Sign in</button>
+        </p>
+      </main>
+
+      <!-- Floating ingredient atoms -->
+      <div class="ingredient-atoms" aria-hidden="true">
+        <span class="atom atom--1"><i class="ph-flower-lotus-fill"></i></span>
+        <span class="atom atom--2"><i class="ph-sun-fill"></i></span>
+        <span class="atom atom--3"><i class="ph-fire-fill"></i></span>
+        <span class="atom atom--4"><i class="ph-leaf-fill"></i></span>
+        <span class="atom atom--5"><i class="ph-moon-fill"></i></span>
+        <span class="atom atom--6"><i class="ph-brain-fill"></i></span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN 1: AUTH GATE (EMAIL + OTP)
+    ============================================================ -->
+    <section id="screen-auth" class="screen screen--auth" data-screen="1" aria-label="Sign in or create account" hidden>
+      <div class="auth-panel">
+
+        <button id="btn-back-landing" class="btn-back" aria-label="Go back">
+          <i class="ph-arrow-left" aria-hidden="true"></i>
+        </button>
+
+        <div class="auth-brand">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span class="brand-name">ORIGIN</span>
+        </div>
+
+        <h2 class="auth-title">Your Journey Begins</h2>
+        <p class="auth-sub">Enter your email to access your personalised blend experience</p>
+
+        <!-- Email step -->
+        <div id="auth-step-email" class="auth-step" role="form" aria-label="Email entry">
+          <div class="form-field">
+            <label for="input-email" class="form-label">Email address</label>
+            <input
+              id="input-email"
+              type="email"
+              class="form-input"
+              placeholder="your@email.com"
+              autocomplete="email"
+              inputmode="email"
+              aria-required="true"
+            />
+          </div>
+          <button id="btn-send-otp" class="btn btn--gold btn--full" aria-label="Send one-time passcode">
+            <i class="ph-paper-plane-tilt-fill btn-icon" aria-hidden="true"></i>
+            Send Magic Code
+          </button>
+          <p id="auth-email-error" class="form-error" role="alert" aria-live="polite" hidden></p>
+        </div>
+
+        <!-- OTP step -->
+        <div id="auth-step-otp" class="auth-step" role="form" aria-label="OTP verification" hidden>
+          <p class="otp-hint">
+            We sent a 6-digit code to
+            <strong id="otp-email-display"></strong>
+          </p>
+          <div class="otp-inputs" role="group" aria-label="One-time passcode digits">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="Digit 1" />
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="Digit 2" />
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="Digit 3" />
+            <span class="otp-dash" aria-hidden="true">–</span>
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="Digit 4" />
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="Digit 5" />
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="Digit 6" />
+          </div>
+          <button id="btn-verify-otp" class="btn btn--gold btn--full">
+            <i class="ph-check-circle-fill btn-icon" aria-hidden="true"></i>
+            Verify &amp; Enter
+          </button>
+          <button id="btn-resend-otp" class="link-btn resend-btn">
+            Resend code (<span id="resend-countdown">60</span>s)
+          </button>
+          <p id="auth-otp-error" class="form-error" role="alert" aria-live="polite" hidden></p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN 2: GAMIFIED PROFILE BUILDER
+    ============================================================ -->
+    <section id="screen-profile" class="screen screen--profile" data-screen="2" aria-label="Build your wellness profile" hidden>
+      <div class="profile-container">
+
+        <!-- XP Header -->
+        <div class="xp-header" aria-label="Experience points progress">
+          <div class="xp-level-info">
+            <i id="xp-badge-icon" class="xp-badge-icon ph-student-fill" aria-hidden="true"></i>
+            <div>
+              <p class="xp-level-name" id="xp-level-name">Apprentice</p>
+              <p class="xp-count"><span id="xp-current">0</span> XP</p>
+            </div>
+          </div>
+          <div class="xp-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="xp-progressbar">
+            <div class="xp-bar-fill" id="xp-bar-fill"></div>
+            <div class="xp-bar-shimmer" aria-hidden="true"></div>
+          </div>
+          <p class="xp-next-level" id="xp-next-label">100 XP to Herbalist</p>
+        </div>
+
+        <h2 class="profile-title">Build Your Wellness Profile</h2>
+        <p class="profile-sub">Answer a few questions to personalise your blend recommendations</p>
+
+        <!-- Profile form -->
+        <form id="profile-form" class="profile-form" novalidate>
+
+          <!-- First name (+15 XP) -->
+          <div class="profile-field" data-xp="15" data-xp-event="PROFILE_NAME" id="field-name">
+            <div class="field-header">
+              <label for="input-firstname" class="field-label">
+                <i class="ph-user-circle-fill field-icon" aria-hidden="true"></i>
+                What shall we call you?
+              </label>
+              <span class="xp-reward" aria-label="Awards 15 experience points">+15 XP</span>
+            </div>
+            <input
+              id="input-firstname"
+              type="text"
+              class="form-input"
+              placeholder="First name"
+              autocomplete="given-name"
+            />
+          </div>
+
+          <!-- Health goals (+25 XP) -->
+          <div class="profile-field" data-xp="25" data-xp-event="HEALTH_GOALS" id="field-goals">
+            <div class="field-header">
+              <label class="field-label">
+                <i class="ph-heart-fill field-icon" aria-hidden="true"></i>
+                What are your health goals?
+              </label>
+              <span class="xp-reward" aria-label="Awards 25 experience points">+25 XP</span>
+            </div>
+            <div class="chip-group" role="group" aria-label="Select your health goals">
+              <button type="button" class="chip" data-value="sleep" aria-pressed="false">Sleep 😴</button>
+              <button type="button" class="chip" data-value="energy" aria-pressed="false">Energy ⚡</button>
+              <button type="button" class="chip" data-value="immunity" aria-pressed="false">Immunity 🛡</button>
+              <button type="button" class="chip" data-value="stress" aria-pressed="false">Stress 🧘</button>
+              <button type="button" class="chip" data-value="digestion" aria-pressed="false">Digestion 🌿</button>
+              <button type="button" class="chip" data-value="skin" aria-pressed="false">Skin ✨</button>
+              <button type="button" class="chip" data-value="focus" aria-pressed="false">Focus 🧠</button>
+              <button type="button" class="chip" data-value="hormones" aria-pressed="false">Hormones 🌸</button>
+            </div>
+          </div>
+
+          <!-- Allergies / sensitivities (+15 XP) -->
+          <div class="profile-field" data-xp="15" data-xp-event="ALLERGIES" id="field-allergies">
+            <div class="field-header">
+              <label class="field-label">
+                <i class="ph-warning-fill field-icon" aria-hidden="true"></i>
+                Any sensitivities to note?
+              </label>
+              <span class="xp-reward" aria-label="Awards 15 experience points">+15 XP</span>
+            </div>
+            <div class="chip-group" role="group" aria-label="Select sensitivities">
+              <button type="button" class="chip" data-value="none" aria-pressed="false">None</button>
+              <button type="button" class="chip" data-value="pregnancy" aria-pressed="false">Pregnancy</button>
+              <button type="button" class="chip" data-value="liver" aria-pressed="false">Liver condition</button>
+              <button type="button" class="chip" data-value="medication" aria-pressed="false">On medication</button>
+            </div>
+          </div>
+
+          <!-- Brew style (+10 XP) -->
+          <div class="profile-field" data-xp="10" data-xp-event="BREW_STYLE" id="field-brew">
+            <div class="field-header">
+              <label class="field-label">
+                <i class="ph-coffee-fill field-icon" aria-hidden="true"></i>
+                Preferred brew style?
+              </label>
+              <span class="xp-reward" aria-label="Awards 10 experience points">+10 XP</span>
+            </div>
+            <div class="pill-group" role="group" aria-label="Brew style">
+              <button type="button" class="pill-opt" data-value="hot" aria-pressed="false">Hot ☕</button>
+              <button type="button" class="pill-opt" data-value="iced" aria-pressed="false">Iced 🧊</button>
+              <button type="button" class="pill-opt" data-value="cold-brew" aria-pressed="false">Cold Brew 🌊</button>
+            </div>
+          </div>
+
+          <!-- Frequency (+10 XP) -->
+          <div class="profile-field" data-xp="10" data-xp-event="FREQUENCY" id="field-freq">
+            <div class="field-header">
+              <label class="field-label">
+                <i class="ph-calendar-fill field-icon" aria-hidden="true"></i>
+                How often do you drink tea?
+              </label>
+              <span class="xp-reward" aria-label="Awards 10 experience points">+10 XP</span>
+            </div>
+            <div class="pill-group" role="group" aria-label="Tea drinking frequency">
+              <button type="button" class="pill-opt" data-value="daily" aria-pressed="false">Daily</button>
+              <button type="button" class="pill-opt" data-value="weekly" aria-pressed="false">A few times/week</button>
+              <button type="button" class="pill-opt" data-value="occasional" aria-pressed="false">Occasionally</button>
+            </div>
+          </div>
+
+          <button type="submit" id="btn-save-profile" class="btn btn--gold btn--full btn--large">
+            <i class="ph-sparkle-fill btn-icon" aria-hidden="true"></i>
+            Save &amp; Start Blending
+          </button>
+
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN 3: BLEND WIZARD
+    ============================================================ -->
+    <section id="screen-wizard" class="screen screen--wizard" data-screen="3" aria-label="Tea blend wizard" hidden>
+
+      <!-- Sticky top bar -->
+      <header class="wizard-topbar">
+        <div class="brand-lockup brand-lockup--small">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span class="brand-name">ORIGIN</span>
+        </div>
+        <div class="wizard-xp-mini" aria-label="Current XP">
+          <i id="wizard-badge-icon" class="ph-student-fill" aria-hidden="true"></i>
+          <span id="wizard-xp-display">0 XP</span>
+        </div>
+        <button id="btn-library" class="btn btn--ghost btn--small">
+          <i class="ph-books-fill" aria-hidden="true"></i>
+          <span>Library</span>
+        </button>
+      </header>
+
+      <!-- Two-panel layout -->
+      <div class="wizard-layout">
+
+        <!-- LEFT / TOP: Ingredient picker -->
+        <aside class="ingredient-panel" aria-label="Ingredient selection">
+
+          <div class="panel-section">
+            <div class="section-header">
+              <h3 class="section-label">YOUR BASE HERBS</h3>
+              <span class="selection-counter" id="base-counter" aria-live="polite">0 / 6 selected</span>
+            </div>
+            <div id="ingredient-grid" class="ingredient-grid" role="list" aria-label="Available herbs">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="panel-section panel-section--boosts">
+            <div class="section-header">
+              <h3 class="section-label">
+                BOOSTS
+                <span class="section-badge">Optional</span>
+              </h3>
+            </div>
+            <div id="boost-grid" class="boost-grid" role="list" aria-label="Available mushroom boosts">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+        </aside>
+
+        <!-- RIGHT / BOTTOM: Live preview -->
+        <main class="blend-preview-panel" aria-label="Live blend preview">
+
+          <!-- Blend name -->
+          <div class="blend-name-wrap">
+            <i class="ph-magic-wand-fill blend-name-icon" aria-hidden="true"></i>
+            <input
+              id="input-blend-name"
+              type="text"
+              class="blend-name-input"
+              placeholder="Name your blend…"
+              maxlength="40"
+              aria-label="Blend name"
+            />
+          </div>
+
+          <!-- Donut chart -->
+          <div class="donut-section">
+            <div class="donut-wrap" role="img" aria-label="Blend composition chart" aria-describedby="donut-desc">
+              <div id="donut-chart" class="donut-chart"></div>
+              <div class="donut-center" aria-hidden="true">
+                <span id="donut-count" class="donut-count">0</span>
+                <span class="donut-label">herbs</span>
+              </div>
+              <p id="donut-desc" class="sr-only">Donut chart showing the proportion of selected ingredients.</p>
+            </div>
+            <ul id="donut-legend" class="donut-legend" aria-label="Ingredient legend"></ul>
+          </div>
+
+          <!-- Brew instructions -->
+          <div class="brew-instructions" id="brew-instructions" aria-label="Brew instructions" hidden>
+            <div class="brew-row">
+              <div class="brew-stat">
+                <i class="ph-thermometer-fill brew-icon" aria-hidden="true"></i>
+                <span class="brew-val" id="brew-temp">–</span>
+                <span class="brew-unit">temp</span>
+              </div>
+              <div class="brew-divider" aria-hidden="true"></div>
+              <div class="brew-stat">
+                <i class="ph-timer-fill brew-icon" aria-hidden="true"></i>
+                <span class="brew-val" id="brew-time">–</span>
+                <span class="brew-unit">steep</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Health benefits accumulator -->
+          <div class="benefits-panel" id="benefits-panel" hidden>
+            <h4 class="benefits-title">
+              <i class="ph-heartbeat-fill" aria-hidden="true"></i>
+              Health Benefits
+            </h4>
+            <div id="benefits-list" class="benefits-list" role="list" aria-label="Accumulated health benefits"></div>
+          </div>
+
+          <!-- Wellness focus tags -->
+          <div class="wellness-tags-panel" id="wellness-tags-panel" hidden>
+            <h4 class="wellness-title">
+              <i class="ph-tag-fill" aria-hidden="true"></i>
+              Wellness Focus
+            </h4>
+            <div id="wellness-tags" class="wellness-tags" role="list" aria-label="Wellness focus tags"></div>
+          </div>
+
+          <!-- Caution notes -->
+          <div id="notes-panel" class="notes-panel" hidden>
+            <i class="ph-warning-circle-fill notes-icon" aria-hidden="true"></i>
+            <div id="notes-list" class="notes-list"></div>
+          </div>
+
+          <!-- Empty state -->
+          <div id="wizard-empty" class="wizard-empty" aria-label="No ingredients selected yet">
+            <i class="ph-flask-fill wizard-empty-icon" aria-hidden="true"></i>
+            <p>Select up to <strong>6 herbs</strong> to compose your blend</p>
+            <p class="wizard-empty-hint">Benefits, brew guide &amp; your donut chart will appear here</p>
+          </div>
+
+          <!-- Save blend -->
+          <div class="save-blend-wrap">
+            <button id="btn-save-blend" class="btn btn--gold btn--full btn--large" disabled aria-disabled="true">
+              <i class="ph-floppy-disk-fill btn-icon" aria-hidden="true"></i>
+              Save Blend
+              <span class="save-xp-badge">+25 XP</span>
+            </button>
+          </div>
+
+        </main>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN 4: BLEND LIBRARY
+    ============================================================ -->
+    <section id="screen-library" class="screen screen--library" data-screen="4" aria-label="Saved blend library" hidden>
+
+      <!-- Library header -->
+      <header class="library-header">
+        <button id="btn-back-wizard" class="btn-back" aria-label="Back to blend wizard">
+          <i class="ph-arrow-left" aria-hidden="true"></i>
+        </button>
+        <div class="brand-lockup brand-lockup--small">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span class="brand-name">ORIGIN</span>
+        </div>
+        <button id="btn-new-blend" class="btn btn--gold btn--small">
+          <i class="ph-plus-bold" aria-hidden="true"></i>
+          New Blend
+        </button>
+      </header>
+
+      <!-- XP Banner -->
+      <div class="library-xp-banner" aria-label="XP progress banner">
+        <div class="lib-xp-left">
+          <i id="lib-badge-icon" class="ph-student-fill lib-badge-icon" aria-hidden="true"></i>
+          <div>
+            <p class="lib-level-name" id="lib-level-name">Apprentice</p>
+            <p class="lib-xp-count"><span id="lib-xp-current">0</span> XP</p>
+          </div>
+        </div>
+        <div class="lib-xp-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="lib-xp-progressbar">
+          <div class="xp-bar-fill" id="lib-xp-fill"></div>
+          <div class="xp-bar-shimmer" aria-hidden="true"></div>
+        </div>
+        <p class="lib-xp-next" id="lib-xp-next"></p>
+      </div>
+
+      <h2 class="library-title">Your Blend Library</h2>
+
+      <!-- Blend grid -->
+      <div id="library-grid" class="library-grid" role="list" aria-label="Saved blends">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Empty state -->
+      <div id="library-empty" class="library-empty" hidden>
+        <i class="ph-flask-fill library-empty-icon" aria-hidden="true"></i>
+        <p>No blends saved yet</p>
+        <p class="library-empty-hint">Create your first blend to see it here</p>
+        <button id="btn-first-blend" class="btn btn--gold">
+          <i class="ph-magic-wand-fill btn-icon" aria-hidden="true"></i>
+          Create Your First Blend
+        </button>
+      </div>
+
+    </section>
+
+  </div><!-- /#app -->
+
+  <!-- Main JS module -->
+  <script src="frontend/tea-blend.js" type="module"></script>
+</body>
+</html>
