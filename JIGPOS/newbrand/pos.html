@@ -173,10 +173,33 @@
         /* Right Panel - Products (now on RIGHT Origin design) */
         .products-panel {
             flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            background: #0A0A0A; /* Dark background Origin design */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #0A0A0A;
         }
+
+        /* Sticky header area — tabs never scroll away */
+        .products-header {
+            flex-shrink: 0;
+            padding: 12px 15px 8px;
+            background: #0A0A0A;
+            border-bottom: 1px solid #1A1A1A;
+            z-index: 10;
+        }
+
+        /* Scrollable product grid body */
+        .products-body {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0 15px 15px;
+            -webkit-overflow-scrolling: touch;
+            min-height: 0;
+        }
+        .products-body::-webkit-scrollbar { width: 4px; }
+        .products-body::-webkit-scrollbar-track { background: transparent; }
+        .products-body::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
 
         /* Track Selector - Dark theme */
         .track-selector {
@@ -1866,6 +1889,8 @@
                 </div>
             </div>
 
+            <!-- STICKY HEADER starts here: search + quick-add + tabs all stay fixed -->
+            <div class="products-header">
             <!-- Search Bar -->
             <div class="search-bar">
                 <input type="text" class="search-input" id="productSearch" placeholder="Search products..." onkeyup="searchProducts()">
@@ -1953,14 +1978,17 @@
                     <button class="cat-btn sub-btn" data-type="loose" onclick="selectProductType('loose')">Loose</button>
                 </div>
             </div>
+            </div><!-- /products-header -->
 
-            <!-- Product Grid -->
+            <!-- SCROLLABLE BODY: only the grid scrolls -->
+            <div class="products-body">
             <div class="product-grid" id="productGrid">
                 <div class="loading active">
                     <div class="spinner"></div>
                     <p>Loading products...</p>
                 </div>
             </div>
+            </div><!-- /products-body -->
         </div>
 
         <!-- Right Panel: Cart -->
