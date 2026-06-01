@@ -28,8 +28,10 @@
         ['q','w','e','r','t','y','u','i','o','p'],
         ['a','s','d','f','g','h','j','k','l'],
         ['⇧','z','x','c','v','b','n','m','⌫'],
-        ['SPACE', 'CLR', 'DONE'],
+        ['SPACE', '@', '.com', 'CLR', 'DONE'],
     ];
+
+    const EMAIL_CHARS = ['.', '-', '_', '@', '.com', '.co.za'];
 
     // ── Build keyboard DOM ──────────────────────────────────────────────────
     function buildKeyboard() {
@@ -79,13 +81,27 @@
                     btn.textContent = 'DONE ✓';
                 } else if (key === 'SPACE') {
                     btn.className += ' key-space';
-                    btn.textContent = '________';
+                    btn.innerHTML = '<i class="ph-minus-fill" style="opacity:0.4;"></i>';
                 } else if (key === '⇧') {
                     btn.className += ' key-shift';
                     btn.innerHTML = '<i class="ph-arrow-fat-up-fill"></i>';
                 } else if (key === '.') {
                     btn.className += ' key-gold';
                     btn.textContent = '.';
+                } else if (key === '@') {
+                    btn.className += ' key-gold';
+                    btn.textContent = '@';
+                    btn.style.maxWidth = '52px';
+                } else if (key === '.com') {
+                    btn.className += ' key-gold';
+                    btn.textContent = '.com';
+                    btn.style.maxWidth = '64px';
+                    btn.style.fontSize = '0.8rem';
+                } else if (key === '.co.za') {
+                    btn.className += ' key-gold';
+                    btn.textContent = '.co.za';
+                    btn.style.maxWidth = '72px';
+                    btn.style.fontSize = '0.75rem';
                 } else {
                     btn.textContent = key;
                 }
@@ -107,7 +123,22 @@
     function handleKey(key) {
         if (!activeInput) return;
 
-        if (key === 'DONE') { hide(); activeInput.blur(); return; }
+        if (key === 'DONE') {
+            const el = activeInput;
+            hide();
+            el.blur();
+            // Fire Enter so form handlers and "next field" logic trigger
+            ['keydown','keypress','keyup'].forEach(evType =>
+                el.dispatchEvent(new KeyboardEvent(evType, { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true, cancelable: true }))
+            );
+            // Also click the nearest submit/primary button as fallback
+            setTimeout(() => {
+                const container = el.closest('.modal-body, .modal-content, form, [class*="login"], [class*="panel"]');
+                const btn = container?.querySelector('button.btn-primary, button[type="submit"], button:not([type="button"]):not(.modal-close)');
+                if (btn && !btn.disabled) btn.click();
+            }, 50);
+            return;
+        }
         if (key === 'CLR')  { setInputValue(''); return; }
         if (key === '⌫') {
             const v = activeInput.value;
@@ -124,6 +155,7 @@
             return;
         }
         if (key === 'SPACE') { appendChar(' '); return; }
+        if (key === '.com' || key === '.co.za') { appendString(key); return; }
 
         const char = (shifted && key.length === 1) ? key.toUpperCase() : key;
         appendChar(char);
@@ -131,6 +163,11 @@
             shifted = false;
             document.querySelector('.kb-key.key-shift')?.classList.remove('active');
         }
+    }
+
+    function appendString(str) {
+        if (!activeInput) return;
+        setInputValue(activeInput.value + str);
     }
 
     function appendChar(char) {
