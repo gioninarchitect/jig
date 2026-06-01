@@ -384,6 +384,59 @@
             gap: 10px;
         }
 
+        /* ── List view (teas / wellness table) ── */
+        .product-grid.list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border: 1px solid #2A2A2A;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .product-grid.list-view .product-card {
+            display: grid;
+            grid-template-columns: 36px 1fr auto auto;
+            align-items: center;
+            gap: 10px;
+            min-height: 52px;
+            padding: 10px 14px;
+            border-radius: 0;
+            border: none;
+            border-bottom: 1px solid #222;
+            text-align: left;
+        }
+        .product-grid.list-view .product-card:last-child { border-bottom: none; }
+        .product-grid.list-view .product-card:hover { transform: none; background: rgba(201,168,76,0.06); }
+        .product-grid.list-view .product-card:active { transform: none; background: rgba(201,168,76,0.12); }
+        .product-grid.list-view .product-icon {
+            width: 32px !important; height: 32px !important;
+            border-radius: 8px !important; flex-shrink: 0;
+            font-size: 1rem !important;
+        }
+        .product-grid.list-view .product-icon i { font-size: 1rem !important; }
+        .product-grid.list-view .product-name {
+            font-size: 0.85rem; font-weight: 600;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .product-grid.list-view .product-sku { display: none; }
+        .product-grid.list-view .product-stock { display: none; }
+        .product-grid.list-view .product-price {
+            font-size: 0.95rem; font-weight: 700;
+            font-family: 'Cinzel', sans-serif; text-align: right;
+            white-space: nowrap;
+        }
+        .product-grid.list-view .stock-badge {
+            position: static; font-size: 0.6rem; padding: 2px 5px;
+            display: none;
+        }
+        /* View toggle button */
+        .view-toggle {
+            background: transparent; border: 1px solid #333;
+            border-radius: 8px; padding: 5px 10px; cursor: pointer;
+            color: #999; font-size: 0.75rem; transition: all 0.15s;
+        }
+        .view-toggle:hover, .view-toggle.active { border-color: #C9A84C; color: #C9A84C; }
+
         /* Tablet Optimization */
         @media (min-width: 768px) {
             .product-grid {
@@ -1863,8 +1916,13 @@
                     <button class="category-tab" data-cat="cbd" onclick="selectMainCategory('cbd')">CBD</button>
                     <button class="category-tab" data-cat="accessories" onclick="selectMainCategory('accessories')">ACCESSORIES</button>
                 </div>
-                <!-- Brand Filter Row (dynamic, shown when 2+ brands in view) -->
-                <div id="brandFilterRow" style="display:none;flex-wrap:nowrap;gap:6px;margin-bottom:6px;overflow-x:auto;padding:2px 0;"></div>
+                <!-- Brand Filter Row + View Toggle -->
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                    <div id="brandFilterRow" style="display:none;flex-wrap:nowrap;gap:6px;overflow-x:auto;padding:2px 0;flex:1;"></div>
+                    <button id="viewToggleBtn" class="view-toggle" onclick="toggleListView()" title="Toggle list/grid view">
+                        <i id="viewToggleIcon" class="ph-list-fill"></i>
+                    </button>
+                </div>
 
                 <!-- Wellness Sub-categories -->
                 <div class="category-tabs" id="wellnessCategoryRow" style="display:none;">

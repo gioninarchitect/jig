@@ -7,6 +7,30 @@ const WELLNESS_CATS = new Set(['supplements','pharmacy','skincare','haircare','n
 
 let activeGroup = 'cannabis';
 let selectedBrand = null;
+let isListView = false;
+
+// Categories that default to list view
+const LIST_VIEW_CATS = new Set(['teas','supplements','pharmacy']);
+
+function toggleListView() {
+    isListView = !isListView;
+    const grid = document.getElementById('productGrid');
+    const icon = document.getElementById('viewToggleIcon');
+    const btn  = document.getElementById('viewToggleBtn');
+    if (grid) grid.classList.toggle('list-view', isListView);
+    if (icon) icon.className = isListView ? 'ph-grid-four-fill' : 'ph-list-fill';
+    if (btn)  btn.classList.toggle('active', isListView);
+}
+
+function setListView(on) {
+    isListView = on;
+    const grid = document.getElementById('productGrid');
+    const icon = document.getElementById('viewToggleIcon');
+    const btn  = document.getElementById('viewToggleBtn');
+    if (grid) grid.classList.toggle('list-view', on);
+    if (icon) icon.className = on ? 'ph-grid-four-fill' : 'ph-list-fill';
+    if (btn)  btn.classList.toggle('active', on);
+}
 
 // Extract weight (grams/ml) from product name for unit price
 function extractWeight(name) {
@@ -224,6 +248,9 @@ function selectMainCategory(category) {
         growMethodRow.style.display = 'none';
     }
     productTypeRow.style.display = 'none';
+
+    // Auto-switch list/grid based on category
+    setListView(LIST_VIEW_CATS.has(category));
 
     applyFilters();
 }
