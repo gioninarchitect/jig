@@ -45,8 +45,9 @@ function extractWeight(name) {
 function getUnitPrice(product) {
     const w = extractWeight(product.name);
     if (!w || w.grams <= 1) return null;
-    const perUnit = product.price / w.grams;
-    return `R${perUnit.toFixed(2)}/${w.unit}`;
+    // Round UP to whole rand — no decimals (teas, mushroom powders, tinctures)
+    const perUnit = Math.ceil(product.price / w.grams);
+    return `R${perUnit}/${w.unit}`;
 }
 
 function renderBrandFilter(products) {
