@@ -52,17 +52,20 @@ function getUnitPrice(product) {
 function renderBrandFilter(products) {
     const container = document.getElementById('brandFilterRow');
     if (!container) return;
-    // Extract unique brands/suppliers from current filtered set
-    const brands = [...new Set(
-        products
-            .map(p => p.brand || p.supplier || (p.tags || []).find(t => ['lamelle','bio-sculpture','harmonic-mycology','origin-teas'].includes(t)))
-            .filter(Boolean)
-    )];
-    if (brands.length < 2) { container.style.display = 'none'; return; }
+    // Dedup by DISPLAY name so "Lamelle Pharmaceuticals" + tag "lamelle" = one chip
+    const seen = new Map(); // displayName -> canonical raw value
+    products.forEach(p => {
+        const raw = p.brand || p.supplier || (p.tags || []).find(t => ['lamelle','bio-sculpture','harmonic-mycology','origin-teas','cannamed','cbd-full-spectrum'].includes(t));
+        if (!raw) return;
+        const display = formatBrandName(raw);
+        if (!seen.has(display)) seen.set(display, raw);
+    });
+    const entries = [...seen.entries()]; // [displayName, rawValue]
+    if (entries.length < 2) { container.style.display = 'none'; return; }
     container.style.display = 'flex';
     container.innerHTML = `
         <button class="brand-chip${!selectedBrand ? ' active' : ''}" onclick="selectBrand(null)">All</button>
-        ${brands.map(b => `<button class="brand-chip${selectedBrand === b ? ' active' : ''}" onclick="selectBrand('${b}')">${formatBrandName(b)}</button>`).join('')}
+        ${entries.map(([display, raw]) => `<button class="brand-chip${selectedBrand === display ? ' active' : ''}" onclick="selectBrand('${display}')">${display}</button>`).join('')}
     `;
 }
 
@@ -70,8 +73,12 @@ function formatBrandName(b) {
     const map = {
         'lamelle': 'Lamelle', 'bio-sculpture': 'Bio Sculpture',
         'harmonic-mycology': 'HM Mycology', 'origin-teas': 'Origin Teas',
+        'cannamed': 'CannaMed', 'cbd-full-spectrum': 'CBD Full Spectrum',
         'Lamelle Pharmaceuticals': 'Lamelle', 'Bio Sculpture': 'Bio Sculpture',
-        'Harmonic Mycology': 'HM', 'Origin Teas': 'Origin Teas'
+        'Harmonic Mycology': 'HM Mycology', 'Origin Teas': 'Origin Teas',
+        'CannaMed': 'CannaMed', 'CBD Full Spectrum': 'CBD Full Spectrum',
+        'Sacred Roots': 'CannaMed',
+        'CBD Full Spectrum Manufacturers International': 'CBD Full Spectrum'
     };
     return map[b] || b;
 }
@@ -316,11 +323,11 @@ function applyFilters() {
         }
     }
 
-    // Brand filter
+    // Brand filter — match by display name (selectedBrand is now a display name)
     if (selectedBrand) {
         filtered = filtered.filter(p => {
-            const tags = p.tags || [];
-            return p.brand === selectedBrand || p.supplier === selectedBrand || tags.includes(selectedBrand);
+            const raw = p.brand || p.supplier || (p.tags || []).find(t => ['lamelle','bio-sculpture','harmonic-mycology','origin-teas','cannamed','cbd-full-spectrum'].includes(t));
+            return raw && formatBrandName(raw) === selectedBrand;
         });
     }
 
