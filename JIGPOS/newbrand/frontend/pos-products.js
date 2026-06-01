@@ -82,6 +82,7 @@ function selectBrand(brand) {
 }
 
 function selectGroup(group) {
+    selectedBrand = null; // reset brand filter on group switch
     activeGroup = group;
     const cannabisRow   = document.getElementById('mainCategoryRow');
     const wellnessRow   = document.getElementById('wellnessCategoryRow');
@@ -230,6 +231,7 @@ function selectMainCategory(category) {
     selectedMainCategory = category;
     selectedGrowMethod = null;
     selectedProductType = null;
+    selectedBrand = null; // always reset brand filter on category switch
 
     // Update active state on main row
     document.querySelectorAll('#mainCategoryRow .category-tab').forEach(btn => {

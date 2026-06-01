@@ -12,9 +12,8 @@
 
     // Inputs that should NOT trigger the keyboard (already handled by device)
     const SKIP_SELECTORS = [
-        '#cashReceived',           // payment modal — native numpad is fine
-        '.otp-cell',               // OTP input
-        'input[type="password"]',  // PIN fields
+        '#cashReceived',   // payment modal — native numpad is fine
+        '.otp-cell',       // OTP input — individual digit cells
     ];
 
     const NUM_LAYOUT = [
@@ -167,7 +166,8 @@
         const isNum = input.type === 'number'
             || input.inputMode === 'numeric'
             || input.inputMode === 'decimal'
-            || /search|amount|float|cash|qty|quantity|price/i.test(input.id + input.name + input.placeholder);
+            || isPinField(input)
+            || /pin|otp|amount|float|cash|qty|quantity|price/i.test(input.id + input.name + input.placeholder);
 
         kb.className = isNum ? 'numpad' : 'qwerty';
         renderLayout(isNum ? NUM_LAYOUT : QWERTY_LAYOUT);
@@ -189,15 +189,21 @@
     }
 
     // ── Wire up all inputs ──────────────────────────────────────────────────
+    function isPinField(input) {
+        // PIN = numeric password ≤ 8 chars (not a real password field)
+        return input.type === 'password'
+            && (input.inputMode === 'numeric' || input.maxLength <= 8
+                || /pin|otp/i.test(input.id + input.name + input.placeholder));
+    }
+
     function shouldSkip(input) {
-        return SKIP_SELECTORS.some(sel => input.matches(sel))
-            || input.type === 'password'
-            || input.type === 'file'
-            || input.type === 'checkbox'
-            || input.type === 'radio'
-            || input.closest('#pos-keyboard')
-            || input.readOnly
-            || input.disabled;
+        if (SKIP_SELECTORS.some(sel => input.matches(sel))) return true;
+        if (input.type === 'file' || input.type === 'checkbox' || input.type === 'radio') return true;
+        if (input.closest('#pos-keyboard')) return true;
+        if (input.readOnly || input.disabled) return true;
+        // Block real password fields (long text passwords), allow numeric PINs
+        if (input.type === 'password' && !isPinField(input)) return true;
+        return false;
     }
 
     function init() {
