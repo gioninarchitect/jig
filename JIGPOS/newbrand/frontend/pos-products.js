@@ -82,8 +82,13 @@ function selectBrand(brand) {
 }
 
 function selectGroup(group) {
-    selectedBrand = null; // reset brand filter on group switch
+    selectedBrand = null;
     activeGroup = group;
+    // Switch quick-add bar immediately on group change
+    const cannabisBar = document.getElementById('quickAddCannabis');
+    const teasBar     = document.getElementById('quickAddTeas');
+    if (cannabisBar) cannabisBar.style.display = group === 'wellness' ? 'none' : 'flex';
+    if (teasBar)     teasBar.style.display     = group === 'wellness' ? 'flex' : 'none';
     const cannabisRow   = document.getElementById('mainCategoryRow');
     const wellnessRow   = document.getElementById('wellnessCategoryRow');
     const grpCannabis   = document.getElementById('grpCannabis');
@@ -254,12 +259,12 @@ function selectMainCategory(category) {
     // Auto-switch list/grid based on category
     setListView(LIST_VIEW_CATS.has(category));
 
-    // Switch quick-add bar context
-    const isTeas = category === 'teas';
+    // Switch quick-add bar: wellness group → single 1 BAG, cannabis → flower buttons
+    const isWellness = WELLNESS_CATS.has(category) || category === 'wellness-all';
     const cannabisBar = document.getElementById('quickAddCannabis');
     const teasBar     = document.getElementById('quickAddTeas');
-    if (cannabisBar) cannabisBar.style.display = isTeas ? 'none' : 'flex';
-    if (teasBar)     teasBar.style.display     = isTeas ? 'flex' : 'none';
+    if (cannabisBar) cannabisBar.style.display = isWellness ? 'none' : 'flex';
+    if (teasBar)     teasBar.style.display     = isWellness ? 'flex' : 'none';
 
     applyFilters();
 }
@@ -694,6 +699,45 @@ function quickSelectProduct(productId) {
         addToCart(product);
     }
     closeQuickModal();
+}
+
+// Wellness single-unit quick-add — shows picker for current category
+function quickAddWellnessUnit() {
+    const cat = selectedMainCategory;
+    const pool = allProducts.filter(p =>
+        WELLNESS_CATS.has(p.category) &&
+        (cat === 'wellness-all' || p.category === cat) &&
+        (p.inventory?.quantity || 0) > 0
+    );
+    if (!pool.length) { showToast('No Stock', 'No products in stock for this category', 'error'); return; }
+    if (pool.length === 1) { addToCart(pool[0]); return; }
+
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.id = 'wellnessPickerModal';
+    const catLabel = cat === 'wellness-all' ? 'Wellness & Pharmacy' : cat.replace('-', ' ').replace(/\b\w/g, c => c.toUpperCase());
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <span class="modal-title">${catLabel} — Select 1 Unit</span>
+                <button class="modal-close" onclick="document.getElementById('wellnessPickerModal')?.remove()">&times;</button>
+            </div>
+            <div class="modal-body" style="display:flex;flex-direction:column;gap:8px;max-height:65vh;overflow-y:auto;">
+                ${pool.map(p => `
+                    <div onclick="addToCart(${JSON.stringify(p).replace(/'/g,"\\'")}); document.getElementById('wellnessPickerModal')?.remove();"
+                         style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#1C1C1C;border:1px solid #2A2A2A;border-radius:10px;cursor:pointer;"
+                         onmouseover="this.style.borderColor='#C9A84C'" onmouseout="this.style.borderColor='#2A2A2A'">
+                        <div>
+                            <div style="font-weight:600;color:#F5F0E8;font-size:0.9rem;">${p.name}</div>
+                            <div style="font-size:0.75rem;color:#666;">${p.brand || p.supplier || ''}</div>
+                        </div>
+                        <span style="color:#C9A84C;font-family:'Cinzel',sans-serif;font-weight:700;white-space:nowrap;margin-left:12px;">R${p.price}</span>
+                    </div>
+                `).join('')}
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
 }
 
 // Tea quick-add functions
