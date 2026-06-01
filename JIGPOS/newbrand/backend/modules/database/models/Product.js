@@ -82,8 +82,9 @@ const productSchema = new mongoose.Schema({
       'skincare',            // Skincare range (Lamelle topicals)
       'haircare',            // Hair care products
       'nail-care',           // Nail gel products (Bio Sculpture Gemini)
-      'wellness',            // Functional wellness (HM mushrooms, botanicals)
-      'teas'                 // Herbal teas (Origin Teas — OT range)
+      'wellness',            // Functional wellness (botanicals)
+      'teas',                // Herbal teas (Origin Teas — OT range)
+      'mushrooms'            // Medicinal mushrooms (Harmonic Mycology)
     ],
     index: true
   },

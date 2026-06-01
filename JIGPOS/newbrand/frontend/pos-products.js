@@ -3,14 +3,14 @@
 
 // ── Product Group (Cannabis / Wellness) ─────────────────────────────────────
 const CANNABIS_CATS = new Set(['flower','pre-rolls','edibles','concentrates','topicals','oils','lifestyle-cbd','accessories','glassware','vaporizers','vapes','bundles','la-brewha','bean-bud','coffee','merchandise']);
-const WELLNESS_CATS = new Set(['supplements','pharmacy','skincare','haircare','nail-care','wellness','teas']);
+const WELLNESS_CATS = new Set(['supplements','pharmacy','skincare','haircare','nail-care','wellness','teas','mushrooms']);
 
 let activeGroup = 'cannabis';
 let selectedBrand = null;
 let isListView = false;
 
 // Categories that default to list view
-const LIST_VIEW_CATS = new Set(['teas','supplements','pharmacy']);
+const LIST_VIEW_CATS = new Set(['teas','supplements','pharmacy','mushrooms']);
 
 function toggleListView() {
     isListView = !isListView;
@@ -429,6 +429,7 @@ function getProductIconConfig(category) {
         'haircare':      { fa: 'ph-hair-dryer-fill',       color: '#F472B6', bg: 'rgba(244,114,182,0.14)' },
         'nail-care':     { fa: 'ph-sparkle-fill',          color: '#C084FC', bg: 'rgba(192,132,252,0.14)' },
         'wellness':      { fa: 'ph-heartbeat-fill',        color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
+        'mushrooms':     { fa: 'ph-mushroom-fill',         color: '#A78BFA', bg: 'rgba(167,139,250,0.14)' },
         // ── Hospitality (amber) ───────────────────────────────────
         'coffee':        { fa: 'ph-coffee-fill',           color: '#FBBF24', bg: 'rgba(251,191,36,0.14)'  },
         'merchandise':   { fa: 'ph-t-shirt-fill',          color: '#9CA3AF', bg: 'rgba(156,163,175,0.14)' },
