@@ -15,8 +15,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <!-- Phosphor Icons -->
-  <script src="https://unpkg.com/phosphor-icons@1.4.2"></script>
+  <!-- Phosphor Icons (jsDelivr — within CSP allowlist) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/index.min.js"></script>
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/tea-blend.css" />
@@ -507,6 +508,6 @@
   </div><!-- /#app -->
 
   <!-- Main JS module -->
-  <script src="frontend/tea-blend.js" type="module"></script>
+  <script src="frontend/tea-blend.js" defer></script>
 </body>
 </html>
