@@ -240,6 +240,7 @@ function displayProducts(products) {
 
 function getProductIcon(category) {
     const icons = {
+        // Cannabis categories — keep cannabis leaf
         'flower': '<i class="fas fa-cannabis"></i>',
         'pre-rolls': '<i class="fas fa-joint"></i>',
         'edibles': '<i class="fas fa-cookie-bite"></i>',
@@ -249,13 +250,22 @@ function getProductIcon(category) {
         'glassware': '<i class="fas fa-wine-glass"></i>',
         'vaporizers': '<i class="fas fa-smoking"></i>',
         'lifestyle-cbd': '<i class="fas fa-leaf"></i>',
+        'oils': '<i class="fas fa-eye-dropper"></i>',
+        'bundles': '<i class="fas fa-gift"></i>',
+        // Hospitality
         'coffee': '<i class="fas fa-coffee"></i>',
         'merchandise': '<i class="fas fa-tshirt"></i>',
-        'bundles': '<i class="fas fa-gift"></i>',
         'la-brewha': '<i class="fas fa-mug-hot"></i>',
-        'bean-bud': '<i class="fas fa-seedling"></i>'
+        'bean-bud': '<i class="fas fa-seedling"></i>',
+        // Non-cannabis wellness categories
+        'supplements': '<i class="fas fa-capsules"></i>',
+        'pharmacy': '<i class="fas fa-prescription-bottle-alt"></i>',
+        'skincare': '<i class="fas fa-spa"></i>',
+        'haircare': '<i class="fas fa-wind"></i>',
+        'nail-care': '<i class="fas fa-paint-brush"></i>',
+        'wellness': '<i class="fas fa-heartbeat"></i>',
     };
-    return icons[category] || '<i class="fas fa-cannabis"></i>';
+    return icons[category] || '<i class="fas fa-box-open"></i>';
 }
 
 function searchProducts() {
