@@ -1678,6 +1678,7 @@
             .till-status { font-size: 0.75rem; padding: 4px 8px; }
         }
     </style>
+    <link rel="stylesheet" href="css/keyboard.css">
 </head>
 <body>
     <!-- Login Screen -->
@@ -1897,24 +1898,35 @@
                 <i class="fas fa-search search-icon"></i>
             </div>
 
-            <!-- Quick Add Buttons -->
-            <div class="quick-add-bar" style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
-                <button class="quick-add-btn" onclick="quickAddPreroll()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, #C9A84C 0%, #8B6914 100%); color: #fff; border: none; border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 8px rgba(201,168,76,0.3);">
-                    <i class="fas fa-scroll"></i>
-                    Sheet/Cone R10
-                </button>
-                <button class="quick-add-btn" onclick="quickAddGram()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #1A1A1A; color: #fff; border: 1px solid #2A2A2A; border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer;">
-                    <i class="fas fa-leaf"></i>
-                    1g Flower
-                </button>
-                <button class="quick-add-btn" onclick="quickAdd3gRack()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, #D4B96A 0%, #C9A84C 100%); color: #fff; border: none; border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer;">
-                    <i class="fas fa-cannabis"></i>
-                    3g Pack
-                </button>
-                <button class="quick-add-btn" onclick="quickAdd5gBag()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #0A0A0A; color: #fff; border: 1px solid rgba(201,168,76,0.4); border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer;">
-                    <i class="fas fa-box"></i>
-                    5g Bag
-                </button>
+            <!-- Quick Add Buttons — context-aware (cannabis vs teas) -->
+            <div class="quick-add-bar" id="quickAddBar" style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
+                <!-- Cannabis quick-add (default) -->
+                <div id="quickAddCannabis" style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="quick-add-btn" onclick="quickAddPreroll()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, #C9A84C 0%, #8B6914 100%); color: #fff; border: none; border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 8px rgba(201,168,76,0.3);">
+                        <i class="fas fa-scroll"></i> Sheet/Cone R10
+                    </button>
+                    <button class="quick-add-btn" onclick="quickAddGram()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #1A1A1A; color: #fff; border: 1px solid #2A2A2A; border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer;">
+                        <i class="fas fa-leaf"></i> 1g Flower
+                    </button>
+                    <button class="quick-add-btn" onclick="quickAdd3gRack()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: linear-gradient(135deg, #D4B96A 0%, #C9A84C 100%); color: #fff; border: none; border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer;">
+                        <i class="fas fa-cannabis"></i> 3g Pack
+                    </button>
+                    <button class="quick-add-btn" onclick="quickAdd5gBag()" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #0A0A0A; color: #fff; border: 1px solid rgba(201,168,76,0.4); border-radius: 10px; font-family: 'Cinzel', sans-serif; font-size: 1rem; cursor: pointer;">
+                        <i class="fas fa-box"></i> 5g Bag
+                    </button>
+                </div>
+                <!-- Tea quick-add (shown when TEAS tab active) -->
+                <div id="quickAddTeas" style="display:none;gap:8px;flex-wrap:wrap;">
+                    <button class="quick-add-btn" onclick="quickAddTeaBag(30)" style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(74,222,128,0.12);color:#4ADE80;border:1px solid rgba(74,222,128,0.3);border-radius:10px;font-family:'Cinzel',sans-serif;font-size:1rem;cursor:pointer;">
+                        <i class="ph-leaf-fill"></i> 30g Bag
+                    </button>
+                    <button class="quick-add-btn" onclick="quickAddTeaBag(50)" style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(74,222,128,0.08);color:#4ADE80;border:1px solid rgba(74,222,128,0.2);border-radius:10px;font-family:'Cinzel',sans-serif;font-size:1rem;cursor:pointer;">
+                        <i class="ph-leaf-fill"></i> 50g Bag
+                    </button>
+                    <button class="quick-add-btn" onclick="quickAddTeaBlend()" style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:linear-gradient(135deg,#8B6914,#C9A84C);color:#0A0A0A;border:none;border-radius:10px;font-family:'Cinzel',sans-serif;font-size:1rem;cursor:pointer;font-weight:700;">
+                        <i class="ph-flask-fill"></i> Mix Blend
+                    </button>
+                </div>
             </div>
 
             <!-- Category Hierarchy - 3 Level -->
@@ -3017,5 +3029,6 @@
         countEl.textContent = `${totalItems} products in stock`;
     }
     </script>
+    <script src="frontend/keyboard.js" defer></script>
 </body>
 </html>

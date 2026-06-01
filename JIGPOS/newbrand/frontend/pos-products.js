@@ -252,6 +252,13 @@ function selectMainCategory(category) {
     // Auto-switch list/grid based on category
     setListView(LIST_VIEW_CATS.has(category));
 
+    // Switch quick-add bar context
+    const isTeas = category === 'teas';
+    const cannabisBar = document.getElementById('quickAddCannabis');
+    const teasBar     = document.getElementById('quickAddTeas');
+    if (cannabisBar) cannabisBar.style.display = isTeas ? 'none' : 'flex';
+    if (teasBar)     teasBar.style.display     = isTeas ? 'flex' : 'none';
+
     applyFilters();
 }
 
@@ -685,6 +692,47 @@ function quickSelectProduct(productId) {
         addToCart(product);
     }
     closeQuickModal();
+}
+
+// Tea quick-add functions
+function quickAddTeaBag(targetGrams) {
+    // Show modal to pick which tea in that gram size
+    const teas = allProducts.filter(p => p.category === 'teas' && p.inventory?.quantity > 0);
+    const matching = teas.filter(p => {
+        const w = getUnitPrice && p.name.match(/(\d+)g/i);
+        return w ? parseInt(w[1]) === targetGrams : true;
+    });
+    const list = matching.length > 0 ? matching : teas;
+    if (list.length === 0) { showToast('No Teas', 'No tea products in stock', 'error'); return; }
+    if (list.length === 1) { addToCart(list[0]); return; }
+    // Show picker
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.id = 'teaPickerModal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <span class="modal-title">${targetGrams}g Teas</span>
+                <button class="modal-close" onclick="document.getElementById('teaPickerModal')?.remove()">&times;</button>
+            </div>
+            <div class="modal-body" style="display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow-y:auto;">
+                ${list.map(t => `
+                    <div onclick="addToCart(${JSON.stringify(t).replace(/'/g,"\\'")}); document.getElementById('teaPickerModal')?.remove();"
+                         style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#1C1C1C;border:1px solid #2A2A2A;border-radius:10px;cursor:pointer;"
+                         onmouseover="this.style.borderColor='#C9A84C'" onmouseout="this.style.borderColor='#2A2A2A'">
+                        <span style="font-weight:600;color:#F5F0E8;">${t.name}</span>
+                        <span style="color:#C9A84C;font-family:'Cinzel',sans-serif;font-weight:700;">R${t.price}</span>
+                    </div>
+                `).join('')}
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function quickAddTeaBlend() {
+    // Show all teas for multi-select blend builder
+    showToast('Coming Soon', 'Custom blend mix — add teas individually for now', 'info');
 }
 
 function closeQuickModal() {
