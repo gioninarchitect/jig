@@ -39,7 +39,16 @@
 
         backdrop = document.createElement('div');
         backdrop.id = 'pos-keyboard-backdrop';
-        backdrop.addEventListener('pointerdown', hide);
+        // Only hide on tap (not scroll) — track if pointer moved
+        let _bpStart = null;
+        backdrop.addEventListener('pointerdown', e => { _bpStart = { x: e.clientX, y: e.clientY }; });
+        backdrop.addEventListener('pointerup', e => {
+            if (!_bpStart) return;
+            const dx = Math.abs(e.clientX - _bpStart.x);
+            const dy = Math.abs(e.clientY - _bpStart.y);
+            _bpStart = null;
+            if (dx < 10 && dy < 10) hide(); // only hide on clean tap
+        });
         document.body.appendChild(backdrop);
 
         kb = document.createElement('div');

@@ -191,11 +191,21 @@
         /* Scrollable product grid body */
         .products-body {
             flex: 1;
-            overflow-y: auto;
+            overflow-y: scroll;
             overflow-x: hidden;
             padding: 0 15px 15px;
             -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
+            overscroll-behavior-y: contain;
             min-height: 0;
+        }
+
+        /* Allow vertical swipe-scroll to pass through cards */
+        .product-grid {
+            touch-action: pan-y;
+        }
+        .product-card {
+            touch-action: manipulation;
         }
         .products-body::-webkit-scrollbar { width: 4px; }
         .products-body::-webkit-scrollbar-track { background: transparent; }
