@@ -349,7 +349,8 @@ function logout() {
     sessionStorage.removeItem('selectedBranch');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = '/login.html';
+    // Return to the POS's own inline login (has the on-screen keyboard)
+    window.location.href = '/pos.html';
 }
 
 // ==========================================
