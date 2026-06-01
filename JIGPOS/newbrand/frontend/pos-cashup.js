@@ -14,14 +14,8 @@ let cashupDenominations = {
 // ==========================================
 
 async function openDayEnd() {
-    const branchId = getSelectedBranchId();
-    if (!branchId) {
-        showToast('Select a branch first', 'error');
-        return;
-    }
-
-    const modal = document.getElementById('dayEndModal');
-    modal.style.display = 'flex';
+    // Navigate to dedicated day-end wizard page
+    window.location.href = 'day-end.html';
 
     // Switch to status tab first (ensures tab divs are visible)
     switchDayEndTab('status');

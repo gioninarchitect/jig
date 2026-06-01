@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#C9A84C">
+    <title>Day End — Origin Retail</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/index.min.js"></script>
+    <link rel="stylesheet" href="css/day-end.css">
+</head>
+<body>
+
+    <!-- ============================================================
+         TOAST NOTIFICATION
+    ============================================================ -->
+    <div id="toast" class="toast" role="alert" aria-live="assertive">
+        <span id="toastIcon"></span>
+        <span id="toastMsg"></span>
+    </div>
+
+    <!-- ============================================================
+         PAGE HEADER
+    ============================================================ -->
+    <header class="page-header">
+        <div class="header-brand">
+            <span class="brand-wordmark">ORIGIN</span>
+            <span class="header-divider"></span>
+            <span class="header-title">Day End</span>
+        </div>
+        <nav class="header-actions">
+            <a href="pos.html" class="btn-ghost" id="btnBackToPOS">
+                <i class="ph-arrow-left"></i>
+                Back to POS
+            </a>
+        </nav>
+    </header>
+
+    <!-- ============================================================
+         PROGRESS BAR
+    ============================================================ -->
+    <div class="progress-track" role="progressbar" aria-label="Wizard progress" aria-valuemin="1" aria-valuemax="5">
+        <div class="progress-steps">
+            <div class="progress-step active" data-step="1" aria-label="Step 1: Count the Till">
+                <div class="step-dot">
+                    <span class="step-num">1</span>
+                    <i class="ph-check step-check"></i>
+                </div>
+                <span class="step-label">Count Till</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="2" aria-label="Step 2: Variance Check">
+                <div class="step-dot">
+                    <span class="step-num">2</span>
+                    <i class="ph-check step-check"></i>
+                </div>
+                <span class="step-label">Variance</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="3" aria-label="Step 3: Safe Drop">
+                <div class="step-dot">
+                    <span class="step-num">3</span>
+                    <i class="ph-check step-check"></i>
+                </div>
+                <span class="step-label">Safe Drop</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="4" aria-label="Step 4: Z-Report">
+                <div class="step-dot">
+                    <span class="step-num">4</span>
+                    <i class="ph-check step-check"></i>
+                </div>
+                <span class="step-label">Z-Report</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="5" aria-label="Step 5: Done">
+                <div class="step-dot">
+                    <span class="step-num">5</span>
+                    <i class="ph-check step-check"></i>
+                </div>
+                <span class="step-label">Done</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         MAIN WIZARD CONTAINER
+    ============================================================ -->
+    <main class="wizard-container">
+
+        <!-- =========================================================
+             STEP 1 — COUNT THE TILL
+        ========================================================= -->
+        <section class="wizard-step active" id="step1" data-step="1">
+            <div class="step-header">
+                <h1 class="step-title">Count Your Till</h1>
+                <p class="step-subtitle">Count all physical cash in the till and enter the quantities below.</p>
+            </div>
+
+            <!-- Session Info Card -->
+            <div class="session-card" id="sessionInfoCard">
+                <div class="session-loading" id="sessionLoading">
+                    <i class="ph-circle-notch spin"></i>
+                    <span>Loading session data…</span>
+                </div>
+                <div class="session-grid" id="sessionGrid" style="display:none">
+                    <div class="session-stat">
+                        <span class="stat-label">Session</span>
+                        <span class="stat-value" id="s1SessionNumber">—</span>
+                    </div>
+                    <div class="session-stat">
+                        <span class="stat-label">Till</span>
+                        <span class="stat-value" id="s1TillNumber">—</span>
+                    </div>
+                    <div class="session-stat">
+                        <span class="stat-label">Opened</span>
+                        <span class="stat-value" id="s1OpenedAt">—</span>
+                    </div>
+                    <div class="session-stat">
+                        <span class="stat-label">Transactions</span>
+                        <span class="stat-value" id="s1TransactionCount">—</span>
+                    </div>
+                    <div class="session-stat wide">
+                        <span class="stat-label">Total Sales</span>
+                        <span class="stat-value gold" id="s1TotalSales">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Denomination Counter -->
+            <div class="denomination-panel">
+                <div class="denom-section-header">
+                    <i class="ph-bank"></i>
+                    <span>NOTES</span>
+                </div>
+                <div class="denom-grid">
+                    <!-- R200 -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge note">R200</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_R200" data-value="200" min="0" step="1" placeholder="0" aria-label="R200 notes count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R200</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_R200">R 0.00</span>
+                    </div>
+                    <!-- R100 -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge note">R100</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_R100" data-value="100" min="0" step="1" placeholder="0" aria-label="R100 notes count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R100</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_R100">R 0.00</span>
+                    </div>
+                    <!-- R50 -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge note">R50</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_R50" data-value="50" min="0" step="1" placeholder="0" aria-label="R50 notes count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R50</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_R50">R 0.00</span>
+                    </div>
+                    <!-- R20 -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge note">R20</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_R20" data-value="20" min="0" step="1" placeholder="0" aria-label="R20 notes count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R20</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_R20">R 0.00</span>
+                    </div>
+                    <!-- R10 -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge note">R10</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_R10" data-value="10" min="0" step="1" placeholder="0" aria-label="R10 notes count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R10</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_R10">R 0.00</span>
+                    </div>
+                </div>
+
+                <div class="denom-section-header coins">
+                    <i class="ph-coins"></i>
+                    <span>COINS</span>
+                </div>
+                <div class="denom-grid">
+                    <!-- R5 -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge coin">R5</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_R5" data-value="5" min="0" step="1" placeholder="0" aria-label="R5 coins count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R5</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_R5">R 0.00</span>
+                    </div>
+                    <!-- R2 -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge coin">R2</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_R2" data-value="2" min="0" step="1" placeholder="0" aria-label="R2 coins count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R2</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_R2">R 0.00</span>
+                    </div>
+                    <!-- R1 -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge coin">R1</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_R1" data-value="1" min="0" step="1" placeholder="0" aria-label="R1 coins count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R1</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_R1">R 0.00</span>
+                    </div>
+                    <!-- 50c -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge coin">50c</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_c50" data-value="0.50" min="0" step="1" placeholder="0" aria-label="50 cent coins count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R0.50</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_c50">R 0.00</span>
+                    </div>
+                    <!-- 20c -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge coin">20c</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_c20" data-value="0.20" min="0" step="1" placeholder="0" aria-label="20 cent coins count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R0.20</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_c20">R 0.00</span>
+                    </div>
+                    <!-- 10c -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge coin">10c</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_c10" data-value="0.10" min="0" step="1" placeholder="0" aria-label="10 cent coins count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R0.10</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_c10">R 0.00</span>
+                    </div>
+                    <!-- 5c -->
+                    <div class="denom-row">
+                        <div class="denom-label">
+                            <span class="denom-badge coin">5c</span>
+                        </div>
+                        <input type="number" class="denom-input" id="d_c5" data-value="0.05" min="0" step="1" placeholder="0" aria-label="5 cent coins count">
+                        <span class="denom-mult">×</span>
+                        <span class="denom-face">R0.05</span>
+                        <span class="denom-eq">=</span>
+                        <span class="denom-total" id="t_c5">R 0.00</span>
+                    </div>
+                </div>
+
+                <!-- Grand Total -->
+                <div class="denom-total-bar">
+                    <span class="total-bar-label">TOTAL CASH COUNTED</span>
+                    <span class="total-bar-value" id="grandTotalDisplay">R 0.00</span>
+                </div>
+            </div>
+
+            <div class="step-actions">
+                <button class="btn-primary" id="btnStep1Next" onclick="DayEnd.step1Next()">
+                    Count Complete
+                    <i class="ph-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             STEP 2 — VARIANCE CHECK
+        ========================================================= -->
+        <section class="wizard-step" id="step2" data-step="2">
+            <div class="step-header">
+                <h1 class="step-title">Variance Check</h1>
+                <p class="step-subtitle">Comparing your counted cash against the expected amount from today's sales.</p>
+            </div>
+
+            <!-- Comparison Card -->
+            <div class="variance-card" id="varianceCard">
+                <div class="variance-row expected">
+                    <span class="var-label">Expected Cash</span>
+                    <span class="var-amount" id="v2Expected">R 0.00</span>
+                </div>
+                <div class="variance-row counted">
+                    <span class="var-label">Counted Cash</span>
+                    <span class="var-amount" id="v2Counted">R 0.00</span>
+                </div>
+                <div class="variance-divider"></div>
+                <div class="variance-row variance" id="v2VarianceRow">
+                    <span class="var-label">Variance</span>
+                    <span class="var-amount" id="v2Variance">R 0.00</span>
+                </div>
+                <div class="variance-status" id="v2Status"></div>
+            </div>
+
+            <!-- Payment Breakdown -->
+            <div class="breakdown-card">
+                <h3 class="breakdown-title">Payment Breakdown</h3>
+                <div class="breakdown-grid">
+                    <div class="breakdown-row">
+                        <span class="br-label">
+                            <i class="ph-currency-zar"></i>
+                            Cash Sales
+                        </span>
+                        <span class="br-amount" id="v2CashSales">R 0.00</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span class="br-label">
+                            <i class="ph-credit-card"></i>
+                            Card / EFT
+                        </span>
+                        <span class="br-amount" id="v2CardEft">R 0.00</span>
+                    </div>
+                    <div class="breakdown-row total">
+                        <span class="br-label">Total Sales</span>
+                        <span class="br-amount gold" id="v2TotalSales">R 0.00</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span class="br-label">Transactions</span>
+                        <span class="br-amount" id="v2Transactions">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes field — shown when variance > R5 -->
+            <div class="notes-field" id="varianceNotesField" style="display:none">
+                <label class="notes-label" for="varianceNotes">
+                    <i class="ph-note-pencil"></i>
+                    Variance Note (required)
+                </label>
+                <textarea id="varianceNotes" class="notes-textarea" rows="3" placeholder="Explain the variance…"></textarea>
+            </div>
+
+            <div class="step-actions">
+                <button class="btn-ghost-sm" onclick="DayEnd.goToStep(1)">
+                    <i class="ph-arrow-left"></i>
+                    Back
+                </button>
+                <button class="btn-primary" id="btnStep2Next" onclick="DayEnd.step2Next()">
+                    Confirm &amp; Continue
+                    <i class="ph-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             STEP 3 — SAFE DROP
+        ========================================================= -->
+        <section class="wizard-step" id="step3" data-step="3">
+            <div class="step-header">
+                <h1 class="step-title">Remove Cash from Till</h1>
+                <p class="step-subtitle">Leave R500 as the opening float for tomorrow. Bank the remainder.</p>
+            </div>
+
+            <!-- Safe Drop Calculation -->
+            <div class="safedrop-calc-card">
+                <div class="calc-row">
+                    <span class="calc-label">Cash Counted</span>
+                    <span class="calc-amount" id="s3CashCounted">R 0.00</span>
+                </div>
+                <div class="calc-row minus">
+                    <span class="calc-label">Less Float (R500)</span>
+                    <span class="calc-amount">− R 500.00</span>
+                </div>
+                <div class="calc-divider"></div>
+                <div class="calc-row total">
+                    <span class="calc-label">Safe Drop Amount</span>
+                    <span class="calc-amount gold" id="s3DropAmount">R 0.00</span>
+                </div>
+            </div>
+
+            <!-- Safe Drop Form -->
+            <div class="safedrop-form">
+                <div class="form-group">
+                    <label class="form-label" for="safeDropAmount">
+                        Actual Drop Amount (R)
+                    </label>
+                    <input type="number" id="safeDropAmount" class="form-input" step="0.01" min="0" placeholder="0.00" aria-label="Safe drop amount">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="safeDropDescription">
+                        Description
+                    </label>
+                    <input type="text" id="safeDropDescription" class="form-input" value="Daily safe drop" placeholder="Daily safe drop" aria-label="Safe drop description">
+                </div>
+            </div>
+
+            <div class="step-actions">
+                <button class="btn-ghost-sm" onclick="DayEnd.goToStep(2)">
+                    <i class="ph-arrow-left"></i>
+                    Back
+                </button>
+                <button class="btn-primary" id="btnStep3Next" onclick="DayEnd.step3Next()">
+                    Record Safe Drop
+                    <i class="ph-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             STEP 4 — Z-REPORT
+        ========================================================= -->
+        <section class="wizard-step" id="step4" data-step="4">
+            <div class="step-header">
+                <h1 class="step-title">Daily Summary — Z Report</h1>
+                <p class="step-subtitle">Review the full day summary before closing.</p>
+            </div>
+
+            <!-- Z-Report Document -->
+            <div class="zreport" id="zReport">
+                <div class="zreport-header">
+                    <div class="zreport-brand">ORIGIN RETAIL</div>
+                    <div class="zreport-meta">
+                        <span id="zr-branch">Potchefstroom</span>
+                        <span class="zr-sep">|</span>
+                        <span id="zr-date">—</span>
+                    </div>
+                    <div class="zreport-label">Z — REPORT</div>
+                </div>
+
+                <div class="zreport-section">
+                    <div class="zreport-section-title">SALES SUMMARY</div>
+                    <div class="zreport-row">
+                        <span class="zr-key">Total Transactions</span>
+                        <span class="zr-val" id="zr-transactions">0</span>
+                    </div>
+                    <div class="zreport-row">
+                        <span class="zr-key">Gross Sales</span>
+                        <span class="zr-val" id="zr-grossSales">R 0.00</span>
+                    </div>
+                    <div class="zreport-row">
+                        <span class="zr-key">Refunds</span>
+                        <span class="zr-val" id="zr-refunds">R 0.00</span>
+                    </div>
+                    <div class="zreport-row bold">
+                        <span class="zr-key">Net Sales</span>
+                        <span class="zr-val gold" id="zr-netSales">R 0.00</span>
+                    </div>
+                </div>
+
+                <div class="zreport-divider"></div>
+
+                <div class="zreport-section">
+                    <div class="zreport-section-title">PAYMENT METHODS</div>
+                    <div class="zreport-row">
+                        <span class="zr-key">Cash</span>
+                        <span class="zr-val" id="zr-cash">R 0.00</span>
+                    </div>
+                    <div class="zreport-row">
+                        <span class="zr-key">Card</span>
+                        <span class="zr-val" id="zr-card">R 0.00</span>
+                    </div>
+                    <div class="zreport-row">
+                        <span class="zr-key">EFT</span>
+                        <span class="zr-val" id="zr-eft">R 0.00</span>
+                    </div>
+                </div>
+
+                <div class="zreport-divider"></div>
+
+                <div class="zreport-section">
+                    <div class="zreport-section-title">TILL RECONCILIATION</div>
+                    <div class="zreport-row">
+                        <span class="zr-key">Opening Float</span>
+                        <span class="zr-val" id="zr-openingFloat">R 0.00</span>
+                    </div>
+                    <div class="zreport-row">
+                        <span class="zr-key">Cash Sales</span>
+                        <span class="zr-val" id="zr-cashSalesRecon">R 0.00</span>
+                    </div>
+                    <div class="zreport-row">
+                        <span class="zr-key">Expected in Till</span>
+                        <span class="zr-val" id="zr-expectedInTill">R 0.00</span>
+                    </div>
+                    <div class="zreport-row">
+                        <span class="zr-key">Counted</span>
+                        <span class="zr-val" id="zr-counted">R 0.00</span>
+                    </div>
+                    <div class="zreport-row bold" id="zr-varianceRow">
+                        <span class="zr-key">Variance</span>
+                        <span class="zr-val" id="zr-variance">R 0.00</span>
+                    </div>
+                </div>
+
+                <div class="zreport-divider"></div>
+
+                <div class="zreport-section">
+                    <div class="zreport-section-title">SAFE DROP</div>
+                    <div class="zreport-row">
+                        <span class="zr-key">Amount Dropped</span>
+                        <span class="zr-val" id="zr-safeDropAmt">R 0.00</span>
+                    </div>
+                    <div class="zreport-row bold">
+                        <span class="zr-key">Float Remaining</span>
+                        <span class="zr-val gold" id="zr-floatRemaining">R 500.00</span>
+                    </div>
+                </div>
+
+                <div class="zreport-footer">
+                    <span>Generated: <span id="zr-generated">—</span></span>
+                    <span>Origin Retail POS</span>
+                </div>
+            </div>
+
+            <div class="step-actions">
+                <button class="btn-ghost-sm no-print" onclick="DayEnd.goToStep(3)">
+                    <i class="ph-arrow-left"></i>
+                    Back
+                </button>
+                <button class="btn-secondary no-print" onclick="window.print()">
+                    <i class="ph-printer"></i>
+                    Print Report
+                </button>
+                <button class="btn-primary no-print" id="btnStep4Next" onclick="DayEnd.step4Next()">
+                    Submit &amp; Close Day
+                    <i class="ph-check-circle"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             STEP 5 — DONE
+        ========================================================= -->
+        <section class="wizard-step" id="step5" data-step="5">
+            <div class="done-container">
+                <div class="done-icon-wrap" id="doneIconWrap">
+                    <div class="done-ring"></div>
+                    <i class="ph-check done-check-icon"></i>
+                </div>
+                <h1 class="done-title">Day Complete</h1>
+                <p class="done-message">Great work today. Tomorrow's float of R500 is ready in the till.</p>
+
+                <div class="done-stats">
+                    <div class="done-stat">
+                        <span class="done-stat-label">Total Sales</span>
+                        <span class="done-stat-value gold" id="d5TotalSales">R 0.00</span>
+                    </div>
+                    <div class="done-stat">
+                        <span class="done-stat-label">Transactions</span>
+                        <span class="done-stat-value" id="d5Transactions">0</span>
+                    </div>
+                    <div class="done-stat">
+                        <span class="done-stat-label">Safe Drop</span>
+                        <span class="done-stat-value" id="d5SafeDrop">R 0.00</span>
+                    </div>
+                </div>
+
+                <a href="pos.html" class="btn-back-pos">
+                    <i class="ph-arrow-left"></i>
+                    Back to POS
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="frontend/day-end.js"></script>
+</body>
+</html>
