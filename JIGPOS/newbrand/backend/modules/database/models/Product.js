@@ -74,7 +74,15 @@ const productSchema = new mongoose.Schema({
       'edibles',             // Capsules, tablets, lozenges, chocolates
       'oils',                // THC oils, CBD oils, balanced oils, tinctures
       'topicals',            // Creams, balms, patches, salves
-      'vapes'                // Medical vape cartridges (THC/CBD)
+      'vapes',               // Medical vape cartridges (THC/CBD)
+
+      // Wellness & Pharmacy Track (Potchefstroom expansion)
+      'supplements',         // Health supplements (Lamelle, HM capsules/powders)
+      'pharmacy',            // OTC pharmaceutical products (Lamelle Nia-Sol)
+      'skincare',            // Skincare range (Lamelle topicals)
+      'haircare',            // Hair care products
+      'nail-care',           // Nail gel products (Bio Sculpture Gemini)
+      'wellness'             // Functional wellness (HM mushrooms, botanicals)
     ],
     index: true
   },
@@ -105,7 +113,12 @@ const productSchema = new mongoose.Schema({
       // Topicals subcategories
       'creams', 'balms', 'patches', 'salves',
       // Medical vapes subcategories
-      'thc-cartridges', 'cbd-cartridges', 'balanced-cartridges'
+      'thc-cartridges', 'cbd-cartridges', 'balanced-cartridges',
+      // Wellness & Pharmacy subcategories
+      'capsules-supp', 'powder', 'extract', 'tincture', 'botanical',
+      'grow-kit', 'wellness-bundle', 'mushroom',
+      'gel-colour', 'nail-treatment', 'nail-tool',
+      'anti-ageing', 'scar-repair', 'uv-protection', 'womens-health', 'mens-health'
     ]
   },
   tags: [{

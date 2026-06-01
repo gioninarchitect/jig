@@ -296,32 +296,32 @@ function displayProducts(products) {
 function getProductIconConfig(category) {
     const map = {
         // ── Cannabis (green) ──────────────────────────────────────
-        'flower':        { fa: 'fas fa-cannabis',          color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
-        'pre-rolls':     { fa: 'fas fa-joint',             color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
-        'edibles':       { fa: 'fas fa-cookie-bite',       color: '#F59E0B', bg: 'rgba(245,158,11,0.14)'  },
-        'concentrates':  { fa: 'fas fa-flask',             color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
-        'topicals':      { fa: 'fas fa-pump-soap',         color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
-        'oils':          { fa: 'fas fa-eye-dropper',       color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
-        'lifestyle-cbd': { fa: 'fas fa-leaf',              color: '#4ADE80', bg: 'rgba(74,222,128,0.14)'  },
-        'accessories':   { fa: 'fas fa-fire',              color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
-        'glassware':     { fa: 'fas fa-wine-glass',        color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
-        'vaporizers':    { fa: 'fas fa-cloud',             color: '#94A3B8', bg: 'rgba(148,163,184,0.14)' },
-        'vapes':         { fa: 'fas fa-cloud',             color: '#94A3B8', bg: 'rgba(148,163,184,0.14)' },
-        'bundles':       { fa: 'fas fa-gift',              color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
+        'flower':        { fa: 'ph-plant-fill',            color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
+        'pre-rolls':     { fa: 'ph-cigarette-fill',        color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
+        'edibles':       { fa: 'ph-cookie-fill',           color: '#F59E0B', bg: 'rgba(245,158,11,0.14)'  },
+        'concentrates':  { fa: 'ph-flask-fill',            color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
+        'topicals':      { fa: 'ph-drop-fill',             color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
+        'oils':          { fa: 'ph-eyedropper-fill',       color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
+        'lifestyle-cbd': { fa: 'ph-leaf-fill',             color: '#4ADE80', bg: 'rgba(74,222,128,0.14)'  },
+        'accessories':   { fa: 'ph-fire-fill',             color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
+        'glassware':     { fa: 'ph-wine-fill',             color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
+        'vaporizers':    { fa: 'ph-cloud-fill',            color: '#94A3B8', bg: 'rgba(148,163,184,0.14)' },
+        'vapes':         { fa: 'ph-cloud-fill',            color: '#94A3B8', bg: 'rgba(148,163,184,0.14)' },
+        'bundles':       { fa: 'ph-gift-fill',             color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
         // ── Pharmacy / Wellness (blue–purple) ────────────────────
-        'supplements':   { fa: 'fas fa-pills',             color: '#60A5FA', bg: 'rgba(96,165,250,0.14)'  },
-        'pharmacy':      { fa: 'fas fa-mortar-pestle',     color: '#818CF8', bg: 'rgba(129,140,248,0.14)' },
-        'skincare':      { fa: 'fas fa-pump-soap',         color: '#F472B6', bg: 'rgba(244,114,182,0.14)' },
-        'haircare':      { fa: 'fas fa-scissors',          color: '#F472B6', bg: 'rgba(244,114,182,0.14)' },
-        'nail-care':     { fa: 'fas fa-hand-sparkles',     color: '#C084FC', bg: 'rgba(192,132,252,0.14)' },
-        'wellness':      { fa: 'fas fa-heart-pulse',       color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
+        'supplements':   { fa: 'ph-pill-fill',             color: '#60A5FA', bg: 'rgba(96,165,250,0.14)'  },
+        'pharmacy':      { fa: 'ph-first-aid-kit-fill',    color: '#818CF8', bg: 'rgba(129,140,248,0.14)' },
+        'skincare':      { fa: 'ph-spray-bottle-fill',     color: '#F472B6', bg: 'rgba(244,114,182,0.14)' },
+        'haircare':      { fa: 'ph-hair-dryer-fill',       color: '#F472B6', bg: 'rgba(244,114,182,0.14)' },
+        'nail-care':     { fa: 'ph-sparkle-fill',          color: '#C084FC', bg: 'rgba(192,132,252,0.14)' },
+        'wellness':      { fa: 'ph-heartbeat-fill',        color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
         // ── Hospitality (amber) ───────────────────────────────────
-        'coffee':        { fa: 'fas fa-mug-hot',           color: '#FBBF24', bg: 'rgba(251,191,36,0.14)'  },
-        'merchandise':   { fa: 'fas fa-shirt',             color: '#9CA3AF', bg: 'rgba(156,163,175,0.14)' },
-        'la-brewha':     { fa: 'fas fa-mug-hot',           color: '#FBBF24', bg: 'rgba(251,191,36,0.14)'  },
-        'bean-bud':      { fa: 'fas fa-seedling',          color: '#34D399', bg: 'rgba(52,211,153,0.14)'  },
+        'coffee':        { fa: 'ph-coffee-fill',           color: '#FBBF24', bg: 'rgba(251,191,36,0.14)'  },
+        'merchandise':   { fa: 'ph-t-shirt-fill',          color: '#9CA3AF', bg: 'rgba(156,163,175,0.14)' },
+        'la-brewha':     { fa: 'ph-coffee-fill',           color: '#FBBF24', bg: 'rgba(251,191,36,0.14)'  },
+        'bean-bud':      { fa: 'ph-potted-plant-fill',     color: '#34D399', bg: 'rgba(52,211,153,0.14)'  },
     };
-    return map[category] || { fa: 'fas fa-box-open', color: '#9CA3AF', bg: 'rgba(156,163,175,0.14)' };
+    return map[category] || { fa: 'ph-package-fill', color: '#9CA3AF', bg: 'rgba(156,163,175,0.14)' };
 }
 
 function getProductIcon(category) {
