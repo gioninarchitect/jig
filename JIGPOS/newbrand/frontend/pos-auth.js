@@ -3,7 +3,7 @@
 
 // Roles that can select any branch (not locked to primaryBranch)
 const MULTI_BRANCH_ROLES = ['super_admin', 'owner', 'admin'];
-const POS_ALLOWED_ROLES = ['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant'];
+const POS_ALLOWED_ROLES = ['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant', 'pharmacy_admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_assistant'];
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {

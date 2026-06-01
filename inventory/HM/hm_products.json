@@ -1,0 +1,112 @@
+[
+  {
+    "id": "6983619280994",
+    "vendor": "Harmonic Mycology",
+    "type": "Botanical extract",
+    "handle": "ashwagandha-extract",
+    "name": "Ashwagandha extract",
+    "price_cents": 26000,
+    "price_zar": "R260.00",
+    "sku": "WSUSE",
+    "url": "https://harmonicmycology.com/products/ashwagandha-extract"
+  },
+  {
+    "id": "7372979175522",
+    "vendor": "Harmonic Mycology",
+    "type": "mushrooms",
+    "handle": "grey-oyster-mushroom-grow-box-copy",
+    "name": "Black Pearl Oyster Mushroom - Grow Box",
+    "price_cents": 16000,
+    "price_zar": "R160.00",
+    "sku": "MB-BP",
+    "url": "https://harmonicmycology.com/products/grey-oyster-mushroom-grow-box-copy"
+  },
+  {
+    "id": "7372980093026",
+    "vendor": "Harmonic Mycology",
+    "type": "mushrooms",
+    "handle": "chestnut-mushroom-grow-box",
+    "name": "Chestnut Mushroom - Grow Box",
+    "price_cents": 15000,
+    "price_zar": "R150.00",
+    "sku": "MB-ENO",
+    "url": "https://harmonicmycology.com/products/chestnut-mushroom-grow-box"
+  },
+  {
+    "id": "7372980420706",
+    "vendor": "Harmonic Mycology",
+    "type": "mushrooms",
+    "handle": "enoki-mushroom-grow-box",
+    "name": "Enoki Mushroom - Grow Box",
+    "price_cents": 16000,
+    "price_zar": "R160.00",
+    "sku": "MB-CN",
+    "url": "https://harmonicmycology.com/products/enoki-mushroom-grow-box"
+  },
+  {
+    "id": "4379408892002",
+    "vendor": "Harmonic Mycology",
+    "type": "mushrooms",
+    "handle": "equilibrium-capsules",
+    "name": "Equilibrium Capsules",
+    "price_cents": 18000,
+    "price_zar": "R180.00",
+    "sku": "EBC60",
+    "url": "https://harmonicmycology.com/products/equilibrium-capsules"
+  },
+  {
+    "id": "7372980748386",
+    "vendor": "Harmonic Mycology",
+    "type": "mushrooms",
+    "handle": "golden-oyster-mushroom-grow-box",
+    "name": "Golden Oyster Mushroom - Grow Box",
+    "price_cents": 15000,
+    "price_zar": "R150.00",
+    "sku": "MB-GO",
+    "url": "https://harmonicmycology.com/products/golden-oyster-mushroom-grow-box"
+  },
+  {
+    "id": "7268119412834",
+    "vendor": "Harmonic Mycology",
+    "type": "mushrooms",
+    "handle": "mini-mushroom-box",
+    "name": "Grey Oyster Mushroom - Grow Box",
+    "price_cents": 15000,
+    "price_zar": "R150.00",
+    "sku": "MMB502",
+    "url": "https://harmonicmycology.com/products/mini-mushroom-box"
+  },
+  {
+    "id": "7319869751394",
+    "vendor": "Harmonic Mycology",
+    "type": "mushrooms",
+    "handle": "lions-mane-capsule-blend",
+    "name": "Lion's mane capsules",
+    "price_cents": 40000,
+    "price_zar": "R400.00",
+    "sku": "HEC60",
+    "url": "https://harmonicmycology.com/products/lions-mane-capsule-blend"
+  },
+  {
+    "id": "7372981502050",
+    "vendor": "Harmonic Mycology",
+    "type": "mushrooms",
+    "handle": "lions-mane-mushroom-grow-box",
+    "name": "Lion's mane Mushroom - Grow Box",
+    "price_cents": 15000,
+    "price_zar": "R150.00",
+    "sku": "MB-GO",
+    "url": "https://harmonicmycology.com/products/lions-mane-mushroom-grow-box"
+  },
+  {
+    "id": "7095602249826",
+    "vendor": "Harmonic Mycology",
+    "type": "mushrooms",
+    "handle": "maitake-powder-50g",
+    "name": "Maitake powder 50g",
+    "price_cents": 20000,
+    "price_zar": "R200.00",
+    "sku": "APMT50",
+    "url": "https://harmonicmycology.com/products/maitake-powder-50g"
+  }
+]

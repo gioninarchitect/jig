@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMP Compliance Centre — Origin Retail Platform</title>
+    <link rel="icon" type="image/png" href="images/origin-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0A0A0A;
+            --bg-card: #111111;
+            --bg-card-2: #161616;
+            --bg-raised: #1A1A1A;
+            --border: #2A2A2A;
+            --border-gold: rgba(201,168,76,0.35);
+            --gold: #C9A84C;
+            --gold-light: #E8D5A3;
+            --gold-dim: #8B6914;
+            --gold-glow: rgba(201,168,76,0.15);
+            --gold-glow-strong: rgba(201,168,76,0.3);
+            --text: #F5F0E8;
+            --text-muted: #A89F8C;
+            --text-dim: #6B6458;
+            --success: #22C55E;
+            --success-bg: rgba(34,197,94,0.1);
+            --warning: #F8C242;
+            --warning-bg: rgba(248,194,66,0.1);
+            --danger: #EF4444;
+            --danger-bg: rgba(239,68,68,0.1);
+            --info: #60A5FA;
+            --info-bg: rgba(96,165,250,0.1);
+            --shadow-gold: 0 8px 40px rgba(201,168,76,0.2);
+            --shadow-card: 0 4px 24px rgba(0,0,0,0.5);
+            --gradient-gold: linear-gradient(135deg, #8B6914 0%, #C9A84C 45%, #E8D5A3 75%, #C9A84C 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* =========================================
+           NAVIGATION
+        ========================================= */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10,10,10,0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-gold);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .nav-brand-mark {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--gold);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-brand-name {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-link:hover {
+            color: var(--gold);
+            background: var(--gold-glow);
+        }
+
+        .nav-link.active {
+            color: var(--gold);
+            background: var(--gold-glow);
+        }
+
+        .nav-badge {
+            background: var(--gold);
+            color: var(--bg);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.1rem 0.4rem;
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* =========================================
+           HERO SECTION
+        ========================================= */
+        .hero {
+            position: relative;
+            padding: 7rem 2rem 5rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 40% at 80% 80%, rgba(201,168,76,0.04) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gold-glow);
+            border: 1px solid var(--border-gold);
+            border-radius: 100px;
+            padding: 0.4rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.7); }
+        }
+
+        .hero-headline {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: 0.02em;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-headline .accent {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            animation: fade-up 0.8s ease 0.2s both;
+        }
+
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+            display: block;
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-top: 0.4rem;
+            display: block;
+        }
+
+        .hero-divider {
+            width: 1px;
+            height: 48px;
+            background: var(--border);
+            align-self: center;
+        }
+
+        /* =========================================
+           SECTION STRUCTURE
+        ========================================= */
+        .section {
+            padding: 5rem 2rem;
+            position: relative;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-gold), transparent);
+            max-width: 80px;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.03em;
+        }
+
+        .section-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.75;
+        }
+
+        /* =========================================
+           COMPLIANCE SCORE WIDGET
+        ========================================= */
+        .compliance-score-section {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 3rem 2rem;
+        }
+
+        .score-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1.5px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .score-card {
+            background: var(--bg-card-2);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.2s;
+        }
+
+        .score-card:hover {
+            background: var(--bg-raised);
+        }
+
+        .score-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .score-card.gold::before { background: var(--gradient-gold); }
+        .score-card.green::before { background: linear-gradient(90deg, #065f46, #22C55E); }
+        .score-card.amber::before { background: linear-gradient(90deg, #92400e, #F8C242); }
+        .score-card.red::before { background: linear-gradient(90deg, #7f1d1d, #EF4444); }
+
+        .score-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .score-card.gold .score-card-icon { background: var(--gold-glow); color: var(--gold); }
+        .score-card.green .score-card-icon { background: var(--success-bg); color: var(--success); }
+        .score-card.amber .score-card-icon { background: var(--warning-bg); color: var(--warning); }
+        .score-card.red .score-card-icon { background: var(--danger-bg); color: var(--danger); }
+
+        .score-value {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .score-card.gold .score-value { color: var(--gold); }
+        .score-card.green .score-value { color: var(--success); }
+        .score-card.amber .score-value { color: var(--warning); }
+        .score-card.red .score-value { color: var(--danger); }
+
+        .score-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .score-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .score-card.gold .score-bar-fill { background: var(--gradient-gold); }
+        .score-card.green .score-bar-fill { background: linear-gradient(90deg, #16a34a, #22C55E); }
+        .score-card.amber .score-bar-fill { background: linear-gradient(90deg, #d97706, #F8C242); }
+        .score-card.red .score-bar-fill { background: linear-gradient(90deg, #dc2626, #EF4444); }
+
+        .score-meta {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Live indicator */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.25);
+            border-radius: 100px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--success);
+            letter-spacing: 0.08em;
+            float: right;
+        }
+
+        .live-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+
+        /* =========================================
+           GMP PRINCIPLES GRID
+        ========================================= */
+        .principles-section { background: var(--bg); }
+
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 3rem;
+        }
+
+        .principle-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0 2rem;
+            position: relative;
+            transition: background 0.3s;
+            overflow: hidden;
+        }
+
+        .principle-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse 60% 60% at 0% 0%, var(--gold-glow) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .principle-card:hover {
+            background: var(--bg-card-2);
+        }
+
+        .principle-card:hover::after {
+            opacity: 1;
+        }
+
+        .principle-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .principle-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+        }
+
+        .principle-icon {
+            width: 52px;
+            height: 52px;
+            border: 1px solid var(--border-gold);
+            border-radius: 10px;
+            background: var(--gold-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .principle-connector {
+            width: 1px;
+            flex: 1;
+            background: linear-gradient(180deg, var(--border-gold) 0%, transparent 100%);
+            min-height: 20px;
+        }
+
+        .principle-right { min-width: 0; }
+
+        .principle-gmp-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold-dim);
+            border: 1px solid rgba(139,105,20,0.4);
+            border-radius: 4px;
+            padding: 0.15rem 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .principle-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.03em;
+        }
+
+        .principle-gmp-desc {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .principle-arrow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .principle-arrow-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-gold), transparent);
+            max-width: 40px;
+        }
+
+        .principle-arrow-icon {
+            font-size: 0.75rem;
+            color: var(--gold);
+        }
+
+        .principle-arrow-text {
+            font-size: 0.68rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .platform-feature {
+            background: rgba(201,168,76,0.06);
+            border: 1px solid var(--border-gold);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .platform-feature-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .platform-feature-title i {
+            font-size: 0.8rem;
+            color: var(--gold);
+        }
+
+        .platform-feature-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.75rem;
+        }
+
+        .feature-tag {
+            font-size: 0.65rem;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(201,168,76,0.1);
+            color: var(--gold);
+            border-radius: 4px;
+            padding: 0.15rem 0.45rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* =========================================
+           CAPA FLOW DIAGRAM
+        ========================================= */
+        .capa-section {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .capa-flow {
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .capa-row {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+        }
+
+        .capa-step {
+            flex: 1;
+            position: relative;
+            padding: 2rem 1.5rem;
+            background: var(--bg-card-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin: 0 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .capa-step:hover {
+            border-color: var(--border-gold);
+            box-shadow: 0 0 0 1px var(--border-gold), var(--shadow-gold);
+        }
+
+        .capa-step-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            letter-spacing: 0.12em;
+            margin-bottom: 0.75rem;
+        }
+
+        .capa-step-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .capa-step.trigger .capa-step-icon { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
+        .capa-step.detect .capa-step-icon { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(248,194,66,0.2); }
+        .capa-step.ticket .capa-step-icon { background: var(--info-bg); color: var(--info); border: 1px solid rgba(96,165,250,0.2); }
+        .capa-step.train .capa-step-icon { background: var(--gold-glow); color: var(--gold); border: 1px solid var(--border-gold); }
+        .capa-step.close .capa-step-icon { background: var(--success-bg); color: var(--success); border: 1px solid rgba(34,197,94,0.2); }
+
+        .capa-step-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .capa-step-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .capa-step-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.6rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.08em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 100px;
+        }
+
+        .capa-step.trigger .capa-step-status { background: var(--danger-bg); color: var(--danger); }
+        .capa-step.detect .capa-step-status { background: var(--warning-bg); color: var(--warning); }
+        .capa-step.ticket .capa-step-status { background: var(--info-bg); color: var(--info); }
+        .capa-step.train .capa-step-status { background: var(--gold-glow); color: var(--gold); }
+        .capa-step.close .capa-step-status { background: var(--success-bg); color: var(--success); }
+
+        .capa-connector {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            z-index: 1;
+            padding: 0 0.25rem;
+        }
+
+        .capa-connector svg {
+            width: 20px;
+            color: var(--text-dim);
+        }
+
+        .capa-examples {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .capa-example {
+            background: var(--bg-raised);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--danger);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .capa-example-label {
+            font-size: 0.65rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--danger);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .capa-example-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.35rem;
+        }
+
+        .capa-example-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .capa-example-result {
+            margin-top: 0.75rem;
+            font-size: 0.7rem;
+            color: var(--info);
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* =========================================
+           SOP COVERAGE TABLE
+        ========================================= */
+        .sop-section { background: var(--bg); }
+
+        .sop-table-wrap {
+            margin-top: 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .sop-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .sop-table thead {
+            background: var(--bg-raised);
+            border-bottom: 1px solid var(--border-gold);
+        }
+
+        .sop-table th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-family: 'Cinzel', serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .sop-table th:first-child {
+            color: var(--text-muted);
+        }
+
+        .sop-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .sop-table tbody tr:last-child { border-bottom: none; }
+
+        .sop-table tbody tr:hover {
+            background: var(--bg-raised);
+        }
+
+        .sop-table td {
+            padding: 1rem 1.5rem;
+            vertical-align: middle;
+        }
+
+        .role-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .role-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--gold-glow);
+            border: 1px solid var(--border-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .role-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .role-sub {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        .check-cell {
+            text-align: center;
+        }
+
+        .check-yes {
+            width: 24px;
+            height: 24px;
+            background: var(--success-bg);
+            border: 1px solid rgba(34,197,94,0.3);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: var(--success);
+        }
+
+        .check-partial {
+            width: 24px;
+            height: 24px;
+            background: var(--warning-bg);
+            border: 1px solid rgba(248,194,66,0.3);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: var(--warning);
+        }
+
+        .check-no {
+            width: 24px;
+            height: 24px;
+            background: rgba(100,100,100,0.08);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: var(--text-dim);
+        }
+
+        .sop-count-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: var(--gold-glow);
+            border: 1px solid var(--border-gold);
+            border-radius: 100px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--gold);
+        }
+
+        /* =========================================
+           LEGAL ANCHOR MATRIX
+        ========================================= */
+        .legal-section {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+        }
+
+        .legal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .legal-card {
+            background: var(--bg-card-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .legal-card:hover {
+            border-color: var(--border-gold);
+        }
+
+        .legal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-gold);
+        }
+
+        .legal-act-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .legal-act-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .legal-act-ref {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 1.25rem;
+        }
+
+        .legal-provisions {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .legal-provision {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .legal-provision-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--gold);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 0.45rem;
+        }
+
+        .legal-provision strong {
+            color: var(--gold-light);
+            font-weight: 500;
+        }
+
+        /* =========================================
+           AUDIT TRAIL MOCK LOG
+        ========================================= */
+        .audit-section { background: var(--bg); }
+
+        .audit-log {
+            margin-top: 2.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .audit-log-header {
+            padding: 1rem 1.5rem;
+            background: var(--bg-raised);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .audit-log-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+        }
+
+        .audit-log-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .audit-log-btn {
+            padding: 0.3rem 0.75rem;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s;
+        }
+
+        .audit-log-btn:hover {
+            border-color: var(--border-gold);
+            color: var(--gold);
+        }
+
+        .audit-entries {
+            max-height: 360px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        .audit-entry {
+            display: grid;
+            grid-template-columns: 160px 1fr 80px 140px;
+            gap: 1rem;
+            padding: 0.85rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.78rem;
+            align-items: center;
+            transition: background 0.15s;
+        }
+
+        .audit-entry:last-child { border-bottom: none; }
+        .audit-entry:hover { background: var(--bg-raised); }
+
+        .audit-ts {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--text-dim);
+        }
+
+        .audit-action {
+            color: var(--text);
+        }
+
+        .audit-action .who {
+            font-weight: 600;
+            color: var(--gold-light);
+        }
+
+        .audit-result {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 100px;
+        }
+
+        .audit-result.pass { background: var(--success-bg); color: var(--success); }
+        .audit-result.warn { background: var(--warning-bg); color: var(--warning); }
+        .audit-result.block { background: var(--danger-bg); color: var(--danger); }
+
+        .audit-sop {
+            font-size: 0.68rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-dim);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+        .footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-gold);
+            padding: 3rem 2rem;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-brand {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+
+        .footer-brand strong {
+            color: var(--gold);
+        }
+
+        .footer-note {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        .footer-note a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* =========================================
+           DIVIDERS
+        ========================================= */
+        .divider-gold {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+            margin: 0;
+        }
+
+        /* =========================================
+           SCROLL ANIMATIONS
+        ========================================= */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+        @media (max-width: 900px) {
+            .score-grid { grid-template-columns: 1fr 1fr; }
+            .principles-grid { grid-template-columns: 1fr; }
+            .legal-grid { grid-template-columns: 1fr; }
+            .capa-row { flex-direction: column; }
+            .capa-connector { transform: rotate(90deg); }
+            .capa-examples { grid-template-columns: 1fr; }
+            .audit-entry { grid-template-columns: 1fr 1fr; }
+            .audit-ts, .audit-sop { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .score-grid { grid-template-columns: 1fr; }
+            .hero-stats { gap: 1.5rem; }
+            .hero-divider { display: none; }
+            .top-nav { padding: 0 1rem; }
+            .nav-links { display: none; }
+        }
+
+        /* =========================================
+           MISC UTILITIES
+        ========================================= */
+        .text-gold { color: var(--gold); }
+        .text-muted { color: var(--text-muted); }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--border-gold); }
+
+        /* Section anchor scroll offset */
+        [id] { scroll-margin-top: 80px; }
+
+        /* Counter animation */
+        .counter { display: inline; }
+    </style>
+</head>
+<body>
+
+<!-- =========================================
+     NAVIGATION
+========================================= -->
+<nav class="top-nav">
+    <a href="dashboard.html" class="nav-brand">
+        <div class="nav-brand-mark">OR</div>
+        <span class="nav-brand-name">Origin Retail</span>
+    </a>
+    <div class="nav-links">
+        <a href="dashboard.html" class="nav-link">
+            <i class="fas fa-home"></i> Dashboard
+        </a>
+        <a href="training-hub.html" class="nav-link">
+            <i class="fas fa-graduation-cap"></i> Training Hub
+        </a>
+        <a href="admin.html" class="nav-link">
+            <i class="fas fa-cog"></i> Admin
+        </a>
+        <a href="gmp-compliance.html" class="nav-link active">
+            <i class="fas fa-shield-halved"></i> GMP Centre
+            <span class="nav-badge">LIVE</span>
+        </a>
+    </div>
+</nav>
+
+<!-- =========================================
+     HERO
+========================================= -->
+<section class="hero" id="top">
+    <div class="hero-bg"></div>
+    <div style="position:relative; z-index:1;">
+        <div class="hero-eyebrow">GMP Compliance Centre</div>
+        <h1 class="hero-headline">
+            GMP Is Not An Act,<br>
+            It's a <span class="accent">Habit</span> —<br>
+            And Our System <span class="accent">Makes It One</span>
+        </h1>
+        <p class="hero-sub">
+            Every GMP principle you enforce manually is now digitally embedded in every workflow,
+            every role, every dispensing action — automatically, traceably, enforceably.
+        </p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat-value counter" data-target="94" data-suffix="%">0%</span>
+                <span class="hero-stat-label">Platform Compliance Rate</span>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="hero-stat">
+                <span class="hero-stat-value">8</span>
+                <span class="hero-stat-label">GMP Principles Covered</span>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="hero-stat">
+                <span class="hero-stat-value counter" data-target="100" data-suffix="%">0%</span>
+                <span class="hero-stat-label">Actions Audit-Trailed</span>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="hero-stat">
+                <span class="hero-stat-value">5</span>
+                <span class="hero-stat-label">Roles With SOPs Assigned</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider-gold"></div>
+
+<!-- =========================================
+     COMPLIANCE SCORE DASHBOARD
+========================================= -->
+<section class="compliance-score-section" id="dashboard">
+    <div class="score-grid animate-on-scroll">
+        <div class="score-card gold">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 1.25rem;">
+                <div class="score-card-icon"><i class="fas fa-shield-halved"></i></div>
+                <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+            </div>
+            <div class="score-value">94<span style="font-size:1.5rem; opacity:0.7;">%</span></div>
+            <div class="score-label">Overall Compliance Score</div>
+            <div class="score-bar"><div class="score-bar-fill" data-width="94" style="width:0%"></div></div>
+            <div class="score-meta">Updated every 15 min · Ref: SOP-QA-001</div>
+        </div>
+        <div class="score-card amber">
+            <div class="score-card-icon"><i class="fas fa-circle-exclamation"></i></div>
+            <div class="score-value">2</div>
+            <div class="score-label">Open CAPAs</div>
+            <div class="score-bar"><div class="score-bar-fill" data-width="20" style="width:0%"></div></div>
+            <div class="score-meta">CAPA-2024-031 · CAPA-2024-028</div>
+        </div>
+        <div class="score-card green">
+            <div class="score-card-icon"><i class="fas fa-graduation-cap"></i></div>
+            <div class="score-value">0</div>
+            <div class="score-label">Overdue Trainings</div>
+            <div class="score-bar"><div class="score-bar-fill" data-width="100" style="width:0%"></div></div>
+            <div class="score-meta">All modules current · Next review 2024-07-01</div>
+        </div>
+        <div class="score-card green">
+            <div class="score-card-icon"><i class="fas fa-file-signature"></i></div>
+            <div class="score-value">31</div>
+            <div class="score-label">SOPs Acknowledged</div>
+            <div class="score-bar"><div class="score-bar-fill" data-width="97" style="width:0%"></div></div>
+            <div class="score-meta">97% sign-off rate · 1 pending intern</div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================
+     GMP PRINCIPLE MAP
+========================================= -->
+<section class="section principles-section" id="principles">
+    <div class="section-inner">
+        <div class="section-label animate-on-scroll">GMP Principle Map</div>
+        <h2 class="section-title animate-on-scroll">How Origin Enforces Each GMP Requirement</h2>
+        <p class="section-desc animate-on-scroll">
+            Each principle from your GMP framework maps directly to a platform feature.
+            This is not interpretation — it is engineering.
+        </p>
+
+        <div class="principles-grid animate-on-scroll">
+
+            <!-- 1. SOPs -->
+            <div class="principle-card">
+                <div class="principle-left">
+                    <div class="principle-number">01</div>
+                    <div class="principle-icon"><i class="fas fa-book-bookmark"></i></div>
+                    <div class="principle-connector"></div>
+                </div>
+                <div class="principle-right">
+                    <span class="principle-gmp-tag">GMP § SOPs</span>
+                    <h3 class="principle-title">Standard Operating Procedures</h3>
+                    <p class="principle-gmp-desc">
+                        Every activity must be governed by a documented, approved SOP. Staff must have access and prove understanding.
+                    </p>
+                    <div class="principle-arrow">
+                        <div class="principle-arrow-line"></div>
+                        <span class="principle-arrow-icon"><i class="fas fa-arrow-right"></i></span>
+                        <span class="principle-arrow-text">Origin Implementation</span>
+                    </div>
+                    <div class="platform-feature">
+                        <div class="platform-feature-title"><i class="fas fa-layer-group"></i> Role-Based SOP Library</div>
+                        <div class="platform-feature-desc">
+                            Each role (RP, Intern, Driver, Floor Staff, QA) has a curated SOP library. Staff must digitally acknowledge each SOP before their workflow unlocks. Acknowledgement is timestamped and co-signed by manager. No acknowledgement = no access.
+                        </div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">digital-sign-off</span>
+                            <span class="feature-tag">role-gated</span>
+                            <span class="feature-tag">version-controlled</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Deviations -->
+            <div class="principle-card">
+                <div class="principle-left">
+                    <div class="principle-number">02</div>
+                    <div class="principle-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                    <div class="principle-connector"></div>
+                </div>
+                <div class="principle-right">
+                    <span class="principle-gmp-tag">GMP § Deviations</span>
+                    <h3 class="principle-title">Deviation Detection & Reporting</h3>
+                    <p class="principle-gmp-desc">
+                        Any departure from an approved procedure must be identified, recorded, and investigated before the process continues.
+                    </p>
+                    <div class="principle-arrow">
+                        <div class="principle-arrow-line"></div>
+                        <span class="principle-arrow-icon"><i class="fas fa-arrow-right"></i></span>
+                        <span class="principle-arrow-text">Origin Implementation</span>
+                    </div>
+                    <div class="platform-feature">
+                        <div class="platform-feature-title"><i class="fas fa-bolt"></i> Auto-CAPA Trigger Engine</div>
+                        <div class="platform-feature-desc">
+                            When staff deviate from SOP — stock take without photo, delivery without temperature log, dispense without S21 verification — the system automatically raises a CAPA ticket, logs the deviation with evidence, and notifies the QA Manager and RP in real time.
+                        </div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">auto-detect</span>
+                            <span class="feature-tag">real-time-alert</span>
+                            <span class="feature-tag">evidence-capture</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. CAPA -->
+            <div class="principle-card">
+                <div class="principle-left">
+                    <div class="principle-number">03</div>
+                    <div class="principle-icon"><i class="fas fa-arrows-rotate"></i></div>
+                    <div class="principle-connector"></div>
+                </div>
+                <div class="principle-right">
+                    <span class="principle-gmp-tag">GMP § CAPA</span>
+                    <h3 class="principle-title">Corrective &amp; Preventive Action</h3>
+                    <p class="principle-gmp-desc">
+                        Root cause must be addressed. Preventive action documented. Effectiveness verified before closure.
+                    </p>
+                    <div class="principle-arrow">
+                        <div class="principle-arrow-line"></div>
+                        <span class="principle-arrow-icon"><i class="fas fa-arrow-right"></i></span>
+                        <span class="principle-arrow-text">Origin Implementation</span>
+                    </div>
+                    <div class="platform-feature">
+                        <div class="platform-feature-title"><i class="fas fa-ticket"></i> Gated CAPA Ticket System</div>
+                        <div class="platform-feature-desc">
+                            A CAPA ticket auto-assigns a specific training module to the responsible staff member. The ticket is locked until: (1) staff completes the module, (2) QA manager counter-signs, (3) a 14-day monitoring period passes without recurrence. Only then does the ticket close.
+                        </div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">dual-countersign</span>
+                            <span class="feature-tag">training-linked</span>
+                            <span class="feature-tag">monitoring-window</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Change Control -->
+            <div class="principle-card">
+                <div class="principle-left">
+                    <div class="principle-number">04</div>
+                    <div class="principle-icon"><i class="fas fa-code-branch"></i></div>
+                    <div class="principle-connector"></div>
+                </div>
+                <div class="principle-right">
+                    <span class="principle-gmp-tag">GMP § Change Control</span>
+                    <h3 class="principle-title">Change Control &amp; Approval Gate</h3>
+                    <p class="principle-gmp-desc">
+                        All changes to product, process, or procedure must be formally approved and trailed before implementation.
+                    </p>
+                    <div class="principle-arrow">
+                        <div class="principle-arrow-line"></div>
+                        <span class="principle-arrow-icon"><i class="fas fa-arrow-right"></i></span>
+                        <span class="principle-arrow-text">Origin Implementation</span>
+                    </div>
+                    <div class="platform-feature">
+                        <div class="platform-feature-title"><i class="fas fa-lock"></i> Admin-Gated Change Workflow</div>
+                        <div class="platform-feature-desc">
+                            No product description, pricing, protocol, or SOP can be changed unilaterally. All changes require RP + Admin dual approval, are staged in a pending state with a diff view, and only go live after approval. Every change is permanently recorded in the audit trail with approver, timestamp, and justification.
+                        </div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">dual-approval</span>
+                            <span class="feature-tag">diff-trail</span>
+                            <span class="feature-tag">staged-deploy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Documentation -->
+            <div class="principle-card">
+                <div class="principle-left">
+                    <div class="principle-number">05</div>
+                    <div class="principle-icon"><i class="fas fa-folder-open"></i></div>
+                    <div class="principle-connector"></div>
+                </div>
+                <div class="principle-right">
+                    <span class="principle-gmp-tag">GMP § Documentation</span>
+                    <h3 class="principle-title">Complete Documentation System</h3>
+                    <p class="principle-gmp-desc">
+                        If it isn't documented, it didn't happen. Every step, batch, dispense, and decision must be recorded and retrievable.
+                    </p>
+                    <div class="principle-arrow">
+                        <div class="principle-arrow-line"></div>
+                        <span class="principle-arrow-icon"><i class="fas fa-arrow-right"></i></span>
+                        <span class="principle-arrow-text">Origin Implementation</span>
+                    </div>
+                    <div class="platform-feature">
+                        <div class="platform-feature-title"><i class="fas fa-database"></i> Full Document Chain</div>
+                        <div class="platform-feature-desc">
+                            COA per batch (Certificate of Analysis), PIL per dispensing order (Patient Information Leaflet), BMR equivalent (batch dispensing record), S21 approval records — all generated, linked, stored, and exportable as PDF with one click. Exportable to SAHPRA, SAPC, or internal QA formats.
+                        </div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">COA-chain</span>
+                            <span class="feature-tag">PIL-linked</span>
+                            <span class="feature-tag">BMR-equivalent</span>
+                            <span class="feature-tag">PDF-export</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Training -->
+            <div class="principle-card">
+                <div class="principle-left">
+                    <div class="principle-number">06</div>
+                    <div class="principle-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="principle-connector"></div>
+                </div>
+                <div class="principle-right">
+                    <span class="principle-gmp-tag">GMP § Training</span>
+                    <h3 class="principle-title">Role-Based Training &amp; Competency</h3>
+                    <p class="principle-gmp-desc">
+                        All personnel must be trained on their specific roles and responsibilities. Competency must be evidenced and refreshed.
+                    </p>
+                    <div class="principle-arrow">
+                        <div class="principle-arrow-line"></div>
+                        <span class="principle-arrow-icon"><i class="fas fa-arrow-right"></i></span>
+                        <span class="principle-arrow-text">Origin Implementation</span>
+                    </div>
+                    <div class="platform-feature">
+                        <div class="platform-feature-title"><i class="fas fa-chalkboard-user"></i> Training Hub with Logbook</div>
+                        <div class="platform-feature-desc">
+                            Every role has a curated training module sequence. Intern pharmacists have a SAPC competency logbook built into the platform, tracking CPD hours, supervisor sign-offs, and required rotations. All completions logged with timestamp, score, and trainer name. Retraining triggers automatically after CAPA.
+                        </div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">SAPC-logbook</span>
+                            <span class="feature-tag">CPD-hours</span>
+                            <span class="feature-tag">trainer-signed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Audit Trail -->
+            <div class="principle-card">
+                <div class="principle-left">
+                    <div class="principle-number">07</div>
+                    <div class="principle-icon"><i class="fas fa-magnifying-glass-chart"></i></div>
+                    <div class="principle-connector"></div>
+                </div>
+                <div class="principle-right">
+                    <span class="principle-gmp-tag">GMP § Audit Trail</span>
+                    <h3 class="principle-title">Immutable Audit Trail</h3>
+                    <p class="principle-gmp-desc">
+                        A complete, tamper-evident record of all GMP-significant events, with who, what, when, and outcome.
+                    </p>
+                    <div class="principle-arrow">
+                        <div class="principle-arrow-line"></div>
+                        <span class="principle-arrow-icon"><i class="fas fa-arrow-right"></i></span>
+                        <span class="principle-arrow-text">Origin Implementation</span>
+                    </div>
+                    <div class="platform-feature">
+                        <div class="platform-feature-title"><i class="fas fa-scroll"></i> ComplianceLog — Every Action Traced</div>
+                        <div class="platform-feature-desc">
+                            Every system action writes to ComplianceLog: staff ID, action type, timestamp, result (PASS / WARNING / BLOCKED), linked SOP, linked law. The log is append-only, exportable, and filterable by role, date range, or SOP reference. Nothing can be deleted. Everything can be exported for SAPC inspection.
+                        </div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">append-only</span>
+                            <span class="feature-tag">PASS/WARN/BLOCK</span>
+                            <span class="feature-tag">SOP-linked</span>
+                            <span class="feature-tag">inspection-ready</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Internal Audit -->
+            <div class="principle-card">
+                <div class="principle-left">
+                    <div class="principle-number">08</div>
+                    <div class="principle-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="principle-connector"></div>
+                </div>
+                <div class="principle-right">
+                    <span class="principle-gmp-tag">GMP § Internal Audit</span>
+                    <h3 class="principle-title">QA Dashboard &amp; Internal Audit Tools</h3>
+                    <p class="principle-gmp-desc">
+                        Regular internal audits verify that GMP is being followed. QA has independent oversight of all operations.
+                    </p>
+                    <div class="principle-arrow">
+                        <div class="principle-arrow-line"></div>
+                        <span class="principle-arrow-icon"><i class="fas fa-arrow-right"></i></span>
+                        <span class="principle-arrow-text">Origin Implementation</span>
+                    </div>
+                    <div class="platform-feature">
+                        <div class="platform-feature-title"><i class="fas fa-gauge-high"></i> QA Manager Dashboard</div>
+                        <div class="platform-feature-desc">
+                            Keke's dashboard shows: compliance rate per role (today / 7-day / 30-day), all open CAPAs with age and assignee, overdue trainings with escalation status, SOP acknowledgment rates per staff member, and a one-click audit export for any inspection period. The QA role cannot be overridden by operations management.
+                        </div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">role-compliance-rates</span>
+                            <span class="feature-tag">open-CAPA-view</span>
+                            <span class="feature-tag">audit-export</span>
+                            <span class="feature-tag">QA-independent</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =========================================
+     CAPA FLOW DIAGRAM
+========================================= -->
+<section class="section capa-section" id="capa-flow">
+    <div class="section-inner">
+        <div class="section-label animate-on-scroll">CAPA Workflow</div>
+        <h2 class="section-title animate-on-scroll">SOP Violation → CAPA → Close-Out</h2>
+        <p class="section-desc animate-on-scroll">
+            From detection to documented resolution — no step can be skipped, no ticket closed without evidence.
+        </p>
+
+        <div class="capa-flow animate-on-scroll">
+            <div class="capa-row">
+                <!-- Step 1 -->
+                <div class="capa-step trigger">
+                    <span class="capa-step-status">VIOLATION</span>
+                    <div class="capa-step-num">STEP 01</div>
+                    <div class="capa-step-icon"><i class="fas fa-xmark"></i></div>
+                    <div class="capa-step-title">SOP Deviation Occurs</div>
+                    <div class="capa-step-desc">Staff performs action that departs from approved SOP — system detects missing required field, photo, or verification.</div>
+                </div>
+
+                <div class="capa-connector">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="capa-step detect">
+                    <span class="capa-step-status">AUTO</span>
+                    <div class="capa-step-num">STEP 02</div>
+                    <div class="capa-step-icon"><i class="fas fa-eye"></i></div>
+                    <div class="capa-step-title">System Auto-Detects</div>
+                    <div class="capa-step-desc">Action blocked or flagged. Evidence captured automatically. QA Manager and RP notified in real time via platform alert.</div>
+                </div>
+
+                <div class="capa-connector">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="capa-step ticket">
+                    <span class="capa-step-status">OPEN</span>
+                    <div class="capa-step-num">STEP 03</div>
+                    <div class="capa-step-icon"><i class="fas fa-ticket"></i></div>
+                    <div class="capa-step-title">CAPA Ticket Raised</div>
+                    <div class="capa-step-desc">CAPA ticket auto-generated with deviation type, staff member, SOP reference, and root cause classification. Training module assigned.</div>
+                </div>
+
+                <div class="capa-connector">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="capa-step train">
+                    <span class="capa-step-status">IN PROGRESS</span>
+                    <div class="capa-step-num">STEP 04</div>
+                    <div class="capa-step-icon"><i class="fas fa-book-open"></i></div>
+                    <div class="capa-step-title">Training Completed</div>
+                    <div class="capa-step-desc">Staff completes the assigned SOP module and passes the assessment. Score recorded. Manager receives notification to countersign.</div>
+                </div>
+
+                <div class="capa-connector">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="capa-step close">
+                    <span class="capa-step-status">CLOSED</span>
+                    <div class="capa-step-num">STEP 05</div>
+                    <div class="capa-step-icon"><i class="fas fa-circle-check"></i></div>
+                    <div class="capa-step-title">QA Counter-Signs &amp; Closes</div>
+                    <div class="capa-step-desc">QA Manager countersigns. 14-day monitoring window starts. No recurrence = ticket closed. All steps permanently recorded in ComplianceLog.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CAPA Examples -->
+        <div class="capa-examples animate-on-scroll" style="margin-top:2.5rem;">
+            <div class="capa-example">
+                <div class="capa-example-label">Deviation Example 1</div>
+                <div class="capa-example-title">Stock Take Without Photo</div>
+                <div class="capa-example-desc">Stock take submitted without mandatory product photo. System blocks submission and raises CAPA-ST-001.</div>
+                <div class="capa-example-result"><i class="fas fa-arrow-right"></i> SOP-INV-003: Photography Protocol assigned</div>
+            </div>
+            <div class="capa-example">
+                <div class="capa-example-label">Deviation Example 2</div>
+                <div class="capa-example-title">Delivery Without Temp Log</div>
+                <div class="capa-example-desc">Driver marks delivery complete without cold-chain temperature log. Dispatch blocked. CAPA-DR-007 auto-raised.</div>
+                <div class="capa-example-result"><i class="fas fa-arrow-right"></i> SOP-DISP-002: Cold Chain Compliance assigned</div>
+            </div>
+            <div class="capa-example">
+                <div class="capa-example-label">Deviation Example 3</div>
+                <div class="capa-example-title">Dispense Without S21 Verify</div>
+                <div class="capa-example-desc">Intern attempts to dispense Sch 5 item without Section 21 authorisation verified. System hard-blocks. CAPA-RX-002 raised.</div>
+                <div class="capa-example-result"><i class="fas fa-arrow-right"></i> SOP-DISP-007: Section 21 Verification assigned</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================
+     SOP COVERAGE TABLE
+========================================= -->
+<section class="section sop-section" id="sop-coverage">
+    <div class="section-inner">
+        <div class="section-label animate-on-scroll">SOP Coverage</div>
+        <h2 class="section-title animate-on-scroll">Role-Based SOP Acknowledgment Matrix</h2>
+        <p class="section-desc animate-on-scroll">
+            Every role sees only the SOPs relevant to their scope. Every SOP requires a digital acknowledgement before the workflow unlocks.
+        </p>
+
+        <div class="sop-table-wrap animate-on-scroll">
+            <table class="sop-table">
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Dispensing</th>
+                        <th>Stock Control</th>
+                        <th>Cold Chain</th>
+                        <th>S21 / Scheduling</th>
+                        <th>CAPA / QA</th>
+                        <th>SOPs Total</th>
+                        <th>Sign-Off</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="role-cell">
+                                <div class="role-avatar"><i class="fas fa-user-md"></i></div>
+                                <div>
+                                    <div class="role-name">Responsible Pharmacist</div>
+                                    <div class="role-sub">RP · Owner of SOP sign-off</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td><span class="sop-count-pill"><i class="fas fa-file-lines"></i> 18</span></td>
+                        <td style="color:var(--success); font-size:0.8rem; font-weight:600;">100%</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="role-cell">
+                                <div class="role-avatar"><i class="fas fa-user-graduate"></i></div>
+                                <div>
+                                    <div class="role-name">Intern Pharmacist</div>
+                                    <div class="role-sub">Under RP supervision · SAPC logbook active</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-partial"><i class="fas fa-minus"></i></span></td>
+                        <td><span class="sop-count-pill"><i class="fas fa-file-lines"></i> 14</span></td>
+                        <td style="color:var(--warning); font-size:0.8rem; font-weight:600;">93%</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="role-cell">
+                                <div class="role-avatar"><i class="fas fa-people-arrows"></i></div>
+                                <div>
+                                    <div class="role-name">Floor Staff</div>
+                                    <div class="role-sub">OTC sales · patient liaison</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="check-cell"><span class="check-partial"><i class="fas fa-minus"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-no"><i class="fas fa-xmark"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-partial"><i class="fas fa-minus"></i></span></td>
+                        <td><span class="sop-count-pill"><i class="fas fa-file-lines"></i> 9</span></td>
+                        <td style="color:var(--success); font-size:0.8rem; font-weight:600;">100%</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="role-cell">
+                                <div class="role-avatar"><i class="fas fa-truck"></i></div>
+                                <div>
+                                    <div class="role-name">Driver / Dispatch</div>
+                                    <div class="role-sub">Last-mile delivery · chain-of-custody</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="check-cell"><span class="check-no"><i class="fas fa-xmark"></i></span></td>
+                        <td class="check-cell"><span class="check-partial"><i class="fas fa-minus"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-no"><i class="fas fa-xmark"></i></span></td>
+                        <td class="check-cell"><span class="check-partial"><i class="fas fa-minus"></i></span></td>
+                        <td><span class="sop-count-pill"><i class="fas fa-file-lines"></i> 6</span></td>
+                        <td style="color:var(--success); font-size:0.8rem; font-weight:600;">100%</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="role-cell">
+                                <div class="role-avatar" style="border-color:var(--gold); color:var(--gold);"><i class="fas fa-shield-halved"></i></div>
+                                <div>
+                                    <div class="role-name">QA Manager</div>
+                                    <div class="role-sub">Full read-access · CAPA authority</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td class="check-cell"><span class="check-yes"><i class="fas fa-check"></i></span></td>
+                        <td><span class="sop-count-pill" style="border-color:var(--gold); color:var(--gold);"><i class="fas fa-file-lines"></i> 31</span></td>
+                        <td style="color:var(--gold); font-size:0.8rem; font-weight:600;">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================
+     AUDIT TRAIL LOG (MOCK)
+========================================= -->
+<section class="section audit-section" id="audit-trail">
+    <div class="section-inner">
+        <div class="section-label animate-on-scroll">Audit Trail</div>
+        <h2 class="section-title animate-on-scroll">ComplianceLog — Live System Activity</h2>
+        <p class="section-desc animate-on-scroll">
+            Every action in the system writes to the ComplianceLog. Append-only. Exportable. Inspection-ready.
+        </p>
+
+        <div class="audit-log animate-on-scroll">
+            <div class="audit-log-header">
+                <span class="audit-log-title">ComplianceLog · Today 2026-06-01 · Showing 12 of 847 entries</span>
+                <div class="audit-log-controls">
+                    <button class="audit-log-btn">Export CSV</button>
+                    <button class="audit-log-btn">Export PDF</button>
+                    <button class="audit-log-btn" style="color:var(--gold); border-color:var(--border-gold);">Filter</button>
+                </div>
+            </div>
+            <div class="audit-entries" id="auditEntries">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================
+     LEGAL ANCHOR MATRIX
+========================================= -->
+<section class="section legal-section" id="legal">
+    <div class="section-inner">
+        <div class="section-label animate-on-scroll">Legal Grounding</div>
+        <h2 class="section-title animate-on-scroll">Statutory Compliance Anchor Matrix</h2>
+        <p class="section-desc animate-on-scroll">
+            Origin Platform GMP enforcement is anchored to South African pharmaceutical law.
+            Every GMP feature maps to a specific statutory provision.
+            <br><span style="font-size:0.8rem; color:var(--text-dim); margin-top:0.5rem; display:block;">
+                Note: Specific regulatory interpretations are subject to confirmation by a qualified medicines law specialist.
+            </span>
+        </p>
+
+        <div class="legal-grid animate-on-scroll">
+
+            <div class="legal-card">
+                <div class="legal-act-code">Act 53 of 1974</div>
+                <div class="legal-act-name">Pharmacy Act</div>
+                <div class="legal-act-ref">Republic of South Africa · as amended</div>
+                <ul class="legal-provisions">
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>Section 22C</strong> — Responsible Pharmacist obligations enforced via RP-gated workflow controls and all dispensing requiring RP acknowledgement or supervision flag.</span>
+                    </li>
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>Section 35(1)</strong> — Compulsory GMP standards mapped to platform CAPA engine and SOP acknowledgement system.</span>
+                    </li>
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>SAPC GPP Rule 2.7.5</strong> — Good Pharmacy Practice documentation requirements met by full COA/PIL/BMR document chain.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="legal-card">
+                <div class="legal-act-code">Act 101 of 1965</div>
+                <div class="legal-act-name">Medicines &amp; Related Substances Act</div>
+                <div class="legal-act-ref">Republic of South Africa · as amended</div>
+                <ul class="legal-provisions">
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>Section 21</strong> — Authorised use of unregistered medicines. Platform enforces S21 verification before any Sch 5/6 dispense; hard-block if authorisation not on file.</span>
+                    </li>
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>Scheduling Regulations</strong> — Scheduling status enforced at product level; floor staff cannot access Sch 4+ without RP counter-sign in the transaction record.</span>
+                    </li>
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>Record-Keeping (Reg. 27)</strong> — All dispensing records stored with batch, patient, authorising practitioner, and timestamp. Minimum 5-year retention enforced.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="legal-card">
+                <div class="legal-act-code">SAHPRA</div>
+                <div class="legal-act-name">SA Health Products Regulatory Authority</div>
+                <div class="legal-act-ref">Inspection &amp; Enforcement Framework</div>
+                <ul class="legal-provisions">
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>GMP Inspection Readiness</strong> — Audit trail export generates SAHPRA-formatted inspection pack: SOPs, training records, CAPA history, batch records, temperature logs.</span>
+                    </li>
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>Licence Condition Compliance</strong> — Each branch's 22C licence conditions are loaded as platform constraints; deviations auto-raise critical CAPA tickets.</span>
+                    </li>
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>Defect Reporting</strong> — Product defect/recall triggers a platform-wide communication to all dispensing staff and auto-quarantines affected batch stock.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="legal-card">
+                <div class="legal-act-code">SAPC Y-Number</div>
+                <div class="legal-act-name">South African Pharmacy Council</div>
+                <div class="legal-act-ref">CPD Requirement &amp; Intern Training Standards</div>
+                <ul class="legal-provisions">
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>Intern Training Logbook</strong> — SAPC-aligned logbook built into platform. Supervisor signs off competency blocks digitally. Full audit trail exportable for intern registration.</span>
+                    </li>
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>CPD Hour Tracking</strong> — All training module completions logged as CPD-eligible hours with module category, facilitator, and outcome score.</span>
+                    </li>
+                    <li class="legal-provision">
+                        <div class="legal-provision-dot"></div>
+                        <span><strong>Professional Conduct</strong> — SAPC Code of Conduct obligations built into onboarding declaration; staff acknowledge Code alongside role SOPs at activation.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+<div class="divider-gold"></div>
+<footer class="footer">
+    <div class="footer-inner">
+        <div>
+            <div class="footer-brand">
+                <strong>Origin Retail Platform</strong> · GMP Compliance Centre
+            </div>
+            <div style="font-size:0.7rem; color:var(--text-dim); margin-top:0.4rem; font-family:'JetBrains Mono',monospace;">
+                v2.4.1 · ComplianceLog build 847 · Refreshed 2026-06-01 06:00 SAST
+            </div>
+        </div>
+        <div class="footer-note">
+            This compliance centre provides a live view of GMP enforcement within the Origin platform.
+            It is not a substitute for qualified pharmaceutical and regulatory legal advice.
+            Specific statutory interpretations must be confirmed with a registered medicines law specialist.
+        </div>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+            <a href="dashboard.html" style="color:var(--text-muted); font-size:0.78rem; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="training-hub.html" style="color:var(--text-muted); font-size:0.78rem; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'"><i class="fas fa-graduation-cap"></i> Training Hub</a>
+            <a href="admin.html" style="color:var(--text-muted); font-size:0.78rem; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'"><i class="fas fa-cog"></i> Admin</a>
+        </div>
+    </div>
+</footer>
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+<script>
+// ─── AUDIT LOG DATA ────────────────────────────────────────────────────────
+const auditData = [
+    { ts: '2026-06-01 07:42:11', action: '<span class="who">Keke M. (QA)</span> reviewed CAPA-2024-031 — root cause: cold chain deviation', result: 'pass', sop: 'SOP-QA-004' },
+    { ts: '2026-06-01 07:38:55', action: '<span class="who">Intern B. (RX-02)</span> completed training module: Sch 5 Dispensing Protocol', result: 'pass', sop: 'SOP-DISP-007' },
+    { ts: '2026-06-01 07:31:02', action: '<span class="who">RP Swart (RP-01)</span> approved change request CR-2024-044: PIL template update', result: 'pass', sop: 'SOP-CC-001' },
+    { ts: '2026-06-01 07:14:47', action: '<span class="who">Driver S. (DRV-03)</span> attempted delivery without cold-chain log — blocked by system', result: 'block', sop: 'SOP-DISP-002' },
+    { ts: '2026-06-01 07:14:47', action: '<span class="who">System</span> auto-raised CAPA-2024-031 for DRV-03 · Training: Cold Chain Protocol assigned', result: 'warn', sop: 'SOP-QA-003' },
+    { ts: '2026-06-01 07:02:30', action: '<span class="who">Floor Staff L. (FS-01)</span> acknowledged SOP-INV-003: Stock Photography Protocol', result: 'pass', sop: 'SOP-INV-003' },
+    { ts: '2026-06-01 06:58:12', action: '<span class="who">RP Swart (RP-01)</span> counter-signed dispense record #DIS-20240601-0041 — Sch 5', result: 'pass', sop: 'SOP-DISP-001' },
+    { ts: '2026-06-01 06:44:05', action: '<span class="who">System</span> generated COA batch certificate for BATCH-CAN-0291 — exported to archive', result: 'pass', sop: 'SOP-DOC-002' },
+    { ts: '2026-06-01 06:30:00', action: '<span class="who">System</span> compliance score calculated: 94.2% · 2 open CAPAs · 0 overdue training', result: 'pass', sop: 'SOP-QA-001' },
+    { ts: '2026-06-01 06:15:33', action: '<span class="who">Keke M. (QA)</span> exported audit pack for SAHPRA inspection readiness check', result: 'pass', sop: 'SOP-QA-007' },
+    { ts: '2026-06-01 06:08:47', action: '<span class="who">Intern B. (RX-02)</span> attempted Sch 5 dispense — S21 authorisation not verified', result: 'block', sop: 'SOP-DISP-007' },
+    { ts: '2026-06-01 06:08:47', action: '<span class="who">System</span> auto-raised CAPA-2024-028 for RX-02 · S21 Verification training assigned', result: 'warn', sop: 'SOP-QA-003' },
+];
+
+function renderAuditLog() {
+    const container = document.getElementById('auditEntries');
+    container.innerHTML = auditData.map(e => `
+        <div class="audit-entry">
+            <div class="audit-ts">${e.ts}</div>
+            <div class="audit-action">${e.action}</div>
+            <div>
+                <span class="audit-result ${e.result}">
+                    ${e.result === 'pass' ? '<i class="fas fa-check"></i>' : e.result === 'warn' ? '<i class="fas fa-exclamation"></i>' : '<i class="fas fa-xmark"></i>'}
+                    ${e.result.toUpperCase()}
+                </span>
+            </div>
+            <div class="audit-sop">${e.sop}</div>
+        </div>
+    `).join('');
+}
+
+renderAuditLog();
+
+// ─── SCORE BAR ANIMATIONS ──────────────────────────────────────────────────
+function animateScoreBars() {
+    document.querySelectorAll('.score-bar-fill[data-width]').forEach(bar => {
+        const target = parseFloat(bar.dataset.width);
+        setTimeout(() => {
+            bar.style.width = target + '%';
+        }, 200);
+    });
+}
+
+// ─── COUNTER ANIMATIONS ────────────────────────────────────────────────────
+function animateCounters() {
+    document.querySelectorAll('.counter[data-target]').forEach(el => {
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        const duration = 1800;
+        const start = Date.now();
+        function tick() {
+            const elapsed = Date.now() - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = Math.round(eased * target);
+            el.textContent = value + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+        }
+        tick();
+    });
+}
+
+// ─── SCROLL ANIMATIONS ────────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+// ─── INIT ─────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+    animateCounters();
+    setTimeout(animateScoreBars, 400);
+});
+
+// ─── AUDIT LOG BUTTONS (MOCK) ─────────────────────────────────────────────
+document.querySelectorAll('.audit-log-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (btn.textContent.includes('CSV') || btn.textContent.includes('PDF')) {
+            btn.textContent = btn.textContent.includes('CSV') ? 'Exporting...' : 'Generating...';
+            btn.style.color = 'var(--gold)';
+            btn.style.borderColor = 'var(--border-gold)';
+            setTimeout(() => {
+                btn.textContent = btn.textContent.includes('Exporting') ? '✓ Exported' : '✓ Generated';
+                setTimeout(() => {
+                    btn.textContent = btn.textContent.includes('Exported') ? 'Export CSV' : 'Export PDF';
+                    btn.style.color = '';
+                    btn.style.borderColor = '';
+                }, 2000);
+            }, 1200);
+        }
+    });
+});
+
+// ─── LIVE AUDIT FEED SIMULATION ──────────────────────────────────────────
+const liveActions = [
+    { action: '<span class="who">Floor Staff L. (FS-01)</span> scanned stock count item — photo captured successfully', result: 'pass', sop: 'SOP-INV-003' },
+    { action: '<span class="who">RP Swart (RP-01)</span> reviewed open CAPA-2024-028 — monitoring period active', result: 'warn', sop: 'SOP-QA-003' },
+    { action: '<span class="who">System</span> temperature probe check passed — 4.2°C cold chain nominal', result: 'pass', sop: 'SOP-DISP-002' },
+    { action: '<span class="who">Driver S. (DRV-03)</span> completed Cold Chain training module — score 88%', result: 'pass', sop: 'SOP-DISP-002' },
+];
+
+let liveIdx = 0;
+setInterval(() => {
+    const now = new Date();
+    const ts = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+    const entry = liveActions[liveIdx % liveActions.length];
+    liveIdx++;
+
+    const container = document.getElementById('auditEntries');
+    const newRow = document.createElement('div');
+    newRow.className = 'audit-entry';
+    newRow.style.animation = 'fade-up 0.4s ease';
+    newRow.style.borderTop = '1px solid rgba(201,168,76,0.2)';
+    newRow.innerHTML = `
+        <div class="audit-ts">${ts}</div>
+        <div class="audit-action">${entry.action}</div>
+        <div>
+            <span class="audit-result ${entry.result}">
+                ${entry.result === 'pass' ? '<i class="fas fa-check"></i>' : entry.result === 'warn' ? '<i class="fas fa-exclamation"></i>' : '<i class="fas fa-xmark"></i>'}
+                ${entry.result.toUpperCase()}
+            </span>
+        </div>
+        <div class="audit-sop">${entry.sop}</div>
+    `;
+
+    container.insertBefore(newRow, container.firstChild);
+    setTimeout(() => { newRow.style.borderTop = ''; }, 3000);
+
+    // Keep max 20 entries visible
+    while (container.children.length > 20) {
+        container.removeChild(container.lastChild);
+    }
+}, 8000);
+</script>
+
+</body>
+</html>

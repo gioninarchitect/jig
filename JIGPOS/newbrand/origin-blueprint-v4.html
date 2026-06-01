@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Origin Master Enterprise Blueprint v4 — Confidential</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       TOKENS
+    ═══════════════════════════════════════════════════ */
+    :root {
+      --black:        #0A0A0A;
+      --dark-1:       #111111;
+      --dark-2:       #181818;
+      --dark-3:       #222222;
+      --dark-4:       #2C2C2C;
+      --dark-5:       #383838;
+      --gold:         #C9A84C;
+      --gold-bright:  #E0BC6A;
+      --gold-muted:   #7A6025;
+      --gold-dim:     rgba(201,168,76,0.18);
+      --gold-glow:    rgba(201,168,76,0.06);
+      --white:        #FFFFFF;
+      --grey-1:       #D8D8D8;
+      --grey-2:       #AAAAAA;
+      --grey-3:       #777777;
+      --grey-4:       #444444;
+      --red:          #C0392B;
+      --amber:        #D97706;
+      --blue-accent:  #3B82F6;
+      --font-display: 'Cinzel', serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+      --page-max:     960px;
+      --radius:       4px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--grey-1);
+      line-height: 1.72;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       PRINT
+    ═══════════════════════════════════════════════════ */
+    @page { size: A4; margin: 18mm 16mm 24mm 16mm; }
+
+    @media print {
+      body { background: #fff; color: #111; font-size: 10pt; line-height: 1.55; }
+      .toolbar, .sidebar-nav, .toc-sidebar { display: none !important; }
+      .layout { display: block; }
+      .main-content { max-width: 100%; padding: 0; }
+      .cover { background: #fff; color: #111; border-bottom: 3px solid #C9A84C; page-break-after: always; }
+      .cover-wordmark { color: #C9A84C; -webkit-text-stroke: none; }
+      .cover-title { color: #111; }
+      .cover-subtitle { color: #555; }
+      .doc-meta-table td { color: #333; border-color: #ddd; }
+      .classification-banner { background: none; border: 2px solid #C0392B; color: #C0392B; }
+      .part-section { page-break-before: always; }
+      .stat-box { background: #f8f8f8; border-color: #C9A84C; color: #111; }
+      .stat-box-label { color: #555; }
+      .part-header { background: none; border-bottom: 2px solid #C9A84C; }
+      .part-number { color: #C9A84C; }
+      .part-title { color: #111; }
+      .authority-callout { background: #fffbeb; border-color: #C9A84C; }
+      .authority-callout .callout-label { color: #7A6025; }
+      .authority-callout .callout-body { color: #333; }
+      table { border-collapse: collapse; width: 100%; }
+      th { background: #f0f0f0; color: #111; }
+      td { color: #333; border-color: #ddd; }
+      .subsec-title { color: #111; }
+      .can-do { background: #f0fdf4; border-color: #16a34a; }
+      .cannot-do { background: #fef2f2; border-color: #dc2626; }
+      .flow-block { background: #f8f8f8; border-color: #C9A84C; }
+      .flow-arrow { color: #C9A84C; }
+      .page-break { page-break-before: always; }
+      .track-pill { background: #f0f0f0; color: #333; border: 1px solid #ccc; }
+    }
+
+    @media screen {
+      body { padding-top: 56px; }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       TOOLBAR
+    ═══════════════════════════════════════════════════ */
+    .toolbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: var(--dark-1);
+      border-bottom: 1px solid var(--dark-4);
+      padding: 0 24px;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+    }
+
+    .toolbar-brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .toolbar-brand .dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+
+    .toolbar-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--grey-3);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      flex: 1;
+      text-align: center;
+    }
+
+    .toolbar-actions { display: flex; align-items: center; gap: 8px; }
+
+    .tb-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.18s ease;
+    }
+
+    .tb-btn.primary { background: var(--gold); color: #000; }
+    .tb-btn.primary:hover { background: var(--gold-bright); }
+    .tb-btn.secondary { background: var(--dark-3); color: var(--grey-2); border: 1px solid var(--dark-5); }
+    .tb-btn.secondary:hover { background: var(--dark-4); color: var(--grey-1); }
+
+    /* ═══════════════════════════════════════════════════
+       LAYOUT
+    ═══════════════════════════════════════════════════ */
+    .layout {
+      display: flex;
+      max-width: 1280px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       SIDEBAR NAV
+    ═══════════════════════════════════════════════════ */
+    .sidebar-nav {
+      width: 240px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+      overflow-y: auto;
+      background: var(--dark-1);
+      border-right: 1px solid var(--dark-3);
+      padding: 28px 0;
+    }
+
+    .sidebar-nav::-webkit-scrollbar { width: 3px; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: var(--dark-5); }
+
+    .nav-section-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--grey-3);
+      padding: 0 20px 8px;
+      margin-top: 20px;
+    }
+
+    .nav-section-label:first-child { margin-top: 0; }
+
+    .nav-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 20px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--grey-3);
+      text-decoration: none;
+      transition: all 0.15s ease;
+      border-left: 2px solid transparent;
+    }
+
+    .nav-link:hover { color: var(--grey-1); background: var(--dark-2); }
+    .nav-link.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,168,76,0.05); }
+
+    .nav-link .nav-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--gold-muted);
+      min-width: 24px;
+    }
+
+    .nav-sub {
+      padding-left: 54px;
+      font-size: 11px;
+      color: var(--grey-4);
+    }
+    .nav-sub:hover { color: var(--grey-2); }
+
+    /* ═══════════════════════════════════════════════════
+       MAIN CONTENT
+    ═══════════════════════════════════════════════════ */
+    .main-content {
+      flex: 1;
+      max-width: var(--page-max);
+      padding: 0 48px 80px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       COVER
+    ═══════════════════════════════════════════════════ */
+    .cover {
+      padding: 72px 0 60px;
+      text-align: center;
+      border-bottom: 1px solid var(--dark-4);
+      margin-bottom: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute; top: -30%; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cover-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .cover-inner { position: relative; z-index: 1; }
+
+    .cover-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.2);
+      color: var(--gold);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 100px;
+      margin-bottom: 40px;
+    }
+
+    .cover-badge .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .cover-wordmark {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .cover-tagline {
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--grey-3);
+      margin-bottom: 36px;
+    }
+
+    .cover-title {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 3vw, 28px);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--grey-1);
+      margin-bottom: 12px;
+    }
+
+    .cover-subtitle {
+      font-size: 14px;
+      color: var(--grey-3);
+      letter-spacing: 0.08em;
+      margin-bottom: 44px;
+    }
+
+    .doc-meta-table {
+      display: inline-grid;
+      grid-template-columns: auto auto;
+      gap: 0;
+      border: 1px solid var(--dark-4);
+      font-size: 12px;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+
+    .doc-meta-table .meta-key {
+      padding: 9px 18px;
+      background: var(--dark-2);
+      color: var(--grey-3);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--dark-4);
+    }
+
+    .doc-meta-table .meta-val {
+      padding: 9px 18px;
+      background: var(--dark-1);
+      color: var(--grey-1);
+      border-bottom: 1px solid var(--dark-4);
+    }
+
+    .doc-meta-table .meta-key:last-of-type,
+    .doc-meta-table .meta-val:last-of-type { border-bottom: none; }
+
+    .classification-banner {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(192,57,43,0.08);
+      border: 1px solid rgba(192,57,43,0.4);
+      color: #E05252;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 10px 28px;
+      border-radius: var(--radius);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       TOC / CONTENTS PANEL
+    ═══════════════════════════════════════════════════ */
+    .toc-panel {
+      background: var(--dark-2);
+      border: 1px solid var(--dark-4);
+      border-top: 2px solid var(--gold);
+      padding: 32px 36px;
+      margin: 48px 0;
+    }
+
+    .toc-heading {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 48px;
+    }
+
+    .toc-entry {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--dark-4);
+      font-size: 13px;
+      text-decoration: none;
+      color: var(--grey-2);
+      transition: color 0.15s;
+    }
+
+    .toc-entry:hover { color: var(--gold); }
+
+    .toc-entry .te-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--gold-muted);
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .toc-entry .te-label { flex: 1; }
+
+    .toc-entry .te-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--grey-4);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .toc-new-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: #000;
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 2px;
+      margin-left: 6px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       PART SECTIONS
+    ═══════════════════════════════════════════════════ */
+    .part-section {
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid var(--dark-3);
+    }
+
+    .part-section:first-of-type { border-top: none; }
+
+    .part-header {
+      display: flex; align-items: flex-start; gap: 24px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--dark-4);
+      margin-bottom: 36px;
+    }
+
+    .part-num-block {
+      flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: center;
+      padding-top: 4px;
+    }
+
+    .part-number {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .part-numeral {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--dark-4);
+      line-height: 1;
+    }
+
+    .part-header-text { flex: 1; }
+
+    .part-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-muted);
+      margin-bottom: 8px;
+    }
+
+    .part-title {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--grey-1);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .part-desc {
+      font-size: 14px;
+      color: var(--grey-3);
+      max-width: 700px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       AUTHORITY CALLOUT
+    ═══════════════════════════════════════════════════ */
+    .authority-callout {
+      background: rgba(201,168,76,0.05);
+      border: 1px solid rgba(201,168,76,0.22);
+      border-left: 4px solid var(--gold);
+      padding: 20px 24px;
+      margin: 0 0 36px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    .callout-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .callout-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--gold-bright);
+      margin-bottom: 10px;
+    }
+
+    .callout-body {
+      font-size: 13px;
+      color: var(--grey-2);
+      line-height: 1.65;
+    }
+
+    .callout-body strong { color: var(--grey-1); }
+
+    /* ═══════════════════════════════════════════════════
+       SUBSECTION
+    ═══════════════════════════════════════════════════ */
+    .subsec {
+      margin: 32px 0;
+    }
+
+    .subsec-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .subsec-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--gold);
+      background: rgba(201,168,76,0.1);
+      padding: 3px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+
+    .subsec-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--grey-1);
+    }
+
+    .subsec-body {
+      font-size: 14px;
+      color: var(--grey-2);
+      line-height: 1.75;
+    }
+
+    .subsec-body p { margin-bottom: 12px; }
+    .subsec-body p:last-child { margin-bottom: 0; }
+
+    /* ═══════════════════════════════════════════════════
+       LISTS
+    ═══════════════════════════════════════════════════ */
+    .doc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .doc-list li {
+      display: flex; gap: 12px;
+      padding: 7px 0;
+      font-size: 14px;
+      color: var(--grey-2);
+      border-bottom: 1px solid var(--dark-3);
+    }
+
+    .doc-list li:last-child { border-bottom: none; }
+
+    .doc-list li::before {
+      content: '—';
+      color: var(--gold);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .doc-list li strong { color: var(--grey-1); }
+
+    /* Two-column scope lists */
+    .scope-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .scope-box {
+      border: 1px solid var(--dark-4);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .scope-box.can-do { border-top: 3px solid #16A34A; }
+    .scope-box.cannot-do { border-top: 3px solid #DC2626; }
+
+    .scope-box-header {
+      padding: 10px 16px;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .can-do .scope-box-header { background: rgba(22,163,74,0.08); color: #4ADE80; }
+    .cannot-do .scope-box-header { background: rgba(220,38,38,0.08); color: #F87171; }
+
+    .scope-box-body {
+      padding: 12px 16px;
+    }
+
+    .scope-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 5px 0;
+      font-size: 13px;
+      color: var(--grey-2);
+      border-bottom: 1px solid var(--dark-3);
+    }
+
+    .scope-item:last-child { border-bottom: none; }
+
+    .can-do .scope-item::before { content: '✓'; color: #4ADE80; font-weight: 700; flex-shrink: 0; }
+    .cannot-do .scope-item::before { content: '✗'; color: #F87171; font-weight: 700; flex-shrink: 0; }
+
+    /* ═══════════════════════════════════════════════════
+       TABLES
+    ═══════════════════════════════════════════════════ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border: 1px solid var(--dark-4);
+      border-radius: var(--radius);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead tr {
+      background: var(--dark-3);
+      border-bottom: 1px solid var(--gold-muted);
+    }
+
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--dark-3);
+      transition: background 0.12s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(201,168,76,0.03); }
+
+    tbody td {
+      padding: 11px 16px;
+      color: var(--grey-2);
+      vertical-align: top;
+    }
+
+    tbody td:first-child {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--grey-1);
+    }
+
+    tbody td strong { color: var(--grey-1); }
+    tbody td code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--dark-3);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       FLOW DIAGRAM (ASCII-style)
+    ═══════════════════════════════════════════════════ */
+    .flow-diagram {
+      background: var(--dark-2);
+      border: 1px solid var(--dark-4);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin: 20px 0;
+      font-family: var(--font-mono);
+    }
+
+    .flow-row {
+      display: flex; align-items: center; gap: 8px;
+      margin: 4px 0;
+    }
+
+    .flow-block {
+      background: var(--dark-3);
+      border: 1px solid var(--dark-5);
+      border-left: 3px solid var(--gold);
+      padding: 10px 20px;
+      font-size: 12px;
+      color: var(--grey-1);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      flex-shrink: 0;
+    }
+
+    .flow-block.outcome-pass {
+      border-left-color: #16A34A;
+      background: rgba(22,163,74,0.06);
+    }
+
+    .flow-block.outcome-fail {
+      border-left-color: #DC2626;
+      background: rgba(220,38,38,0.06);
+    }
+
+    .flow-block.outcome-ticket {
+      border-left-color: #D97706;
+      background: rgba(217,119,6,0.06);
+    }
+
+    .flow-arrow {
+      color: var(--gold);
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .flow-label {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-3);
+      margin-left: 4px;
+    }
+
+    .flow-indent { margin-left: 48px; }
+
+    /* ═══════════════════════════════════════════════════
+       CHECKLIST
+    ═══════════════════════════════════════════════════ */
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: check-counter;
+    }
+
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--dark-3);
+      font-size: 14px;
+      color: var(--grey-2);
+      counter-increment: check-counter;
+    }
+
+    .checklist li:last-child { border-bottom: none; }
+
+    .check-num {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      border: 1px solid var(--gold-muted);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .check-content { flex: 1; }
+    .check-content strong { color: var(--grey-1); display: block; margin-bottom: 2px; }
+    .check-content span { font-size: 12px; color: var(--grey-3); }
+
+    /* ═══════════════════════════════════════════════════
+       INFO CARDS / KPI ROWS
+    ═══════════════════════════════════════════════════ */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .kpi-card {
+      background: var(--dark-2);
+      border: 1px solid var(--dark-4);
+      border-bottom: 3px solid var(--gold);
+      padding: 18px 20px;
+      border-radius: var(--radius);
+    }
+
+    .kpi-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--grey-3);
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .kpi-desc {
+      font-size: 12px;
+      color: var(--grey-3);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       COMPLIANCE TRACK PILLS
+    ═══════════════════════════════════════════════════ */
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .track-card {
+      background: var(--dark-2);
+      border: 1px solid var(--dark-4);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .track-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .track-card.t-cannabis::before { background: var(--gold); }
+    .track-card.t-pharma::before { background: var(--blue-accent); }
+    .track-card.t-supplement::before { background: #10B981; }
+    .track-card.t-cosmetic::before { background: #A78BFA; }
+    .track-card.t-wellness::before { background: #6B7280; }
+
+    .track-name {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .t-cannabis .track-name { color: var(--gold); }
+    .t-pharma .track-name { color: var(--blue-accent); }
+    .t-supplement .track-name { color: #10B981; }
+    .t-cosmetic .track-name { color: #A78BFA; }
+    .t-wellness .track-name { color: #9CA3AF; }
+
+    .track-products {
+      font-size: 12px;
+      color: var(--grey-1);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .track-law {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--grey-3);
+      margin-bottom: 6px;
+    }
+
+    .track-reqs {
+      font-size: 12px;
+      color: var(--grey-3);
+      line-height: 1.5;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       PATHWAY CHAIN
+    ═══════════════════════════════════════════════════ */
+    .pathway-chain {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .pathway-step {
+      background: var(--dark-2);
+      border: 1px solid var(--dark-4);
+      padding: 12px 20px;
+      font-size: 12px;
+      color: var(--grey-2);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .pathway-step .ps-title {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2px;
+    }
+
+    .pathway-step .ps-desc {
+      font-size: 11px;
+      color: var(--grey-3);
+    }
+
+    .pathway-arrow {
+      color: var(--gold);
+      font-size: 18px;
+      padding: 0 4px;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       CAPA TRIGGER TABLE
+    ═══════════════════════════════════════════════════ */
+    .capa-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .capa-item {
+      display: grid;
+      grid-template-columns: 32px 1fr auto;
+      align-items: start;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--dark-2);
+      border: 1px solid var(--dark-3);
+      border-left: 3px solid var(--amber);
+      margin-bottom: 8px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    .capa-icon {
+      color: var(--amber);
+      font-size: 14px;
+      padding-top: 2px;
+    }
+
+    .capa-trigger {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-1);
+      margin-bottom: 3px;
+    }
+
+    .capa-response {
+      font-size: 12px;
+      color: var(--grey-3);
+      font-family: var(--font-mono);
+    }
+
+    .capa-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 2px;
+      border: 1px solid var(--amber);
+      color: var(--amber);
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════ */
+    .doc-footer {
+      margin-top: 80px;
+      padding: 32px 0;
+      border-top: 1px solid var(--dark-3);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .footer-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--grey-4);
+      letter-spacing: 0.05em;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       UTILITY
+    ═══════════════════════════════════════════════════ */
+    .gold { color: var(--gold); }
+    .muted { color: var(--grey-3); }
+    .mono { font-family: var(--font-mono); font-size: 12px; }
+    .page-break { page-break-before: always; }
+
+    .info-note {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: rgba(59,130,246,0.06);
+      border: 1px solid rgba(59,130,246,0.2);
+      border-left: 4px solid var(--blue-accent);
+      padding: 14px 18px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 13px;
+      color: var(--grey-2);
+      margin: 16px 0;
+    }
+
+    .info-note .icon { color: var(--blue-accent); flex-shrink: 0; font-size: 14px; margin-top: 2px; }
+
+    .warn-note {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: rgba(220,38,38,0.05);
+      border: 1px solid rgba(220,38,38,0.2);
+      border-left: 4px solid var(--red);
+      padding: 14px 18px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 13px;
+      color: var(--grey-2);
+      margin: 16px 0;
+    }
+
+    .warn-note .icon { color: #F87171; flex-shrink: 0; font-size: 14px; margin-top: 2px; }
+
+    /* divider */
+    .sec-divider {
+      border: none;
+      border-top: 1px solid var(--dark-3);
+      margin: 28px 0;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar-nav { display: none; }
+      .main-content { padding: 0 20px 60px; }
+      .toc-grid { grid-template-columns: 1fr; }
+      .scope-grid { grid-template-columns: 1fr; }
+      .toolbar-meta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════
+       TOOLBAR
+  ══════════════════════════════════ -->
+  <div class="toolbar">
+    <div class="toolbar-brand">
+      <div class="dot"></div>
+      Origin Enterprise
+    </div>
+    <div class="toolbar-meta">
+      Origin Master Enterprise Blueprint v4 &nbsp;·&nbsp; R101.2026-v4 &nbsp;·&nbsp; CONFIDENTIAL
+    </div>
+    <div class="toolbar-actions">
+      <a href="#part7" class="tb-btn secondary"><i class="fa fa-arrow-down"></i> Parts 7–9</a>
+      <button class="tb-btn primary" onclick="window.print()"><i class="fa fa-print"></i> Print / PDF</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       LAYOUT
+  ══════════════════════════════════ -->
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Document</div>
+      <a href="#cover" class="nav-link"><span class="nav-num">—</span> Cover &amp; Metadata</a>
+      <a href="#toc" class="nav-link"><span class="nav-num">—</span> Contents</a>
+
+      <div class="nav-section-label">Prior Parts (v3)</div>
+      <a href="#" class="nav-link muted"><span class="nav-num">P1</span> Legal &amp; Statutory Matrix</a>
+      <a href="#" class="nav-link muted"><span class="nav-num">P2</span> Cost Architecture</a>
+      <a href="#" class="nav-link muted"><span class="nav-num">P3</span> Node Scaling</a>
+      <a href="#" class="nav-link muted"><span class="nav-num">P4</span> Vulnerability Buffer</a>
+      <a href="#" class="nav-link muted"><span class="nav-num">P5</span> Executive Summary</a>
+      <a href="#" class="nav-link muted"><span class="nav-num">P6</span> Segment Financial</a>
+
+      <div class="nav-section-label">v4 Additions</div>
+      <a href="#part7" class="nav-link"><span class="nav-num">P7</span> Human Capital &amp; Intern Pipeline</a>
+      <a href="#p7-1" class="nav-link nav-sub"><span class="nav-num">7.1</span> Intern Placement</a>
+      <a href="#p7-2" class="nav-link nav-sub"><span class="nav-num">7.2</span> Scope of Practice</a>
+      <a href="#p7-3" class="nav-link nav-sub"><span class="nav-num">7.3</span> Digital Logbook</a>
+      <a href="#p7-4" class="nav-link nav-sub"><span class="nav-num">7.4</span> Career Pathway</a>
+      <a href="#p7-5" class="nav-link nav-sub"><span class="nav-num">7.5</span> University Partnerships</a>
+
+      <a href="#part8" class="nav-link"><span class="nav-num">P8</span> Driver GPP Protocol</a>
+      <a href="#p8-1" class="nav-link nav-sub"><span class="nav-num">8.1</span> Driver Legal Status</a>
+      <a href="#p8-2" class="nav-link nav-sub"><span class="nav-num">8.2</span> Vehicle Requirements</a>
+      <a href="#p8-3" class="nav-link nav-sub"><span class="nav-num">8.3</span> Pre-Departure Checklist</a>
+      <a href="#p8-4" class="nav-link nav-sub"><span class="nav-num">8.4</span> Delivery Confirmation</a>
+      <a href="#p8-5" class="nav-link nav-sub"><span class="nav-num">8.5</span> Failed Delivery Protocol</a>
+      <a href="#p8-6" class="nav-link nav-sub"><span class="nav-num">8.6</span> Schedule 6 Custody</a>
+
+      <a href="#part9" class="nav-link"><span class="nav-num">P9</span> AI Compliance Engine</a>
+      <a href="#p9-1" class="nav-link nav-sub"><span class="nav-num">9.1</span> Architecture</a>
+      <a href="#p9-2" class="nav-link nav-sub"><span class="nav-num">9.2</span> Role Matrix</a>
+      <a href="#p9-3" class="nav-link nav-sub"><span class="nav-num">9.3</span> CAPA Triggers</a>
+      <a href="#p9-4" class="nav-link nav-sub"><span class="nav-num">9.4</span> Compliance Tracks</a>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+      <!-- ══════════════════════════════════
+           COVER
+      ══════════════════════════════════ -->
+      <section class="cover" id="cover">
+        <div class="cover-grid"></div>
+        <div class="cover-inner">
+          <div class="cover-badge">
+            <div class="badge-dot"></div>
+            Controlled Document &nbsp;·&nbsp; Version 4
+          </div>
+
+          <div class="cover-wordmark">ORIGIN</div>
+          <div class="cover-tagline">Retail &amp; Clinical Pharmacy Platform &nbsp;·&nbsp; South Africa</div>
+
+          <div class="cover-title">Master Enterprise Blueprint</div>
+          <div class="cover-subtitle">Version 4 &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; Parts 7 — 9</div>
+
+          <div class="doc-meta-table">
+            <div class="meta-key">Document Reference</div>
+            <div class="meta-val">R101.2026-v4</div>
+            <div class="meta-key">Version</div>
+            <div class="meta-val">4.0 (Addendum to v3)</div>
+            <div class="meta-key">Effective Date</div>
+            <div class="meta-val">1 June 2026</div>
+            <div class="meta-key">Supersedes</div>
+            <div class="meta-val">R101.2026-v3 (Parts 1–6)</div>
+            <div class="meta-key">Review Cycle</div>
+            <div class="meta-val">Quarterly</div>
+            <div class="meta-key">Owner</div>
+            <div class="meta-val">Origin Operations &amp; Compliance</div>
+          </div>
+
+          <div class="classification-banner">
+            <i class="fa fa-lock"></i>
+            Confidential — Restricted Distribution
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════
+           TABLE OF CONTENTS
+      ══════════════════════════════════ -->
+      <div class="toc-panel" id="toc">
+        <div class="toc-heading"><i class="fa fa-list-ul" style="margin-right:8px;"></i>Document Contents — Blueprint v4</div>
+        <div class="toc-grid">
+          <a href="#" class="toc-entry muted">
+            <span class="te-num">P1</span>
+            <span class="te-label">Legal &amp; Statutory Anchor Matrix</span>
+            <span class="te-tag">v3</span>
+          </a>
+          <a href="#" class="toc-entry muted">
+            <span class="te-num">P2</span>
+            <span class="te-label">Unified Per-Gram Cost Architecture</span>
+            <span class="te-tag">v3</span>
+          </a>
+          <a href="#" class="toc-entry muted">
+            <span class="te-num">P3</span>
+            <span class="te-label">Single-Node Liability &amp; Network Scaling</span>
+            <span class="te-tag">v3</span>
+          </a>
+          <a href="#" class="toc-entry muted">
+            <span class="te-num">P4</span>
+            <span class="te-label">Operational Vulnerability Buffer</span>
+            <span class="te-tag">v3</span>
+          </a>
+          <a href="#" class="toc-entry muted">
+            <span class="te-num">P5</span>
+            <span class="te-label">Refined Master Executive Summary</span>
+            <span class="te-tag">v3</span>
+          </a>
+          <a href="#" class="toc-entry muted">
+            <span class="te-num">P6</span>
+            <span class="te-label">Unified Segment Financial Blueprint</span>
+            <span class="te-tag">v3</span>
+          </a>
+          <a href="#part7" class="toc-entry">
+            <span class="te-num">P7</span>
+            <span class="te-label">Human Capital &amp; Pharmacy Intern Pipeline <span class="toc-new-badge">NEW</span></span>
+            <span class="te-tag">v4</span>
+          </a>
+          <a href="#part8" class="toc-entry">
+            <span class="te-num">P8</span>
+            <span class="te-label">Driver GPP Compliance Protocol <span class="toc-new-badge">NEW</span></span>
+            <span class="te-tag">v4</span>
+          </a>
+          <a href="#part9" class="toc-entry">
+            <span class="te-num">P9</span>
+            <span class="te-label">AI-Assisted Role Compliance Engine <span class="toc-new-badge">NEW</span></span>
+            <span class="te-tag">v4</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════
+           PART 7
+      ══════════════════════════════════ -->
+      <section class="part-section page-break" id="part7">
+        <div class="part-header">
+          <div class="part-num-block">
+            <div class="part-number">Part</div>
+            <div class="part-numeral">07</div>
+          </div>
+          <div class="part-header-text">
+            <div class="part-label">Human Capital Strategy</div>
+            <div class="part-title">Human Capital &amp; Pharmacy Intern Pipeline</div>
+            <div class="part-desc">Build a sustainable, accredited talent pipeline that reduces RP salary overhead at network scale while maintaining full SAPC statutory compliance at every node.</div>
+          </div>
+        </div>
+
+        <!-- Statutory Authority -->
+        <div class="authority-callout">
+          <div class="callout-label">Statutory Authority</div>
+          <div class="callout-title">Section 35A — Pharmacy Act 53 of 1974</div>
+          <div class="callout-body">
+            <strong>Section 35A of the Pharmacy Act 53 of 1974</strong> governs intern registration and supervision requirements for community pharmacy internship sites. Origin's internship programme must comply with SAPC Board Notice requirements for accredited community pharmacy rotation sites, including minimum supervisor-to-intern ratios, logbook standards, and scope-of-practice limits at all times.
+          </div>
+        </div>
+
+        <!-- KPI Strip -->
+        <div class="kpi-strip">
+          <div class="kpi-card">
+            <div class="kpi-label">Intern Stipend Range</div>
+            <div class="kpi-value">R8–12k</div>
+            <div class="kpi-desc">Per month per intern</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">vs RP Salary</div>
+            <div class="kpi-value">R25k</div>
+            <div class="kpi-desc">Registered Pharmacist market rate</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">10-Node Saving</div>
+            <div class="kpi-value">R130–170k</div>
+            <div class="kpi-desc">Monthly salary overhead reduction</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Rotation Length</div>
+            <div class="kpi-value">6 mo</div>
+            <div class="kpi-desc">Community pharmacy rotation</div>
+          </div>
+        </div>
+
+        <!-- 7.1 -->
+        <div class="subsec" id="p7-1">
+          <div class="subsec-header">
+            <div class="subsec-num">7.1</div>
+            <div class="subsec-title">Intern Placement Programme</div>
+          </div>
+          <div class="subsec-body">
+            <p>Origin applies for SAPC accreditation as a community pharmacy internship site, enabling it to host final-year and post-graduate intern pharmacists on their mandatory community pharmacy rotation (6-month blocks).</p>
+          </div>
+          <ul class="doc-list">
+            <li>
+              <span><strong>SAPC Accreditation:</strong> Origin registers each node as an approved community pharmacy internship site under SAPC Board Notice requirements.</span>
+            </li>
+            <li>
+              <span><strong>University Partners:</strong> University of Pretoria, University of the Witwatersrand, Sefako Makgatho University (SMU), University of the Western Cape (UWC).</span>
+            </li>
+            <li>
+              <span><strong>Node Capacity:</strong> Each Origin node hosts 1–2 interns per rotation under direct RP supervision at all times.</span>
+            </li>
+            <li>
+              <span><strong>Stipend:</strong> Approximately R8,000–R12,000/month per intern vs. R25,000/month for a full RP salary — a meaningful operational saving at scale without compromising supervised-practice standards.</span>
+            </li>
+            <li>
+              <span><strong>Financial Impact:</strong> At 10 nodes hosting 1 intern each at mid-range R10,000: potential R130,000–R170,000/month reduction in salary overhead (partial RP hours offset, not full substitution).</span>
+            </li>
+          </ul>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 7.2 -->
+        <div class="subsec" id="p7-2">
+          <div class="subsec-header">
+            <div class="subsec-num">7.2</div>
+            <div class="subsec-title">Intern Scope of Practice at Origin Nodes</div>
+          </div>
+
+          <div class="info-note">
+            <span class="icon"><i class="fa fa-info-circle"></i></span>
+            <span>All intern activities at Origin nodes are performed under the direct oversight and countersignature authority of the site's Responsible Pharmacist (RP). No intern may act independently on any Schedule 6 substance.</span>
+          </div>
+
+          <div class="scope-grid">
+            <div class="scope-box can-do">
+              <div class="scope-box-header">
+                <i class="fa fa-check-circle"></i>
+                Permitted Under RP Supervision
+              </div>
+              <div class="scope-box-body">
+                <div class="scope-item">Patient counseling on OTC and supplement products</div>
+                <div class="scope-item">Preparation of patient-ready packs (sealed, labeled) under RP oversight</div>
+                <div class="scope-item">Section 21 prescription processing — initiation only; RP countersigns</div>
+                <div class="scope-item">PIL (Patient Information Leaflet) preparation and assembly</div>
+                <div class="scope-item">Stock take and inventory management activities</div>
+                <div class="scope-item">Patient onboarding and medical history capture in the digital platform</div>
+              </div>
+            </div>
+            <div class="scope-box cannot-do">
+              <div class="scope-box-header">
+                <i class="fa fa-times-circle"></i>
+                Not Permitted Independently
+              </div>
+              <div class="scope-box-body">
+                <div class="scope-item">Independent dispensing of any Schedule 6 substance (cannabis products)</div>
+                <div class="scope-item">Signing off on any dispensing record without RP countersignature</div>
+                <div class="scope-item">Authorizing Section 21 prescriptions</div>
+                <div class="scope-item">Releasing GMP-certified batch inventory from vault</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 7.3 -->
+        <div class="subsec" id="p7-3">
+          <div class="subsec-header">
+            <div class="subsec-num">7.3</div>
+            <div class="subsec-title">Digital Competency Logbook</div>
+          </div>
+          <div class="subsec-body">
+            <p>SAPC requires intern pharmacists to maintain a detailed competency logbook throughout their rotation. Origin integrates this requirement directly into the platform's staff module.</p>
+          </div>
+          <ul class="doc-list">
+            <li><span><strong>Logbook Tracking:</strong> SAPC-mandated intern logbook requirements are tracked within the Origin platform's staff management module, eliminating paper-based logbooks.</span></li>
+            <li><span><strong>Competency Alignment:</strong> Modules aligned with SAPC's Community Pharmacy rotation requirements — dispensing, patient counselling, stock management, clinical documentation.</span></li>
+            <li><span><strong>Sign-Off Workflow:</strong> Each competency entry records supervisor sign-off (RP digital signature), date, and observation notes — creating an auditable trail.</span></li>
+            <li><span><strong>Export:</strong> Auto-generated logbook PDF export at end of rotation, formatted to SAPC submission standards.</span></li>
+          </ul>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 7.4 -->
+        <div class="subsec" id="p7-4">
+          <div class="subsec-header">
+            <div class="subsec-num">7.4</div>
+            <div class="subsec-title">Career Pathway — Brand Value Proposition</div>
+          </div>
+          <div class="subsec-body">
+            <p>Origin's intern pipeline is a career pathway investment, not merely a cost lever. Students are offered a uniquely differentiated training experience that no conventional community pharmacy can replicate.</p>
+          </div>
+          <div class="pathway-chain">
+            <div class="pathway-step">
+              <div class="ps-title">Intern</div>
+              <div class="ps-desc">Year 4/5 Pharmacy</div>
+            </div>
+            <div class="pathway-arrow">→</div>
+            <div class="pathway-step">
+              <div class="ps-title">Community Service</div>
+              <div class="ps-desc">Year 1 Post-Grad</div>
+            </div>
+            <div class="pathway-arrow">→</div>
+            <div class="pathway-step">
+              <div class="ps-title">Registered Pharmacist</div>
+              <div class="ps-desc">SAPC registered</div>
+            </div>
+            <div class="pathway-arrow">→</div>
+            <div class="pathway-step">
+              <div class="ps-title">Responsible Pharmacist</div>
+              <div class="ps-desc">Node or Regional RP</div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 7.5 -->
+        <div class="subsec" id="p7-5">
+          <div class="subsec-header">
+            <div class="subsec-num">7.5</div>
+            <div class="subsec-title">University Partnership Value Exchange</div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Stakeholder</th>
+                  <th>What They Receive</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Students / Interns</td>
+                  <td>Live Schedule 6 dispensing experience (rare in SA); cannabis medicine counseling; digital pharmacy platform exposure; Section 21 clinical portal training; career pipeline into a growth sector</td>
+                </tr>
+                <tr>
+                  <td>Universities</td>
+                  <td>Accredited placement site with specialist clinical environment; academic credibility in cannabis medicine; student placement pipeline; potential research and publication partnerships</td>
+                </tr>
+                <tr>
+                  <td>Origin</td>
+                  <td>Skilled supervised labor at reduced overhead; academic credibility with regulators; talent pipeline for RP roles; potential co-authorship on clinical outcomes data</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════
+           PART 8
+      ══════════════════════════════════ -->
+      <section class="part-section page-break" id="part8">
+        <div class="part-header">
+          <div class="part-num-block">
+            <div class="part-number">Part</div>
+            <div class="part-numeral">08</div>
+          </div>
+          <div class="part-header-text">
+            <div class="part-label">Logistics &amp; Cold-Chain Compliance</div>
+            <div class="part-title">Driver GPP Compliance Protocol</div>
+            <div class="part-desc">Operational framework governing the transport, delivery, and chain-of-custody handling of pharmaceutical products by Origin delivery drivers as unregistered persons under the Medicines Act.</div>
+          </div>
+        </div>
+
+        <!-- Statutory Authority -->
+        <div class="authority-callout">
+          <div class="callout-label">Statutory Authority — Multiple Instruments</div>
+          <div class="callout-title">GPP Rule 2.7.5 · Medicines Act S38 &amp; S39 · GNR.1158 Reg 21 · Section 22A</div>
+          <div class="callout-body">
+            <strong>SAPC GPP Rule 2.7.5</strong> — Rules Relating to Good Pharmacy Practice (Board Notice 49 of 2015, Government Gazette No. 38511) governs pharmaceutical delivery operations.<br><br>
+            <strong>Sections 38 &amp; 39 of Medicines Act 101 of 1965</strong> — define "handling by unregistered persons" and the permitted scope thereof.<br><br>
+            <strong>Regulation 21 of GNR. 1158</strong> — Practice of Pharmacy regulations applicable to every person in the delivery chain.<br><br>
+            <strong>Section 22A of Act 101</strong> — Schedule 6 chain-of-custody and tracking requirements for cannabis products at all points of the supply chain.
+          </div>
+        </div>
+
+        <!-- 8.1 -->
+        <div class="subsec" id="p8-1">
+          <div class="subsec-header">
+            <div class="subsec-num">8.1</div>
+            <div class="subsec-title">Driver Legal Status</div>
+          </div>
+
+          <div class="warn-note">
+            <span class="icon"><i class="fa fa-triangle-exclamation"></i></span>
+            <span>Origin delivery drivers are <strong>UNREGISTERED PERSONS</strong> under the Medicines Act. This status is fixed — no internal designation or employment contract can alter their statutory classification.</span>
+          </div>
+
+          <ul class="doc-list">
+            <li><span>May <strong>transport</strong> pre-packed, sealed, labeled medicine parcels prepared and authorized by the RP.</span></li>
+            <li><span>May <strong>NOT handle, open, repackage, or store</strong> bulk or unsealed medicines under any circumstances.</span></li>
+            <li><span>Must carry and deliver the <strong>Patient Information Leaflet (PIL)</strong> with every pharmaceutical parcel.</span></li>
+            <li><span>Must carry <strong>written pharmacist instructions</strong> specific to each parcel at the time of delivery.</span></li>
+          </ul>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 8.2 -->
+        <div class="subsec" id="p8-2">
+          <div class="subsec-header">
+            <div class="subsec-num">8.2</div>
+            <div class="subsec-title">Vehicle Requirements <span class="mono muted" style="margin-left:8px;">GPP Rule 2.7.5.4</span></div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Requirement</th>
+                  <th>Specification</th>
+                  <th>Rule Reference</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Vehicle Type</td>
+                  <td>Closed vehicles ONLY — no open bakkies or trucks</td>
+                  <td><code>Rule 2.7.5.4(b)</code></td>
+                </tr>
+                <tr>
+                  <td>Temperature</td>
+                  <td>Below <strong>22°C</strong> throughout transit (GWDP standard)</td>
+                  <td><code>GWDP / GPP</code></td>
+                </tr>
+                <tr>
+                  <td>Humidity</td>
+                  <td><strong>50–55% Relative Humidity</strong> (GWDP standard)</td>
+                  <td><code>GWDP / GPP</code></td>
+                </tr>
+                <tr>
+                  <td>Co-mingling</td>
+                  <td>Pharmaceutical cargo must NOT share space with non-pharmaceutical goods</td>
+                  <td><code>Rule 2.7.5.4(e)</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 8.3 -->
+        <div class="subsec" id="p8-3">
+          <div class="subsec-header">
+            <div class="subsec-num">8.3</div>
+            <div class="subsec-title">Pre-Departure Digital Checklist <span class="mono muted" style="margin-left:8px;">Enforced in Driver App</span></div>
+          </div>
+          <div class="subsec-body">
+            <p>All six checklist items must be confirmed in the driver app before dispatch is enabled. Incomplete checklist items lock the dispatch workflow and escalate to the branch RP.</p>
+          </div>
+
+          <ol class="checklist">
+            <li>
+              <div class="check-num">1</div>
+              <div class="check-content">
+                <strong>Vehicle Type</strong>
+                <span>Closed vehicle confirmed — driver selects vehicle from approved fleet list in app</span>
+              </div>
+            </li>
+            <li>
+              <div class="check-num">2</div>
+              <div class="check-content">
+                <strong>Temperature Reading Logged</strong>
+                <span>Must be below 22°C — sensor reading or manual entry with timestamp</span>
+              </div>
+            </li>
+            <li>
+              <div class="check-num">3</div>
+              <div class="check-content">
+                <strong>Humidity Reading Logged</strong>
+                <span>Must be 50–55% RH — sensor reading or manual entry with timestamp</span>
+              </div>
+            </li>
+            <li>
+              <div class="check-num">4</div>
+              <div class="check-content">
+                <strong>All Parcels Sealed and Labeled</strong>
+                <span>RP-signed — driver confirms parcel count matches manifest; photo verification required</span>
+              </div>
+            </li>
+            <li>
+              <div class="check-num">5</div>
+              <div class="check-content">
+                <strong>PIL Included in Each Parcel</strong>
+                <span>Confirmed by item-level manifest check in driver app</span>
+              </div>
+            </li>
+            <li>
+              <div class="check-num">6</div>
+              <div class="check-content">
+                <strong>No Non-Pharmaceutical Co-Loading Confirmed</strong>
+                <span>Driver attests that vehicle contains pharmaceutical cargo only — logged to dispatch record</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 8.4 -->
+        <div class="subsec" id="p8-4">
+          <div class="subsec-header">
+            <div class="subsec-num">8.4</div>
+            <div class="subsec-title">Delivery Confirmation Protocol <span class="mono muted" style="margin-left:8px;">Rule 2.7.5.2</span></div>
+          </div>
+          <ul class="doc-list">
+            <li><span><strong>Adult Recipient Verification:</strong> Driver must confirm an adult recipient is present and that their ID matches the patient record in the driver app before handover.</span></li>
+            <li><span><strong>Digital Signature:</strong> Recipient signs digitally in the driver app (or physically on a manifest copy) at point of delivery — logged with timestamp and GPS coordinate.</span></li>
+            <li><span><strong>Failed Delivery Trigger:</strong> If no adult is present, the Failed Delivery Protocol (§8.5) activates immediately — medicine cannot be left unattended.</span></li>
+          </ul>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 8.5 -->
+        <div class="subsec" id="p8-5">
+          <div class="subsec-header">
+            <div class="subsec-num">8.5</div>
+            <div class="subsec-title">Failed Delivery Protocol <span class="mono muted" style="margin-left:8px;">Rule 2.7.5.2(d)</span></div>
+          </div>
+
+          <div class="authority-callout" style="margin-bottom:20px;">
+            <div class="callout-label">Statutory Requirement — Direct Quote</div>
+            <div class="callout-title">GPP Rule 2.7.5.2(d)</div>
+            <div class="callout-body">
+              <em>"In the absence of an adult to receive the medicine, it must be retained and stored under appropriate conditions until delivery can be affected or be returned to the pharmacy."</em>
+            </div>
+          </div>
+
+          <div class="flow-diagram">
+            <div class="flow-row">
+              <div class="flow-block">No Adult Present at Delivery Address</div>
+            </div>
+            <div class="flow-row" style="margin-left:20px;">
+              <div class="flow-arrow">↓</div>
+              <div class="flow-label">immediate</div>
+            </div>
+            <div class="flow-row">
+              <div class="flow-block outcome-fail">Driver marks FAILED DELIVERY in app — medicine retained in climate-controlled vehicle</div>
+            </div>
+            <div class="flow-row" style="margin-left:20px;">
+              <div class="flow-arrow">↓</div>
+              <div class="flow-label">automated</div>
+            </div>
+            <div class="flow-row">
+              <div class="flow-block outcome-ticket">Branch RP notified immediately via push notification</div>
+            </div>
+            <div class="flow-row" style="margin-left:20px;">
+              <div class="flow-arrow">↓</div>
+              <div class="flow-label">within 24h</div>
+            </div>
+            <div class="flow-row">
+              <div class="flow-block">Redelivery attempt OR return to pharmacy vault</div>
+            </div>
+            <div class="flow-row" style="margin-left:20px;">
+              <div class="flow-arrow">↓</div>
+              <div class="flow-label">always</div>
+            </div>
+            <div class="flow-row">
+              <div class="flow-block outcome-pass">All events logged with full timestamp in driver app — audit trail complete</div>
+            </div>
+          </div>
+
+          <div class="warn-note" style="margin-top:16px;">
+            <span class="icon"><i class="fa fa-triangle-exclamation"></i></span>
+            <span>A driver who leaves medicine unattended at a premises with no adult recipient is in direct violation of GPP Rule 2.7.5.2(d) and exposes Origin's SAPC licence to sanction. The driver app technically prevents this by locking "Delivered" status unless recipient ID verification is completed.</span>
+          </div>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 8.6 -->
+        <div class="subsec" id="p8-6">
+          <div class="subsec-header">
+            <div class="subsec-num">8.6</div>
+            <div class="subsec-title">Schedule 6 Chain of Custody <span class="mono muted" style="margin-left:8px;">Section 22A</span></div>
+          </div>
+          <ul class="doc-list">
+            <li><span><strong>Batch-Level Tracking:</strong> Every Schedule 6 unit (cannabis flower, pre-rolls, extracts) is tracked by batch number from pharmacy vault dispatch to confirmed patient receipt — no break in chain.</span></li>
+            <li><span><strong>Custody Record:</strong> Driver app generates a timestamped, GPS-tagged chain of custody record at the moment of delivery confirmation — transmitted to the Origin compliance ledger.</span></li>
+            <li><span><strong>Loss / Theft Reporting:</strong> Any loss, damage, or theft must be reported to the branch RP immediately and logged in the driver app with a mandatory incident description. RP is responsible for onward SAPC/SAHPRA reporting obligations.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════
+           PART 9
+      ══════════════════════════════════ -->
+      <section class="part-section page-break" id="part9">
+        <div class="part-header">
+          <div class="part-num-block">
+            <div class="part-number">Part</div>
+            <div class="part-numeral">09</div>
+          </div>
+          <div class="part-header-text">
+            <div class="part-label">Platform Intelligence</div>
+            <div class="part-title">AI-Assisted Role Compliance Engine</div>
+            <div class="part-desc">Every staff member has an AI assistant that knows their role, KPIs, SOPs, and the relevant SA law. When an action deviates from protocol, the system auto-creates a training ticket — closing the loop between operational deviation and corrective learning.</div>
+          </div>
+        </div>
+
+        <!-- Statutory Authority -->
+        <div class="authority-callout">
+          <div class="callout-label">Regulatory Basis</div>
+          <div class="callout-title">SAPC GPP Rules · SAHPRA GMP Guidelines · GNR.1158 · Consumer Protection Act</div>
+          <div class="callout-body">
+            The Compliance Engine operationalises documentary requirements from <strong>SAPC GPP Board Notice 49/2015</strong>, <strong>SAHPRA GMP Guidelines</strong>, <strong>GNR.1158 Practice of Pharmacy Regulations</strong>, and the <strong>Consumer Protection Act</strong> into a real-time role-level audit mechanism. Each role's context is bounded by its statutory authority — the AI assistant enforces those bounds at the point of action.
+          </div>
+        </div>
+
+        <!-- 9.1 -->
+        <div class="subsec" id="p9-1">
+          <div class="subsec-header">
+            <div class="subsec-num">9.1</div>
+            <div class="subsec-title">Engine Architecture</div>
+          </div>
+          <div class="subsec-body">
+            <p>The compliance engine operates as an event-driven layer on top of every platform action. Each action is evaluated against the role's SOP ruleset in real-time. Passing actions are logged to the compliance ledger. Deviating actions trigger a CAPA ticket assigned to the relevant SOP module.</p>
+          </div>
+
+          <div class="flow-diagram">
+            <div class="flow-row">
+              <div class="flow-block">Staff Action Performed (POS, Inventory, Delivery, Dispensing…)</div>
+            </div>
+            <div class="flow-row" style="margin-left:20px;">
+              <div class="flow-arrow">↓</div>
+              <div class="flow-label">real-time</div>
+            </div>
+            <div class="flow-row">
+              <div class="flow-block">Role-Scoped SOP Check — AI context engine evaluates action against role ruleset</div>
+            </div>
+            <div class="flow-row" style="margin-left:20px; gap:40px; display:flex;">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+                <div class="flow-arrow">↓</div>
+                <div class="flow-label">PASS</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:4px; margin-left: 120px;">
+                <div class="flow-arrow">↓</div>
+                <div class="flow-label">DEVIATION</div>
+              </div>
+            </div>
+            <div class="flow-row" style="gap:20px;">
+              <div class="flow-block outcome-pass">ComplianceLog: Green Entry — action recorded as SOP-compliant</div>
+              <div style="width:32px;"></div>
+              <div class="flow-block outcome-fail">ComplianceLog: Red Entry + CAPA Ticket Created</div>
+            </div>
+            <div class="flow-row" style="margin-left:280px;">
+              <div class="flow-arrow">↓</div>
+              <div class="flow-label">automated</div>
+            </div>
+            <div class="flow-row" style="margin-left:240px;">
+              <div class="flow-block outcome-ticket">AI assigns relevant SOP training module to staff member</div>
+            </div>
+            <div class="flow-row" style="margin-left:280px;">
+              <div class="flow-arrow">↓</div>
+              <div class="flow-label">staff action</div>
+            </div>
+            <div class="flow-row" style="margin-left:240px;">
+              <div class="flow-block">Staff completes training module → Manager countersigns → CAPA Closed</div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 9.2 -->
+        <div class="subsec" id="p9-2">
+          <div class="subsec-header">
+            <div class="subsec-num">9.2</div>
+            <div class="subsec-title">Role Compliance Matrix</div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Role</th>
+                  <th>Key KPIs</th>
+                  <th>Core SOPs</th>
+                  <th>Law Anchors</th>
+                  <th>AI Context Scope</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Responsible Pharmacist</td>
+                  <td>0 unverified S21 dispenses; 100% batch COA on shelf</td>
+                  <td>GPP Rule 2.7 dispensing; Schedule 6 handling SOP</td>
+                  <td><code>S22A</code> <code>PA S16</code></td>
+                  <td>Full dispensing authority; Schedule 6 supervisor</td>
+                </tr>
+                <tr>
+                  <td>Pharmacy Intern</td>
+                  <td>Competency log completeness; supervised dispense accuracy</td>
+                  <td>GPP intern supervision SOP; patient counseling SOP</td>
+                  <td><code>PA S35A</code> <code>SAPC intern</code></td>
+                  <td>Supervised scope only; escalate all Schedule 6 to RP</td>
+                </tr>
+                <tr>
+                  <td>Driver</td>
+                  <td>0 failed deliveries without protocol; 100% temp logs; 0 co-mingling events</td>
+                  <td>GPP Rule 2.7.5; cold chain SOP; failed delivery SOP</td>
+                  <td><code>MA S38/39</code> <code>GNR.1158 R21</code></td>
+                  <td>Unregistered person — transport only, no medicine handling</td>
+                </tr>
+                <tr>
+                  <td>QA Manager</td>
+                  <td>CAPA close-out rate; audit compliance %; deviation rate</td>
+                  <td>GMP documentation SOP; CAPA SOP; Change Control SOP</td>
+                  <td><code>SAPC GPP</code> <code>SAHPRA GMP</code></td>
+                  <td>Full audit access; CAPA authority; deviation escalation</td>
+                </tr>
+                <tr>
+                  <td>Floor Staff</td>
+                  <td>Transaction accuracy; Section 21 check rate; PIL handover rate</td>
+                  <td>POS SOP; OTC advice SOP; age verification SOP</td>
+                  <td><code>CPA</code> <code>Pharmacy Act</code></td>
+                  <td>OTC advice only — no independent Schedule 6 dispense</td>
+                </tr>
+                <tr>
+                  <td>Inventory Manager</td>
+                  <td>Stock accuracy %; photo verification rate; batch COA currency</td>
+                  <td>SA GMP stock take SOP; SAHPRA reporting SOP</td>
+                  <td><code>SAHPRA 22C</code> <code>MA S38</code></td>
+                  <td>Full inventory access; SA GMP photo mandatory on every capture</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p style="font-size:11px; color:var(--grey-4); margin-top:8px; font-family:var(--font-mono);">
+            Key: PA = Pharmacy Act 53/1974 · MA = Medicines Act 101/1965 · CPA = Consumer Protection Act · SAPC = SA Pharmacy Council · SAHPRA = SA Health Products Regulatory Authority
+          </p>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 9.3 -->
+        <div class="subsec" id="p9-3">
+          <div class="subsec-header">
+            <div class="subsec-num">9.3</div>
+            <div class="subsec-title">SOP Violation → CAPA Ticket Triggers</div>
+          </div>
+          <div class="subsec-body">
+            <p>The following events auto-create a CAPA training ticket, assigned to the relevant staff member and their line manager, with the specific SOP module pre-loaded for completion.</p>
+          </div>
+
+          <ul class="capa-list">
+            <li class="capa-item">
+              <span class="capa-icon"><i class="fa fa-camera-slash"></i></span>
+              <div>
+                <div class="capa-trigger">Stock take saved without photo</div>
+                <div class="capa-response">→ Ticket: "SA GMP Photo Requirement SOP" assigned to Inventory Manager</div>
+              </div>
+              <span class="capa-tag">INVENTORY</span>
+            </li>
+            <li class="capa-item">
+              <span class="capa-icon"><i class="fa fa-thermometer-empty"></i></span>
+              <div>
+                <div class="capa-trigger">Delivery marked complete without temperature log</div>
+                <div class="capa-response">→ Ticket: "GPP 2.7.5 Temperature Monitoring SOP" assigned to Driver</div>
+              </div>
+              <span class="capa-tag">DELIVERY</span>
+            </li>
+            <li class="capa-item">
+              <span class="capa-icon"><i class="fa fa-file-prescription"></i></span>
+              <div>
+                <div class="capa-trigger">Section 21 dispense without prescription verification</div>
+                <div class="capa-response">→ Ticket: "Schedule 6 Dispensing Protocol SOP" assigned + RP notified immediately</div>
+              </div>
+              <span class="capa-tag">CRITICAL</span>
+            </li>
+            <li class="capa-item">
+              <span class="capa-icon"><i class="fa fa-clock"></i></span>
+              <div>
+                <div class="capa-trigger">OOS result not reported within 24 hours</div>
+                <div class="capa-response">→ Ticket: "OOS Reporting SOP" assigned to QA Manager with automatic escalation flag</div>
+              </div>
+              <span class="capa-tag">QA</span>
+            </li>
+          </ul>
+        </div>
+
+        <hr class="sec-divider">
+
+        <!-- 9.4 -->
+        <div class="subsec" id="p9-4">
+          <div class="subsec-header">
+            <div class="subsec-num">9.4</div>
+            <div class="subsec-title">Non-Cannabis Product Compliance Tracks</div>
+          </div>
+          <div class="subsec-body">
+            <p>The compliance engine manages five distinct product compliance tracks. Each track has its own governing law, required documentation, and AI context layer — ensuring that OTC, supplement, cosmetic, and wellness products are handled under their correct regulatory framework, separate from the Schedule 6 cannabis track.</p>
+          </div>
+
+          <div class="track-grid">
+            <div class="track-card t-cannabis">
+              <div class="track-name">Cannabis S21</div>
+              <div class="track-products">Flower, Pre-Rolls</div>
+              <div class="track-law">SAHPRA 22C · S21 · S22A</div>
+              <div class="track-reqs">Full GPP dispensing compliance; Schedule 6 chain of custody; RP countersignature on every dispense</div>
+            </div>
+            <div class="track-card t-pharma">
+              <div class="track-name">Pharma OTC</div>
+              <div class="track-products">Lamelle Nia-Sol</div>
+              <div class="track-law">Medicines Act S14/15</div>
+              <div class="track-reqs">OTC scheduling compliance; Patient Information Leaflet mandatory; registered medicine label requirements</div>
+            </div>
+            <div class="track-card t-supplement">
+              <div class="track-name">Supplement / CAM</div>
+              <div class="track-products">Prelox · Ovaria · Matricoll</div>
+              <div class="track-law">SAHPRA CAMs Schedule</div>
+              <div class="track-reqs">SAHPRA registration number on label; health claims must not exceed permitted CAM claims rules</div>
+            </div>
+            <div class="track-card t-cosmetic">
+              <div class="track-name">Cosmetic</div>
+              <div class="track-products">Bio Sculpture Gemini</div>
+              <div class="track-law">CPA · SAHPRA General</div>
+              <div class="track-reqs">Safety data sheet on file; no medicinal claims permitted; Consumer Protection Act labeling requirements</div>
+            </div>
+            <div class="track-card t-wellness">
+              <div class="track-name">Wellness / Functional</div>
+              <div class="track-products">Harmonic Mycology</div>
+              <div class="track-law">SAHPRA CAMs / FBO</div>
+              <div class="track-reqs">Pending regulatory classification — tracked as Functional Botanical / CAM pending SAHPRA guidance; conservative claims stance</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════
+           FOOTER
+      ══════════════════════════════════ -->
+      <div class="doc-footer">
+        <div class="footer-brand">Origin &nbsp;·&nbsp; Enterprise Blueprint v4</div>
+        <div class="footer-meta">
+          R101.2026-v4 &nbsp;·&nbsp; Effective 1 June 2026 &nbsp;·&nbsp; Confidential — Restricted Distribution<br>
+          Parts 7–9 addendum to v3 (Parts 1–6). Read in conjunction with R101.2026-v3.
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // Active nav link on scroll
+    (function () {
+      const links = document.querySelectorAll('.sidebar-nav .nav-link[href^="#"]');
+      const sections = [];
+      links.forEach(l => {
+        const id = l.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) sections.push({ id, el, link: l });
+      });
+
+      function onScroll() {
+        const scrollY = window.scrollY + 120;
+        let current = null;
+        sections.forEach(s => {
+          if (s.el.offsetTop <= scrollY) current = s;
+        });
+        links.forEach(l => l.classList.remove('active'));
+        if (current) current.link.classList.add('active');
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+
+</body>
+</html>

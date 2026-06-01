@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Origin Retail Platform — Master Role Dashboard Map. Every staff member can see their role, mile, dashboard link, KPIs, SOPs, and governing law.">
+  <title>Role Dashboard Map — Origin Retail Platform</title>
+  <link rel="icon" type="image/png" href="images/origin-logo.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Styles (external — MVC: View CSS) -->
+  <link rel="stylesheet" href="css/role-map.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       TOP NAVIGATION
+       ═══════════════════════════════════════════════ -->
+  <nav class="top-nav" role="navigation" aria-label="Platform navigation">
+    <a class="nav-brand" href="index.html" aria-label="Origin home">
+      <img class="nav-brand-logo" src="images/origin-logo.png" alt="Origin logo" onerror="this.style.display='none'">
+      <span class="nav-brand-text">ORIGIN</span>
+    </a>
+
+    <div class="nav-links">
+      <a class="nav-link" href="admin.html">
+        <i class="fa-solid fa-shield-halved"></i> Admin
+      </a>
+      <a class="nav-link" href="training-hub.html">
+        <i class="fa-solid fa-graduation-cap"></i> Training Hub
+      </a>
+      <a class="nav-link" href="gmp-compliance.html">
+        <i class="fa-solid fa-flask-vial"></i> GMP Compliance
+      </a>
+      <a class="nav-link" href="owner-dashboard.html">
+        <i class="fa-solid fa-chart-line"></i> Owner Dashboard
+      </a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       PAGE HERO
+       ═══════════════════════════════════════════════ -->
+  <header class="page-hero" role="banner">
+    <p class="page-hero-eyebrow">Origin Retail Platform · Internal Document</p>
+    <h1 class="page-hero-title">
+      Master <span>Role Dashboard</span> Map
+    </h1>
+    <p class="page-hero-sub">
+      Every person in the Origin network — from cultivation to counter —
+      mapped to their mile, their dashboard, their KPIs, their SOPs,
+      and the South African law that governs them.
+    </p>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       LEGEND
+       ═══════════════════════════════════════════════ -->
+  <section class="legend" aria-label="Map legend">
+    <p class="legend-title">Legend</p>
+    <div class="legend-items">
+      <div class="legend-item">
+        <span class="legend-dot legend-dot--first"></span>
+        <span>First Mile — Farm &amp; Cultivation</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot legend-dot--middle"></span>
+        <span>Middle Mile — GMP Processing &amp; Logistics</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot legend-dot--last"></span>
+        <span>Last Mile — Retail Pharmacy</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot legend-dot--platform"></span>
+        <span>Platform Level — Admin &amp; Finance</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch--coming-soon"></span>
+        <span>Dashboard coming soon</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch--innovation"></span>
+        <span>Innovation role</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CONTROLS BAR (search + print)
+       ═══════════════════════════════════════════════ -->
+  <div class="controls-bar" role="search">
+    <div class="search-wrap">
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      <input
+        type="search"
+        id="role-search"
+        placeholder="Search role, law, KPI, SOP…"
+        aria-label="Search roles"
+        autocomplete="off"
+        spellcheck="false"
+      >
+    </div>
+    <span class="result-count" id="result-count" aria-live="polite"></span>
+    <button class="btn-print" id="btn-print" aria-label="Print role map">
+      <i class="fa-solid fa-print"></i> Print Map
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       LANE NAVIGATION PILLS (rendered by JS)
+       ═══════════════════════════════════════════════ -->
+  <nav class="lane-nav-wrap" aria-label="Filter by mile">
+    <div id="lane-nav" role="tablist" aria-label="Mile lanes"></div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       ROLE MAP — main content (rendered by JS)
+       ═══════════════════════════════════════════════ -->
+  <main class="role-map-main" id="role-map-main">
+    <div id="role-map-lanes" aria-label="Role lanes"></div>
+    <div class="no-results" id="no-results" role="status" aria-live="polite">
+      <i class="fa-solid fa-circle-xmark"></i>
+      <p>No roles match your search. Try a different keyword.</p>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       DISCLAIMER
+       ═══════════════════════════════════════════════ -->
+  <aside class="disclaimer-footer" aria-label="Legal disclaimer">
+    <p>
+      <strong>Regulatory Disclaimer:</strong>
+      All references to South African law (SAHPRA, Medicines Act, Pharmacy Act, SAPC GPP) in this document are
+      operational placeholders for internal navigation purposes only. They do not constitute legal advice.
+      Law references, scheduling classifications, and licence requirements must be verified by a qualified
+      SA medicines-law specialist before use in patient-facing or regulatory-submission contexts.
+      This document is for internal Origin Retail Platform staff orientation only.
+    </p>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════
+       PAGE FOOTER
+       ═══════════════════════════════════════════════ -->
+  <footer class="page-footer" role="contentinfo">
+    Origin Retail Platform &mdash; Role Dashboard Map &mdash;
+    <span id="footer-date"></span> &mdash;
+    <a href="admin.html">Admin</a> &middot;
+    <a href="training-hub.html">Training Hub</a> &middot;
+    <a href="gmp-compliance.html">GMP Compliance</a>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+       SCRIPTS (MVC: Controller + Model)
+       ═══════════════════════════════════════════════ -->
+  <script src="frontend/role-map.js"></script>
+  <script>
+    // Inject today's date into footer (lightweight, no dependency)
+    const dateEl = document.getElementById('footer-date');
+    if (dateEl) {
+      dateEl.textContent = new Date().toLocaleDateString('en-ZA', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+    }
+  </script>
+</body>
+</html>

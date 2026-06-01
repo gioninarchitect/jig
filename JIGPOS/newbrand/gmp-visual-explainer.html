@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GMP Visual Explainer — Origin Retail Platform</title>
+  <meta name="description" content="How Origin's digital platform implements every GMP principle — for Keke, QA Manager.">
+  <link rel="icon" type="image/png" href="images/origin-logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/gmp-explainer.css">
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────── -->
+  <nav id="gmp-nav" role="navigation" aria-label="GMP explainer navigation">
+    <div class="container nav-inner">
+      <span class="nav-brand cinzel">ORIGIN · GMP PLATFORM</span>
+      <ul class="nav-links">
+        <li><a href="#principles">8 Principles</a></li>
+        <li><a href="#violation-flow">SOP Flow</a></li>
+        <li><a href="#roles">Roles</a></li>
+        <li><a href="#consequences">Consequences</a></li>
+        <li><a href="#doc-equivalents">Documents</a></li>
+        <li><a href="#legal">Legal</a></li>
+      </ul>
+      <span class="nav-badge">GMP Active</span>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 1 · HERO
+       ════════════════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-eyebrow">
+        <i class="fa-solid fa-shield-halved"></i>
+        Quality Assurance · Origin Retail Platform
+      </div>
+      <h1 class="hero-title shimmer-text">
+        GMP: Quality Is Not an Act,&nbsp;It's a&nbsp;Habit —<br>
+        And Origin Makes It&nbsp;Automatic
+      </h1>
+      <p class="hero-subtitle">
+        Here's how every GMP principle is enforced in the Origin Platform — from batch release to last-mile delivery.
+      </p>
+
+      <!-- Stats row -->
+      <div class="stats-row stagger">
+        <div class="stat-card">
+          <div class="stat-number"><span data-count="8" data-duration="1200">8</span></div>
+          <div class="stat-label">GMP Principles Covered</div>
+          <div class="progress-bar"><div class="progress-fill" data-width="100"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number"><span data-count="6" data-duration="1000">6</span></div>
+          <div class="stat-label">Role SOPs</div>
+          <div class="progress-bar"><div class="progress-fill" data-width="100"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number shimmer-text" style="font-size:1.4rem;">AUTO</div>
+          <div class="stat-label">CAPA Detection</div>
+          <div class="progress-bar"><div class="progress-fill" data-width="100"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="font-size:1.4rem; color:var(--green);">FULL</div>
+          <div class="stat-label">Audit Trail</div>
+          <div class="progress-bar"><div class="progress-fill" data-width="100"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 2 · 8 GMP PRINCIPLES
+       ════════════════════════════════════════════════════════ -->
+  <section id="principles" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag tag-gold"><i class="fa-solid fa-star"></i> The 8 Principles</span>
+        <h2 class="section-title">Every GMP Principle — Mapped to Origin</h2>
+        <p class="section-desc">The same framework your infographic covers, enforced line-by-line in the platform.</p>
+      </div>
+
+      <div class="principles-grid stagger">
+
+        <!-- 1 · Hygiene & Cleanliness -->
+        <article class="principle-card pc-1">
+          <span class="pc-icon">🧼</span>
+          <div class="pc-number">Principle 01</div>
+          <h3 class="pc-name">Hygiene &amp; Cleanliness</h3>
+          <div class="pc-arrow">Origin Platform Does This</div>
+          <p class="pc-feature">
+            <strong>Pre-departure vehicle checklist</strong> (GPP 2.7.5) is mandatory before every dispatch.
+            Storage temperature monitoring flags any breach before product leaves the facility.
+            No checklist = no dispatch authorised.
+          </p>
+        </article>
+
+        <!-- 2 · Documentation -->
+        <article class="principle-card pc-2">
+          <span class="pc-icon">📋</span>
+          <div class="pc-number">Principle 02</div>
+          <h3 class="pc-name">Documentation</h3>
+          <div class="pc-arrow">Origin Platform Does This</div>
+          <p class="pc-feature">
+            Every dispensing action is logged with <strong>timestamp, staff ID, batch number and COA reference</strong>.
+            Auto-generated BMR equivalent. No action is unrecorded — the system writes the trail for you.
+          </p>
+        </article>
+
+        <!-- 3 · Validation -->
+        <article class="principle-card pc-3">
+          <span class="pc-icon">✅</span>
+          <div class="pc-number">Principle 03</div>
+          <h3 class="pc-name">Validation</h3>
+          <div class="pc-arrow">Origin Platform Does This</div>
+          <p class="pc-feature">
+            Batch <strong>COA must be uploaded and QA-approved</strong> before a product enters inventory.
+            System blocks unapproved batches at the gate — no manual override without RP sign-off.
+          </p>
+        </article>
+
+        <!-- 4 · Qualification -->
+        <article class="principle-card pc-4">
+          <span class="pc-icon">🎓</span>
+          <div class="pc-number">Principle 04</div>
+          <h3 class="pc-name">Qualification</h3>
+          <div class="pc-arrow">Origin Platform Does This</div>
+          <p class="pc-feature">
+            Staff roles are <strong>gated by SAPC registration status</strong>.
+            Interns operate within a supervised scope only.
+            Schedule 6 dispensing requires RP countersignature — the system will not allow it otherwise.
+          </p>
+        </article>
+
+        <!-- 5 · Calibration -->
+        <article class="principle-card pc-5">
+          <span class="pc-icon">🌡️</span>
+          <div class="pc-number">Principle 05</div>
+          <h3 class="pc-name">Calibration</h3>
+          <div class="pc-arrow">Origin Platform Does This</div>
+          <p class="pc-feature">
+            Temperature and humidity monitoring triggers <strong>GWDP spec flags</strong> at 22 °C max and 50–55 % RH.
+            Out-of-range readings generate automatic alerts and lock affected stock for QA review.
+          </p>
+        </article>
+
+        <!-- 6 · Training -->
+        <article class="principle-card pc-6">
+          <span class="pc-icon">📚</span>
+          <div class="pc-number">Principle 06</div>
+          <h3 class="pc-name">Training</h3>
+          <div class="pc-arrow">Origin Platform Does This</div>
+          <p class="pc-feature">
+            <strong>Role-based training modules</strong> tied to SAPC competency log.
+            When a deviation is detected the platform <em>automatically assigns</em> the relevant training ticket
+            to the staff member before they can resume that task.
+          </p>
+        </article>
+
+        <!-- 7 · Change Control -->
+        <article class="principle-card pc-7">
+          <span class="pc-icon">🔒</span>
+          <div class="pc-number">Principle 07</div>
+          <h3 class="pc-name">Change Control</h3>
+          <div class="pc-arrow">Origin Platform Does This</div>
+          <p class="pc-feature">
+            All product and procedure changes <strong>require QA approval before taking effect</strong>.
+            Admin-controlled change queue. Nothing is silent — every change carries an author, timestamp and reason.
+          </p>
+        </article>
+
+        <!-- 8 · Audit -->
+        <article class="principle-card pc-8">
+          <span class="pc-icon">🔍</span>
+          <div class="pc-number">Principle 08</div>
+          <h3 class="pc-name">Audit</h3>
+          <div class="pc-arrow">Origin Platform Does This</div>
+          <p class="pc-feature">
+            <strong>ComplianceLog</strong> captures every system action with PASS / WARN / BLOCK status.
+            Exportable audit package — SAHPRA-ready format. One click: complete site audit history.
+          </p>
+        </article>
+
+      </div><!-- /principles-grid -->
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 3 · SOP VIOLATION FLOW
+       ════════════════════════════════════════════════════════ -->
+  <section id="violation-flow" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag tag-red"><i class="fa-solid fa-triangle-exclamation"></i> CAPA Workflow</span>
+        <h2 class="section-title">What Happens When an SOP Is Violated</h2>
+        <p class="section-desc">From deviation detection to closed ticket — fully automatic, fully traceable.</p>
+      </div>
+
+      <div class="flow-diagram reveal">
+
+        <!-- Step 1 -->
+        <div class="flow-step">
+          <span class="flow-step-num">1</span>
+          <div class="flow-icon-wrap fi-red"><i class="fa-solid fa-truck"></i></div>
+          <div class="flow-step-label">Action Taken</div>
+          <div class="flow-step-desc">Delivery dispatched without temperature log captured</div>
+        </div>
+
+        <div class="flow-h-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+
+        <!-- Step 2 -->
+        <div class="flow-step">
+          <span class="flow-step-num">2</span>
+          <div class="flow-icon-wrap fi-amber"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="flow-step-label">System Detects Deviation</div>
+          <div class="flow-step-desc">ComplianceLog flags WARN — GPP 2.7.5 pre-departure incomplete</div>
+        </div>
+
+        <div class="flow-h-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+
+        <!-- Step 3 -->
+        <div class="flow-step">
+          <span class="flow-step-num">3</span>
+          <div class="flow-icon-wrap fi-blue"><i class="fa-solid fa-file-circle-exclamation"></i></div>
+          <div class="flow-step-label">CAPA Ticket Auto-Created</div>
+          <div class="flow-step-desc">GPP 2.7.5 SOP assigned to driver automatically</div>
+        </div>
+
+        <div class="flow-h-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+
+        <!-- Step 4 -->
+        <div class="flow-step">
+          <span class="flow-step-num">4</span>
+          <div class="flow-icon-wrap fi-purple"><i class="fa-solid fa-bell"></i></div>
+          <div class="flow-step-label">Manager Notified</div>
+          <div class="flow-step-desc">QA Manager &amp; RP receive real-time alert</div>
+        </div>
+
+        <div class="flow-h-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+
+        <!-- Step 5 -->
+        <div class="flow-step">
+          <span class="flow-step-num">5</span>
+          <div class="flow-icon-wrap fi-teal"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="flow-step-label">Training Module Assigned</div>
+          <div class="flow-step-desc">Staff completes cold-chain SOP module before next dispatch</div>
+        </div>
+
+        <div class="flow-h-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+
+        <!-- Step 6 -->
+        <div class="flow-step">
+          <span class="flow-step-num">6</span>
+          <div class="flow-icon-wrap fi-green"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="flow-step-label">QA Closes Ticket</div>
+          <div class="flow-step-desc">QA Manager counter-signs. Ticket archived in ComplianceLog.</div>
+        </div>
+
+      </div><!-- /flow-diagram -->
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 4 · ROLE CARDS
+       ════════════════════════════════════════════════════════ -->
+  <section id="roles" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag tag-purple"><i class="fa-solid fa-users"></i> GMP Team</span>
+        <h2 class="section-title">Every Role, Every Responsibility</h2>
+        <p class="section-desc">GMP is not a department — it's everyone's job. Here's how the platform enforces it role by role.</p>
+      </div>
+
+      <div class="roles-grid stagger">
+
+        <!-- Keke -->
+        <div class="role-card rc-keke">
+          <div class="role-header">
+            <div class="role-avatar" style="background:var(--gold-glow);border:2px solid var(--border-gold);">
+              <i class="fa-solid fa-shield-halved" style="color:var(--gold);"></i>
+            </div>
+            <div>
+              <div class="role-title">QA Manager</div>
+              <div class="role-name-tag">Keke · Quality &amp; Compliance</div>
+            </div>
+          </div>
+          <ul class="role-duties">
+            <li>CAPA authority — approves or rejects all deviation resolutions</li>
+            <li>Audit oversight — full ComplianceLog access across all branches</li>
+            <li>Change control approval — no SOP or product change activates without sign-off</li>
+            <li>SAHPRA inspection readiness — one-click audit package export</li>
+          </ul>
+        </div>
+
+        <!-- RP -->
+        <div class="role-card rc-rp">
+          <div class="role-header">
+            <div class="role-avatar" style="background:var(--green-bg);border:2px solid rgba(34,197,94,.35);">
+              <i class="fa-solid fa-user-doctor" style="color:var(--green);"></i>
+            </div>
+            <div>
+              <div class="role-title">Responsible Pharmacist</div>
+              <div class="role-name-tag">Berne Swart · RP</div>
+            </div>
+          </div>
+          <ul class="role-duties">
+            <li>Schedule 6 supervision — countersignature required at platform level</li>
+            <li>Dispensing sign-off — logged against SAPC registration number</li>
+            <li>Batch release — final QA approval before stock enters sales floor</li>
+          </ul>
+        </div>
+
+        <!-- Intern -->
+        <div class="role-card rc-intern">
+          <div class="role-header">
+            <div class="role-avatar" style="background:var(--blue-bg);border:2px solid rgba(96,165,250,.35);">
+              <i class="fa-solid fa-user-graduate" style="color:var(--blue);"></i>
+            </div>
+            <div>
+              <div class="role-title">Pharmacy Intern</div>
+              <div class="role-name-tag">Supervised Scope</div>
+            </div>
+          </div>
+          <ul class="role-duties">
+            <li>Supervised dispensing only — RP countersignature enforced by system</li>
+            <li>PIL preparation and patient counselling tracked in competency log</li>
+            <li>SAPC intern log auto-populated with every supervised interaction</li>
+          </ul>
+        </div>
+
+        <!-- Courier -->
+        <div class="role-card rc-courier">
+          <div class="role-header">
+            <div class="role-avatar" style="background:var(--teal-bg);border:2px solid rgba(45,212,191,.35);">
+              <i class="fa-solid fa-motorcycle" style="color:var(--teal);"></i>
+            </div>
+            <div>
+              <div class="role-title">Graduate Pharmacist Courier</div>
+              <div class="role-name-tag">Last-Mile GMP</div>
+            </div>
+          </div>
+          <ul class="role-duties">
+            <li>GMP-compliant transport — pre-departure checklist locked to dispatch</li>
+            <li>Chain of custody — digital handover at every waypoint</li>
+            <li>Cold chain monitoring — temperature flags trigger before departure</li>
+          </ul>
+        </div>
+
+        <!-- Inventory -->
+        <div class="role-card rc-inv">
+          <div class="role-header">
+            <div class="role-avatar" style="background:var(--amber-bg);border:2px solid rgba(248,194,66,.35);">
+              <i class="fa-solid fa-boxes-stacked" style="color:var(--amber);"></i>
+            </div>
+            <div>
+              <div class="role-title">Inventory Manager</div>
+              <div class="role-name-tag">Stock Integrity</div>
+            </div>
+          </div>
+          <ul class="role-duties">
+            <li>SA GMP stocktake — mandatory photo evidence per count line</li>
+            <li>Batch COA tracking — every SKU linked to lab certificate</li>
+            <li>Receiving gate — unapproved batches blocked at entry</li>
+          </ul>
+        </div>
+
+        <!-- Floor -->
+        <div class="role-card rc-floor">
+          <div class="role-header">
+            <div class="role-avatar" style="background:var(--purple-bg);border:2px solid rgba(167,139,250,.35);">
+              <i class="fa-solid fa-store" style="color:var(--purple);"></i>
+            </div>
+            <div>
+              <div class="role-title">Floor Staff</div>
+              <div class="role-name-tag">POS &amp; Customer Facing</div>
+            </div>
+          </div>
+          <ul class="role-duties">
+            <li>OTC SOP adherence — guided workflow at POS, no deviation possible</li>
+            <li>PIL handover — logged and required for each product dispensed</li>
+            <li>Age verification — hard gate at checkout, no bypass</li>
+          </ul>
+        </div>
+
+      </div><!-- /roles-grid -->
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 5 · CONSEQUENCES
+       ════════════════════════════════════════════════════════ -->
+  <section id="consequences" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag tag-red"><i class="fa-solid fa-scale-balanced"></i> Why It Matters</span>
+        <h2 class="section-title">Without GMP vs. With Origin</h2>
+        <p class="section-desc">The stakes are real. The platform removes the human single points of failure.</p>
+      </div>
+
+      <div class="consequences-split">
+
+        <div class="cons-panel cons-without reveal-left">
+          <div class="cons-header">
+            <span class="cons-icon">⚠️</span>
+            <h3 class="cons-title">WITHOUT Platform Enforcement</h3>
+          </div>
+          <ul class="cons-list">
+            <li>
+              <span class="cons-bullet">✕</span>
+              <span>Product contamination reaches patients before detection</span>
+            </li>
+            <li>
+              <span class="cons-bullet">✕</span>
+              <span>Product recall is manual, slow, and incomplete — batches can't be traced</span>
+            </li>
+            <li>
+              <span class="cons-bullet">✕</span>
+              <span>SAHPRA / SAPC warning letters with no audit evidence to defend</span>
+            </li>
+            <li>
+              <span class="cons-bullet">✕</span>
+              <span>Financial losses from stock write-offs, legal exposure, reputational damage</span>
+            </li>
+            <li>
+              <span class="cons-bullet">✕</span>
+              <span>Risk to patient life when Schedule 6 chain of custody breaks down</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="cons-panel cons-with reveal-right">
+          <div class="cons-header">
+            <span class="cons-icon">🛡️</span>
+            <h3 class="cons-title">WITH Origin Platform</h3>
+          </div>
+          <ul class="cons-list">
+            <li>
+              <span class="cons-bullet">✓</span>
+              <span>Auto-detection stops contamination before it reaches the shelf</span>
+            </li>
+            <li>
+              <span class="cons-bullet">✓</span>
+              <span>Batch recall engine locks affected stock instantly, nationwide</span>
+            </li>
+            <li>
+              <span class="cons-bullet">✓</span>
+              <span>Every action is audit-trailed — inspection-ready in minutes, not days</span>
+            </li>
+            <li>
+              <span class="cons-bullet">✓</span>
+              <span>CAPA prevents repeat deviations — root cause fixed, not papered over</span>
+            </li>
+            <li>
+              <span class="cons-bullet">✓</span>
+              <span>Patient safety enforced at every step by system logic, not memory</span>
+            </li>
+          </ul>
+        </div>
+
+      </div><!-- /consequences-split -->
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 6 · GMP DOC EQUIVALENTS
+       ════════════════════════════════════════════════════════ -->
+  <section id="doc-equivalents" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag tag-blue"><i class="fa-solid fa-folder-open"></i> Documentation</span>
+        <h2 class="section-title">Every GMP Document — Digital in Origin</h2>
+        <p class="section-desc">Paper-based GMP docs are replaced by live, immutable digital equivalents.</p>
+      </div>
+
+      <div class="reveal">
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>GMP Doc</th>
+              <th>Traditional Purpose</th>
+              <th>How Origin Handles It</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>SOP</td>
+              <td>Standard procedure reference for staff</td>
+              <td>
+                Role-based SOP library. Digital acknowledgment per staff member.
+                Deviation auto-detected and CAPA triggered.
+                <br><span class="doc-badge badge-live"><i class="fa-solid fa-circle" style="font-size:.5rem;"></i> Live</span>
+              </td>
+            </tr>
+            <tr>
+              <td>BMR</td>
+              <td>Batch Manufacturing Record — full production history</td>
+              <td>
+                CultivationBatch model with seed-to-harvest tracking.
+                Each batch carries grower, input, environmental and QA sign-off records.
+                <br><span class="doc-badge badge-live"><i class="fa-solid fa-circle" style="font-size:.5rem;"></i> Live</span>
+              </td>
+            </tr>
+            <tr>
+              <td>BPR</td>
+              <td>Batch Packing Record — post-processing documentation</td>
+              <td>
+                GMP lab processing records linked to each batch.
+                <br><span class="doc-badge badge-dev"><i class="fa-solid fa-code" style="font-size:.5rem;"></i> In Development</span>
+              </td>
+            </tr>
+            <tr>
+              <td>COA</td>
+              <td>Certificate of Analysis — third-party lab test results</td>
+              <td>
+                Required upload before inventory entry. Stored immutably per batch.
+                Linked to every dispensing event.
+                <br><span class="doc-badge badge-live"><i class="fa-solid fa-circle" style="font-size:.5rem;"></i> Live</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Logbook</td>
+              <td>Manual register of daily activities</td>
+              <td>
+                SAPC intern competency log auto-populated per supervised interaction.
+                Driver trip log with GPS + temperature timestamps.
+                <br><span class="doc-badge badge-live"><i class="fa-solid fa-circle" style="font-size:.5rem;"></i> Live</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Validation Report</td>
+              <td>Formal proof that processes work as intended</td>
+              <td>
+                ComplianceLog export in SAHPRA-format audit package.
+                Covers all system events, staff actions, deviations and resolutions.
+                <br><span class="doc-badge badge-live"><i class="fa-solid fa-circle" style="font-size:.5rem;"></i> Live</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 7 · LEGAL FOUNDATION
+       ════════════════════════════════════════════════════════ -->
+  <section id="legal" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag tag-gold"><i class="fa-solid fa-gavel"></i> Legal Foundation</span>
+        <h2 class="section-title">Built on South African Medicines Law</h2>
+        <p class="section-desc">Origin's GMP framework is grounded in the Acts that govern every South African pharmacy.</p>
+      </div>
+
+      <div class="legal-cards stagger">
+
+        <div class="legal-card" data-tooltip="GPP Rules bind every SA pharmacy">
+          <span class="legal-icon">⚖️</span>
+          <div class="legal-act">Pharmacy Act 53 of 1974</div>
+          <p class="legal-desc">
+            Good Pharmacy Practice (GPP) Rule 2.7.5 imposes specific transport and handling obligations on every dispensary.
+            Origin's pre-departure checklist, chain-of-custody log and cold-chain monitoring implement these requirements
+            at the system level, removing reliance on manual compliance.
+          </p>
+          <span class="legal-ref">GPP Rule 2.7.5 · Transport Obligations</span>
+        </div>
+
+        <div class="legal-card" data-tooltip="Schedule 6 — controlled substance chain of custody">
+          <span class="legal-icon">📜</span>
+          <div class="legal-act">Medicines Act 101 of 1965</div>
+          <p class="legal-desc">
+            Section 22A governs Schedule 6 (and other scheduled) substances, requiring full chain of custody.
+            Sections 38 and 39 set handling and storage standards.
+            Origin enforces RP countersignature at every Schedule 6 dispensing event and logs each step immutably.
+          </p>
+          <span class="legal-ref">S22A · Schedule 6 Chain of Custody · S38 / S39</span>
+        </div>
+
+        <div class="legal-card" data-tooltip="SAHPRA inspections require documented GMP evidence">
+          <span class="legal-icon">🏛️</span>
+          <div class="legal-act">SAHPRA GMP Guidelines</div>
+          <p class="legal-desc">
+            SAHPRA's GMP guidelines require documented cultivation batch records, verified COAs and traceable
+            dispensing histories. Origin's CultivationBatch model, mandatory COA gate and ComplianceLog export
+            are specifically designed to satisfy a SAHPRA inspection with minimal preparation time.
+          </p>
+          <span class="legal-ref">Cultivation Batch Documentation · COA Requirements</span>
+        </div>
+
+      </div><!-- /legal-cards -->
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════════ -->
+  <footer id="gmp-footer">
+    <div class="container">
+      <div class="footer-logo">ORIGIN</div>
+      <p class="footer-tagline">
+        Building GMP compliance into every role, every action, every delivery.
+      </p>
+      <div class="footer-divider"></div>
+      <div class="footer-meta">
+        Origin Retail Platform &nbsp;·&nbsp; Quality Assurance Explainer &nbsp;·&nbsp; Prepared for Keke, QA Manager
+        &nbsp;·&nbsp;
+        <button id="btn-print" style="
+          background:none;border:1px solid var(--border-gold);color:var(--gold);
+          padding:5px 14px;border-radius:6px;font-size:.72rem;font-weight:600;
+          letter-spacing:.08em;cursor:pointer;transition:background .2s;
+        ">
+          <i class="fa-solid fa-print"></i> Print / PDF
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <script src="frontend/gmp-explainer.js"></script>
+</body>
+</html>

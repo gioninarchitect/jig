@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supplier Order — Origin Retail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E2C472;
+  --bg: #0A0A0A;
+  --surface: #141414;
+  --surface2: #1E1E1E;
+  --border: #2A2A2A;
+  --text: #F5F5F5;
+  --muted: #888;
+  --danger: #E53E3E;
+  --success: #38A169;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+/* Header */
+.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.header-left { display: flex; align-items: center; gap: 16px; }
+.logo { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); letter-spacing: 2px; }
+.header h1 { font-size: 14px; font-weight: 500; color: var(--muted); }
+.btn { padding: 10px 20px; border-radius: 6px; border: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px; }
+.btn-gold { background: var(--gold); color: #0A0A0A; }
+.btn-gold:hover { background: var(--gold-light); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Layout */
+.layout { display: grid; grid-template-columns: 1fr 360px; gap: 0; min-height: calc(100vh - 65px); }
+
+/* Catalogue panel */
+.catalogue { padding: 24px; overflow-y: auto; }
+.catalogue-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+.catalogue-header h2 { font-family: 'Cinzel', serif; font-size: 16px; color: var(--gold); }
+.supplier-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.tab { padding: 7px 16px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+.tab.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+.search-bar { width: 100%; padding: 10px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; font-family: 'Inter', sans-serif; margin-bottom: 16px; }
+.search-bar:focus { outline: none; border-color: var(--gold); }
+
+/* Product grid */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.product-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; }
+.product-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+.product-card.in-order { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+.product-name { font-size: 12px; font-weight: 600; margin-bottom: 4px; line-height: 1.4; }
+.product-sku { font-size: 10px; color: var(--muted); margin-bottom: 8px; }
+.product-price { font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
+.product-price span { font-size: 10px; color: var(--muted); font-weight: 400; }
+.qty-control { display: flex; align-items: center; gap: 8px; }
+.qty-btn { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.qty-btn:hover { border-color: var(--gold); color: var(--gold); }
+.qty-input { width: 48px; text-align: center; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 13px; font-family: 'Inter', sans-serif; padding: 5px; }
+.qty-input:focus { outline: none; border-color: var(--gold); }
+.supplier-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; margin-bottom: 8px; }
+.badge-lamelle { background: rgba(56,161,105,0.15); color: #48BB78; }
+.badge-bs { background: rgba(159,122,234,0.15); color: #B794F4; }
+.badge-hm { background: rgba(237,137,54,0.15); color: #F6AD55; }
+
+/* Order panel */
+.order-panel { background: var(--surface); border-left: 1px solid var(--border); padding: 24px; display: flex; flex-direction: column; position: sticky; top: 65px; height: calc(100vh - 65px); overflow-y: auto; }
+.order-panel h2 { font-family: 'Cinzel', serif; font-size: 15px; color: var(--gold); margin-bottom: 4px; }
+.order-meta { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+.order-empty { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; }
+.order-items { flex: 1; overflow-y: auto; }
+.order-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.order-item-info { flex: 1; }
+.order-item-name { font-size: 12px; font-weight: 600; line-height: 1.3; margin-bottom: 2px; }
+.order-item-sku { font-size: 10px; color: var(--muted); }
+.order-item-price { font-size: 12px; color: var(--gold); font-weight: 600; white-space: nowrap; }
+.order-item-qty { font-size: 11px; color: var(--muted); }
+.remove-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 2px 4px; transition: color 0.2s; }
+.remove-btn:hover { color: var(--danger); }
+.order-summary { border-top: 1px solid var(--border); padding-top: 16px; margin-top: auto; }
+.summary-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
+.summary-row.total { font-weight: 700; font-size: 16px; color: var(--gold); padding-top: 8px; border-top: 1px solid var(--border); }
+.order-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.order-note { margin-top: 12px; }
+.order-note label { font-size: 11px; color: var(--muted); display: block; margin-bottom: 6px; }
+.order-note textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 12px; font-family: 'Inter', sans-serif; padding: 10px; resize: none; min-height: 72px; }
+.order-note textarea:focus { outline: none; border-color: var(--gold); }
+.supplier-section-header { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; padding: 8px 0 4px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; }
+  .order-panel { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; overflow: hidden; border-left: none; border-top: 1px solid var(--border); transition: height 0.3s; z-index: 200; }
+  .order-panel.open { height: 80vh; }
+  .mobile-cart-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; cursor: pointer; }
+  .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo">ORIGIN</div>
+    <h1>Supplier Order Form — Potchefstroom</h1>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-outline" onclick="clearOrder()">Clear</button>
+    <button class="btn btn-gold" onclick="submitOrder()">Send Order</button>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- Catalogue -->
+  <div class="catalogue">
+    <div class="catalogue-header">
+      <h2>Product Catalogue</h2>
+      <div class="supplier-tabs">
+        <button class="tab active" onclick="setSupplier('all', this)">All</button>
+        <button class="tab" onclick="setSupplier('Lamelle Pharmaceuticals', this)">Lamelle</button>
+        <button class="tab" onclick="setSupplier('Bio Sculpture', this)">Bio Sculpture</button>
+        <button class="tab" onclick="setSupplier('Harmonic Mycology', this)">Harmonic Mycology</button>
+      </div>
+    </div>
+    <input class="search-bar" type="text" placeholder="Search products..." oninput="filterProducts(this.value)" id="searchInput">
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+
+  <!-- Order panel -->
+  <div class="order-panel" id="orderPanel">
+    <div class="mobile-cart-bar" onclick="toggleMobileCart()">
+      <h2>Order Summary</h2>
+      <span id="mobileCartCount" style="background:var(--gold);color:#0A0A0A;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;">0 items</span>
+    </div>
+    <div class="order-meta" id="orderDate"></div>
+    <div class="order-items" id="orderItems">
+      <div class="order-empty">No items added yet.<br>Click products to add to order.</div>
+    </div>
+    <div class="order-summary" id="orderSummary" style="display:none">
+      <div class="summary-row"><span>Items</span><span id="summaryCount">0</span></div>
+      <div class="summary-row"><span>Subtotal (ex VAT)</span><span id="summarySubtotal">R0.00</span></div>
+      <div class="summary-row"><span>VAT (15%)</span><span id="summaryVat">R0.00</span></div>
+      <div class="summary-row total"><span>Total (incl VAT)</span><span id="summaryTotal">R0.00</span></div>
+      <div class="order-note">
+        <label>Order Notes</label>
+        <textarea id="orderNote" placeholder="Delivery instructions, special requests..."></textarea>
+      </div>
+      <div class="order-actions">
+        <button class="btn btn-gold" onclick="submitOrder()" style="width:100%">Send Order via WhatsApp</button>
+        <button class="btn btn-outline" onclick="printOrder()" style="width:100%">Print / Save PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Product catalogue ─────────────────────────────────────────────────────────
+const CATALOGUE = [
+  // Lamelle Pharmaceuticals
+  { sku:'LAM-MATR001', name:'Matricoll ECM 90 Caps', supplier:'Lamelle Pharmaceuticals', rsp:790, costPrice:508.86, size:'90 caps', category:'supplements' },
+  { sku:'LAM-CEN001', name:'Centar Lotion 100ml', supplier:'Lamelle Pharmaceuticals', rsp:580, costPrice:373.59, size:'100ml', category:'skincare' },
+  { sku:'LAM-CEN002', name:'Centar Gel 20ml', supplier:'Lamelle Pharmaceuticals', rsp:290, costPrice:186.79, size:'20ml', category:'skincare' },
+  { sku:'LAM-NIA002', name:'Nia-Sol Kit (60 Caps + 9ml Gel)', supplier:'Lamelle Pharmaceuticals', rsp:340, costPrice:219, size:'Kit', category:'pharmacy' },
+  { sku:'LAM-NIA001', name:'Nia-Sol Lotion 125ml', supplier:'Lamelle Pharmaceuticals', rsp:380, costPrice:244.76, size:'125ml', category:'pharmacy' },
+  { sku:'LAM-NIA003', name:'Nia-Sol Gel 125ml', supplier:'Lamelle Pharmaceuticals', rsp:360, costPrice:231.88, size:'125ml', category:'pharmacy' },
+  { sku:'LAM-OVA001', name:'Ovaria Orange 30 Sachets', supplier:'Lamelle Pharmaceuticals', rsp:440, costPrice:283.41, size:'30 sachets', category:'supplements' },
+  { sku:'LAM-OVA002', name:'Ovaria Peach 30 Sachets', supplier:'Lamelle Pharmaceuticals', rsp:440, costPrice:283.41, size:'30 sachets', category:'supplements' },
+  { sku:'LAM-PRE004', name:'Prelox Male Enhancement 20 Caps', supplier:'Lamelle Pharmaceuticals', rsp:290, costPrice:186.79, size:'20 caps', category:'supplements' },
+  { sku:'LAM-PRE002', name:'Prelox Male Enhancement 60 Caps', supplier:'Lamelle Pharmaceuticals', rsp:795, costPrice:512.07, size:'60 caps', category:'supplements' },
+  { sku:'LAM-PRE001', name:'Prelox Male Fertility 60 Caps', supplier:'Lamelle Pharmaceuticals', rsp:795, costPrice:512.07, size:'60 caps', category:'supplements' },
+  { sku:'LAM-PRE005', name:'Lady Prelox Intimacy 60 Caps', supplier:'Lamelle Pharmaceuticals', rsp:795, costPrice:512.07, size:'60 caps', category:'supplements' },
+  { sku:'LAM-PRE006', name:'Lady Prelox Menopause 60 Caps', supplier:'Lamelle Pharmaceuticals', rsp:795, costPrice:512.07, size:'60 caps', category:'supplements' },
+  // Bio Sculpture Gemini — first 40 colours
+  ...[
+    [601,'French White'],[604,'Rustic Terracotta'],[606,'Sugar Kiss'],[610,'Pinotage'],
+    [611,'Primula'],[614,'Jodi Rose'],[615,'Wild Berry'],[616,'Sunset Shimmer'],
+    [617,'Tropical Flame'],[618,'Paradise Pink'],[619,'Pillar Box'],[620,'Cherry Ripe'],
+    [621,'Ravishing Ruby'],[622,'Ravishing Red'],[623,'Café Latté'],[624,'Port Wine'],
+    [630,'Triginta'],[661,'Violet'],[663,'Moulin Rouge'],[664,'Lilac Lullaby'],
+    [665,'Pink Iceberg'],[666,'Blanc'],[667,'Crème'],[668,'Rosè'],
+    [674,'Real Red'],[675,'Fruity Tooty'],[678,'Baby Doll'],[679,'Princess Lilla'],
+    [680,'Starry Night'],[685,'Mulberry'],[686,'Dark Plum'],[687,'Strawberry French'],
+    [689,'Bright Summer Pink'],[690,'Cerise Pink'],[691,'Royal Turban'],[692,'Amethyst'],
+    [694,'Royal Red'],[695,'Spring Splash'],[696,'Summer Holiday'],[698,'Soaring Dove'],
+  ].map(([num, name]) => ({
+    sku: `BS-${num}`, name: `Gemini No.${num} ${name}`, supplier: 'Bio Sculpture',
+    rsp: 70, costPrice: 38.50, size: '14ml', category: 'nail-care'
+  })),
+  // Harmonic Mycology — key SKUs
+  { sku:'HM-001', name:'Lion\'s Mane Extract', supplier:'Harmonic Mycology', rsp:350, costPrice:210, size:'60 caps', category:'supplements' },
+  { sku:'HM-002', name:'Reishi Dual Extract', supplier:'Harmonic Mycology', rsp:380, costPrice:228, size:'60 caps', category:'supplements' },
+  { sku:'HM-003', name:'Chaga Extract', supplier:'Harmonic Mycology', rsp:320, costPrice:192, size:'60 caps', category:'supplements' },
+  { sku:'HM-004', name:'Turkey Tail Extract', supplier:'Harmonic Mycology', rsp:340, costPrice:204, size:'60 caps', category:'supplements' },
+  { sku:'HM-005', name:'Cordyceps Extract', supplier:'Harmonic Mycology', rsp:360, costPrice:216, size:'60 caps', category:'supplements' },
+];
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let order = {}; // sku → { product, qty }
+let activeSupplier = 'all';
+let searchTerm = '';
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+document.getElementById('orderDate').textContent = `Branch: Potchefstroom · ${new Date().toLocaleDateString('en-ZA', { day:'numeric', month:'long', year:'numeric' })}`;
+renderGrid();
+
+// ── Supplier filter ───────────────────────────────────────────────────────────
+function setSupplier(supplier, el) {
+  activeSupplier = supplier;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderGrid();
+}
+
+function filterProducts(val) {
+  searchTerm = val.toLowerCase();
+  renderGrid();
+}
+
+// ── Grid render ───────────────────────────────────────────────────────────────
+function renderGrid() {
+  const filtered = CATALOGUE.filter(p => {
+    const matchSupplier = activeSupplier === 'all' || p.supplier === activeSupplier;
+    const matchSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm) || p.sku.toLowerCase().includes(searchTerm);
+    return matchSupplier && matchSearch;
+  });
+
+  const grid = document.getElementById('productGrid');
+  if (!filtered.length) { grid.innerHTML = '<p style="color:var(--muted);font-size:13px;grid-column:1/-1;padding:20px 0">No products found.</p>'; return; }
+
+  grid.innerHTML = filtered.map(p => {
+    const inOrder = order[p.sku];
+    const qty = inOrder ? inOrder.qty : 0;
+    const badgeClass = p.supplier === 'Lamelle Pharmaceuticals' ? 'badge-lamelle' : p.supplier === 'Bio Sculpture' ? 'badge-bs' : 'badge-hm';
+    const badgeLabel = p.supplier === 'Lamelle Pharmaceuticals' ? 'Lamelle' : p.supplier === 'Bio Sculpture' ? 'Bio Sculpture' : 'HM';
+    return `<div class="product-card ${inOrder ? 'in-order' : ''}" id="card-${p.sku.replace(/[^a-z0-9]/gi,'-')}">
+      <span class="supplier-badge ${badgeClass}">${badgeLabel}</span>
+      <div class="product-name">${p.name}</div>
+      <div class="product-sku">${p.sku} · ${p.size}</div>
+      <div class="product-price">R${p.rsp.toFixed(2)} <span>RSP incl VAT</span></div>
+      <div class="qty-control">
+        <button class="qty-btn" onclick="changeQty('${p.sku}', -1)">−</button>
+        <input class="qty-input" type="number" min="0" value="${qty}" onchange="setQty('${p.sku}', this.value)" id="qty-${p.sku.replace(/[^a-z0-9]/gi,'-')}">
+        <button class="qty-btn" onclick="changeQty('${p.sku}', 1)">+</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Qty controls ──────────────────────────────────────────────────────────────
+function changeQty(sku, delta) {
+  const product = CATALOGUE.find(p => p.sku === sku);
+  const current = order[sku] ? order[sku].qty : 0;
+  const newQty = Math.max(0, current + delta);
+  setQty(sku, newQty, product);
+}
+
+function setQty(sku, val, product) {
+  const qty = parseInt(val) || 0;
+  if (!product) product = CATALOGUE.find(p => p.sku === sku);
+  if (qty <= 0) {
+    delete order[sku];
+  } else {
+    order[sku] = { product, qty };
+  }
+  const cardId = 'card-' + sku.replace(/[^a-z0-9]/gi, '-');
+  const card = document.getElementById(cardId);
+  if (card) {
+    card.classList.toggle('in-order', qty > 0);
+    const input = document.getElementById('qty-' + sku.replace(/[^a-z0-9]/gi, '-'));
+    if (input) input.value = qty;
+  }
+  renderOrderPanel();
+}
+
+// ── Order panel ───────────────────────────────────────────────────────────────
+function renderOrderPanel() {
+  const items = Object.values(order);
+  const itemsEl = document.getElementById('orderItems');
+  const summaryEl = document.getElementById('orderSummary');
+  const mobileCount = document.getElementById('mobileCartCount');
+
+  const totalItems = items.reduce((s, i) => s + i.qty, 0);
+  mobileCount.textContent = `${totalItems} item${totalItems !== 1 ? 's' : ''}`;
+
+  if (!items.length) {
+    itemsEl.innerHTML = '<div class="order-empty">No items added yet.<br>Click products to add to order.</div>';
+    summaryEl.style.display = 'none';
+    return;
+  }
+
+  // Group by supplier
+  const grouped = {};
+  items.forEach(({ product, qty }) => {
+    if (!grouped[product.supplier]) grouped[product.supplier] = [];
+    grouped[product.supplier].push({ product, qty });
+  });
+
+  let html = '';
+  Object.entries(grouped).forEach(([supplier, lines]) => {
+    html += `<div class="supplier-section-header">${supplier}</div>`;
+    lines.forEach(({ product, qty }) => {
+      const lineTotal = product.rsp * qty;
+      html += `<div class="order-item">
+        <div class="order-item-info">
+          <div class="order-item-name">${product.name}</div>
+          <div class="order-item-sku">${product.sku} · ${product.size}</div>
+          <div class="order-item-qty">Qty: ${qty} × R${product.rsp.toFixed(2)}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          <div class="order-item-price">R${lineTotal.toFixed(2)}</div>
+          <button class="remove-btn" onclick="setQty('${product.sku}', 0)">×</button>
+        </div>
+      </div>`;
+    });
+  });
+  itemsEl.innerHTML = html;
+
+  const totalRsp = items.reduce((s, i) => s + i.product.rsp * i.qty, 0);
+  const totalExVat = totalRsp / 1.15;
+  const vat = totalRsp - totalExVat;
+
+  document.getElementById('summaryCount').textContent = `${totalItems}`;
+  document.getElementById('summarySubtotal').textContent = `R${totalExVat.toFixed(2)}`;
+  document.getElementById('summaryVat').textContent = `R${vat.toFixed(2)}`;
+  document.getElementById('summaryTotal').textContent = `R${totalRsp.toFixed(2)}`;
+  summaryEl.style.display = 'block';
+}
+
+// ── Actions ───────────────────────────────────────────────────────────────────
+function clearOrder() {
+  if (!Object.keys(order).length) return;
+  if (!confirm('Clear all items from order?')) return;
+  order = {};
+  renderGrid();
+  renderOrderPanel();
+}
+
+function submitOrder() {
+  const items = Object.values(order);
+  if (!items.length) { alert('Add items to the order first.'); return; }
+  const note = document.getElementById('orderNote').value;
+  const date = new Date().toLocaleDateString('en-ZA', { day:'numeric', month:'long', year:'numeric' });
+
+  // Group by supplier for separate messages
+  const grouped = {};
+  items.forEach(({ product, qty }) => {
+    if (!grouped[product.supplier]) grouped[product.supplier] = [];
+    grouped[product.supplier].push({ product, qty });
+  });
+
+  Object.entries(grouped).forEach(([supplier, lines]) => {
+    const total = lines.reduce((s, i) => s + i.product.rsp * i.qty, 0);
+    let msg = `*Origin Retail — Potchefstroom*\n*Purchase Order — ${date}*\n\n`;
+    msg += `Supplier: ${supplier}\n\n`;
+    lines.forEach(({ product, qty }) => {
+      msg += `• ${product.name} (${product.sku}) × ${qty} = R${(product.rsp * qty).toFixed(2)}\n`;
+    });
+    msg += `\n*Total (incl VAT): R${total.toFixed(2)}*`;
+    if (note) msg += `\n\nNotes: ${note}`;
+
+    const supplierNumbers = {
+      'Lamelle Pharmaceuticals': '27000000000',
+      'Bio Sculpture': '27000000001',
+      'Harmonic Mycology': '27000000002',
+    };
+    const num = supplierNumbers[supplier] || '27000000000';
+    window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+}
+
+function printOrder() {
+  window.print();
+}
+
+function toggleMobileCart() {
+  const panel = document.getElementById('orderPanel');
+  panel.classList.toggle('open');
+}
+</script>
+</body>
+</html>

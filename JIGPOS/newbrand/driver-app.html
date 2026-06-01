@@ -1,0 +1,2755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#C9A84C">
+    <title>Origin Driver</title>
+    <link rel="manifest" href="manifest-dispatch.json">
+    <link rel="apple-touch-icon" href="images/origin-logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0E0E0E;
+            --white: #FAFAFA;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #222222;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            --success: #22C55E;
+            --warning: #F8C242;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A0A0A;
+            min-height: 100vh;
+            color: var(--or-white);
+            padding-bottom: 80px;
+        }
+
+        h1, h2, h3 { font-family: 'Cinzel', sans-serif; }
+
+        /* ===================== AUTH SCREEN ===================== */
+        #authScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #0A0A0A;
+            padding: 1.5rem;
+        }
+
+        .auth-logo {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.1em;
+        }
+
+        .auth-subtitle {
+            font-size: 0.85rem;
+            color: var(--or-grey-2);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .auth-box {
+            background: #141414;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 1.75rem;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .auth-box h2 {
+            font-size: 1.3rem;
+            color: var(--or-gold);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .auth-field {
+            margin-bottom: 1.25rem;
+        }
+
+        .auth-field label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--or-grey-2);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .auth-field input[type="text"] {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: #0A0A0A;
+            border: 2px solid #2a2a2a;
+            border-radius: 8px;
+            color: var(--or-white);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        .auth-field input[type="text"]:focus {
+            outline: none;
+            border-color: var(--or-gold);
+        }
+
+        /* PIN dot display */
+        .pin-dots {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .pin-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid var(--or-gold-muted);
+            background: transparent;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .pin-dot.filled {
+            background: var(--or-gold);
+            border-color: var(--or-gold);
+        }
+
+        /* Numeric keypad */
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .key {
+            background: #1C1C1C;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            color: var(--or-white);
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 1rem 0.5rem;
+            min-height: 56px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s, border-color 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .key:active, .key.pressed {
+            background: var(--or-gold-muted);
+            border-color: var(--or-gold);
+        }
+
+        .key.key-back {
+            background: #111111;
+            color: var(--or-grey-2);
+        }
+
+        .key.key-0 { grid-column: 2; }
+
+        .btn-auth-login {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-brand);
+            border: none;
+            border-radius: 10px;
+            color: #0A0A0A;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Cinzel', sans-serif;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            min-height: 52px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-auth-login:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .auth-error {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: rgba(220, 38, 38, 0.15);
+            border: 1px solid var(--red);
+            border-radius: 8px;
+            color: var(--red-light);
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+        }
+
+        .auth-error.show { display: block; }
+
+        .auth-wrong-role {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--or-grey-2);
+        }
+
+        .auth-wrong-role a {
+            color: var(--or-gold);
+            text-decoration: none;
+        }
+
+        /* ===================== MAIN APP ===================== */
+        #mainApp { display: none; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--green-dark), #1a1400);
+            border-bottom: 2px solid var(--or-gold-muted);
+            padding: 0.875rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-brand {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--or-gold);
+            letter-spacing: 0.05em;
+            line-height: 1.1;
+        }
+
+        .header-driver {
+            font-size: 0.75rem;
+            color: var(--or-grey-2);
+            margin-top: 0.1rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .conn-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+            flex-shrink: 0;
+            transition: background 0.3s;
+        }
+
+        .conn-indicator.offline { background: var(--red); }
+
+        .btn-logout {
+            background: #1C1C1C;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: var(--or-grey-2);
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-logout:hover { border-color: var(--red); color: var(--red-light); }
+
+        /* Offline banner */
+        .offline-banner {
+            background: rgba(220, 38, 38, 0.15);
+            border-bottom: 1px solid var(--red-dark);
+            color: var(--red-light);
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            display: none;
+        }
+
+        .offline-banner.show { display: block; }
+
+        /* Stats strip */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            background: #0A0A0A;
+            border-bottom: 2px solid var(--or-gold-muted);
+        }
+
+        .stat {
+            text-align: center;
+            padding: 0.75rem 0.5rem;
+            border-right: 1px solid #1a1a1a;
+        }
+
+        .stat:last-child { border-right: none; }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--or-gold);
+            font-family: 'Cinzel', sans-serif;
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--or-grey-3);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-top: 0.15rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: #0A0A0A;
+            border-bottom: 1px solid #1a1a1a;
+            position: sticky;
+            top: 64px;
+            z-index: 90;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.875rem 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--or-grey-3);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .tab.active {
+            color: var(--or-gold);
+            border-bottom-color: var(--or-gold);
+        }
+
+        .tab i { display: block; font-size: 1.1rem; margin-bottom: 0.2rem; }
+
+        /* Tab content */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Section */
+        .section { padding: 1rem; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.95rem;
+            color: var(--or-gold-muted);
+        }
+
+        .btn-refresh {
+            background: #1C1C1C;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: var(--or-grey-2);
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Delivery cards */
+        .delivery-card {
+            background: #141414;
+            border-radius: 12px;
+            border-left: 4px solid var(--or-gold-muted);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .delivery-card.status-out_for_delivery { border-left-color: var(--or-gold); }
+        .delivery-card.status-dispatched { border-left-color: var(--info); }
+        .delivery-card.status-delivered { border-left-color: var(--success); }
+        .delivery-card.status-delivery_failed { border-left-color: var(--red); }
+
+        .card-body { padding: 1rem; }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .order-number {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--or-gold);
+        }
+
+        .payment-badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            flex-shrink: 0;
+        }
+
+        .payment-badge.cod {
+            background: rgba(220, 38, 38, 0.2);
+            color: var(--red-light);
+            border: 1px solid var(--red-dark);
+        }
+
+        .payment-badge.prepaid {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+            border: 1px solid #166534;
+        }
+
+        /* Customer block */
+        .customer-block {
+            background: #0A0A0A;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            color: var(--or-white);
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .customer-phone {
+            margin-bottom: 0.3rem;
+        }
+
+        .customer-phone a {
+            color: var(--or-gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .customer-address {
+            color: var(--or-grey-2);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .customer-address:hover { color: var(--or-gold-bright); }
+
+        .address-link {
+            color: var(--or-grey-2);
+            text-decoration: none;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            display: block;
+        }
+
+        .address-link:active { color: var(--or-gold); }
+
+        /* Products */
+        .products-line {
+            font-size: 0.8rem;
+            color: var(--or-grey-3);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        /* Delivery window */
+        .delivery-window {
+            font-size: 0.75rem;
+            color: var(--or-grey-3);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* Card actions */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.5fr 1.5fr;
+            gap: 0.4rem;
+            padding: 0.75rem 1rem 1rem;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            min-height: 48px;
+            font-size: 0.8rem;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            transition: opacity 0.15s, transform 0.1s;
+        }
+
+        .btn:active { transform: scale(0.97); }
+
+        .btn-nav {
+            background: #1C1C1C;
+            color: var(--or-gold);
+            border: 1px solid var(--or-gold-muted);
+            font-size: 1rem;
+        }
+
+        .btn-call {
+            background: #1C1C1C;
+            color: #4ade80;
+            border: 1px solid #166534;
+            font-size: 1rem;
+        }
+
+        .btn-delivered {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .btn-not-home {
+            background: var(--red-dark);
+            color: #fff;
+        }
+
+        /* Confirmation panels (inline) */
+        .confirm-panel {
+            background: #1C1C1C;
+            border-top: 1px solid #2a2a2a;
+            padding: 1rem;
+            display: none;
+        }
+
+        .confirm-panel.show { display: block; }
+
+        .confirm-panel h4 {
+            font-family: 'Cinzel', sans-serif;
+            color: var(--or-gold);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .confirm-panel label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--or-grey-2);
+            margin-bottom: 0.3rem;
+        }
+
+        .confirm-panel input[type="number"],
+        .confirm-panel input[type="text"],
+        .confirm-panel textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: #0A0A0A;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: var(--or-white);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 0.75rem;
+        }
+
+        .confirm-panel input[type="number"]:focus,
+        .confirm-panel input[type="text"]:focus,
+        .confirm-panel textarea:focus {
+            outline: none;
+            border-color: var(--or-gold);
+        }
+
+        .confirm-panel textarea {
+            resize: vertical;
+            min-height: 72px;
+        }
+
+        .confirm-panel-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-cancel {
+            background: #1C1C1C;
+            border: 1px solid #333;
+            color: var(--or-grey-2);
+            flex: 1;
+        }
+
+        .btn-confirm-delivered {
+            background: var(--success);
+            color: #fff;
+            flex: 2;
+        }
+
+        .btn-confirm-failed {
+            background: var(--red);
+            color: #fff;
+            flex: 2;
+        }
+
+        /* Completed card (simpler) */
+        .completed-card {
+            background: #141414;
+            border-radius: 10px;
+            border-left: 4px solid #2a2a2a;
+            padding: 0.875rem 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .completed-card.status-delivered { border-left-color: var(--success); }
+        .completed-card.status-delivery_failed { border-left-color: var(--red); }
+
+        .completed-info { flex: 1; }
+
+        .completed-order-num {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.95rem;
+            color: var(--or-gold);
+            margin-bottom: 0.2rem;
+        }
+
+        .completed-customer {
+            font-size: 0.85rem;
+            color: var(--or-grey-2);
+        }
+
+        .completed-badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .completed-badge.delivered {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+        }
+
+        .completed-badge.failed {
+            background: rgba(220, 38, 38, 0.15);
+            color: var(--red-light);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--or-grey-3);
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            color: var(--or-gold-muted);
+            display: block;
+            margin-bottom: 0.75rem;
+            opacity: 0.6;
+        }
+
+        .empty-state p { font-size: 0.9rem; }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--or-grey-3);
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #2a2a2a;
+            border-top-color: var(--or-gold);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 0.75rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.875rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 2000;
+            animation: toastIn 0.3s ease;
+            white-space: nowrap;
+            box-shadow: var(--shadow-md);
+            max-width: calc(100vw - 2rem);
+            white-space: normal;
+            text-align: center;
+        }
+
+        .toast.success { background: var(--or-gold); color: #0A0A0A; }
+        .toast.error { background: var(--red); color: #fff; }
+        .toast.info { background: var(--info); color: #fff; }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translate(-50%, -12px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        /* Bottom nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0A0A0A;
+            display: flex;
+            border-top: 2px solid var(--or-gold-muted);
+            padding: 0.4rem;
+            z-index: 100;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 0.4rem 0.25rem;
+            color: var(--or-grey-3);
+            text-decoration: none;
+            font-size: 0.7rem;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: color 0.2s;
+        }
+
+        .nav-item.active { color: var(--or-gold); }
+        .nav-item i { font-size: 1.2rem; display: block; margin-bottom: 0.2rem; }
+
+        /* Mobile constraint */
+        @media (min-width: 520px) {
+            body { max-width: 480px; margin: 0 auto; }
+            .bottom-nav { max-width: 480px; left: 50%; transform: translateX(-50%); }
+            .toast { max-width: 440px; }
+        }
+
+        /* Install banner */
+        .install-banner {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: #0A0A0A;
+            padding: 0.75rem 1rem;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .install-banner.show { display: flex; }
+
+        .install-banner button {
+            background: #0A0A0A;
+            color: var(--or-gold);
+            border: none;
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* ===================== GPP COMPLIANCE — Pre-Departure Checklist ===================== */
+        #gppChecklistScreen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #0A0A0A;
+            z-index: 900;
+            overflow-y: auto;
+            padding-bottom: 1rem;
+        }
+
+        #gppChecklistScreen.show { display: block; }
+
+        .gpp-header {
+            background: linear-gradient(135deg, #1a0d00, #2a1800);
+            border-bottom: 2px solid var(--or-gold-muted);
+            padding: 1.25rem 1rem 1rem;
+            text-align: center;
+        }
+
+        .gpp-header-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--or-gold);
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.05em;
+        }
+
+        .gpp-header-sub {
+            font-size: 0.75rem;
+            color: var(--or-grey-2);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .gpp-section {
+            padding: 1rem;
+        }
+
+        .gpp-section-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.85rem;
+            color: var(--or-gold-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .gpp-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Custom gold checkbox items */
+        .gpp-check-item {
+            background: #141414;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 0.875rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .gpp-check-item.checked {
+            border-color: var(--or-gold-muted);
+            background: #1a1400;
+        }
+
+        .gpp-check-box {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--or-gold-muted);
+            border-radius: 5px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.05rem;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .gpp-check-item.checked .gpp-check-box {
+            background: var(--or-gold);
+            border-color: var(--or-gold);
+        }
+
+        .gpp-check-box i {
+            color: #0A0A0A;
+            font-size: 0.75rem;
+            display: none;
+        }
+
+        .gpp-check-item.checked .gpp-check-box i { display: block; }
+
+        .gpp-check-label {
+            flex: 1;
+        }
+
+        .gpp-check-label strong {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--or-white);
+            margin-bottom: 0.15rem;
+            font-weight: 600;
+        }
+
+        .gpp-check-label span {
+            font-size: 0.75rem;
+            color: var(--or-grey-3);
+            line-height: 1.4;
+        }
+
+        /* Temperature input row */
+        .gpp-temp-row {
+            background: #141414;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 0.875rem 1rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .gpp-temp-row label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--or-grey-2);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+        }
+
+        .gpp-temp-input-wrap {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .gpp-temp-input-wrap input[type="number"] {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: #0A0A0A;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: var(--or-white);
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gpp-temp-input-wrap input[type="number"]:focus {
+            outline: none;
+            border-color: var(--or-gold);
+        }
+
+        .gpp-temp-unit {
+            font-size: 1rem;
+            color: var(--or-grey-2);
+            font-weight: 600;
+        }
+
+        .gpp-temp-ok { color: var(--success); font-size: 0.75rem; margin-top: 0.35rem; display: none; }
+        .gpp-temp-warn { color: var(--red-light); font-size: 0.75rem; margin-top: 0.35rem; display: none; }
+
+        /* Humidity row */
+        .gpp-humidity-row {
+            background: #141414;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 0.875rem 1rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .gpp-humidity-row label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--or-grey-2);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+        }
+
+        .gpp-humidity-input-wrap {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .gpp-humidity-input-wrap input[type="number"] {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: #0A0A0A;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: var(--or-white);
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gpp-humidity-input-wrap input[type="number"]:focus {
+            outline: none;
+            border-color: var(--or-gold);
+        }
+
+        .gpp-humidity-ok { color: var(--success); font-size: 0.75rem; margin-top: 0.35rem; display: none; }
+        .gpp-humidity-warn { color: var(--red-light); font-size: 0.75rem; margin-top: 0.35rem; display: none; }
+
+        .gpp-legal-note {
+            background: rgba(201, 168, 76, 0.07);
+            border: 1px solid var(--or-gold-muted);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.75rem;
+            color: var(--or-grey-2);
+            line-height: 1.5;
+        }
+
+        .gpp-legal-note strong {
+            color: var(--or-gold);
+            display: block;
+            margin-bottom: 0.2rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-gpp-proceed {
+            width: 100%;
+            padding: 1.1rem;
+            background: var(--gradient-brand);
+            border: none;
+            border-radius: 12px;
+            color: #0A0A0A;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Cinzel', sans-serif;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            min-height: 56px;
+            transition: opacity 0.2s;
+            margin-bottom: 1rem;
+        }
+
+        .btn-gpp-proceed:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .gpp-progress {
+            font-size: 0.8rem;
+            color: var(--or-grey-3);
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .gpp-progress span {
+            color: var(--or-gold);
+            font-weight: 600;
+        }
+
+        /* ===================== GPP — Temperature Bar (delivery screen) ===================== */
+        .temp-log-bar {
+            background: #141414;
+            border-bottom: 1px solid #1e1e1e;
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .temp-log-bar.temp-ok {
+            border-bottom-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .temp-log-bar.temp-warn {
+            border-bottom-color: rgba(220, 38, 38, 0.5);
+            background: rgba(220, 38, 38, 0.06);
+        }
+
+        .temp-log-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .temp-log-icon {
+            font-size: 1rem;
+        }
+
+        .temp-log-icon.ok { color: var(--success); }
+        .temp-log-icon.warn { color: var(--red-light); }
+
+        .temp-log-text {
+            color: var(--or-grey-2);
+        }
+
+        .temp-log-value {
+            font-weight: 700;
+            color: var(--or-white);
+        }
+
+        .btn-log-temp {
+            background: #1C1C1C;
+            border: 1px solid var(--or-gold-muted);
+            border-radius: 8px;
+            color: var(--or-gold);
+            padding: 0.4rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ===================== GPP — Delivery Confirmation Gate ===================== */
+        .delivery-gate {
+            background: #141414;
+            border-top: 2px solid var(--or-gold-muted);
+            border-bottom: 2px solid var(--or-gold-muted);
+            padding: 1rem;
+            display: none;
+        }
+
+        .delivery-gate.show { display: block; }
+
+        .delivery-gate h4 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.95rem;
+            color: var(--or-gold);
+            margin-bottom: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .gate-question {
+            font-size: 0.9rem;
+            color: var(--or-grey-2);
+            margin-bottom: 0.75rem;
+        }
+
+        .gate-yn-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.875rem;
+        }
+
+        .btn-gate-yes, .btn-gate-no {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-gate-yes {
+            background: #1a2a1a;
+            border-color: #166534;
+            color: #4ade80;
+        }
+
+        .btn-gate-yes.selected {
+            background: #166534;
+            border-color: #22C55E;
+            color: #fff;
+        }
+
+        .btn-gate-no {
+            background: #2a1a1a;
+            border-color: var(--red-dark);
+            color: var(--red-light);
+        }
+
+        .btn-gate-no.selected {
+            background: var(--red-dark);
+            border-color: var(--red);
+            color: #fff;
+        }
+
+        .gate-recipient-fields {
+            display: none;
+        }
+
+        .gate-recipient-fields.show { display: block; }
+
+        .gate-field {
+            margin-bottom: 0.75rem;
+        }
+
+        .gate-field label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--or-grey-2);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+        }
+
+        .gate-field input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: #0A0A0A;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: var(--or-white);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gate-field input:focus {
+            outline: none;
+            border-color: var(--or-gold);
+        }
+
+        /* ===================== GPP — Failed Delivery Protocol ===================== */
+        .failed-protocol {
+            background: #1a0a0a;
+            border: 2px solid var(--red-dark);
+            border-radius: 12px;
+            padding: 1rem;
+            display: none;
+            margin-bottom: 0.75rem;
+        }
+
+        .failed-protocol.show { display: block; }
+
+        .failed-protocol-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .failed-protocol-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(220, 38, 38, 0.2);
+            border: 1px solid var(--red-dark);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--red-light);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .failed-protocol-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.9rem;
+            color: var(--red-light);
+            font-weight: 600;
+        }
+
+        .failed-protocol-legal {
+            background: rgba(220, 38, 38, 0.08);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 6px;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.75rem;
+            color: var(--red-light);
+            margin-bottom: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .failed-protocol-legal strong {
+            display: block;
+            margin-bottom: 0.2rem;
+            font-size: 0.78rem;
+        }
+
+        .failed-action-title {
+            font-size: 0.8rem;
+            color: var(--or-grey-2);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 0.5rem;
+        }
+
+        .failed-action-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 0.875rem;
+        }
+
+        .btn-failed-action {
+            padding: 0.75rem 1rem;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #1C1C1C;
+            color: var(--or-grey-2);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: border-color 0.15s, background 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-failed-action.selected {
+            border-color: var(--or-gold-muted);
+            background: #1a1400;
+            color: var(--or-gold);
+        }
+
+        /* ===================== GPP — Legal Footer ===================== */
+        .gpp-legal-footer {
+            background: #0d0d0d;
+            border-top: 1px solid #1a1a1a;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            font-size: 0.65rem;
+            color: var(--or-grey-3);
+            letter-spacing: 0.04em;
+            line-height: 1.6;
+        }
+
+        /* Temperature log modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 800;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal-box {
+            background: #141414;
+            border: 1px solid var(--or-gold-muted);
+            border-radius: 16px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .modal-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1rem;
+            color: var(--or-gold);
+            margin-bottom: 1rem;
+        }
+
+        .modal-field {
+            margin-bottom: 1rem;
+        }
+
+        .modal-field label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--or-grey-2);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+        }
+
+        .modal-field input[type="number"] {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: #0A0A0A;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: var(--or-white);
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .modal-field input:focus {
+            outline: none;
+            border-color: var(--or-gold);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-modal-cancel {
+            flex: 1;
+            background: #1C1C1C;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: var(--or-grey-2);
+            padding: 0.875rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-modal-save {
+            flex: 2;
+            background: var(--gradient-brand);
+            border: none;
+            border-radius: 8px;
+            color: #0A0A0A;
+            padding: 0.875rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: 'Cinzel', sans-serif;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===================== AUTH SCREEN ===================== -->
+    <div id="authScreen">
+        <div class="auth-logo">ORIGIN</div>
+        <div class="auth-subtitle">Driver Portal</div>
+
+        <div class="auth-box">
+            <h2><i class="fas fa-car-side"></i> Driver Login</h2>
+
+            <div class="auth-field">
+                <label>Username</label>
+                <input type="text" id="authUsername" placeholder="Enter your username" autocomplete="username" autocapitalize="none" autocorrect="off">
+            </div>
+
+            <div class="auth-field">
+                <label>PIN</label>
+                <div class="pin-dots">
+                    <div class="pin-dot" id="dot0"></div>
+                    <div class="pin-dot" id="dot1"></div>
+                    <div class="pin-dot" id="dot2"></div>
+                    <div class="pin-dot" id="dot3"></div>
+                </div>
+            </div>
+
+            <div class="keypad">
+                <button class="key" data-digit="1" onclick="keypadPress('1')">1</button>
+                <button class="key" data-digit="2" onclick="keypadPress('2')">2</button>
+                <button class="key" data-digit="3" onclick="keypadPress('3')">3</button>
+                <button class="key" data-digit="4" onclick="keypadPress('4')">4</button>
+                <button class="key" data-digit="5" onclick="keypadPress('5')">5</button>
+                <button class="key" data-digit="6" onclick="keypadPress('6')">6</button>
+                <button class="key" data-digit="7" onclick="keypadPress('7')">7</button>
+                <button class="key" data-digit="8" onclick="keypadPress('8')">8</button>
+                <button class="key" data-digit="9" onclick="keypadPress('9')">9</button>
+                <!-- row 4: empty · 0 · backspace -->
+                <div></div>
+                <button class="key key-0" onclick="keypadPress('0')">0</button>
+                <button class="key key-back" onclick="keypadBack()"><i class="fas fa-delete-left"></i></button>
+            </div>
+
+            <button class="btn-auth-login" id="loginBtn" onclick="doLogin()" disabled>
+                <i class="fas fa-lock-open"></i> Driver Login
+            </button>
+
+            <div class="auth-error" id="authError"></div>
+            <div id="wrongRoleMsg" class="auth-wrong-role" style="display:none;">
+                This app is for drivers only. <a href="pos.html"><i class="fas fa-arrow-right"></i> Go to POS</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== GPP PRE-DEPARTURE CHECKLIST SCREEN ===================== -->
+    <!-- Blocks access to deliveries until all compliance items are confirmed. -->
+    <!-- Legal: GPP Rule 2.7.5.4 | Pharmacy Act 53 of 1974 | Medicines Act 101 of 1965 -->
+    <div id="gppChecklistScreen">
+
+        <div class="gpp-header">
+            <div class="gpp-header-title"><i class="fas fa-clipboard-check"></i> Pre-Departure Compliance</div>
+            <div class="gpp-header-sub">Must be completed before starting deliveries</div>
+        </div>
+
+        <!-- Vehicle & Load Checks -->
+        <div class="gpp-section">
+            <div class="gpp-section-title"><i class="fas fa-truck"></i> Vehicle &amp; Load</div>
+
+            <div class="gpp-checklist">
+
+                <div class="gpp-check-item" id="gpp-item-vehicle" onclick="toggleGppCheck('vehicle')">
+                    <div class="gpp-check-box"><i class="fas fa-check"></i></div>
+                    <div class="gpp-check-label">
+                        <strong>Closed vehicle confirmed</strong>
+                        <span>Not an open bakkie or open-bed truck. GPP Rule 2.7.5.4(b)</span>
+                    </div>
+                </div>
+
+                <div class="gpp-check-item" id="gpp-item-sealed" onclick="toggleGppCheck('sealed')">
+                    <div class="gpp-check-box"><i class="fas fa-check"></i></div>
+                    <div class="gpp-check-label">
+                        <strong>All parcels SEALED and LABELED</strong>
+                        <span>No opened parcels. Medicines Act S38/39 — driver handles pre-packed sealed parcels only.</span>
+                    </div>
+                </div>
+
+                <div class="gpp-check-item" id="gpp-item-pil" onclick="toggleGppCheck('pil')">
+                    <div class="gpp-check-box"><i class="fas fa-check"></i></div>
+                    <div class="gpp-check-label">
+                        <strong>Patient Information Leaflets (PIL) included</strong>
+                        <span>PIL + written pharmacist instructions in each parcel. GPP Rule 2.7.5.2(b)</span>
+                    </div>
+                </div>
+
+                <div class="gpp-check-item" id="gpp-item-comingle" onclick="toggleGppCheck('comingle')">
+                    <div class="gpp-check-box"><i class="fas fa-check"></i></div>
+                    <div class="gpp-check-label">
+                        <strong>No co-mingling confirmed</strong>
+                        <span>No non-pharmaceutical items in cargo area. GPP Rule 2.7.5.4(e)</span>
+                    </div>
+                </div>
+
+                <div class="gpp-check-item" id="gpp-item-noseal" onclick="toggleGppCheck('noseal')">
+                    <div class="gpp-check-box"><i class="fas fa-check"></i></div>
+                    <div class="gpp-check-label">
+                        <strong>I will NOT open any sealed parcel during transit</strong>
+                        <span>Opening sealed medicine parcels during delivery is a legal violation.</span>
+                    </div>
+                </div>
+
+            </div><!-- /gpp-checklist -->
+
+            <!-- Temperature reading (required field) -->
+            <div class="gpp-temp-row">
+                <label><i class="fas fa-thermometer-half"></i> Cargo Area Temperature (required)</label>
+                <div class="gpp-temp-input-wrap">
+                    <input type="number" id="gppTempInput" placeholder="e.g. 18" min="-10" max="50" step="0.1" inputmode="decimal" oninput="validateGppTemp()">
+                    <span class="gpp-temp-unit">°C</span>
+                </div>
+                <div class="gpp-temp-ok" id="gppTempOk"><i class="fas fa-check-circle"></i> Temperature within spec (&lt;22°C) — GPP Rule 2.7.5.4(a)</div>
+                <div class="gpp-temp-warn" id="gppTempWarn"><i class="fas fa-exclamation-triangle"></i> Temperature exceeds 22°C. Do NOT proceed. Contact pharmacy immediately. GPP Rule 2.7.5.4(a)</div>
+            </div>
+
+            <!-- Humidity reading (required field) -->
+            <div class="gpp-humidity-row">
+                <label><i class="fas fa-tint"></i> Cargo Area Humidity (required)</label>
+                <div class="gpp-humidity-input-wrap">
+                    <input type="number" id="gppHumidityInput" placeholder="e.g. 52" min="0" max="100" step="1" inputmode="decimal" oninput="validateGppHumidity()">
+                    <span class="gpp-temp-unit">%</span>
+                </div>
+                <div class="gpp-humidity-ok" id="gppHumidityOk"><i class="fas fa-check-circle"></i> Humidity within spec (50–55%) — GPP Rule 2.7.5.4(a)</div>
+                <div class="gpp-humidity-warn" id="gppHumidityWarn"><i class="fas fa-exclamation-triangle"></i> Humidity outside 50–55% range. Verify storage conditions. GPP Rule 2.7.5.4(a)</div>
+            </div>
+
+        </div><!-- /gpp-section -->
+
+        <!-- Schedule 6 Chain of Custody notice -->
+        <div class="gpp-section" style="padding-top:0;">
+            <div class="gpp-legal-note">
+                <strong><i class="fas fa-cannabis"></i> Schedule 6 (Cannabis) Chain of Custody</strong>
+                Section 22A of the Medicines Act 101 of 1965 requires chain of custody logging for Schedule 6 items. All S6 parcels in this trip are logged automatically on departure.
+            </div>
+
+            <div class="gpp-legal-note">
+                <strong><i class="fas fa-balance-scale"></i> Legal Citation</strong>
+                GPP Rule 2.7.5.4 — Pharmacy Act 53 of 1974. Medicines Act 101 of 1965 (S38/39 unsealed medicine handling). Failure to comply may result in regulatory action against the pharmacy's SAPC registration.
+            </div>
+        </div>
+
+        <div class="gpp-section" style="padding-top:0;">
+            <div class="gpp-progress" id="gppProgress">
+                <span id="gppProgressCount">0</span> / 5 items confirmed — temperature &amp; humidity required
+            </div>
+            <button class="btn-gpp-proceed" id="gppProceedBtn" onclick="proceedFromChecklist()" disabled>
+                <i class="fas fa-check-double"></i> Confirm &amp; Start Deliveries
+            </button>
+        </div>
+
+    </div><!-- /gppChecklistScreen -->
+
+    <!-- ===================== MAIN APP ===================== -->
+    <div id="mainApp">
+
+        <!-- Install Banner -->
+        <div class="install-banner" id="installBanner">
+            <span><i class="fas fa-download"></i> Install Origin Driver App</span>
+            <button onclick="installApp()">Install</button>
+        </div>
+
+        <!-- Offline Banner -->
+        <div class="offline-banner" id="offlineBanner">
+            <i class="fas fa-wifi-slash"></i> Offline — showing cached deliveries
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <span class="header-brand"><i class="fas fa-car-side"></i> Origin Driver</span>
+                <span class="header-driver" id="driverName">Loading...</span>
+            </div>
+            <div class="header-right">
+                <div class="conn-indicator" id="connIndicator" title="Online"></div>
+                <button class="btn-logout" onclick="doLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- Temperature Log Bar -->
+        <!-- Shows current trip temperature reading. Red if not yet logged this trip. -->
+        <div class="temp-log-bar temp-warn" id="tempLogBar">
+            <div class="temp-log-left">
+                <i class="fas fa-thermometer-half temp-log-icon warn" id="tempLogIcon"></i>
+                <span class="temp-log-text" id="tempLogText">No temperature logged this trip</span>
+            </div>
+            <button class="btn-log-temp" onclick="showTempModal()">
+                <i class="fas fa-plus"></i> Log Temp
+            </button>
+        </div>
+
+        <!-- Stats strip -->
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value" id="statAssigned">0</div>
+                <div class="stat-label">Assigned today</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="statCompleted">0</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="statCOD">R0</div>
+                <div class="stat-label">COD to collect</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="active" onclick="switchTab('active')">
+                <i class="fas fa-motorcycle"></i>
+                Active
+            </div>
+            <div class="tab" data-tab="completed" onclick="switchTab('completed')">
+                <i class="fas fa-check-double"></i>
+                Completed
+            </div>
+        </div>
+
+        <!-- Active Deliveries Tab -->
+        <div class="tab-content active" id="activeTab">
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-title"><i class="fas fa-route"></i> Active Deliveries</span>
+                    <button class="btn-refresh" onclick="refreshDeliveries()">
+                        <i class="fas fa-sync"></i>
+                    </button>
+                </div>
+                <div id="activeList">
+                    <div class="loading"><div class="spinner"></div><p>Loading deliveries...</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed Today Tab -->
+        <div class="tab-content" id="completedTab">
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-title"><i class="fas fa-check-circle"></i> Completed Today</span>
+                    <button class="btn-refresh" onclick="refreshDeliveries()">
+                        <i class="fas fa-sync"></i>
+                    </button>
+                </div>
+                <div id="completedList">
+                    <div class="empty-state">
+                        <i class="fas fa-truck-loading"></i>
+                        <p>No completed deliveries yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GPP Legal Footer -->
+        <!-- Persistent on all driver screens | GPP Rule 2.7.5 | Pharmacy Act 53 of 1974 -->
+        <div class="gpp-legal-footer">
+            Operating under GPP Rule 2.7.5 &nbsp;|&nbsp; Pharmacy Act 53 of 1974 &nbsp;|&nbsp; Medicines Act 101 of 1965
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" data-tab="active" onclick="switchTab('active')">
+                <i class="fas fa-motorcycle"></i>
+                Active
+            </div>
+            <div class="nav-item" data-tab="completed" onclick="switchTab('completed')">
+                <i class="fas fa-check-double"></i>
+                Done
+            </div>
+        </nav>
+
+    </div><!-- /mainApp -->
+
+    <!-- ===================== TEMPERATURE LOG MODAL ===================== -->
+    <div class="modal-overlay" id="tempModal">
+        <div class="modal-box">
+            <div class="modal-title"><i class="fas fa-thermometer-half"></i> Log Trip Temperature</div>
+            <div class="modal-field">
+                <label>Cargo area temperature (°C)</label>
+                <input type="number" id="tempModalInput" placeholder="e.g. 18" min="-10" max="50" step="0.1" inputmode="decimal">
+            </div>
+            <p style="font-size:0.75rem;color:var(--or-grey-3);margin-bottom:1rem;line-height:1.5;">
+                GPP Rule 2.7.5.4(a) requires temperature to be maintained to product specifications during transport. Maximum permitted: 22°C.
+            </p>
+            <div class="modal-actions">
+                <button class="btn-modal-cancel" onclick="closeTempModal()">Cancel</button>
+                <button class="btn-modal-save" onclick="saveTempReading()"><i class="fas fa-check"></i> Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="frontend/config.js"></script>
+    <script src="frontend/or-auth.js"></script>
+    <script>
+    // ============================================================
+    //  STATE
+    // ============================================================
+    let pinBuffer = '';
+    let allDeliveries = [];
+    let offlineQueue = [];         // queued PATCH calls when offline
+    let deferredPrompt = null;
+
+    const CACHE_KEY  = 'driver_deliveries';
+    const QUEUE_KEY  = 'driver_offline_queue';
+    const TOKEN_KEY  = 'driverToken';
+    const USER_KEY   = 'driverUser';
+
+    // ============================================================
+    //  GPP COMPLIANCE STATE
+    // ============================================================
+    // Tracks the pre-departure checklist completion and temperature readings.
+    const GPP_KEY = 'driver_gpp_session';
+
+    // Checklist items: must all be true before proceeding
+    const gppChecks = {
+        vehicle:  false,
+        sealed:   false,
+        pil:      false,
+        comingle: false,
+        noseal:   false
+    };
+
+    let gppTempValid    = false;   // temperature < 22°C confirmed
+    let gppHumidValid   = false;   // humidity 50-55% confirmed
+    let gppTempValue    = null;    // recorded departure temperature
+    let gppHumidValue   = null;    // recorded departure humidity
+    let checklistDone   = false;   // gates access to delivery list
+    let tripTempReading = null;    // most recent trip temperature log entry
+
+    // ============================================================
+    //  BOOT: session restore
+    // ============================================================
+    (function boot() {
+        const saved     = localStorage.getItem(TOKEN_KEY);
+        const savedUser = tryParse(localStorage.getItem(USER_KEY));
+        if (saved && savedUser && savedUser.role === 'driver') {
+            // Check if there is a valid GPP session from today
+            const gppSession = tryParse(localStorage.getItem(GPP_KEY));
+            const todayStr   = new Date().toDateString();
+            if (gppSession && gppSession.date === todayStr && gppSession.done) {
+                checklistDone = true;
+                tripTempReading = gppSession.tempValue || null;
+                showMainApp(savedUser);
+            } else {
+                // Must redo checklist each day
+                showMainAppShell(savedUser);
+                showGppChecklist();
+            }
+        }
+        // Restore offline queue
+        offlineQueue = tryParse(localStorage.getItem(QUEUE_KEY)) || [];
+    })();
+
+    // ============================================================
+    //  PIN / AUTH SCREEN
+    // ============================================================
+    function keypadPress(digit) {
+        if (pinBuffer.length >= 4) return;
+        pinBuffer += digit;
+        renderPinDots();
+        if (pinBuffer.length === 4) attemptLoginIfReady();
+    }
+
+    function keypadBack() {
+        if (pinBuffer.length === 0) return;
+        pinBuffer = pinBuffer.slice(0, -1);
+        renderPinDots();
+        updateLoginBtn();
+    }
+
+    function renderPinDots() {
+        for (let i = 0; i < 4; i++) {
+            const dot = document.getElementById(`dot${i}`);
+            dot.classList.toggle('filled', i < pinBuffer.length);
+        }
+        updateLoginBtn();
+    }
+
+    function updateLoginBtn() {
+        const username = document.getElementById('authUsername').value.trim();
+        document.getElementById('loginBtn').disabled = !(username && pinBuffer.length === 4);
+    }
+
+    document.getElementById('authUsername').addEventListener('input', updateLoginBtn);
+
+    function attemptLoginIfReady() {
+        const username = document.getElementById('authUsername').value.trim();
+        if (username && pinBuffer.length === 4) doLogin();
+    }
+
+    async function doLogin() {
+        const username = document.getElementById('authUsername').value.trim();
+        const pin = pinBuffer;
+
+        if (!username || pin.length !== 4) return;
+
+        const loginBtn = document.getElementById('loginBtn');
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+        hideAuthError();
+        document.getElementById('wrongRoleMsg').style.display = 'none';
+
+        try {
+            const res = await fetch(`${API_URL}/auth/pin-login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, pin })
+            });
+            const data = await res.json();
+
+            if (!data.success || !data.token) {
+                showAuthError(data.message || 'Invalid username or PIN');
+                resetPin();
+                return;
+            }
+
+            const user = data.user || {};
+
+            if (user.role !== 'driver') {
+                document.getElementById('wrongRoleMsg').style.display = 'block';
+                showAuthError('This app is for drivers only.');
+                resetPin();
+                return;
+            }
+
+            // Persist session
+            localStorage.setItem(TOKEN_KEY, data.token);
+            localStorage.setItem(USER_KEY, JSON.stringify(user));
+
+            // After login always require pre-departure checklist
+            showMainAppShell(user);
+            showGppChecklist();
+
+        } catch (err) {
+            showAuthError('Connection error. Please try again.');
+            resetPin();
+        } finally {
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = '<i class="fas fa-lock-open"></i> Driver Login';
+        }
+    }
+
+    function resetPin() {
+        pinBuffer = '';
+        renderPinDots();
+    }
+
+    function showAuthError(msg) {
+        const el = document.getElementById('authError');
+        el.textContent = msg;
+        el.classList.add('show');
+    }
+
+    function hideAuthError() {
+        document.getElementById('authError').classList.remove('show');
+    }
+
+    // ============================================================
+    //  SHOW MAIN APP SHELL (without hiding checklist)
+    // ============================================================
+    function showMainAppShell(user) {
+        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+
+        const name = [user.firstName, user.lastName].filter(Boolean).join(' ') || user.username || 'Driver';
+        document.getElementById('driverName').textContent = name;
+
+        setupConnectivityListeners();
+    }
+
+    // ============================================================
+    //  SHOW MAIN APP (checklist already done)
+    // ============================================================
+    function showMainApp(user) {
+        showMainAppShell(user);
+        updateTempBar();
+        refreshDeliveries();
+        setInterval(refreshDeliveries, 60000); // auto-refresh every 60s
+    }
+
+    function doLogout() {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+        localStorage.removeItem(GPP_KEY);
+        checklistDone = false;
+        document.getElementById('mainApp').style.display = 'none';
+        document.getElementById('gppChecklistScreen').classList.remove('show');
+        document.getElementById('authScreen').style.display = 'flex';
+        resetPin();
+        document.getElementById('authUsername').value = '';
+        updateLoginBtn();
+    }
+
+    function getDriverToken() {
+        return localStorage.getItem(TOKEN_KEY) || (typeof getToken === 'function' ? getToken() : '');
+    }
+
+    // ============================================================
+    //  GPP PRE-DEPARTURE CHECKLIST
+    // ============================================================
+    function showGppChecklist() {
+        document.getElementById('gppChecklistScreen').classList.add('show');
+        updateGppProgress();
+    }
+
+    function toggleGppCheck(key) {
+        gppChecks[key] = !gppChecks[key];
+        const item = document.getElementById(`gpp-item-${key}`);
+        item.classList.toggle('checked', gppChecks[key]);
+        updateGppProgress();
+    }
+
+    function validateGppTemp() {
+        const input = document.getElementById('gppTempInput');
+        const val   = parseFloat(input.value);
+        const okEl  = document.getElementById('gppTempOk');
+        const warnEl = document.getElementById('gppTempWarn');
+
+        if (isNaN(val)) {
+            gppTempValid = false;
+            gppTempValue = null;
+            okEl.style.display = 'none';
+            warnEl.style.display = 'none';
+        } else if (val < 22) {
+            gppTempValid = true;
+            gppTempValue = val;
+            okEl.style.display = 'block';
+            warnEl.style.display = 'none';
+        } else {
+            gppTempValid = false;
+            gppTempValue = val;
+            okEl.style.display = 'none';
+            warnEl.style.display = 'block';
+        }
+        updateGppProgress();
+    }
+
+    function validateGppHumidity() {
+        const input  = document.getElementById('gppHumidityInput');
+        const val    = parseFloat(input.value);
+        const okEl   = document.getElementById('gppHumidityOk');
+        const warnEl = document.getElementById('gppHumidityWarn');
+
+        if (isNaN(val)) {
+            gppHumidValid = false;
+            gppHumidValue = null;
+            okEl.style.display = 'none';
+            warnEl.style.display = 'none';
+        } else if (val >= 50 && val <= 55) {
+            gppHumidValid = true;
+            gppHumidValue = val;
+            okEl.style.display = 'block';
+            warnEl.style.display = 'none';
+        } else {
+            gppHumidValid = false;
+            gppHumidValue = val;
+            okEl.style.display = 'none';
+            warnEl.style.display = 'block';
+        }
+        updateGppProgress();
+    }
+
+    function updateGppProgress() {
+        const checked = Object.values(gppChecks).filter(Boolean).length;
+        const total   = Object.keys(gppChecks).length;
+        document.getElementById('gppProgressCount').textContent = checked;
+
+        const allReady = checked === total && gppTempValid && gppHumidValid;
+        document.getElementById('gppProceedBtn').disabled = !allReady;
+
+        // Update progress label
+        const progressEl = document.getElementById('gppProgress');
+        if (allReady) {
+            progressEl.innerHTML = '<span style="color:var(--success)"><i class="fas fa-check-circle"></i> All checks passed — ready to proceed</span>';
+        } else {
+            let missing = [];
+            if (checked < total) missing.push(`${total - checked} checklist item(s)`);
+            if (!gppTempValid)  missing.push('valid temperature');
+            if (!gppHumidValid) missing.push('valid humidity');
+            progressEl.innerHTML = `<span>${checked}</span> / ${total} items confirmed — still need: ${missing.join(', ')}`;
+        }
+    }
+
+    function proceedFromChecklist() {
+        if (!Object.values(gppChecks).every(Boolean) || !gppTempValid || !gppHumidValid) return;
+
+        // Persist GPP session (valid for today only)
+        const session = {
+            date:        new Date().toDateString(),
+            done:        true,
+            tempValue:   gppTempValue,
+            humidValue:  gppHumidValue,
+            timestamp:   new Date().toISOString(),
+            checks:      { ...gppChecks }
+        };
+        localStorage.setItem(GPP_KEY, JSON.stringify(session));
+        checklistDone = true;
+        tripTempReading = gppTempValue;
+
+        // Log chain of custody event
+        console.log('[GPP] Pre-departure checklist completed', session);
+
+        document.getElementById('gppChecklistScreen').classList.remove('show');
+        updateTempBar();
+        refreshDeliveries();
+        setInterval(refreshDeliveries, 60000);
+    }
+
+    // ============================================================
+    //  CONNECTIVITY
+    // ============================================================
+    function setupConnectivityListeners() {
+        updateConnUI();
+        window.addEventListener('online', () => {
+            updateConnUI();
+            flushOfflineQueue();
+            refreshDeliveries();
+        });
+        window.addEventListener('offline', updateConnUI);
+    }
+
+    function updateConnUI() {
+        const online = navigator.onLine;
+        const indicator = document.getElementById('connIndicator');
+        const banner    = document.getElementById('offlineBanner');
+        indicator.classList.toggle('offline', !online);
+        indicator.title = online ? 'Online' : 'Offline';
+        if (!online) banner.classList.add('show');
+        else banner.classList.remove('show');
+    }
+
+    // ============================================================
+    //  TABS
+    // ============================================================
+    function switchTab(tab) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById(`${tab}Tab`).classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.tab === tab));
+    }
+
+    // ============================================================
+    //  TEMPERATURE LOG BAR
+    // ============================================================
+    function updateTempBar() {
+        const bar     = document.getElementById('tempLogBar');
+        const icon    = document.getElementById('tempLogIcon');
+        const textEl  = document.getElementById('tempLogText');
+
+        if (tripTempReading !== null) {
+            const ok = tripTempReading < 22;
+            bar.className  = `temp-log-bar ${ok ? 'temp-ok' : 'temp-warn'}`;
+            icon.className = `fas fa-thermometer-half temp-log-icon ${ok ? 'ok' : 'warn'}`;
+            textEl.textContent = `${tripTempReading}°C — ${ok ? 'Within spec' : 'EXCEEDS 22°C — Alert pharmacy'}`;
+        } else {
+            bar.className  = 'temp-log-bar temp-warn';
+            icon.className = 'fas fa-thermometer-half temp-log-icon warn';
+            textEl.textContent = 'No temperature logged this trip';
+        }
+    }
+
+    function showTempModal() {
+        const modal = document.getElementById('tempModal');
+        modal.classList.add('show');
+        document.getElementById('tempModalInput').value = '';
+        document.getElementById('tempModalInput').focus();
+    }
+
+    function closeTempModal() {
+        document.getElementById('tempModal').classList.remove('show');
+    }
+
+    function saveTempReading() {
+        const val = parseFloat(document.getElementById('tempModalInput').value);
+        if (isNaN(val)) {
+            showToast('Please enter a valid temperature', 'error');
+            return;
+        }
+
+        tripTempReading = val;
+        console.log('[GPP] Temperature log entry', { value: val, time: new Date().toISOString() });
+
+        // Update today's GPP session record
+        const session = tryParse(localStorage.getItem(GPP_KEY)) || {};
+        session.lastTempLog = { value: val, time: new Date().toISOString() };
+        localStorage.setItem(GPP_KEY, JSON.stringify(session));
+
+        closeTempModal();
+        updateTempBar();
+
+        if (val >= 22) {
+            showToast(`WARNING: ${val}°C exceeds 22°C limit — alert pharmacy immediately`, 'error');
+        } else {
+            showToast(`Temperature logged: ${val}°C`, 'success');
+        }
+    }
+
+    // ============================================================
+    //  FETCH DELIVERIES
+    // ============================================================
+    async function refreshDeliveries() {
+        if (!navigator.onLine) {
+            const cached = tryParse(localStorage.getItem(CACHE_KEY));
+            if (cached) {
+                allDeliveries = cached;
+                renderDeliveries();
+            }
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_URL}/orders/all?status=out_for_delivery,dispatched`, {
+                headers: { 'Authorization': `Bearer ${getDriverToken()}` }
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                allDeliveries = data.orders || [];
+                localStorage.setItem(CACHE_KEY, JSON.stringify(allDeliveries));
+            } else {
+                const cached = tryParse(localStorage.getItem(CACHE_KEY));
+                if (cached) allDeliveries = cached;
+            }
+        } catch (err) {
+            const cached = tryParse(localStorage.getItem(CACHE_KEY));
+            if (cached) allDeliveries = cached;
+        }
+
+        renderDeliveries();
+    }
+
+    // ============================================================
+    //  RENDER
+    // ============================================================
+    function renderDeliveries() {
+        updateStats();
+
+        // Active: out_for_delivery + dispatched
+        const active = allDeliveries.filter(o => ['out_for_delivery', 'dispatched'].includes(o.status));
+        renderActiveList(active);
+
+        // Completed today: delivered + delivery_failed (today)
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
+        const done = allDeliveries.filter(o =>
+            ['delivered', 'delivery_failed'].includes(o.status) &&
+            new Date(o.updatedAt || o.createdAt) >= todayStart
+        );
+        renderCompletedList(done);
+    }
+
+    function updateStats() {
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const todayOrders = allDeliveries.filter(o => new Date(o.createdAt || o.updatedAt) >= today);
+        const completed = allDeliveries.filter(o => o.status === 'delivered').length;
+
+        const codPending = allDeliveries
+            .filter(o => ['out_for_delivery', 'dispatched'].includes(o.status) && isCOD(o))
+            .reduce((sum, o) => sum + (o.totalAmount || o.total || 0), 0);
+
+        document.getElementById('statAssigned').textContent = allDeliveries.length;
+        document.getElementById('statCompleted').textContent = completed;
+        document.getElementById('statCOD').textContent = `R${codPending.toFixed(0)}`;
+    }
+
+    function isCOD(order) {
+        const method = (order.paymentMethod || order.payment?.method || '').toLowerCase();
+        return method === 'cod' || method === 'cash_on_delivery' || method === 'cash';
+    }
+
+    function formatAddress(order) {
+        const addr = order.deliveryAddress || order.customer?.address || {};
+        const parts = [addr.street, addr.suburb, addr.city || addr.town].filter(Boolean);
+        return parts.join(', ') || 'Address not available';
+    }
+
+    function mapsUrl(order) {
+        return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(formatAddress(order))}`;
+    }
+
+    function formatProducts(order) {
+        const items = order.items || order.products || [];
+        if (!items.length) return 'No items listed';
+        const lines = items.slice(0, 3).map(i => {
+            const name = i.product?.name || i.name || i.productName || 'Item';
+            const qty  = i.quantity || i.qty || 1;
+            return `${qty}× ${name}`;
+        });
+        if (items.length > 3) lines.push(`+${items.length - 3} more`);
+        return lines.join(' · ');
+    }
+
+    function renderActiveList(orders) {
+        const el = document.getElementById('activeList');
+        if (!orders.length) {
+            el.innerHTML = `<div class="empty-state">
+                <i class="fas fa-check-circle"></i>
+                <p>No active deliveries right now</p>
+            </div>`;
+            return;
+        }
+
+        el.innerHTML = orders.map(order => {
+            const customer = order.customer || order.user || {};
+            const phone    = customer.phone || customer.mobile || '';
+            const orderNum = order.orderNumber || order._id.slice(-8);
+            const cod      = isCOD(order);
+            const totalAmt = order.totalAmount || order.total || 0;
+            const addr     = formatAddress(order);
+            const window_  = order.deliveryWindow || order.scheduledTime || '';
+
+            return `
+            <div class="delivery-card status-${order.status}" id="card-${order._id}">
+                <div class="card-body">
+                    <div class="card-top">
+                        <span class="order-number">#${orderNum}</span>
+                        <span class="payment-badge ${cod ? 'cod' : 'prepaid'}">${cod ? 'COD' : 'PREPAID'}</span>
+                    </div>
+
+                    <div class="customer-block">
+                        <div class="customer-name">${customer.firstName || ''} ${customer.lastName || customer.name || 'Customer'}</div>
+                        ${phone ? `<div class="customer-phone"><a href="tel:${phone}"><i class="fas fa-phone-alt"></i> ${phone}</a></div>` : ''}
+                        <a class="address-link" href="${mapsUrl(order)}" target="_blank" rel="noopener">
+                            <i class="fas fa-map-marker-alt" style="color:var(--or-gold);margin-right:0.3rem;"></i>${addr}
+                        </a>
+                    </div>
+
+                    <div class="products-line"><i class="fas fa-box" style="margin-right:0.3rem;opacity:0.5;"></i>${formatProducts(order)}</div>
+
+                    ${window_ ? `<div class="delivery-window"><i class="fas fa-clock"></i> ${window_}</div>` : ''}
+                </div>
+
+                <div class="card-actions">
+                    <a class="btn btn-nav" href="${mapsUrl(order)}" target="_blank" rel="noopener" title="Navigate">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </a>
+                    ${phone
+                        ? `<a class="btn btn-call" href="tel:${phone}" title="Call"><i class="fas fa-phone-alt"></i></a>`
+                        : `<button class="btn btn-call" disabled title="No phone" style="opacity:0.3;"><i class="fas fa-phone-slash"></i></button>`
+                    }
+                    <button class="btn btn-delivered" onclick="showDeliveryGate('${order._id}', ${totalAmt}, ${cod})">
+                        <i class="fas fa-check"></i> Delivered
+                    </button>
+                    <button class="btn btn-not-home" onclick="showFailedProtocol('${order._id}')">
+                        <i class="fas fa-user-times"></i> Not Home
+                    </button>
+                </div>
+
+                <!-- GPP Delivery Confirmation Gate (replaces old confirm panel) -->
+                <!-- GPP Rule 2.7.5 — recipient must be present; medicine cannot be left unattended -->
+                <div class="delivery-gate" id="gate-${order._id}">
+                    <h4><i class="fas fa-shield-alt"></i> Delivery Confirmation — GPP 2.7.5</h4>
+
+                    <div class="gate-question">Is the adult recipient present to receive this medicine?</div>
+
+                    <div class="gate-yn-row">
+                        <button class="btn-gate-yes" id="gate-yes-${order._id}" onclick="gateSelectYes('${order._id}', ${totalAmt}, ${cod})">
+                            <i class="fas fa-user-check"></i> YES
+                        </button>
+                        <button class="btn-gate-no" id="gate-no-${order._id}" onclick="gateSelectNo('${order._id}')">
+                            <i class="fas fa-user-times"></i> NO
+                        </button>
+                    </div>
+
+                    <!-- Shown when YES is selected -->
+                    <div class="gate-recipient-fields" id="gate-fields-${order._id}">
+                        <div class="gate-field">
+                            <label>Recipient full name</label>
+                            <input type="text" id="gate-name-${order._id}" placeholder="Name as on ID / prescription" autocapitalize="words">
+                        </div>
+                        <div class="gate-field">
+                            <label>ID last 4 digits (verification)</label>
+                            <input type="text" id="gate-id-${order._id}" placeholder="e.g. 4821" maxlength="4" inputmode="numeric" pattern="[0-9]{4}">
+                        </div>
+                        ${cod
+                            ? `<div class="gate-field">
+                                   <label>COD Amount Collected (R)</label>
+                                   <input type="number" id="cod-${order._id}" value="${totalAmt.toFixed(2)}" min="0" step="0.01" inputmode="decimal">
+                               </div>`
+                            : `<p style="font-size:0.85rem;color:var(--or-grey-2);margin-bottom:0.75rem;">Prepaid order — no cash required.</p>`
+                        }
+                        <div class="confirm-panel-actions">
+                            <button class="btn btn-cancel" onclick="hideGate('${order._id}')">Cancel</button>
+                            <button class="btn btn-confirm-delivered" onclick="confirmDelivered('${order._id}', ${cod})">
+                                <i class="fas fa-check"></i> Confirm Delivery
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GPP Failed Delivery Protocol (shown when "Not Home" clicked or NO selected) -->
+                <!-- GPP Rule 2.7.5.2(d): medicine cannot be left unattended -->
+                <div class="failed-protocol" id="failed-${order._id}">
+                    <div class="failed-protocol-header">
+                        <div class="failed-protocol-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="failed-protocol-title">Failed Delivery Protocol</div>
+                    </div>
+
+                    <div class="failed-protocol-legal">
+                        <strong><i class="fas fa-gavel"></i> Legal Requirement — GPP Rule 2.7.5.2(d)</strong>
+                        Medicine cannot be left unattended. You must either retain the medicine in the vehicle (secure, climate-controlled) or return it to the pharmacy.
+                    </div>
+
+                    <div class="failed-action-title">Select action taken:</div>
+                    <div class="failed-action-btns">
+                        <button class="btn-failed-action" id="fail-action-retain-${order._id}" onclick="selectFailedAction('${order._id}', 'retain')">
+                            <i class="fas fa-car"></i> Retain medicine in vehicle (secure, climate-controlled)
+                        </button>
+                        <button class="btn-failed-action" id="fail-action-return-${order._id}" onclick="selectFailedAction('${order._id}', 'return')">
+                            <i class="fas fa-store"></i> Return to pharmacy
+                        </button>
+                    </div>
+
+                    <div class="gate-field">
+                        <label>Reason for failed delivery</label>
+                        <textarea id="note-${order._id}" placeholder="e.g. Customer not home, called twice..." rows="2" style="width:100%;padding:0.75rem;background:#0A0A0A;border:2px solid #333;border-radius:8px;color:var(--or-white);font-family:'Inter',sans-serif;resize:vertical;margin-bottom:0.5rem;"></textarea>
+                    </div>
+
+                    <div class="confirm-panel-actions">
+                        <button class="btn btn-cancel" onclick="hideFailedProtocol('${order._id}')">Cancel</button>
+                        <button class="btn btn-confirm-failed" id="fail-submit-${order._id}" onclick="confirmNotHome('${order._id}')" disabled>
+                            <i class="fas fa-times"></i> Log &amp; Submit
+                        </button>
+                    </div>
+                </div>
+
+            </div>`;
+        }).join('');
+    }
+
+    function renderCompletedList(orders) {
+        const el = document.getElementById('completedList');
+        if (!orders.length) {
+            el.innerHTML = `<div class="empty-state">
+                <i class="fas fa-truck-loading"></i>
+                <p>No completed deliveries today</p>
+            </div>`;
+            return;
+        }
+
+        el.innerHTML = orders.map(order => {
+            const customer = order.customer || order.user || {};
+            const orderNum = order.orderNumber || order._id.slice(-8);
+            const delivered = order.status === 'delivered';
+            return `
+            <div class="completed-card status-${order.status}">
+                <div class="completed-info">
+                    <div class="completed-order-num">#${orderNum}</div>
+                    <div class="completed-customer">${customer.firstName || ''} ${customer.lastName || customer.name || 'Customer'}</div>
+                </div>
+                <span class="completed-badge ${delivered ? 'delivered' : 'failed'}">
+                    ${delivered ? '<i class="fas fa-check"></i> Delivered' : '<i class="fas fa-times"></i> Failed'}
+                </span>
+            </div>`;
+        }).join('');
+    }
+
+    // ============================================================
+    //  GPP DELIVERY GATE — show on "Delivered" button click
+    // ============================================================
+    function showDeliveryGate(orderId, totalAmt, cod) {
+        hideAllGates();
+        hideAllFailedProtocols();
+        document.getElementById(`gate-${orderId}`).classList.add('show');
+        scrollToCard(orderId);
+    }
+
+    function hideGate(orderId) {
+        document.getElementById(`gate-${orderId}`).classList.remove('show');
+        // Reset gate state
+        const yesBtn = document.getElementById(`gate-yes-${orderId}`);
+        const noBtn  = document.getElementById(`gate-no-${orderId}`);
+        const fields = document.getElementById(`gate-fields-${orderId}`);
+        if (yesBtn) yesBtn.classList.remove('selected');
+        if (noBtn)  noBtn.classList.remove('selected');
+        if (fields) fields.classList.remove('show');
+    }
+
+    function hideAllGates() {
+        document.querySelectorAll('.delivery-gate.show').forEach(g => {
+            const id = g.id.replace('gate-', '');
+            hideGate(id);
+        });
+    }
+
+    function gateSelectYes(orderId, totalAmt, cod) {
+        document.getElementById(`gate-yes-${orderId}`).classList.add('selected');
+        document.getElementById(`gate-no-${orderId}`).classList.remove('selected');
+        document.getElementById(`gate-fields-${orderId}`).classList.add('show');
+        // Hide failed protocol if it was open for this card
+        document.getElementById(`failed-${orderId}`).classList.remove('show');
+    }
+
+    function gateSelectNo(orderId) {
+        // NO means failed delivery — activate protocol
+        document.getElementById(`gate-no-${orderId}`).classList.add('selected');
+        document.getElementById(`gate-yes-${orderId}`).classList.remove('selected');
+        document.getElementById(`gate-fields-${orderId}`).classList.remove('show');
+        // Hide gate, show failed protocol
+        document.getElementById(`gate-${orderId}`).classList.remove('show');
+        document.getElementById(`failed-${orderId}`).classList.add('show');
+        scrollToCard(orderId);
+    }
+
+    // ============================================================
+    //  GPP FAILED DELIVERY PROTOCOL
+    // ============================================================
+    function showFailedProtocol(orderId) {
+        hideAllGates();
+        hideAllFailedProtocols();
+        document.getElementById(`failed-${orderId}`).classList.add('show');
+        scrollToCard(orderId);
+        // Log the failed attempt time
+        console.log(`[GPP] Failed delivery attempt logged — order ${orderId} at ${new Date().toISOString()}`);
+    }
+
+    function hideFailedProtocol(orderId) {
+        document.getElementById(`failed-${orderId}`).classList.remove('show');
+        // Reset action buttons
+        document.getElementById(`fail-action-retain-${orderId}`)?.classList.remove('selected');
+        document.getElementById(`fail-action-return-${orderId}`)?.classList.remove('selected');
+        document.getElementById(`fail-submit-${orderId}`).disabled = true;
+    }
+
+    function hideAllFailedProtocols() {
+        document.querySelectorAll('.failed-protocol.show').forEach(p => {
+            const id = p.id.replace('failed-', '');
+            hideFailedProtocol(id);
+        });
+    }
+
+    function selectFailedAction(orderId, action) {
+        const retainBtn = document.getElementById(`fail-action-retain-${orderId}`);
+        const returnBtn = document.getElementById(`fail-action-return-${orderId}`);
+        const submitBtn = document.getElementById(`fail-submit-${orderId}`);
+
+        retainBtn.classList.toggle('selected', action === 'retain');
+        returnBtn.classList.toggle('selected', action === 'return');
+
+        retainBtn.dataset.selected = action === 'retain' ? 'true' : '';
+        returnBtn.dataset.selected = action === 'return' ? 'true' : '';
+
+        // Store selection on the protocol container for use on submit
+        document.getElementById(`failed-${orderId}`).dataset.action = action;
+        submitBtn.disabled = false;
+
+        console.log(`[GPP] Failed delivery action selected: ${action} — order ${orderId}`);
+    }
+
+    // ============================================================
+    //  STATUS UPDATES
+    // ============================================================
+    async function confirmDelivered(orderId, isCodOrder) {
+        const nameEl = document.getElementById(`gate-name-${orderId}`);
+        const idEl   = document.getElementById(`gate-id-${orderId}`);
+        const recipientName = nameEl?.value.trim() || '';
+        const recipientId   = idEl?.value.trim() || '';
+
+        if (!recipientName) {
+            showToast('Please enter recipient name', 'error');
+            return;
+        }
+
+        let codCollected = 0;
+        if (isCodOrder) {
+            const input = document.getElementById(`cod-${orderId}`);
+            codCollected = parseFloat(input?.value) || 0;
+        }
+
+        await updateOrderStatus(orderId, {
+            status:        'delivered',
+            codCollected:  codCollected,
+            recipientName: recipientName,
+            recipientIdLast4: recipientId,
+            note:          `Delivered to ${recipientName} (ID last 4: ${recipientId || 'N/A'}) — GPP 2.7.5 compliant`
+        });
+    }
+
+    async function confirmNotHome(orderId) {
+        const noteEl   = document.getElementById(`note-${orderId}`);
+        const note     = noteEl?.value.trim() || 'Customer not home';
+        const protocol = document.getElementById(`failed-${orderId}`);
+        const action   = protocol?.dataset.action || 'retain';
+        const timestamp = new Date().toISOString();
+
+        // Log failed delivery with GPP chain of custody info
+        console.log(`[GPP] Failed delivery submitted — order ${orderId}`, {
+            time: timestamp,
+            reason: note,
+            action: action
+        });
+
+        // Simulate branch notification (replace with real push notification or API call)
+        alert(`[GPP 2.7.5.2(d)] Failed delivery logged for order ${orderId.slice(-8)}.\nAction: ${action === 'retain' ? 'Medicine retained in vehicle' : 'Return to pharmacy'}.\nBranch has been notified.`);
+
+        await updateOrderStatus(orderId, {
+            status: 'delivery_failed',
+            note:   `[GPP 2.7.5.2(d)] ${note} | Action: ${action} | Logged: ${timestamp}`
+        });
+    }
+
+    async function updateOrderStatus(orderId, payload) {
+        const endpoint = `${API_URL}/orders/${orderId}/status`;
+
+        if (!navigator.onLine) {
+            offlineQueue.push({ endpoint, payload, orderId, queuedAt: Date.now() });
+            localStorage.setItem(QUEUE_KEY, JSON.stringify(offlineQueue));
+            applyOptimisticStatus(orderId, payload.status);
+            hideAllGates();
+            hideAllFailedProtocols();
+            showToast('Saved offline — will sync when connected', 'info');
+            renderDeliveries();
+            return;
+        }
+
+        try {
+            const res = await fetch(endpoint, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getDriverToken()}`
+                },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                hideAllGates();
+                hideAllFailedProtocols();
+                showToast(
+                    payload.status === 'delivered' ? 'Delivery confirmed!' : 'Status updated',
+                    'success'
+                );
+                const order = allDeliveries.find(o => o._id === orderId);
+                if (order) order.status = payload.status;
+                localStorage.setItem(CACHE_KEY, JSON.stringify(allDeliveries));
+                renderDeliveries();
+            } else {
+                showToast(data.message || 'Update failed', 'error');
+            }
+        } catch (err) {
+            offlineQueue.push({ endpoint, payload, orderId, queuedAt: Date.now() });
+            localStorage.setItem(QUEUE_KEY, JSON.stringify(offlineQueue));
+            applyOptimisticStatus(orderId, payload.status);
+            hideAllGates();
+            hideAllFailedProtocols();
+            showToast('Queued — will retry when back online', 'info');
+            renderDeliveries();
+        }
+    }
+
+    function applyOptimisticStatus(orderId, status) {
+        const order = allDeliveries.find(o => o._id === orderId);
+        if (order) {
+            order.status = status;
+            order.updatedAt = new Date().toISOString();
+        }
+        localStorage.setItem(CACHE_KEY, JSON.stringify(allDeliveries));
+    }
+
+    // ============================================================
+    //  SCROLL HELPER
+    // ============================================================
+    function scrollToCard(orderId) {
+        const card = document.getElementById(`card-${orderId}`);
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // ============================================================
+    //  OFFLINE QUEUE FLUSH
+    // ============================================================
+    async function flushOfflineQueue() {
+        if (!offlineQueue.length) return;
+
+        showToast(`Syncing ${offlineQueue.length} queued update(s)...`, 'info');
+        const remaining = [];
+
+        for (const item of offlineQueue) {
+            try {
+                const res = await fetch(item.endpoint, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${getDriverToken()}`
+                    },
+                    body: JSON.stringify(item.payload)
+                });
+                const data = await res.json();
+                if (!data.success) remaining.push(item);
+            } catch {
+                remaining.push(item);
+            }
+        }
+
+        offlineQueue = remaining;
+        localStorage.setItem(QUEUE_KEY, JSON.stringify(offlineQueue));
+
+        if (!remaining.length) {
+            showToast('All updates synced!', 'success');
+            refreshDeliveries();
+        } else {
+            showToast(`${remaining.length} update(s) still pending`, 'error');
+        }
+    }
+
+    // ============================================================
+    //  TOAST
+    // ============================================================
+    let toastTimer = null;
+    function showToast(msg, type = 'info') {
+        if (toastTimer) clearTimeout(toastTimer);
+        const existing = document.querySelector('.toast');
+        if (existing) existing.remove();
+
+        const el = document.createElement('div');
+        el.className = `toast ${type}`;
+        el.textContent = msg;
+        document.body.appendChild(el);
+        toastTimer = setTimeout(() => el.remove(), 3500);
+    }
+
+    // ============================================================
+    //  UTILITY
+    // ============================================================
+    function tryParse(str) {
+        try { return JSON.parse(str); } catch { return null; }
+    }
+
+    // ============================================================
+    //  PWA INSTALL
+    // ============================================================
+    window.addEventListener('beforeinstallprompt', e => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBanner').classList.add('show');
+    });
+
+    function installApp() {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(() => {
+                deferredPrompt = null;
+                document.getElementById('installBanner').classList.remove('show');
+            });
+        }
+    }
+
+    // ============================================================
+    //  SERVICE WORKER
+    // ============================================================
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw-dispatch.js')
+            .then(reg => console.log('Driver SW registered:', reg.scope))
+            .catch(err => console.error('Driver SW failed:', err));
+    }
+    </script>
+</body>
+</html>

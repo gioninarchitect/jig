@@ -1,0 +1,776 @@
+[
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "moody-jewels-collection",
+    "name": "Moody Jewels Collection",
+    "url": "https://biosculpture.com/product/moody-jewels-collection/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-070-amy",
+    "name": "No.070 Amy",
+    "url": "https://biosculpture.com/product/no-070-amy/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-002-angela",
+    "name": "No.002 Angela",
+    "url": "https://biosculpture.com/product/no-002-angela/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-179-mariza",
+    "name": "No.179 Mariza",
+    "url": "https://biosculpture.com/product/no-179-mariza/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-180-rosa",
+    "name": "No.180 Rosa",
+    "url": "https://biosculpture.com/product/no-180-rosa/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-038-kylie",
+    "name": "No.038 Kylie",
+    "url": "https://biosculpture.com/product/no-038-kylie/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-043-chelsea",
+    "name": "No.043 Chelsea",
+    "url": "https://biosculpture.com/product/no-043-chelsea/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-050-gabrielle",
+    "name": "No.050 Gabrielle",
+    "url": "https://biosculpture.com/product/no-050-gabrielle/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-051-anastasia",
+    "name": "No.051 Anastasia",
+    "url": "https://biosculpture.com/product/no-051-anastasia/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-078-chevon",
+    "name": "No.078 Chevon",
+    "url": "https://biosculpture.com/product/no-078-chevon/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-079-bella",
+    "name": "No.079 Bella",
+    "url": "https://biosculpture.com/product/no-079-bella/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-080-minke",
+    "name": "No.080 Minke",
+    "url": "https://biosculpture.com/product/no-080-minke/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-093-amanda",
+    "name": "No.093 Amanda",
+    "url": "https://biosculpture.com/product/no-093-amanda/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-108-becca",
+    "name": "No.108 Becca",
+    "url": "https://biosculpture.com/product/no-108-becca/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-113-marcelle",
+    "name": "No.113 Marcelle",
+    "url": "https://biosculpture.com/product/no-113-marcelle/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-124-karin",
+    "name": "No.124 Karin",
+    "url": "https://biosculpture.com/product/no-124-karin/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-139-anna",
+    "name": "No.139 Anna",
+    "url": "https://biosculpture.com/product/no-139-anna/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-145-amore",
+    "name": "No.145 Amore",
+    "url": "https://biosculpture.com/product/no-145-amore/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-146-tessa",
+    "name": "No.146 Tessa",
+    "url": "https://biosculpture.com/product/no-146-tessa/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-149-eloise",
+    "name": "No.149 Eloise",
+    "url": "https://biosculpture.com/product/no-149-eloise/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-153-kirra",
+    "name": "No.153 Kirra",
+    "url": "https://biosculpture.com/product/no-153-kirra/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-156-rellie-rose",
+    "name": "No.156 Rellie Rose",
+    "url": "https://biosculpture.com/product/no-156-rellie-rose/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-165-eva",
+    "name": "No.165 Eva",
+    "url": "https://biosculpture.com/product/no-165-eva/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-004-rose",
+    "name": "No.004 Rose",
+    "url": "https://biosculpture.com/product/no-004-rose/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-171-penelope",
+    "name": "No.171 Penelope",
+    "url": "https://biosculpture.com/product/no-171-penelope/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-011-ashley",
+    "name": "No.011 Ashley",
+    "url": "https://biosculpture.com/product/no-011-ashley/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-013-natasha",
+    "name": "No.013 Natasha",
+    "url": "https://biosculpture.com/product/no-013-natasha/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-029-claudia",
+    "name": "No.029 Claudia",
+    "url": "https://biosculpture.com/product/no-029-claudia/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-034-olivia",
+    "name": "No.034 Olivia",
+    "url": "https://biosculpture.com/product/no-034-olivia/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-035-juanel",
+    "name": "No.035 Juanel",
+    "url": "https://biosculpture.com/product/no-035-juanel/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-037-carmen",
+    "name": "No.037 Carmen",
+    "url": "https://biosculpture.com/product/no-037-carmen/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "5-tier-desk-stand-50-bottles",
+    "name": "5 Tier Desk Stand 50 Bottles",
+    "url": "https://biosculpture.com/product/5-tier-desk-stand-50-bottles/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "white-screed",
+    "name": "White Screed",
+    "url": "https://biosculpture.com/product/white-screed/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "builder-gel",
+    "name": "Builder Gel",
+    "url": "https://biosculpture.com/product/builder-gel/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "conditioning-gel",
+    "name": "Conditioning Gel",
+    "url": "https://biosculpture.com/product/conditioning-gel/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "apex-gel",
+    "name": "Apex Gel",
+    "url": "https://biosculpture.com/product/apex-gel/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "free-edge-gel",
+    "name": "Free Edge Gel",
+    "url": "https://biosculpture.com/product/free-edge-gel/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "gloss-gel",
+    "name": "Gloss Gel",
+    "url": "https://biosculpture.com/product/gloss-gel/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "soft-gel",
+    "name": "Soft Gel",
+    "url": "https://biosculpture.com/product/soft-gel/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "base-gel",
+    "name": "Base Gel",
+    "url": "https://biosculpture.com/product/base-gel/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "three-row-wall-unit-90-units",
+    "name": "Three Row Wall Unit 90 Units",
+    "url": "https://biosculpture.com/product/three-row-wall-unit-90-units/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "two-row-biogel-wall-unit-30-units",
+    "name": "Two Row Biogel Wall Unit 30 Units",
+    "url": "https://biosculpture.com/product/two-row-biogel-wall-unit-30-units/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "single-row-wall-unit-30-units",
+    "name": "Single Row Wall Unit 30 Units",
+    "url": "https://biosculpture.com/product/single-row-wall-unit-30-units/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "evo-painted-stix-octavia-x1",
+    "name": "Evo Painted Stix Octavia X1",
+    "url": "https://biosculpture.com/product/evo-painted-stix-octavia-x1/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "evo-painted-stix-fiona-x1",
+    "name": "Evo Painted Stix Fiona X1",
+    "url": "https://biosculpture.com/product/evo-painted-stix-fiona-x1/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "evo-painted-stix-cassia-x1",
+    "name": "Evo Painted Stix Cassia X1",
+    "url": "https://biosculpture.com/product/evo-painted-stix-cassia-x1/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "evo-painted-stix-marisol-x1",
+    "name": "Evo Painted Stix Marisol X1",
+    "url": "https://biosculpture.com/product/evo-painted-stix-marisol-x1/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "evo-painted-stix-mira-x1",
+    "name": "Evo Painted Stix Mira X1",
+    "url": "https://biosculpture.com/product/evo-painted-stix-mira-x1/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "evo-painted-stix-astrid-x1",
+    "name": "Evo Painted Stix Astrid X1",
+    "url": "https://biosculpture.com/product/evo-painted-stix-astrid-x1/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "4-5g-gel-no-338-neon-zest",
+    "name": "4 5G Gel No 338 Neon Zest",
+    "url": "https://biosculpture.com/product/4-5g-gel-no-338-neon-zest/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "4-5g-gel-no-339-electric-tide",
+    "name": "4 5G Gel No 339 Electric Tide",
+    "url": "https://biosculpture.com/product/4-5g-gel-no-339-electric-tide/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "4-5g-gel-no-340-purple-plasma",
+    "name": "4 5G Gel No 340 Purple Plasma",
+    "url": "https://biosculpture.com/product/4-5g-gel-no-340-purple-plasma/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "4-5g-gel-no-341-coral-crush",
+    "name": "4 5G Gel No 341 Coral Crush",
+    "url": "https://biosculpture.com/product/4-5g-gel-no-341-coral-crush/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "4-5g-gel-no-342-tropic-fire",
+    "name": "4 5G Gel No 342 Tropic Fire",
+    "url": "https://biosculpture.com/product/4-5g-gel-no-342-tropic-fire/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-338-neon-zest",
+    "name": "No.338 Neon Zest",
+    "url": "https://biosculpture.com/product/no-338-neon-zest/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-339-electric-tide",
+    "name": "No.339 Electric Tide",
+    "url": "https://biosculpture.com/product/no-339-electric-tide/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-340-purple-plasma",
+    "name": "No.340 Purple Plasma",
+    "url": "https://biosculpture.com/product/no-340-purple-plasma/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-341-coral-crush",
+    "name": "No.341 Coral Crush",
+    "url": "https://biosculpture.com/product/no-341-coral-crush/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-342-tropic-fire",
+    "name": "No.342 Tropic Fire",
+    "url": "https://biosculpture.com/product/no-342-tropic-fire/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-175-havana-nights",
+    "name": "No.175 Havana Nights",
+    "url": "https://biosculpture.com/product/no-175-havana-nights/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-337-pink-tourmaline",
+    "name": "No.337 Pink Tourmaline",
+    "url": "https://biosculpture.com/product/no-337-pink-tourmaline/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-335-rose-opal",
+    "name": "No.335 Rose Opal",
+    "url": "https://biosculpture.com/product/no-335-rose-opal/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-336-amethyst-veil",
+    "name": "No.336 Amethyst Veil",
+    "url": "https://biosculpture.com/product/no-336-amethyst-veil/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-334-garnet-noir",
+    "name": "No.334 Garnet Noir",
+    "url": "https://biosculpture.com/product/no-334-garnet-noir/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-333-smoky-quartz",
+    "name": "No.333 Smoky Quartz",
+    "url": "https://biosculpture.com/product/no-333-smoky-quartz/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-332-sapphire-whisper",
+    "name": "No.332 Sapphire Whisper",
+    "url": "https://biosculpture.com/product/no-332-sapphire-whisper/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-195-flower-child",
+    "name": "No.195 Flower Child",
+    "url": "https://biosculpture.com/product/no-195-flower-child/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-128-princess",
+    "name": "No.128 Princess",
+    "url": "https://biosculpture.com/product/no-128-princess/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-113-love-potion",
+    "name": "No.113 Love Potion",
+    "url": "https://biosculpture.com/product/no-113-love-potion/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-105-jinkie-pink",
+    "name": "No.105 Jinkie Pink",
+    "url": "https://biosculpture.com/product/no-105-jinkie-pink/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-277-showboat",
+    "name": "No.277 Showboat",
+    "url": "https://biosculpture.com/product/no-277-showboat/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-2023-copper-kettle-2",
+    "name": "No.2023 Copper Kettle 2",
+    "url": "https://biosculpture.com/product/no-2023-copper-kettle-2/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-2029-hazy-view",
+    "name": "No.2029 Hazy View",
+    "url": "https://biosculpture.com/product/no-2029-hazy-view/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-2009-hot-chocolate",
+    "name": "No.2009 Hot Chocolate",
+    "url": "https://biosculpture.com/product/no-2009-hot-chocolate/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-301-liquorice-soft-serve",
+    "name": "No.301 Liquorice Soft Serve",
+    "url": "https://biosculpture.com/product/no-301-liquorice-soft-serve/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-288-very-peri",
+    "name": "No.288 Very Peri",
+    "url": "https://biosculpture.com/product/no-288-very-peri/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-199-rose-bud",
+    "name": "No.199 Rose Bud",
+    "url": "https://biosculpture.com/product/no-199-rose-bud/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-184-classic-jaquard",
+    "name": "No.184 Classic Jaquard",
+    "url": "https://biosculpture.com/product/no-184-classic-jaquard/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-145-soprano",
+    "name": "No.145 Soprano",
+    "url": "https://biosculpture.com/product/no-145-soprano/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-119-sugar-sweet-pea",
+    "name": "No.119 Sugar Sweet Pea",
+    "url": "https://biosculpture.com/product/no-119-sugar-sweet-pea/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-78-baby-doll",
+    "name": "No.78 Baby Doll",
+    "url": "https://biosculpture.com/product/no-78-baby-doll/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-85-mulberry",
+    "name": "No.85 Mulberry",
+    "url": "https://biosculpture.com/product/no-85-mulberry/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-66-blanc",
+    "name": "No.66 Blanc",
+    "url": "https://biosculpture.com/product/no-66-blanc/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-196-free-spirit",
+    "name": "No.196 Free Spirit",
+    "url": "https://biosculpture.com/product/no-196-free-spirit/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-183-free-lovin",
+    "name": "No.183 Free Lovin",
+    "url": "https://biosculpture.com/product/no-183-free-lovin/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  },
+  {
+    "brand": "Bio Sculpture",
+    "range": "Gemini",
+    "handle": "no-104-sweet-melon-fluo",
+    "name": "No.104 Sweet Melon Fluo",
+    "url": "https://biosculpture.com/product/no-104-sweet-melon-fluo/",
+    "price_zar": null,
+    "note": "Price requires individual product page scrape"
+  }
+]

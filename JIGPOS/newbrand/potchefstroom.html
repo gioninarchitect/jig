@@ -1,0 +1,2764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Origin Potchefstroom — Walk In · Order Online · We Deliver</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Origin by ILCO Farming Brand Colors */
+            --black: #0E0E0E;
+            --white: #FAFAFA;
+            --or-gold: #C9A84C;
+            --or-gold-muted: #8B6914;
+            --or-gold-bright: #D4B86A;
+            --or-black: #0A0A0A;
+            --or-white: #F5F0E8;
+            --or-dark: #141414;
+            --or-dark-2: #1C1C1C;
+            --or-gold: #C9A84C;
+            --or-gold-light: #E8D5A3;
+            --or-grey-2: #A89F8C;
+            --or-grey-3: #6B6458;
+            --or-grad-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --green: #C9A84C;
+            --green-dark: #8B6914;
+            --green-light: #D4B86A;
+            --amber: #C9A84C;
+            --amber-dark: #8B6914;
+            --amber-light: #E8D5A3;
+            --slate: #1A1A1A;
+            --slate-light: #222222;
+            /* Legacy aliases */
+            --cream: #1A1A1A;
+            --green-deep: #8B6914;
+            --gold: #C9A84C;
+            --gold-dark: #8B6914;
+            --gold-light: #E8D5A3;
+            --red: #DC2626;
+            --red-dark: #B91C1C;
+            --red-light: #EF4444;
+            /* Neutrals (inverted for dark theme) */
+            --gray-50: #111111;
+            --gray-100: #1A1A1A;
+            --gray-200: #222222;
+            --gray-300: #3A3A3A;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #FAFAFA;
+            /* Semantic */
+            --success: #22C55E;
+            --warning: #F8C242;
+            --danger: #DC2626;
+            --error: #EF4444;
+            --info: #3B82F6;
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-or-gold: 0 8px 32px rgba(201,168,76,0.25);
+            --shadow-gold: 0 8px 32px rgba(240,165,0,0.2);
+            --shadow-green: 0 8px 32px rgba(139,105,20,0.2);
+            --shadow-red: 0 8px 32px rgba(220,38,38,0.2);
+            /* Gradients */
+            --gradient-brand: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 70%, #C9A84C 100%);
+            --gradient-dark: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--or-black);
+            color: var(--or-white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* ==================== BUTTONS ==================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before { left: 100%; }
+
+        .btn-gold {
+            background: var(--or-grad-brand);
+            color: var(--or-black);
+            box-shadow: var(--shadow-or-gold);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(201,168,76,0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(201,168,76,0.5);
+            color: var(--or-white);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: var(--or-gold);
+            border-color: var(--or-gold);
+            color: var(--or-black);
+            transform: translateY(-4px);
+        }
+
+        .btn-dark {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--or-white);
+        }
+
+        .btn-dark:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        /* ==================== NAV ==================== */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.4s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(10,10,10,0.97);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+            padding: 0.65rem 0;
+            border-bottom: 1px solid rgba(201,168,76,0.25);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo-text {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 1;
+        }
+
+        .nav-logo-text span {
+            background: var(--or-grad-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.75rem;
+            background: rgba(201,168,76,0.12);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--or-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .nav-link {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: rgba(245,240,232,0.75);
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .nav-link:hover { color: var(--or-gold); }
+
+        .cart-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            background: rgba(201,168,76,0.1);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--or-gold);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .cart-btn:hover {
+            background: rgba(201,168,76,0.2);
+            border-color: var(--or-gold);
+        }
+
+        .cart-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px; height: 20px;
+            background: var(--or-gold);
+            color: var(--or-black);
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        .hamburger span {
+            width: 24px; height: 2px;
+            background: var(--or-white);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10,10,10,0.98);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .mobile-menu.open { display: flex; }
+
+        .mobile-menu a, .mobile-menu button {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.4rem;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .mobile-menu a:hover, .mobile-menu button:hover { color: var(--or-gold); }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 1.5rem; right: 1.5rem;
+            font-size: 1.8rem;
+            color: var(--or-white);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* ==================== HERO ==================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 7rem 1.5rem 4rem;
+            overflow: hidden;
+            background:
+                linear-gradient(135deg,
+                    rgba(139,105,20,0.35) 0%,
+                    rgba(10,10,10,0.88) 55%,
+                    rgba(10,10,10,0.97) 100%
+                ),
+                radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.15) 0%, transparent 60%),
+                #0A0A0A;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(201,168,76,0.02) 2px,
+                rgba(201,168,76,0.02) 4px
+            );
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 760px;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--or-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 1.5rem;
+            background: rgba(201,168,76,0.06);
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: 0.02em;
+            color: var(--or-white);
+            margin-bottom: 0.75rem;
+        }
+
+        .hero h1 .gold {
+            background: var(--or-grad-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-weight: 400;
+            color: var(--or-grey-2);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: rgba(245,240,232,0.65);
+        }
+
+        .hero-badge i {
+            color: var(--or-gold);
+            font-size: 0.9rem;
+        }
+
+        .hero-badge .placeholder-note {
+            font-size: 0.65rem;
+            color: rgba(245,240,232,0.35);
+            font-style: italic;
+        }
+
+        /* ==================== STORE INFO STRIP ==================== */
+        .store-strip {
+            background: var(--or-dark);
+            border-top: 1px solid rgba(201,168,76,0.2);
+            border-bottom: 1px solid rgba(201,168,76,0.2);
+            padding: 1.25rem 0;
+        }
+
+        .store-strip-inner {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .store-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            color: var(--or-grey-2);
+        }
+
+        .store-info-item i {
+            color: var(--or-gold);
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .store-info-item a {
+            color: var(--or-gold);
+            transition: opacity 0.2s;
+        }
+
+        .store-info-item a:hover { opacity: 0.75; }
+
+        .store-info-item strong {
+            color: var(--or-white);
+            font-weight: 600;
+        }
+
+        /* ==================== SECTION COMMON ==================== */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.85rem;
+            border: 1px solid rgba(201,168,76,0.25);
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--or-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.9rem;
+            background: rgba(201,168,76,0.05);
+        }
+
+        .section-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 700;
+            color: var(--or-white);
+            line-height: 1.15;
+        }
+
+        .section-title .gold {
+            background: var(--or-grad-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-desc {
+            margin-top: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--or-grey-2);
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ==================== PRODUCTS ==================== */
+        #products {
+            background: var(--or-dark);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: var(--or-dark-2);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            border-color: rgba(201,168,76,0.4);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .product-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            background: var(--gray-200);
+        }
+
+        .product-img-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #1A1A1A 0%, #222 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(201,168,76,0.3);
+            font-size: 2.5rem;
+        }
+
+        .product-body {
+            padding: 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .product-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.2rem 0.6rem;
+            background: rgba(201,168,76,0.1);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 6px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--or-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            align-self: flex-start;
+        }
+
+        .product-name {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--or-white);
+            line-height: 1.3;
+        }
+
+        .product-brand {
+            font-size: 0.78rem;
+            color: var(--or-grey-2);
+        }
+
+        .product-price {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--or-gold);
+            margin-top: auto;
+        }
+
+        .product-price .compare {
+            font-size: 0.8rem;
+            color: var(--or-grey-3);
+            text-decoration: line-through;
+            margin-left: 0.4rem;
+            font-weight: 400;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.6rem;
+            padding: 0 1.2rem 1.2rem;
+        }
+
+        .product-actions .btn {
+            flex: 1;
+            padding: 0.65rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 10px;
+        }
+
+        .products-loading {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--or-grey-2);
+        }
+
+        .products-loading i {
+            font-size: 2rem;
+            color: var(--or-gold);
+            margin-bottom: 1rem;
+            animation: spin 1.2s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ==================== FILTER BAR ==================== */
+        .filter-bar {
+            margin-bottom: 2.5rem;
+        }
+
+        .filter-bar-search {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+
+        .filter-bar-search input {
+            width: 100%;
+            padding: 0.85rem 1.2rem 0.85rem 3rem;
+            background: var(--or-dark-2);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 12px;
+            color: var(--or-white);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .filter-bar-search input:focus {
+            border-color: rgba(201,168,76,0.5);
+        }
+
+        .filter-bar-search input::placeholder { color: var(--or-grey-3); }
+
+        .filter-bar-search i {
+            position: absolute;
+            left: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--or-grey-3);
+            font-size: 0.9rem;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--or-grey-3);
+            white-space: nowrap;
+            min-width: 72px;
+        }
+
+        .filter-pills {
+            display: flex;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-pill {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(201,168,76,0.25);
+            background: transparent;
+            color: var(--or-grey-2);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            white-space: nowrap;
+        }
+
+        .filter-pill:hover {
+            border-color: rgba(201,168,76,0.5);
+            color: var(--or-gold-light);
+        }
+
+        .filter-pill.active {
+            background: var(--or-gold);
+            border-color: var(--or-gold);
+            color: #0A0A0A;
+            font-weight: 700;
+        }
+
+        .filter-pill .pill-icon {
+            margin-right: 0.25rem;
+            font-size: 0.8em;
+        }
+
+        .filter-count {
+            font-size: 0.8rem;
+            color: var(--or-grey-3);
+            margin-top: 0.75rem;
+        }
+
+        .filter-count strong { color: var(--or-gold); }
+
+        /* ==================== PRODUCT CARD (redesigned) ==================== */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: var(--or-dark-2);
+            border: 1px solid rgba(201,168,76,0.12);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: rgba(201,168,76,0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.1);
+        }
+
+        .product-img-wrap {
+            position: relative;
+            overflow: hidden;
+            background: #111;
+        }
+
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        .product-img-placeholder {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: linear-gradient(135deg, #161616 0%, #1e1e1e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(201,168,76,0.2);
+            font-size: 3rem;
+        }
+
+        .product-quick-add {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, transparent 100%);
+            transform: translateY(100%);
+            transition: transform 0.25s ease;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .product-card:hover .product-quick-add {
+            transform: translateY(0);
+        }
+
+        .product-quick-add button {
+            flex: 1;
+            padding: 0.6rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.73rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.15s;
+            letter-spacing: 0.03em;
+        }
+
+        .quick-add-cart {
+            background: var(--or-gold);
+            color: #0A0A0A;
+        }
+
+        .quick-add-cart:hover { background: var(--or-gold-bright); }
+
+        .quick-add-delivery {
+            background: rgba(255,255,255,0.08);
+            color: var(--or-white);
+            border: 1px solid rgba(255,255,255,0.15) !important;
+        }
+
+        .quick-add-delivery:hover { background: rgba(255,255,255,0.14); }
+
+        .product-body {
+            padding: 1.1rem 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .product-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.18rem 0.55rem;
+            background: rgba(201,168,76,0.08);
+            border: 1px solid rgba(201,168,76,0.18);
+            border-radius: 5px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--or-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            align-self: flex-start;
+            margin-bottom: 0.2rem;
+        }
+
+        .product-name {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--or-white);
+            line-height: 1.35;
+        }
+
+        .product-brand {
+            font-size: 0.75rem;
+            color: var(--or-grey-3);
+        }
+
+        .product-ailments {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin-top: 0.3rem;
+        }
+
+        .ailment-chip {
+            font-size: 0.65rem;
+            padding: 0.18rem 0.5rem;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            color: var(--or-grey-2);
+            font-weight: 500;
+        }
+
+        .product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.2rem 1.1rem;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--or-gold);
+        }
+
+        .product-price .compare {
+            font-size: 0.78rem;
+            color: var(--or-grey-3);
+            text-decoration: line-through;
+            margin-left: 0.4rem;
+            font-weight: 400;
+        }
+
+        .product-save-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.18rem 0.5rem;
+            background: rgba(34,197,94,0.12);
+            color: #4ade80;
+            border-radius: 4px;
+        }
+
+        .products-empty {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--or-grey-2);
+        }
+
+        .products-empty i {
+            font-size: 2.5rem;
+            color: rgba(201,168,76,0.2);
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        /* ==================== CART DRAWER ==================== */
+        .cart-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(4px);
+            z-index: 900;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .cart-backdrop.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100dvh;
+            width: 420px;
+            max-width: 100vw;
+            background: #0E0E0E;
+            border-left: 1px solid rgba(201,168,76,0.25);
+            z-index: 901;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: -8px 0 48px rgba(0,0,0,0.7);
+        }
+
+        .cart-drawer.open {
+            transform: translateX(0);
+        }
+
+        .cart-drawer-header {
+            padding: 1.4rem 1.5rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .cart-drawer-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--or-white);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .cart-drawer-title i { color: var(--or-gold); }
+
+        .cart-close-btn {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            border: none;
+            color: var(--or-grey-2);
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+
+        .cart-close-btn:hover { background: rgba(255,255,255,0.12); color: var(--or-white); }
+
+        .cart-drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 1.5rem;
+        }
+
+        .cart-drawer-body::-webkit-scrollbar { width: 4px; }
+        .cart-drawer-body::-webkit-scrollbar-track { background: transparent; }
+        .cart-drawer-body::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+
+        .cart-empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60%;
+            gap: 1rem;
+            color: var(--or-grey-3);
+            text-align: center;
+        }
+
+        .cart-empty-state i { font-size: 3rem; color: rgba(201,168,76,0.15); }
+        .cart-empty-state p { font-size: 0.9rem; }
+
+        .cart-line-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            align-items: flex-start;
+        }
+
+        .cart-line-item:last-child { border-bottom: none; }
+
+        .cart-item-img {
+            width: 64px; height: 64px;
+            border-radius: 10px;
+            background: #1C1C1C;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(201,168,76,0.2);
+            font-size: 1.4rem;
+            overflow: hidden;
+        }
+
+        .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        .cart-item-info { flex: 1; min-width: 0; }
+
+        .cart-item-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--or-white);
+            line-height: 1.3;
+            margin-bottom: 0.2rem;
+        }
+
+        .cart-item-brand {
+            font-size: 0.72rem;
+            color: var(--or-grey-3);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .qty-btn {
+            width: 28px; height: 28px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--or-white);
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .qty-btn:hover { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.3); }
+
+        .qty-display {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--or-white);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .cart-item-price {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--or-gold);
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: var(--or-grey-3);
+            font-size: 0.75rem;
+            cursor: pointer;
+            padding: 0;
+            transition: color 0.15s;
+        }
+
+        .cart-item-remove:hover { color: var(--red); }
+
+        .cart-drawer-footer {
+            padding: 1.2rem 1.5rem;
+            border-top: 1px solid rgba(201,168,76,0.15);
+            background: #0A0A0A;
+            flex-shrink: 0;
+        }
+
+        .cart-subtotal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-subtotal-label {
+            font-size: 0.82rem;
+            color: var(--or-grey-2);
+        }
+
+        .cart-subtotal-amount {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--or-gold);
+        }
+
+        .cart-vat-note {
+            font-size: 0.7rem;
+            color: var(--or-grey-3);
+            margin-bottom: 1rem;
+        }
+
+        .cart-cta-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        /* ==================== DELIVERY ZONE ==================== */
+        .delivery-zone {
+            background: linear-gradient(135deg, rgba(139,105,20,0.1) 0%, rgba(10,10,10,0) 100%);
+            border-top: 1px solid rgba(201,168,76,0.1);
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+        }
+
+        .delivery-zone-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+        }
+
+        .delivery-zone-icon {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: rgba(201,168,76,0.1);
+            border: 1px solid rgba(201,168,76,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--or-gold);
+        }
+
+        .delivery-zone h2 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: 700;
+            color: var(--or-white);
+        }
+
+        .delivery-zone p {
+            font-size: 0.92rem;
+            color: var(--or-grey-2);
+            max-width: 500px;
+        }
+
+        .delivery-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .delivery-pill {
+            padding: 0.45rem 1.1rem;
+            border-radius: 20px;
+            background: rgba(201,168,76,0.08);
+            border: 1px solid rgba(201,168,76,0.2);
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--or-gold-light);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* ==================== GATED MEDICAL ==================== */
+        .gated-section {
+            background: #0D0D0D;
+        }
+
+        .gated-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .gated-card-blur {
+            background: var(--or-dark-2);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 16px;
+            overflow: hidden;
+            filter: blur(4px);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .gated-card-blur .fake-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #222 0%, #1a1a1a 100%);
+        }
+
+        .gated-card-blur .fake-body {
+            padding: 1rem;
+        }
+
+        .fake-line {
+            height: 12px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.07);
+            margin-bottom: 0.6rem;
+        }
+
+        .fake-line.short { width: 60%; }
+        .fake-line.medium { width: 80%; }
+        .fake-line.long { width: 100%; }
+
+        .gated-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            z-index: 5;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .gated-lock-icon {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: rgba(201,168,76,0.1);
+            border: 2px solid rgba(201,168,76,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--or-gold);
+        }
+
+        .gated-title {
+            font-family: 'Cinzel', sans-serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            font-weight: 700;
+            color: var(--or-white);
+        }
+
+        .gated-desc {
+            font-size: 0.88rem;
+            color: var(--or-grey-2);
+            max-width: 380px;
+        }
+
+        /* ==================== WALK-IN BANNER ==================== */
+        .walkin-banner {
+            background: linear-gradient(135deg, var(--or-dark) 0%, #111 100%);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 0 auto;
+            max-width: 860px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .walkin-banner h2 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: clamp(1.4rem, 3.5vw, 2rem);
+            font-weight: 700;
+            color: var(--or-white);
+        }
+
+        .walkin-banner p {
+            font-size: 0.95rem;
+            color: var(--or-grey-2);
+            max-width: 520px;
+        }
+
+        .walkin-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .walkin-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--or-grey-2);
+        }
+
+        .walkin-detail i { color: var(--or-gold); }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            background: #080808;
+            border-top: 1px solid rgba(201,168,76,0.15);
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--or-white);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-brand .gold {
+            background: var(--or-grad-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.75rem;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            font-size: 0.83rem;
+            color: var(--or-grey-2);
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--or-gold); }
+
+        .footer-copy {
+            font-size: 0.78rem;
+            color: var(--or-grey-3);
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            width: 100%;
+        }
+
+        /* ==================== MODAL ==================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            background: var(--or-dark-2);
+            border: 1px solid rgba(201,168,76,0.25);
+            border-radius: 18px;
+            padding: 2rem;
+            max-width: 440px;
+            width: 100%;
+            position: relative;
+        }
+
+        .modal h3 {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--or-white);
+            margin-bottom: 0.4rem;
+        }
+
+        .modal p {
+            font-size: 0.85rem;
+            color: var(--or-grey-2);
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-product-name {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--or-gold);
+            margin-bottom: 1rem;
+        }
+
+        .modal label {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--or-grey-2);
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        .modal input, .modal textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 10px;
+            color: var(--or-white);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .modal input:focus, .modal textarea:focus {
+            outline: none;
+            border-color: var(--or-gold);
+        }
+
+        .modal input::placeholder, .modal textarea::placeholder {
+            color: rgba(245,240,232,0.3);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: none;
+            border: none;
+            color: var(--or-grey-3);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover { color: var(--or-white); }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        /* ==================== TOAST ==================== */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem; right: 1.5rem;
+            background: var(--or-dark-2);
+            border: 1px solid rgba(201,168,76,0.35);
+            color: var(--or-white);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
+            z-index: 3000;
+            font-size: 0.88rem;
+            max-width: 320px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast i { color: var(--or-gold); }
+
+        /* ==================== RESPONSIVE ==================== */
+        /* ==================== STICKY MOBILE CART BAR ==================== */
+        .mobile-cart-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 800;
+            padding: 0.85rem 1.25rem;
+            background: var(--or-gold);
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .mobile-cart-bar.visible {
+            transform: translateY(0);
+        }
+
+        .mobile-cart-bar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .mobile-cart-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .mobile-cart-bar-badge {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: #0A0A0A;
+            color: var(--or-gold);
+            font-size: 0.75rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-cart-bar-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #0A0A0A;
+        }
+
+        .mobile-cart-bar-total {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0A0A0A;
+        }
+
+        /* ==================== PRODUCT LABEL BADGES ==================== */
+        .product-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 2;
+            padding: 0.22rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.62rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .product-label.best-seller { background: var(--or-gold); color: #0A0A0A; }
+        .product-label.new { background: #3B82F6; color: #fff; }
+        .product-label.in-store { background: #22C55E; color: #fff; }
+        .product-label.popular { background: #8B5CF6; color: #fff; }
+
+        /* ==================== PRODUCT DETAIL MODAL ==================== */
+        .product-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(6px);
+            z-index: 950;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .product-modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .product-modal {
+            background: #121212;
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90dvh;
+            overflow-y: auto;
+            transform: translateY(40px);
+            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+            padding-bottom: env(safe-area-inset-bottom, 1rem);
+        }
+
+        .product-modal-overlay.open .product-modal {
+            transform: translateY(0);
+        }
+
+        .product-modal::-webkit-scrollbar { width: 3px; }
+        .product-modal::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.25); border-radius: 2px; }
+
+        .pm-drag-handle {
+            width: 40px; height: 4px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 2px;
+            margin: 0.85rem auto 0;
+        }
+
+        .pm-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+
+        .pm-img-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #161616, #1e1e1e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(201,168,76,0.15);
+            font-size: 4rem;
+        }
+
+        .pm-body {
+            padding: 1.4rem 1.5rem;
+        }
+
+        .pm-type-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .pm-type-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--or-gold);
+            background: rgba(201,168,76,0.08);
+            border: 1px solid rgba(201,168,76,0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 5px;
+        }
+
+        .pm-name {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--or-white);
+            line-height: 1.3;
+            margin-bottom: 0.3rem;
+        }
+
+        .pm-brand {
+            font-size: 0.8rem;
+            color: var(--or-grey-3);
+            margin-bottom: 1rem;
+        }
+
+        .pm-ailments {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .pm-ailment-chip {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.06);
+            color: var(--or-grey-2);
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .pm-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pm-price {
+            font-family: 'Cinzel', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--or-gold);
+        }
+
+        .pm-compare {
+            font-size: 0.9rem;
+            color: var(--or-grey-3);
+            text-decoration: line-through;
+        }
+
+        .pm-save {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #4ade80;
+            background: rgba(34,197,94,0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .pm-qty-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .pm-qty-label { font-size: 0.82rem; color: var(--or-grey-2); }
+
+        .pm-qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .pm-qty-btn {
+            width: 30px; height: 30px;
+            background: none;
+            border: none;
+            color: var(--or-white);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: background 0.15s;
+        }
+
+        .pm-qty-btn:hover { background: rgba(201,168,76,0.15); }
+
+        .pm-qty-val {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--or-white);
+            min-width: 28px;
+            text-align: center;
+        }
+
+        .pm-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-cart-bar { display: block; }
+            .nav-location-badge { display: none; }
+            .nav-link { display: none; }
+            .hamburger { display: flex; }
+            .cart-btn span:not(.cart-count) { display: none; }
+
+            .hero-ctas .btn { padding: 0.85rem 1.4rem; font-size: 0.82rem; }
+            .hero-badges { gap: 1rem; }
+
+            .store-strip-inner { gap: 1.25rem; }
+
+            .product-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+
+            .walkin-banner { padding: 2rem 1.25rem; }
+
+            .gated-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.3rem; }
+            .hero-badges { flex-direction: column; align-items: center; }
+            .store-strip-inner { flex-direction: column; align-items: flex-start; padding: 0 1.5rem; }
+            .product-grid { grid-template-columns: 1fr; }
+            .delivery-pills { flex-direction: column; align-items: center; }
+            .gated-grid { grid-template-columns: 1fr; }
+            .footer-links { gap: 0.5rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav class="nav" id="mainNav">
+        <div class="container">
+            <div class="nav-inner">
+                <div class="nav-left">
+                    <a href="index.html" class="nav-logo-text">
+                        <span>Origin</span>
+                    </a>
+                    <span class="nav-location-badge">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Potchefstroom
+                    </span>
+                </div>
+
+                <div class="nav-right">
+                    <a href="login.html" class="nav-link">
+                        <i class="fas fa-box"></i>
+                        My Orders
+                    </a>
+                    <button class="cart-btn" onclick="toggleCart()" aria-label="Shopping cart">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Cart</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <div class="hamburger" onclick="openMobileMenu()" aria-label="Open menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="closeMobileMenu()">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="index.html" onclick="closeMobileMenu()">Home</a>
+        <a href="#products" onclick="closeMobileMenu()">Shop</a>
+        <a href="login.html" onclick="closeMobileMenu()">My Orders</a>
+        <a href="patient-onboarding.html" onclick="closeMobileMenu()">Book Consultation</a>
+    </div>
+
+    <!-- ==================== HERO ==================== -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-eyebrow">
+                <i class="fas fa-map-marker-alt"></i>
+                Potchefstroom Branch — Now Open
+            </div>
+
+            <h1>Origin<br><span class="gold">Potchefstroom</span></h1>
+
+            <p class="hero-sub">Walk In &middot; Order Online &middot; We Deliver</p>
+
+            <div class="hero-ctas">
+                <a href="#products" class="btn btn-gold">
+                    <i class="fas fa-shopping-bag"></i>
+                    Shop Products
+                </a>
+                <a href="patient-onboarding.html" class="btn btn-outline">
+                    <i class="fas fa-stethoscope"></i>
+                    Patient Journey
+                </a>
+            </div>
+
+            <div class="hero-badges">
+                <div class="hero-badge">
+                    <i class="fas fa-clock"></i>
+                    <span>Open Mon&ndash;Sat 9&ndash;18h</span>
+                </div>
+                <div class="hero-badge">
+                    <i class="fas fa-motorcycle"></i>
+                    <span>Local Delivery</span>
+                </div>
+                <div class="hero-badge">
+                    <i class="fas fa-file-medical"></i>
+                    <span>Patient Journey</span>
+                    <span class="placeholder-note">[placeholder &mdash; not verified copy]</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== STORE INFO STRIP ==================== -->
+    <div class="store-strip">
+        <div class="container">
+            <div class="store-strip-inner">
+                <div class="store-info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>[Address TBC &mdash; Potchefstroom CBD]</span>
+                </div>
+                <div class="store-info-item">
+                    <i class="fas fa-phone"></i>
+                    <span>[Phone TBC]</span>
+                </div>
+                <div class="store-info-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <a href="https://wa.me/XXXXXX?text=Origin+Potchefstroom+Order" target="_blank" rel="noopener">
+                        WhatsApp to Order: [Number TBC]
+                    </a>
+                </div>
+                <div class="store-info-item">
+                    <i class="fas fa-truck"></i>
+                    <span><strong>Free delivery</strong> over R500 within 15km</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PRODUCTS ==================== -->
+    <section class="section" id="products">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-leaf"></i>
+                    Lifestyle &amp; Wellness
+                </div>
+                <h2 class="section-title">Our <span class="gold">Products</span></h2>
+                <p class="section-desc">Wellness and lifestyle products available to all customers. No appointment needed.</p>
+            </div>
+
+            <!-- FILTER BAR -->
+            <div class="filter-bar">
+                <div class="filter-bar-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="productSearch" placeholder="Search products…" oninput="applyFilters()">
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <span class="filter-label"><i class="fas fa-th-large"></i> Type</span>
+                        <div class="filter-pills" id="typePills">
+                            <button class="filter-pill active" data-type="all" onclick="setTypeFilter('all')">All</button>
+                            <button class="filter-pill" data-type="capsules" onclick="setTypeFilter('capsules')">💊 Capsules</button>
+                            <button class="filter-pill" data-type="tinctures" onclick="setTypeFilter('tinctures')">🧪 Tinctures</button>
+                            <button class="filter-pill" data-type="powders" onclick="setTypeFilter('powders')">🌿 Powders</button>
+                            <button class="filter-pill" data-type="bundles" onclick="setTypeFilter('bundles')">📦 Bundles</button>
+                            <button class="filter-pill" data-type="supplements" onclick="setTypeFilter('supplements')">🌱 Supplements</button>
+                            <button class="filter-pill" data-type="grow-kits" onclick="setTypeFilter('grow-kits')">🍄 Grow Kits</button>
+                            <button class="filter-pill" data-type="skincare" onclick="setTypeFilter('skincare')">✨ Skincare</button>
+                            <button class="filter-pill" data-type="nail-gel" onclick="setTypeFilter('nail-gel')">💅 Nail Gel</button>
+                            <button class="filter-pill" data-type="nail-care" onclick="setTypeFilter('nail-care')">💅 Bio Sculpture</button>
+                            <button class="filter-pill" data-type="pharmacy" onclick="setTypeFilter('pharmacy')">💊 Pharmacy</button>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <span class="filter-label"><i class="fas fa-heartbeat"></i> Healer</span>
+                        <div class="filter-pills" id="ailmentPills">
+                            <button class="filter-pill active" data-ailment="all" onclick="setAilmentFilter('all')">All</button>
+                            <button class="filter-pill" data-ailment="immunity" onclick="setAilmentFilter('immunity')">🛡 Immunity</button>
+                            <button class="filter-pill" data-ailment="energy" onclick="setAilmentFilter('energy')">⚡ Energy & Vitality</button>
+                            <button class="filter-pill" data-ailment="focus" onclick="setAilmentFilter('focus')">🧠 Focus & Clarity</button>
+                            <button class="filter-pill" data-ailment="stress" onclick="setAilmentFilter('stress')">🌿 Stress & Calm</button>
+                            <button class="filter-pill" data-ailment="sleep" onclick="setAilmentFilter('sleep')">🌙 Sleep & Recovery</button>
+                            <button class="filter-pill" data-ailment="gut" onclick="setAilmentFilter('gut')">🌱 Gut Health</button>
+                            <button class="filter-pill" data-ailment="skin" onclick="setAilmentFilter('skin')">✨ Skin & Beauty</button>
+                            <button class="filter-pill" data-ailment="hair" onclick="setAilmentFilter('hair')">💅 Hair & Nails</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-count" id="filterCount"></div>
+            </div>
+
+            <div id="productsContainer">
+                <div class="products-loading" id="productsLoading">
+                    <i class="fas fa-circle-notch"></i>
+                    <p>Loading products&hellip;</p>
+                </div>
+                <div class="product-grid" id="productGrid" style="display:none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== DELIVERY ZONE ==================== -->
+    <section class="section delivery-zone">
+        <div class="container">
+            <div class="delivery-zone-inner">
+                <div class="delivery-zone-icon">
+                    <i class="fas fa-map-pin"></i>
+                </div>
+                <h2>We Deliver Within 15km of Potchefstroom CBD</h2>
+                <p>Order online by 14h00 for same-day delivery to your door. Coverage includes Potchefstroom CBD and surrounding areas within 15km.</p>
+                <div class="delivery-pills">
+                    <div class="delivery-pill">
+                        <i class="fas fa-clock"></i>
+                        Order by 14h00 for same-day
+                    </div>
+                    <div class="delivery-pill">
+                        <i class="fas fa-money-bill-wave"></i>
+                        COD Available
+                    </div>
+                    <div class="delivery-pill">
+                        <i class="fas fa-university"></i>
+                        EFT Accepted
+                    </div>
+                    <div class="delivery-pill">
+                        <i class="fas fa-credit-card"></i>
+                        Card on Delivery
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== GATED MEDICAL SECTION ==================== -->
+    <section class="section gated-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-lock"></i>
+                    Registered Patients
+                </div>
+                <h2 class="section-title">Your Patient <span class="gold">Journey</span></h2>
+                <p class="section-desc">Some products require a registered practitioner assessment. Start your journey online — from home.</p>
+            </div>
+
+            <div class="gated-grid" id="gatedGrid">
+                <!-- Blurred placeholder cards -->
+                <div class="gated-card-blur">
+                    <div class="fake-img"></div>
+                    <div class="fake-body">
+                        <div class="fake-line short"></div>
+                        <div class="fake-line long"></div>
+                        <div class="fake-line medium"></div>
+                    </div>
+                </div>
+                <div class="gated-card-blur">
+                    <div class="fake-img"></div>
+                    <div class="fake-body">
+                        <div class="fake-line medium"></div>
+                        <div class="fake-line long"></div>
+                        <div class="fake-line short"></div>
+                    </div>
+                </div>
+                <div class="gated-card-blur">
+                    <div class="fake-img"></div>
+                    <div class="fake-body">
+                        <div class="fake-line long"></div>
+                        <div class="fake-line short"></div>
+                        <div class="fake-line medium"></div>
+                    </div>
+                </div>
+                <div class="gated-card-blur">
+                    <div class="fake-img"></div>
+                    <div class="fake-body">
+                        <div class="fake-line short"></div>
+                        <div class="fake-line medium"></div>
+                        <div class="fake-line long"></div>
+                    </div>
+                </div>
+
+                <!-- Overlay -->
+                <div class="gated-overlay">
+                    <div class="gated-lock-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="gated-title">Start Your Patient Journey</div>
+                    <p class="gated-desc">
+                        These products require a registered practitioner assessment. Complete your online journey to unlock access — no in-person visit needed.
+                    </p>
+                    <a href="patient-onboarding.html" class="btn btn-gold">
+                        Begin Your Journey
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== WALK-IN BANNER ==================== -->
+    <section class="section" style="background: var(--or-black);">
+        <div class="container">
+            <div class="walkin-banner">
+                <div class="section-tag">
+                    <i class="fas fa-store"></i>
+                    In-Store
+                </div>
+                <h2>Prefer to shop in person?</h2>
+                <p>Visit our Potchefstroom store &mdash; lifestyle and wellness products available to all customers, no appointment needed. Our knowledgeable staff are ready to help.</p>
+                <div class="walkin-details">
+                    <div class="walkin-detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Mon&ndash;Sat &nbsp;09:00&ndash;18:00</span>
+                    </div>
+                    <div class="walkin-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>[Address TBC &mdash; Potchefstroom CBD]</span>
+                    </div>
+                    <div class="walkin-detail">
+                        <i class="fas fa-parking"></i>
+                        <span>Parking available</span>
+                    </div>
+                </div>
+                <a href="https://wa.me/XXXXXX?text=Origin+Potchefstroom+Order" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top:0.5rem;">
+                    <i class="fab fa-whatsapp"></i>
+                    WhatsApp Us Before You Visit
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <span class="gold">Origin</span> by ILCO Farming
+                </div>
+                <div class="footer-links">
+                    <a href="index.html"><i class="fas fa-home" style="margin-right:0.3rem;font-size:0.75rem;"></i>Home</a>
+                    <a href="admin.html"><i class="fas fa-lock" style="margin-right:0.3rem;font-size:0.75rem;"></i>Admin</a>
+                    <a href="privacy-policy.html">Privacy</a>
+                    <a href="terms.html">Terms</a>
+                </div>
+                <div class="footer-copy">
+                    &copy; 2026 Origin by ILCO Farming &mdash; Potchefstroom Branch
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== CART DRAWER ==================== -->
+    <div class="cart-backdrop" id="cartBackdrop" onclick="closeCart()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <div class="cart-drawer-title">
+                <i class="fas fa-shopping-bag"></i>
+                Your Cart
+                <span id="cartDrawerCount" style="font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:600;background:var(--or-gold);color:#0A0A0A;border-radius:10px;padding:0.1rem 0.5rem;"></span>
+            </div>
+            <button class="cart-close-btn" onclick="closeCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-drawer-body" id="cartDrawerBody">
+            <div class="cart-empty-state" id="cartEmptyState">
+                <i class="fas fa-shopping-bag"></i>
+                <p>Your cart is empty</p>
+                <p style="font-size:0.78rem;">Add products to get started</p>
+            </div>
+            <div id="cartLineItems"></div>
+        </div>
+        <div class="cart-drawer-footer" id="cartDrawerFooter" style="display:none;">
+            <div class="cart-subtotal">
+                <span class="cart-subtotal-label">Subtotal</span>
+                <span class="cart-subtotal-amount" id="cartSubtotal">R0</span>
+            </div>
+            <div class="cart-vat-note">Incl. 15% VAT · Delivery calculated at checkout</div>
+            <div class="cart-cta-stack">
+                <button class="btn btn-gold" onclick="checkoutWhatsApp()" style="width:100%;">
+                    <i class="fab fa-whatsapp"></i>
+                    Order via WhatsApp
+                </button>
+                <button class="btn btn-outline" onclick="closeCart()" style="width:100%;font-size:0.82rem;">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DELIVERY MODAL ==================== -->
+    <div class="modal-overlay" id="deliveryModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeDeliveryModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>Order for Delivery</h3>
+            <p>Enter your delivery address and we'll send your order details via WhatsApp.</p>
+            <div class="modal-product-name" id="modalProductName"></div>
+            <label for="deliveryAddress">Delivery address</label>
+            <input
+                type="text"
+                id="deliveryAddress"
+                placeholder="e.g. 12 Van Riebeeck St, Potchefstroom"
+            >
+            <label for="deliveryNotes">Special instructions (optional)</label>
+            <textarea
+                id="deliveryNotes"
+                rows="2"
+                placeholder="e.g. gate code, landmark, preferred time"
+            ></textarea>
+            <div class="modal-actions">
+                <button class="btn btn-gold" onclick="sendWhatsAppOrder()" style="flex:1;">
+                    <i class="fab fa-whatsapp"></i>
+                    WhatsApp Order
+                </button>
+                <button class="btn btn-dark" onclick="closeDeliveryModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST ==================== -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="frontend/config.js"></script>
+    <script>
+    // ---- Product data (enriched with type + ailment tags) ----
+    const FALLBACK_PRODUCTS = [
+        // ── Bundles ──
+        { name: "Beauty Glow Bundle", brand: "Harmonic Mycology", productType: "bundles", ailments: ["skin","energy"], label: "best-seller", price_zar: 1195, compare_at_price_zar: 1375, image: "https://cdn.shopify.com/s/files/1/0066/1143/5618/files/beauty-glow-bundle.jpg?v=1779807506" },
+        { name: "Energy & Stamina Bundle", brand: "Harmonic Mycology", productType: "bundles", ailments: ["energy","gut"], label: "popular", price_zar: 960, compare_at_price_zar: 1100, image: "https://cdn.shopify.com/s/files/1/0066/1143/5618/files/energy-and-stamina-bundle.jpg?v=1779805472" },
+        { name: "Stress Management Bundle", brand: "Harmonic Mycology", productType: "bundles", ailments: ["stress","sleep"], price_zar: 1015, compare_at_price_zar: 1100, image: "https://cdn.shopify.com/s/files/1/0066/1143/5618/files/stress-management-bundle.jpg?v=1779805437" },
+        { name: "Memory & Focus Bundle", brand: "Harmonic Mycology", productType: "bundles", ailments: ["focus","energy"], label: "best-seller", price_zar: 1105, compare_at_price_zar: 1155, image: "https://cdn.shopify.com/s/files/1/0066/1143/5618/files/memory-and-focus-bundle.jpg?v=1779805403" },
+        { name: "Big 5 Mushroom Bundle", brand: "Harmonic Mycology", productType: "bundles", ailments: ["immunity","energy","focus"], label: "popular", price_zar: 1260, compare_at_price_zar: 1375, image: "https://cdn.shopify.com/s/files/1/0066/1143/5618/files/big-five-mushroom-bundle.jpg?v=1779805375" },
+        { name: "Big 3 Mushroom Bundle", brand: "Harmonic Mycology", productType: "bundles", ailments: ["immunity","gut"], price_zar: 755, compare_at_price_zar: 825, image: "https://cdn.shopify.com/s/files/1/0066/1143/5618/files/big-three-mushroom-bundle.jpg?v=1779805347" },
+        // ── Capsules ──
+        { name: "Lion's Mane Capsules", brand: "Harmonic Mycology", productType: "capsules", ailments: ["focus","energy"], label: "best-seller", price_zar: 400, image: null },
+        { name: "Vitality Capsules", brand: "Harmonic Mycology", productType: "capsules", ailments: ["energy","gut"], label: "in-store", price_zar: 350, image: null },
+        { name: "Clarity Capsule Blend", brand: "Harmonic Mycology", productType: "capsules", ailments: ["focus","stress"], label: "new", price_zar: 375, image: null },
+        { name: "Stamina Capsules", brand: "Harmonic Mycology", productType: "capsules", ailments: ["energy"], label: "in-store", price_zar: 260, image: null },
+        { name: "Equilibrium Capsules", brand: "Harmonic Mycology", productType: "capsules", ailments: ["stress","sleep"], price_zar: 180, image: null },
+        // ── Tinctures ──
+        { name: "Lion's Mane Extract 50ml", brand: "Harmonic Mycology", productType: "tinctures", ailments: ["focus","energy"], label: "best-seller", price_zar: 265, image: null },
+        { name: "Reishi Extract 50ml", brand: "Harmonic Mycology", productType: "tinctures", ailments: ["immunity","stress","sleep"], label: "in-store", price_zar: 250, image: null },
+        { name: "Cordyceps Extract 50ml", brand: "Harmonic Mycology", productType: "tinctures", ailments: ["energy","gut"], price_zar: 240, image: null },
+        { name: "Chaga Extract 50ml", brand: "Harmonic Mycology", productType: "tinctures", ailments: ["immunity"], price_zar: 250, image: null },
+        { name: "Turkey Tail Extract 50ml", brand: "Harmonic Mycology", productType: "tinctures", ailments: ["immunity","gut"], label: "new", price_zar: 255, image: null },
+        { name: "Vitality Extract 5-in-1 100ml", brand: "Harmonic Mycology", productType: "tinctures", ailments: ["energy","immunity"], price_zar: 460, image: null },
+        // ── Powders ──
+        { name: "Lion's Mane Powder 50g", brand: "Harmonic Mycology", productType: "powders", ailments: ["focus"], label: "in-store", price_zar: 234, image: null },
+        { name: "Vitality 5-in-1 Powder", brand: "Harmonic Mycology", productType: "powders", ailments: ["energy","immunity"], price_zar: 220, image: null },
+        { name: "Tremella Powder 50g", brand: "Harmonic Mycology", productType: "powders", ailments: ["skin"], label: "new", price_zar: 200, image: null },
+        { name: "Reishi Powder 50g", brand: "Harmonic Mycology", productType: "powders", ailments: ["immunity","stress","sleep"], price_zar: 220, image: null },
+        { name: "Chaga Powder 50g", brand: "Harmonic Mycology", productType: "powders", ailments: ["immunity"], price_zar: 220, image: null },
+        { name: "Cordyceps Powder 50g", brand: "Harmonic Mycology", productType: "powders", ailments: ["energy","gut"], price_zar: 210, image: null },
+        // ── Supplements ──
+        { name: "Ashwagandha Extract", brand: "Harmonic Mycology", productType: "supplements", ailments: ["stress","sleep","energy"], label: "popular", price_zar: 260, image: null },
+        { name: "Red Ginseng Extract", brand: "Harmonic Mycology", productType: "supplements", ailments: ["energy","focus"], price_zar: 250, image: null },
+        { name: "Tongkat Ali Extract", brand: "Harmonic Mycology", productType: "supplements", ailments: ["energy"], price_zar: 220, image: null },
+        { name: "Sceletium (Kanna) Extract", brand: "Harmonic Mycology", productType: "supplements", ailments: ["stress","focus","sleep"], label: "new", price_zar: 330, image: null },
+        // ── Grow Kits ──
+        { name: "Lion's Mane Grow Box", brand: "Harmonic Mycology", productType: "grow-kits", ailments: ["focus"], label: "in-store", price_zar: 150, image: null },
+        { name: "Pink Oyster Grow Box", brand: "Harmonic Mycology", productType: "grow-kits", ailments: ["gut","immunity"], label: "in-store", price_zar: 150, image: null },
+        { name: "Golden Oyster Grow Box", brand: "Harmonic Mycology", productType: "grow-kits", ailments: ["gut"], price_zar: 150, image: null },
+        { name: "Pioppino Grow Box", brand: "Harmonic Mycology", productType: "grow-kits", ailments: ["gut"], price_zar: 160, image: null },
+        // ── Lamelle Pharmaceuticals ──
+        { sku:"LAM-MATR001", name: "Matricoll ECM 90 Caps", brand: "Lamelle Pharmaceuticals", productType: "supplements", ailments: ["skin","anti-ageing"], label: "new", price_zar: 790, shortDesc: "Oral anti-ageing peptide supplement with marine collagen, elastin & hyaluronic acid.", image: null },
+        { sku:"LAM-CEN001", name: "Centar Lotion 100ml", brand: "Lamelle Pharmaceuticals", productType: "skincare", ailments: ["skin","wound-healing"], label: "new", price_zar: 580, shortDesc: "Scar & stretch mark repair lotion. Safe for use in pregnancy.", image: null },
+        { sku:"LAM-CEN002", name: "Centar Gel 20ml", brand: "Lamelle Pharmaceuticals", productType: "skincare", ailments: ["skin","wound-healing"], label: "new", price_zar: 290, shortDesc: "Concentrated scar repair gel with 6 anti-scar actives.", image: null },
+        { sku:"LAM-NIA002", name: "Nia-Sol Kit (60 Caps + 9ml Gel)", brand: "Lamelle Pharmaceuticals", productType: "pharmacy", ailments: ["skin","uv-protection"], label: "new", price_zar: 340, shortDesc: "Inside-out UV skin protection kit for sun-damaged skin.", image: null },
+        { sku:"LAM-NIA001", name: "Nia-Sol Lotion 125ml", brand: "Lamelle Pharmaceuticals", productType: "pharmacy", ailments: ["skin","uv-protection"], label: "new", price_zar: 380, shortDesc: "Ceramide lotion for UV-damaged & sun-damaged skin.", image: null },
+        { sku:"LAM-NIA003", name: "Nia-Sol Gel 125ml", brand: "Lamelle Pharmaceuticals", productType: "pharmacy", ailments: ["skin","uv-protection"], label: "new", price_zar: 360, shortDesc: "High-dose Nicotinamide & Photolyase gel for UV-damage correction.", image: null },
+        { sku:"LAM-OVA001", name: "Ovaria Orange 30 Sachets", brand: "Lamelle Pharmaceuticals", productType: "supplements", ailments: ["womens-health","hormones"], label: "new", price_zar: 440, shortDesc: "4000mg Myo-Inositol daily dose for PCOS symptoms. Sugarfree, Halal, Vegan.", image: null },
+        { sku:"LAM-OVA002", name: "Ovaria Peach 30 Sachets", brand: "Lamelle Pharmaceuticals", productType: "supplements", ailments: ["womens-health","hormones"], label: "new", price_zar: 440, shortDesc: "4000mg Myo-Inositol daily dose for PCOS symptoms. Sugarfree, Halal, Vegan.", image: null },
+        { sku:"LAM-PRE004", name: "Prelox Male Enhancement 20 Caps", brand: "Lamelle Pharmaceuticals", productType: "supplements", ailments: ["mens-health","sexual-health"], label: "new", price_zar: 290, shortDesc: "Clinically proven L-Arginine & Pycnogenol for male sexual health.", image: null },
+        { sku:"LAM-PRE002", name: "Prelox Male Enhancement 60 Caps", brand: "Lamelle Pharmaceuticals", productType: "supplements", ailments: ["mens-health","sexual-health"], label: "new", price_zar: 795, shortDesc: "Clinically proven L-Arginine & Pycnogenol for male sexual health.", image: null },
+        { sku:"LAM-PRE001", name: "Prelox Male Fertility 60 Caps", brand: "Lamelle Pharmaceuticals", productType: "supplements", ailments: ["mens-health","fertility"], label: "new", price_zar: 795, shortDesc: "Improves sperm concentration 83% & morphology 93%. Halal, Vegan.", image: null },
+        { sku:"LAM-PRE005", name: "Lady Prelox Intimacy 60 Caps", brand: "Lamelle Pharmaceuticals", productType: "supplements", ailments: ["womens-health","sexual-health"], label: "new", price_zar: 795, shortDesc: "Patented female intimacy supplement with Pycnogenol & Rose Hip.", image: null },
+        { sku:"LAM-PRE006", name: "Lady Prelox Menopause 60 Caps", brand: "Lamelle Pharmaceuticals", productType: "supplements", ailments: ["womens-health","hormones"], label: "new", price_zar: 795, shortDesc: "4 plant-based ingredients for peri & post-menopausal women.", image: null },
+        // ── Bio Sculpture Gemini (nail gel) ──
+        { sku:"BS-601", name: "Gemini No.1 French White", brand: "Bio Sculpture", productType: "nail-care", ailments: ["beauty"], label: "in-store", price_zar: 70, shortDesc: "14ml UV/LED cured gel colour. Long-lasting, flexible.", image: null },
+        { sku:"BS-606", name: "Gemini No.6 Sugar Kiss", brand: "Bio Sculpture", productType: "nail-care", ailments: ["beauty"], label: "in-store", price_zar: 70, shortDesc: "14ml UV/LED cured gel colour.", image: null },
+        { sku:"BS-610", name: "Gemini No.10 Pinotage", brand: "Bio Sculpture", productType: "nail-care", ailments: ["beauty"], label: "in-store", price_zar: 70, shortDesc: "14ml UV/LED cured gel colour.", image: null },
+        { sku:"BS-615", name: "Gemini No.15 Wild Berry", brand: "Bio Sculpture", productType: "nail-care", ailments: ["beauty"], label: "popular", price_zar: 70, shortDesc: "14ml UV/LED cured gel colour.", image: null },
+        { sku:"BS-622", name: "Gemini No.22 Ravishing Red", brand: "Bio Sculpture", productType: "nail-care", ailments: ["beauty"], label: "popular", price_zar: 70, shortDesc: "14ml UV/LED cured gel colour.", image: null },
+        { sku:"BS-666", name: "Gemini No.66 Blanc", brand: "Bio Sculpture", productType: "nail-care", ailments: ["beauty"], label: "popular", price_zar: 70, shortDesc: "14ml UV/LED cured gel colour.", image: null },
+    ];
+
+    // ---- Cart ----
+    const CART_KEY = 'origin_potchefstroom_cart';
+
+    function getCart() {
+        try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; }
+    }
+
+    function saveCart(cart) {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        updateCartCount();
+        if (document.getElementById('cartDrawer').classList.contains('open')) {
+            renderCartDrawer();
+        }
+    }
+
+    function updateCartCount() {
+        var cart = getCart();
+        var total = cart.reduce(function(sum, item) { return sum + (item.qty || 1); }, 0);
+        document.getElementById('cartCount').textContent = total;
+        var badge = document.getElementById('cartDrawerCount');
+        if (badge) badge.textContent = total > 0 ? total : '';
+    }
+
+    function addToCart(product) {
+        var cart = getCart();
+        var existing = cart.find(function(i) { return i.name === product.name; });
+        if (existing) {
+            existing.qty = (existing.qty || 1) + 1;
+        } else {
+            cart.push({ name: product.name, brand: product.brand, price: product.price_zar, image: product.image || null, qty: 1 });
+        }
+        saveCart(cart);
+        showToast(product.name + ' added to cart');
+        openCart();
+    }
+
+    function changeQty(name, delta) {
+        var cart = getCart();
+        var item = cart.find(function(i) { return i.name === name; });
+        if (!item) return;
+        item.qty = (item.qty || 1) + delta;
+        if (item.qty < 1) {
+            cart = cart.filter(function(i) { return i.name !== name; });
+        }
+        saveCart(cart);
+    }
+
+    function removeFromCart(name) {
+        saveCart(getCart().filter(function(i) { return i.name !== name; }));
+    }
+
+    function cartTotal() {
+        return getCart().reduce(function(s, i) { return s + (i.price || 0) * (i.qty || 1); }, 0);
+    }
+
+    function renderCartDrawer() {
+        var cart = getCart();
+        var empty = document.getElementById('cartEmptyState');
+        var lines = document.getElementById('cartLineItems');
+        var footer = document.getElementById('cartDrawerFooter');
+        var subtotal = document.getElementById('cartSubtotal');
+
+        if (cart.length === 0) {
+            empty.style.display = 'flex';
+            lines.innerHTML = '';
+            footer.style.display = 'none';
+            return;
+        }
+
+        empty.style.display = 'none';
+        footer.style.display = 'block';
+        subtotal.textContent = 'R' + cartTotal().toFixed(0);
+
+        lines.innerHTML = cart.map(function(item) {
+            var imgHtml = item.image
+                ? '<img src="' + item.image + '" alt="" onerror="this.outerHTML=\'<i class=\\\"fas fa-seedling\\\"></i>\'">'
+                : '<i class="fas fa-seedling"></i>';
+            return '<div class="cart-line-item">' +
+                '<div class="cart-item-img">' + imgHtml + '</div>' +
+                '<div class="cart-item-info">' +
+                    '<div class="cart-item-name">' + item.name + '</div>' +
+                    '<div class="cart-item-brand">' + (item.brand || '') + '</div>' +
+                    '<div class="cart-item-controls">' +
+                        '<button class="qty-btn" onclick="changeQty(\'' + item.name.replace(/'/g, "\\'") + '\',-1)"><i class="fas fa-minus"></i></button>' +
+                        '<span class="qty-display">' + (item.qty || 1) + '</span>' +
+                        '<button class="qty-btn" onclick="changeQty(\'' + item.name.replace(/'/g, "\\'") + '\',1)"><i class="fas fa-plus"></i></button>' +
+                        '<button class="cart-item-remove" onclick="removeFromCart(\'' + item.name.replace(/'/g, "\\'") + '\')"><i class="fas fa-trash"></i> Remove</button>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="cart-item-price">R' + ((item.price || 0) * (item.qty || 1)).toFixed(0) + '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function openCart() {
+        renderCartDrawer();
+        document.getElementById('cartDrawer').classList.add('open');
+        document.getElementById('cartBackdrop').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCart() {
+        document.getElementById('cartDrawer').classList.remove('open');
+        document.getElementById('cartBackdrop').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function toggleCart() {
+        var drawer = document.getElementById('cartDrawer');
+        if (drawer.classList.contains('open')) { closeCart(); } else { openCart(); }
+    }
+
+    function checkoutWhatsApp() {
+        var cart = getCart();
+        if (cart.length === 0) return;
+        var lines = cart.map(function(i) { return '- ' + i.name + ' x' + (i.qty || 1) + ' = R' + ((i.price || 0) * (i.qty || 1)).toFixed(0); }).join('\n');
+        var msg = 'Hi Origin Potchefstroom, I would like to order:\n\n' + lines + '\n\nTotal: R' + cartTotal().toFixed(0) + '\n\nDelivery address: ';
+        window.open('https://wa.me/XXXXXX?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+    }
+
+    // ---- Delivery modal ----
+    var _currentDeliveryProduct = null;
+
+    function openDeliveryModal(product) {
+        _currentDeliveryProduct = product;
+        document.getElementById('modalProductName').textContent = product.name + ' — R' + product.price_zar.toFixed(0);
+        document.getElementById('deliveryAddress').value = '';
+        document.getElementById('deliveryNotes').value = '';
+        document.getElementById('deliveryModal').classList.add('open');
+    }
+
+    function closeDeliveryModal() {
+        document.getElementById('deliveryModal').classList.remove('open');
+        _currentDeliveryProduct = null;
+    }
+
+    function sendWhatsAppOrder() {
+        var address = document.getElementById('deliveryAddress').value.trim();
+        var notes = document.getElementById('deliveryNotes').value.trim();
+        if (!address) {
+            document.getElementById('deliveryAddress').focus();
+            return;
+        }
+        var product = _currentDeliveryProduct || { name: '[product]', price_zar: 0 };
+        var msg = 'Hi Origin Potchefstroom, I would like to order:\n\n'
+            + '- ' + product.name + ' (R' + product.price_zar.toFixed(0) + ')\n\n'
+            + 'Delivery address: ' + address;
+        if (notes) msg += '\nNotes: ' + notes;
+        var waUrl = 'https://wa.me/XXXXXX?text=' + encodeURIComponent(msg);
+        window.open(waUrl, '_blank', 'noopener');
+        closeDeliveryModal();
+        showToast('Opening WhatsApp with your order');
+    }
+
+    // Close modal on overlay click
+    document.getElementById('deliveryModal').addEventListener('click', function(e) {
+        if (e.target === this) closeDeliveryModal();
+    });
+
+    // ---- Filter state ----
+    var _allProducts = [];
+    var _currentType = 'all';
+    var _currentAilment = 'all';
+    var _currentSearch = '';
+
+    const AILMENT_LABELS = {
+        immunity: '🛡 Immunity',
+        energy: '⚡ Energy',
+        focus: '🧠 Focus',
+        stress: '🌿 Calm',
+        sleep: '🌙 Sleep',
+        gut: '🌱 Gut',
+        skin: '✨ Skin',
+        hair: '💅 Nails'
+    };
+
+    const TYPE_LABELS = {
+        capsules: 'Capsules',
+        tinctures: 'Tinctures',
+        powders: 'Powders',
+        bundles: 'Bundle',
+        supplements: 'Supplement',
+        'grow-kits': 'Grow Kit',
+        skincare: 'Skincare',
+        'nail-gel': 'Nail Gel',
+        'nail-care': 'Nail Gel',
+        pharmacy: 'Pharmacy'
+    };
+
+    function setTypeFilter(val) {
+        _currentType = val;
+        document.querySelectorAll('#typePills .filter-pill').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.type === val);
+        });
+        applyFilters();
+    }
+
+    function setAilmentFilter(val) {
+        _currentAilment = val;
+        document.querySelectorAll('#ailmentPills .filter-pill').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.ailment === val);
+        });
+        applyFilters();
+    }
+
+    function applyFilters() {
+        _currentSearch = (document.getElementById('productSearch').value || '').toLowerCase().trim();
+        var filtered = _allProducts.filter(function(p) {
+            var typeOk = _currentType === 'all' || p.productType === _currentType;
+            var ailmentOk = _currentAilment === 'all' || (p.ailments && p.ailments.indexOf(_currentAilment) !== -1);
+            var searchOk = !_currentSearch || (p.name || '').toLowerCase().indexOf(_currentSearch) !== -1 || (p.brand || '').toLowerCase().indexOf(_currentSearch) !== -1;
+            return typeOk && ailmentOk && searchOk;
+        });
+        renderProducts(filtered);
+    }
+
+    // ---- Product card builder ----
+    function buildProductCard(product) {
+        var card = document.createElement('div');
+        card.className = 'product-card';
+
+        var src = product.image || (Array.isArray(product.images) ? product.images[0] : null);
+        var imgHtml = src
+            ? '<img class="product-img" src="' + src + '" alt="' + product.name + '" loading="lazy" onerror="this.outerHTML=\'<div class=\\\"product-img-placeholder\\\"><i class=\\\"fas fa-seedling\\\"></i></div>\'">'
+            : '<div class="product-img-placeholder"><i class="fas fa-seedling"></i></div>';
+
+        var typeLabel = TYPE_LABELS[product.productType] || product.productType || product.type || 'Lifestyle';
+
+        var hasDiscount = product.compare_at_price_zar && product.compare_at_price_zar > product.price_zar;
+        var savePct = hasDiscount ? Math.round((1 - product.price_zar / product.compare_at_price_zar) * 100) : 0;
+
+        var priceHtml = product.price_zar
+            ? 'R' + parseFloat(product.price_zar).toFixed(0) + (hasDiscount ? '<span class="compare">R' + parseFloat(product.compare_at_price_zar).toFixed(0) + '</span>' : '')
+            : '[Price TBC]';
+
+        var ailmentChips = (product.ailments || []).map(function(a) {
+            return '<span class="ailment-chip">' + (AILMENT_LABELS[a] || a) + '</span>';
+        }).join('');
+
+        var LABEL_TEXT = { 'best-seller': '★ Best Seller', 'new': 'New', 'in-store': '🏪 In Store', 'popular': '🔥 Popular' };
+        var labelHtml = product.label ? '<div class="product-label ' + product.label + '">' + (LABEL_TEXT[product.label] || product.label) + '</div>' : '';
+
+        card.innerHTML =
+            '<div class="product-img-wrap">' +
+                labelHtml +
+                imgHtml +
+                '<div class="product-quick-add">' +
+                    '<button class="quick-add-cart"><i class="fas fa-shopping-bag"></i> Add to Cart</button>' +
+                    '<button class="quick-add-delivery"><i class="fas fa-motorcycle"></i> Deliver</button>' +
+                '</div>' +
+            '</div>' +
+            '<div class="product-body">' +
+                '<span class="product-badge">' + typeLabel + '</span>' +
+                '<div class="product-name">' + product.name + '</div>' +
+                '<div class="product-brand">' + (product.brand || '') + '</div>' +
+                (ailmentChips ? '<div class="product-ailments">' + ailmentChips + '</div>' : '') +
+            '</div>' +
+            '<div class="product-footer">' +
+                '<div class="product-price">' + priceHtml + '</div>' +
+                (savePct > 0 ? '<div class="product-save-badge">Save ' + savePct + '%</div>' : '') +
+            '</div>';
+
+        card.querySelector('.quick-add-cart').addEventListener('click', function(e) {
+            e.stopPropagation();
+            addToCart(product);
+        });
+
+        card.querySelector('.quick-add-delivery').addEventListener('click', function(e) {
+            e.stopPropagation();
+            openDeliveryModal(product);
+        });
+
+        card.querySelector('.product-body').addEventListener('click', function() {
+            openProductModal(product);
+        });
+        card.querySelector('.product-footer').addEventListener('click', function() {
+            openProductModal(product);
+        });
+
+        return card;
+    }
+
+    function renderProducts(products) {
+        var grid = document.getElementById('productGrid');
+        grid.innerHTML = '';
+        document.getElementById('productsLoading').style.display = 'none';
+        grid.style.display = 'grid';
+
+        if (products.length === 0) {
+            grid.innerHTML = '<div class="products-empty"><i class="fas fa-search"></i><p>No products match your filters.</p><p style="font-size:0.82rem;margin-top:0.5rem;color:var(--or-grey-3);">Try a different type or ailment.</p></div>';
+        } else {
+            products.forEach(function(p) { grid.appendChild(buildProductCard(p)); });
+        }
+
+        var countEl = document.getElementById('filterCount');
+        if (countEl) {
+            var total = _allProducts.length;
+            var shown = products.length;
+            countEl.innerHTML = shown < total
+                ? '<strong>' + shown + '</strong> of ' + total + ' products shown'
+                : '<strong>' + total + '</strong> products';
+        }
+    }
+
+    // ---- Load products (API → fallback) ----
+    function loadProducts() {
+        var apiUrl = (typeof Origin_CONFIG !== 'undefined' ? Origin_CONFIG.API_URL : (typeof API_URL !== 'undefined' ? API_URL : ''));
+        fetch(apiUrl + '/products?branch=potchefstroom&category=public')
+            .then(function(res) {
+                if (!res.ok) throw new Error('API ' + res.status);
+                return res.json();
+            })
+            .then(function(data) {
+                var products = Array.isArray(data) ? data : (data.products || data.data || []);
+                if (products.length === 0) throw new Error('empty');
+                _allProducts = products;
+                renderProducts(_allProducts);
+            })
+            .catch(function() {
+                _allProducts = FALLBACK_PRODUCTS;
+                renderProducts(_allProducts);
+            });
+    }
+
+    // ---- Nav scroll ----
+    window.addEventListener('scroll', function() {
+        var nav = document.getElementById('mainNav');
+        if (window.scrollY > 60) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    });
+
+    // ---- Mobile menu ----
+    function openMobileMenu() {
+        document.getElementById('mobileMenu').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+        document.getElementById('mobileMenu').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // Close mobile menu on backdrop
+    document.getElementById('mobileMenu').addEventListener('click', function(e) {
+        if (e.target === this) closeMobileMenu();
+    });
+
+    // ---- Toast ----
+    var _toastTimer = null;
+    function showToast(msg) {
+        var toast = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(_toastTimer);
+        _toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 3000);
+    }
+
+    // ---- Mobile cart bar ----
+    function updateMobileCartBar() {
+        var cart = getCart();
+        var count = cart.reduce(function(s,i){ return s+(i.qty||1); },0);
+        var total = cartTotal();
+        var bar = document.getElementById('mobileCartBar');
+        var badge = document.getElementById('mobileCartBadge');
+        var totalEl = document.getElementById('mobileCartTotal');
+        if (!bar) return;
+        if (badge) badge.textContent = count;
+        if (totalEl) totalEl.textContent = 'R' + total.toFixed(0);
+        if (count > 0) { bar.classList.add('visible'); }
+        else { bar.classList.remove('visible'); }
+    }
+
+    // ---- Product detail modal ----
+    var _pmProduct = null;
+    var _pmQty = 1;
+
+    function openProductModal(product) {
+        _pmProduct = product;
+        _pmQty = 1;
+        var overlay = document.getElementById('productModal');
+        var src = product.image || (Array.isArray(product.images) ? product.images[0] : null);
+        document.getElementById('pmImgWrap').innerHTML = src
+            ? '<img class="pm-img" src="' + src + '" alt="' + product.name + '" onerror="this.outerHTML=\'<div class=\\\"pm-img-placeholder\\\"><i class=\\\"fas fa-seedling\\\"></i></div>\'">'
+            : '<div class="pm-img-placeholder"><i class="fas fa-seedling"></i></div>';
+        document.getElementById('pmType').textContent = TYPE_LABELS[product.productType] || product.productType || 'Lifestyle';
+        document.getElementById('pmName').textContent = product.name;
+        document.getElementById('pmBrand').textContent = product.brand || '';
+        document.getElementById('pmAilments').innerHTML = (product.ailments || []).map(function(a){
+            return '<span class="pm-ailment-chip">' + (AILMENT_LABELS[a]||a) + '</span>';
+        }).join('');
+        document.getElementById('pmPrice').textContent = product.price_zar ? 'R' + parseFloat(product.price_zar).toFixed(0) : '[Price TBC]';
+        var cmp = document.getElementById('pmCompare');
+        var sav = document.getElementById('pmSave');
+        if (product.compare_at_price_zar && product.compare_at_price_zar > product.price_zar) {
+            cmp.textContent = 'R' + parseFloat(product.compare_at_price_zar).toFixed(0);
+            cmp.style.display = '';
+            var pct = Math.round((1-product.price_zar/product.compare_at_price_zar)*100);
+            sav.textContent = 'Save ' + pct + '%';
+            sav.style.display = '';
+        } else {
+            cmp.style.display = 'none';
+            sav.style.display = 'none';
+        }
+        document.getElementById('pmQtyVal').textContent = _pmQty;
+        document.getElementById('pmAddCart').onclick = function() {
+            for (var i=0; i<_pmQty; i++) addToCart(product);
+            closeProductModal();
+        };
+        document.getElementById('pmDeliver').onclick = function() {
+            closeProductModal();
+            openDeliveryModal(product);
+        };
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeProductModal(e) {
+        if (e && e.target !== document.getElementById('productModal')) return;
+        document.getElementById('productModal').classList.remove('open');
+        document.body.style.overflow = '';
+        _pmProduct = null;
+    }
+
+    function pmChangeQty(delta) {
+        _pmQty = Math.max(1, (_pmQty || 1) + delta);
+        document.getElementById('pmQtyVal').textContent = _pmQty;
+    }
+
+    // Patch saveCart to also update the mobile bar
+    var _origSaveCart = saveCart;
+    saveCart = function(cart) {
+        _origSaveCart(cart);
+        updateMobileCartBar();
+    };
+
+    // ---- Init ----
+    updateCartCount();
+    updateMobileCartBar();
+    loadProducts();
+    </script>
+</body>
+</html>
