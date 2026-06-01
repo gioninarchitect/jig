@@ -447,13 +447,40 @@ function getProductIcon(category) {
 }
 
 function searchProducts() {
-    const searchTerm = document.getElementById('productSearch').value.toLowerCase();
-    const filtered = allProducts.filter(p =>
-        p.name.toLowerCase().includes(searchTerm) ||
-        p.category.toLowerCase().includes(searchTerm)
-    );
+    const input = document.getElementById('productSearch');
+    const term = (input ? input.value : '').trim().toLowerCase();
+
+    // Empty search → restore the active group/category/brand view
+    if (!term) { applyFilters(); return; }
+
+    // Global search across ALL products — ignores group/category/brand filters
+    const tokens = term.split(/\s+/).filter(Boolean);
+    const filtered = allProducts.filter(p => {
+        const haystack = [
+            p.name,
+            p.brand,
+            p.supplier,
+            p.sku,
+            p.category,
+            ...(p.tags || [])
+        ].filter(Boolean).join(' ').toLowerCase();
+        // every typed word must appear somewhere
+        return tokens.every(t => haystack.includes(t));
+    });
     displayProducts(filtered);
 }
+
+// Wire search to BOTH keyup and input (on-screen keyboard dispatches 'input')
+(function wireSearch() {
+    function attach() {
+        const el = document.getElementById('productSearch');
+        if (!el) { setTimeout(attach, 500); return; }
+        el.addEventListener('input', searchProducts);
+        el.addEventListener('keyup', searchProducts);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attach);
+    else attach();
+})();
 
 function filterCategory(filter) {
     currentCategory = filter;
