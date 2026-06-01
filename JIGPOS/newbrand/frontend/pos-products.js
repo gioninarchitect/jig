@@ -1,6 +1,49 @@
 // ===== POS PRODUCTS MODULE =====
 // Product loading, display, categories, filtering, quick-add functions
 
+// ── Product Group (Cannabis / Wellness) ─────────────────────────────────────
+const CANNABIS_CATS = new Set(['flower','pre-rolls','edibles','concentrates','topicals','oils','lifestyle-cbd','accessories','glassware','vaporizers','vapes','bundles','la-brewha','bean-bud','coffee','merchandise']);
+const WELLNESS_CATS = new Set(['supplements','pharmacy','skincare','haircare','nail-care','wellness']);
+
+let activeGroup = 'cannabis';
+
+function selectGroup(group) {
+    activeGroup = group;
+    const cannabisRow   = document.getElementById('mainCategoryRow');
+    const wellnessRow   = document.getElementById('wellnessCategoryRow');
+    const grpCannabis   = document.getElementById('grpCannabis');
+    const grpWellness   = document.getElementById('grpWellness');
+
+    if (group === 'cannabis') {
+        cannabisRow.style.display  = 'flex';
+        wellnessRow.style.display  = 'none';
+        grpCannabis.style.borderColor  = '#22C55E';
+        grpCannabis.style.background   = 'rgba(34,197,94,0.15)';
+        grpCannabis.style.color        = '#22C55E';
+        grpWellness.style.borderColor  = '#333';
+        grpWellness.style.background   = 'transparent';
+        grpWellness.style.color        = '#999';
+        // Reset cannabis sub-tabs to ALL
+        document.querySelectorAll('#mainCategoryRow .category-tab').forEach(b => b.classList.remove('active'));
+        document.querySelector('#mainCategoryRow .category-tab[data-cat="all"]')?.classList.add('active');
+        selectedMainCategory = 'all';
+    } else {
+        cannabisRow.style.display  = 'none';
+        wellnessRow.style.display  = 'flex';
+        grpWellness.style.borderColor  = '#C9A84C';
+        grpWellness.style.background   = 'rgba(201,168,76,0.15)';
+        grpWellness.style.color        = '#C9A84C';
+        grpCannabis.style.borderColor  = '#333';
+        grpCannabis.style.background   = 'transparent';
+        grpCannabis.style.color        = '#999';
+        // Reset wellness sub-tabs to ALL
+        document.querySelectorAll('#wellnessCategoryRow .category-tab').forEach(b => b.classList.remove('active'));
+        document.querySelector('#wellnessCategoryRow .category-tab[data-cat="wellness-all"]')?.classList.add('active');
+        selectedMainCategory = 'wellness-all';
+    }
+    applyFilters();
+}
+
 // Track Selection
 function selectTrack(track) {
     currentTrack = track;
@@ -162,8 +205,17 @@ function selectProductType(type) {
 function applyFilters() {
     let filtered = [...allProducts];
 
+    // Group filter — show only products belonging to active group
+    if (activeGroup === 'cannabis') {
+        filtered = filtered.filter(p => !WELLNESS_CATS.has(p.category));
+    } else {
+        filtered = filtered.filter(p => WELLNESS_CATS.has(p.category));
+    }
+
     // Main category filter
-    if (selectedMainCategory !== 'all') {
+    if (selectedMainCategory === 'wellness-all') {
+        // show all wellness — already filtered above
+    } else if (selectedMainCategory !== 'all') {
         if (selectedMainCategory === 'flower') {
             filtered = filtered.filter(p => p.category === 'flower');
         } else if (selectedMainCategory === 'cbd') {
@@ -224,11 +276,14 @@ function displayProducts(products) {
         const stock = product.inventory?.quantity || 0;
         const stockClass = stock > 10 ? 'stock-in' : 'stock-low';
         const stockText = stock <= 10 ? 'LOW' : '';
+        const ic = getProductIconConfig(product.category);
 
         return `
             <div class="product-card" data-category="${product.category}" onclick='addToCart(${JSON.stringify(product)})'>
                 ${stockText ? `<span class="stock-badge ${stockClass}">${stockText}</span>` : ''}
-                <div class="product-icon">${getProductIcon(product.category)}</div>
+                <div class="product-icon" style="background:${ic.bg};border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                    <i class="${ic.fa}" style="color:${ic.color};font-size:1.6rem;"></i>
+                </div>
                 <div class="product-name">${product.name}</div>
                 <div class="product-sku">SKU: ${product.sku || '—'}${product.barcode ? ` | ${product.barcode}` : ''}</div>
                 <div class="product-price">R${product.price.toFixed(0)}</div>
@@ -238,34 +293,40 @@ function displayProducts(products) {
     }).join('');
 }
 
-function getProductIcon(category) {
-    const icons = {
-        // Cannabis categories — keep cannabis leaf
-        'flower': '<i class="fas fa-cannabis"></i>',
-        'pre-rolls': '<i class="fas fa-joint"></i>',
-        'edibles': '<i class="fas fa-cookie-bite"></i>',
-        'concentrates': '<i class="fas fa-eye-dropper"></i>',
-        'topicals': '<i class="fas fa-pump-medical"></i>',
-        'accessories': '<i class="fas fa-cannabis"></i>',
-        'glassware': '<i class="fas fa-wine-glass"></i>',
-        'vaporizers': '<i class="fas fa-smoking"></i>',
-        'lifestyle-cbd': '<i class="fas fa-leaf"></i>',
-        'oils': '<i class="fas fa-eye-dropper"></i>',
-        'bundles': '<i class="fas fa-gift"></i>',
-        // Hospitality
-        'coffee': '<i class="fas fa-coffee"></i>',
-        'merchandise': '<i class="fas fa-tshirt"></i>',
-        'la-brewha': '<i class="fas fa-mug-hot"></i>',
-        'bean-bud': '<i class="fas fa-seedling"></i>',
-        // Non-cannabis wellness categories
-        'supplements': '<i class="fas fa-capsules"></i>',
-        'pharmacy': '<i class="fas fa-prescription-bottle-alt"></i>',
-        'skincare': '<i class="fas fa-spa"></i>',
-        'haircare': '<i class="fas fa-wind"></i>',
-        'nail-care': '<i class="fas fa-paint-brush"></i>',
-        'wellness': '<i class="fas fa-heartbeat"></i>',
+function getProductIconConfig(category) {
+    const map = {
+        // ── Cannabis (green) ──────────────────────────────────────
+        'flower':        { fa: 'fas fa-cannabis',          color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
+        'pre-rolls':     { fa: 'fas fa-joint',             color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
+        'edibles':       { fa: 'fas fa-cookie-bite',       color: '#F59E0B', bg: 'rgba(245,158,11,0.14)'  },
+        'concentrates':  { fa: 'fas fa-flask',             color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
+        'topicals':      { fa: 'fas fa-pump-soap',         color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
+        'oils':          { fa: 'fas fa-eye-dropper',       color: '#22C55E', bg: 'rgba(34,197,94,0.14)'   },
+        'lifestyle-cbd': { fa: 'fas fa-leaf',              color: '#4ADE80', bg: 'rgba(74,222,128,0.14)'  },
+        'accessories':   { fa: 'fas fa-fire',              color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
+        'glassware':     { fa: 'fas fa-wine-glass',        color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
+        'vaporizers':    { fa: 'fas fa-cloud',             color: '#94A3B8', bg: 'rgba(148,163,184,0.14)' },
+        'vapes':         { fa: 'fas fa-cloud',             color: '#94A3B8', bg: 'rgba(148,163,184,0.14)' },
+        'bundles':       { fa: 'fas fa-gift',              color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
+        // ── Pharmacy / Wellness (blue–purple) ────────────────────
+        'supplements':   { fa: 'fas fa-pills',             color: '#60A5FA', bg: 'rgba(96,165,250,0.14)'  },
+        'pharmacy':      { fa: 'fas fa-mortar-pestle',     color: '#818CF8', bg: 'rgba(129,140,248,0.14)' },
+        'skincare':      { fa: 'fas fa-pump-soap',         color: '#F472B6', bg: 'rgba(244,114,182,0.14)' },
+        'haircare':      { fa: 'fas fa-scissors',          color: '#F472B6', bg: 'rgba(244,114,182,0.14)' },
+        'nail-care':     { fa: 'fas fa-hand-sparkles',     color: '#C084FC', bg: 'rgba(192,132,252,0.14)' },
+        'wellness':      { fa: 'fas fa-heart-pulse',       color: '#C9A84C', bg: 'rgba(201,168,76,0.14)'  },
+        // ── Hospitality (amber) ───────────────────────────────────
+        'coffee':        { fa: 'fas fa-mug-hot',           color: '#FBBF24', bg: 'rgba(251,191,36,0.14)'  },
+        'merchandise':   { fa: 'fas fa-shirt',             color: '#9CA3AF', bg: 'rgba(156,163,175,0.14)' },
+        'la-brewha':     { fa: 'fas fa-mug-hot',           color: '#FBBF24', bg: 'rgba(251,191,36,0.14)'  },
+        'bean-bud':      { fa: 'fas fa-seedling',          color: '#34D399', bg: 'rgba(52,211,153,0.14)'  },
     };
-    return icons[category] || '<i class="fas fa-box-open"></i>';
+    return map[category] || { fa: 'fas fa-box-open', color: '#9CA3AF', bg: 'rgba(156,163,175,0.14)' };
+}
+
+function getProductIcon(category) {
+    const c = getProductIconConfig(category);
+    return `<i class="${c.fa}" style="color:${c.color};"></i>`;
 }
 
 function searchProducts() {

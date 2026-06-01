@@ -1821,7 +1821,18 @@
 
             <!-- Category Hierarchy - 3 Level -->
             <div id="categoryHierarchy">
-                <!-- Main Categories -->
+                <!-- Group Toggle: CANNABIS / WELLNESS -->
+                <div style="display:flex;gap:8px;margin-bottom:8px;">
+                    <button id="grpCannabis" onclick="selectGroup('cannabis')"
+                        style="flex:1;padding:10px 14px;border-radius:10px;border:2px solid #22C55E;background:rgba(34,197,94,0.15);color:#22C55E;font-family:'Inter',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:1px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;">
+                        <i class="fas fa-cannabis"></i> CANNABIS
+                    </button>
+                    <button id="grpWellness" onclick="selectGroup('wellness')"
+                        style="flex:1;padding:10px 14px;border-radius:10px;border:2px solid #333;background:transparent;color:#999;font-family:'Inter',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:1px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;">
+                        <i class="fas fa-pills"></i> WELLNESS &amp; PHARMACY
+                    </button>
+                </div>
+                <!-- Cannabis Sub-categories -->
                 <div class="category-tabs" id="mainCategoryRow">
                     <button class="category-tab active" data-cat="all" onclick="selectMainCategory('all')">ALL</button>
                     <button class="category-tab" data-cat="flower" onclick="selectMainCategory('flower')">FLOWER</button>
@@ -1831,6 +1842,16 @@
                     <button class="category-tab" data-cat="oils" onclick="selectMainCategory('oils')">OILS</button>
                     <button class="category-tab" data-cat="cbd" onclick="selectMainCategory('cbd')">CBD</button>
                     <button class="category-tab" data-cat="accessories" onclick="selectMainCategory('accessories')">ACCESSORIES</button>
+                </div>
+                <!-- Wellness Sub-categories -->
+                <div class="category-tabs" id="wellnessCategoryRow" style="display:none;">
+                    <button class="category-tab active" data-cat="wellness-all" onclick="selectMainCategory('wellness-all')">ALL</button>
+                    <button class="category-tab" data-cat="supplements" onclick="selectMainCategory('supplements')"><i class="fas fa-pills" style="color:#60A5FA;margin-right:4px;"></i>SUPPLEMENTS</button>
+                    <button class="category-tab" data-cat="pharmacy" onclick="selectMainCategory('pharmacy')"><i class="fas fa-mortar-pestle" style="color:#818CF8;margin-right:4px;"></i>PHARMACY</button>
+                    <button class="category-tab" data-cat="skincare" onclick="selectMainCategory('skincare')"><i class="fas fa-pump-soap" style="color:#F472B6;margin-right:4px;"></i>SKINCARE</button>
+                    <button class="category-tab" data-cat="nail-care" onclick="selectMainCategory('nail-care')"><i class="fas fa-hand-sparkles" style="color:#C084FC;margin-right:4px;"></i>NAIL GEL</button>
+                    <button class="category-tab" data-cat="wellness" onclick="selectMainCategory('wellness')"><i class="fas fa-heart-pulse" style="color:#C9A84C;margin-right:4px;"></i>WELLNESS</button>
+                    <button class="category-tab" data-cat="haircare" onclick="selectMainCategory('haircare')"><i class="fas fa-scissors" style="color:#F472B6;margin-right:4px;"></i>HAIR</button>
                 </div>
                 <!-- Grow Method Row (for FLOWER) - Same style as Stock Take App -->
                 <div id="growMethodRow" style="display: none; flex-wrap: nowrap; gap: 8px; margin-bottom: 8px; padding: 10px; background: rgba(63, 192, 65, 0.3); border-radius: 8px; border-left: 3px solid var(--green);">
