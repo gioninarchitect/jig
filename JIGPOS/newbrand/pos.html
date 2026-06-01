@@ -229,6 +229,24 @@
             -webkit-overflow-scrolling: touch;
         }
 
+        /* Brand filter chips */
+        .brand-chip {
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid #333;
+            background: transparent;
+            color: #999;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s;
+        }
+        .brand-chip:hover { border-color: #C9A84C; color: #C9A84C; }
+        .brand-chip.active { background: rgba(201,168,76,0.15); border-color: #C9A84C; color: #C9A84C; }
+
         #mainCategoryRow .category-tab {
             flex-shrink: 0;
             padding: 8px 12px;
@@ -1845,6 +1863,9 @@
                     <button class="category-tab" data-cat="cbd" onclick="selectMainCategory('cbd')">CBD</button>
                     <button class="category-tab" data-cat="accessories" onclick="selectMainCategory('accessories')">ACCESSORIES</button>
                 </div>
+                <!-- Brand Filter Row (dynamic, shown when 2+ brands in view) -->
+                <div id="brandFilterRow" style="display:none;flex-wrap:nowrap;gap:6px;margin-bottom:6px;overflow-x:auto;padding:2px 0;"></div>
+
                 <!-- Wellness Sub-categories -->
                 <div class="category-tabs" id="wellnessCategoryRow" style="display:none;">
                     <button class="category-tab active" data-cat="wellness-all" onclick="selectMainCategory('wellness-all')">ALL</button>

@@ -6,6 +6,56 @@ const CANNABIS_CATS = new Set(['flower','pre-rolls','edibles','concentrates','to
 const WELLNESS_CATS = new Set(['supplements','pharmacy','skincare','haircare','nail-care','wellness','teas']);
 
 let activeGroup = 'cannabis';
+let selectedBrand = null;
+
+// Extract weight (grams/ml) from product name for unit price
+function extractWeight(name) {
+    const m = (name || '').match(/(\d+(?:\.\d+)?)\s*(g|ml|kg)\b/i);
+    if (!m) return null;
+    let val = parseFloat(m[1]);
+    const unit = m[2].toLowerCase();
+    if (unit === 'kg') val *= 1000;
+    return { grams: val, unit: unit === 'ml' ? 'ml' : 'g' };
+}
+
+function getUnitPrice(product) {
+    const w = extractWeight(product.name);
+    if (!w || w.grams <= 1) return null;
+    const perUnit = product.price / w.grams;
+    return `R${perUnit.toFixed(2)}/${w.unit}`;
+}
+
+function renderBrandFilter(products) {
+    const container = document.getElementById('brandFilterRow');
+    if (!container) return;
+    // Extract unique brands/suppliers from current filtered set
+    const brands = [...new Set(
+        products
+            .map(p => p.brand || p.supplier || (p.tags || []).find(t => ['lamelle','bio-sculpture','harmonic-mycology','origin-teas'].includes(t)))
+            .filter(Boolean)
+    )];
+    if (brands.length < 2) { container.style.display = 'none'; return; }
+    container.style.display = 'flex';
+    container.innerHTML = `
+        <button class="brand-chip${!selectedBrand ? ' active' : ''}" onclick="selectBrand(null)">All</button>
+        ${brands.map(b => `<button class="brand-chip${selectedBrand === b ? ' active' : ''}" onclick="selectBrand('${b}')">${formatBrandName(b)}</button>`).join('')}
+    `;
+}
+
+function formatBrandName(b) {
+    const map = {
+        'lamelle': 'Lamelle', 'bio-sculpture': 'Bio Sculpture',
+        'harmonic-mycology': 'HM Mycology', 'origin-teas': 'Origin Teas',
+        'Lamelle Pharmaceuticals': 'Lamelle', 'Bio Sculpture': 'Bio Sculpture',
+        'Harmonic Mycology': 'HM', 'Origin Teas': 'Origin Teas'
+    };
+    return map[b] || b;
+}
+
+function selectBrand(brand) {
+    selectedBrand = brand;
+    applyFilters();
+}
 
 function selectGroup(group) {
     activeGroup = group;
@@ -225,6 +275,20 @@ function applyFilters() {
         }
     }
 
+    // Brand filter
+    if (selectedBrand) {
+        filtered = filtered.filter(p => {
+            const tags = p.tags || [];
+            return p.brand === selectedBrand || p.supplier === selectedBrand || tags.includes(selectedBrand);
+        });
+    }
+
+    // Update brand chips based on category-filtered set (before brand filter)
+    const preBrandFiltered = activeGroup === 'cannabis'
+        ? allProducts.filter(p => !WELLNESS_CATS.has(p.category))
+        : allProducts.filter(p => WELLNESS_CATS.has(p.category));
+    renderBrandFilter(preBrandFiltered);
+
     // Grow method filter (Indoor/Greendoor)
     if (selectedGrowMethod) {
         filtered = filtered.filter(p => {
@@ -277,6 +341,8 @@ function displayProducts(products) {
         const stockClass = stock > 10 ? 'stock-in' : 'stock-low';
         const stockText = stock <= 10 ? 'LOW' : '';
         const ic = getProductIconConfig(product.category);
+        const unitPrice = getUnitPrice(product);
+        const brandLabel = product.brand || product.supplier || '';
 
         return `
             <div class="product-card" data-category="${product.category}" onclick='addToCart(${JSON.stringify(product)})'>
@@ -285,8 +351,8 @@ function displayProducts(products) {
                     <i class="${ic.fa}" style="color:${ic.color};font-size:1.6rem;"></i>
                 </div>
                 <div class="product-name">${product.name}</div>
-                <div class="product-sku">SKU: ${product.sku || '—'}${product.barcode ? ` | ${product.barcode}` : ''}</div>
-                <div class="product-price">R${product.price.toFixed(0)}</div>
+                ${brandLabel ? `<div class="product-sku" style="color:${ic.color};opacity:0.8;">${formatBrandName(brandLabel)}</div>` : `<div class="product-sku">SKU: ${product.sku || '—'}</div>`}
+                <div class="product-price">R${product.price.toFixed(0)}${unitPrice ? `<span style="font-size:0.7rem;opacity:0.6;margin-left:4px;">${unitPrice}</span>` : ''}</div>
                 <div class="product-stock">${stock.toFixed(1)}</div>
             </div>
         `;
