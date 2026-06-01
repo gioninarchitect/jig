@@ -15,7 +15,7 @@ const INGREDIENTS = [
   {
     id: 'blue-lotus',
     name: 'Blue Lotus',
-    icon: 'ph-flower-lotus-fill',
+    icon: 'ph-flower-fill',
     color: '#818CF8',
     flavour: 'Floral, subtle sweet',
     benefits: ['Relaxation & calm', 'Vivid dreaming', 'Mild euphoria', 'Stress relief'],
@@ -99,7 +99,7 @@ const INGREDIENTS = [
   {
     id: 'passionflower',
     name: 'Passionflower',
-    icon: 'ph-star-four-fill',
+    icon: 'ph-sparkle-fill',
     color: '#F472B6',
     flavour: 'Mild, earthy, slightly floral',
     benefits: ['Deep relaxation', 'Insomnia relief', 'Anxiety & racing thoughts', 'Natural sedative'],
@@ -289,6 +289,14 @@ const View = {
       }
       target.classList.remove(enterClass);
       target.classList.add('screen--active');
+
+      // Safety: always re-render ingredient/boost grids when wizard screen activates
+      if (screenIndex === 3) {
+        const grid = document.getElementById('ingredient-grid');
+        const boostGrid = document.getElementById('boost-grid');
+        if (grid && grid.children.length === 0) View.renderIngredientGrid();
+        if (boostGrid && boostGrid.children.length === 0) View.renderBoostGrid();
+      }
     });
 
     State.currentScreen = screenIndex;
@@ -381,7 +389,7 @@ const View = {
     const topBenefits = item.benefits.slice(0, 2);
 
     li.innerHTML = `
-      <div class="card-checkmark" aria-hidden="true"><i class="ph-check-bold"></i></div>
+      <div class="card-checkmark" aria-hidden="true"><i class="ph-check-fill"></i></div>
       <i class="${item.icon} card-icon" aria-hidden="true" style="color:${item.color}"></i>
       <span class="card-name">${item.name}</span>
       <div class="card-benefits">
