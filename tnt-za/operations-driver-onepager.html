@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin · TnT-ZA — The Operations Driver</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --amber:#F59E0B; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',sans-serif; background:#070707; color:var(--txt); line-height:1.5; }
+  .toolbar{ position:fixed; top:12px; right:12px; z-index:50; }
+  .toolbar button{ background:var(--gold); color:#1a1a1a; border:none; padding:10px 16px; border-radius:9px; font-weight:700; cursor:pointer; }
+  .page{ max-width:820px; margin:0 auto; padding:0 24px 40px; }
+  .hero{ text-align:center; padding:34px 20px 18px; background:radial-gradient(circle at 50% 0%, #1f1a10, #070707 72%); }
+  .lockup b{ font-family:'Cinzel'; letter-spacing:6px; color:var(--gold); font-size:1.25rem; display:block; }
+  .lockup em{ font-style:normal; color:#8a8472; font-size:.58rem; letter-spacing:4px; text-transform:uppercase; }
+  .rule{ width:54px; height:3px; background:var(--gold); margin:16px auto; border-radius:2px; }
+  h1{ font-family:'Cinzel'; font-size:1.55rem; color:#fff; }
+  .sub{ color:var(--gold); font-style:italic; font-size:.98rem; margin-top:6px; }
+  .lead{ background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:0 12px 12px 0; padding:14px 18px; margin:18px 0; color:#e6e0d2; font-size:.95rem; }
+  h2{ font-family:'Cinzel'; color:var(--gold); font-size:1.05rem; margin:24px 0 10px; }
+  .built{ display:flex; flex-wrap:wrap; gap:7px; }
+  .chip{ background:rgba(34,197,94,.1); border:1px solid rgba(34,197,94,.35); color:var(--green); font-size:.74rem; padding:5px 11px; border-radius:20px; font-weight:600; }
+  .chip .t{ color:var(--grey); font-weight:400; }
+  .loop{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:6px; }
+  .step{ background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:14px 13px; }
+  .step svg{ width:24px; height:24px; stroke:var(--gold); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+  .step .n{ font-family:'Cinzel'; color:#fff; font-size:.92rem; margin:8px 0 4px; }
+  .step .d{ color:#cfc6ad; font-size:.78rem; }
+  .step .tag{ font-size:.6rem; color:var(--amber); text-transform:uppercase; letter-spacing:.5px; }
+  .step .tag.ok{ color:var(--green); }
+  .two{ display:grid; grid-template-columns:1.1fr 1fr; gap:14px; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:16px 18px; }
+  .card p{ color:#d8d2c2; font-size:.88rem; }
+  .card .role{ font-family:'JetBrains Mono'; font-size:.72rem; color:var(--gold); margin-top:8px; }
+  .phases{ counter-reset:p; }
+  .ph{ display:flex; gap:12px; align-items:flex-start; padding:9px 0; border-bottom:1px solid #1c1912; }
+  .ph .num{ width:24px; height:24px; border-radius:50%; border:1.5px solid var(--line); color:var(--grey); display:flex; align-items:center; justify-content:center; font-size:.78rem; flex-shrink:0; }
+  .ph.now .num{ background:var(--gold); border-color:var(--gold); color:#1a1a1a; }
+  .ph .txt{ font-size:.88rem; color:#d8d2c2; } .ph.now .txt b{ color:var(--gold); }
+  .ph .badge{ font-size:.6rem; color:var(--gold); border:1px solid var(--gold-d); border-radius:20px; padding:2px 8px; text-transform:uppercase; letter-spacing:.5px; margin-left:6px; }
+  .pitch{ background:linear-gradient(135deg,#1a1408,#15130d); border:1px solid var(--gold-d); border-radius:14px; padding:16px 20px; margin-top:22px; color:#e8dcc0; font-size:.95rem; font-style:italic; text-align:center; }
+  .foot{ text-align:center; color:#6f6a5d; font-size:.74rem; margin-top:22px; border-top:1px solid var(--line); padding-top:14px; }
+  @media print{ *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; } @page{ size:A4; margin:0; } .toolbar{ display:none; } body{ background:#070707; } .step,.card,.lead,.pitch,.ph{ break-inside:avoid; } }
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">Save as PDF</button></div>
+<div class="hero">
+  <div class="lockup"><b>ORIGIN</b><em>by ILCO Farming · TnT-ZA</em></div>
+  <div class="rule"></div>
+  <h1>The Operations Driver</h1>
+  <div class="sub">Every role, run by an AI co-pilot.</div>
+</div>
+<div class="page">
+  <div class="lead">A shift from a system that <b>stores data</b> to one that <b>drives the work</b>. Each role gets an AI co-pilot grounded in its <b>SOPs and KPIs</b> that says <b>what to do now</b>, raises the <b>ticket</b> the moment something slips, and <b>allocates the day's work</b> — across the farm and every network pharmacy.</div>
+
+  <h2>Most of the engine is already built</h2>
+  <div class="built">
+    <span class="chip">Per-role AI Q&amp;A <span class="t">15+ roles</span></span>
+    <span class="chip">KPI engine <span class="t">targets + live</span></span>
+    <span class="chip">Smart tickets <span class="t">auto-route + escalate</span></span>
+    <span class="chip">SOP → training + tasks</span>
+    <span class="chip">World model + risk</span>
+    <span class="chip">Event bus</span>
+  </div>
+  <p style="color:var(--grey);font-size:.82rem;margin-top:8px;">The Driver connects them into a loop. It is thin glue + one rules engine — not a rebuild.</p>
+
+  <h2>How it drives — the loop</h2>
+  <div class="loop">
+    <div class="step"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.6"/></svg><div class="n">Sense</div><div class="d">Events + a scheduled tick keep state &amp; KPIs live.</div><div class="tag">new · small</div></div>
+    <div class="step"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3z"/><path d="m9 12 2 2 4-4.5"/></svg><div class="n">Evaluate</div><div class="d">One rules engine spots KPI breaches, anomalies, overdue SOPs.</div><div class="tag">new · core</div></div>
+    <div class="step"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4a3 1.4 0 0 1 6 0M9 10h6M9 13.5h6M9 17h4"/></svg><div class="n">Act</div><div class="d">Auto-creates tickets / CAPA / tasks &amp; allocates — reusing what exists.</div><div class="tag ok">reuse</div></div>
+    <div class="step"><svg viewBox="0 0 24 24"><rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3"/><path d="M8.5 14h7"/></svg><div class="n">Surface</div><div class="d">Each role's co-pilot opens with their live "what to do now" queue.</div><div class="tag ok">extend chat</div></div>
+  </div>
+
+  <h2>What a role sees</h2>
+  <div class="two">
+    <div class="card"><p>The co-pilot doesn't wait to be asked. It opens with <b>"Here's your shift"</b> — today's SOP checklist, KPI status (green/amber), and the action queue. Ask it anything in your role's language; it answers from your SOPs &amp; live state, and can <b>act</b> (close a ticket, complete a task, accept an allocation).</p><div class="role">FM · Nursery Mgr · Nursery Staff · Cultivation Mgr/Head Grower · Processing · QA · RP</div></div>
+    <div class="card"><p style="color:#e6e0d2;"><b>Driven, not passive:</b></p><p style="margin-top:6px;">· Clone rooting drops below 85% → ticket to the Nursery Manager.<br>· An SOP goes overdue → training + task auto-raised.<br>· Weight variance fires → QA + FM alerted, batch flagged.<br>· The day's SOP workload → auto-allocated across the shift.</p></div>
+  </div>
+
+  <h2>How we roll it out</h2>
+  <div class="phases">
+    <div class="ph now"><div class="num">1</div><div class="txt"><b>Close the loop</b> — events + tick + the rules engine produce a read-only "what to do now" feed. <span class="badge">Start here</span> <i style="color:var(--grey)">prove the brain before it acts.</i></div></div>
+    <div class="ph"><div class="num">2</div><div class="txt">Wire it to <b>act</b> — drivers become tickets &amp; tasks, auto-routed.</div></div>
+    <div class="ph"><div class="num">3</div><div class="txt">Per-role <b>Action Queue + co-pilot</b> — SOPs &amp; KPIs injected, with memory.</div></div>
+    <div class="ph"><div class="num">4</div><div class="txt"><b>Auto-allocation</b> — fill the shift from the day's SOP workload.</div></div>
+    <div class="ph"><div class="num">5</div><div class="txt"><b>Executable chat</b> — the co-pilot runs actions, with audit.</div></div>
+  </div>
+
+  <div class="pitch">Wire the heartbeat into a rules engine that reads the KPIs, anomalies and SOPs you already compute, turns breaches into the tickets you already auto-route, and hands every role a live "what to do now" — inside the assistant you already have.</div>
+
+  <div class="foot">Origin · by ILCO Farming · TnT-ZA — The Operations Driver · 6 June 2026 · engineering design: <span style="font-family:'JetBrains Mono'">docs/operations-driver-design.md</span></div>
+</div>
+</body>
+</html>

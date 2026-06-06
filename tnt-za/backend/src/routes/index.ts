@@ -38,6 +38,8 @@ import ghostAuditRoutes from './ghost-audit.routes';
 import conciergeRoutes from './concierge.routes';
 import chatRoutes from './chat.routes';
 import labelRoutes from './labels.routes';
+import originRoutes from './origin.routes';
+import driverRoutes from './driver.routes';
 
 const router = Router();
 
@@ -71,6 +73,7 @@ router.use('/transport', transportRoutes);
 router.use('/anomalies', anomalyRoutes);
 router.use('/qms', qmsRoutes);
 router.use('/world-model', worldModelRoutes);
+router.use('/driver', driverRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/facilities', facilityRoutes);
 router.use('/audit', auditRoutes);
@@ -79,6 +82,7 @@ router.use('/audit/ghost', ghostAuditRoutes);
 router.use('/concierge', conciergeRoutes);
 router.use('/chat', chatRoutes);
 router.use('/labels', labelRoutes);
+router.use('/origin', originRoutes);
 
 router.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'tnt-za', timestamp: new Date().toISOString() });

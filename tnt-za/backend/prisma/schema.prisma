@@ -1921,3 +1921,22 @@ model HarvestRequest {
   @@index([tenantId])
   @@index([status])
 }
+
+model DriverItem {
+  id          String   @id @default(uuid())
+  tenantId    String
+  role        String
+  severity    String   @default("MEDIUM")
+  sourceType  String
+  title       String
+  detail      String?
+  evidence    Json?
+  linkUrl     String?
+  dedupeKey   String
+  status      String   @default("OPEN")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([tenantId, dedupeKey])
+  @@index([tenantId, role, status])
+}

@@ -23,6 +23,7 @@ import ForecastWidget from './widgets/ForecastWidget';
 import GrowCalendarSnapshot from './widgets/GrowCalendarSnapshot';
 import ApprovalsWaitingBanner from '../../components/ApprovalsWaitingBanner';
 import BottleneckRadarWidget from './widgets/BottleneckRadarWidget';
+import ActionQueueWidget from './widgets/ActionQueueWidget';
 import FMHeroStatusBar from '../../components/FMHeroStatusBar';
 
 // Lightweight section divider — bold visual grouping for the FM dashboard.
@@ -87,6 +88,7 @@ export default function DashboardPage() {
       <SetupBannerWidget />
       <NotificationsWidget />
       <ApprovalsWaitingBanner />
+      <ActionQueueWidget />
       <StatCardsWidget />
 
       {/* ═══ OWNER / ADMIN — 360 Command Centre ═══ */}
