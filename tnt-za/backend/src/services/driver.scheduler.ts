@@ -2,6 +2,7 @@ import { prisma } from '../config/db';
 import { eventBus } from './eventBus';
 import { evaluate } from './driver.service';
 import { escalateStaleTickets } from './smart-tickets.service';
+import { runIntegrityCheck } from './integrity.service';
 
 const TICK_MS = 15 * 60 * 1000; // 15 min
 let running = false;
@@ -40,8 +41,8 @@ export function startDriver() {
   };
   ['ANOMALY_RESOLVED', 'TASK_CREATED', 'TASK_COMPLETED', 'SOP_GOVERNANCE_SYNCED', 'BATCH_QUARANTINED']
     .forEach((evt) => eventBus.on(evt, trigger));
-  // scheduled heartbeat
-  setInterval(() => evaluateAllTenants('tick'), TICK_MS);
+  // scheduled heartbeat (+ data-integrity self-check)
+  setInterval(() => { runIntegrityCheck('tick'); evaluateAllTenants('tick'); }, TICK_MS);
   // run once on boot
   evaluateAllTenants('boot');
   console.log('[driver] started — 15m tick + event listeners');
