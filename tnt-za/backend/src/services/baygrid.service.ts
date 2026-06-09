@@ -538,6 +538,50 @@ export async function updateTicket(id: string, data: {
   reopen?: boolean;
   actorId?: string;  // userId of the person performing the update — used for closedBy / reopenedBy audit
 }) {
+  // ── Sign-off rail-guard ──────────────────────────────────────────────────
+  // Compliance tickets cannot reach CLOSED/COMPLETED without the enforced
+  // sign-off chain: evidence (resolution), RP review, AR approval where the
+  // type needs it, in order, signed by people who actually hold the role.
+  const COMPLIANCE_TICKET_TYPES = new Set([
+    'QMS_GOVERNANCE', 'RP_SIGNOFF', 'BCR_REVIEW', 'GMP_FINDING', 'LABEL_CONTROL', 'APPROVAL', 'COMPLIANCE_APPROVAL',
+  ]);
+  const NEED_AR_APPROVAL = new Set(['RP_SIGNOFF', 'BCR_REVIEW', 'APPROVAL', 'COMPLIANCE_APPROVAL']);
+  const AR_ROLES = new Set(['TENANT_ADMIN', 'SUPER_ADMIN']);
+  const guardFail = (status: number, message: string): never => {
+    throw Object.assign(new Error(message), { status });
+  };
+
+  const existing = await prisma.ticket.findUnique({
+    where: { id },
+    select: { ticketType: true, rpSignedById: true, approvedById: true, resolution: true },
+  });
+  if (!existing) guardFail(404, 'Ticket not found');
+
+  const isClosing = !data.reopen && (
+    (!!data.status && ['CLOSED', 'COMPLETED'].includes(data.status)) || !!data.approvedById
+  );
+
+  if (isClosing && COMPLIANCE_TICKET_TYPES.has(existing!.ticketType)) {
+    const postRp = data.rpSignedById || existing!.rpSignedById;
+    const postAr = data.approvedById || existing!.approvedById;
+    const postResolution = data.resolution || existing!.resolution;
+    if (!postResolution) guardFail(400, 'A resolution / evidence note is required to close a compliance ticket.');
+    if (!postRp) guardFail(403, 'Responsible Pharmacist sign-off is required before this compliance ticket can close.');
+    if (NEED_AR_APPROVAL.has(existing!.ticketType) && !postAr) guardFail(403, 'Authorised Representative (Tenant Admin) approval is required to release this ticket.');
+    if (data.approvedById && !postRp) guardFail(400, 'RP review must be recorded before AR approval.');
+  }
+
+  // Signer authority — the sign-off must be by someone who actually holds the role.
+  if (data.rpSignedById) {
+    const signer = await prisma.user.findUnique({ where: { id: data.rpSignedById }, select: { role: true } });
+    if (!signer || signer.role !== 'RESPONSIBLE_PHARMACIST') guardFail(403, 'Only the Responsible Pharmacist can record the RP sign-off.');
+  }
+  if (data.approvedById) {
+    const approver = await prisma.user.findUnique({ where: { id: data.approvedById }, select: { role: true } });
+    if (!approver || !AR_ROLES.has(approver.role)) guardFail(403, 'Only an Authorised Representative (Tenant Admin) can approve release.');
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
   const updates: any = {};
   if (data.status) updates.status = data.status;
   if (data.assignedToId !== undefined) updates.assignedToId = data.assignedToId || null;
