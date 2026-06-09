@@ -1,6 +1,7 @@
 import { prisma } from '../config/db';
 import { eventBus } from './eventBus';
 import { evaluate } from './driver.service';
+import { escalateStaleTickets } from './smart-tickets.service';
 
 const TICK_MS = 15 * 60 * 1000; // 15 min
 let running = false;
@@ -16,6 +17,13 @@ async function evaluateAllTenants(reason: string) {
         console.log(`[driver] ${reason} tenant=${t.id} upserted=${r.upserted}`);
       } catch (e: any) {
         console.error(`[driver] evaluate failed tenant=${t.id}:`, e.message);
+      }
+      // SLA guardrail — overdue tickets escalate (4h→HIGH, 24h→CRITICAL+FM).
+      try {
+        const esc = await escalateStaleTickets(t.id);
+        if (esc.escalated) console.log(`[driver] ${reason} tenant=${t.id} escalated=${esc.escalated}`);
+      } catch (e: any) {
+        console.error(`[driver] escalate failed tenant=${t.id}:`, e.message);
       }
     }
   } finally {
