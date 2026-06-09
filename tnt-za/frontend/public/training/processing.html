@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TnT-ZA Training — Processing / Trimmer</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#0D6B3D;--primary-light:#10A85C;--dark:#1A1A2E;--dark-2:#0f0f1a;--surface:#16213E;--text:#F5F5F5;--text-mid:#A0A0B0;--text-dim:#606070;--danger:#DC3545;--warning:#E8A317;--success:#198754;--border:rgba(255,255,255,0.08)}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);line-height:1.7}.hero{background:linear-gradient(135deg,var(--dark-2),var(--surface));border-bottom:3px solid var(--primary);padding:3rem 2rem;text-align:center}.hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:.5rem}.hero .role-badge{display:inline-block;background:var(--primary);color:#fff;padding:.4rem 1.2rem;border-radius:999px;font-size:.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem}.hero p{color:var(--text-mid);max-width:600px;margin:0 auto}.container{max-width:800px;margin:0 auto;padding:2rem 1.5rem}.acc{margin-bottom:.75rem}.acc-header{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s;user-select:none}.acc-header:hover{border-color:var(--primary)}.acc-header.open{border-radius:12px 12px 0 0;border-color:var(--primary);background:rgba(13,107,61,.1)}.acc-header h3{font-size:1rem;font-weight:600}.acc-header .chevron{transition:transform .2s;color:var(--text-dim)}.acc-header.open .chevron{transform:rotate(180deg);color:var(--primary)}.acc-body{display:none;background:rgba(22,33,62,.5);border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;padding:1.25rem}.acc-body.open{display:block}.acc-body p{color:var(--text-mid);margin-bottom:1rem}.acc-body ul{color:var(--text-mid);padding-left:1.5rem;margin-bottom:1rem}.acc-body li{margin-bottom:.4rem}.acc-body code{font-family:'JetBrains Mono',monospace;background:rgba(13,107,61,.15);color:var(--primary-light);padding:.15rem .4rem;border-radius:4px;font-size:.85rem}.acc-body strong{color:var(--text)}.section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-dim);margin:2rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}.alert{background:rgba(220,53,69,.1);border:1px solid rgba(220,53,69,.3);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;color:#f08888;font-size:.9rem}.alert strong{color:#ff6b6b}.info-box{background:rgba(13,107,61,.1);border:1px solid rgba(13,107,61,.3);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;color:var(--primary-light);font-size:.9rem}footer{text-align:center;padding:2rem;color:var(--text-dim);font-size:.8rem;border-top:1px solid var(--border);margin-top:3rem}
+</style>
+<link rel="stylesheet" href="/training/training-brand.css">
+</head>
+<body>
+<div class="hero">
+  <div class="role-badge">Processing / Trimmer</div>
+  <h1>TnT-ZA Training Guide</h1>
+  <p>You turn wet harvest into clean, weighed, packed product. Every gram you handle is reconciled — issued weight in must equal trimmed, waste and returned weight out. Your weights register is the chain-of-custody.</p>
+</div>
+<div class="container">
+
+<div class="alert"><strong>Issued must reconcile to returned.</strong> At the end of every trim shift your row must balance: <strong>Issued = Flos + M-L + Trimmings + Sticks/Seeds + Untrimmed</strong>. A per-trimmer gap over 5% is a flag and will be queried by QA.</div>
+
+<div class="section-label">Getting Started</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>How to Log In</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul><li>Go to <code>https://tntilco.cleva-ai.co.za</code></li><li>Enter your ILCO email &rarr; a 6-digit PIN is emailed to you &rarr; enter the PIN</li><li>Session lasts 24 hours, then log in again</li></ul>
+<p>Use the same device the farm gives you. If the PIN email does not arrive, tell the Facility Manager — do not share another person's login.</p>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>What You See (Processing Access)</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<p>Your menu is built for the processing floor:</p>
+<ul>
+<li><strong>My Shift</strong> — clock in/out, your assigned trim sessions</li>
+<li><strong>Tickets &amp; Checklists</strong> — jobs and cleaning/task lists assigned to you</li>
+<li><strong>Scan &amp; Tag</strong> — scan container and batch labels at every step</li>
+<li><strong>Batches &amp; Containers</strong> — the product you are working on</li>
+<li><strong>Trim Sessions</strong> — record per-trimmer weights</li>
+<li><strong>Dispatch</strong> — packed product leaving the area</li>
+</ul>
+<p>You do not see Lab results, COA issue, or QMS authoring — those belong to QA and management. That is by design.</p>
+</div></div>
+
+<div class="section-label">The Processing Flow (Your Core Job)</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>1. Receiving Wet Material</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<p>When harvested plants arrive in the receiving area:</p>
+<ul>
+<li>Scan the container — confirm the batch number and strain on screen match the label</li>
+<li>Confirm the load matches what was sent (type of stock, weight)</li>
+<li>If anything does not match, it is <strong>rejected and segregated</strong> — do not move it into drying</li>
+<li>Receiving must be signed — never receive product without recording who received it</li>
+</ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>2. Drying (Batch Record)</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<p>Drying runs against the batch's drying record:</p>
+<ul>
+<li>Record <strong>strain, batch number, batch size in</strong></li>
+<li>Keep drying conditions inside the target envelope — <strong>temperature 15–25&deg;C, relative humidity 50–60%</strong> (confirm the current ILCO target on the room SOP)</li>
+<li>Conditions out of range for more than ~30 minutes must be raised as a deviation</li>
+<li>Record the <strong>actual dry output weight</strong> when the batch leaves drying — this is the input to trimming</li>
+</ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>3. Trimming &amp; Your Weights Register</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<p>This is where your accountability lives. On the <strong>Trim Sessions</strong> page:</p>
+<ul>
+<li>You are <strong>issued</strong> a weight to trim — recorded against your name</li>
+<li>At the end you return, by category: <strong>Flos (flower), M-L, Trimmings, Sticks/Seeds, Untrimmed</strong></li>
+<li>The system totals your row and checks it against your issued weight</li>
+<li>Every trimmer who worked the shift must have a row — no missing rows</li>
+<li>The grand total must reconcile back to the batch input</li>
+</ul>
+<div class="info-box">Think of it as a balance: nothing should "disappear." If your numbers don't add up, weigh again before you sign off — a clean register protects you.</div>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>4. Weighing &amp; Pack-out</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul>
+<li>Final product is weighed in the weighing &amp; pack area and reconciled: <strong>Gross &rarr; Waste &rarr; Net &rarr; Loss%</strong></li>
+<li>Scan the container at pack-out so the weight is tied to the batch</li>
+<li>Large unexplained losses fire a weight-variance alert to management — expect to be asked what happened</li>
+</ul>
+</div></div>
+
+<div class="section-label">Quality Discipline (Why It Matters)</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Daily Balance Verification</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul>
+<li>Before weighing, the balance must be <strong>levelled and stabilised</strong> and checked with a known reference mass</li>
+<li>If the balance fails the check: <strong>take it offline, raise a deviation, log the service call</strong> — do not keep weighing on a suspect scale</li>
+<li>A wrong scale makes every batch weight wrong, so this 2-minute check protects the whole day</li>
+</ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Cleaning &amp; Sanitizer Rotation</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul>
+<li>Cleaning is logged per area with a <strong>date, per-task tick, and a QC/QA sign-off</strong></li>
+<li><strong>Rotate sanitizers</strong> — do not use the same chemical two days running (resistance risk)</li>
+<li>Wash bay and hallways are shared cross-flow points — a missed clean there contaminates clean rooms downstream</li>
+<li>Record it as you do it, not at the end of the week from memory</li>
+</ul>
+</div></div>
+
+<div class="section-label">Daily Routine</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Your Day, Start to Finish</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul>
+<li>Clock in on <strong>My Shift</strong></li>
+<li>Check <strong>Checklists</strong> — your cleaning and task list for today</li>
+<li>Verify the balance before any weighing</li>
+<li>Scan every container in and out — never move product without a scan</li>
+<li>Record your trim weights as you finish each issue, while the numbers are fresh</li>
+<li>Reconcile and sign your weights register before you leave</li>
+<li>Clock out</li>
+</ul>
+</div></div>
+
+</div>
+<footer>TnT-ZA Track &amp; Trace — ILCO Farms / Origin by ILCO Farming<br>Training documentation v1.0 &middot; Regulatory references are operational placeholders pending QA sign-off</footer>
+<script>function toggle(el){const body=el.nextElementSibling;const isOpen=el.classList.contains('open');document.querySelectorAll('.acc-header.open').forEach(h=>{h.classList.remove('open');h.nextElementSibling.classList.remove('open')});if(!isOpen){el.classList.add('open');body.classList.add('open')}}</script>
+</body>
+</html>

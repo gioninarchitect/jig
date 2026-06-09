@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TnT-ZA Training — Quality Assurance</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#0D6B3D;--primary-light:#10A85C;--dark:#1A1A2E;--dark-2:#0f0f1a;--surface:#16213E;--text:#F5F5F5;--text-mid:#A0A0B0;--text-dim:#606070;--danger:#DC3545;--warning:#E8A317;--success:#198754;--border:rgba(255,255,255,0.08)}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);line-height:1.7}.hero{background:linear-gradient(135deg,var(--dark-2),var(--surface));border-bottom:3px solid var(--primary);padding:3rem 2rem;text-align:center}.hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:.5rem}.hero .role-badge{display:inline-block;background:var(--primary);color:#fff;padding:.4rem 1.2rem;border-radius:999px;font-size:.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem}.hero p{color:var(--text-mid);max-width:600px;margin:0 auto}.container{max-width:800px;margin:0 auto;padding:2rem 1.5rem}.acc{margin-bottom:.75rem}.acc-header{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s;user-select:none}.acc-header:hover{border-color:var(--primary)}.acc-header.open{border-radius:12px 12px 0 0;border-color:var(--primary);background:rgba(13,107,61,.1)}.acc-header h3{font-size:1rem;font-weight:600}.acc-header .chevron{transition:transform .2s;color:var(--text-dim)}.acc-header.open .chevron{transform:rotate(180deg);color:var(--primary)}.acc-body{display:none;background:rgba(22,33,62,.5);border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;padding:1.25rem}.acc-body.open{display:block}.acc-body p{color:var(--text-mid);margin-bottom:1rem}.acc-body ul{color:var(--text-mid);padding-left:1.5rem;margin-bottom:1rem}.acc-body li{margin-bottom:.4rem}.acc-body code{font-family:'JetBrains Mono',monospace;background:rgba(13,107,61,.15);color:var(--primary-light);padding:.15rem .4rem;border-radius:4px;font-size:.85rem}.acc-body strong{color:var(--text)}.section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-dim);margin:2rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}.alert{background:rgba(220,53,69,.1);border:1px solid rgba(220,53,69,.3);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;color:#f08888;font-size:.9rem}.alert strong{color:#ff6b6b}.info-box{background:rgba(13,107,61,.1);border:1px solid rgba(13,107,61,.3);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;color:var(--primary-light);font-size:.9rem}footer{text-align:center;padding:2rem;color:var(--text-dim);font-size:.8rem;border-top:1px solid var(--border);margin-top:3rem}
+</style>
+<link rel="stylesheet" href="/training/training-brand.css">
+</head>
+<body>
+<div class="hero">
+  <div class="role-badge">Quality Assurance</div>
+  <h1>TnT-ZA Training Guide</h1>
+  <p>You are the quality gate. Nothing reaches a patient or a shelf until you have reviewed the testing, the records and the deviations. You decide what is released, what is quarantined, and what needs a corrective action.</p>
+</div>
+<div class="container">
+
+<div class="info-box">You log in under the <strong>Lab</strong> role. That gives you the Lab &amp; COA tools plus the full compliance section — SOP Library, Anomalies, QMS and the Audit Trail. The site itself is your quality system.</div>
+
+<div class="section-label">Getting Started</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>How to Log In</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul><li>Go to <code>https://tntilco.cleva-ai.co.za</code></li><li>Enter your ILCO email &rarr; a 6-digit PIN is emailed to you &rarr; enter the PIN</li><li>Session lasts 24 hours, then log in again</li></ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>What You See (Quality Access)</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul>
+<li><strong>Batches &amp; Containers</strong> — what's in process and its current state</li>
+<li><strong>Lab &amp; COA</strong> — record test results, issue Certificates of Analysis</li>
+<li><strong>SOP Library</strong> — every SOP, who has acknowledged it</li>
+<li><strong>QMS</strong> — deviations, CAPA, equipment calibration</li>
+<li><strong>Anomalies</strong> — open weight-variance and compliance alerts</li>
+<li><strong>Audit Trail</strong> — the tamper-evident record of everything that happened</li>
+</ul>
+<p>If you also need to perform the formal <strong>QA Sign-Off / batch-release</strong> screen and it does not appear in your menu, tell the Facility Manager during training — your access level may need to be lifted for that step. (Note this on the day so we set it correctly.)</p>
+</div></div>
+
+<div class="section-label">The Quality Gate (Your Core Job)</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Lab Results &amp; Certificates of Analysis</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul>
+<li>On <strong>Lab &amp; COA</strong>, record each test against the batch (test type, result, pass/fail)</li>
+<li>A batch that <strong>fails</strong> testing must not move forward — it goes to quarantine</li>
+<li>When testing passes and records are complete, you issue the <strong>COA</strong> — the document that says this batch is fit for release</li>
+<li>The COA carries a QR code and is part of the permanent record</li>
+</ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Quarantine &amp; Release</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<p>You hold the gate between "made" and "released":</p>
+<ul>
+<li><strong>Quarantine</strong> a batch the moment there is doubt — failed test, open deviation, unresolved weight variance</li>
+<li>A quarantined batch is locked from dispatch until you clear it</li>
+<li>Release only when: testing passed, records complete, deviations closed</li>
+</ul>
+<div class="alert"><strong>When in doubt, quarantine.</strong> It is always cheaper to hold a batch than to recall it.</div>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>The Sign-Off Chain</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<p>Batch records move through a chain — your review is the quality step in the middle:</p>
+<ul>
+<li><strong>Production complete</strong> — the processing team finishes and signs the batch record</li>
+<li><strong>QA review</strong> — you check the record is complete and correct, and that conditions stayed in range</li>
+<li><strong>Release</strong> — final authorisation that the batch may leave</li>
+</ul>
+<p>An incomplete sign-off chain is one of the most common audit findings. A blank signature box is a finding — chase it before it becomes one.</p>
+</div></div>
+
+<div class="section-label">QMS — Keeping the System Honest</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Deviations &amp; CAPA</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul>
+<li>When work departs from an SOP, a <strong>deviation</strong> is recorded with a severity</li>
+<li>You add the <strong>root cause</strong> and the <strong>CAPA</strong> (corrective &amp; preventive action), then close it</li>
+<li>A deviation linked to a batch keeps that batch in quarantine until closed</li>
+<li>Repeated deviations on the same SOP signal a real process problem — not just paperwork</li>
+</ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>SOP Library &amp; Training Acknowledgement</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul>
+<li>Every SOP is versioned in the <strong>SOP Library</strong>; staff acknowledge each version</li>
+<li>You can see <strong>who has and has not acknowledged</strong> — chase the gaps</li>
+<li>When an SOP changes, the old acknowledgements no longer count — staff must re-acknowledge</li>
+<li>This is your evidence that the team was trained on the current method</li>
+</ul>
+</div></div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Equipment Calibration</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul>
+<li>Scales and instruments are registered with calibration dates</li>
+<li>The system warns when calibration is <strong>due within 7 days</strong></li>
+<li>A failed balance check should appear here as a deviation — confirm it was taken offline</li>
+</ul>
+</div></div>
+
+<div class="section-label">Daily Routine</div>
+
+<div class="acc"><div class="acc-header" onclick="toggle(this)"><h3>Your Quality Walk-through</h3><span class="chevron">&#9660;</span></div><div class="acc-body">
+<ul>
+<li><strong>Anomalies</strong> — any open weight-variance or compliance alerts overnight?</li>
+<li><strong>Lab</strong> — pending tests to action; any failed batches to quarantine?</li>
+<li><strong>QMS</strong> — deviations awaiting root cause / CAPA closure</li>
+<li><strong>SOP Library</strong> — acknowledgement gaps to chase</li>
+<li><strong>Calibration</strong> — anything due this week</li>
+<li>Review and clear (or hold) any batch waiting on your sign-off</li>
+</ul>
+</div></div>
+
+</div>
+<footer>TnT-ZA Track &amp; Trace — ILCO Farms / Origin by ILCO Farming<br>Training documentation v1.0 &middot; Regulatory references are operational placeholders pending QA sign-off</footer>
+<script>function toggle(el){const body=el.nextElementSibling;const isOpen=el.classList.contains('open');document.querySelectorAll('.acc-header.open').forEach(h=>{h.classList.remove('open');h.nextElementSibling.classList.remove('open')});if(!isOpen){el.classList.add('open');body.classList.add('open')}}</script>
+</body>
+</html>
