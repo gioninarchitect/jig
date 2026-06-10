@@ -2,6 +2,7 @@ import { prisma } from '../config/db';
 import { BayStatus, MotherStatus, CloneTrayStatus } from '@prisma/client';
 import { eventBus } from './eventBus';
 import { createIndividualClones } from './clone.service';
+import { logAction } from './audit.service';
 
 // ── GREENHOUSES ──
 
@@ -613,7 +614,26 @@ export async function updateTicket(id: string, data: {
       updates.reopenedAt = new Date();
     }
   }
-  return prisma.ticket.update({ where: { id }, data: updates });
+  const saved = await prisma.ticket.update({ where: { id }, data: updates });
+
+  // [W7.4] Audit every compliance-relevant transition — append-only, hash-chained.
+  if (data.actorId) {
+    const actions: string[] = [];
+    if (updates.status && ['CLOSED', 'COMPLETED'].includes(updates.status)) actions.push('TICKET_CLOSED');
+    if (data.rpSignedById) actions.push('TICKET_RP_SIGNED');
+    if (data.approvedById) actions.push('TICKET_AR_APPROVED');
+    if (data.reopen) actions.push('TICKET_REOPENED');
+    for (const action of actions) {
+      try {
+        await logAction({
+          userId: data.actorId, tenantId: saved.tenantId, action,
+          entityType: 'Ticket', entityId: saved.id,
+          after: { status: saved.status, ticketType: saved.ticketType, rpSignedById: saved.rpSignedById, approvedById: saved.approvedById },
+        });
+      } catch (e: any) { console.error('[audit] ticket transition log failed:', e.message); }
+    }
+  }
+  return saved;
 }
 
 export async function addTicketComment(data: { ticketId: string; content: string; photo?: string; userId: string }) {
