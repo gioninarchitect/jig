@@ -55,6 +55,23 @@ export async function checkIntegrity(): Promise<IntegrityResult> {
   return result;
 }
 
+/**
+ * Tenant set for automation — the UNION of Tenant rows AND distinct tenantIds
+ * actually present in operational data. This means no data is ever silently
+ * skipped because its tenant lacks a Tenant row (the orphan bug). Always
+ * includes every registered Tenant even if it has no data yet.
+ */
+export async function getActiveTenantIds(): Promise<string[]> {
+  const rows = await prisma.$queryRawUnsafe<{ id: string }[]>(
+    `SELECT id FROM "Tenant"
+     UNION SELECT DISTINCT "tenantId" FROM "Ticket"        WHERE "tenantId" IS NOT NULL
+     UNION SELECT DISTINCT "tenantId" FROM "GrowSchedule"  WHERE "tenantId" IS NOT NULL
+     UNION SELECT DISTINCT "tenantId" FROM "TaskTemplate"  WHERE "tenantId" IS NOT NULL
+     UNION SELECT DISTINCT "tenantId" FROM "TrainingRecord" WHERE "tenantId" IS NOT NULL`,
+  );
+  return rows.map((r) => r.id).filter(Boolean);
+}
+
 export async function runIntegrityCheck(reason = 'boot'): Promise<IntegrityResult> {
   try {
     const r = await checkIntegrity();

@@ -2,7 +2,7 @@ import { prisma } from '../config/db';
 import { eventBus } from './eventBus';
 import { evaluate } from './driver.service';
 import { escalateStaleTickets } from './smart-tickets.service';
-import { runIntegrityCheck } from './integrity.service';
+import { runIntegrityCheck, getActiveTenantIds } from './integrity.service';
 
 const TICK_MS = 15 * 60 * 1000; // 15 min
 let running = false;
@@ -11,8 +11,11 @@ async function evaluateAllTenants(reason: string) {
   if (running) return; // never overlap
   running = true;
   try {
-    const tenants = await prisma.tenant.findMany({ select: { id: true } });
-    for (const t of tenants) {
+    // Tenant set derived from DATA (not just the Tenant table) so no data is
+    // ever silently skipped because its tenant lacks a Tenant row. [W10.2]
+    const tenantIds = await getActiveTenantIds();
+    for (const tid of tenantIds) {
+      const t = { id: tid };
       try {
         const r = await evaluate(t.id);
         console.log(`[driver] ${reason} tenant=${t.id} upserted=${r.upserted}`);
