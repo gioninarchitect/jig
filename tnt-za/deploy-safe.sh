@@ -17,7 +17,7 @@
 set -euo pipefail
 SERVER="tr-api"                 # ssh alias for root@154.66.197.199
 APPDIR="/var/www/tnt-za/backend"
-HEALTH="http://127.0.0.1:3002/api/health"
+HEALTH="http://127.0.0.1:6000/api/health"   # the real app port (.env PORT=6000); 3002 is a stale zombie process
 
 echo "▸ 1/6 build (tsc → dist)"
 ( cd backend && npm run build )

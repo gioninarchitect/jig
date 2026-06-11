@@ -88,6 +88,39 @@ router.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'tnt-za', timestamp: new Date().toISOString() });
 });
 
+// Full health/observability — process, DB, data-integrity, Driver liveness, per-tenant counts.
+// This is the surface that would have made the tenant-split visible early. [W10.5]
+router.get('/health/full', async (_req, res) => {
+  const { prisma } = require('../config/db');
+  const { lastIntegrity, runIntegrityCheck } = require('../services/integrity.service');
+  const { getDriverHealth } = require('../services/driver.scheduler');
+  const out: any = { service: 'tnt-za', timestamp: new Date().toISOString() };
+  try {
+    // DB reachable
+    await prisma.$queryRawUnsafe('SELECT 1');
+    out.db = 'reachable';
+    // Integrity (use cached if present, else run once)
+    out.integrity = lastIntegrity() || (await runIntegrityCheck('health'));
+    // Driver heartbeat liveness
+    out.driver = getDriverHealth();
+    // Per-tenant counts of key tables (would surface orphan/empty tenants)
+    const counts = await prisma.$queryRawUnsafe(
+      `SELECT t.id AS "tenantId", t.name,
+         (SELECT count(*)::int FROM "User" u WHERE u."tenantId"=t.id)         AS users,
+         (SELECT count(*)::int FROM "Ticket" k WHERE k."tenantId"=t.id)        AS tickets,
+         (SELECT count(*)::int FROM "TaskTemplate" tt WHERE tt."tenantId"=t.id AND tt.active) AS templates
+       FROM "Tenant" t`,
+    );
+    out.tenants = counts;
+    out.status = out.integrity?.ok && !out.driver?.stale ? 'ok' : 'degraded';
+    res.status(out.status === 'ok' ? 200 : 503).json(out);
+  } catch (e: any) {
+    out.status = 'error';
+    out.error = e.message;
+    res.status(503).json(out);
+  }
+});
+
 // Cultivation SOP surfaces — digitised paper SOPs (3-CUL / 8-CLN / 4-FAC)
 router.use('/', cultivationSopsRoutes);
 

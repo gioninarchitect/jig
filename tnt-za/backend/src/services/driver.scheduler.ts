@@ -7,6 +7,13 @@ import { runIntegrityCheck, getActiveTenantIds } from './integrity.service';
 const TICK_MS = 15 * 60 * 1000; // 15 min
 let running = false;
 
+// Heartbeat liveness — surfaced on /health/full so a stalled Driver is visible.
+let lastRun: { at: string; reason: string; tenantsProcessed: number } | null = null;
+export function getDriverHealth() {
+  const stale = lastRun ? (Date.now() - new Date(lastRun.at).getTime()) > 2 * TICK_MS : true;
+  return { lastRun, tickMs: TICK_MS, stale };
+}
+
 async function evaluateAllTenants(reason: string) {
   if (running) return; // never overlap
   running = true;
@@ -14,6 +21,7 @@ async function evaluateAllTenants(reason: string) {
     // Tenant set derived from DATA (not just the Tenant table) so no data is
     // ever silently skipped because its tenant lacks a Tenant row. [W10.2]
     const tenantIds = await getActiveTenantIds();
+    lastRun = { at: new Date().toISOString(), reason, tenantsProcessed: tenantIds.length };
     for (const tid of tenantIds) {
       const t = { id: tid };
       try {
