@@ -64,5 +64,14 @@ router.post('/image-upload', authenticateToken, requireRole(['admin', 'owner', '
 
 // Stock management
 router.patch('/:id/stock', authenticateToken, requireRole(['admin', 'owner', 'inventory_manager', 'branch_manager']), controller.updateStock);
+router.patch('/:id/quick-edit', authenticateToken, controller.quickEdit);
+const sm = require('../controllers/stockmanage.controller');
+const { requireApprovalCode } = require('../middleware/approvalCode');
+router.get('/manage/list', authenticateToken, controller.manageList);
+router.get('/manage/audit', authenticateToken, sm.auditList);
+router.patch('/:id/manage', authenticateToken, requireApprovalCode, sm.manageProduct);
+router.post('/manage/create', authenticateToken, requireApprovalCode, sm.createProduct);
+router.delete('/:id/manage', authenticateToken, requireApprovalCode, sm.deleteProduct);
+router.post('/manage/bulk-delete', authenticateToken, requireApprovalCode, sm.bulkDelete);
 
 module.exports = router;

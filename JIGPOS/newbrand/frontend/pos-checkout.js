@@ -17,7 +17,7 @@ function closePaymentModal() {
 }
 
 function updatePaymentTotal() {
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (1 + VAT_RATE);
+    const total = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)).total;
     document.getElementById('paymentTotal').textContent = `R ${total.toFixed(2)}`;
 }
 
@@ -74,10 +74,34 @@ async function uploadProof() {
 // Track current completed sale for receipt actions
 let currentCompletedSale = null;
 
+// Day-end safety: a sale must land on TODAY's open shift.
+// Returns true if it is safe to proceed; otherwise prompts the cashier to open today's shift and returns false.
+// Catches both "no open shift" (trade-after-close) and a stale shift left open overnight (cross-day rollover).
+function ensureOpenShiftForSale() {
+    const s = (typeof currentTillSession !== 'undefined') ? currentTillSession : null;
+    const openedToday = s && s.openedAt &&
+        (new Date(s.openedAt).toDateString() === new Date().toDateString());
+    if (s && openedToday) return true;
+
+    const msg = s
+        ? 'This till has been open since ' + new Date(s.openedAt).toLocaleDateString('en-ZA') +
+          ' and was never closed. Close yesterday’s shift and open today’s before ringing up a sale.'
+        : 'No shift is open. Open today’s shift before ringing up a sale.';
+    if (typeof _originShowConfirm === 'function') {
+        _originShowConfirm(msg, function () {
+            if (typeof manageTillSession === 'function') manageTillSession();
+        }, { title: 'Open Today’s Shift', confirmText: 'Open Shift', cancelText: 'Not Now', icon: 'fa-cash-register', type: 'warning' });
+    } else {
+        showToast('No Open Shift', msg, 'error');
+    }
+    return false;
+}
+
 async function completeSale(paymentMethod, reference, paymentNotes = null) {
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const vat = subtotal * VAT_RATE;
-    const total = subtotal + vat;
+    if (!ensureOpenShiftForSale()) return;
+    // VAT-INCLUSIVE: the cart total is the price charged; VAT is the portion within it.
+    const _b = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0));
+    const total = _b.total, vat = _b.vat, subtotal = _b.net;
 
     // Get user's branch from session
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
@@ -119,9 +143,27 @@ async function completeSale(paymentMethod, reference, paymentNotes = null) {
             // Store completed sale for receipt actions
             currentCompletedSale = data.sale;
 
+            // Auto-print slip + kick drawer via local print agent (silent, no PDF/dialog)
+            try {
+                const cashGiven = paymentMethod === 'cash'
+                    ? parseFloat(document.getElementById('cashReceived')?.value || '0') : null;
+                const u = JSON.parse(sessionStorage.getItem('user') || '{}');
+                printSaleSlip({
+                    saleNumber: data.sale.saleNumber,
+                    date: new Date().toLocaleString('en-ZA'),
+                    cashier: u.firstName || '',
+                    branchName: 'Potchefstroom',
+                    items: saleData.items.map(i => ({ name: i.name, quantity: i.quantity, unitPrice: i.unitPrice })),
+                    subtotal, vat, total,
+                    paymentMethod,
+                    cashGiven,
+                    change: (cashGiven != null) ? Math.max(0, cashGiven - total) : null
+                });
+            } catch (e) { /* agent optional */ }
+
             // Show Sale Complete modal
             document.getElementById('saleCompleteNumber').textContent = data.sale.saleNumber;
-            document.getElementById('saleCompleteTotal').textContent = `R${data.sale.totalAmount.toFixed(2)}`;
+            document.getElementById('saleCompleteTotal').textContent = `R${(data.sale.totalAmount || 0).toFixed(2)}`;
             document.getElementById('receiptEmail').value = data.sale.customerEmail || '';
             document.getElementById('saleCompleteModal').classList.add('active');
 
@@ -136,6 +178,16 @@ async function completeSale(paymentMethod, reference, paymentNotes = null) {
         console.error('Sale error:', error);
         showToast('Error', 'Error completing sale. Please try again.', 'error');
     });
+}
+
+// Send a sale to the local print agent (127.0.0.1:9999) — silent ESC/POS print + drawer.
+// Best-effort: if the agent isn't installed/running, fails quietly and the manual print button still works.
+function printSaleSlip(payload) {
+    fetch('http://127.0.0.1:9999/print', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    }).catch(() => { /* print agent not reachable — ignore */ });
 }
 
 function downloadReceipt(saleId) {
@@ -225,7 +277,7 @@ function initSplitPayments() {
 }
 
 function renderSplitPayments() {
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (1 + VAT_RATE);
+    const total = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)).total;
     const container = document.getElementById('splitPaymentContainer');
 
     if (!container) return;
@@ -294,7 +346,8 @@ function updateSplitAmount(index, amount) {
 }
 
 async function completeSplitPayment() {
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (1 + VAT_RATE);
+    if (!ensureOpenShiftForSale()) return;
+    const total = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)).total;
     const paidAmount = splitPayments.reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0);
 
     if (paidAmount < total) {
@@ -302,8 +355,8 @@ async function completeSplitPayment() {
         return;
     }
 
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const vat = subtotal * VAT_RATE;
+    const _bs = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0));
+    const subtotal = _bs.net, vat = _bs.vat;
 
     // Get user's branch from session
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
@@ -345,7 +398,7 @@ async function completeSplitPayment() {
             closePaymentModal();
             currentCompletedSale = data.sale;
             document.getElementById('saleCompleteNumber').textContent = data.sale.saleNumber;
-            document.getElementById('saleCompleteTotal').textContent = `R${data.sale.totalAmount.toFixed(2)}`;
+            document.getElementById('saleCompleteTotal').textContent = `R${(data.sale.totalAmount || 0).toFixed(2)}`;
             document.getElementById('receiptEmail').value = selectedCustomer?.email || '';
             document.getElementById('saleCompleteModal').classList.add('active');
 
@@ -370,7 +423,7 @@ function attachCashChangeListener() {
     if (cashInput) {
         cashInput.addEventListener('input', function() {
             const received = parseFloat(this.value) || 0;
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (1 + VAT_RATE);
+            const total = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)).total;
             const change = Math.max(0, received - total);
             document.getElementById('changeDue').textContent = `R ${change.toFixed(2)}`;
         });

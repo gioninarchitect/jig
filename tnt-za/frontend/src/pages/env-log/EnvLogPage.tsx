@@ -6,6 +6,7 @@ import { useToastStore } from '../../stores/toastStore';
 import { SkeletonTable } from '../../components/Skeleton';
 import Modal, { ModalInput, ModalButton } from '../../components/Modal';
 import SOPHeader from '../../components/SOPHeader';
+import { FACILITY_ZONES, zoneFamily } from '../../constants/facilityZones';
 import { Thermometer, Plus, TrendingUp, TrendingDown } from 'lucide-react';
 import api from '../../services/api';
 
@@ -16,7 +17,9 @@ import api from '../../services/api';
 // reading is flagged pass/warn/fail based on the zone's target range.
 // =====================================================================
 
-type Zone = 'CLONE_ROOM' | 'GREENHOUSE';
+type Zone = string;
+// mother rooms share greenhouse-like env targets until a dedicated mother target exists
+const FAMILY_KEY: Record<string, 'CLONE_ROOM' | 'GREENHOUSE'> = { MOTHER: 'GREENHOUSE', CLONE: 'CLONE_ROOM', GREENHOUSE: 'GREENHOUSE' };
 
 const ZONE_CONFIG: Record<Zone, {
   label: string; effective: string;
@@ -52,12 +55,12 @@ export default function EnvLogPage() {
   const qc = useQueryClient();
   const canLog = hasMinLevel(1);
 
-  const [zone, setZone] = useState<Zone>('GREENHOUSE');
+  const [zone, setZone] = useState<Zone>('GH1');
   const [showLog, setShowLog] = useState(false);
   const [slot, setSlot] = useState<'08:00' | '11:50' | '16:50'>('08:00');
   const [form, setForm] = useState({ temp: '', rh: '', batchNo: '', strainId: '' });
 
-  const config = ZONE_CONFIG[zone];
+  const config = ZONE_CONFIG[FAMILY_KEY[zoneFamily(zone)]];
 
   const { data: readings, isLoading } = useQuery<EnvReading[]>({
     queryKey: ['env-log', zone],
@@ -116,14 +119,14 @@ export default function EnvLogPage() {
 
       {/* Zone chips */}
       <div className="flex gap-2 flex-wrap">
-        {(Object.keys(ZONE_CONFIG) as Zone[]).map(z => (
-          <button key={z} onClick={() => setZone(z)}
+        {FACILITY_ZONES.map(z => (
+          <button key={z.key} onClick={() => setZone(z.key)}
             className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition border min-h-[36px] ${
-              zone === z
+              zone === z.key
                 ? 'bg-amber-500/20 text-amber-200 border-amber-500/40'
                 : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
             }`}>
-            {ZONE_CONFIG[z].label}
+            {z.label}
           </button>
         ))}
       </div>

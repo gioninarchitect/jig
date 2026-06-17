@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — CAPA Register</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#161616; --line:#2a2a2a; --txt:#F5F0E8; --grey:#9a9a9a; --green:#22C55E; --amber:#F59E0B; --red:#DC2626; }
+  *{ box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  body{ background:#0A0A0A; color:var(--txt); }
+  header{ background:linear-gradient(135deg,#0A0A0A,#1a1408); border-bottom:2px solid var(--gold); padding:14px 22px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; position:sticky; top:0; z-index:20; }
+  .brand{ display:flex; align-items:center; gap:12px; } .brand img{ height:34px; } .brand b{ font-family:'Cinzel'; letter-spacing:2px; color:var(--gold); font-size:1.2rem; } .brand span{ color:var(--grey); font-size:.8rem; }
+  .btn{ border:none; border-radius:9px; padding:10px 16px; font-weight:700; cursor:pointer; font-size:.88rem; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; } .btn-ghost{ background:#222; color:var(--txt); }
+  .wrap{ max-width:920px; margin:0 auto; padding:18px 22px; }
+  .stat{ color:var(--grey); font-size:.85rem; margin-bottom:12px; }
+  .capa{ background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:15px 17px; margin-bottom:11px; }
+  .capa .top{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .capa .tn{ font-family:'JetBrains Mono',monospace; color:var(--gold-d); font-size:.74rem; }
+  .capa h3{ font-size:1rem; flex:1; min-width:160px; }
+  .chip{ font-size:.64rem; font-weight:800; padding:3px 9px; border-radius:12px; letter-spacing:.5px; text-transform:uppercase; }
+  .st-open{ background:rgba(245,158,11,.16); color:var(--amber); } .st-in_progress{ background:rgba(96,165,250,.16); color:#60A5FA; } .st-closed{ background:rgba(34,197,94,.16); color:var(--green); }
+  .sev-high{ color:var(--red); } .sev-medium{ color:var(--amber); } .sev-low{ color:var(--grey); }
+  .capa p{ color:#cfc6ad; font-size:.86rem; margin-top:7px; line-height:1.5; }
+  .capa .links{ margin-top:8px; font-size:.78rem; color:var(--grey); }
+  .capa .links a{ color:var(--gold); text-decoration:none; }
+  .capa .retr{ display:inline-block; margin-top:8px; background:rgba(220,38,38,.14); color:#ff8a8a; font-size:.72rem; padding:4px 10px; border-radius:8px; }
+  .capa .act{ margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
+  .capa .act button{ border:1px solid var(--line); background:#1d1d1d; color:var(--txt); border-radius:8px; padding:7px 13px; cursor:pointer; font-size:.8rem; }
+  .modal{ position:fixed; inset:0; background:rgba(0,0,0,.72); display:none; align-items:center; justify-content:center; z-index:50; padding:16px; }
+  .modal.open{ display:flex; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:16px; width:100%; max-width:480px; max-height:92vh; overflow:auto; }
+  .card h2{ font-family:'Cinzel'; color:var(--gold); padding:16px 20px; border-bottom:1px solid var(--line); }
+  .card .body{ padding:18px 20px; display:flex; flex-direction:column; gap:12px; }
+  .lbl{ font-size:.72rem; color:var(--grey); letter-spacing:.5px; display:flex; flex-direction:column; gap:5px; }
+  .lbl input,.lbl select,.lbl textarea{ padding:11px; background:#1d1d1d; border:1px solid var(--line); border-radius:9px; color:var(--txt); font-family:'Inter'; }
+  .row2{ display:flex; gap:12px; } .row2 .lbl{ flex:1; }
+  .foot{ padding:0 20px 20px; display:flex; gap:10px; }
+  .gate{ max-width:350px; margin:50px auto; background:#161616; border:1px solid #2a2a2a; border-radius:16px; padding:26px; }
+  .toast{ position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--gold); color:#1a1a1a; padding:12px 22px; border-radius:10px; font-weight:700; z-index:99; display:none; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="images/origin-logo.png"><b>ORIGIN</b><span>CAPA Register</span></div>
+  <div style="display:flex;gap:10px;">
+    <button class="btn btn-gold" id="newBtn" style="display:none;" onclick="openNew()">+ New CAPA</button>
+    <a class="btn btn-ghost" href="sop-library.html">SOP Library</a>
+    <a class="btn btn-ghost" href="pos.html">← POS</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="gate" class="gate" style="display:none;">
+    <div style="font-family:'Cinzel';color:var(--gold);font-size:1.3rem;text-align:center;">Staff Login</div>
+    <div style="color:#888;text-align:center;font-size:.82rem;margin:4px 0 20px;">CAPA register</div>
+    <label class="lbl">EMAIL<input id="lgEmail" type="email" style="margin:6px 0 14px;"></label>
+    <label class="lbl">PIN<input id="lgPin" type="password" inputmode="numeric" style="letter-spacing:5px;" onkeydown="if(event.key==='Enter')doLogin()"></label>
+    <div id="lgMsg" style="color:#DC2626;font-size:.8rem;min-height:15px;margin-top:6px;"></div>
+    <button class="btn btn-gold" style="width:100%;margin-top:8px;" onclick="doLogin()">Sign In</button>
+  </div>
+  <div id="main" style="display:none;">
+    <div class="stat" id="stat"></div>
+    <div id="rows"></div>
+  </div>
+</div>
+
+<div class="modal" id="newModal"><div class="card">
+  <h2>New CAPA</h2>
+  <div class="body">
+    <label class="lbl">TITLE<input id="cTitle" placeholder="e.g. Cash variance over R50 not explained"></label>
+    <label class="lbl">DESCRIPTION<textarea id="cDesc" rows="3" placeholder="What happened…"></textarea></label>
+    <div class="row2">
+      <label class="lbl">TYPE<select id="cType"><option value="sop_violation">SOP Violation</option><option value="deviation">Deviation</option><option value="complaint">Complaint</option></select></label>
+      <label class="lbl">SEVERITY<select id="cSev"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select></label>
+    </div>
+    <label class="lbl">LINK SOP (triggers re-training)<select id="cSop"><option value="">— none —</option></select></label>
+    <label class="lbl">ASSIGN TO<select id="cUser"><option value="">— none —</option></select></label>
+    <label class="lbl">DUE DATE<input id="cDue" type="date"></label>
+    <div id="cMsg" style="color:var(--red);font-size:.8rem;min-height:14px;"></div>
+  </div>
+  <div class="foot"><button class="btn btn-ghost" style="flex:1;" onclick="close_('newModal')">Cancel</button><button class="btn btn-gold" style="flex:2;" onclick="createCapa()">Raise CAPA</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'/api/v1':'/pos/api/v1';
+let token=sessionStorage.getItem('adminToken')||localStorage.getItem('token')||'';
+let IS_ADMIN=false, OPTS={users:[],sops:[]};
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2400);}
+function hdr(){return{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'};}
+function close_(id){document.getElementById(id).classList.remove('open');}
+async function doLogin(){
+  const email=document.getElementById('lgEmail').value.trim().toLowerCase(),pin=document.getElementById('lgPin').value.trim(),msg=document.getElementById('lgMsg');
+  if(!email||!pin){msg.textContent='Enter email and PIN';return;} msg.style.color='#888';msg.textContent='Signing in…';
+  try{ const r=await fetch(`${API}/auth/otp/verify-pin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,pin})}); const d=await r.json();
+    if(!d.success||!d.token){msg.style.color='#DC2626';msg.textContent=d.message||'Invalid login';return;}
+    token=d.token; sessionStorage.setItem('adminToken',token);localStorage.setItem('token',token);
+    sessionStorage.setItem('user',JSON.stringify(d.user));localStorage.setItem('user',JSON.stringify(d.user));
+    document.getElementById('gate').style.display='none'; load();
+  }catch(e){msg.style.color='#DC2626';msg.textContent='Login failed';}
+}
+async function load(){
+  try{ const r=await fetch(`${API}/capa`,{headers:hdr()});
+    if(r.status===401||r.status===403){document.getElementById('gate').style.display='block';return;}
+    const d=await r.json(); IS_ADMIN=!!d.isAdmin;
+    document.getElementById('main').style.display='block';
+    document.getElementById('newBtn').style.display=IS_ADMIN?'inline-flex':'none';
+    if(IS_ADMIN){ const o=await fetch(`${API}/capa/options`,{headers:hdr()}); OPTS=await o.json(); }
+    renderRows(d.capas||[]);
+  }catch(e){ document.getElementById('gate').style.display='block'; }
+}
+function renderRows(capas){
+  const open=capas.filter(c=>c.status!=='closed').length;
+  document.getElementById('stat').textContent=`${capas.length} CAPA${capas.length!==1?'s':''} · ${open} open`;
+  document.getElementById('rows').innerHTML=capas.map(c=>{
+    const sop=c.sopCode?`<div class="links">Linked SOP: <a href="sop-library.html">${c.sopCode}</a>${c.assignedToName?' · Assigned: '+c.assignedToName:''}</div>`:'';
+    const retr=c.retrainingRequired&&c.status!=='closed'?`<div class="retr">↺ Re-training required — ${c.assignedToName||'assignee'} must re-read &amp; re-sign the SOP</div>`:'';
+    const act=IS_ADMIN&&c.status!=='closed'?`<div class="act"><button onclick="closeCapa('${c._id}')">Mark Closed</button></div>`:'';
+    const ca=c.correctiveAction?`<p style="color:#9fd9b6;"><b>Corrective action:</b> ${c.correctiveAction}</p>`:'';
+    return `<div class="capa"><div class="top"><span class="tn">${c.ticketNo}</span><h3>${c.title}</h3>
+      <span class="chip sev-${c.severity}">${c.severity}</span><span class="chip st-${c.status}">${c.status.replace('_',' ')}</span></div>
+      ${c.description?`<p>${c.description}</p>`:''}${sop}${retr}${ca}${act}</div>`;
+  }).join('')||'<div style="text-align:center;color:#888;padding:30px;">No CAPAs.</div>';
+}
+function openNew(){
+  document.getElementById('cSop').innerHTML='<option value="">— none —</option>'+OPTS.sops.map(s=>`<option value="${s.id}">${s.code} — ${s.title}</option>`).join('');
+  document.getElementById('cUser').innerHTML='<option value="">— none —</option>'+OPTS.users.map(u=>`<option value="${u.id}">${u.name} (${u.role})</option>`).join('');
+  ['cTitle','cDesc','cDue'].forEach(i=>document.getElementById(i).value=''); document.getElementById('cMsg').textContent='';
+  document.getElementById('newModal').classList.add('open');
+}
+async function createCapa(){
+  const body={ title:document.getElementById('cTitle').value.trim(), description:document.getElementById('cDesc').value,
+    type:document.getElementById('cType').value, severity:document.getElementById('cSev').value,
+    sopId:document.getElementById('cSop').value||null, assignedTo:document.getElementById('cUser').value||null,
+    dueDate:document.getElementById('cDue').value||null };
+  const msg=document.getElementById('cMsg'); if(!body.title){msg.textContent='Title required';return;}
+  const r=await fetch(`${API}/capa`,{method:'POST',headers:hdr(),body:JSON.stringify(body)}); const d=await r.json();
+  if(d.success){ close_('newModal'); toast(d.retrainingTriggered?`${d.ticketNo} raised · re-training assigned`:`${d.ticketNo} raised`); load(); }
+  else msg.textContent=d.message||'Failed';
+}
+async function closeCapa(id){
+  const ca=prompt('Corrective action taken (required to close):'); if(ca===null) return;
+  if(!ca.trim()){ toast('Corrective action required'); return; }
+  const r=await fetch(`${API}/capa/${id}`,{method:'PATCH',headers:hdr(),body:JSON.stringify({status:'closed',correctiveAction:ca})}); const d=await r.json();
+  if(d.success){ toast('CAPA closed'); load(); } else toast('Failed');
+}
+document.getElementById('newModal').addEventListener('click',e=>{if(e.target.id==='newModal')close_('newModal');});
+if(!token){document.getElementById('gate').style.display='block';}else{load();}
+</script>
+</body>
+</html>

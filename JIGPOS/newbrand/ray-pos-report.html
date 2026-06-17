@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin POS — What we fixed (for Ray)</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@page{size:A4;margin:14mm}
+:root{--gold:#C9A84C;--gold-light:#E8D5A3;--dark:#1A1A1A;--dark2:#222;--green:#3FC041;--red:#DC2626;--ink:#2a2a2a;--muted:#6b6b6b;--cream:#FAF7F0;--line:#ece5d6}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-family:'Barlow',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:0 0 60px}
+.hero{background:linear-gradient(135deg,#1A1A1A,#2b2b2b);color:#fff;padding:38px 40px;border-bottom:4px solid var(--gold)}
+.hero .kicker{color:var(--gold);font-weight:600;letter-spacing:3px;text-transform:uppercase;font-size:.72rem}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;text-transform:uppercase;letter-spacing:1px;margin:6px 0 4px}
+.hero p{color:#cfcabd;font-size:.95rem}
+.body{padding:30px 40px}
+.intro{font-size:1.05rem;color:#444;margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card h2{font-family:'Barlow Condensed',sans-serif;font-size:1.25rem;text-transform:uppercase;letter-spacing:.5px;color:var(--dark);display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.tag{font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:rgba(63,192,65,.14);color:#1f7a21;border:1px solid rgba(63,192,65,.3)}
+.card .what{color:var(--muted);font-size:.9rem;margin:8px 0 12px}
+.card .what b{color:var(--ink)}
+.now{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.35);border-radius:10px;padding:12px 14px;font-size:.92rem}
+.now b{color:#8a6d1f}
+.steps{background:#1A1A1A;color:#fff;border-radius:14px;padding:22px 24px;margin-top:8px}
+.steps h2{font-family:'Barlow Condensed',sans-serif;color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-size:1.3rem;margin-bottom:14px}
+.steps ol{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:10px 0 10px 44px;border-bottom:1px solid rgba(255,255,255,.08);font-size:.96rem;color:#e9e4d6}
+.steps li:last-child{border-bottom:none}
+.steps li::before{content:counter(s);position:absolute;left:0;top:9px;width:30px;height:30px;background:var(--gold);color:#1A1A1A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Barlow Condensed',sans-serif}
+.steps li b{color:#fff}
+footer{text-align:center;color:var(--muted);font-size:.78rem;padding:24px 40px 0}
+footer b{color:var(--gold)}
+.lockup{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:2px}
+.card,.steps{break-inside:avoid;page-break-inside:avoid}
+.steps li{break-inside:avoid}
+h1,h2{break-after:avoid}
+.intro,p,li{orphans:3;widows:3}
+@media print{body{background:#fff}.card{box-shadow:none}.hero{padding:28px 40px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">Origin Retail · Potchefstroom Till</div>
+    <h1>Two things we fixed on your POS</h1>
+    <p>A quick, plain-English note on what was going wrong and what's better now — 10 June 2026.</p>
+  </div>
+  <div class="body">
+    <p class="intro">Hi Ray — you flagged two things that were making the till frustrating. Both are now fixed and live on your screen. Here's what they were and what changes for you.</p>
+
+    <div class="card">
+      <h2>1. The day wouldn't close cleanly <span class="tag">Fixed</span></h2>
+      <p class="what">What was happening: if a shift wasn't opened in the morning, the till would quietly keep adding the new day's sales onto <b>yesterday's</b> still-open shift. That's why the day-end totals looked wrong and a shift seemed to "run into the next day".</p>
+      <div class="now"><b>What's better now:</b> the till will not let a sale go through if there's no shift open for <b>today</b>. If you try, it pops up and asks you to open today's shift first — so each day's takings stay on their own day.</div>
+    </div>
+
+    <div class="card">
+      <h2>2. The product tab jumped back to "All" <span class="tag">Fixed</span></h2>
+      <p class="what">What was happening: every 30 seconds the till refreshes its product list in the background. That refresh was snapping your selected tab (e.g. <b>Bio Sculpture</b> or a flower category) back to <b>"All"</b>, so you'd lose your place.</p>
+      <div class="now"><b>What's better now:</b> the tab you've selected <b>stays put</b> through the refresh and after you add an item to the basket. It only changes when you tap a different tab yourself.</div>
+    </div>
+
+    <div class="steps">
+      <h2>Your daily rhythm — to keep it clean</h2>
+      <ol>
+        <li><b>Start of day:</b> open today's shift before the first sale (the till will remind you if you forget).</li>
+        <li><b>During the day:</b> ring sales as normal — your selected product tab now stays where you put it.</li>
+        <li><b>End of day:</b> close the shift and run the cash-up <b>before you leave</b>, so the day's takings are sealed to that day.</li>
+        <li><b>If the cash is more than R50 out:</b> it will ask for a manager code. If that ever blocks you, call it in — we're sorting a cleaner way for that one.</li>
+      </ol>
+    </div>
+
+    <p class="intro" style="margin-top:20px;font-size:.95rem;color:#555">To pull the updates onto the till straight away, tap reload — or we can run the quick update on the POSBANK for you. Anything still feels off, send a screen recording like you did and we'll jump on it.</p>
+  </div>
+  <footer>
+    <div class="lockup" style="color:var(--gold);font-size:1.1rem">ORIGIN</div>
+    <div style="letter-spacing:2px;font-size:.7rem;color:var(--muted)">BY ILCO FARMING</div>
+    <p style="margin-top:8px">Prepared for Ray · Potchefstroom · 10 June 2026</p>
+  </footer>
+</div>
+</body>
+</html>

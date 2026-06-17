@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — SOP Library</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --ink:#0E0E0E; --panel:#161616; --line:#2a2a2a; --txt:#F5F0E8; --grey:#9a9a9a; --green:#22C55E; --amber:#F59E0B; --red:#DC2626; }
+  *{ box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  body{ background:#0A0A0A; color:var(--txt); }
+  header{ background:linear-gradient(135deg,#0A0A0A,#1a1408); border-bottom:2px solid var(--gold); padding:14px 22px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:20; flex-wrap:wrap; gap:10px; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand img{ height:34px; }
+  .brand b{ font-family:'Cinzel'; letter-spacing:2px; color:var(--gold); font-size:1.2rem; }
+  .brand span{ color:var(--grey); font-size:.8rem; }
+  .top-actions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .btn{ border:none; border-radius:9px; padding:10px 16px; font-weight:700; cursor:pointer; font-size:.88rem; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; }
+  .btn-ghost{ background:#222; color:var(--txt); }
+  .wrap{ padding:18px 22px; max-width:1000px; margin:0 auto; }
+  .bar{ display:flex; gap:10px; margin-bottom:14px; flex-wrap:wrap; align-items:center; }
+  .bar input{ flex:1; min-width:200px; padding:11px 14px; background:#1d1d1d; border:1px solid var(--line); border-radius:10px; color:var(--txt); }
+  .stat{ color:var(--grey); font-size:.85rem; }
+  /* accordion */
+  .acc{ border:1px solid var(--line); border-radius:12px; margin-bottom:10px; overflow:hidden; }
+  .acc-head{ width:100%; display:flex; align-items:center; gap:10px; background:#120d04; color:var(--gold); border:none; padding:13px 16px; cursor:pointer; font-family:'Cinzel',serif; letter-spacing:1px; font-size:.92rem; text-align:left; }
+  .acc-head .chev{ transition:transform .2s; color:var(--gold-d); font-size:.8rem; }
+  .acc.open .acc-head .chev{ transform:rotate(90deg); }
+  .acc-head .meta{ margin-left:auto; color:var(--grey); font-size:.74rem; font-family:'Inter'; letter-spacing:0; }
+  .acc-body{ display:none; }
+  .acc.open .acc-body{ display:block; }
+  .sop{ display:flex; align-items:center; gap:12px; padding:13px 16px; border-top:1px solid #1e1e1e; cursor:pointer; }
+  .sop:hover{ background:#1b1b1b; }
+  .sop .code{ font-family:'JetBrains Mono',monospace; color:var(--grey); font-size:.72rem; min-width:92px; }
+  .sop .title{ flex:1; font-weight:600; }
+  .vbadge{ background:#222; color:var(--gold); font-size:.66rem; padding:2px 8px; border-radius:10px; }
+  .chip{ font-size:.66rem; font-weight:700; padding:3px 9px; border-radius:12px; letter-spacing:.5px; white-space:nowrap; }
+  .chip.signed{ background:rgba(34,197,94,.16); color:var(--green); }
+  .chip.unsigned{ background:rgba(245,158,11,.16); color:var(--amber); }
+  /* modal */
+  .modal{ position:fixed; inset:0; background:rgba(0,0,0,.72); display:none; align-items:center; justify-content:center; z-index:50; padding:16px; }
+  .modal.open{ display:flex; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:16px; width:100%; max-width:680px; max-height:90vh; display:flex; flex-direction:column; overflow:hidden; }
+  .card .head{ background:rgba(201,168,76,.12); padding:16px 22px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .card .head h2{ font-family:'Cinzel'; color:var(--txt); font-size:1.15rem; }
+  .card .head .sub{ color:var(--grey); font-size:.78rem; margin-top:3px; }
+  .x{ background:#262626; border:none; color:#fff; width:34px; height:34px; border-radius:50%; font-size:1.1rem; cursor:pointer; flex-shrink:0; }
+  .doc{ padding:20px 24px; overflow-y:auto; line-height:1.6; color:#e6e0d2; }
+  .doc h3{ font-family:'Cinzel'; color:var(--gold); font-size:1rem; margin:16px 0 6px; }
+  .doc p{ margin:6px 0; }
+  .foot{ border-top:1px solid var(--line); padding:14px 22px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .foot .note{ color:var(--grey); font-size:.78rem; flex:1; }
+  .lbl{ font-size:.72rem; color:var(--grey); letter-spacing:.5px; display:flex; flex-direction:column; gap:5px; }
+  .lbl input,.lbl select,.lbl textarea{ padding:11px; background:#1d1d1d; border:1px solid var(--line); border-radius:9px; color:var(--txt); font-family:'Inter'; }
+  .roles{ display:flex; flex-wrap:wrap; gap:8px; }
+  .roles label{ display:flex; align-items:center; gap:6px; font-size:.82rem; background:#1d1d1d; border:1px solid var(--line); padding:7px 11px; border-radius:8px; cursor:pointer; }
+  .gate{ max-width:350px; margin:50px auto; background:#161616; border:1px solid #2a2a2a; border-radius:16px; padding:26px; }
+  .toast{ position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--gold); color:#1a1a1a; padding:12px 22px; border-radius:10px; font-weight:700; z-index:99; display:none; }
+  @media(max-width:600px){ .sop .code{ display:none; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="images/origin-logo.png"><b>ORIGIN</b><span>SOP Library</span></div>
+  <div class="top-actions" id="adminActions" style="display:none;">
+    <button class="btn btn-ghost" onclick="openCompliance()">Compliance</button>
+    <button class="btn btn-gold" onclick="openNew()">+ New SOP</button>
+    <a class="btn btn-ghost" href="pos.html">← Back to POS</a>
+  </div>
+  <div class="top-actions" id="basicActions"><a class="btn btn-ghost" href="pos.html">← Back to POS</a></div>
+</header>
+
+<div class="wrap">
+  <div id="gate" class="gate" style="display:none;">
+    <div style="font-family:'Cinzel';color:var(--gold);font-size:1.3rem;text-align:center;">Staff Login</div>
+    <div style="color:#888;text-align:center;font-size:.82rem;margin:4px 0 20px;">SOP Library &amp; sign-off</div>
+    <label class="lbl">EMAIL<input id="lgEmail" type="email" style="margin:6px 0 14px;"></label>
+    <label class="lbl">PIN<input id="lgPin" type="password" inputmode="numeric" style="letter-spacing:5px;font-size:1.1rem;" onkeydown="if(event.key==='Enter')doLogin()"></label>
+    <div id="lgMsg" style="color:#DC2626;font-size:.8rem;min-height:15px;margin-top:6px;"></div>
+    <button class="btn btn-gold" style="width:100%;margin-top:8px;" onclick="doLogin()">Sign In</button>
+  </div>
+
+  <div id="main" style="display:none;">
+    <div class="bar"><input id="search" placeholder="Search SOPs…" oninput="render()"><span class="stat" id="summary"></span></div>
+    <div id="rows"></div>
+  </div>
+</div>
+
+<!-- SOP reader -->
+<div class="modal" id="readModal"><div class="card">
+  <div class="head"><div><h2 id="rTitle"></h2><div class="sub" id="rSub"></div></div><button class="x" onclick="close_('readModal')">&times;</button></div>
+  <div class="doc" id="rBody"></div>
+  <div class="foot">
+    <span class="note" id="rNote"></span>
+    <button class="btn btn-ghost" id="rVersionBtn" style="display:none;" onclick="openVersion()">New Version</button>
+    <button class="btn btn-gold" id="rSignBtn" onclick="signCurrent()">I have read &amp; understood</button>
+  </div>
+</div></div>
+
+<!-- New / version SOP -->
+<div class="modal" id="editModal"><div class="card" style="max-width:560px;">
+  <div class="head"><div><h2 id="eTitle">New SOP</h2></div><button class="x" onclick="close_('editModal')">&times;</button></div>
+  <div class="doc">
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <label class="lbl" style="flex:1;min-width:120px;">CODE<input id="eCode" placeholder="SOP-XXX-001"></label>
+      <label class="lbl" style="flex:1;min-width:120px;">CATEGORY<input id="eCat" placeholder="Retail / Compliance…"></label>
+    </div>
+    <label class="lbl" style="margin-top:12px;">TITLE<input id="eName" placeholder="SOP title"></label>
+    <div class="lbl" style="margin-top:12px;">APPLIES TO (leave all unticked = all staff)
+      <div class="roles" id="eRoles"></div>
+    </div>
+    <label class="lbl" style="margin-top:12px;">CONTENT (HTML allowed)<textarea id="eBody" rows="8" placeholder="Purpose, scope, procedure…"></textarea></label>
+    <div id="eMsg" style="color:var(--red);font-size:.8rem;min-height:14px;margin-top:8px;"></div>
+  </div>
+  <div class="foot"><span class="note"></span><button class="btn btn-ghost" onclick="close_('editModal')">Cancel</button><button class="btn btn-gold" id="eSave" onclick="saveSop()">Save</button></div>
+</div></div>
+
+<!-- Compliance -->
+<div class="modal" id="compModal"><div class="card">
+  <div class="head"><div><h2>Sign-off Compliance</h2><div class="sub">Active SOPs · who still needs to sign</div></div><button class="x" onclick="close_('compModal')">&times;</button></div>
+  <div class="doc" id="compBody"></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = (location.hostname==='localhost'||location.hostname==='127.0.0.1') ? '/api/v1' : '/pos/api/v1';
+let token = sessionStorage.getItem('adminToken') || localStorage.getItem('token') || '';
+let SOPS = [], IS_ADMIN = false, OPEN = new Set(), CURRENT = null;
+const ROLE_OPTS = ['branch_assistant','branch_manager','inventory_manager','admin','owner'];
+
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.style.display='block'; setTimeout(()=>t.style.display='none',2200); }
+function hdr(){ return { 'Authorization':`Bearer ${token}`, 'Content-Type':'application/json' }; }
+function close_(id){ document.getElementById(id).classList.remove('open'); }
+
+async function doLogin(){
+  const email=document.getElementById('lgEmail').value.trim().toLowerCase(), pin=document.getElementById('lgPin').value.trim(), msg=document.getElementById('lgMsg');
+  if(!email||!pin){ msg.textContent='Enter email and PIN'; return; }
+  msg.style.color='#888'; msg.textContent='Signing in…';
+  try{
+    const r=await fetch(`${API}/auth/otp/verify-pin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,pin})});
+    const d=await r.json();
+    if(!d.success||!d.token){ msg.style.color='#DC2626'; msg.textContent=d.message||'Invalid login'; return; }
+    token=d.token; sessionStorage.setItem('adminToken',token); localStorage.setItem('token',token);
+    sessionStorage.setItem('user',JSON.stringify(d.user)); localStorage.setItem('user',JSON.stringify(d.user));
+    document.getElementById('gate').style.display='none'; load();
+  }catch(e){ msg.style.color='#DC2626'; msg.textContent='Login failed'; }
+}
+
+async function load(){
+  try{
+    const r=await fetch(`${API}/sops`,{headers:hdr()});
+    if(r.status===401||r.status===403){ document.getElementById('gate').style.display='block'; return; }
+    const d=await r.json();
+    SOPS=d.sops||[]; IS_ADMIN=!!d.isAdmin;
+    document.getElementById('main').style.display='block';
+    document.getElementById('adminActions').style.display=IS_ADMIN?'flex':'none';
+    document.getElementById('basicActions').style.display=IS_ADMIN?'none':'flex';
+    render();
+  }catch(e){ document.getElementById('gate').style.display='block'; }
+}
+
+function render(){
+  const q=(document.getElementById('search').value||'').toLowerCase().trim();
+  const list=SOPS.filter(s=>!q || (s.code+' '+s.title+' '+s.category).toLowerCase().includes(q));
+  const unsigned=list.filter(s=>!s.signed && s.status==='active').length;
+  document.getElementById('summary').textContent=`${list.length} SOPs${unsigned?` · ${unsigned} to sign`:' · all signed'}`;
+  const groups={}; list.forEach(s=>{ const c=s.category||'General'; (groups[c]=groups[c]||[]).push(s); });
+  const cats=Object.keys(groups).sort();
+  const autoOpen=!!q;
+  document.getElementById('rows').innerHTML=cats.map(cat=>{
+    const items=groups[cat]; const need=items.filter(s=>!s.signed&&s.status==='active').length;
+    const open=OPEN.has(cat)||autoOpen;
+    return `<div class="acc ${open?'open':''}" data-cat="${cat}">
+      <button class="acc-head" onclick="toggleAcc('${cat}')"><span class="chev">▸</span> ${cat}
+        <span class="meta">${items.length} SOP${items.length!==1?'s':''}${need?` · <span style="color:var(--amber)">${need} to sign</span>`:''}</span></button>
+      <div class="acc-body">${items.map(sopRow).join('')}</div></div>`;
+  }).join('')||'<div style="text-align:center;color:#888;padding:30px;">No SOPs.</div>';
+}
+function sopRow(s){
+  const chip = s.status!=='active' ? `<span class="chip" style="background:#333;color:#999;">${s.status.toUpperCase()}</span>`
+    : (s.signed ? '<span class="chip signed">✓ Signed</span>' : '<span class="chip unsigned">⚠ Sign required</span>');
+  return `<div class="sop" onclick="openSop('${s._id}')"><span class="code">${s.code||''}</span><span class="title">${s.title}</span><span class="vbadge">v${s.version}</span>${chip}</div>`;
+}
+function toggleAcc(c){ if(OPEN.has(c))OPEN.delete(c);else OPEN.add(c); const el=document.querySelector(`.acc[data-cat="${c}"]`); if(el)el.classList.toggle('open'); }
+
+async function openSop(id){
+  const r=await fetch(`${API}/sops/${id}`,{headers:hdr()}); const d=await r.json();
+  if(!d.success){ toast('Could not load SOP'); return; }
+  CURRENT=d.sop;
+  document.getElementById('rTitle').textContent=d.sop.title;
+  document.getElementById('rSub').textContent=`${d.sop.code||''} · Version ${d.sop.version} · Effective ${new Date(d.sop.effectiveDate).toLocaleDateString('en-ZA')}`;
+  document.getElementById('rBody').innerHTML=d.sop.body||'<p>(No content yet.)</p>';
+  const signBtn=document.getElementById('rSignBtn'), note=document.getElementById('rNote');
+  if(d.signed){ signBtn.style.display='none'; note.innerHTML='<span style="color:var(--green)">✓ You have signed this version.</span>'; }
+  else { signBtn.style.display=''; signBtn.textContent='I have read & understood v'+d.sop.version; note.textContent='Read the SOP, then confirm.'; }
+  document.getElementById('rVersionBtn').style.display=IS_ADMIN?'':'none';
+  document.getElementById('readModal').classList.add('open');
+  document.getElementById('rBody').scrollTop=0;
+}
+async function signCurrent(){
+  const r=await fetch(`${API}/sops/${CURRENT._id}/sign`,{method:'POST',headers:hdr()}); const d=await r.json();
+  if(d.success){ toast('Signed ✓'); close_('readModal'); const s=SOPS.find(x=>x._id===CURRENT._id); if(s)s.signed=true; render(); }
+  else toast(d.message||'Failed');
+}
+
+function buildRoleChecks(sel){ document.getElementById('eRoles').innerHTML=ROLE_OPTS.map(r=>`<label><input type="checkbox" value="${r}" ${(sel||[]).includes(r)?'checked':''}> ${r.replace(/_/g,' ')}</label>`).join(''); }
+let EDIT_MODE='new';
+function openNew(){ EDIT_MODE='new'; document.getElementById('eTitle').textContent='New SOP';
+  ['eCode','eCat','eName','eBody'].forEach(i=>document.getElementById(i).value=''); document.getElementById('eMsg').textContent='';
+  buildRoleChecks([]); document.getElementById('eCode').disabled=false; document.getElementById('editModal').classList.add('open'); }
+function openVersion(){ EDIT_MODE='version'; close_('readModal'); document.getElementById('eTitle').textContent='New Version — '+CURRENT.code;
+  document.getElementById('eCode').value=CURRENT.code; document.getElementById('eCode').disabled=true;
+  document.getElementById('eCat').value=CURRENT.category; document.getElementById('eName').value=CURRENT.title;
+  document.getElementById('eBody').value=CURRENT.body||''; buildRoleChecks(CURRENT.role||[]); document.getElementById('eMsg').textContent='';
+  document.getElementById('editModal').classList.add('open'); }
+async function saveSop(){
+  const role=[...document.querySelectorAll('#eRoles input:checked')].map(c=>c.value);
+  const body={ code:document.getElementById('eCode').value.trim(), title:document.getElementById('eName').value.trim(),
+    category:document.getElementById('eCat').value.trim(), role, body:document.getElementById('eBody').value };
+  const msg=document.getElementById('eMsg');
+  if(!body.title){ msg.textContent='Title required'; return; }
+  const url = EDIT_MODE==='version' ? `${API}/sops/${CURRENT._id}/version` : `${API}/sops`;
+  const r=await fetch(url,{method:'POST',headers:hdr(),body:JSON.stringify(body)}); const d=await r.json();
+  if(d.success){ toast(EDIT_MODE==='version'?'New version published':'SOP created'); close_('editModal'); load(); }
+  else { msg.textContent=d.message||'Failed'; }
+}
+
+async function openCompliance(){
+  document.getElementById('compModal').classList.add('open');
+  document.getElementById('compBody').innerHTML='<p style="color:#888">Loading…</p>';
+  const r=await fetch(`${API}/sops/compliance`,{headers:hdr()}); const d=await r.json();
+  if(!d.success){ document.getElementById('compBody').innerHTML='<p style="color:#DC2626">'+(d.message||'Error')+'</p>'; return; }
+  document.getElementById('compBody').innerHTML=d.report.map(s=>{
+    const pct = s.assigned? Math.round(s.signed/s.assigned*100):100;
+    const col = pct===100?'var(--green)':pct>=60?'var(--amber)':'var(--red)';
+    const out = s.outstanding.length? '<div style="margin-top:6px;font-size:.8rem;color:#aaa;">Outstanding: '+s.outstanding.map(o=>o.name+' ('+o.role+')').join(', ')+'</div>':'';
+    return `<div style="border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;"><b>${s.code} — ${s.title}</b><span style="color:${col};font-weight:700;">${s.signed}/${s.assigned}</span></div>${out}</div>`;
+  }).join('')||'<p style="color:#888">No active SOPs.</p>';
+}
+
+[ 'readModal','editModal','compModal' ].forEach(id=>document.getElementById(id).addEventListener('click',e=>{ if(e.target.id===id) close_(id); }));
+if(!token){ document.getElementById('gate').style.display='block'; } else { load(); }
+</script>
+</body>
+</html>

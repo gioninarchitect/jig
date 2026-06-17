@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Live Governance Map</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --amber:#F59E0B; --blue:#60A5FA; }
+  *{ box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  body{ background:radial-gradient(1200px 600px at 50% -10%, #1a1408 0%, #0A0A0A 60%); color:var(--txt); overflow-x:hidden; }
+  .hero{ text-align:center; padding:34px 20px 10px; }
+  .hero img{ height:46px; filter:drop-shadow(0 0 12px rgba(201,168,76,.5)); }
+  .hero h1{ font-family:'Cinzel'; color:var(--gold); font-size:1.8rem; margin-top:10px; letter-spacing:1px; }
+  .hero .sub{ color:var(--grey); letter-spacing:3px; font-size:.72rem; text-transform:uppercase; margin-top:6px; }
+  .live{ display:inline-flex; align-items:center; gap:7px; margin-top:12px; font-size:.74rem; color:var(--green); }
+  .live .pulse{ width:9px; height:9px; border-radius:50%; background:var(--green); animation:pulse 1.4s infinite; }
+  @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)} 70%{box-shadow:0 0 0 10px rgba(34,197,94,0)} 100%{box-shadow:0 0 0 0 rgba(34,197,94,0)} }
+  .wrap{ max-width:1000px; margin:0 auto; padding:20px 20px 70px; }
+
+  /* SPINE */
+  .spine{ display:flex; flex-direction:column; align-items:center; gap:0; margin:18px 0 30px; }
+  .snode{ width:100%; max-width:560px; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 22px; position:relative; opacity:0; transform:translateY(16px); transition:opacity .5s, transform .5s, box-shadow .4s; cursor:pointer; }
+  .snode.in{ opacity:1; transform:none; }
+  .snode:hover{ box-shadow:0 0 0 1px var(--gold), 0 8px 30px rgba(201,168,76,.18); }
+  .snode .lvl{ position:absolute; left:-16px; top:22px; width:32px; height:32px; border-radius:50%; background:var(--gold); color:#1a1a1a; display:flex; align-items:center; justify-content:center; font-weight:800; box-shadow:0 0 0 4px #0A0A0A; }
+  .snode .tag{ font-size:.6rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold-d); font-weight:700; }
+  .snode h3{ font-family:'Cinzel'; font-size:1.12rem; margin-top:2px; }
+  .snode p{ color:#cfc6ad; font-size:.85rem; margin-top:5px; line-height:1.45; }
+  .snode .nums{ position:absolute; right:20px; top:18px; text-align:right; }
+  .snode .nums b{ font-family:'JetBrains Mono'; font-size:1.5rem; color:var(--gold); display:block; line-height:1; }
+  .snode .nums small{ color:var(--grey); font-size:.62rem; letter-spacing:1px; text-transform:uppercase; }
+  .conn{ width:4px; height:34px; background:linear-gradient(180deg, var(--gold-d), var(--gold)); position:relative; overflow:hidden; }
+  .conn::after{ content:''; position:absolute; left:0; top:-40%; width:100%; height:40%; background:linear-gradient(180deg, transparent, #fff7e0, transparent); animation:flow 1.6s linear infinite; }
+  @keyframes flow{ to{ top:120% } }
+  .conn small{ position:absolute; left:14px; top:50%; transform:translateY(-50%); white-space:nowrap; color:var(--grey); font-size:.6rem; letter-spacing:1px; text-transform:uppercase; }
+  .loop{ max-width:560px; width:100%; margin-top:16px; border:1px dashed var(--gold-d); border-radius:16px; padding:14px 20px; display:flex; gap:14px; align-items:center; background:rgba(201,168,76,.05); opacity:0; transition:opacity .6s; }
+  .loop.in{ opacity:1; }
+  .loop .ic{ font-size:1.7rem; color:var(--gold); animation:spin 3.5s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(-360deg) } }
+  .loop p{ color:#cfc6ad; font-size:.83rem; line-height:1.45; } .loop b{ color:var(--gold); }
+
+  /* PROGRESS */
+  h2.det{ font-family:'Cinzel'; color:var(--gold); text-align:center; font-size:1.3rem; margin:36px 0 6px; }
+  .det-sub{ text-align:center; color:var(--grey); font-size:.82rem; margin-bottom:20px; }
+  .waves{ display:grid; gap:11px; }
+  .wave{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:13px 16px; }
+  .wave .wr{ display:flex; justify-content:space-between; align-items:center; }
+  .wave .wt{ font-weight:600; } .wave .wt small{ color:var(--grey); font-weight:400; font-size:.78rem; }
+  .wave .pct{ font-family:'JetBrains Mono'; color:var(--gold); font-weight:600; }
+  .track{ height:9px; background:#221d12; border-radius:6px; margin-top:9px; overflow:hidden; }
+  .track > div{ height:100%; width:0; border-radius:6px; transition:width 1.2s cubic-bezier(.2,.8,.2,1); }
+  .comps{ display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:10px; margin-top:18px; }
+  .comp{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:13px 15px; display:flex; align-items:center; gap:11px; opacity:0; transform:scale(.96); transition:opacity .4s, transform .4s; }
+  .comp.in{ opacity:1; transform:none; }
+  .dot{ width:11px; height:11px; border-radius:50%; flex-shrink:0; }
+  .comp .nm{ font-size:.86rem; font-weight:600; } .comp .ss{ font-size:.68rem; color:var(--grey); }
+  .comp a{ color:inherit; text-decoration:none; display:flex; align-items:center; gap:11px; width:100%; }
+  .toolbar{ position:fixed; top:14px; right:14px; }
+  .toolbar a{ background:var(--gold); color:#1a1a1a; text-decoration:none; padding:9px 15px; border-radius:9px; font-weight:700; font-size:.82rem; }
+</style>
+</head>
+<body>
+<div class="toolbar"><a href="compliance-map.html">Full map →</a></div>
+<div class="hero">
+  <img src="images/origin-logo.png" alt="Origin">
+  <h1>Live Governance Map</h1>
+  <div class="sub">Origin · ILCO — Compliance Source of Truth</div>
+  <div class="live"><span class="pulse"></span> <span id="liveTxt">connecting…</span></div>
+</div>
+
+<div class="wrap">
+  <div class="spine" id="spine"></div>
+
+  <h2 class="det">Build Progress</h2>
+  <div class="det-sub">Where each wave stands right now</div>
+  <div class="waves" id="waves"></div>
+
+  <h2 class="det">Compliance Stack — Live Components</h2>
+  <div class="det-sub">Click a live module to open it</div>
+  <div class="comps" id="comps"></div>
+</div>
+
+<script>
+const API=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'/api/v1':'/pos/api/v1';
+const token=sessionStorage.getItem('adminToken')||localStorage.getItem('token')||'';
+
+const SPINE=[
+ {lvl:1,tag:'Foundation · authoritative sources',h:'Legal & Compliance Sources',p:'EU GMP (EudraLex Vol 4) · SAHPRA · SAPC · HPCSA · Medicines Act · Pharmacy Act · Section 21 · POPIA',conn:'filtered & mapped through'},
+ {lvl:2,tag:'Governance · QA-controlled',h:'Site Master File (SMF)',p:'Maps each source requirement to a control — every control carries a Source ID.',conn:'derives procedures'},
+ {lvl:3,tag:'Operating procedures',h:'ILCO SOPs',p:'Each SOP filtered from the sources through the SMF — versioned, signed.',conn:'assigned to',numId:'sopCount',numLbl:'SOPs',link:'sop-library.html'},
+ {lvl:4,tag:'People',h:'Role',p:'Each role gets only its SOPs + KPIs. Dashboard + AI assistant grounded in this map.',conn:'closes the loop through'},
+ {lvl:5,tag:'Competency',h:'Training & Sign-off',p:'Read-and-understood digital sign-off per version — evidence of competency.',conn:null}
+];
+const WAVES=[
+ {n:'Wave 1 — Potchefstroom POS',d:'live & trading',pct:100,c:'var(--green)'},
+ {n:'Wave 2 — Compliance & Legal Grounding',d:'SOP Library · CAPA · Map · authorities',pct:62,c:'var(--amber)'},
+ {n:'Wave 3 — TnT-ZA Farm Platform',d:'cultivation, GMP, SMF',pct:18,c:'var(--blue)'},
+ {n:'Wave 4 — Pharmacy Intern Pipeline',d:'pending',pct:4,c:'var(--grey)'},
+ {n:'Wave 5 — Customer Experience',d:'tea wizard live',pct:14,c:'var(--blue)'},
+ {n:'Wave 6 — Multi-Node Scaling',d:'pending',pct:2,c:'var(--grey)'}
+];
+const COMPS=[
+ {nm:'Compliance Map',ss:'Live',col:'var(--green)',link:'compliance-map.html'},
+ {nm:'SOP Library',ss:'Live · grounded',col:'var(--green)',link:'sop-library.html'},
+ {nm:'CAPA Register',ss:'Live · loop closed',col:'var(--green)',link:'capa.html'},
+ {nm:'Authorities grounded',ss:'SAHPRA · SAPC · HPCSA',col:'var(--green)',link:'compliance-map.html'},
+ {nm:'GMP Readiness Dashboard',ss:'In build',col:'var(--blue)',link:null},
+ {nm:'POPIA Layer',ss:'Pending',col:'var(--grey)',link:null}
+];
+
+function animateNum(el,to){ let s=null; const dur=900; function step(t){ if(!s)s=t; const p=Math.min((t-s)/dur,1); el.textContent=Math.round(p*to); if(p<1)requestAnimationFrame(step);} requestAnimationFrame(step); }
+
+// render spine
+const sp=document.getElementById('spine');
+SPINE.forEach((n,i)=>{
+  const inner = `<div class="lvl">${n.lvl}</div><div class="tag">${n.tag}</div><h3>${n.h}</h3><p>${n.p}</p>${n.numId?`<div class="nums"><b id="${n.numId}">0</b><small>${n.numLbl}</small></div>`:''}`;
+  const node=document.createElement('div'); node.className='snode'; node.innerHTML=n.link?`<a href="${n.link}" style="color:inherit;text-decoration:none;">${inner}</a>`:inner;
+  sp.appendChild(node);
+  if(n.conn){ const c=document.createElement('div'); c.className='conn'; c.innerHTML=`<small>${n.conn}</small>`; sp.appendChild(c); }
+  setTimeout(()=>node.classList.add('in'), 200+i*260);
+});
+const loop=document.createElement('div'); loop.className='loop';
+loop.innerHTML='<div class="ic">↺</div><p><b>The loop:</b> a deviation or SOP violation auto-creates a <b>CAPA</b> → re-assigns the SOP & training → staff re-read and re-sign. Continuous, evidenced compliance.</p>';
+sp.appendChild(loop); setTimeout(()=>loop.classList.add('in'),200+SPINE.length*260);
+
+// waves
+document.getElementById('waves').innerHTML=WAVES.map(w=>`<div class="wave"><div class="wr"><span class="wt">${w.n} <small>· ${w.d}</small></span><span class="pct">${w.pct}%</span></div><div class="track"><div data-w="${w.pct}" style="background:${w.c}"></div></div></div>`).join('');
+setTimeout(()=>document.querySelectorAll('.track>div').forEach(d=>d.style.width=d.dataset.w+'%'),400);
+
+// comps
+document.getElementById('comps').innerHTML=COMPS.map(c=>{ const inner=`<span class="dot" style="background:${c.col}"></span><div><div class="nm">${c.nm}</div><div class="ss">${c.ss}</div></div>`; return `<div class="comp">${c.link?`<a href="${c.link}">${inner}</a>`:inner}</div>`; }).join('');
+document.querySelectorAll('.comp').forEach((c,i)=>setTimeout(()=>c.classList.add('in'),600+i*100));
+
+// live data
+async function live(){
+  let sopN=23, capaN=0, ok=false;
+  try{ if(token){ const r=await fetch(`${API}/sops`,{headers:{'Authorization':`Bearer ${token}`}}); if(r.ok){ const d=await r.json(); sopN=(d.sops||[]).length; ok=true; }
+    const r2=await fetch(`${API}/capa`,{headers:{'Authorization':`Bearer ${token}`}}); if(r2.ok){ const d2=await r2.json(); capaN=(d2.capas||[]).length; } } }catch(e){}
+  setTimeout(()=>animateNum(document.getElementById('sopCount'),sopN),900);
+  document.getElementById('liveTxt').textContent = ok ? `Live · ${sopN} SOPs · ${capaN} CAPAs` : `${sopN} SOPs grounded · sign in for live counts`;
+}
+live();
+</script>
+</body>
+</html>

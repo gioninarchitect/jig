@@ -44,6 +44,6 @@ Status key: ✅ **SHIPPED** (live, verified) · 🟡 **READY** (built+compiles, 
 - **Shipped live:** 7.1 · 7.2 · 7.4 · 10.1 · 10.2  (+ earlier: training guides, email, calendar→ticket connector, Operations Driver, remedial-training loop)
 - **Pending:** 7.3 · 8.1–8.4 · 9.1–9.2 · 10.3–10.6
 - **W7 integrity trail (rail-guard + escalation + audit) = COMPLETE** except 7.3 competency gate (cleaner after W8 wires work→SOP).
-- **Origin POS (separate module, live):** day-close guard ✅ · tab-jump fix ✅ · Ray report ✅
+- **Origin POS (separate module, live):** day-close guard ✅ · tab-jump fix ✅ · Ray report ✅ · #85 email-takings-report recipient validation ✅ (native `type=email` validator + POSBANK zero-width char; fixed `reports.html`, verified rendered)
 
 **Deploy mechanism:** `tnt-za/deploy-safe.sh` (build → backup → additive db push, no data-loss → restart → health check → auto-rollback). Live boxes are NOT git; dist is the artifact.

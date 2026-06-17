@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Patient Portal</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --amber:#F59E0B; --red:#DC2626; }
+  *{ box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  body{ background:#0A0A0A; color:var(--txt); min-height:100vh; }
+  header{ background:linear-gradient(135deg,#0A0A0A,#1a1408); border-bottom:2px solid var(--gold); padding:14px 22px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .brand{ display:flex; align-items:center; gap:12px; } .brand img{ height:34px; } .brand b{ font-family:'Cinzel'; letter-spacing:2px; color:var(--gold); } .brand span{ color:var(--grey); font-size:.8rem; }
+  .btn{ background:#222; color:var(--txt); border:none; border-radius:9px; padding:10px 16px; font-weight:700; cursor:pointer; font-size:.85rem; text-decoration:none; display:inline-block; }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; } .btn-ghost{ background:transparent; border:1px solid var(--line); color:var(--grey); }
+  .wrap{ max-width:760px; margin:0 auto; padding:24px 20px 60px; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px; margin-bottom:18px; }
+  .card h2{ font-family:'Cinzel'; color:var(--gold); font-size:1.2rem; margin-bottom:6px; }
+  .lbl{ font-size:.72rem; color:var(--grey); display:flex; flex-direction:column; gap:6px; margin-bottom:13px; letter-spacing:.5px; }
+  .lbl input,.lbl select{ padding:12px; background:#1d1d1d; border:1px solid #2a2a2a; border-radius:10px; color:#fff; font-size:1rem; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .status{ display:flex; align-items:center; gap:14px; padding:16px; border-radius:13px; border:1px solid var(--line); }
+  .status .dot{ width:14px; height:14px; border-radius:50%; flex-shrink:0; }
+  .s-none .dot{ background:var(--grey); } .s-pending .dot{ background:var(--amber); } .s-approved .dot{ background:var(--green); } .s-rejected .dot{ background:var(--red); }
+  .s-pending{ background:rgba(245,158,11,.07); border-color:rgba(245,158,11,.3); } .s-approved{ background:rgba(34,197,94,.07); border-color:rgba(34,197,94,.3); } .s-rejected{ background:rgba(220,38,38,.07); border-color:rgba(220,38,38,.3); }
+  .status b{ display:block; color:#fff; font-size:1rem; } .status span{ color:var(--grey); font-size:.85rem; }
+  .gatebox{ border:1px dashed var(--gold-d); border-radius:13px; padding:16px; background:rgba(201,168,76,.04); margin-top:8px; }
+  .msg{ font-size:.82rem; min-height:16px; margin-top:6px; }
+  .verify{ background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.3); color:#f0c674; font-size:.78rem; padding:10px 13px; border-radius:10px; margin-top:12px; }
+  .lead{ color:var(--grey); font-size:.9rem; line-height:1.5; }
+  .tiles{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:6px; }
+  .tile{ background:#100e09; border:1px solid var(--line); border-radius:12px; padding:16px; text-decoration:none; color:var(--txt); display:block; }
+  .tile b{ color:var(--gold); display:block; } .tile span{ color:var(--grey); font-size:.8rem; }
+  .tile.locked{ opacity:.55; } .tile.locked .pill{ background:var(--amber); color:#1a1a1a; font-size:.65rem; padding:2px 8px; border-radius:10px; font-weight:800; }
+  .toast{ position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--gold); color:#1a1a1a; padding:12px 22px; border-radius:10px; font-weight:700; z-index:99; display:none; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="images/origin-logo.png"><b>ORIGIN</b><span>Patient Portal</span></div>
+  <div style="display:flex;gap:8px;"><a class="btn btn-ghost" href="potchefstroom.html">Shop</a><button class="btn btn-ghost" id="logoutBtn" style="display:none;" onclick="logout()">Log out</button></div>
+</header>
+<div class="wrap">
+
+  <!-- LOGIN / REGISTER -->
+  <div id="authCard" class="card" style="display:none;">
+    <h2>Sign in to your patient portal</h2>
+    <p class="lead" style="margin-bottom:16px;">Enter your email — we'll send you a one-time code. New here? The same step creates your account.</p>
+    <div id="step1">
+      <label class="lbl">EMAIL<input id="email" type="email" placeholder="you@email.com"></label>
+      <button class="btn btn-gold" style="width:100%;" onclick="sendCode()">Send my code</button>
+    </div>
+    <div id="step2" style="display:none;">
+      <label class="lbl">6-DIGIT CODE (sent to your email)<input id="code" inputmode="numeric" maxlength="6" placeholder="••••••" style="letter-spacing:6px;font-size:1.3rem;text-align:center;"></label>
+      <button class="btn btn-gold" style="width:100%;" onclick="verifyCode()">Verify &amp; sign in</button>
+      <button class="btn btn-ghost" style="width:100%;margin-top:8px;" onclick="document.getElementById('step2').style.display='none';document.getElementById('step1').style.display='block';">← Use a different email</button>
+    </div>
+    <div id="authMsg" class="msg" style="color:var(--amber);"></div>
+  </div>
+
+  <!-- LOGGED IN -->
+  <div id="portal" style="display:none;">
+    <div class="card">
+      <h2 id="greet">Welcome</h2>
+      <p class="lead">Wellness &amp; lifestyle products are open to everyone. <b style="color:var(--txt);">Medical cannabis products</b> require an approved Section&nbsp;21 authorisation and prescription on file before you can order them.</p>
+    </div>
+
+    <!-- Section 21 status -->
+    <div class="card">
+      <h2>Your Section 21 status</h2>
+      <div id="statusBox" class="status s-none" style="margin-top:8px;">
+        <span class="dot"></span><div><b id="statusTitle">Loading…</b><span id="statusSub"></span></div>
+      </div>
+
+      <!-- Upload (shown when not approved) -->
+      <div id="uploadWrap" class="gatebox" style="display:none;">
+        <h2 style="font-size:1rem;margin-bottom:10px;">Upload your Section 21 &amp; prescription</h2>
+        <label class="lbl">DOCUMENT (Section 21 authorisation / prescription — PDF or photo)<input id="doc" type="file" accept=".pdf,.jpg,.jpeg,.png"></label>
+        <div class="row2">
+          <label class="lbl">PRESCRIPTION NUMBER<input id="rxNum" placeholder="e.g. RX-2026-001"></label>
+          <label class="lbl">PRESCRIBED BY<input id="rxBy" placeholder="Dr name / practice"></label>
+        </div>
+        <label class="lbl">ISSUE DATE<input id="rxDate" type="date"></label>
+        <button class="btn btn-gold" style="width:100%;" onclick="uploadDoc()">Submit for verification</button>
+        <div id="upMsg" class="msg" style="color:var(--amber);"></div>
+        <div class="verify">⚠ Your authorisation is reviewed by our responsible pharmacist before any medical product can be dispensed. Exact Section&nbsp;21 / prescription requirements are confirmed at review.</div>
+      </div>
+    </div>
+
+    <!-- Browse -->
+    <div class="card">
+      <h2>Browse &amp; order</h2>
+      <div class="tiles">
+        <a class="tile" href="potchefstroom.html"><b>Wellness &amp; lifestyle →</b><span>Open to all — shop now</span></a>
+        <a class="tile" id="medTile" href="potchefstroom.html"><b>Medical cannabis <span class="pill" id="medPill" style="display:none;">LOCKED</span></b><span id="medSub">Requires approved Section 21</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const API=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'/api/v1':'/pos/api/v1';
+let token=localStorage.getItem('token')||sessionStorage.getItem('adminToken')||'';
+let user=JSON.parse(localStorage.getItem('user')||sessionStorage.getItem('user')||'null');
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2400);}
+
+function show(){
+  if(token && user){ document.getElementById('authCard').style.display='none'; document.getElementById('portal').style.display='block'; document.getElementById('logoutBtn').style.display='inline-block';
+    document.getElementById('greet').textContent='Welcome, '+((user.firstName||user.name||'').split(' ')[0]||'patient'); loadStatus(); }
+  else { document.getElementById('authCard').style.display='block'; document.getElementById('portal').style.display='none'; document.getElementById('logoutBtn').style.display='none'; }
+}
+async function sendCode(){
+  const email=document.getElementById('email').value.trim().toLowerCase(), msg=document.getElementById('authMsg');
+  if(!email){msg.textContent='Enter your email';return;} msg.style.color='var(--grey)';msg.textContent='Sending…';
+  try{ const r=await fetch(`${API}/auth/otp/send`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,purpose:'signup'})}); const d=await r.json();
+    if(d.success!==false){ window._em=email; document.getElementById('step1').style.display='none'; document.getElementById('step2').style.display='block'; msg.textContent='Code sent — check your email.'; }
+    else msg.textContent=d.message||'Could not send code';
+  }catch(e){msg.style.color='var(--red)';msg.textContent='Network error';}
+}
+async function verifyCode(){
+  const code=document.getElementById('code').value.trim(), msg=document.getElementById('authMsg');
+  if(!code){msg.textContent='Enter the code';return;} msg.style.color='var(--grey)';msg.textContent='Verifying…';
+  try{ const r=await fetch(`${API}/auth/otp/verify`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:window._em,code})}); const d=await r.json();
+    if(d.success&&d.token){ token=d.token; user=d.user||{email:window._em}; localStorage.setItem('token',token); localStorage.setItem('user',JSON.stringify(user)); show(); }
+    else { msg.style.color='var(--red)'; msg.textContent=d.message||'Invalid code'; }
+  }catch(e){msg.style.color='var(--red)';msg.textContent='Verify failed';}
+}
+function logout(){ localStorage.removeItem('token'); localStorage.removeItem('user'); token=''; user=null; show(); }
+
+const STATUS={ none:['s-none','No Section 21 on file','Upload your authorisation &amp; prescription to unlock medical products.'],
+  pending:['s-pending','Under review','Our pharmacist is reviewing your documents. You\\'ll be able to order medical products once approved.'],
+  approved:['s-approved','Approved ✓','You can order medical cannabis products.'],
+  rejected:['s-rejected','Not approved','Your last submission was not approved. Please re-upload a valid Section 21 &amp; prescription.'] };
+async function loadStatus(){
+  let st='none';
+  try{ const r=await fetch(`${API}/section21/my-status`,{headers:{'Authorization':`Bearer ${token}`}}); if(r.ok){ const d=await r.json(); st=d.status||d.section21Status||(user&&user.section21Status)||'none'; } }
+  catch(e){ st=(user&&user.section21Status)||'none'; }
+  const [cls,title,sub]=STATUS[st]||STATUS.none;
+  const box=document.getElementById('statusBox'); box.className='status '+cls;
+  document.getElementById('statusTitle').innerHTML=title; document.getElementById('statusSub').innerHTML=sub;
+  document.getElementById('uploadWrap').style.display = (st==='approved') ? 'none' : 'block';
+  // medical tile lock
+  const locked = st!=='approved';
+  document.getElementById('medTile').classList.toggle('locked', locked);
+  document.getElementById('medPill').style.display = locked?'inline-block':'none';
+  document.getElementById('medSub').innerHTML = locked ? 'Requires approved Section 21' : 'Approved — shop medical products';
+}
+async function uploadDoc(){
+  const f=document.getElementById('doc').files[0], msg=document.getElementById('upMsg');
+  if(!f){msg.textContent='Choose your document';return;}
+  const fd=new FormData();
+  fd.append('document',f);
+  fd.append('userId', user.id||user._id||'');
+  fd.append('prescriptionNumber', document.getElementById('rxNum').value.trim());
+  fd.append('prescribedBy', document.getElementById('rxBy').value.trim());
+  fd.append('issuedDate', document.getElementById('rxDate').value||new Date().toISOString().slice(0,10));
+  msg.style.color='var(--grey)';msg.textContent='Uploading…';
+  try{ const r=await fetch(`${API}/section21/upload`,{method:'POST',headers:{'Authorization':`Bearer ${token}`},body:fd}); const d=await r.json();
+    if(r.ok && !d.error){ toast('Submitted for verification'); msg.style.color='var(--green)'; msg.textContent='Received — awaiting pharmacist approval.'; loadStatus(); }
+    else { msg.style.color='var(--red)'; msg.textContent=d.error||d.message||'Upload failed'; }
+  }catch(e){msg.style.color='var(--red)';msg.textContent='Upload failed';}
+}
+show();
+</script>
+</body>
+</html>

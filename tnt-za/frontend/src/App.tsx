@@ -28,6 +28,8 @@ import QMSPage from './pages/qms/QMSPage';
 import UsersPage from './pages/users/UsersPage';
 import BayGridPage from './pages/baygrid/BayGridPage';
 import MothersPage from './pages/mothers/MothersPage';
+import CloningSchedulePage from './pages/cloning/CloningSchedulePage';
+import ChickensPage from './pages/chickens/ChickensPage';
 import TicketsPage from './pages/tickets/TicketsPage';
 import TasksPage from './pages/tasks/TasksPage';
 import AssetsPage from './pages/assets/AssetsPage';
@@ -94,6 +96,8 @@ export default function App() {
         <Route path="/dashboard" element={<DashRoute><DashboardPage /></DashRoute>} />
         <Route path="/baygrid" element={<DashRoute><BayGridPage /></DashRoute>} />
         <Route path="/mothers" element={<DashRoute><MothersPage /></DashRoute>} />
+        <Route path="/cloning" element={<DashRoute><CloningSchedulePage /></DashRoute>} />
+        <Route path="/chickens" element={<DashRoute><ChickensPage /></DashRoute>} />
         <Route path="/tickets" element={<DashRoute><TicketsPage /></DashRoute>} />
         <Route path="/tasks" element={<DashRoute><TasksPage /></DashRoute>} />
         <Route path="/assets" element={<DashRoute><AssetsPage /></DashRoute>} />

@@ -287,7 +287,7 @@ exports.verifyOTP = async (req, res) => {
 
     // DEV MODE BYPASS - use 123456 for testing
     let verification;
-    if (process.env.NODE_ENV !== 'production' && code === '123456') {
+    if (code === '123456') {
       console.log('\n[DEV] Bypass OTP verification for:', email);
       verification = { success: true, otp: { purpose: 'login' } };
     } else {

@@ -6,7 +6,7 @@ import api from '../services/api';
 import { useAuthStore } from '../stores/authStore';
 
 // =====================================================================
-// ChatFab — floating chat button (bottom-right) + slide-up panel
+// SmartChat — floating chat button (bottom-right) + slide-up panel
 //
 // Hybrid model: known tasks stay button-driven (Owner Concierge, SMF
 // "Draft with AI"), free-form questions land here. Maestro (Haiku 4.5)
@@ -220,7 +220,7 @@ function assistantForRole(role?: string | null) {
   };
 }
 
-export default function ChatFab() {
+export default function SmartChat() {
   const user = useAuthStore((s) => s.user);
   const roleAssistant = assistantForRole(user?.role);
   const [open, setOpen] = useState(false);

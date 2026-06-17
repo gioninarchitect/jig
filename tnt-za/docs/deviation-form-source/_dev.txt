@@ -1,0 +1,143 @@
+Equipment/Consumable/Temperature and humidity/Process / Documentation/Sample
+
+Sample ID/ Equipment ID/Consumable ID/Data Logger ID/Document ID
+
+Raised by: Name and Surname
+
+
+Date Opened:
+
+
+Area of Deviation
+
+
+Procedure Deviated from:
+
+
+Description of the deviation:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Impact on Product quality:                   
+Yes   □                  No □             Not Known □
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Level of deviation:        Level 1 - Critical
+□            CAPA required:     CAPA no: __________
+                                         Level 2- Serious
+□            CAPA required:     CAPA no: ___________
+                                   Level 3- Minor/ Standard
+□
+Actions Required:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Deviation Approval Section:
+
+Quality Assurance Manager: _____________________________________
+(Name and Signature)
+
+Date:
+_____________________________
+Details of the Investigations:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Deviation Close off Section:
+
+Responsible Pharmacist:
+__________________________________
+(Name and Signature)
+
+Date:
+_________________________________
+
+
+

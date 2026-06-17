@@ -6,6 +6,7 @@ import { useToastStore } from '../../stores/toastStore';
 import { SkeletonTable } from '../../components/Skeleton';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import SOPHeader from '../../components/SOPHeader';
+import { FACILITY_ZONES, zoneLabel } from '../../constants/facilityZones';
 import { Bug, Plus, AlertTriangle, CheckCircle2, Leaf } from 'lucide-react';
 import api from '../../services/api';
 
@@ -60,7 +61,7 @@ export default function IPMScoutingPage() {
   const [zoneFilter, setZoneFilter] = useState<string>('');
   const [showLog, setShowLog] = useState(false);
   const [form, setForm] = useState({
-    batchId: '', line: '', zone: 'GREENHOUSE',
+    batchId: '', line: '', zone: 'GH1',
     insectOrDisease: '', degree: 'LOW' as Degree, pestType: '',
     stickyCardCount: '', notes: '',
   });
@@ -86,7 +87,7 @@ export default function IPMScoutingPage() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['ipm-scouting'] });
       setShowLog(false);
-      setForm({ batchId: '', line: '', zone: 'GREENHOUSE', insectOrDisease: '', degree: 'LOW', pestType: '', stickyCardCount: '', notes: '' });
+      setForm({ batchId: '', line: '', zone: 'GH1', insectOrDisease: '', degree: 'LOW', pestType: '', stickyCardCount: '', notes: '' });
       addToast('success', 'IPM observation logged');
       if (form.degree === 'HIGH') {
         addToast('warning', 'HIGH infestation — deviation created in QMS');
@@ -150,10 +151,8 @@ export default function IPMScoutingPage() {
 
       {/* Zone filter */}
       <div className="flex gap-2 flex-wrap">
-        <FilterChip active={zoneFilter === ''}            onClick={() => setZoneFilter('')}>All zones</FilterChip>
-        <FilterChip active={zoneFilter === 'MOTHER_BAY'}  onClick={() => setZoneFilter('MOTHER_BAY')}>Mother Bay</FilterChip>
-        <FilterChip active={zoneFilter === 'CLONE_ROOM'}  onClick={() => setZoneFilter('CLONE_ROOM')}>Clone Room</FilterChip>
-        <FilterChip active={zoneFilter === 'GREENHOUSE'}  onClick={() => setZoneFilter('GREENHOUSE')}>Greenhouse</FilterChip>
+        <FilterChip active={zoneFilter === ''} onClick={() => setZoneFilter('')}>All zones</FilterChip>
+        {FACILITY_ZONES.map(z => <FilterChip key={z.key} active={zoneFilter === z.key} onClick={() => setZoneFilter(z.key)}>{z.short}</FilterChip>)}
       </div>
 
       {/* Observations table */}
@@ -186,7 +185,7 @@ export default function IPMScoutingPage() {
               {observations.map(o => (
                 <tr key={o.id} className="border-b border-white/5 hover:bg-white/5">
                   <td className="px-4 py-3 text-white/80 font-mono text-xs">{new Date(o.date).toLocaleDateString()}</td>
-                  <td className="px-4 py-3 text-white/80">{ZONE_LABEL[o.zone] ?? o.zone}</td>
+                  <td className="px-4 py-3 text-white/80">{zoneLabel(o.zone)}</td>
                   <td className="px-4 py-3 text-white/80 font-mono">{o.line}</td>
                   <td className="px-4 py-3 text-white">{o.insectOrDisease}</td>
                   <td className="px-4 py-3 text-white/70">{o.pestType}</td>
@@ -209,9 +208,7 @@ export default function IPMScoutingPage() {
         <div className="space-y-3">
           <ModalSelect label="Zone" value={form.zone}
             onChange={e => setForm({ ...form, zone: e.target.value })}>
-            <option value="MOTHER_BAY">Mother Bay</option>
-            <option value="CLONE_ROOM">Clone Room</option>
-            <option value="GREENHOUSE">Greenhouse</option>
+            {FACILITY_ZONES.map(z => <option key={z.key} value={z.key}>{z.label}</option>)}
           </ModalSelect>
 
           <ModalInput label="Line / row" placeholder="e.g. R3-L7"

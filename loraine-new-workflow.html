@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: #1a1a1a; }
+  .page { width: 210mm; min-height: 297mm; padding: 16mm 16mm 14mm; page-break-after: always; position: relative; background: #fff; }
+  .page:last-child { page-break-after: auto; }
+
+  .top { display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid #C9A84C; padding-bottom:12px; margin-bottom:18px; }
+  .brand { font-size:24px; font-weight:800; letter-spacing:3px; color:#0A0A0A; }
+  .brand small { display:block; font-size:9px; letter-spacing:3px; color:#C9A84C; font-weight:700; margin-top:2px; }
+  .who { text-align:right; }
+  .who b { font-size:14px; color:#0A0A0A; }
+  .who span { display:block; font-size:10px; color:#8a8270; }
+
+  h1 { font-size:22px; margin:0 0 4px; color:#0A0A0A; }
+  .sub { font-size:12px; color:#8a8270; margin:0 0 18px; }
+  h2 { font-size:14px; color:#0A0A0A; margin:22px 0 10px; padding-left:10px; border-left:4px solid #C9A84C; }
+
+  .vs { display:flex; gap:12px; margin:14px 0 6px; }
+  .vs .col { flex:1; border-radius:12px; padding:14px 16px; }
+  .vs .old { background:#f6f3ec; border:1px solid #e6dfcd; }
+  .vs .new { background:#0A0A0A; color:#f2e9d2; }
+  .vs h4 { margin:0 0 8px; font-size:12px; letter-spacing:1px; text-transform:uppercase; }
+  .vs .old h4 { color:#b0a484; }
+  .vs .new h4 { color:#C9A84C; }
+  .vs ul { margin:0; padding-left:16px; }
+  .vs li { font-size:11.5px; line-height:1.7; }
+
+  .steps { counter-reset: step; }
+  .step { display:flex; gap:14px; align-items:flex-start; padding:12px 14px; border:1px solid #ece6d6; border-radius:12px; margin-bottom:10px; break-inside:avoid; background:#fffdf8; }
+  .step .n { flex:none; width:34px; height:34px; border-radius:50%; background:#C9A84C; color:#0A0A0A; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:center; }
+  .step .body { flex:1; }
+  .step .t { font-size:13px; font-weight:700; color:#0A0A0A; margin:2px 0 3px; }
+  .step .d { font-size:11.5px; color:#5a5648; line-height:1.55; }
+  .step .tag { display:inline-block; margin-top:6px; font-size:9.5px; font-weight:700; letter-spacing:.5px; color:#7a6f4a; background:#f3ecd8; border:1px solid #e6dcc0; border-radius:20px; padding:2px 9px; }
+
+  .when { display:inline-block; font-size:10px; font-weight:800; letter-spacing:1px; color:#fff; background:#C9A84C; border-radius:6px; padding:3px 9px; margin:16px 0 8px; text-transform:uppercase; }
+
+  .login { background:#0A0A0A; color:#f2e9d2; border-radius:12px; padding:16px 18px; margin-top:6px; }
+  .login h4 { margin:0 0 10px; color:#C9A84C; font-size:12px; letter-spacing:1px; text-transform:uppercase; }
+  .login .row { display:flex; justify-content:space-between; font-size:12px; padding:5px 0; border-bottom:1px solid #2a2a2a; }
+  .login .row:last-child { border-bottom:none; }
+  .login .row span { color:#a89f8c; }
+  .login .row b { color:#fff; font-family:"SF Mono", Menlo, monospace; }
+
+  .note { background:#fbf7ec; border:1px solid #ecdfba; border-left:4px solid #C9A84C; border-radius:8px; padding:12px 14px; font-size:11.5px; color:#5a5648; line-height:1.6; margin-top:14px; }
+  .foot { position:absolute; bottom:9mm; left:16mm; right:16mm; display:flex; justify-content:space-between; font-size:9px; color:#b3ac98; border-top:1px solid #eee; padding-top:8px; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="page">
+  <div class="top">
+    <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+    <div class="who"><b>Loraine</b><span>Facility &amp; Admin Manager</span></div>
+  </div>
+
+  <h1>Your New Workflow — No More Paper</h1>
+  <p class="sub">A simple guide to what changes, and exactly what you do each day.</p>
+
+  <div class="vs">
+    <div class="col old">
+      <h4>The old way</h4>
+      <ul>
+        <li>Forms filled in by hand, all day</li>
+        <li>Re-typed into spreadsheets at night</li>
+        <li>Files in folders, hard to find</li>
+        <li>Counts &amp; sign-offs chased manually</li>
+        <li>Re-typing the daily report every night</li>
+      </ul>
+    </div>
+    <div class="col new">
+      <h4>The new way</h4>
+      <ul>
+        <li>Staff capture on their phones, at the source</li>
+        <li>It fills your dashboard <b>automatically</b></li>
+        <li>Everything searchable, in one place</li>
+        <li>Counts reconciled, chickens verified in taps</li>
+        <li>You just <b>review &amp; sign</b> — done</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note"><b>The big idea:</b> you stop being the person who <i>writes everything down</i>. The team captures their own work as they do it, and the system does the typing, filing and totalling for you. Your job becomes <b>checking and approving</b> — not re-doing.</div>
+
+  <h2>Your Day in the App</h2>
+
+  <div class="when">🌅 Morning — open the dashboard</div>
+  <div class="steps">
+    <div class="step">
+      <div class="n">1</div>
+      <div class="body">
+        <div class="t">Open your Admin Dashboard</div>
+        <div class="d">Log in once. You'll see today's tasks, anything overdue, and what needs your attention — all on one screen.</div>
+        <div class="tag">ADMIN DASHBOARD</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">2</div>
+      <div class="body">
+        <div class="t">Review today's grow schedule</div>
+        <div class="d">The Grow Calendar shows what's planned today and which role is assigned. You see the day's cultivation plan at a glance.</div>
+        <div class="tag">GROW CALENDAR</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">3</div>
+      <div class="body">
+        <div class="t">See what needs your attention</div>
+        <div class="d">Your dashboard home flags anything overdue or out-of-range — so you act on exceptions instead of hunting through paper.</div>
+        <div class="tag">ADMIN DASHBOARD</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span>ORIGIN · by ILCO Farming — Confidential</span><span>Loraine · New Workflow Guide · Page 1</span></div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page">
+  <div class="when">☀️ During the day — the team feeds the system</div>
+  <div class="steps">
+    <div class="step">
+      <div class="n">4</div>
+      <div class="body">
+        <div class="t">Cultivation captures on their phones</div>
+        <div class="d">The Nursery Manager and cultivators record temperature, humidity, mortality, feeding and checks <b>as they happen</b>. You don't chase paper — it lands in your dashboard live.</div>
+        <div class="tag">AUTO — NOTHING FOR YOU TO TYPE</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">5</div>
+      <div class="body">
+        <div class="t">Verify the chicken crates</div>
+        <div class="d">Each crate comes in with a photo. Swipe through the <b>Review Reel</b> and tap to verify — your daily egg/flock check, done in minutes.</div>
+        <div class="tag">CHICKENS › REVIEW REEL</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">6</div>
+      <div class="body">
+        <div class="t">Reconcile a count when you need to</div>
+        <div class="d">If your physical count differs from the system, you adjust it and the change is logged with your name — a clean audit trail, automatically.</div>
+        <div class="tag">BAYGRID / STOCK</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="when">🌙 End of day — review &amp; sign</div>
+  <div class="steps">
+    <div class="step">
+      <div class="n">7</div>
+      <div class="body">
+        <div class="t">Sign off the day's forms</div>
+        <div class="d">All the day's completed forms are waiting for your sign-off. Review, enter your PIN, done — that PIN signature becomes your compliance record.</div>
+        <div class="tag">TASKS › SIGN-OFF</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">8</div>
+      <div class="body">
+        <div class="t">The daily report writes itself</div>
+        <div class="d">No more re-typing at night. The system builds the daily production summary from everything captured. You just check it and send.</div>
+        <div class="tag">AUTO — DAILY REPORT</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Your Login</h2>
+  <div class="login">
+    <h4>Keep this safe</h4>
+    <div class="row"><span>Website</span><b><a href="https://tntilco.cleva-ai.co.za" style="color:#fff;text-decoration:none;">tntilco.cleva-ai.co.za</a></b></div>
+    <div class="row"><span>Email</span><b>fm@ilcofarming.co.za</b></div>
+    <div class="row"><span>Your PIN</span><b>100100</b></div>
+    <div class="row"><span>Your role</span><b>Cultivation Admin · Chicken Farm Manager</b></div>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-top:12px;">
+    <a href="https://tntilco.cleva-ai.co.za" style="flex:1;text-align:center;background:#C9A84C;color:#0A0A0A;font-weight:800;font-size:12px;text-decoration:none;border-radius:10px;padding:13px;">Open my Dashboard →</a>
+    <a href="https://tntilco.cleva-ai.co.za/chickens" style="flex:1;text-align:center;background:#0A0A0A;color:#C9A84C;font-weight:800;font-size:12px;text-decoration:none;border-radius:10px;padding:13px;border:1px solid #C9A84C;">Open Chicken Farm →</a>
+  </div>
+  <p style="font-size:10px;color:#b3ac98;margin:8px 0 0;text-align:center;">Tip: open the website on your phone → browser menu → <b>Add to Home Screen</b> to install it like an app.</p>
+
+  <div class="note"><b>Remember:</b> if it used to be on paper, it now lives in the app — and most of it fills itself in. When in doubt, your dashboard's home screen shows you exactly what needs you today. You're never hunting through folders again.</div>
+
+  <div class="foot"><span>ORIGIN · by ILCO Farming — Confidential</span><span>Loraine · New Workflow Guide · Page 2</span></div>
+</div>
+
+</body>
+</html>

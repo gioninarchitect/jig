@@ -80,7 +80,50 @@ export async function completeTask(id: string, data: { checklistDone?: any[]; ph
     },
   });
   eventBus.emit('TASK_COMPLETED', { userId: data.userId, entityType: 'Task', entityId: id });
+  // Processing quality deviation — a signed-off QA/processing form recording an explicit
+  // FAIL (not approved / out of spec / invoice mismatch / rejected) auto-raises a
+  // documented deviation to the Processing Manager + FM + QA. Non-fatal.
+  try { await raiseProcessingDeviationIfFailed(id, data.checklistDone, data.userId); } catch { /* non-fatal */ }
   return task;
+}
+
+async function raiseProcessingDeviationIfFailed(taskId: string, checklistDone: any[] | undefined, userId: string) {
+  if (!Array.isArray(checklistDone) || !checklistDone.length) return;
+  const task = await prisma.task.findUnique({ where: { id: taskId }, include: { template: { select: { category: true, title: true } } } });
+  if (!task || !task.tenantId) return;
+  const cat = task.template?.category;
+  if (cat !== 'QA' && cat !== 'PROCESSING') return;
+  const failed = checklistDone.find((c: any) => {
+    const item = String(c?.item ?? '');
+    const val = String(c?.value ?? '').trim().toUpperCase();
+    return /approv|within spec|free from|corresponds with invoice/i.test(item)
+      && ['NO', 'N', 'FAIL', 'FAILED', 'FALSE', 'REJECT', 'REJECTED'].includes(val);
+  });
+  if (!failed) return;
+  const tenantId = task.tenantId;
+  const sop = (await prisma.sOP.findFirst({ where: { tenantId, title: { contains: 'Harvest' } } }))
+    || (await prisma.sOP.findFirst({ where: { tenantId } }));
+  const editor = await prisma.user.findUnique({ where: { id: userId } });
+  const facilityId = editor?.facilityId || (await prisma.facility.findFirst({ where: { tenantId } }))?.id;
+  if (!sop || !facilityId) return;
+  const deviation = await prisma.deviation.create({
+    data: {
+      sopId: sop.id,
+      description: `PROCESSING QUALITY DEVIATION — form "${task.template?.title}" signed off as FAILED at "${failed.item}" (recorded: ${failed.value}). Logged by ${editor?.name || 'operator'}. Requires root-cause + CAPA + QA sign-off.`,
+      severity: 'HIGH' as any, facilityId, raisedById: userId,
+    },
+  });
+  eventBus.emit('DEVIATION_RAISED', { userId, tenantId, entityType: 'Deviation', entityId: deviation.id });
+  // QA not onboarded until QA day → QA review redirected to SuperAdmin (Flo), NOT Keke.
+  const recipients = await prisma.user.findMany({
+    where: { tenantId, active: true, OR: [{ role: 'PROCESSING_MANAGER' as any }, { role: 'FACILITY_MANAGER' as any }, { email: 'florisolivier7@gmail.com' }] },
+    select: { id: true },
+  });
+  if (recipients.length) {
+    await prisma.notification.createMany({
+      data: recipients.map((u) => ({ userId: u.id, title: `PROCESSING DEVIATION: ${task.template?.title}`, message: `Failed at ${failed.item} — root-cause + CAPA required`, link: '/qms' })),
+    });
+  }
 }
 
 export async function updateTaskStatus(id: string, status: string) {
@@ -387,3 +430,37 @@ export const ROLE_KPI_DEFINITIONS: Record<string, Array<{ name: string; metric: 
     { name: 'PPE Availability', metric: 'ppe_available', target: 100, unit: '%' },
   ],
 };
+
+// Daily auto-materializer — turns active recurring TaskTemplates into dated Task
+// instances assigned to the right role, so every recurring form self-appears for
+// sign-off. Idempotent: one task per template per day (safe to run every tick).
+// No event emit (avoids driver feedback loop).
+export async function materializeRecurringForms(tenantId: string) {
+  const now = new Date();
+  const dayStart = new Date(now); dayStart.setHours(0, 0, 0, 0);
+  const dow = now.getDay();   // 0 Sun .. 1 Mon
+  const dom = now.getDate();
+  const templates = await prisma.taskTemplate.findMany({
+    where: { tenantId, active: true, frequency: { in: ['DAILY', 'WEEKLY', 'MONTHLY'] } },
+  });
+  let created = 0;
+  for (const t of templates) {
+    if (t.frequency === 'WEEKLY' && dow !== 1) continue;   // Mondays
+    if (t.frequency === 'MONTHLY' && dom !== 1) continue;   // 1st of month
+    const exists = await prisma.task.findFirst({ where: { templateId: t.id, createdAt: { gte: dayStart } }, select: { id: true } });
+    if (exists) continue;
+    // Commissioning gate: a form only generates a task when its role has a REAL, active
+    // owner. No cross-role fallback — an unstaffed role must NOT dump phantom tasks onto
+    // the Facility Manager (or anyone). When that role's person is commissioned, their
+    // forms start flowing automatically. Real owners only — no demo/misrouted data.
+    const assignee = await prisma.user.findFirst({
+      where: { tenantId, role: t.roleRequired as any, active: true },
+    });
+    if (!assignee) continue;
+    await prisma.task.create({
+      data: { title: t.title, templateId: t.id, assignedToId: assignee.id, assignerId: assignee.id, dueDate: now, priority: 'MEDIUM', category: t.category, tenantId },
+    });
+    created++;
+  }
+  return { created };
+}

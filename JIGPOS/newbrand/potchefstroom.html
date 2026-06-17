@@ -2623,8 +2623,7 @@
 
     // ---- Load products (API → fallback) ----
     function loadProducts() {
-        var apiUrl = (typeof Origin_CONFIG !== 'undefined' ? Origin_CONFIG.API_URL : (typeof API_URL !== 'undefined' ? API_URL : ''));
-        fetch(apiUrl + '/products?branch=potchefstroom&category=public')
+        fetch('/pos/api/v1/products?limit=500')
             .then(function(res) {
                 if (!res.ok) throw new Error('API ' + res.status);
                 return res.json();
@@ -2632,6 +2631,15 @@
             .then(function(data) {
                 var products = Array.isArray(data) ? data : (data.products || data.data || []);
                 if (products.length === 0) throw new Error('empty');
+                // Normalise POS product shape → storefront card fields
+                products = products.map(function(p) {
+                    return Object.assign({}, p, {
+                        price_zar: (p.price_zar != null ? p.price_zar : p.price),
+                        image: p.image || (Array.isArray(p.images) ? p.images[0] : null),
+                        brand: p.brand || p.supplier || '',
+                        productType: p.productType || p.category
+                    });
+                });
                 _allProducts = products;
                 renderProducts(_allProducts);
             })

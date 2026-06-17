@@ -6,6 +6,43 @@ import { generateOwnerBrief } from '../services/owner-concierge.service';
 import { answerOpsQuestion, buildChatActions, ChatAction } from '../services/general-ops.service';
 import * as baygrid from '../services/baygrid.service';
 import * as tasks from '../services/tasks.service';
+import { getActionCatalog, roleChat, flocoreEnabled, FlocoreCatalogItem } from '../services/flocore.service';
+
+// FLOCORE governed action → where it routes / how it executes in this app.
+// raise_ticket / review map onto the existing persisted-command prompts (so the
+// button click drives a REAL ticket/task CRUD round-trip); the rest navigate.
+const FLOCORE_TARGET_HREF: Record<string, string> = {
+  ticket_desk: '/tickets',
+  custody_chain: '/tickets',
+  facility_ops: '/tickets',
+  training_register: '/tasks',
+  record_management: '/qms',
+};
+
+function flocoreActionsToChatActions(items: FlocoreCatalogItem[], role: string): ChatAction[] {
+  const roleLabel = role.replace(/_/g, ' ');
+  return items.slice(0, 6).map((it, i): ChatAction => {
+    const tone: ChatAction['tone'] =
+      it.action === 'raise_ticket' ? 'primary'
+      : it.safe_use === 'approve-required' ? 'warning'
+      : it.action === 'review' ? 'primary'
+      : 'neutral';
+    if (it.action === 'raise_ticket') {
+      return { id: `fo-${i}`, label: it.label, href: '#', tone,
+        prompt: `Create a ticket for ${it.detail || it.label} and assign it to ${roleLabel}.` };
+    }
+    if (it.action === 'review') {
+      return { id: `fo-${i}`, label: it.label, href: '#', tone,
+        prompt: `Create a SOP checklist reminder for ${it.detail || 'role readiness'} today.` };
+    }
+    return { id: `fo-${i}`, label: it.label.replace(/^\[cold-start\]\s*/i, ''), href: FLOCORE_TARGET_HREF[it.target] || '/tickets', tone };
+  });
+}
+
+function mergeActions(primary: ChatAction[], extra: ChatAction[]): ChatAction[] {
+  const seen = new Set(primary.map(a => a.label.toLowerCase()));
+  return [...primary, ...extra.filter(a => !seen.has(a.label.toLowerCase()))].slice(0, 8);
+}
 
 // =====================================================================
 // /api/chat — single endpoint, Maestro-routed
@@ -94,6 +131,30 @@ function parseDueDate(message: string) {
 
 async function tryHandlePersistedChatCommand(req: AuthRequest, message: string) {
   const text = message.trim();
+
+  // Calendar / schedule / cloning setup → in-app action (not a human handoff)
+  const wantsScheduleSetup =
+    (/\b(set ?up|create|new|start|add|build)\b/i.test(text) && /\b(calendar|grow schedule|schedule|grow cycle|cloning|clone job|clone tray)\b/i.test(text)) ||
+    /\b(grow calendar|cloning schedule)\b/i.test(text);
+  if (wantsScheduleSetup) {
+    const wantsClone = /\bclon/i.test(text);
+    return {
+      route: { intent: 'OPS_QUESTION', reason: 'schedule/calendar setup → in-app action' },
+      answer:
+        `You can set this up right here in the app:\n\n` +
+        `- **Cultivation → Grow Calendar → New Schedule** — start a grow cycle (multi-strain supported)\n` +
+        `- **Cultivation → Cloning → New Cloning Job** — start clones from a registered mother (auto batch # + W1–W3 tracking)`,
+      actions: [
+        wantsClone
+          ? { id: 'open-cloning', label: 'New Cloning Job', href: '/cloning', tone: 'primary' }
+          : { id: 'open-calendar', label: 'Open Grow Calendar', href: '/calendar', tone: 'primary' },
+        { id: 'open-calendar2', label: 'Grow Calendar', href: '/calendar', tone: 'neutral' },
+        { id: 'open-cloning2', label: 'Cloning', href: '/cloning', tone: 'neutral' },
+      ],
+      sources: { command: 'schedule_setup_redirect', persisted: false },
+    };
+  }
+
   const wantsFmWizard =
     req.user!.role === 'FACILITY_MANAGER' &&
     /\b(wizard|guided|flow|sequence|start my day|do my job|oversight|all departments|department overview|department queues)\b/i.test(text);
@@ -277,6 +338,34 @@ async function tryHandlePersistedChatCommand(req: AuthRequest, message: string) 
     const assignedToRole = inferAssignedRole(text) || (req.user!.role === 'FACILITY_MANAGER' ? 'FACILITY_MANAGER' : undefined);
     const workflowStage = inferStage(text);
     const title = cleanTitle(text, category === 'ENVIRONMENT' ? 'Out-of-range environmental reading' : 'FM operational issue');
+
+    // Dedup guard — the chat fires on every send, and a re-sent / echoed message
+    // would otherwise spawn a duplicate ticket. If the same person already raised an
+    // identical, still-open ticket in the last 10 minutes, return THAT one.
+    const dupWindow = new Date(Date.now() - 10 * 60 * 1000);
+    const existingDup = await prisma.ticket.findFirst({
+      where: {
+        tenantId: req.user!.tenantId,
+        reportedById: req.user!.userId,
+        title,
+        status: { in: ['OPEN', 'ASSIGNED', 'IN_PROGRESS'] },
+        createdAt: { gte: dupWindow },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    if (existingDup) {
+      return {
+        route: { intent: 'TICKETS_QUERY', reason: 'duplicate ticket suppressed' },
+        answer:
+          `You already have an open ticket for this — I didn't make a duplicate.\n\n` +
+          `- **${existingDup.title}** (${existingDup.status})\n` +
+          `- Ticket ID: \`${existingDup.id}\`\n\n` +
+          `Open the Tickets board to update or reassign it.`,
+        actions: buildChatActions({ role: req.user!.role, intent: 'TICKETS_QUERY', message, answer: 'tickets audit existing' }),
+        sources: { command: 'create_ticket', persisted: false, ticketId: existingDup.id, deduped: true },
+      };
+    }
+
     const ticket = await baygrid.createTicket({
       title,
       description: `Created from role assistant chat by ${req.user!.email}. Original request: ${text}`,
@@ -364,7 +453,13 @@ router.post('/', async (req: AuthRequest, res: Response) => {
         const brief = await generateOwnerBrief(req.user!.tenantId);
         answer = brief.brief;
         extra = { briefThinking: brief.thinkingSummary, briefGeneratedAt: brief.generatedAt };
-        actions = buildChatActions({ role: req.user!.role, intent: route.intent, message, answer });
+        // Loraine runs FM + admin: surface the FLOCORE governed FM action buttons
+        // on her brief so the chat can drive a real ticket/SOP-reminder round-trip.
+        const ownerCatalog = flocoreEnabled() ? await getActionCatalog('FACILITY_MANAGER') : [];
+        actions = mergeActions(
+          flocoreActionsToChatActions(ownerCatalog, 'FACILITY_MANAGER'),
+          buildChatActions({ role: req.user!.role, intent: route.intent, message, answer }),
+        );
         break;
       }
 
@@ -395,21 +490,38 @@ router.post('/', async (req: AuthRequest, res: Response) => {
         break;
       }
 
-      // SMF_QUERY, TICKETS_QUERY, OPS_QUESTION all flow to the general ops agent
+      // SMF_QUERY, TICKETS_QUERY, OPS_QUESTION all flow to the general ops agent.
+      // The FLOCORE micro-model (native gemma) drives the answer + the governed
+      // action buttons when available; we fall back to the fast ops agent so the
+      // chat can never hang or break.
       case 'SMF_QUERY':
       case 'TICKETS_QUERY':
       case 'OPS_QUESTION':
       default: {
-        const result = await answerOpsQuestion({
-          message,
-          role: req.user!.role,
-          realUserName: realUser?.name ?? null,
-          tenantId: req.user!.tenantId,
-          intent: route.intent,
-        });
-        answer = result.answer;
-        actions = result.actions;
-        extra = { usage: result.usage, sources: result.sources };
+        // Governed action buttons (deterministic, fast) — fetched in parallel.
+        const catalogP = flocoreEnabled() ? getActionCatalog(req.user!.role) : Promise.resolve([]);
+        // Native micro-model answer (slow on cold start; tight timeout + fallback).
+        const microP = flocoreEnabled() ? roleChat(req.user!.role, message) : Promise.resolve(null);
+        const [catalog, micro] = await Promise.all([catalogP, microP]);
+
+        if (micro) {
+          answer = micro.answer;
+          (route as any).reason = `native micro-model · ${micro.model.split('/').pop()}`;
+          extra = { sources: { model: micro.model, usedOllama: micro.usedOllama, grounding: 'FLOCORE role micro-model' } };
+          actions = mergeActions(flocoreActionsToChatActions(catalog, req.user!.role),
+            buildChatActions({ role: req.user!.role, intent: route.intent, message, answer }));
+        } else {
+          const result = await answerOpsQuestion({
+            message,
+            role: req.user!.role,
+            realUserName: realUser?.name ?? null,
+            tenantId: req.user!.tenantId,
+            intent: route.intent,
+          });
+          answer = result.answer;
+          actions = mergeActions(flocoreActionsToChatActions(catalog, req.user!.role), result.actions);
+          extra = { usage: result.usage, sources: result.sources };
+        }
         break;
       }
     }

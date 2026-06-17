@@ -1,0 +1,17 @@
+{
+  "app": "origin",
+  "flow": "login_cta",
+  "viewport": "390x844",
+  "base_url": "https://tntilco.cleva-ai.co.za",
+  "role_key": "owner",
+  "module_key": "origin",
+  "steps": [
+    { "goto": "/login" },
+    { "expect": "input[type=email]" },
+    { "fill": ["input[type=email]", "florisolivier7+coenie@gmail.com"] },
+    { "click": "button[type=submit]" },
+    { "expect_text": "PIN sent to" },
+    { "expect": "input[inputmode=numeric]" },
+    { "screenshot": "login_cta_390.png" }
+  ]
+}

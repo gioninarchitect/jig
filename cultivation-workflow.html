@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cultivation Workflow — ORIGIN by ILCO</title>
+<style>
+  * { -webkit-print-color-adjust:exact; print-color-adjust:exact; box-sizing:border-box; }
+  @page { size:A4; margin:0; }
+  body { margin:0; font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; color:#Ede7da; background:#0A0A0A; font-size:12px; line-height:1.5; }
+  .page { width:210mm; min-height:297mm; padding:18mm 16mm; position:relative; break-after:page; background:#0A0A0A; }
+  .page:last-child { break-after:auto; }
+  .brand { font-weight:800; letter-spacing:.3em; color:#C9A84C; font-size:15px; }
+  .brand small { display:block; letter-spacing:.32em; font-size:7.5px; color:#9a917f; font-weight:600; margin-top:2px; }
+  .foot { position:absolute; bottom:12mm; left:16mm; right:16mm; display:flex; justify-content:space-between; color:#5a5346; font-size:8.5px; border-top:1px solid #1f1f1f; padding-top:6px; }
+
+  /* cover */
+  .cover { display:flex; flex-direction:column; justify-content:center; height:261mm; }
+  .cover h1 { font-size:46px; line-height:1.05; margin:18px 0 10px; color:#F5F0E8; font-weight:800; }
+  .cover .accent { color:#C9A84C; }
+  .cover .sub { font-size:15px; color:#A89F8C; max-width:130mm; }
+  .cover .meta { margin-top:24px; font-size:11px; color:#6a6356; letter-spacing:.04em; }
+
+  /* phase header band */
+  .ph { border-radius:12px; padding:16px 20px; display:flex; align-items:center; gap:16px; margin-bottom:16px; }
+  .ph .num { font-size:40px; font-weight:800; line-height:1; opacity:.9; }
+  .ph .t h2 { margin:0; font-size:22px; color:#0A0A0A; font-weight:800; }
+  .ph .t .d { font-size:11px; font-weight:700; opacity:.7; color:#0A0A0A; text-transform:uppercase; letter-spacing:.08em; }
+
+  h3 { font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:#C9A84C; margin:18px 0 8px; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .card { background:#141414; border:1px solid #262626; border-radius:10px; padding:13px 15px; break-inside:avoid; }
+  .card .h { font-weight:700; color:#F5F0E8; font-size:13px; margin-bottom:3px; }
+  .card .b { font-size:11px; color:#A89F8C; line-height:1.5; }
+  .chip { display:inline-block; font-size:9px; font-weight:700; padding:2px 8px; border-radius:999px; margin:3px 4px 0 0; }
+  .role { background:#C9A84C22; border:1px solid #C9A84C55; color:#E8D5A3; }
+  .sop { background:#8a6f1e22; border:1px solid #8a6f1e66; color:#D4B86A; }
+  .auto { background:#1f7a3a22; border:1px solid #22C55E55; color:#7CC47C; }
+  .formrow { background:#0f0f0f; border:1px solid #1f1f1f; border-left:3px solid #C9A84C; border-radius:8px; padding:10px 13px; margin-top:10px; }
+  .formrow .was { color:#C77; } .formrow .now { color:#7CC47C; font-weight:600; }
+  .pipe { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+  .pipe .seg { flex:1; min-width:60px; border-radius:8px; padding:10px 6px; text-align:center; color:#0A0A0A; font-weight:700; font-size:10px; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="page">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <div class="cover">
+    <div style="font-size:12px;letter-spacing:.3em;color:#C9A84C;font-weight:700;">CULTIVATION</div>
+    <h1>The Digital<br><span class="accent">Cultivation Workflow</span></h1>
+    <div class="sub">From mother plant to harvest — every phase, every form, every sign-off. The paper mountain, replaced by a system that schedules, captures and files itself.</div>
+    <div class="meta">ORIGIN · by ILCO Farming &nbsp;·&nbsp; SAHPRA 22C · EU-GMP / GACP aligned &nbsp;·&nbsp; 17 June 2026 · Private &amp; Confidential</div>
+  </div>
+  <div class="foot"><span>ORIGIN · by ILCO Farming</span><span>Cultivation Workflow · 01</span></div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="page">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <h3 style="margin-top:14px">The plant lifecycle — one continuous chain</h3>
+  <div class="pipe">
+    <div class="seg" style="background:#D4B86A">MOTHER</div>
+    <div class="seg" style="background:#5FC9C0">CLONE</div>
+    <div class="seg" style="background:#7CC47C">VEG</div>
+    <div class="seg" style="background:#B68BD4">FLOWER</div>
+    <div class="seg" style="background:#E58B6A">HARVEST</div>
+  </div>
+  <h3>How every form now works — the rail</h3>
+  <div class="cards">
+    <div class="card"><div class="h">1 · Auto-scheduled</div><div class="b">The form fires itself on its cadence (daily checks, temp/humidity, cleaning) — no one prints or hands out paper.</div></div>
+    <div class="card"><div class="h">2 · Captured on a tablet</div><div class="b">The team taps the reading/count and signs with a PIN. No re-keying, no lost sheets.</div></div>
+    <div class="card"><div class="h">3 · Self-policing</div><div class="b">Overdue or missing items escalate automatically; the manager only sees the exceptions.</div></div>
+    <div class="card"><div class="h">4 · Self-filing evidence</div><div class="b">Every completion is hash-chained and filed as EU-GMP inspection evidence — instantly audit-ready.</div></div>
+  </div>
+  <div class="formrow"><b>The shift for the team:</b> <span class="was">print → hand out → chase → check → file</span> &nbsp;→&nbsp; <span class="now">it appears → capture → sign. Done.</span></div>
+  <div class="foot"><span>ORIGIN · by ILCO Farming</span><span>Cultivation Workflow · 02</span></div>
+</div>
+
+<!-- MOTHER -->
+<div class="page">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <div class="ph" style="background:linear-gradient(90deg,#D4B86A,#E8D5A3)"><div class="num" style="color:#0A0A0A">01</div><div class="t"><h2>Mother Room</h2><div class="d">The genetics · MP1 &amp; MP2</div></div></div>
+  <h3>What happens</h3>
+  <div class="cards">
+    <div class="card"><div class="h">Register the mother</div><div class="b">Room (MP1/MP2), strain, quantity, <b>inception date</b>. Same strain can have mothers of different ages.</div></div>
+    <div class="card"><div class="h">Lifecycle &amp; cull</div><div class="b">Configurable lifecycle (default <b>180 days</b>) → the system computes the <b>cull date</b> and flags overdue mothers.</div></div>
+    <div class="card"><div class="h">Mother bay records</div><div class="b">Foliar applications + health checks captured against each mother.</div></div>
+    <div class="card"><div class="h">Source of every clone</div><div class="b">Every cloning job starts from a registered mother — clean genealogy from day one.</div></div>
+  </div>
+  <div class="formrow">Paper: <span class="was">Mother register · Mother cloning · Foliar log</span> → <span class="now">digital Mother register + auto foliar task</span></div>
+  <div style="margin-top:12px"><span class="chip role">Nursery Manager</span><span class="chip sop">SOP 3-CUL-6</span><span class="chip auto">auto cull-due alerts</span></div>
+  <div class="foot"><span>ORIGIN · by ILCO Farming</span><span>Cultivation Workflow · 03</span></div>
+</div>
+
+<!-- CLONE -->
+<div class="page">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <div class="ph" style="background:linear-gradient(90deg,#5FC9C0,#9be3dc)"><div class="num" style="color:#0A0A0A">02</div><div class="t"><h2>Cloning · Nursery</h2><div class="d">Clone room · Days 1–14 rooting</div></div></div>
+  <h3>One click starts the whole job</h3>
+  <div class="cards">
+    <div class="card"><div class="h">Start a cloning job</div><div class="b">Pick the mother → <b>strain + batch # fill themselves</b>. Enter clones, clone date, purpose (Production / New Mothers / Client).</div></div>
+    <div class="card"><div class="h">Auto-creates ~18 tasks</div><div class="b"><b>14 daily Temp &amp; Humidity</b> (target pre-set per day) + <b>W1/W2/W3 mortality checks</b> + <b>transplant</b> — all dated, assigned to the nursery.</div></div>
+    <div class="card"><div class="h">Daily clone-room forms</div><div class="b">Cleaning schedule, daily check, activity log — auto-appear for sign-off, no paper.</div></div>
+    <div class="card"><div class="h">Mortality &amp; culling</div><div class="b">Digital form — strain, count, reason, weight/batch/tag/zone → QA reviews.</div></div>
+  </div>
+  <div class="formrow">Paper: <span class="was">New Cloning · Temp/Humidity ×14 · Cleaning · Mortality · Culling · Jiffy</span> → <span class="now">all auto-scheduled to sign off</span></div>
+  <div class="formrow" style="border-left-color:#5FC9C0;margin-top:10px"><b style="color:#5FC9C0">📱 Nursery Manager PWA —</b> the input-control point for cloning. The NM runs the whole phase from a phone in the clone room: <b>start the job</b>, capture <b>daily temp/humidity + mortality</b>, and <b>sign off</b> on the spot. Every clone-room form routes to the NM by default.</div>
+  <div style="margin-top:12px"><span class="chip role">Nursery Manager / Cultivator</span><span class="chip sop">SOP 3-CUL-7 / 3-CUL-9</span><span class="chip auto">batch # auto · W1–3 auto</span><span class="chip" style="background:#5FC9C022;border:1px solid #5FC9C055;color:#5FC9C0">NM PWA controlled</span></div>
+  <div class="foot"><span>ORIGIN · by ILCO Farming</span><span>Cultivation Workflow · 04</span></div>
+</div>
+
+<!-- NM PWA — INPUT SOURCE -->
+<div class="page">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <div class="ph" style="background:linear-gradient(90deg,#5FC9C0,#9be3dc)"><div class="num" style="color:#0A0A0A">📱</div><div class="t"><h2>Nursery Manager PWA</h2><div class="d">The source of input · where the data is born</div></div></div>
+  <p style="color:#A89F8C;font-size:12px;margin:0 0 14px;">Every number that flows through the platform starts here. The Nursery Manager works from a <b style="color:#5FC9C0">phone or tablet in the clone room</b> — an installable app (PWA) that captures the cloning phase at the point of action. Nothing is written on paper and re-keyed later; the data is <b>born digital, at the source.</b></p>
+
+  <h3>What the NM captures — and what it hydrates</h3>
+  <div class="cards">
+    <div class="card"><div class="h">▸ Start a cloning job</div><div class="b">Mother → strain + batch # auto → <span style="color:#7CC47C">generates the batch, clone tray, and the whole 18-task schedule.</span></div></div>
+    <div class="card"><div class="h">▸ Daily Temp &amp; Humidity</div><div class="b">3 readings/day vs target → <span style="color:#7CC47C">hydrates the environmental record + flags out-of-range.</span></div></div>
+    <div class="card"><div class="h">▸ Mortality &amp; culling</div><div class="b">Count + reason + photo → <span style="color:#7CC47C">feeds yield/loss analytics + QA review.</span></div></div>
+    <div class="card"><div class="h">▸ Sign-off on the spot</div><div class="b">PIN signature → <span style="color:#7CC47C">becomes hash-chained EU-GMP evidence instantly.</span></div></div>
+  </div>
+
+  <h3>One input → the whole system fills itself</h3>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;">
+    <div style="background:#5FC9C0;color:#0A0A0A;font-weight:800;border-radius:10px;padding:14px 16px;font-size:13px;">📱 NM PWA<br><span style="font-size:9px;font-weight:600;">(clone room)</span></div>
+    <div style="color:#C9A84C;font-size:22px;">→</div>
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <div class="card" style="padding:9px 12px;"><div class="b" style="color:#E8D5A3;">BayGrid &amp; pots</div></div>
+      <div class="card" style="padding:9px 12px;"><div class="b" style="color:#E8D5A3;">Grow calendar &amp; tasks</div></div>
+      <div class="card" style="padding:9px 12px;"><div class="b" style="color:#E8D5A3;">Compliance evidence pack</div></div>
+      <div class="card" style="padding:9px 12px;"><div class="b" style="color:#E8D5A3;">Owner 360 dashboard</div></div>
+    </div>
+  </div>
+  <div class="formrow" style="border-left-color:#5FC9C0;margin-top:14px;"><b style="color:#5FC9C0">Why it matters:</b> capture-at-source = no paper, no re-keying, no lag. The data is accurate, contemporaneous and audit-ready the moment it's entered — and it populates every downstream view automatically.</div>
+  <div style="margin-top:12px"><span class="chip role">Nursery Manager</span><span class="chip" style="background:#5FC9C022;border:1px solid #5FC9C055;color:#5FC9C0">PWA · phone/tablet</span><span class="chip auto">capture-at-source · offline-tolerant</span></div>
+  <div class="foot"><span>ORIGIN · by ILCO Farming</span><span>Cultivation Workflow · NM PWA (input source)</span></div>
+</div>
+
+<!-- ROLES — DRIVER / EXECUTOR -->
+<div class="page">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <div class="ph" style="background:linear-gradient(90deg,#C9A84C,#e8d5a3)"><div class="num" style="color:#0A0A0A">⛓</div><div class="t"><h2>Who Drives, Who Executes</h2><div class="d">One schedule · one accountable owner per task</div></div></div>
+  <p style="color:#A89F8C;font-size:12px;margin:0 0 14px;">Every cultivation task has a clear chain: the <b style="color:#C9A84C">Head of Cultivation drives the plan</b>, the system generates the work, and the <b style="color:#5FC9C0">role that performs it executes</b>. Nobody hands out paper; nobody guesses who's responsible.</p>
+
+  <div class="cards" style="margin-bottom:14px;">
+    <div class="card" style="border-left:3px solid #C9A84C;">
+      <div class="h" style="color:#C9A84C">🎯 DRIVER — Head of Cultivation</div>
+      <div class="b"><b>Lou (Lourens Eksteen)</b> plans the phase in the <b>Grow Calendar</b>. Owns the <b>Cloning Schedule</b> &amp; <b>Harvest Request</b>. Start a batch → the whole task set generates automatically.</div>
+    </div>
+    <div class="card" style="border-left:3px solid #5FC9C0;">
+      <div class="h" style="color:#5FC9C0">✅ EXECUTOR — Nursery Manager</div>
+      <div class="b">The NM <b>executes</b> what the schedule generates — the daily clone-room care — on the <b>NM PWA</b> (phone). He doesn't plan; he captures-at-source.</div>
+    </div>
+  </div>
+
+  <h3>What a cloning batch auto-generates → all to the Nursery Manager</h3>
+  <table style="width:100%;border-collapse:collapse;font-size:11px;margin-top:6px;">
+    <thead><tr style="background:#1a1710;color:#C9A84C;text-align:left;">
+      <th style="padding:7px 9px;">Task</th><th style="padding:7px 9px;">When</th><th style="padding:7px 9px;">Allocated to</th></tr></thead>
+    <tbody style="color:#C9C2B0;">
+      <tr style="border-bottom:1px solid #221f18;"><td style="padding:6px 9px;"><b>Daily Temp &amp; Humidity ×14</b> (target pre-set per day)</td><td style="padding:6px 9px;">Day 1–14</td><td style="padding:6px 9px;color:#5FC9C0;">Nursery Manager</td></tr>
+      <tr style="border-bottom:1px solid #221f18;"><td style="padding:6px 9px;">Mortality Check — W1</td><td style="padding:6px 9px;">Day 7</td><td style="padding:6px 9px;color:#5FC9C0;">Nursery Manager</td></tr>
+      <tr style="border-bottom:1px solid #221f18;"><td style="padding:6px 9px;">Mortality Check — W2</td><td style="padding:6px 9px;">Day 14</td><td style="padding:6px 9px;color:#5FC9C0;">Nursery Manager</td></tr>
+      <tr style="border-bottom:1px solid #221f18;"><td style="padding:6px 9px;">Mortality Check — W3</td><td style="padding:6px 9px;">Day 21</td><td style="padding:6px 9px;color:#5FC9C0;">Nursery Manager</td></tr>
+      <tr><td style="padding:6px 9px;">Transplant</td><td style="padding:6px 9px;">Rooting-complete</td><td style="padding:6px 9px;color:#5FC9C0;">Nursery Manager</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The daily T&amp;H target steps down automatically</h3>
+  <div style="display:flex;gap:6px;font-size:10px;text-align:center;margin-top:4px;">
+    <div class="card" style="flex:1;padding:8px;"><div style="color:#C9A84C;font-weight:700;">Day 1–3</div><div class="b">20–24°C<br><b style="color:#7CC47C">95–100% RH</b></div></div>
+    <div class="card" style="flex:1;padding:8px;"><div style="color:#C9A84C;font-weight:700;">Day 4–6</div><div class="b">24–26°C<br>90–95% RH</div></div>
+    <div class="card" style="flex:1;padding:8px;"><div style="color:#C9A84C;font-weight:700;">Day 7–9</div><div class="b">24–25°C<br>85–90% RH</div></div>
+    <div class="card" style="flex:1;padding:8px;"><div style="color:#C9A84C;font-weight:700;">Day 10–12</div><div class="b">23–25°C<br>80–85% RH</div></div>
+    <div class="card" style="flex:1;padding:8px;"><div style="color:#C9A84C;font-weight:700;">Day 13–14</div><div class="b">22–25°C<br><b style="color:#E8A36B">70–75% RH</b></div></div>
+  </div>
+
+  <div class="formrow" style="border-left-color:#C9A84C;margin-top:14px;"><b style="color:#C9A84C">Commissioning rule:</b> a form only generates a task when its role has a <b>real, named person</b>. No owner = no task (it stays dark until that person is added). No dummy data, ever.</div>
+
+  <div style="margin-top:12px;font-size:10px;color:#8a8270;"><b style="color:#C9C2B0;">Live logins:</b> &nbsp; Lou (HoC · driver) <b style="color:#C9A84C">lou@ilcofarming.co.za</b> &nbsp;·&nbsp; Nursery Mgr (executor) <b style="color:#C9A84C">nm@ilcofarming.co.za</b> &nbsp;·&nbsp; Loraine (Cultivation Admin) <b style="color:#C9A84C">fm@ilcofarming.co.za</b></div>
+  <div class="foot"><span>ORIGIN · by ILCO Farming</span><span>Cultivation Workflow · Roles (driver / executor)</span></div>
+</div>
+
+<!-- VEG -->
+<div class="page">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <div class="ph" style="background:linear-gradient(90deg,#7CC47C,#a9dba9)"><div class="num" style="color:#0A0A0A">03</div><div class="t"><h2>Vegetative</h2><div class="d">GH1 · transplanted clones</div></div></div>
+  <h3>Tightly controlled by strain — down to the pot</h3>
+  <div class="cards">
+    <div class="card"><div class="h">GridView drill-down</div><div class="b">Greenhouse → Bay → Row → <b>Subrow (one strain, locked)</b> → 130 pots, each a permanent QR. Drill to any plant.</div></div>
+    <div class="card"><div class="h">Strain integrity</div><div class="b">One strain per subrow, enforced + audited — no drift. Status lights: 🟢 active · 🟡 flagged · 🔴 dead.</div></div>
+    <div class="card"><div class="h">Daily capture</div><div class="b">Daily check · Env Log (temp/RH) · IPM scouting · Feeding — auto-appear daily for sign-off.</div></div>
+    <div class="card"><div class="h">Grow calendar</div><div class="b">Day-by-day schedule with the governing SOP, relevant role, and staff assignment per day.</div></div>
+  </div>
+  <div class="formrow">Paper: <span class="was">Daily check · Env readings · IPM · Feed log</span> → <span class="now">auto-scheduled daily tasks</span></div>
+  <div style="margin-top:12px"><span class="chip role">Cultivator / Head of Cultivation</span><span class="chip sop">SOP 3-CUL-3 / 3-CUL-5</span><span class="chip auto">subrow strain-lock</span></div>
+  <div class="foot"><span>ORIGIN · by ILCO Farming</span><span>Cultivation Workflow · 05</span></div>
+</div>
+
+<!-- FLOWER + HARVEST -->
+<div class="page">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <div class="ph" style="background:linear-gradient(90deg,#B68BD4,#d3b8e8)"><div class="num" style="color:#0A0A0A">04</div><div class="t"><h2>Flower → Harvest</h2><div class="d">GH2 · flip · 8 weeks · harvest</div></div></div>
+  <h3>The calendar drives the work</h3>
+  <div class="cards">
+    <div class="card"><div class="h">Flip &amp; flower schedule</div><div class="b">Grow calendar fires each task — flip, defoliate, flush — on its day, to the assigned cultivator.</div></div>
+    <div class="card"><div class="h">Daily monitoring</div><div class="b">Env Log + daily checks continue; weight-variance and anomalies auto-alert senior roles.</div></div>
+    <div class="card"><div class="h">Harvest request</div><div class="b">Raise a harvest request → creates the batch (B-2026-NNN) and hands off to Processing.</div></div>
+    <div class="card"><div class="h">Clean genealogy</div><div class="b">Mother → clone tray → plant → batch — the full chain of custody, audit-ready.</div></div>
+  </div>
+  <div class="formrow">Paper: <span class="was">Grow log · Harvest request</span> → <span class="now">calendar tasks + digital harvest request → batch</span></div>
+  <div style="margin-top:12px"><span class="chip role">Head of Cultivation</span><span class="chip sop">SOP 3-CUL-4 / 3-CUL-10</span><span class="chip auto">→ hands off to Processing</span></div>
+  <div class="foot"><span>ORIGIN · by ILCO Farming</span><span>Cultivation Workflow · 06</span></div>
+</div>
+
+<!-- CLOSE -->
+<div class="page">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <h3 style="margin-top:14px">The result — for the cultivation team</h3>
+  <div class="cards">
+    <div class="card"><div class="h">11 / 11 forms digital</div><div class="b">Every clone-room &amp; cultivation form has a digital home — auto-scheduled or one-tap capture.</div></div>
+    <div class="card"><div class="h">Nothing to print or file</div><div class="b">No printing, handing out, chasing or filing. The system does the admin; the team does the plants.</div></div>
+    <div class="card"><div class="h">Inspection-ready, always</div><div class="b">Every sign-off is hash-chained EU-GMP evidence — the inspection pack builds itself.</div></div>
+    <div class="card"><div class="h">Manager sees exceptions</div><div class="b">Smart notifications surface only what needs attention — overdue, flagged, out-of-range.</div></div>
+  </div>
+  <div class="formrow" style="margin-top:18px;border-left-color:#22C55E"><b style="color:#7CC47C">Bottom line:</b> the paperwork mountain becomes a short list of <b>review-and-sign</b> on a tablet. The system schedules, chases and files — the team supervises.</div>
+  <div class="foot"><span>ORIGIN · by ILCO Farming · Cultivation digitisation</span><span>Cultivation Workflow · 07</span></div>
+</div>
+
+</body>
+</html>

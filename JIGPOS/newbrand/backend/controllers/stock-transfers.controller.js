@@ -347,7 +347,6 @@ async function quickReceive(req, res) {
                 balanceBefore: balanceBefore,
                 balanceAfter: newQty,
                 reference: `QR-${Date.now()}`,
-                lotId: item.lotId || null,
                 notes: notes || 'Quick receive',
                 performedBy: req.user.id,
                 timestamp: new Date()
@@ -357,7 +356,6 @@ async function quickReceive(req, res) {
             results.push({
                 productId: item.productId,
                 quantityAdded: item.quantity,
-                lotId: item.lotId || null,
                 newBalance: newQty
             });
         }

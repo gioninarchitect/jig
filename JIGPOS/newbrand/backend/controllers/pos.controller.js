@@ -64,9 +64,9 @@ exports.createSale = async (req, res) => {
       }))
     });
 
-    const calculatedSubtotal = items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
-    const calculatedTax = calculatedSubtotal * VAT_RATE;
-    const calculatedTotal = calculatedSubtotal + calculatedTax;
+    const calculatedTotal = items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0); // VAT-inclusive
+    const calculatedSubtotal = calculatedTotal / (1 + VAT_RATE);
+    const calculatedTax = calculatedTotal - calculatedSubtotal;
 
     if (paymentMethod) {
       sale.payments.push({
@@ -100,6 +100,11 @@ exports.createSale = async (req, res) => {
             const inventory = inventoryMap.get(item.productId.toString());
             if (inventory) {
               await inventory.deductStock(item.quantity, sale.saleNumber, req.user.id);
+            }
+            // Also decrement the product-level stock the POS grid displays, so sold stock shows in the UI
+            // and products with no BranchInventory record (e.g. newly added via the stock sheet) still deduct.
+            if (item.productId) {
+              await Product.updateOne({ _id: item.productId }, { $inc: { 'inventory.quantity': -item.quantity } });
             }
           } catch (error) {
             logger.error('POS inventory deduction error', { error: error.message, stack: error.stack });
@@ -215,7 +220,7 @@ exports.getSalesToday = async (req, res) => {
     const sales = await Sale.find({
       branchId,
       createdAt: { $gte: today },
-      status: { $in: ['completed', 'pending_payment'] }
+      status: { $in: ['completed', 'pending_payment', 'voided', 'refunded'] }
     })
       .populate('cashierId', 'firstName lastName')
       .sort({ createdAt: -1 });
@@ -631,18 +636,38 @@ exports.openTill = async (req, res) => {
     });
 
     if (existingSession) {
-      return res.status(400).json({
-        success: false,
-        message: 'This till already has an open session',
-        session: existingSession
-      });
+      const sessionDate = new Date(existingSession.openedAt);
+      const isToday = sessionDate.toDateString() === new Date().toDateString();
+      if (isToday) {
+        // Resume today's open session — never block the cashier
+        return res.status(200).json({
+          success: true,
+          resumed: true,
+          message: 'Resumed existing till session',
+          session: {
+            sessionNumber: existingSession.sessionNumber,
+            _id: existingSession._id,
+            tillNumber: existingSession.tillNumber,
+            openingFloat: existingSession.openingFloat,
+            openedAt: existingSession.openedAt,
+            status: existingSession.status
+          }
+        });
+      } else {
+        // Stale previous-day session — auto-close it and open fresh
+        existingSession.status = 'closed';
+        existingSession.closedAt = new Date();
+        existingSession.closingNotes = 'Auto-closed: stale session from previous day';
+        await existingSession.save();
+        // Fall through to open new session
+      }
     }
 
     const tillSession = new TillSession({
       branchId,
       tillNumber,
       openedBy: req.user.id,
-      openingFloat: openingFloat || 500,
+      openingFloat: (openingFloat != null ? Number(openingFloat) : 0),  // no float by default — set per store
       openingNotes: openingNotes || '',
       status: 'open'
     });
@@ -751,7 +776,26 @@ exports.closeTill = async (req, res) => {
       });
     }
 
-    await tillSession.closeSession(req.user.id, denominations, closingNotes);
+    
+    // Variance approval gate — over R50 needs a manager/admin PIN + note
+    const _dv = { r200:200, r100:100, r50:50, r20:20, r10:10, r5:5, r2:2, r1:1, c50:0.5, c20:0.2, c10:0.1, c5:0.05 };
+    let _actual = 0;
+    for (const _k in denominations) { const _v = _dv[String(_k).toLowerCase()]; if (_v) _actual += (Number(denominations[_k]) || 0) * _v; }
+    // Always recompute from the session's real figures — never trust a stale stored expectedCash.
+    const _expected = (tillSession.openingFloat || 0) + (tillSession.totalCash || 0) + (tillSession.totalCashIns || 0) - (tillSession.totalCashOuts || 0) - (tillSession.totalRefunds || 0);
+    const _variance = _actual - _expected;
+    if (Math.abs(_variance) > 50) {
+      const _MGR = ['owner','admin','super_admin','branch_manager'];
+      if (!_MGR.includes(req.user && req.user.role)) {
+        const _User = require('../modules/database/models/User');
+        const _appr = await _User.findOne({ permanentPin: String(req.body.approvalPin || ''), role: { $in: _MGR }, isActive: true });
+        if (!_appr) return res.status(403).json({ success: false, requiresApproval: true, message: 'Variance of R' + _variance.toFixed(2) + ' exceeds R50 — a manager/admin PIN is required to close.' });
+        if (!closingNotes || !String(closingNotes).trim()) return res.status(400).json({ success: false, message: 'A closing note is required when the variance exceeds R50.' });
+      }
+    }
+    const _normDenom = {};
+    for (const _dk in (denominations || {})) { _normDenom[String(_dk).toLowerCase()] = Number(denominations[_dk]) || 0; }
+    await tillSession.closeSession(req.user.id, _normDenom, closingNotes);
 
     // Notify owner dashboard of till closure
     try {
@@ -1906,4 +1950,137 @@ exports.offlineSync = async (req, res) => {
       error: error.message
     });
   }
+};
+
+// ===== Admin-PIN-gated VOID and REFUND from the POS till =====
+async function _approverByPin(pin) {
+  const User = require('../modules/database/models/User');
+  if (!pin) return null;
+  return User.findOne({ permanentPin: String(pin), role: { $in: ['owner', 'admin', 'super_admin'] }, isActive: true });
+}
+
+exports.quickVoid = async (req, res) => {
+  try {
+    const approver = await _approverByPin(req.body.pin);
+    if (!approver) return res.status(403).json({ success: false, message: 'Invalid admin PIN — not authorised' });
+    const sale = await Sale.findById(req.params.saleId);
+    if (!sale) return res.status(404).json({ success: false, message: 'Sale not found' });
+    if (sale.status === 'voided') return res.status(400).json({ success: false, message: 'Sale already voided' });
+    await sale.voidSale(approver._id, req.body.reason || 'Voided at till');
+    // Reverse this sale's contribution to the till totals (voids must not count as takings)
+    try {
+      if (sale.tillSessionId) {
+        const _ts = await TillSession.findById(sale.tillSessionId);
+        if (_ts) {
+          const _m = (sale.payments && sale.payments[0] && sale.payments[0].method) || sale.paymentMethod || 'cash';
+          const _amt = sale.totalAmount || 0;
+          _ts.totalSales = Math.max(0, (_ts.totalSales || 0) - _amt);
+          _ts.transactionCount = Math.max(0, (_ts.transactionCount || 0) - 1);
+          if (_m === 'cash') _ts.totalCash = Math.max(0, (_ts.totalCash || 0) - _amt);
+          else if (_m === 'card' || _m === 'instapay') _ts.totalCard = Math.max(0, (_ts.totalCard || 0) - _amt);
+          else if (_m === 'eft') _ts.totalEFT = Math.max(0, (_ts.totalEFT || 0) - _amt);
+          await _ts.save();
+        }
+      }
+    } catch (_e) { logger.warn('void till-reversal failed: ' + _e.message); }
+    logger.info('POS quick-void', { sale: sale.saleNumber, approver: approver.email, by: req.user && req.user.email });
+    res.json({ success: true, message: 'Voided · approved by ' + approver.firstName, approver: approver.firstName + ' ' + approver.lastName });
+  } catch (e) {
+    logger.error('quickVoid error', { error: e.message });
+    res.status(500).json({ success: false, message: 'Error voiding sale' });
+  }
+};
+
+exports.quickRefund = async (req, res) => {
+  try {
+    const approver = await _approverByPin(req.body.pin);
+    if (!approver) return res.status(403).json({ success: false, message: 'Invalid admin PIN — not authorised' });
+    const { reason, items, refundAmount } = req.body;
+    const sale = await Sale.findById(req.params.saleId);
+    if (!sale) return res.status(404).json({ success: false, message: 'Sale not found' });
+    if (sale.status === 'refunded') return res.status(400).json({ success: false, message: 'Sale already refunded' });
+    if (sale.status !== 'completed') return res.status(400).json({ success: false, message: 'Only completed sales can be refunded' });
+    const totalRefund = refundAmount || sale.totalAmount;
+    await sale.processRefund(approver._id, totalRefund, reason || 'Refunded at till');
+    if (items && items.length) {
+      for (const item of items) {
+        try {
+          const inv = await BranchInventory.findOne({ branchId: sale.branchId, productId: item.productId });
+          if (inv) await inv.addStock(item.quantity, 'Refund: ' + sale.saleNumber, approver._id);
+        } catch (err) { logger.error('refund restock error', { error: err.message }); }
+      }
+    }
+    if (sale.tillSessionId) {
+      const ts = await TillSession.findById(sale.tillSessionId);
+      if (ts && ts.status === 'open') { ts.totalRefunds = (ts.totalRefunds || 0) + totalRefund; await ts.save(); }
+    }
+    logger.info('POS quick-refund', { sale: sale.saleNumber, approver: approver.email, amount: totalRefund });
+    res.json({ success: true, message: 'Refunded R' + totalRefund.toFixed(2) + ' · approved by ' + approver.firstName, approver: approver.firstName + ' ' + approver.lastName, refundAmount: totalRefund });
+  } catch (e) {
+    logger.error('quickRefund error', { error: e.message });
+    res.status(500).json({ success: false, message: 'Error processing refund' });
+  }
+};
+
+// ===== Day-End Z-Report (PDF + CSV + email) =====
+const zreport = require('../services/zreport');
+async function _loadZ(sessionId) {
+  const session = await TillSession.findById(sessionId).populate('branchId');
+  if (!session) return null;
+  const sales = await Sale.find({ tillSessionId: sessionId }).sort({ createdAt: 1 }).lean();
+  const branchName = (session.branchId && session.branchId.name) || 'Potchefstroom';
+  return { session, sales, branchName };
+}
+exports.getZReportPdf = async (req, res) => {
+  try {
+    const z = await _loadZ(req.params.sessionId);
+    if (!z) return res.status(404).json({ success: false, message: 'Session not found' });
+    const pdf = await zreport.buildPdf(z.session, z.sales, z.branchName);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline; filename="ZReport-' + (z.session.sessionNumber || 'session') + '.pdf"');
+    res.send(pdf);
+  } catch (e) { logger.error('zreport pdf', { error: e.message }); res.status(500).json({ success: false, message: 'Error generating PDF' }); }
+};
+exports.getZReportCsv = async (req, res) => {
+  try {
+    const z = await _loadZ(req.params.sessionId);
+    if (!z) return res.status(404).json({ success: false, message: 'Session not found' });
+    const csv = zreport.buildCsv(z.session, z.sales);
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="ZReport-' + (z.session.sessionNumber || 'session') + '.csv"');
+    res.send(csv);
+  } catch (e) { logger.error('zreport csv', { error: e.message }); res.status(500).json({ success: false, message: 'Error generating CSV' }); }
+};
+exports.emailZReport = async (req, res) => {
+  try {
+    const z = await _loadZ(req.params.sessionId);
+    if (!z) return res.status(404).json({ success: false, message: 'Session not found' });
+    const recipients = (req.body && req.body.to && req.body.to.length) ? req.body.to : ['originbyilcofarming@gmail.com', 'florisolivier7@gmail.com'];
+    const pdf = await zreport.buildPdf(z.session, z.sales, z.branchName);
+    const csv = zreport.buildCsv(z.session, z.sales);
+    const s = z.session;
+    const when = new Date(s.closedAt || Date.now()).toLocaleString('en-ZA');
+    const html = '<div style="font-family:Arial,sans-serif"><h2 style="color:#C9A84C">Origin by ILCO — Day-End Z-Report</h2>' +
+      '<p>' + z.branchName + ' · ' + when + '</p><table cellpadding="6" style="border-collapse:collapse">' +
+      '<tr><td>Cash</td><td align="right">R' + (s.totalCash || 0).toFixed(2) + '</td></tr>' +
+      '<tr><td>Card (Speedpoint)</td><td align="right">R' + (s.totalCard || 0).toFixed(2) + '</td></tr>' +
+      '<tr><td>Manual EFT</td><td align="right">R' + (s.totalEFT || 0).toFixed(2) + '</td></tr>' +
+      '<tr><td><b>Total Sales</b></td><td align="right"><b>R' + (s.totalSales || 0).toFixed(2) + '</b></td></tr>' +
+      '<tr><td>Transactions</td><td align="right">' + (s.transactionCount || 0) + '</td></tr>' +
+      '<tr><td>Expected Cash</td><td align="right">R' + (s.expectedCash || 0).toFixed(2) + '</td></tr>' +
+      '<tr><td>Counted Cash</td><td align="right">R' + (s.actualCash || 0).toFixed(2) + '</td></tr>' +
+      '<tr><td>Variance</td><td align="right">R' + (s.variance || 0).toFixed(2) + '</td></tr></table>' +
+      '<p>PDF Z-report and CSV of all transactions are attached.</p></div>';
+    const sn = s.sessionNumber || 'session';
+    await emailService.sendEmail({
+      to: recipients.join(','),
+      subject: 'Origin Day-End Z-Report — ' + z.branchName + ' — ' + new Date(s.closedAt || Date.now()).toLocaleDateString('en-ZA'),
+      html,
+      attachments: [
+        { filename: 'ZReport-' + sn + '.pdf', content: pdf },
+        { filename: 'ZReport-' + sn + '.csv', content: csv }
+      ]
+    });
+    res.json({ success: true, message: 'Report emailed', recipients });
+  } catch (e) { logger.error('emailZReport', { error: e.message }); res.status(500).json({ success: false, message: 'Error emailing report: ' + e.message }); }
 };

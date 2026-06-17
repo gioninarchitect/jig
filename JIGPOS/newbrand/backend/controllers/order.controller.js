@@ -4,11 +4,34 @@
 const logger = require('../modules/logger');
 const Order = require('../modules/database/models/Order');
 const Product = require('../modules/database/models/Product');
+const User = require('../modules/database/models/User');
 const Branch = require('../modules/database/models/Branch');
 const invoiceGenerator = require('../services/invoiceGenerator');
 const emailService = require('../services/emailService');
 const config = require('../config');
 const VAT_RATE = config.business.vatRate;
+
+// Section 21 gate: an online order containing any medical (cannabis) item requires a verified patient.
+// Wellness/lifestyle-only orders are never affected. Returns null if allowed, or an error payload if blocked.
+async function section21Block(items, req) {
+  try {
+    const ids = (items || []).map(i => i.product || i.productId || i.id || i._id).filter(Boolean);
+    if (!ids.length) return null;
+    const prods = await Product.find({ _id: { $in: ids } }).select('track name').lean();
+    const medical = prods.filter(p => p && p.track === 'medical');
+    if (!medical.length) return null;
+    let patient = null;
+    const uid = req.user && (req.user.id || req.user._id);
+    if (uid) patient = await User.findById(uid).select('section21Status').lean();
+    if (!patient && req.body.customer && req.body.customer.email) {
+      patient = await User.findOne({ email: String(req.body.customer.email).toLowerCase() }).select('section21Status').lean();
+    }
+    if (!patient || patient.section21Status !== 'approved') {
+      return { code: 'SECTION21_REQUIRED', message: 'A verified Section 21 authorisation and prescription are required to order medical products.', medicalItems: medical.map(p => p.name) };
+    }
+    return null;
+  } catch (e) { logger.error('section21Block', { error: e.message }); return null; }
+}
 
 // 1. Check payment status endpoint
 exports.checkPaymentStatus = async (req, res) => {
@@ -65,6 +88,10 @@ exports.checkPaymentStatus = async (req, res) => {
 exports.createOrder = async (req, res) => {
   try {
     const { orderNumber, customer, items, subtotal, shipping, total, payment, status } = req.body;
+
+    // Section 21 gate — blocks medical items for unverified patients; wellness orders pass through.
+    const _s21 = await section21Block(items, req);
+    if (_s21) return res.status(403).json({ success: false, ..._s21 });
 
     // Check if user is authenticated (optional)
     const userId = req.headers.authorization ? null : null; // Will add proper auth check later
@@ -181,6 +208,10 @@ exports.guestCheckout = async (req, res) => {
         message: 'Customer details required (firstName, lastName, email)'
       });
     }
+
+    // Section 21 gate — guests can never order medical items (no verified Section 21).
+    const _s21g = await section21Block(items, req);
+    if (_s21g) return res.status(403).json({ success: false, ..._s21g });
 
     if (!items || items.length === 0) {
       return res.status(400).json({

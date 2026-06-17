@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { Bell, AlertTriangle, Clock, CheckCircle, ArrowRight, Scale, Skull, ShieldCheck, CalendarDays } from 'lucide-react';
+import { useRBAC } from '../../../hooks/useRBAC';
 import api from '../../../services/api';
 
 const ICON_MAP: Record<string, any> = {
@@ -27,6 +28,10 @@ const COLOR_MAP: Record<number, string> = {
 };
 
 export default function NotificationsWidget() {
+  // Weight-variance / diversion alerts route ONLY to FM + admins (CLAUDE.md rule).
+  const { hasRole } = useRBAC();
+  const canSeeWeight = hasRole('FACILITY_MANAGER', 'TENANT_ADMIN', 'SUPER_ADMIN');
+
   const { data: smartNotifs } = useQuery({
     queryKey: ['smart-notifications'],
     queryFn: () => api.get('/smart/notifications').then(r => r.data.notifications),

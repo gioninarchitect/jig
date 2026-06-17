@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Patient-Access / Section 21 Foundation Map</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --amber:#F59E0B; --red:#DC2626; --blue:#5B9BD5; }
+  *{ box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  body{ background:#0A0A0A; color:var(--txt); }
+  header{ background:linear-gradient(135deg,#0A0A0A,#1a1408); border-bottom:2px solid var(--gold); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .brand{ display:flex; align-items:center; gap:12px; } .brand img{ height:36px; } .brand b{ font-family:'Cinzel'; letter-spacing:2px; color:var(--gold); font-size:1.05rem; } .brand span{ color:var(--grey); font-size:.78rem; }
+  .btn{ background:#222; color:var(--txt); border:none; border-radius:9px; padding:9px 15px; font-weight:700; cursor:pointer; font-size:.83rem; text-decoration:none; }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; }
+  .wrap{ max-width:1000px; margin:0 auto; padding:26px 22px 70px; }
+  .lead{ color:#cfc6ad; font-size:.95rem; line-height:1.6; max-width:780px; }
+  .warn{ background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.35); color:#f0c674; font-size:.85rem; padding:13px 16px; border-radius:11px; margin:18px 0; }
+  .legend{ display:flex; gap:14px; flex-wrap:wrap; margin:14px 0 26px; font-size:.76rem; }
+  .lg{ display:flex; align-items:center; gap:7px; color:var(--grey); }
+  .badge{ font-size:.62rem; font-weight:800; padding:3px 9px; border-radius:20px; letter-spacing:.5px; text-transform:uppercase; }
+  .b-verify{ background:rgba(245,158,11,.16); color:var(--amber); } .b-live{ background:rgba(34,197,94,.16); color:var(--green); } .b-ph{ background:rgba(91,155,213,.16); color:var(--blue); }
+  h2.sec{ font-family:'Cinzel'; color:var(--gold); font-size:1.2rem; margin:30px 0 6px; } .sub{ color:var(--grey); font-size:.85rem; margin-bottom:14px; }
+  .step{ background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--gold-d); border-radius:0 14px 14px 0; padding:16px 20px; margin-bottom:14px; }
+  .step .hd{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .step .n{ background:var(--gold); color:#1a1a1a; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.82rem; flex-shrink:0; }
+  .step h3{ font-size:1.02rem; color:#fff; }
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px 24px; margin-top:12px; }
+  @media(max-width:640px){ .grid{ grid-template-columns:1fr; } }
+  .f .l{ color:var(--grey); font-size:.66rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+  .f .v{ color:#e6e0d2; font-size:.9rem; line-height:1.45; }
+  .f .v code{ font-family:'JetBrains Mono'; color:var(--gold); font-size:.82rem; }
+  table.src{ width:100%; border-collapse:collapse; margin-top:8px; }
+  table.src th{ background:#1a1610; color:var(--gold); text-align:left; padding:10px 12px; font-size:.74rem; }
+  table.src td{ padding:10px 12px; border-bottom:1px solid var(--line); font-size:.86rem; vertical-align:top; }
+  table.src tr:nth-child(even){ background:#100e09; }
+  .mono{ font-family:'JetBrains Mono'; color:var(--gold-d); font-size:.78rem; }
+  @media print{ body{ background:#fff; color:#000; } header,.btn{ display:none; } .step,.warn,table.src td,table.src th{ color:#000 !important; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="images/origin-logo.png"><div><b>ORIGIN</b><br><span>Patient-Access / Section 21 — Compliance Foundation Map</span></div></div>
+  <div style="display:flex;gap:8px;"><button class="btn btn-gold" onclick="window.print()">⬇ Print / PDF</button><a class="btn" href="compliance-map.html">GMP Spine</a></div>
+</header>
+<div class="wrap">
+  <p class="lead">This maps the medical-cannabis <b style="color:#fff;">patient-access pathway</b> — from consultation to dispensing — to the South African legal instruments that govern it, and to exactly where each requirement is enforced in the Origin software. It is the dispensing-side companion to the GMP governance spine (which covers cultivation → manufacture → release).</p>
+
+  <div class="warn">⚠ <b>Not legal advice. Foundation skeleton only.</b> Every legal requirement, schedule, validity period, eligibility criterion and fee disclosure below is marked <b>VERIFY</b> and must be confirmed and signed off by a registered South African medicines-law / pharmacy-law specialist before any item is treated as final or shown to real patients as fact. Statute names are cited as the framework, not as confirmed application.</div>
+
+  <div class="legend">
+    <div class="lg"><span class="badge b-live">LIVE</span> enforced in software today</div>
+    <div class="lg"><span class="badge b-ph">PLACEHOLDER</span> built, copy not yet grounded</div>
+    <div class="lg"><span class="badge b-verify">VERIFY</span> needs specialist sign-off</div>
+  </div>
+
+  <h2 class="sec">The patient-access pathway</h2>
+  <div class="sub">Each step: the governing instrument → the requirement → where Origin enforces it → status.</div>
+
+  <div class="step">
+    <div class="hd"><span class="n">1</span><h3>Eligibility &amp; doctor consultation</h3><span class="badge b-ph">PLACEHOLDER</span><span class="badge b-verify">VERIFY</span></div>
+    <div class="grid">
+      <div class="f"><div class="l">Governing instrument (framework)</div><div class="v">HPCSA — registered medical practitioner scope of practice. <b>[VERIFY]</b></div></div>
+      <div class="f"><div class="l">Requirement (to confirm)</div><div class="v">A registered practitioner assesses eligibility; eligible-conditions list &amp; "no referral" claim require sign-off. <b>[VERIFY]</b></div></div>
+      <div class="f"><div class="l">In software</div><div class="v"><code>patient-onboarding.html</code> — journey + R700 fee (R300 doctor + R400 SAHPRA Sec-21 application). Consult booking NOT built.</div></div>
+      <div class="f"><div class="l">Status</div><div class="v">Informational page only — no real booking / payment / intake yet (see #41).</div></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="hd"><span class="n">2</span><h3>Prescription issued</h3><span class="badge b-verify">VERIFY</span></div>
+    <div class="grid">
+      <div class="f"><div class="l">Governing instrument (framework)</div><div class="v">Medicines &amp; Related Substances Act 101 of 1965 (scheduling); HPCSA (prescribing). <b>[VERIFY]</b></div></div>
+      <div class="f"><div class="l">Requirement (to confirm)</div><div class="v">Valid prescription with prescriber detail, date, validity period. Validity duration <b>[VERIFY]</b>.</div></div>
+      <div class="f"><div class="l">In software</div><div class="v"><code>Section21Document</code> captures prescriptionNumber, prescribedBy, issuedDate, expiryDate.</div></div>
+      <div class="f"><div class="l">Status</div><div class="v"><span class="badge b-live">LIVE</span> captured on upload; in-system Rx generation = #41.</div></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="hd"><span class="n">3</span><h3>Section 21 authorisation (unregistered medicine)</h3><span class="badge b-verify">VERIFY</span></div>
+    <div class="grid">
+      <div class="f"><div class="l">Governing instrument (framework)</div><div class="v"><b>Section 21</b> of the Medicines &amp; Related Substances Act 101 of 1965 + the SAHPRA Section 21 guideline. <b>[VERIFY]</b></div></div>
+      <div class="f"><div class="l">Requirement (to confirm)</div><div class="v">SAHPRA authorisation to access an unregistered medicine; application process, fee &amp; who applies <b>[VERIFY]</b>.</div></div>
+      <div class="f"><div class="l">In software</div><div class="v"><code>patient-portal.html</code> upload → <code>POST /section21/upload</code> → status <code>pending</code>.</div></div>
+      <div class="f"><div class="l">Status</div><div class="v"><span class="badge b-live">LIVE</span> upload + status tracking.</div></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="hd"><span class="n">4</span><h3>Pharmacist verification &amp; dispensing authority</h3><span class="badge b-verify">VERIFY</span></div>
+    <div class="grid">
+      <div class="f"><div class="l">Governing instrument (framework)</div><div class="v">Pharmacy Act 53 of 1974 + SAPC Good Pharmacy Practice (responsible pharmacist). <b>[VERIFY]</b></div></div>
+      <div class="f"><div class="l">Requirement (to confirm)</div><div class="v">A responsible pharmacist verifies the Section 21 + prescription before dispensing. <b>[VERIFY]</b></div></div>
+      <div class="f"><div class="l">In software</div><div class="v"><code>section21-review.html</code> → <code>/section21/admin/approve|reject</code> → syncs <code>User.section21Status</code>.</div></div>
+      <div class="f"><div class="l">Status</div><div class="v"><span class="badge b-live">LIVE</span> review UI; admin endpoints now require pharmacist/admin auth ✓.</div></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="hd"><span class="n">5</span><h3>Ordering &amp; supply gate</h3><span class="badge b-live">LIVE</span></div>
+    <div class="grid">
+      <div class="f"><div class="l">Governing instrument (framework)</div><div class="v">Medicines Act (lawful supply of scheduled medicine only on authorisation). <b>[VERIFY]</b></div></div>
+      <div class="f"><div class="l">Requirement (to confirm)</div><div class="v">No medical product supplied without an approved Section 21 + prescription on file.</div></div>
+      <div class="f"><div class="l">In software</div><div class="v"><code>order.controller.section21Block</code> → blocks medical items unless <code>section21Status==='approved'</code> (branded prompt).</div></div>
+      <div class="f"><div class="l">Status</div><div class="v"><span class="badge b-live">LIVE</span> &amp; tested. Wellness/lifestyle unaffected.</div></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="hd"><span class="n">6</span><h3>Patient data &amp; record-keeping</h3><span class="badge b-live">LIVE</span></div>
+    <div class="grid">
+      <div class="f"><div class="l">Governing instrument (framework)</div><div class="v">POPIA 4 of 2013 + Pharmacy Act record-keeping. <b>[VERIFY retention periods]</b></div></div>
+      <div class="f"><div class="l">In software</div><div class="v"><code>popia.html</code> (DSAR + erasure), audit trails, uploads stored per-patient.</div></div>
+      <div class="f"><div class="l">Status</div><div class="v"><span class="badge b-live">LIVE</span> — retention periods to confirm.</div></div>
+    </div>
+  </div>
+
+  <h2 class="sec">Source instruments (framework — to confirm)</h2>
+  <table class="src">
+    <tr><th>Instrument</th><th>Governs</th><th>Sign-off</th></tr>
+    <tr><td>Medicines &amp; Related Substances Act 101 of 1965 — <b>Section 21</b> &amp; schedules</td><td>Access to unregistered medicine; scheduling; lawful supply</td><td class="mono">VERIFY</td></tr>
+    <tr><td>SAHPRA — Section 21 guideline / authorisation process</td><td>Application, authorisation, conditions</td><td class="mono">VERIFY</td></tr>
+    <tr><td>Pharmacy Act 53 of 1974 + SAPC Good Pharmacy Practice</td><td>Dispensing, responsible pharmacist, records</td><td class="mono">VERIFY</td></tr>
+    <tr><td>HPCSA</td><td>Practitioner scope, prescribing, consultation</td><td class="mono">VERIFY</td></tr>
+    <tr><td>POPIA 4 of 2013</td><td>Patient personal information, consent, retention</td><td class="mono">VERIFY periods</td></tr>
+    <tr><td>Consumer Protection Act 68 of 2008</td><td>Fee disclosure, fair terms, refunds</td><td class="mono">VERIFY</td></tr>
+  </table>
+
+  <h2 class="sec">What still needs sign-off before real-patient go-live</h2>
+  <table class="src">
+    <tr><th>#</th><th>Item</th><th>Owner</th></tr>
+    <tr><td>1</td><td>Confirm Section 21 application process, fee split (R400) &amp; who lodges it</td><td>Medicines-law specialist</td></tr>
+    <tr><td>2</td><td>Confirm eligible-conditions list &amp; "no referral needed" claim</td><td>Medical practitioner + specialist</td></tr>
+    <tr><td>3</td><td>Confirm prescription validity period (currently 6-month default)</td><td>Pharmacist + specialist</td></tr>
+    <tr><td>4</td><td>Confirm product schedule(s) &amp; lawful supply conditions</td><td>Specialist</td></tr>
+    <tr><td>5</td><td><s>Harden Section 21 admin endpoints (auth) before live approvals</s> — <b style="color:var(--green);">DONE</b> (pharmacist/admin only)</td><td>✓ Engineering</td></tr>
+    <tr><td>6</td><td>Confirm POPIA retention periods for Rx / Section 21 documents</td><td>Information Officer</td></tr>
+  </table>
+</div>
+</body>
+</html>

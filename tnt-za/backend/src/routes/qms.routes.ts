@@ -20,6 +20,7 @@ router.post('/sops/:id/acknowledge', qms.acknowledgeSOP);
 router.post('/deviations', requireLevel(2), qms.createDeviation);
 router.get('/deviations', requireLevel(0), qms.listDeviations);
 router.patch('/deviations/:id', requireLevel(3), qms.updateDeviation);
+router.patch('/deviations/:id/approve', requireLevel(3), qms.approveDeviation);
 router.patch('/deviations/:id/close', requireLevel(3), qms.closeDeviation);
 
 // Equipment

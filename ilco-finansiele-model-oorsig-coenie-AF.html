@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="utf-8">
+<title>ILCO Farming — Finansiële Model Oorsig</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    color: #20201c; background: #ffffff; font-size: 11.2px; line-height: 1.5;
+  }
+  .page { padding: 14mm 15mm 16mm; }
+  h1, h2, h3, .lockup, .tagline { font-family: 'Cinzel', Georgia, 'Times New Roman', serif; }
+
+  .band {
+    background: #0A0A0A; color: #F5F0E8; padding: 13mm 15mm 11mm;
+    border-bottom: 3px solid #C9A84C;
+  }
+  .lockup { font-size: 25px; font-weight: 800; letter-spacing: 7px; color: #C9A84C; }
+  .lockup .by { display:block; font-size: 9px; letter-spacing: 4px; color:#A89F8C; font-weight:500; margin-top:3px; }
+  .doc-title { font-family:'Cinzel',Georgia,serif; font-size: 16px; font-weight:600; color:#F5F0E8; margin-top: 9mm; }
+  .doc-sub { color:#C4BBA8; font-size: 10.5px; margin-top: 3px; }
+  .meta { margin-top: 6mm; font-size: 9.5px; color:#8f887b; letter-spacing:.3px; }
+  .meta b { color:#C9A84C; font-weight:600; }
+
+  h2 {
+    font-size: 13.5px; color:#0A0A0A; margin: 7mm 0 2.5mm; font-weight:700;
+    padding-bottom: 2mm; border-bottom: 1px solid #E8D5A3; break-after: avoid;
+  }
+  h2 .n { color:#C9A84C; margin-right: 7px; }
+  p { margin: 0 0 2.6mm; }
+  .lead { font-size: 12.5px; line-height:1.55; color:#2e2e2e; }
+  strong { color:#0A0A0A; }
+
+  .callout {
+    background:#FBF7EE; border-left: 3px solid #C9A84C; padding: 4mm 5mm; margin: 3.5mm 0;
+    break-inside: avoid;
+  }
+  .callout.green { border-left-color:#4A7C3F; background:#F2F6EF; }
+
+  table { width:100%; border-collapse: collapse; margin: 3.5mm 0; break-inside:auto; font-size:10.6px; }
+  thead { display: table-header-group; }
+  th { background:#0A0A0A; color:#E8D5A3; text-align:left; padding: 2.6mm 3.5mm; font-weight:600;
+       font-family:'Cinzel',Georgia,serif; letter-spacing:.5px; }
+  td { padding: 2.6mm 3.5mm; border-bottom:1px solid #ECE6D8; vertical-align: top; }
+  tr { break-inside: avoid; }
+  tbody tr:nth-child(even) { background:#FAF6EE; }
+  .num { text-align:right; font-variant-numeric: tabular-nums; white-space:nowrap; }
+  .real { color:#3A6230; font-weight:600; }
+  .assumed { color:#B91C1C; font-weight:600; }
+
+  ol.steps { margin: 2mm 0 2mm; padding-left: 0; counter-reset: s; list-style:none; }
+  ol.steps li { position:relative; padding: 1mm 0 2.5mm 10mm; break-inside:avoid; }
+  ol.steps li::before {
+    counter-increment: s; content: counter(s); position:absolute; left:0; top:0;
+    width: 7mm; height:7mm; background:#C9A84C; color:#0A0A0A; border-radius:50%;
+    font-family:'Cinzel',serif; font-weight:700; font-size:11px; text-align:center; line-height:7mm;
+  }
+  ol.steps li b { color:#0A0A0A; }
+
+  .footer { margin-top: 9mm; padding-top: 3mm; border-top:1px solid #E8D5A3;
+            font-size: 8.8px; color:#8f887b; letter-spacing:.4px; display:flex; justify-content:space-between; }
+  h1,h2,h3 { break-after: avoid; } p, li { orphans:3; widows:3; }
+</style>
+</head>
+<body>
+
+<div class="band">
+  <div class="lockup">ORIGIN<span class="by">BY ILCO FARMING</span></div>
+  <div class="doc-title">U Finansiële Model — Eenvoudige Oorsig &amp; die Pad Vorentoe</div>
+  <div class="doc-sub">’n Eerlike blik op die Brightstar “Besigheidsplan 2025”-model, en hoe ons dit eg maak.</div>
+  <div class="meta">OPGESTEL VIR &nbsp;<b>Coenie &amp; Ilse Venter</b> &nbsp;·&nbsp; 14 Junie 2026 &nbsp;·&nbsp; Privaat &amp; Vertroulik</div>
+</div>
+
+<div class="page">
+
+  <p class="lead">Coenie — jy het gesê die syfers in die model is wat die vorige adviseur ingesit het, en
+  <strong>definitief nie die ware syfers nie</strong>, anders sou die situasie vandag anders gelyk het.
+  Jy is reg. Hier is die eenvoudige waarheid daarvan, en die slim manier om dit reg te stel — <strong>sonder
+  dat jy en Ilse ooit julle boeke aan enigiemand hoef te oorhandig.</strong></p>
+
+  <h2><span class="n">1</span>Wat jy reeds het — die goeie nuus</h2>
+  <p>Die model self is <strong>professioneel gebou</strong> (deur Brightstar) — ’n behoorlike 10-jaar plan met
+  wins, kontantvloei, balansstaat, lenings en bankverbonde. Die enjin is gesond, en die
+  <strong>geskiedenis daarin is eg en akkuraat.</strong> Ons gooi dit nie weg nie. Ons gaan dit die regte
+  brandstof voer.</p>
+
+  <h2><span class="n">2</span>Waar dit verkeerd loop — in een prentjie</h2>
+  <p>Die model se <em>geskiedenis</em> is eg, maar die <em>toekoms</em> wat dit dan voorspel is op hoopvolle
+  aannames gebou — nie wat jou plaas werklik doen nie. Dít is die gaping wat jy gevoel het:</p>
+
+  <table>
+    <thead><tr><th>Die plaas se storie</th><th class="num">Inkomste</th><th>Wins-realiteit</th></tr></thead>
+    <tbody>
+      <tr><td><span class="real">EG · 2023 werklik</span></td><td class="num">≈ R3.8 miljoen</td><td>Beskeie wins</td></tr>
+      <tr><td><span class="real">EG · 2024 werklik</span></td><td class="num">≈ R6.5 miljoen</td><td>Rofweg <strong>gelykbreek</strong> na koste</td></tr>
+      <tr><td><span class="assumed">AANGENEEM · 2025 vooruitskatting</span></td><td class="num">≈ R9.8 miljoen</td><td>Wins verskyn</td></tr>
+      <tr><td><span class="assumed">AANGENEEM · 2026 vooruitskatting</span></td><td class="num">≈ R25.6 miljoen</td><td>Byna <strong>4× die beste werklike jaar</strong></td></tr>
+      <tr><td><span class="assumed">AANGENEEM · 2027–2034</span></td><td class="num">plat ≈ R28 miljoen</td><td>7 jaar lank plat gehou</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p style="margin:0;">In eenvoudige terme: die model neem aan die plaas spring van ’n <strong>gelykbreek-R6.5 miljoen</strong>
+    jaar reguit na <strong>R25.6 miljoen teen winsmarges meer as dubbel wat ILCO ooit behaal het</strong> —
+    en hou dan net daardie lyn vir jare. Dis ’n hoop, nie ’n vooruitskatting nie.</p>
+  </div>
+
+  <h2><span class="n">3</span>Hoekom dit saak maak</h2>
+  <p>’n Finansiële model is die instrument wat ’n <strong>bank, ’n belegger, of jou direksie</strong> gebruik om
+  besluite te neem. Op raaiskote gebou, kan dit jou stil-stil in die verkeerde rigting stuur en jou
+  geloofwaardigheid kos die oomblik wanneer iemand dit teen die werklikheid toets. Op <strong>jou ware
+  syfers</strong> gebou, word dit ’n wapen — geloofwaardig, verdedigbaar, en dit wys die <em>ware</em> pad na
+  groei in plaas van ’n sprokie.</p>
+
+  <h2><span class="n">4</span>Die slim oplossing — jy bly in beheer van jou syfers</h2>
+  <p>Jy en Ilse <strong>oorhandig nooit julle boeke aan ons of enigiemand anders nie.</strong> In plaas daarvan
+  gee ons jou ’n eenvoudige, privaat, stap-vir-stap vorm waar <strong>jy</strong> jou eie ware syfers invoer.
+  En hier is die slim deel:</p>
+
+  <ol class="steps">
+    <li><b>Dit vul vooraf in wat ons reeds weet.</b> Jou nuwe plaasstelsel (wat hierdie week lewendig raak) en
+    die Origin-betaalpunt vang reeds produksie, oes en verkope vas — daardie lyne word outomaties vir jou ingevul.</li>
+    <li><b>Jy voeg net die vertroulike dele by.</b> Die privaat finansiële lyne — jou ware koste, lenings en
+    rekeninge — tik jy self in, op jou eie skerm. Hulle bly joune.</li>
+    <li><b>Dit herbou die model onmiddellik</b> op daardie ware syfers, gereed vir die bank of die direksie.</li>
+  </ol>
+
+  <div class="callout green">
+    <p style="margin:0;"><strong>Die bonus — dit bly lewendig.</strong> Omdat die plaasstelsel hierdie week
+    lewendig raak (die terrein-inbedryfstelling en die personeelopleiding vir FM, Verbouing, Verwerking en
+    Gehaltebeheer), begin jou ware syfers van dag een af invloei. Die model hou op om ’n eenmalige
+    momentopname te wees wat op ’n rak verouder — dit word ’n <strong>lewende prentjie wat opdateer soos die
+    plaas loop.</strong></p>
+  </div>
+
+  <h2><span class="n">5</span>Wat ons van jou nodig het om te begin</h2>
+  <p>Net ’n paar dinge, alles <strong>privaat deur jou ingevoer</strong> — nooit met die span gedeel nie:
+  jou jongste bestuursrekeninge, jou ware maandelikse koste- en leningsyfers, en ’n vinnige bevestiging dat
+  hierdie privaat, self-laai benadering die manier is waarop jy wil gaan. Ons hanteer die res.</p>
+
+  <div class="footer">
+    <span>ORIGIN &nbsp;·&nbsp; deur ILCO Farming</span>
+    <span>Privaat &amp; Vertroulik &nbsp;·&nbsp; Opgestel 14 Junie 2026 &nbsp;·&nbsp; vir Coenie &amp; Ilse Venter</span>
+  </div>
+
+</div>
+</body>
+</html>

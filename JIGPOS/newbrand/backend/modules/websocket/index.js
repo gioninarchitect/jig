@@ -65,13 +65,6 @@ function initializeWebSocket(server) {
             console.log(`[WebSocket] ${socket.userEmail} joined staff-room`);
         }
 
-        // Join cultivation room if user has cultivation role
-        if (['farm_manager', 'cultivator', 'compliance_officer'].includes(socket.userRole) ||
-            socket.userRole === 'super_admin' || socket.userRole === 'owner') {
-            socket.join('cultivation-room');
-            console.log(`[WebSocket] ${socket.userEmail} joined cultivation-room`);
-        }
-
         // Join branch room if user has branch context
         if (socket.handshake.query.branchId) {
             socket.join(`branch-${socket.handshake.query.branchId}`);
@@ -335,20 +328,6 @@ function notifyBranch(branchId, event, data) {
     });
 }
 
-/**
- * Emit event to cultivation room
- */
-function notifyCultivation(event, data) {
-    if (!io) {
-        console.warn('[WebSocket] Cannot notify cultivation: Socket.IO not initialized');
-        return;
-    }
-    io.to('cultivation-room').emit(event, {
-        ...data,
-        timestamp: Date.now()
-    });
-}
-
 module.exports = {
     initializeWebSocket,
     getIO,
@@ -357,7 +336,6 @@ module.exports = {
     notifyAdmins,
     notifyOwners,
     notifyBranch,
-    notifyCultivation,
     broadcast,
     // Event-specific helpers
     notifyPaymentApproved,

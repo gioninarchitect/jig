@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Role AI Context</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --blue:#60A5FA; }
+  *{ box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  body{ background:#0A0A0A; color:var(--txt); }
+  header{ background:linear-gradient(135deg,#0A0A0A,#1a1408); border-bottom:2px solid var(--gold); padding:14px 22px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .brand{ display:flex; align-items:center; gap:12px; } .brand img{ height:34px; } .brand b{ font-family:'Cinzel'; letter-spacing:2px; color:var(--gold); } .brand span{ color:var(--grey); font-size:.8rem; }
+  .btn{ background:#222; color:var(--txt); border:none; border-radius:9px; padding:9px 15px; font-weight:700; cursor:pointer; font-size:.85rem; text-decoration:none; }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; }
+  .wrap{ max-width:900px; margin:0 auto; padding:22px; }
+  .intro{ color:var(--grey); font-size:.9rem; margin-bottom:16px; line-height:1.5; }
+  .gate{ max-width:350px; margin:50px auto; background:#161616; border:1px solid #2a2a2a; border-radius:16px; padding:26px; }
+  .lbl{ font-size:.72rem; color:var(--grey); display:flex; flex-direction:column; gap:5px; }
+  .lbl input{ padding:12px; background:#1d1d1d; border:1px solid #2a2a2a; border-radius:9px; color:#fff; }
+  .acc{ border:1px solid var(--line); border-radius:13px; margin-bottom:11px; overflow:hidden; }
+  .acc-head{ width:100%; display:flex; align-items:center; gap:10px; background:#120d04; color:var(--gold); border:none; padding:14px 18px; cursor:pointer; font-family:'Cinzel',serif; letter-spacing:.5px; font-size:1.02rem; text-align:left; }
+  .acc-head .chev{ transition:transform .2s; color:var(--gold-d); } .acc.open .acc-head .chev{ transform:rotate(90deg); }
+  .acc-head .rk{ margin-left:auto; font-family:'JetBrains Mono'; font-size:.68rem; color:var(--grey); letter-spacing:0; }
+  .acc-body{ display:none; padding:16px 18px; } .acc.open .acc-body{ display:block; }
+  .field{ margin-bottom:13px; } .field .l{ font-size:.66rem; letter-spacing:1px; text-transform:uppercase; color:var(--gold-d); margin-bottom:5px; }
+  .field p{ color:#e6e0d2; font-size:.9rem; line-height:1.5; }
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; }
+  .chip{ font-size:.72rem; background:#221d12; border:1px solid var(--line); color:var(--gold); padding:4px 10px; border-radius:8px; }
+  .chip.sop{ font-family:'JetBrains Mono'; color:#cfc6ad; }
+  .ground{ background:#0c0a06; border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:8px; padding:12px 14px; font-size:.82rem; color:#cfc6ad; white-space:pre-wrap; line-height:1.5; font-family:'JetBrains Mono',monospace; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="images/origin-logo.png"><b>ORIGIN</b><span>Role AI Assistant Context</span></div>
+  <div style="display:flex;gap:10px;"><a class="btn" href="compliance-map.html">Compliance Map</a><a class="btn" href="pos.html">← POS</a></div>
+</header>
+<div class="wrap">
+  <div id="gate" class="gate" style="display:none;">
+    <div style="font-family:'Cinzel';color:var(--gold);font-size:1.3rem;text-align:center;">Admin Login</div>
+    <div style="color:#888;text-align:center;font-size:.82rem;margin:4px 0 20px;">Role AI context</div>
+    <label class="lbl">EMAIL<input id="lgEmail" type="email" style="margin:6px 0 14px;"></label>
+    <label class="lbl">PIN<input id="lgPin" type="password" inputmode="numeric" style="letter-spacing:5px;" onkeydown="if(event.key==='Enter')doLogin()"></label>
+    <div id="lgMsg" style="color:#DC2626;font-size:.8rem;min-height:15px;margin-top:6px;"></div>
+    <button class="btn btn-gold" style="width:100%;margin-top:8px;" onclick="doLogin()">Sign In</button>
+  </div>
+  <div id="main" style="display:none;">
+    <div class="intro">Each role's dashboard AI assistant is grounded in exactly this context — its mission, the KPIs it watches, the SOPs that apply to it, and the legal/EU-GMP foundation — so it can only answer from the source of truth, never invent.</div>
+    <div id="rows"></div>
+  </div>
+</div>
+<script>
+const API=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'/api/v1':'/pos/api/v1';
+let token=sessionStorage.getItem('adminToken')||localStorage.getItem('token')||''; let OPEN=new Set();
+function hdr(){return{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'};}
+async function doLogin(){
+  const email=document.getElementById('lgEmail').value.trim().toLowerCase(),pin=document.getElementById('lgPin').value.trim(),msg=document.getElementById('lgMsg');
+  if(!email||!pin){msg.textContent='Enter email and PIN';return;} msg.style.color='#888';msg.textContent='Signing in…';
+  try{const r=await fetch(`${API}/auth/otp/verify-pin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,pin})});const d=await r.json();
+    if(!d.success||!d.token){msg.style.color='#DC2626';msg.textContent=d.message||'Invalid';return;}
+    token=d.token;sessionStorage.setItem('adminToken',token);localStorage.setItem('token',token);
+    sessionStorage.setItem('user',JSON.stringify(d.user));localStorage.setItem('user',JSON.stringify(d.user));
+    document.getElementById('gate').style.display='none';load();
+  }catch(e){msg.style.color='#DC2626';msg.textContent='Login failed';}
+}
+async function load(){
+  try{const r=await fetch(`${API}/role-context`,{headers:hdr()});
+    if(r.status===401||r.status===403){document.getElementById('gate').style.display='block';return;}
+    const d=await r.json(); document.getElementById('main').style.display='block'; render(d.contexts||[]);
+  }catch(e){document.getElementById('gate').style.display='block';}
+}
+function render(ctxs){
+  document.getElementById('rows').innerHTML=ctxs.map((c,i)=>{
+    const open=OPEN.has(c.role)||i===0;
+    return `<div class="acc ${open?'open':''}" data-r="${c.role}">
+      <button class="acc-head" onclick="tog('${c.role}')"><span class="chev">▸</span> ${c.label}<span class="rk">${c.role}</span></button>
+      <div class="acc-body">
+        <div class="field"><div class="l">Mission</div><p>${c.mission}</p></div>
+        <div class="field"><div class="l">Scope</div><p>${c.scope}</p></div>
+        <div class="field"><div class="l">KPIs the assistant watches</div><div class="chips">${(c.kpis||[]).map(k=>`<span class="chip">${k}</span>`).join('')}</div></div>
+        <div class="field"><div class="l">Legal / EU-GMP grounding</div><div class="chips">${(c.lawRefs||[]).map(k=>`<span class="chip">${k}</span>`).join('')}</div></div>
+        <div class="field"><div class="l">Applicable SOPs (${(c.sops||[]).length})</div><div class="chips">${(c.sops||[]).map(s=>`<span class="chip sop">${s.code} · ${s.title}</span>`).join('')||'<span class="chip">none</span>'}</div></div>
+        <div class="field"><div class="l">Assistant grounding (system prompt)</div><div class="ground">${(c.grounding||'').replace(/</g,'&lt;')}</div></div>
+      </div></div>`;
+  }).join('');
+}
+function tog(r){ if(OPEN.has(r))OPEN.delete(r);else OPEN.add(r); document.querySelector(`.acc[data-r="${r}"]`).classList.toggle('open'); }
+if(!token){document.getElementById('gate').style.display='block';}else{load();}
+</script>
+</body>
+</html>

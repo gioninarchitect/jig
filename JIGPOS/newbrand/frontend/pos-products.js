@@ -5,6 +5,15 @@
 const CANNABIS_CATS = new Set(['flower','pre-rolls','edibles','concentrates','topicals','oils','lifestyle-cbd','accessories','glassware','vaporizers','vapes','bundles','la-brewha','bean-bud','coffee','merchandise']);
 const WELLNESS_CATS = new Set(['supplements','pharmacy','skincare','haircare','nail-care','wellness','teas','mushrooms']);
 
+// The Wellness/Pharmacy group is classified by BRAND (not category) so every wellness-brand product
+// lands in Wellness regardless of its category quirks (e.g. Lamelle 'face', CannaMed 'topicals').
+const WELLNESS_BRANDS = ['lamelle','bio sculpture','biosculpture','cannamed','sacred roots','harmonic mycology','hm mycology','cbd full spectrum','origin teas'];
+function isWellnessBrand(p) {
+    const b = (p.brand || p.supplier || '').toLowerCase().trim();
+    if (!b) return false;
+    return WELLNESS_BRANDS.some(w => b.includes(w) || w.includes(b));
+}
+
 let activeGroup = 'cannabis';
 let selectedBrand = null;
 let isListView = false;
@@ -50,6 +59,143 @@ function getUnitPrice(product) {
     return `R${perUnit}/${w.unit}`;
 }
 
+// ===== Sell-by-the-gram entry (loose teas) =====
+let _gramProduct = null;
+let _gramValue = '';
+
+function openGramEntry(product) {
+    _gramProduct = product;
+    _gramValue = '';
+    document.getElementById('gramModal')?.remove();
+    const rate = product.price || product.pricePerGram || 0;
+    const name = product.name.replace(/\s*\d+(?:\.\d+)?\s*(?:g|ml|kg)\b/i, '');
+
+    const modal = document.createElement('div');
+    modal.id = 'gramModal';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10000;display:flex;align-items:center;justify-content:center;';
+    const chip = g => `<button onclick="setGrams(${g})" style="flex:1;padding:12px 0;background:#222;border:1px solid #333;border-radius:10px;color:#FAFAFA;font-weight:600;font-size:0.95rem;cursor:pointer;">${g}g</button>`;
+    const key = k => `<button onclick="gramKey('${k}')" style="padding:18px 0;background:#1d1d1d;border:1px solid #2a2a2a;border-radius:10px;color:#FAFAFA;font-size:1.4rem;font-weight:600;cursor:pointer;">${k === 'del' ? '⌫' : k}</button>`;
+    modal.innerHTML = `
+        <div style="background:#141414;border:1px solid #2a2a2a;border-radius:18px;width:92%;max-width:380px;overflow:hidden;">
+            <div style="background:rgba(74,222,128,0.12);padding:16px 20px;text-align:center;border-bottom:1px solid #2a2a2a;">
+                <div style="font-size:1.2rem;font-weight:700;color:#FAFAFA;">${name}</div>
+                <div style="font-size:0.85rem;color:#4ADE80;margin-top:3px;">R${rate}/gram</div>
+            </div>
+            <div style="padding:18px 20px;">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;">
+                    <div><span id="gramDisplay" style="font-size:2.2rem;font-weight:700;color:#FAFAFA;">0</span><span style="font-size:1.1rem;color:#888;"> g</span></div>
+                    <div style="text-align:right;"><div style="font-size:0.7rem;color:#888;">TOTAL</div><div id="gramTotal" style="font-size:1.6rem;font-weight:700;color:#C9A84C;font-family:'Cinzel',serif;">R0</div></div>
+                </div>
+                <div style="display:flex;gap:8px;margin-bottom:14px;">${chip(10)}${chip(25)}${chip(50)}${chip(100)}</div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+                    ${['1','2','3','4','5','6','7','8','9'].map(key).join('')}
+                    ${key('0')}${key('00')}${key('del')}
+                </div>
+            </div>
+            <div style="display:flex;gap:10px;padding:0 20px 20px;">
+                <button onclick="document.getElementById('gramModal').remove()" style="flex:1;padding:14px;background:#262626;border:none;border-radius:12px;color:#FAFAFA;font-weight:600;cursor:pointer;">Cancel</button>
+                <button onclick="confirmGrams()" style="flex:2;padding:14px;background:#C9A84C;border:none;border-radius:12px;color:#1A1A1A;font-weight:700;cursor:pointer;">Add to Cart</button>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function _renderGrams() {
+    const rate = _gramProduct?.price || _gramProduct?.pricePerGram || 0;
+    const g = parseInt(_gramValue || '0', 10);
+    const d = document.getElementById('gramDisplay');
+    const t = document.getElementById('gramTotal');
+    if (d) d.textContent = g;
+    if (t) t.textContent = 'R' + (g * rate);
+}
+
+function gramKey(k) {
+    if (k === 'del') _gramValue = _gramValue.slice(0, -1);
+    else if ((_gramValue + k).length <= 4) _gramValue = (_gramValue + k).replace(/^0+/, '');
+    _renderGrams();
+}
+
+function setGrams(g) { _gramValue = String(g); _renderGrams(); }
+
+function confirmGrams() {
+    const rate = _gramProduct?.price || _gramProduct?.pricePerGram || 0;
+    const g = parseInt(_gramValue || '0', 10);
+    if (!g || g < 1) { showToast('Enter grams', 'Type a gram amount first', 'warning'); return; }
+    const name = _gramProduct.name.replace(/\s*\d+(?:\.\d+)?\s*(?:g|ml|kg)\b/i, '');
+    addToCartDirect({
+        ..._gramProduct,
+        lineKey: _gramProduct._id + ':' + g + 'g',  // unique per gram amount (cart only)
+        name: `${name} — ${g}g`,
+        price: g * rate,
+        soldGrams: g
+    });
+    document.getElementById('gramModal')?.remove();
+}
+
+// ===== Admin-gated product edit (price + stock) =====
+function openProductEdit(product) {
+    document.getElementById('editModal')?.remove();
+    const curPrice = product.price ?? 0;
+    const curQty = product.inventory?.quantity ?? product.quantity ?? 0;
+    const isGram = product.sellBy === 'gram';
+
+    const modal = document.createElement('div');
+    modal.id = 'editModal';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10001;display:flex;align-items:center;justify-content:center;';
+    modal.innerHTML = `
+        <div style="background:#141414;border:1px solid #2a2a2a;border-radius:18px;width:92%;max-width:400px;overflow:hidden;">
+            <div style="background:rgba(201,168,76,0.12);padding:16px 20px;border-bottom:1px solid #2a2a2a;">
+                <div style="font-size:1.1rem;font-weight:700;color:#FAFAFA;">Edit Product</div>
+                <div style="font-size:0.85rem;color:#C9A84C;margin-top:2px;">${product.name}</div>
+            </div>
+            <div style="padding:18px 20px;display:flex;flex-direction:column;gap:14px;">
+                <label style="display:flex;flex-direction:column;gap:5px;font-size:0.75rem;color:#888;letter-spacing:0.5px;">PRICE ${isGram ? '(R PER GRAM)' : '(R)'}
+                    <input id="editPrice" type="number" inputmode="decimal" value="${curPrice}" style="padding:12px;font-size:1.2rem;background:#1d1d1d;border:1px solid #333;border-radius:10px;color:#FAFAFA;">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:5px;font-size:0.75rem;color:#C9A84C;letter-spacing:0.5px;border-top:1px solid #2a2a2a;padding-top:14px;">ADMIN PIN TO APPROVE
+                    <input id="editPin" type="password" inputmode="numeric" placeholder="••••••" style="padding:12px;font-size:1.2rem;letter-spacing:6px;background:#1d1d1d;border:1px solid #C9A84C;border-radius:10px;color:#FAFAFA;">
+                </label>
+                <div id="editMsg" style="font-size:0.8rem;color:#DC2626;min-height:16px;"></div>
+            </div>
+            <div style="display:flex;gap:10px;padding:0 20px 20px;">
+                <button onclick="document.getElementById('editModal').remove()" style="flex:1;padding:14px;background:#262626;border:none;border-radius:12px;color:#FAFAFA;font-weight:600;cursor:pointer;">Cancel</button>
+                <button onclick="saveProductEdit('${product._id}')" style="flex:2;padding:14px;background:#C9A84C;border:none;border-radius:12px;color:#1A1A1A;font-weight:700;cursor:pointer;">Save · Admin Approve</button>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+async function saveProductEdit(productId) {
+    const price = document.getElementById('editPrice').value;
+    const pin = document.getElementById('editPin').value;
+    const msg = document.getElementById('editMsg');
+    if (!pin) { msg.style.color = '#DC2626'; msg.textContent = 'Enter an admin PIN to approve.'; return; }
+    msg.style.color = '#888'; msg.textContent = 'Verifying admin…';
+    try {
+        const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+        const res = await fetch(`${API_URL}/products/${productId}/quick-edit`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'Authorization': token ? `Bearer ${token}` : '' },
+            body: JSON.stringify({ pin, price })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) { msg.style.color = '#DC2626'; msg.textContent = data.message || 'Update failed'; return; }
+        // Reflect change locally
+        const p = allProducts.find(x => x._id === productId);
+        if (p) {
+            if (data.price != null) { p.price = data.price; if (p.sellBy === 'gram') p.pricePerGram = data.price; }
+            if (data.quantity != null) { p.inventory = p.inventory || {}; p.inventory.quantity = data.quantity; }
+        }
+        document.getElementById('editModal')?.remove();
+        showToast('Updated', data.message || `Approved by ${data.approver}`, 'success');
+        applyFilters();
+    } catch (e) {
+        msg.style.color = '#DC2626'; msg.textContent = 'Network error — try again';
+    }
+}
+
 function renderBrandFilter(products) {
     const container = document.getElementById('brandFilterRow');
     if (!container) return;
@@ -81,7 +227,16 @@ function formatBrandName(b) {
         'Sacred Roots': 'CannaMed',
         'CBD Full Spectrum Manufacturers International': 'CBD Full Spectrum'
     };
-    return map[b] || b;
+    if (map[b]) return map[b];
+    // Case-insensitive / partial fallback so casing variants collapse to one brand.
+    const lb = String(b || '').toLowerCase();
+    if (lb.includes('bio sculpture') || lb.includes('biosculpture')) return 'Bio Sculpture';
+    if (lb.includes('lamelle')) return 'Lamelle';
+    if (lb.includes('harmonic')) return 'HM Mycology';
+    if (lb.includes('cannamed') || lb.includes('sacred roots')) return 'CannaMed';
+    if (lb.includes('cbd full spectrum')) return 'CBD Full Spectrum';
+    if (lb.includes('origin teas')) return 'Origin Teas';
+    return b;
 }
 
 function selectBrand(brand) {
@@ -117,7 +272,7 @@ function selectGroup(group) {
         selectedMainCategory = 'all';
     } else {
         cannabisRow.style.display  = 'none';
-        wellnessRow.style.display  = 'flex';
+        wellnessRow.style.display  = 'none';   // Wellness is brand-only (Ray) — hide the category sub-tabs
         grpWellness.style.borderColor  = '#C9A84C';
         grpWellness.style.background   = 'rgba(201,168,76,0.15)';
         grpWellness.style.color        = '#C9A84C';
@@ -148,6 +303,41 @@ function selectTrack(track) {
     loadProducts();
 }
 
+// Auto-refresh the product grid when the POS regains focus (after a stock-sheet edit, a sale, or
+// switching back to the tab) so stock counts and new products appear without a manual reload. Throttled,
+// and skipped while a modal/checkout is open so it never yanks the grid out from under the cashier.
+let _lastGridLoad = 0;
+function _maybeRefreshGrid() {
+    if (document.hidden) return;
+    if (!document.getElementById('productGrid')) return;
+    if (Date.now() - _lastGridLoad < 1500) return;   // dedupe rapid focus events only
+    if (document.querySelector('#checkoutModal[style*="flex"], #txnActionModal, #txnDetailModal, .modal.open')) return;
+    _lastGridLoad = Date.now();
+    if (typeof loadProducts === 'function') loadProducts(true);   // keep the active tab
+}
+window.addEventListener('focus', _maybeRefreshGrid);
+document.addEventListener('visibilitychange', _maybeRefreshGrid);
+window.addEventListener('pageshow', _maybeRefreshGrid);   // returning via back/forward cache
+
+// Manual refresh — wired to the ↻ button. Always refetches (bypasses throttle) unless a modal is open.
+function refreshProducts() {
+    if (document.querySelector('#checkoutModal[style*="flex"], #txnActionModal, #txnDetailModal, .modal.open')) return;
+    _lastGridLoad = Date.now();
+    if (typeof loadProducts === 'function') loadProducts(true);   // keep the active tab
+    if (typeof showToast === 'function') showToast('Refreshed', 'Products updated from the latest data', 'success');
+}
+window.refreshProducts = refreshProducts;
+
+// Background auto-refresh — the till self-updates with edits made elsewhere (stock sheet, other devices)
+// every 30s, with no user action. Pauses while the tab is hidden or a sale/modal is open.
+setInterval(() => {
+    if (document.hidden) return;
+    if (!document.getElementById('productGrid')) return;
+    if (document.querySelector('#checkoutModal[style*="flex"], #txnActionModal, #txnDetailModal, .modal.open')) return;
+    _lastGridLoad = Date.now();
+    if (typeof loadProducts === 'function') loadProducts(true);   // keep the active tab
+}, 30000);
+
 // Open Medical Services Portal (White-Label)
 function openMedicalServicesPortal() {
     const iframeContainer = document.getElementById('medicalServicesIframeContainer');
@@ -167,9 +357,15 @@ function openMedicalServicesPortal() {
 }
 
 // Load Products
-async function loadProducts() {
+// preserveSelection=true (background/focus/manual refresh) keeps the cashier's active
+// group + category + brand tab. Only a deliberate context change (track/group switch,
+// fresh login) resets the tabs back to "All".
+async function loadProducts(preserveSelection) {
     const grid = document.getElementById('productGrid');
-    grid.innerHTML = '<div class="loading active"><div class="spinner"></div><p>Loading products...</p></div>';
+    // Don't flash a "Loading…" spinner over a refresh — only on the first/empty load.
+    if (!preserveSelection || !grid.querySelector('.product-card')) {
+        grid.innerHTML = '<div class="loading active"><div class="spinner"></div><p>Loading products...</p></div>';
+    }
 
     try {
         const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
@@ -216,8 +412,22 @@ async function loadProducts() {
         }
 
         allProducts = [...products, ...menuItems];
-        displayProducts(allProducts);
-        loadCategories();
+        if (preserveSelection) {
+            // Refresh: keep the cashier's active group/category/brand tab and re-render
+            // through applyFilters() (which also re-highlights the active brand chip).
+            // If the previously-selected brand no longer has stock, fall back to "All".
+            if (selectedBrand) {
+                const stillThere = allProducts.some(p => {
+                    const raw = p.brand || p.supplier || (p.tags || []).find(t => ['lamelle','bio-sculpture','harmonic-mycology','origin-teas','cannamed','cbd-full-spectrum'].includes(t));
+                    return raw && formatBrandName(raw) === selectedBrand;
+                });
+                if (!stillThere) selectedBrand = null;
+            }
+            applyFilters();
+        } else {
+            displayProducts(allProducts);
+            loadCategories();
+        }
 
         if (allProducts.length === 0) {
             grid.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">No products found for ' + currentTrack + ' track</p>';
@@ -271,8 +481,9 @@ function selectMainCategory(category) {
     const isWellness = WELLNESS_CATS.has(category) || category === 'wellness-all';
     const cannabisBar = document.getElementById('quickAddCannabis');
     const teasBar     = document.getElementById('quickAddTeas');
+    // "1 BAG" wellness shortcut removed — products add by tapping their card (teas open the grams numpad)
     if (cannabisBar) cannabisBar.style.display = isWellness ? 'none' : 'flex';
-    if (teasBar)     teasBar.style.display     = isWellness ? 'flex' : 'none';
+    if (teasBar)     teasBar.style.display     = 'none';
 
     applyFilters();
 }
@@ -304,11 +515,11 @@ function selectProductType(type) {
 function applyFilters() {
     let filtered = [...allProducts];
 
-    // Group filter — show only products belonging to active group
+    // Group filter — Wellness = wellness-brand products; Cannabis = everything else (unchanged).
     if (activeGroup === 'cannabis') {
-        filtered = filtered.filter(p => !WELLNESS_CATS.has(p.category));
+        filtered = filtered.filter(p => !isWellnessBrand(p));
     } else {
-        filtered = filtered.filter(p => WELLNESS_CATS.has(p.category));
+        filtered = filtered.filter(p => isWellnessBrand(p));
     }
 
     // Main category filter
@@ -332,10 +543,10 @@ function applyFilters() {
         });
     }
 
-    // Update brand chips based on category-filtered set (before brand filter)
+    // Brand chips for the active group (wellness = wellness brands)
     const preBrandFiltered = activeGroup === 'cannabis'
-        ? allProducts.filter(p => !WELLNESS_CATS.has(p.category))
-        : allProducts.filter(p => WELLNESS_CATS.has(p.category));
+        ? allProducts.filter(p => !isWellnessBrand(p))
+        : allProducts.filter(p => isWellnessBrand(p));
     renderBrandFilter(preBrandFiltered);
 
     // Grow method filter (Indoor/Greendoor)
@@ -393,19 +604,48 @@ function displayProducts(products) {
         const unitPrice = getUnitPrice(product);
         const brandLabel = product.brand || product.supplier || '';
 
+        // Loose products sold by the gram (teas) — tap opens a grams numpad
+        const byGram = product.sellBy === 'gram';
+        const pid = product._id;  // clean ObjectId — safe in HTML (no quotes/apostrophes)
+        const safeName = product.name || product.sku || 'Product';
+        const safePrice = Number(product.price) || 0;
+        const displayName = byGram ? safeName.replace(/\s*\d+(?:\.\d+)?\s*(?:g|ml|kg)\b/i, '') : safeName;
+        const priceHtml = byGram
+            ? `R${safePrice.toFixed(0)}<span style="font-size:0.7rem;opacity:0.6;margin-left:4px;">/g</span>`
+            : `R${safePrice.toFixed(0)}${unitPrice ? `<span style="font-size:0.7rem;opacity:0.6;margin-left:4px;">${unitPrice}</span>` : ''}`;
+
         return `
-            <div class="product-card" data-category="${product.category}" onclick='addToCart(${JSON.stringify(product)})'>
+            <div class="product-card" data-category="${product.category}" onclick="cardTap('${pid}')">
                 ${stockText ? `<span class="stock-badge ${stockClass}">${stockText}</span>` : ''}
-                <div class="product-icon" style="background:${ic.bg};border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                    <i class="${ic.fa}" style="color:${ic.color};font-size:1.6rem;"></i>
+                <button class="card-edit" onclick="event.stopPropagation(); cardEdit('${pid}')" aria-label="Edit price or stock"><i class="ph-bold ph-pencil-simple"></i></button>
+                <div class="product-icon" style="background:${ic.bg};border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+                    ${product.image
+                        ? `<img src="${product.image}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><i class="${ic.fa}" style="display:none;color:${ic.color};font-size:1.6rem;align-items:center;justify-content:center;width:100%;height:100%;"></i>`
+                        : `<i class="${ic.fa}" style="color:${ic.color};font-size:1.6rem;"></i>`}
                 </div>
-                <div class="product-name">${product.name}</div>
+                <div class="product-name">${displayName}</div>
                 ${brandLabel ? `<div class="product-sku" style="color:${ic.color};opacity:0.8;">${formatBrandName(brandLabel)}</div>` : `<div class="product-sku">SKU: ${product.sku || '—'}</div>`}
-                <div class="product-price">R${product.price.toFixed(0)}${unitPrice ? `<span style="font-size:0.7rem;opacity:0.6;margin-left:4px;">${unitPrice}</span>` : ''}</div>
+                <div class="product-price">${priceHtml}</div>
                 <div class="product-stock">${stock.toFixed(1)}</div>
+                <button class="card-add" onclick="event.stopPropagation(); cardTap('${pid}')" aria-label="${byGram ? 'Choose grams' : 'Add to cart'}"><i class="ph-fill ${byGram ? 'ph-scales' : 'ph-plus'}"></i></button>
             </div>
         `;
     }).join('');
+}
+
+// Resolve a product by id and route the tap (cart vs grams). ID-based so product
+// names with apostrophes/quotes can't break the click handler.
+function _productById(id) {
+    return (typeof allProducts !== 'undefined' && allProducts || []).find(p => p._id === id);
+}
+function cardTap(id) {
+    const p = _productById(id);
+    if (!p) return;
+    if (p.sellBy === 'gram') openGramEntry(p); else addToCart(p);
+}
+function cardEdit(id) {
+    const p = _productById(id);
+    if (p) openProductEdit(p);
 }
 
 function getProductIconConfig(category) {

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: #1a1a1a; }
+  .page { width: 210mm; min-height: 297mm; padding: 15mm 15mm 13mm; page-break-after: always; position: relative; background: #fff; }
+  .page:last-child { page-break-after: auto; }
+  .top { display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid #C9A84C; padding-bottom:11px; margin-bottom:16px; }
+  .brand { font-size:23px; font-weight:800; letter-spacing:3px; color:#0A0A0A; }
+  .brand small { display:block; font-size:9px; letter-spacing:3px; color:#C9A84C; font-weight:700; margin-top:2px; }
+  .who { text-align:right; } .who b { font-size:13px; } .who span { display:block; font-size:10px; color:#8a8270; }
+  h1 { font-size:21px; margin:0 0 3px; } .sub { font-size:12px; color:#8a8270; margin:0 0 16px; }
+  h2 { font-size:13px; color:#0A0A0A; margin:20px 0 9px; padding-left:9px; border-left:4px solid #C9A84C; text-transform:uppercase; letter-spacing:.5px; }
+  .login { background:#0A0A0A; color:#f2e9d2; border-radius:11px; padding:13px 16px; margin-bottom:6px; display:flex; gap:22px; flex-wrap:wrap; }
+  .login div span { color:#a89f8c; font-size:10px; display:block; } .login div b { color:#fff; font-size:13px; font-family:"SF Mono",Menlo,monospace; }
+  table { width:100%; border-collapse:collapse; margin-top:4px; }
+  th { background:#0A0A0A; color:#C9A84C; font-size:9.5px; text-transform:uppercase; letter-spacing:.5px; text-align:left; padding:7px 9px; }
+  td { font-size:11px; padding:8px 9px; border-bottom:1px solid #eee; vertical-align:top; }
+  td.n { font-weight:800; color:#C9A84C; width:18px; }
+  td.exp { color:#5a5648; }
+  .chk { white-space:nowrap; width:90px; color:#8a8270; font-size:11px; }
+  .box { display:inline-block; width:11px; height:11px; border:1.5px solid #b9ad88; border-radius:3px; vertical-align:-1px; margin-right:3px; }
+  .tag { display:inline-block; font-size:8.5px; font-weight:700; color:#7a6f4a; background:#f3ecd8; border:1px solid #e6dcc0; border-radius:20px; padding:1px 7px; margin-top:4px; }
+  .note { background:#fbf7ec; border:1px solid #ecdfba; border-left:4px solid #C9A84C; border-radius:8px; padding:11px 13px; font-size:11px; color:#5a5648; line-height:1.55; margin-top:14px; }
+  .foot { position:absolute; bottom:9mm; left:15mm; right:15mm; display:flex; justify-content:space-between; font-size:9px; color:#b3ac98; border-top:1px solid #eee; padding-top:7px; }
+  a { color:#0A0A0A; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+    <div class="who"><b>Loraine</b><span>Cultivation Admin · Chicken Farm Manager</span><span>UAT · 17 June 2026</span></div>
+  </div>
+  <h1>Your UAT Test Sheet</h1>
+  <p class="sub">Work through each test on your phone. Tick <b>Pass</b> if it works, or <b>Issue</b> and tell Flo what happened.</p>
+
+  <h2>Your login</h2>
+  <div class="login">
+    <div><span>Website</span><b><a href="https://tntilco.cleva-ai.co.za">tntilco.cleva-ai.co.za</a></b></div>
+    <div><span>Email</span><b>fm@ilcofarming.co.za</b></div>
+    <div><span>PIN</span><b>100100</b></div>
+  </div>
+  <div class="note" style="margin-top:8px;">On your phone: open the website → browser menu → <b>Add to Home Screen</b> to install it like an app.</div>
+
+  <h2>A · Your daily workflow</h2>
+  <table>
+    <thead><tr><th>#</th><th>Do this</th><th>Expected</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td>Open your <b>Dashboard</b></td><td class="exp">Today's tasks + anything overdue show on one screen</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+      <tr><td class="n">2</td><td>Open the <b>Grow Calendar</b></td><td class="exp">Today's plan + assigned role per day</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+      <tr><td class="n">3</td><td>Open <b>Chickens</b> → swipe the <b>Review Reel</b> → verify a crate</td><td class="exp">Crate photo shows; tap verifies it</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+      <tr><td class="n">4</td><td><b>Sign off</b> a completed form (enter your PIN)</td><td class="exp">Form is signed + recorded as evidence</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+    </tbody>
+  </table>
+
+  <h2>B · New changes you asked for — verify these</h2>
+  <table>
+    <thead><tr><th>#</th><th>Do this</th><th>Expected</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td class="n">5</td><td><b>Activity Log</b> → look at the room pills → pick <b>Mother Room 1 (MR1)</b> → Log activity → enter activity + reason → save<div class="tag">YOUR REQUEST · ROOMS</div></td><td class="exp">The pills now include <b>MR1</b> and <b>MR2</b> (Mother Rooms), plus Clone Room &amp; Greenhouse. Activity saves against the chosen room.</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+      <tr><td class="n">6</td><td><b>BayGrid</b> → drill Greenhouse → Bay → Row → <b>Subrow</b> → <b>Edit strain</b> → pick a different strain → tap the red <b>Re-strain subrow</b> button → tap again to confirm<div class="tag">YOUR REQUEST · RE-STRAIN</div></td><td class="exp">Clears the old plants (logged as mortality) and sets the new strain in one go. Two-tap confirm.</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+      <tr><td class="n">7</td><td><b>BayGrid</b> → tap any <b>pot</b> → try <b>Cull / Flag / Restore / Clear</b></td><td class="exp">You can edit/clear a pot (you have full rights as FM)</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+      <tr><td class="n">8</td><td><b>Mothers</b> page → check the room labels</td><td class="exp">Rooms read <b>MR1 / MR2</b> (Mother Room 1 / 2)</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note"><b>Found an issue?</b> Note the test number + exactly what you tapped and what happened (a screenshot helps), and send it to Flo. We fix live, same day.</div>
+
+  <div class="foot"><span>ORIGIN · by ILCO Farming — Confidential UAT</span><span>Loraine · UAT Test Sheet · 17 Jun 2026</span></div>
+</div>
+</body>
+</html>

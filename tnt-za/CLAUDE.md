@@ -334,11 +334,20 @@ tnt-za/
 
 ## Brand
 
-- Primary: `#0D6B3D` (ILCO green)
-- Secondary: `#1A1A2E` (dark navy)
-- Accent: `#16213E` (steel blue)
-- Danger: `#DC3545` / Warning: `#E8A317` / Success: `#198754`
-- Dark mode primary, light mode option
+Origin design system (gold on dark):
+
+- Background: `#0A0A0A` (or-black)
+- Primary accent: `#C9A84C` (or-gold)
+- Gold muted: `#8B6914` (or-gold-muted)
+- Gold bright: `#D4B86A` (or-gold-bright)
+- Gold light: `#E8D5A3` (or-gold-light)
+- Dark surface: `#141414` (or-dark)
+- Dark surface 2: `#1C1C1C` (or-dark-2)
+- Text: `#F5F0E8` (or-white)
+- Text muted: `#A89F8C` (or-grey-2)
+- Danger: `#DC2626` / Warning: `#F8C242` / Success: `#22C55E`
+- Sidebar: `#0A0A0A` background, gold active items
+- Dark mode primary
 - Data font: JetBrains Mono
 - UI font: Outfit
 - Mobile-first: 320px → 768px → 1024px

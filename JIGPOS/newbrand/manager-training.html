@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Manager Operations Manual</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --ink:#1A1A1A; --cream:#F7F2E7; --grey:#6b6b6b; --line:#e3dcc9; --green:#22A06B; --red:#C0392B; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',sans-serif; color:var(--ink); background:#4a4a4a; line-height:1.55; }
+  .page{ width:210mm; min-height:297mm; background:#fff; margin:18px auto; padding:22mm 20mm; position:relative; box-shadow:0 6px 30px rgba(0,0,0,.35); }
+  h1,h2,h3,.cinzel{ font-family:'Cinzel',serif; }
+  .toolbar{ position:fixed; top:14px; right:14px; z-index:50; }
+  .toolbar button{ background:var(--gold); color:var(--ink); border:none; padding:11px 18px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.3); }
+  .cover{ background:linear-gradient(150deg,#0A0A0A,#1f1a10 60%,#2a2010); color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+  .cover img{ width:120px; margin-bottom:24px; }
+  .cover .brand{ font-family:'Cinzel'; font-size:2.6rem; letter-spacing:4px; color:var(--gold); }
+  .cover .sub{ color:#cfc6ad; letter-spacing:6px; font-size:.8rem; margin-top:6px; text-transform:uppercase; }
+  .cover h1{ font-size:2rem; margin-top:40px; color:#fff; }
+  .cover .meta{ margin-top:30px; color:#9a9277; font-size:.85rem; }
+  .cover .rule{ width:80px; height:3px; background:var(--gold); margin:26px auto; }
+  .sec-tag{ display:inline-block; background:var(--gold); color:var(--ink); font-weight:700; font-size:.7rem; letter-spacing:2px; padding:5px 12px; border-radius:20px; text-transform:uppercase; }
+  h2.sec{ font-size:1.7rem; color:var(--gold-d); margin:10px 0 4px; }
+  .sec-lead{ color:var(--grey); margin-bottom:18px; border-bottom:2px solid var(--line); padding-bottom:14px; }
+  h3.step-h{ font-size:1.05rem; margin:20px 0 8px; display:flex; align-items:center; gap:10px; }
+  .num{ background:var(--gold); color:#fff; width:26px; height:26px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem; flex-shrink:0; font-family:'Inter'; }
+  p.body{ margin:6px 0 6px 36px; color:#333; }
+  ul.body{ margin:6px 0 10px 56px; color:#333; } ul.body li{ margin:4px 0; }
+  .callout{ margin:12px 0 12px 36px; border-left:4px solid var(--gold); background:var(--cream); padding:11px 16px; border-radius:0 8px 8px 0; font-size:.92rem; }
+  .callout.warn{ border-left-color:var(--red); background:#fdecea; } .callout.ok{ border-left-color:var(--green); background:#eafaf2; }
+  .callout b{ color:var(--gold-d); } .callout.warn b{ color:var(--red); }
+  .kbd{ background:#1a1a1a; color:#fff; padding:2px 8px; border-radius:5px; font-size:.8rem; font-weight:600; }
+  .pill{ background:var(--gold); color:#1a1a1a; padding:2px 9px; border-radius:12px; font-size:.8rem; font-weight:700; }
+  table.ref{ width:100%; border-collapse:collapse; margin:14px 0; }
+  table.ref th{ background:var(--ink); color:var(--gold); text-align:left; padding:9px 12px; font-size:.78rem; }
+  table.ref td{ padding:9px 12px; border-bottom:1px solid var(--line); font-size:.9rem; }
+  table.ref tr:nth-child(even){ background:#faf7ef; }
+  .foot{ position:absolute; bottom:12mm; left:20mm; right:20mm; display:flex; justify-content:space-between; color:#aaa; font-size:.7rem; border-top:1px solid var(--line); padding-top:8px; }
+  .signbox{ border:1px dashed #bbb; border-radius:10px; padding:18px; margin:14px 0; }
+  .signrow{ display:flex; gap:30px; margin-top:26px; } .signrow div{ flex:1; border-top:1px solid #888; padding-top:6px; color:var(--grey); font-size:.82rem; }
+  @media print{ body{ background:#fff; } .toolbar{ display:none; } .page{ margin:0; box-shadow:none; width:auto; min-height:auto; page-break-after:always; padding:16mm; } .page:last-child{ page-break-after:auto; } }
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">⬇ Print / Save as PDF</button></div>
+
+<section class="page cover">
+  <img src="images/origin-logo.png" alt="Origin">
+  <div class="brand">ORIGIN</div><div class="sub">by ILCO</div>
+  <div class="rule"></div>
+  <h1>Manager<br>Operations Manual</h1>
+  <div style="color:#cfc6ad;margin-top:14px;letter-spacing:2px;">POTCHEFSTROOM BRANCH</div>
+  <div class="meta">Stock control · Approvals · Day-End &amp; Reporting</div>
+</section>
+
+<!-- 1 GETTING STARTED -->
+<section class="page">
+  <span class="sec-tag">Section 1</span>
+  <h2 class="sec">Your Manager Tools</h2>
+  <p class="sec-lead">As manager you have everything the cashier has, plus stock control, approvals and day-end.</p>
+  <h3 class="step-h"><span class="num">1</span> Log in</h3>
+  <p class="body">Sign in on the POS with your <b>email + PIN</b>. As a manager you'll see extra buttons in the header: <span class="pill">📦 Stock</span>, <span class="pill">🧾 Sales</span> and the gold <b>cash-register (Day-End)</b> button.</p>
+  <h3 class="step-h"><span class="num">2</span> What only you can do</h3>
+  <ul class="body">
+    <li>Open the <b>Stock Sheet</b> — add/edit/hide products &amp; prices</li>
+    <li>Approve a <b>void or refund</b> (cashier needs your PIN)</li>
+    <li>Approve a <b>price change</b> (your PIN)</li>
+    <li>Approve a <b>cash variance over R50</b> at day-end</li>
+    <li>Run <b>Day-End</b> cash-up and send the Z-report</li>
+  </ul>
+  <div class="callout"><b>Your PIN is the key.</b> Nothing sensitive changes without a manager/admin PIN — and every action is logged with your name.</div>
+  <div class="foot"><span>Origin by ILCO · Manager Manual</span><span>1 · Your Tools</span></div>
+</section>
+
+<!-- 2 STOCK SHEET -->
+<section class="page">
+  <span class="sec-tag">Section 2 · Most used</span>
+  <h2 class="sec">The Stock Sheet</h2>
+  <p class="sec-lead">Your control room for products, prices and stock. Open it from the 📦 Stock button, or origin.cleva-ai.co.za/stock-sheet.html.</p>
+  <h3 class="step-h"><span class="num">1</span> Find a product</h3>
+  <p class="body">Products are grouped into <b>category accordions</b> — tap a category to open it. Use <b>Search</b> (name, SKU, brand) or the <b>low-stock</b> filter. <b>Expand all / Collapse all</b> at the top.</p>
+  <h3 class="step-h"><span class="num">2</span> Edit a product</h3>
+  <ul class="body">
+    <li>Change the <b>price</b>, <b>size</b> or <b>stock quantity</b> in the row, then tap <b>Save</b> — it reflects on the till immediately.</li>
+    <li>For teas the price is the <b>per-gram</b> rate.</li>
+  </ul>
+  <h3 class="step-h"><span class="num">2</span> Add a new product</h3>
+  <p class="body">Tap <b>+ Add Product</b> → enter name, category, size, price, stock (and brand). It appears on the POS straight away, and <b>stock deducts automatically on every sale</b>.</p>
+  <h3 class="step-h"><span class="num">3</span> Remove something you don't carry</h3>
+  <p class="body">Tap <b>Hide</b> on the row (or untick <b>On POS</b> → Save). It's removed from the till but kept in the records. Untick later to bring it back.</p>
+  <div class="callout ok"><b>Power tools:</b> <b>CSV</b> exports your whole stock list; <b>% Bulk price</b> adjusts every visible product at once (filter to a category first).</div>
+  <div class="callout warn"><b>Golden rule:</b> the shelf price tag must match the till. Prices are <b>VAT-inclusive</b> — what you type is what the customer pays.</div>
+  <div class="foot"><span>Origin by ILCO · Manager Manual</span><span>2 · Stock Sheet</span></div>
+</section>
+
+<!-- 3 APPROVALS -->
+<section class="page">
+  <span class="sec-tag">Section 3</span>
+  <h2 class="sec">Approvals — Void, Refund &amp; Price</h2>
+  <p class="sec-lead">The cashier starts these; you approve with your PIN. Every one is logged.</p>
+  <h3 class="step-h"><span class="num">1</span> Void / Refund a sale</h3>
+  <ul class="body">
+    <li>Open <span class="pill">🧾 Sales</span> → find the slip → <b>Void</b> (rung up wrong) or <b>Refund</b> (return — full or selected items).</li>
+    <li>Enter a short <b>reason</b> and your <b>manager PIN</b> → it processes, <b>stock returns</b>, and the day's takings update.</li>
+  </ul>
+  <h3 class="step-h"><span class="num">2</span> Change a price on the floor</h3>
+  <p class="body">Tap the small <b>gold pencil</b> on a product card → enter the new price → your PIN → <b>Save · Admin Approve</b>. (Bulk/permanent changes are better done in the Stock Sheet.)</p>
+  <div class="callout warn"><b>A cashier's PIN won't work</b> for any of these — it must be a manager/admin PIN. That's the control.</div>
+  <div class="foot"><span>Origin by ILCO · Manager Manual</span><span>3 · Approvals</span></div>
+</section>
+
+<!-- 4 DAY END -->
+<section class="page">
+  <span class="sec-tag">Section 4</span>
+  <h2 class="sec">Day-End &amp; Reporting</h2>
+  <p class="sec-lead">Closing the trading day, counting the drawer, sending the report.</p>
+  <h3 class="step-h"><span class="num">1</span> Check the day first</h3>
+  <p class="body">Open <span class="pill">🧾 Sales</span> to see the day's transactions — the <b>net total</b> (voids excluded) and any VOIDED/REFUNDED slips. Tap <b>Shift Summary</b> for the Cash / Card / EFT split.</p>
+  <h3 class="step-h"><span class="num">2</span> Run Day-End</h3>
+  <ul class="body">
+    <li>Tap the gold <b>cash-register</b> button → count the physical cash and enter each note/coin quantity.</li>
+    <li>The screen shows <b>Expected vs Counted</b> and the <b>variance</b>.</li>
+    <li>Within <b>±R50</b> → closes freely. Over R50 → add a <b>note</b> (you're the manager, so you can close it; a cashier would need your PIN).</li>
+  </ul>
+  <h3 class="step-h"><span class="num">3</span> Confirm &amp; report</h3>
+  <ul class="body">
+    <li>Confirm <b>"Close today's session?"</b> — only at true day end.</li>
+    <li>The <b>Z-Report</b> appears (Cash/Card/EFT, net sales, variance) and <b>auto-emails the PDF + CSV</b> to head office. You can also <b>Download PDF / CSV</b>.</li>
+    <li>Tap <b>Back to POS</b> — you stay logged in.</li>
+  </ul>
+  <div class="callout warn"><b>Only Day-End closes the till.</b> Logging out, reloading or rebooting will NOT close the day.</div>
+  <div class="foot"><span>Origin by ILCO · Manager Manual</span><span>4 · Day-End</span></div>
+</section>
+
+<!-- 5 CHECKLIST -->
+<section class="page">
+  <span class="sec-tag">Section 5</span>
+  <h2 class="sec">Daily Checklist &amp; Sign-off</h2>
+  <p class="sec-lead">A quick rhythm to keep the branch tight.</p>
+  <table class="ref">
+    <tr><th>When</th><th>Do</th></tr>
+    <tr><td>Open</td><td>Log in · confirm till shows <b>"Till Open"</b> · check float</td></tr>
+    <tr><td>During the day</td><td>Approve voids/refunds &amp; price changes · keep prices/stock right in the Stock Sheet · watch low-stock</td></tr>
+    <tr><td>Restock</td><td>Add new products &amp; set stock in the Stock Sheet as deliveries arrive</td></tr>
+    <tr><td>Close</td><td>Check Sales/Shift Summary · run <b>Day-End</b> · count cash · confirm Z-report emailed</td></tr>
+  </table>
+  <h3 class="step-h"><span class="num">?</span> If something looks wrong</h3>
+  <ul class="body">
+    <li>Screen stuck/old → close the POS (it reopens); or run the update tool. Tell IT if it persists.</li>
+    <li>Sale won't complete → check the cart, retry; note the error message.</li>
+    <li>Slip didn't print → check paper is the right way up; reprint from the sale.</li>
+  </ul>
+  <div class="signbox">
+    <b style="font-family:'Cinzel';color:var(--gold-d);">Manager Training Sign-Off</b>
+    <p style="font-size:.85rem;color:var(--grey);margin-top:6px;">I confirm I have read this manual and can run stock, approvals and day-end.</p>
+    <div class="signrow"><div>Manager name</div><div>Signature</div><div>Date</div></div>
+    <div class="signrow"><div>Trained by</div><div>Signature</div><div>Date</div></div>
+  </div>
+  <div class="foot"><span>Origin by ILCO · Manager Manual</span><span>5 · Checklist</span></div>
+</section>
+</body>
+</html>

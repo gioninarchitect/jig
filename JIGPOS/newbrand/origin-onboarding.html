@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Outlet Onboarding</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --red:#DC2626; --amber:#F59E0B; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',sans-serif; background:#070707; color:var(--txt); line-height:1.55; }
+  header{ background:linear-gradient(135deg,#0A0A0A,#1a1408); border-bottom:2px solid var(--gold); padding:12px 22px; display:flex; align-items:center; gap:12px; }
+  header img{ height:36px; }
+  .lockup{ display:flex; flex-direction:column; line-height:1; }
+  .lockup b{ font-family:'Cinzel'; letter-spacing:4px; color:var(--gold); font-size:1.1rem; }
+  .lockup em{ font-style:normal; color:var(--grey); font-size:.56rem; letter-spacing:4px; text-transform:uppercase; margin-top:3px; }
+  header .pg{ color:var(--grey); font-size:.8rem; border-left:1px solid var(--line); padding-left:12px; }
+  .wrap{ max-width:680px; margin:0 auto; padding:26px 20px 80px; }
+  .steps{ display:flex; gap:6px; margin-bottom:26px; }
+  .steps .st{ flex:1; text-align:center; }
+  .steps .dot{ width:30px; height:30px; border-radius:50%; border:1.5px solid var(--line); color:var(--grey); display:flex; align-items:center; justify-content:center; margin:0 auto 6px; font-size:.85rem; }
+  .steps .st.active .dot{ border-color:var(--gold); color:var(--gold); }
+  .steps .st.done .dot{ background:var(--gold); border-color:var(--gold); color:#1a1a1a; }
+  .steps .lb{ font-size:.66rem; color:var(--grey); text-transform:uppercase; letter-spacing:.5px; }
+  .steps .st.active .lb{ color:var(--gold); }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:24px; }
+  h2{ font-family:'Cinzel'; color:#fff; font-size:1.25rem; margin-bottom:4px; }
+  .note{ color:var(--grey); font-size:.86rem; margin-bottom:18px; }
+  label.f{ display:block; font-size:.72rem; color:var(--grey); text-transform:uppercase; letter-spacing:.5px; margin:14px 0 5px; }
+  input.t, select.t{ width:100%; padding:12px; background:#1d1d1d; border:1px solid var(--line); border-radius:10px; color:#fff; font-size:.95rem; }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .doc{ display:flex; align-items:center; gap:12px; background:#100e09; border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:10px; }
+  .doc svg{ width:22px; height:22px; stroke:var(--gold); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+  .doc .d{ flex:1; } .doc .d b{ color:#fff; font-size:.92rem; } .doc .d span{ display:block; color:var(--grey); font-size:.76rem; }
+  .doc .up{ background:#222; border:1px solid var(--line); color:#cfc6ad; border-radius:9px; padding:8px 13px; font-size:.8rem; cursor:pointer; white-space:nowrap; }
+  .doc.attached{ border-color:rgba(34,197,94,.4); } .doc.attached .up{ color:var(--green); border-color:rgba(34,197,94,.4); }
+  .doc .req{ font-size:.64rem; color:var(--amber); text-transform:uppercase; letter-spacing:.5px; }
+  .ilco{ background:rgba(201,168,76,.06); border:1px dashed var(--gold-d); border-radius:12px; padding:14px; margin-top:8px; color:#cfc6ad; font-size:.86rem; }
+  .ilco b{ color:var(--gold); }
+  .nav{ display:flex; justify-content:space-between; gap:10px; margin-top:22px; }
+  .btn{ background:#222; color:var(--txt); border:1px solid var(--line); border-radius:10px; padding:12px 20px; font-weight:700; cursor:pointer; font-size:.88rem; }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; border-color:var(--gold); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .rev-row{ display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid #211d16; font-size:.9rem; }
+  .rev-row .k{ color:var(--grey); } .rev-row .v{ color:#fff; }
+  .pill{ font-size:.66rem; padding:3px 9px; border-radius:20px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+  .pill.warn{ background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.4); color:var(--amber); }
+  .pill.ok{ background:rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.4); color:var(--green); }
+  .done-box{ text-align:center; padding:20px 10px; }
+  .done-box svg{ width:54px; height:54px; stroke:var(--green); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .msg{ color:var(--amber); font-size:.82rem; min-height:18px; margin-top:6px; }
+</style>
+</head>
+<body>
+<header><img src="images/origin-logo.png" onerror="this.style.display='none'"><div class="lockup"><b>ORIGIN</b><em>by ILCO Farming</em></div><span class="pg">Outlet Onboarding</span></header>
+<div class="wrap">
+  <div class="steps" id="steps"></div>
+  <div class="card" id="card"></div>
+</div>
+
+<script>
+const ICON = {
+  shield:'<path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3z"/><path d="m9 12 2 2 4-4.5"/>',
+  cert:'<rect x="4" y="4" width="16" height="12" rx="2"/><path d="M8 8h8M8 11h5"/><circle cx="12" cy="18.3" r="2.4"/><path d="m10.6 19.8-1 3 2.4-1.3 2.4 1.3-1-3"/>',
+  building:'<path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16"/><path d="M15 9h2a2 2 0 0 1 2 2v10M4 21h16M8 7h2M8 11h2M8 15h2"/>',
+  bank:'<path d="M4 9.5 12 4l8 5.5M5 9.5h14M6 19V11M10 19V11M14 19V11M18 19V11M4 19h16"/>',
+  pin:'<path d="M12 21s7-5.5 7-11a7 7 0 0 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  check:'<path d="M5 13l4 4L19 7"/>'
+};
+const DOCS = [
+  { id:'sapc_premises', icon:'cert', name:'SAPC Pharmacy Premises Licence', sub:'Proof the premises is a registered pharmacy', req:true },
+  { id:'sapc_rp', icon:'shield', name:'Responsible Pharmacist Registration', sub:'SAPC registration of the RP', req:true },
+  { id:'cipc', icon:'building', name:'CIPC Company Registration', sub:'Registered entity behind the outlet', req:true },
+  { id:'banking', icon:'bank', name:'Proof of Banking', sub:'For settlements', req:true },
+  { id:'premises', icon:'pin', name:'Proof of Premises / Lease', sub:'Address verification', req:true }
+];
+const PREVIEW = (location.protocol === 'file:');
+const API = (location.hostname==='localhost'||location.hostname==='127.0.0.1') ? '/api/v1' : '/pos/api/v1';
+let token = sessionStorage.getItem('adminToken') || localStorage.getItem('token') || '';
+const state = { step:0, outlet:{ name:'Röscher Pharmacy', type:'Pharmacy', town:'Kroonstad', address:'4 Blignaut St, cnr Blignaut & Murray, Central, 9500' }, docFiles:{}, docs:{}, rp:{} };
+const STEP_LABELS = ['Outlet','Documents','People & POS','Review'];
+
+function renderSteps(){
+  document.getElementById('steps').innerHTML = STEP_LABELS.map((l,i)=>
+    `<div class="st ${i===state.step?'active':''} ${i<state.step?'done':''}"><div class="dot">${i<state.step?'<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#1a1a1a;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round">'+ICON.check+'</svg>':(i+1)}</div><div class="lb">${l}</div></div>`
+  ).join('');
+}
+function svg(n){ return `<svg viewBox="0 0 24 24">${ICON[n]}</svg>`; }
+
+function render(){
+  renderSteps();
+  const c = document.getElementById('card');
+  if(state.step===0){
+    c.innerHTML = `<h2>Outlet details</h2><div class="note">The new branch joining the Origin network. (Name can be finalised later.)</div>
+      <label class="f">Outlet / pharmacy name</label><input class="t" id="o_name" placeholder="e.g. Viljoenskroon Pharmacy" value="${state.outlet.name||''}">
+      <div class="two">
+        <div><label class="f">Type</label><input class="t" id="o_type" value="${state.outlet.type}"></div>
+        <div><label class="f">Town</label><input class="t" id="o_town" value="${state.outlet.town}"></div>
+      </div>
+      <label class="f">Address</label><input class="t" id="o_address" placeholder="Street, suburb, code" value="${state.outlet.address||''}">
+      <div class="two">
+        <div><label class="f">Contact person</label><input class="t" id="o_contact" placeholder="Full name" value="${state.outlet.contact||''}"></div>
+        <div><label class="f">Phone</label><input class="t" id="o_phone" placeholder="0__ ___ ____" value="${state.outlet.phone||''}"></div>
+      </div>
+      <label class="f">Email</label><input class="t" id="o_email" type="email" placeholder="outlet@email.co.za" value="${state.outlet.email||''}">
+      <div class="msg" id="msg"></div>
+      <div class="nav"><span></span><button class="btn btn-gold" onclick="next0()">Next →</button></div>`;
+  }
+  else if(state.step===1){
+    c.innerHTML = `<h2>Compliance documents</h2><div class="note">Required before this outlet's POS goes live. Upload each as PDF or photo.</div>
+      ${DOCS.map(d=>`<div class="doc ${state.docs[d.id]?'attached':''}" id="doc_${d.id}">
+        ${svg(d.icon)}<div class="d"><b>${d.name}</b><span>${state.docs[d.id]?('✓ '+state.docs[d.id]):d.sub}</span></div>
+        ${d.req&&!state.docs[d.id]?'<span class="req">Required</span>':''}
+        <label class="up">${state.docs[d.id]?'Replace':'Upload'}<input type="file" hidden accept="image/*,.pdf" onchange="attach('${d.id}',this)"></label>
+      </div>`).join('')}
+      <div class="ilco">${svg('shield')&&''}<b>Medical-cannabis authority — held by ILCO Farms.</b> The SAHPRA Section 22A handling authority and Section 21 supply are ILCO's, not the outlet's. This pharmacy stocks ILCO product under ILCO's licences. <i>[VERIFY with medicines-law before activation.]</i></div>
+      <div class="msg" id="msg"></div>
+      <div class="nav"><button class="btn" onclick="back()">← Back</button><button class="btn btn-gold" onclick="next1()">Next →</button></div>`;
+  }
+  else if(state.step===2){
+    c.innerHTML = `<h2>People &amp; POS access</h2><div class="note">The Responsible Pharmacist gets manager access to this outlet's branch-scoped POS.</div>
+      <label class="f">Responsible Pharmacist — full name</label><input class="t" id="rp_name" placeholder="e.g. ____" value="${state.rp.name||''}">
+      <div class="two">
+        <div><label class="f">SAPC number</label><input class="t" id="rp_sapc" placeholder="P_____" value="${state.rp.sapc||''}"></div>
+        <div><label class="f">Email (login)</label><input class="t" id="rp_email" type="email" placeholder="rp@outlet.co.za" value="${state.rp.email||''}"></div>
+      </div>
+      <label class="f">POS PIN (6 digits)</label><input class="t" id="rp_pin" inputmode="numeric" maxlength="6" placeholder="______" value="${state.rp.pin||''}" style="letter-spacing:6px;max-width:160px;">
+      <div class="msg" id="msg"></div>
+      <div class="nav"><button class="btn" onclick="back()">← Back</button><button class="btn btn-gold" onclick="next2()">Review →</button></div>`;
+  }
+  else if(state.step===3){
+    const docCount = DOCS.filter(d=>state.docs[d.id]).length;
+    c.innerHTML = `<h2>Review &amp; submit</h2><div class="note">Confirm, then submit for Origin verification. The POS activates once documents are approved.</div>
+      <div class="rev-row"><span class="k">Outlet</span><span class="v">${state.outlet.name||'(name pending)'} · ${state.outlet.type}, ${state.outlet.town}</span></div>
+      <div class="rev-row"><span class="k">Contact</span><span class="v">${state.outlet.contact||'—'} · ${state.outlet.phone||'—'}</span></div>
+      <div class="rev-row"><span class="k">Documents</span><span class="v">${docCount}/${DOCS.length} attached ${docCount===DOCS.length?'<span class="pill ok">complete</span>':'<span class="pill warn">incomplete</span>'}</span></div>
+      <div class="rev-row"><span class="k">Responsible Pharmacist</span><span class="v">${state.rp.name||'—'} · ${state.rp.sapc||'—'}</span></div>
+      <div class="rev-row"><span class="k">POS access</span><span class="v"><span class="pill warn">Pending verification</span></span></div>
+      <div class="rev-row"><span class="k">Cannabis supply</span><span class="v">ILCO Farms (22A / S21)</span></div>
+      <div class="msg" id="msg"></div>
+      <div class="nav"><button class="btn" onclick="back()">← Back</button><button class="btn btn-gold" onclick="submit()">Submit for activation</button></div>`;
+  }
+  else if(state.step===4){
+    c.innerHTML = `<div class="done-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.4 2.4 4.6-5"/></svg>
+      <h2 style="margin-top:14px;">Submitted for verification</h2>
+      <div class="note" style="max-width:420px;margin:8px auto 0;">${state.outlet.name||'The outlet'} has been submitted. Once Origin verifies the documents, this branch is created and its POS is activated for the Responsible Pharmacist.</div>
+      <div class="nav" style="justify-content:center;"><button class="btn" onclick="state.step=0;render()">Onboard another outlet</button></div></div>`;
+  }
+}
+function attach(id,inp){ if(inp.files&&inp.files[0]){ state.docFiles[id]=inp.files[0]; state.docs[id]=inp.files[0].name; render(); } }
+function back(){ state.step--; render(); }
+function next0(){ const g=id=>document.getElementById(id).value.trim();
+  state.outlet={ ...state.outlet, name:g('o_name'), type:g('o_type'), town:g('o_town'), address:g('o_address'), contact:g('o_contact'), phone:g('o_phone'), email:g('o_email') };
+  state.step=1; render(); }
+function next1(){ const missing=DOCS.filter(d=>d.req&&!state.docs[d.id]);
+  if(missing.length){ document.getElementById('msg').textContent='Attach all required documents to continue ('+missing.length+' outstanding).'; return; }
+  state.step=2; render(); }
+function next2(){ const g=id=>document.getElementById(id).value.trim();
+  state.rp={ name:g('rp_name'), sapc:g('rp_sapc'), email:g('rp_email'), pin:g('rp_pin') };
+  if(!state.rp.name||!state.rp.email||state.rp.pin.length!==6){ document.getElementById('msg').textContent='RP name, email and a 6-digit PIN are required.'; return; }
+  state.step=3; render(); }
+async function submit(){
+  if(PREVIEW){ state.step=4; render(); return; }
+  const m=document.getElementById('msg'); if(m){ m.style.color='#9a9a9a'; m.textContent='Submitting…'; }
+  const fd=new FormData();
+  fd.append('outlet', JSON.stringify(state.outlet));
+  fd.append('rp', JSON.stringify(state.rp));
+  Object.keys(state.docFiles).forEach(id=>fd.append(id, state.docFiles[id]));
+  try{
+    const r=await fetch(`${API}/pos/onboarding`,{method:'POST',headers:{'Authorization':`Bearer ${token}`},body:fd});
+    if(r.status===401||r.status===403){ showGate(); return; }
+    const d=await r.json();
+    if(d.success){ state.result=d; state.step=4; render(); }
+    else if(m){ m.style.color='#DC2626'; m.textContent=d.message||'Submit failed'; }
+  }catch(e){ if(m){ m.style.color='#DC2626'; m.textContent='Submit failed'; } }
+}
+function showGate(){
+  if(document.getElementById('obGate')) return;
+  const d=document.createElement('div'); d.id='obGate';
+  d.style.cssText='position:fixed;inset:0;background:#070707;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;font-family:Inter,sans-serif;';
+  d.innerHTML=`<div style="background:#15130d;border:1px solid #8B6914;border-radius:18px;padding:30px 26px;max-width:330px;width:100%;text-align:center;">
+    <div style="font-family:'Cinzel';letter-spacing:5px;color:#C9A84C;font-size:1.2rem;">ORIGIN</div>
+    <div style="color:#8a8472;letter-spacing:4px;font-size:.56rem;text-transform:uppercase;margin:3px 0 18px;">by ILCO Farming · Admin</div>
+    <input id="gEmail" type="email" placeholder="Admin email" style="width:100%;padding:11px;background:#1d1d1d;border:1px solid #2a2620;border-radius:10px;color:#fff;margin-bottom:8px;">
+    <input id="gPin" type="password" inputmode="numeric" placeholder="PIN" style="width:100%;padding:11px;background:#1d1d1d;border:1px solid #2a2620;border-radius:10px;color:#fff;letter-spacing:4px;text-align:center;" onkeydown="if(event.key==='Enter')doLogin()">
+    <div id="gErr" style="color:#DC2626;font-size:.78rem;min-height:16px;margin:6px 0;"></div>
+    <button onclick="doLogin()" style="width:100%;background:#C9A84C;color:#1a1a1a;border:none;border-radius:10px;padding:11px;font-weight:700;cursor:pointer;">Sign in</button>
+  </div>`;
+  document.body.appendChild(d);
+}
+async function doLogin(){
+  const email=document.getElementById('gEmail').value.trim().toLowerCase(), pin=document.getElementById('gPin').value.trim(), err=document.getElementById('gErr');
+  if(!email||!pin){ err.textContent='Enter email and PIN'; return; }
+  err.style.color='#888'; err.textContent='Signing in…';
+  try{ const r=await fetch(`${API}/auth/otp/verify-pin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,pin})}); const d=await r.json();
+    if(!d.success||!d.token){ err.style.color='#DC2626'; err.textContent=d.message||'Invalid'; return; }
+    token=d.token; sessionStorage.setItem('adminToken',token); const g=document.getElementById('obGate'); if(g)g.remove();
+  }catch(e){ err.style.color='#DC2626'; err.textContent='Login failed'; }
+}
+render();
+if(!PREVIEW && !token) showGate();
+</script>
+</body>
+</html>

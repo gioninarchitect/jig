@@ -1,7 +1,7 @@
 // ===== POS CASHUP MODULE =====
 // Daily cashup, cash counting, safe drops, banking, stock reconciliation
 
-const DAY_END_ROLES = ['super_admin', 'owner', 'admin', 'branch_manager'];
+const DAY_END_ROLES = ['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant'];
 
 let currentCashup = null;
 let cashupDenominations = {
@@ -1069,16 +1069,36 @@ async function loadCashupHistory() {
 
 function initDayEndButton() {
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+    const show = DAY_END_ROLES.includes(user.role);
     const btn = document.getElementById('dayEndBtn');
-    if (btn) {
-        btn.style.display = DAY_END_ROLES.includes(user.role) ? '' : 'none';
-    }
+    if (btn) btn.style.display = show ? '' : 'none';
+    // Stock Sheet — managers/admin/owner, plus the Origin owner account (by email).
+    // Void/refund/price edits stay gated behind the admin PIN regardless of this icon.
+    const stockBtn = document.getElementById('stockBtn');
+    const STOCK_ROLES = ['super_admin', 'owner', 'admin', 'branch_manager', 'inventory_manager'];
+    const STOCK_EMAILS = ['originbyilcofarming@gmail.com'];
+    const email = (user.email || '').toLowerCase();
+    const canStock = STOCK_ROLES.includes(user.role) || STOCK_EMAILS.includes(email);
+    if (stockBtn) stockBtn.style.display = canStock ? 'inline-flex' : 'none';
+    // Takings Reports — same audience as the Stock Sheet (managers/admin/owner + Origin owner account).
+    const reportsBtn = document.getElementById('reportsBtn');
+    if (reportsBtn) reportsBtn.style.display = canStock ? 'inline-flex' : 'none';
 }
 
-// Initialize on page load — try multiple times to catch async auth
+// Initialize on page load AND keep re-checking until the user logs in (login happens after page load,
+// so a one-shot check at 2s misses it and the Stock/Day-End buttons never appear).
 if (typeof window !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
         setTimeout(initDayEndButton, 800);
-        setTimeout(initDayEndButton, 2000);
+        let tries = 0;
+        const iv = setInterval(() => {
+            initDayEndButton();
+            tries++;
+            const u = JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || '{}');
+            if ((u && (u.email || u.role)) || tries > 40) clearInterval(iv); // stop once logged in, or after ~40s
+        }, 1000);
     });
+    // Also re-check immediately whenever the user record changes (login writes it) or the tab regains focus.
+    window.addEventListener('storage', (e) => { if (e.key === 'user' || e.key === 'token') initDayEndButton(); });
+    window.addEventListener('focus', initDayEndButton);
 }

@@ -28,7 +28,7 @@ export default function MortalityPage() {
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const [showRecord, setShowRecord] = useState(false);
-  const [form, setForm] = useState({ entityType: 'CLONE', strain: '', quantity: '1', causeCategory: 'UNKNOWN', causeDetail: '', preventable: false, actionTaken: '', phase: '', notes: '' });
+  const [form, setForm] = useState({ entityType: 'CLONE', strain: '', quantity: '1', causeCategory: 'UNKNOWN', causeDetail: '', preventable: false, actionTaken: '', phase: '', notes: '', weight: '', batchNumber: '', plantTag: '', zone: '' });
 
   const { data: stats } = useQuery({ queryKey: ['mortality-stats'], queryFn: () => api.get('/mortality/stats').then(r => r.data.stats) });
   const { data: records, isLoading } = useQuery({ queryKey: ['mortality-records'], queryFn: () => api.get('/mortality').then(r => r.data.records) });
@@ -36,7 +36,7 @@ export default function MortalityPage() {
   const { data: strains } = useQuery({ queryKey: ['strains'], queryFn: () => api.get('/strains').then(r => r.data.strains) });
 
   const recordMut = useMutation({
-    mutationFn: () => api.post('/mortality', { ...form, quantity: parseInt(form.quantity) }),
+    mutationFn: () => api.post('/mortality', { ...form, quantity: parseInt(form.quantity), weight: form.weight ? parseFloat(form.weight) : undefined }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['mortality'] }); setShowRecord(false); addToast('success', 'Mortality recorded'); },
     onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
   });
@@ -181,6 +181,12 @@ export default function MortalityPage() {
           <option value="FLOWERING">Flowering</option>
           <option value="TRANSPLANT">Transplant</option>
         </ModalSelect>
+        <div className="grid grid-cols-2 gap-3">
+          <ModalInput label="Batch #" placeholder="e.g. CT-2026-001" value={form.batchNumber} onChange={e => setForm(f => ({ ...f, batchNumber: (e.target as HTMLInputElement).value }))} />
+          <ModalInput label="Plant tag / RFID" placeholder="e.g. ZA-000142" value={form.plantTag} onChange={e => setForm(f => ({ ...f, plantTag: (e.target as HTMLInputElement).value }))} />
+          <ModalInput label="Weight (kg)" type="number" placeholder="destroyed material" value={form.weight} onChange={e => setForm(f => ({ ...f, weight: (e.target as HTMLInputElement).value }))} />
+          <ModalInput label="Zone / room" placeholder="e.g. Clone Room" value={form.zone} onChange={e => setForm(f => ({ ...f, zone: (e.target as HTMLInputElement).value }))} />
+        </div>
         <ModalButton loading={recordMut.isPending} onClick={() => recordMut.mutate()} disabled={!form.strain || !form.causeCategory}>
           Record Death — {form.quantity} {form.entityType.toLowerCase()}{parseInt(form.quantity) > 1 ? 's' : ''}
         </ModalButton>

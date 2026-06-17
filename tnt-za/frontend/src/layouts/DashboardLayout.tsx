@@ -5,12 +5,11 @@ import { useRBAC } from '../hooks/useRBAC';
 import OfflineIndicator from '../components/OfflineIndicator';
 import GhostSwitcher from '../components/GhostSwitcher';
 import GhostBanner from '../components/GhostBanner';
-import ChatFab from '../components/ChatFab';
+import SmartChat from '../components/SmartChat';
 import {
   LayoutDashboard, Leaf, Box, Layers, Building2, ScrollText,
   FlaskConical, ShieldCheck, Lock, BookOpen, Users, Bell,
-  Menu, X, LogOut, ChevronLeft, Camera, Sparkles, Grid3X3, Crown, TicketCheck, CheckSquare, Package, CalendarDays, Scissors, Dna, Droplets, Truck, Kanban, Skull, Bug, ClipboardCheck, ClipboardList, SprayCan, Thermometer, Eye,
-} from 'lucide-react';
+  Menu, X, LogOut, ChevronLeft, Camera, Sparkles, Grid3X3, Crown, TicketCheck, CheckSquare, Package, CalendarDays, Scissors, Dna, Droplets, Truck, Kanban, Skull, Bug, ClipboardCheck, ClipboardList, SprayCan, Thermometer, Eye, Bird } from 'lucide-react';
 
 // Role → which nav groups they see
 const ROLE_NAV: Record<string, string[]> = {
@@ -40,8 +39,25 @@ const ROLE_NAV: Record<string, string[]> = {
   VIEWER: ['core', 'cultivation', 'processing', 'compliance'],
 };
 
-// Grouped nav — 3 core workflows + sections
-const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: string; label: string; icon: any; minLevel: number }[] }[] = [
+// Tightly-scoped operational roles see ONLY these paths (intersected with their
+// allowed groups + level). Without this, a level-3 Nursery Manager saw the entire
+// cultivation suite + Chickens + Facility 360 — everything an FM sees. Owners / FM /
+// admins are deliberately absent here, so they keep the full menu.
+const ROLE_NAV_ITEMS: Record<string, string[]> = {
+  NURSERY_MANAGER: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/baygrid', '/calendar', '/cloning', '/mothers', '/strains', '/plants', '/daily-check', '/env-log', '/activity-log', '/ipm-scouting', '/cleaning-schedule', '/mortality'],
+  CULTIVATOR: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/baygrid', '/plants', '/feeding', '/daily-check', '/env-log', '/activity-log', '/ipm-scouting', '/cleaning-schedule', '/mortality'],
+  IRRIGATION_TECH: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/feeding', '/env-log', '/daily-check'],
+  TRIMMER: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/trim', '/batches'],
+  PROCESSING_SUPERVISOR: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/batches', '/containers', '/trim', '/dispatch'],
+  GENERAL_WORKER: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/cleaning-schedule', '/daily-check'],
+  HOUSEKEEPING: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/cleaning-schedule'],
+  SECURITY_OFFICER: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/security'],
+};
+
+// Grouped nav — 3 core workflows + sections. `roles` (if present) hard-restricts an
+// item to those roles regardless of level — used to keep cross-domain tiles (Chickens,
+// Facility 360) out of operational roles' menus.
+const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: string; label: string; icon: any; minLevel: number; roles?: string[] }[] }[] = [
   {
     id: 'core', label: 'Core',
     items: [
@@ -57,7 +73,8 @@ const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: s
       { to: '/owner', label: 'Owner 360', icon: Building2, minLevel: 4 },
       { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, minLevel: 0 },
       { to: '/kanban', label: 'Task Board', icon: Kanban, minLevel: 2 },
-      { to: '/facility360', label: 'Facility 360', icon: Building2, minLevel: 0 },
+      { to: '/facility360', label: 'Facility 360', icon: Building2, minLevel: 0, roles: ['SUPER_ADMIN', 'TENANT_ADMIN', 'FACILITY_MANAGER', 'FACILITY_SUPERVISOR', 'HEAD_OF_CULTIVATION'] },
+      { to: '/chickens', label: 'Chickens', icon: Bird, minLevel: 0, roles: ['SUPER_ADMIN', 'TENANT_ADMIN', 'FACILITY_MANAGER'] },
     ],
   },
   {
@@ -66,6 +83,7 @@ const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: s
       { to: '/baygrid', label: 'BayGrid', icon: Grid3X3, minLevel: 0 },
       { to: '/calendar', label: 'Grow Calendar', icon: CalendarDays, minLevel: 0 },
       { to: '/mothers', label: 'Mothers', icon: Crown, minLevel: 0 },
+      { to: '/cloning', label: 'Cloning', icon: Scissors, minLevel: 1 },
       { to: '/strains', label: 'Strains', icon: Dna, minLevel: 0 },
       { to: '/plants', label: 'Plants', icon: Leaf, minLevel: 0 },
       { to: '/feeding', label: 'Feeding', icon: Droplets, minLevel: 2 },
@@ -148,7 +166,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <nav className="flex-1 overflow-y-auto py-2 px-2">
           {NAV_GROUPS.map((group) => {
             if (!allowedGroups.includes(group.id)) return null;
-            const visibleItems = group.items.filter(n => hasMinLevel(n.minLevel));
+            const itemScope = ROLE_NAV_ITEMS[user?.role || ''];
+            const visibleItems = group.items.filter(n =>
+              hasMinLevel(n.minLevel)
+              && (!n.roles || n.roles.includes(user?.role || ''))   // hard role-restricted items (Chickens, Facility 360)
+              && (!itemScope || itemScope.includes(n.to))            // tightly-scoped roles: only their lane
+            );
             if (visibleItems.length === 0) return null;
             return (
               <div key={group.label} className="mb-3">
@@ -191,7 +214,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         </main>
 
         {/* Chat-with-Maestro floating button — visible to every authed role */}
-        <ChatFab />
+        <SmartChat />
       </div>
 
       {/* Bottom nav — 3 core workflows */}

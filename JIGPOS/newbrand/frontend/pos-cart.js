@@ -23,7 +23,8 @@ function addToCartDirect(product) {
         return;
     }
 
-    const existingItem = cart.find(item => item._id === product._id);
+    const key = product.lineKey || product._id;
+    const existingItem = cart.find(item => (item.lineKey || item._id) === key);
 
     if (existingItem) {
         if (existingItem.quantity >= stock) {
@@ -130,13 +131,16 @@ function updateCart() {
             <div class="cart-item">
                 <div class="item-info">
                     <div class="item-name">${item.name}</div>
-                    <div class="item-price">R ${item.price.toFixed(2)} each</div>
+                    <div class="item-price">R ${(item.price || 0).toFixed(2)} each · <strong>R ${((item.price || 0) * (item.quantity || 1)).toFixed(2)}</strong></div>
                 </div>
                 <div class="item-controls">
                     <button class="qty-btn" onclick="decrementQty(${index})">-</button>
                     <input class="qty-input" type="number" value="${item.quantity}" min="1" onchange="updateQty(${index}, this.value)">
                     <button class="qty-btn" onclick="incrementQty(${index})">+</button>
                     <button class="remove-btn" onclick="removeFromCart(${index})">×</button>
+                </div>
+                <div class="qty-quick">
+                    ${[1,2,5,10].map(n => `<button class="qty-quick-btn" onclick="addQty(${index}, ${n})">+${n}</button>`).join('')}
                 </div>
             </div>
         `).join('');
@@ -151,6 +155,12 @@ function updateCart() {
 
 function incrementQty(index) {
     cart[index].quantity++;
+    updateCart();
+}
+
+// Quick-add N units to a cart line
+function addQty(index, n) {
+    cart[index].quantity += n;
     updateCart();
 }
 
@@ -185,9 +195,9 @@ function clearCart() {
 }
 
 function updateTotals() {
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const vat = subtotal * VAT_RATE;
-    const total = subtotal + vat;
+    // VAT maths via the single shared helper (respects the store's Inclusive/Add-VAT mode).
+    const _b = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0));
+    const total = _b.total, vat = _b.vat, subtotal = _b.net;
 
     document.getElementById('subtotal').textContent = `R ${subtotal.toFixed(2)}`;
     document.getElementById('vat').textContent = `R ${vat.toFixed(2)}`;

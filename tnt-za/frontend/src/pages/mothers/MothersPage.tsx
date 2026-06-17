@@ -5,7 +5,7 @@ import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import { SkeletonCard } from '../../components/Skeleton';
 import SOPHeader from '../../components/SOPHeader';
-import { Crown, Plus, GitBranch, Scissors, AlertTriangle } from 'lucide-react';
+import { Crown, Plus, GitBranch, Scissors, AlertTriangle, Pencil, Trash2 } from 'lucide-react';
 import api from '../../services/api';
 
 const STATUS_COLORS: Record<string, string> = {
@@ -18,9 +18,16 @@ export default function MothersPage() {
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const [showCreate, setShowCreate] = useState(false);
+  const [editMotherId, setEditMotherId] = useState<string | null>(null);
+  const [confirmDelMother, setConfirmDelMother] = useState<string | null>(null);
+  const openEditMother = (m: any) => {
+    setEditMotherId(m.id);
+    setMotherForm({ identifier: m.identifier || '', strain: m.strain || '', source: m.source || 'CLONED', breeder: m.breeder || '', room: m.room || 'MR1', quantity: String(m.quantity || 1), inceptionDate: m.inceptionDate ? new Date(m.inceptionDate).toISOString().slice(0, 10) : '', lifecycleDays: String(m.lifecycleDays || 180) });
+    setShowCreate(true);
+  };
   const [showClone, setShowClone] = useState<string | null>(null);
   const [selectedMother, setSelectedMother] = useState<any>(null);
-  const [motherForm, setMotherForm] = useState({ identifier: '', strain: '', source: 'PURCHASED', breeder: '' });
+  const [motherForm, setMotherForm] = useState({ identifier: '', strain: '', source: 'CLONED', breeder: '', room: 'MR1', quantity: '1', inceptionDate: '', lifecycleDays: '180' });
   const [cuttings, setCuttings] = useState('10');
   const [clonePurpose, setClonePurpose] = useState('PRODUCTION');
   const [clientName, setClientName] = useState('');
@@ -47,8 +54,13 @@ export default function MothersPage() {
   });
 
   const createMut = useMutation({
-    mutationFn: () => api.post('/baygrid/mothers', motherForm),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['mothers'] }); setShowCreate(false); addToast('success', 'Mother plant registered'); },
+    mutationFn: () => editMotherId ? api.patch(`/baygrid/mothers/${editMotherId}`, motherForm) : api.post('/baygrid/mothers', motherForm),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['mothers'] }); setShowCreate(false); addToast('success', editMotherId ? 'Mother updated' : 'Mother plant registered'); setEditMotherId(null); },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
+  });
+  const delMotherMut = useMutation({
+    mutationFn: (id: string) => api.delete(`/baygrid/mothers/${id}`),
+    onSuccess: (r: any) => { qc.invalidateQueries({ queryKey: ['mothers'] }); setConfirmDelMother(null); addToast('success', r.data?.archived ? 'Mother retired (had clones)' : 'Mother deleted'); },
     onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
   });
 
@@ -81,7 +93,7 @@ export default function MothersPage() {
           <p className="text-sm text-white/40">Mother → Clone Trays → Plants → Bays</p>
         </div>
         {hasMinLevel(2) && (
-          <button onClick={() => setShowCreate(true)} className="px-4 py-2.5 bg-primary hover:bg-primary-light text-white rounded-xl text-sm font-semibold flex items-center gap-2 transition min-h-[44px]">
+          <button onClick={() => { setEditMotherId(null); setMotherForm({ identifier: '', strain: '', source: 'CLONED', breeder: '', room: 'MR1', quantity: '1', inceptionDate: '', lifecycleDays: '180' }); setShowCreate(true); }} className="px-4 py-2.5 bg-primary hover:bg-primary-light text-white rounded-xl text-sm font-semibold flex items-center gap-2 transition min-h-[44px]">
             <Plus size={16} /> Register Mother
           </button>
         )}
@@ -95,47 +107,66 @@ export default function MothersPage() {
           <p className="text-white/40 mb-4">No mother plants registered</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {mothers.map((m: any) => (
-            <div key={m.id} onClick={() => setSelectedMother(m)}
-              className="bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer hover:bg-white/[0.07] transition active:scale-[0.98]">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <Crown size={16} className="text-amber-400" />
-                  <span className="font-bold font-mono text-white">{m.identifier}</span>
+        <div className="space-y-6">
+          {(() => {
+            const rooms = Array.from(new Set(mothers.map((m: any) => m.room || 'Unassigned'))).sort();
+            const today = new Date();
+            return rooms.map((room: any) => {
+              const inRoom = mothers.filter((m: any) => (m.room || 'Unassigned') === room);
+              const totalQty = inRoom.reduce((s: number, m: any) => s + (m.quantity || 1), 0);
+              return (
+                <div key={room}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-sm font-bold text-amber-300 font-mono">{room === 'MR1' ? 'Mother Room 1 · MR1' : room === 'MR2' ? 'Mother Room 2 · MR2' : room}</span>
+                    <span className="text-xs text-white/40">{inRoom.length} entries · {totalQty} plants</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {inRoom.map((m: any) => {
+                      const cullOverdue = m.cullDate && new Date(m.cullDate) <= today;
+                      return (
+                        <div key={m.id} onClick={() => setSelectedMother(m)}
+                          className="bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer hover:bg-white/[0.07] transition active:scale-[0.98]">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <Crown size={16} className="text-amber-400" />
+                              <span className="font-bold font-mono text-white">{m.identifier}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <span className={`text-xs px-2 py-1 rounded-full font-medium ${STATUS_COLORS[m.status]}`}>{m.status}</span>
+                              {hasMinLevel(2) && (<>
+                                <button onClick={(e) => { e.stopPropagation(); openEditMother(m); }} className="p-1 rounded text-white/40 hover:text-primary" title="Edit mother"><Pencil size={13} /></button>
+                                <button onClick={(e) => { e.stopPropagation(); confirmDelMother === m.id ? delMotherMut.mutate(m.id) : setConfirmDelMother(m.id); }} className={`p-1 rounded ${confirmDelMother === m.id ? 'text-red-400' : 'text-white/40 hover:text-red-400'}`} title={confirmDelMother === m.id ? 'Tap again to confirm delete' : 'Delete mother'}><Trash2 size={13} /></button>
+                              </>)}
+                            </div>
+                          </div>
+                          <div className="text-sm text-white/70 mb-1">{m.strain} · <span className="text-white/50">{m.quantity || 1} plants</span></div>
+                          <div className="text-xs text-white/40 mb-2">
+                            {m.inceptionDate ? `Inception ${new Date(m.inceptionDate).toLocaleDateString()}` : m.source}
+                          </div>
+                          {m.cullDate && (
+                            <div className={`text-xs mb-3 font-medium ${cullOverdue ? 'text-red-400' : 'text-white/40'}`}>
+                              Cull {new Date(m.cullDate).toLocaleDateString()} {cullOverdue ? '· OVERDUE' : `· ${m.lifecycleDays || 180}d cycle`}
+                            </div>
+                          )}
+                          <div className="flex items-center justify-between">
+                            <div className="flex gap-4 text-xs text-white/40">
+                              <span><GitBranch size={12} className="inline mr-1" />{m.totalClones} clones</span>
+                            </div>
+                            {hasMinLevel(2) && m.status === 'ACTIVE' && (
+                              <button onClick={(e) => { e.stopPropagation(); setShowClone(m.id); setCuttings('10'); }}
+                                className="px-3 py-1.5 bg-primary/10 border border-primary/30 text-primary rounded-lg text-xs font-semibold hover:bg-primary/20 transition flex items-center gap-1 min-h-[36px]">
+                                <Scissors size={12} /> Clone
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-                <span className={`text-xs px-2 py-1 rounded-full font-medium ${STATUS_COLORS[m.status]}`}>{m.status}</span>
-              </div>
-              <div className="text-sm text-white/70 mb-1">{m.strain}</div>
-              <div className="text-xs text-white/40 mb-3">{m.source} {m.breeder ? `— ${m.breeder}` : ''}</div>
-              <div className="flex items-center justify-between">
-                <div className="flex gap-4 text-xs text-white/40">
-                  <span><GitBranch size={12} className="inline mr-1" />{m.totalClones} clones</span>
-                  <span>{m.activeClones} active</span>
-                  {m.nextHealthCheck && new Date(m.nextHealthCheck) <= new Date() && <span className="text-red-400 font-bold">Check due</span>}
-                </div>
-                {hasMinLevel(2) && m.status === 'ACTIVE' && (
-                  <button onClick={(e) => { e.stopPropagation(); setShowClone(m.id); setCuttings('10'); }}
-                    className="px-3 py-1.5 bg-primary/10 border border-primary/30 text-primary rounded-lg text-xs font-semibold hover:bg-primary/20 transition flex items-center gap-1 min-h-[36px]">
-                    <Scissors size={12} /> Clone
-                  </button>
-                )}
-              </div>
-              {/* Recent clone trays */}
-              {m.cloneTrays?.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-white/5 space-y-1">
-                  {m.cloneTrays.slice(0, 3).map((ct: any) => (
-                    <div key={ct.id} className="flex justify-between text-xs text-white/30">
-                      <span className="font-mono">{ct.trayNumber}</span>
-                      <span className={`${ct.purpose === 'R_AND_D' ? 'text-purple-400' : ct.purpose === 'CLIENT' ? 'text-blue-400' : 'text-white/30'}`}>{ct.purpose === 'R_AND_D' ? 'R&D' : ct.purpose === 'CLIENT' ? 'Client' : 'Prod'}</span>
-                      <span>{ct.rooted}/{ct.totalCuttings}</span>
-                      <span className={ct.status === 'ROOTED' ? 'text-green-400' : ct.status === 'FAILED' ? 'text-red-400' : 'text-amber-400'}>{ct.status}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+              );
+            });
+          })()}
         </div>
       )}
 
@@ -231,16 +262,25 @@ export default function MothersPage() {
       </Modal>
 
       {/* Create Mother Modal */}
-      <Modal open={showCreate} onClose={() => setShowCreate(false)} title="Register Mother Plant">
-        <ModalInput label="Identifier" placeholder="e.g. M1, M2" value={motherForm.identifier} onChange={e => setMotherForm(f => ({ ...f, identifier: (e.target as HTMLInputElement).value }))} />
-        <ModalInput label="Strain" placeholder="e.g. Durban Poison" value={motherForm.strain} onChange={e => setMotherForm(f => ({ ...f, strain: (e.target as HTMLInputElement).value }))} />
-        <ModalSelect label="Source" value={motherForm.source} onChange={e => setMotherForm(f => ({ ...f, source: (e.target as HTMLSelectElement).value }))}>
-          <option value="PURCHASED">Purchased (seed)</option>
-          <option value="CLONED">Cloned (from another mother)</option>
+      <Modal open={showCreate} onClose={() => { setShowCreate(false); setEditMotherId(null); }} title={editMotherId ? 'Edit Mother Plant' : 'Register Mother Plant'}>
+        <ModalInput label="Identifier" placeholder="e.g. KB-01, SL-01" value={motherForm.identifier} onChange={e => setMotherForm(f => ({ ...f, identifier: (e.target as HTMLInputElement).value }))} />
+        <ModalInput label="Strain" placeholder="e.g. SL, KB, Cereal Milk" value={motherForm.strain} onChange={e => setMotherForm(f => ({ ...f, strain: (e.target as HTMLInputElement).value }))} />
+        <ModalSelect label="Mother Room" value={motherForm.room} onChange={e => setMotherForm(f => ({ ...f, room: (e.target as HTMLSelectElement).value }))}>
+          <option value="MR1">Mother Room 1 (MR1)</option>
+          <option value="MR2">Mother Room 2 (MR2)</option>
         </ModalSelect>
-        <ModalInput label="Breeder / Seed Bank" placeholder="e.g. Dutch Passion" value={motherForm.breeder} onChange={e => setMotherForm(f => ({ ...f, breeder: (e.target as HTMLInputElement).value }))} />
+        <ModalInput label="Quantity (plants)" type="number" placeholder="e.g. 20" value={motherForm.quantity} onChange={e => setMotherForm(f => ({ ...f, quantity: (e.target as HTMLInputElement).value }))} />
+        <ModalInput label="Inception date" type="date" value={motherForm.inceptionDate} onChange={e => setMotherForm(f => ({ ...f, inceptionDate: (e.target as HTMLInputElement).value }))} />
+        <ModalInput label="Lifecycle (days)" type="number" placeholder="180" value={motherForm.lifecycleDays} onChange={e => setMotherForm(f => ({ ...f, lifecycleDays: (e.target as HTMLInputElement).value }))} />
+        <ModalSelect label="Source" value={motherForm.source} onChange={e => setMotherForm(f => ({ ...f, source: (e.target as HTMLSelectElement).value }))}>
+          <option value="CLONED">Cloned (from another mother)</option>
+          <option value="PURCHASED">Purchased (seed)</option>
+        </ModalSelect>
+        {motherForm.inceptionDate && (
+          <div className="text-xs text-white/40 mb-2">Auto cull date: <span className="text-amber-300 font-medium">{new Date(new Date(motherForm.inceptionDate).getTime() + (parseInt(motherForm.lifecycleDays)||180)*86400000).toLocaleDateString()}</span> (inception + {motherForm.lifecycleDays||180}d)</div>
+        )}
         <ModalButton loading={createMut.isPending} onClick={() => createMut.mutate()} disabled={!motherForm.identifier || !motherForm.strain}>
-          Register Mother
+          {editMotherId ? 'Save changes' : 'Register Mother'}
         </ModalButton>
       </Modal>
 

@@ -172,8 +172,8 @@ class OTPService {
         const mailOptions = {
             from: `"Origin by ILCO Farming" <${config.otp.from}>`,
             to: email,
-            subject: `Your Login Code: ${otp} - Origin by ILCO Farming`,
-            html: html,
+            subject: `${otp} is your Origin verification code`,
+
             text: `Your Origin by ILCO Farming verification code is: ${otp}\n\nThis code expires in 10 minutes.\n\nIf you didn't request this code, please ignore this email.`
         };
 

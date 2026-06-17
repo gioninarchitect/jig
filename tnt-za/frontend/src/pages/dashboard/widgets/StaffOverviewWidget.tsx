@@ -6,8 +6,8 @@ import api from '../../../services/api';
 const ROLE_COLORS: Record<string, string> = {
   FACILITY_MANAGER: 'bg-primary', PROCESSING_MANAGER: 'bg-primary', FACILITY_SUPERVISOR: 'bg-primary',
   QA_INSPECTOR: 'bg-cyan-500', MAINTENANCE_MANAGER: 'bg-orange-500',
-  CULTIVATOR: 'bg-green-500', LAB_TECH: 'bg-amber-500', IRRIGATION_TECH: 'bg-blue-500',
-  SECURITY_OFFICER: 'bg-red-500', TRIMMER: 'bg-emerald-500', GENERAL_WORKER: 'bg-white/30',
+  CULTIVATOR: 'bg-[#22C55E]', LAB_TECH: 'bg-amber-500', IRRIGATION_TECH: 'bg-blue-500',
+  SECURITY_OFFICER: 'bg-red-500', TRIMMER: 'bg-[#22C55E]', GENERAL_WORKER: 'bg-white/30',
   HOUSEKEEPING: 'bg-pink-500', LAUNDRY: 'bg-violet-500', VIEWER: 'bg-white/20',
   TENANT_ADMIN: 'bg-blue-500', SUPER_ADMIN: 'bg-purple-500',
 };

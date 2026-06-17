@@ -28,6 +28,27 @@ export default function TasksPage() {
   const [showComplete, setShowComplete] = useState<any>(null);
   const [form, setForm] = useState({ title: '', assignedToId: user?.id ?? '', priority: 'MEDIUM', dueDate: '', category: 'CULTIVATION' });
   const [completeNotes, setCompleteNotes] = useState('');
+  // Per-item checklist completion state (operative states + notes + special fields)
+  const [itemStates, setItemStates] = useState<Record<number, 'DONE' | 'ISSUE' | 'NA'>>({});
+  const [itemNotes, setItemNotes] = useState<Record<number, string>>({});
+  const [fieldValues, setFieldValues] = useState<Record<number, string>>({});
+
+  // Some "checklist" lines are really inputs, not tick-boxes: a Date field and an
+  // Initials/signature field. Detect them so general staff get the right control.
+  const fieldKind = (label: string): 'date' | 'initials' | 'check' => {
+    const l = (label || '').toLowerCase();
+    if (/\bdate\b/.test(l)) return 'date';
+    if (/initial|signature|signed|sign[- ]?off/.test(l)) return 'initials';
+    return 'check';
+  };
+
+  const openComplete = (t: any) => {
+    setShowComplete(t);
+    setCompleteNotes('');
+    setItemStates({});
+    setItemNotes({});
+    setFieldValues({});
+  };
 
   const { data: tasks, isLoading } = useQuery({
     queryKey: ['tasks', filter, showMine],
@@ -52,7 +73,7 @@ export default function TasksPage() {
   });
 
   const completeMut = useMutation({
-    mutationFn: (id: string) => api.patch(`/tasks/${id}/complete`, { notes: completeNotes }),
+    mutationFn: (p: { id: string; notes: string }) => api.patch(`/tasks/${p.id}/complete`, { notes: p.notes }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['tasks'] }); setShowComplete(null); setCompleteNotes(''); addToast('success', 'Task completed'); },
     onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
   });
@@ -170,7 +191,7 @@ export default function TasksPage() {
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className={`text-xs px-2 py-1 rounded-full ${PRIORITY_COLORS[t.priority]}`}>{t.priority}</span>
                     {t.status !== 'COMPLETED' && (
-                      <button onClick={() => { setShowComplete(t); setCompleteNotes(''); }}
+                      <button onClick={() => openComplete(t)}
                         className="px-3 py-1.5 bg-primary/10 border border-primary/30 text-primary rounded-lg text-xs font-semibold hover:bg-primary/20 transition min-h-[36px]">
                         Done
                       </button>
@@ -199,27 +220,90 @@ export default function TasksPage() {
         </div>
       )}
 
-      {/* Complete Task Modal */}
+      {/* Complete Task Modal — interactive checklist (Done / Issue / N/A per item) */}
       <Modal open={!!showComplete} onClose={() => setShowComplete(null)} title={`Complete: ${showComplete?.title || ''}`}>
-        {showComplete?.template?.checklist && (
-          <div className="mb-4 space-y-2">
-            <label className="block text-sm text-white/50 mb-1.5">Checklist</label>
-            {(showComplete.template.checklist as any[]).map((item: any, i: number) => (
-              <label key={i} className="flex items-start gap-2.5 text-sm text-white/70 cursor-pointer">
-                <input type="checkbox" className="mt-0.5 w-4 h-4 rounded" />
-                <span>{item.item} {item.required && <span className="text-red-400">*</span>}</span>
-              </label>
-            ))}
-          </div>
-        )}
-        <div className="mb-4">
-          <label className="block text-sm text-white/50 mb-1.5">Notes (optional)</label>
-          <textarea placeholder="Completion notes..." value={completeNotes} onChange={e => setCompleteNotes(e.target.value)}
-            className="w-full px-4 py-3 bg-dark border border-white/10 rounded-xl text-white text-base focus:border-primary focus:outline-none min-h-[80px] resize-y" />
-        </div>
-        <ModalButton loading={completeMut.isPending} onClick={() => completeMut.mutate(showComplete.id)}>
-          Mark Complete
-        </ModalButton>
+        {(() => {
+          const checklist: any[] = showComplete?.template?.checklist || [];
+          // Required gating: every required line must be answered — a state (or N/A),
+          // a flagged Issue needs a note, and Date / Initials must be filled in.
+          const blocked = checklist.some((item, i) => {
+            if (!item.required) return false;
+            const kind = fieldKind(item.item);
+            if (kind === 'date' || kind === 'initials') return !(fieldValues[i] || '').trim();
+            const st = itemStates[i];
+            if (!st) return true;
+            if (st === 'ISSUE' && !(itemNotes[i] || '').trim()) return true;
+            return false;
+          });
+          const submit = () => {
+            const lines = checklist.map((item, i) => {
+              const kind = fieldKind(item.item);
+              if (kind !== 'check') return `${item.item}: ${fieldValues[i] || '—'}`;
+              const st = itemStates[i] || 'DONE';
+              const mark = st === 'ISSUE' ? '⚠ ISSUE' : st === 'NA' ? 'N/A' : '✓';
+              return `${mark} ${item.item}${st === 'ISSUE' && itemNotes[i] ? ` — ${itemNotes[i]}` : ''}`;
+            });
+            const composed = [...lines, completeNotes.trim() ? `\nNotes: ${completeNotes.trim()}` : ''].filter(Boolean).join('\n');
+            completeMut.mutate({ id: showComplete.id, notes: composed });
+          };
+          return (
+            <>
+              {checklist.length > 0 && (
+                <div className="mb-4 space-y-2.5">
+                  <label className="block text-xs text-white/40 uppercase tracking-wide">Checklist · tap a state for each line</label>
+                  {checklist.map((item: any, i: number) => {
+                    const kind = fieldKind(item.item);
+                    if (kind === 'date' || kind === 'initials') {
+                      return (
+                        <div key={i} className="bg-white/[0.03] border border-white/10 rounded-xl p-2.5">
+                          <label className="block text-xs text-white/55 mb-1">{item.item} {item.required && <span className="text-red-400">*</span>}</label>
+                          <input type={kind === 'date' ? 'date' : 'text'} placeholder={kind === 'initials' ? 'Your initials' : ''}
+                            value={fieldValues[i] || ''} onChange={e => setFieldValues(v => ({ ...v, [i]: e.target.value }))}
+                            className="w-full px-3 py-2 bg-dark border border-white/10 rounded-lg text-white text-sm focus:border-primary focus:outline-none min-h-[40px]" />
+                        </div>
+                      );
+                    }
+                    const st = itemStates[i];
+                    return (
+                      <div key={i} className="bg-white/[0.03] border border-white/10 rounded-xl p-2.5">
+                        <div className="flex items-center justify-between gap-2 flex-wrap">
+                          <span className="text-sm text-white/75 flex-1 min-w-0">{item.item} {item.required && <span className="text-red-400">*</span>}</span>
+                          <div className="flex gap-1 flex-shrink-0">
+                            {([['DONE', '✓ Done', 'green'], ['ISSUE', '⚠ Issue', 'amber'], ['NA', 'N/A', 'white']] as const).map(([val, label, c]) => (
+                              <button key={val} onClick={() => setItemStates(s => ({ ...s, [i]: val }))}
+                                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition min-h-[36px] ${
+                                  st === val
+                                    ? c === 'green' ? 'bg-green-500/25 border-green-500/60 text-green-300'
+                                      : c === 'amber' ? 'bg-amber-500/25 border-amber-500/60 text-amber-200'
+                                      : 'bg-white/15 border-white/40 text-white'
+                                    : 'bg-white/5 border-white/10 text-white/40 hover:text-white/70'}`}>
+                                {label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        {st === 'ISSUE' && (
+                          <input autoFocus placeholder="What's the issue? (required)" value={itemNotes[i] || ''}
+                            onChange={e => setItemNotes(n => ({ ...n, [i]: e.target.value }))}
+                            className="mt-2 w-full px-3 py-2 bg-dark border border-amber-500/30 rounded-lg text-white text-sm focus:border-amber-500 focus:outline-none min-h-[40px]" />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              <div className="mb-4">
+                <label className="block text-sm text-white/50 mb-1.5">{checklist.length > 0 ? 'Overall notes (optional)' : 'Notes (optional)'}</label>
+                <textarea placeholder="Anything else to record..." value={completeNotes} onChange={e => setCompleteNotes(e.target.value)}
+                  className="w-full px-4 py-3 bg-dark border border-white/10 rounded-xl text-white text-base focus:border-primary focus:outline-none min-h-[72px] resize-y" />
+              </div>
+              {blocked && <div className="text-xs text-amber-300/80 mb-2">Answer every required line (mark Done / N-A, add a note for any Issue, fill Date & Initials) to complete.</div>}
+              <ModalButton loading={completeMut.isPending} disabled={blocked} onClick={submit}>
+                Mark Complete
+              </ModalButton>
+            </>
+          );
+        })()}
       </Modal>
 
       {/* Create Task Modal */}

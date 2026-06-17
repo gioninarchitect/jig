@@ -1,0 +1,4 @@
+# Generated at run time — contains a one-time PIN, never commit
+owner360_mobile.run.json
+# Screenshots are evidence artifacts, kept locally
+*.png

@@ -22,7 +22,7 @@ const State = {
 // -------------------------------------------------------------------
 // CONSTANTS
 // -------------------------------------------------------------------
-const FLOAT_AMOUNT   = 500;   // R500 standard float
+const FLOAT_AMOUNT   = 0;     // no float by default — store keeps none (set per store if adopted)
 const VARIANCE_OK    = 5;     // ≤ R5 — green
 const VARIANCE_WARN  = 50;    // R5–R50 — amber
                                // > R50  — red / manager required
@@ -42,7 +42,10 @@ function getToken() {
 }
 
 function getApiBase() {
-    return window.location.origin + '/api';
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1') return window.location.origin + '/api/v1';
+    // Production: POS API is behind the /pos/api/ nginx prefix (same as Origin_CONFIG.API_URL)
+    return window.location.origin + '/pos/api/v1';
 }
 
 async function apiGet(path) {
@@ -70,6 +73,43 @@ async function apiPost(path, body) {
         throw new Error(data.message || `API error ${res.status}`);
     }
     return data;
+}
+
+// In-page manager-approval modal for a cash variance over R50 (kiosk-safe — no window.prompt).
+// Resolves to { note, pin } or null if cancelled.
+function varianceOverride(prefillNote) {
+    return new Promise(resolve => {
+        const old = document.getElementById('varOverrideModal'); if (old) old.remove();
+        const el = document.createElement('div');
+        el.id = 'varOverrideModal';
+        el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:100000;display:flex;align-items:center;justify-content:center;padding:20px;';
+        el.innerHTML = `<div style="background:#15130d;border:1px solid #C9A84C;border-radius:18px;max-width:400px;width:100%;padding:24px;font-family:'Inter',sans-serif;color:#F2ECDD;box-shadow:0 14px 50px rgba(0,0,0,.6);">
+            <div style="font-family:'Cinzel',serif;color:#C9A84C;font-size:1.2rem;margin-bottom:6px;">Manager approval needed</div>
+            <p style="color:#b8b1a0;font-size:.9rem;margin-bottom:16px;">The cash variance is over R50. Add a note and a manager / admin PIN to close the shift.</p>
+            <label style="font-size:.7rem;color:#9a9486;letter-spacing:1px;display:block;margin-bottom:5px;">CLOSING NOTE</label>
+            <textarea id="voNote" rows="2" style="width:100%;padding:11px;background:#1d1d1d;border:1px solid #2a2620;border-radius:10px;color:#fff;font-family:'Inter',sans-serif;margin-bottom:14px;resize:vertical;">${prefillNote || ''}</textarea>
+            <label style="font-size:.7rem;color:#9a9486;letter-spacing:1px;display:block;margin-bottom:5px;">MANAGER / ADMIN PIN</label>
+            <input id="voPin" type="password" inputmode="numeric" autocomplete="off" style="width:100%;padding:13px;background:#1d1d1d;border:1px solid #2a2620;border-radius:10px;color:#fff;letter-spacing:7px;font-size:1.25rem;text-align:center;">
+            <div id="voMsg" style="color:#DC2626;font-size:.8rem;min-height:15px;margin-top:8px;"></div>
+            <div style="display:flex;gap:10px;margin-top:14px;">
+                <button id="voCancel" style="flex:1;padding:13px;background:#262626;border:none;border-radius:11px;color:#fff;font-weight:700;cursor:pointer;">Cancel</button>
+                <button id="voOk" style="flex:2;padding:13px;background:#C9A84C;border:none;border-radius:11px;color:#1a1a1a;font-weight:800;cursor:pointer;">Approve &amp; Close</button>
+            </div>
+        </div>`;
+        document.body.appendChild(el);
+        setTimeout(() => { const n = document.getElementById('voNote'); if (n) n.focus(); }, 60);
+        const finish = (val) => { el.remove(); resolve(val); };
+        document.getElementById('voCancel').onclick = () => finish(null);
+        document.getElementById('voOk').onclick = () => {
+            const note = document.getElementById('voNote').value.trim();
+            const pin = document.getElementById('voPin').value.trim();
+            const msg = document.getElementById('voMsg');
+            if (!note) { msg.textContent = 'Enter a closing note'; return; }
+            if (!pin) { msg.textContent = 'Enter the manager / admin PIN'; return; }
+            finish({ note, pin });
+        };
+        document.getElementById('voPin').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('voOk').click(); });
+    });
 }
 
 // -------------------------------------------------------------------
@@ -239,15 +279,33 @@ async function step1Next() {
         const sessionId = State.sessionData?.session?._id || State.sessionData?._id;
         if (!sessionId) throw new Error('No active session found. Please start a POS session first.');
 
-        const data = await apiPost('/pos/till/close', {
-            sessionId,
-            denominations: denomPayload,
-            closingNotes: ''
+        const closeReq = (approvalPin, notes) => apiPost('/pos/till/close', {
+            sessionId, denominations: denomPayload, closingNotes: notes || '', approvalPin: approvalPin || ''
         });
+        let data;
+        const note0 = document.getElementById('varianceNotes')?.value?.trim() || '';
+        try {
+            data = await closeReq('', note0);
+        } catch (err) {
+            // Variance over R50 — backend needs a manager/admin PIN + note. Use an IN-PAGE modal
+            // (window.prompt is suppressed in kiosk mode, which left Ray unable to type).
+            if ((err && err.requiresApproval) || /exceeds R50|manager\/admin PIN|approval/i.test(err?.message || '')) {
+                while (true) {
+                    const ov = await varianceOverride(note0);
+                    if (!ov) { setLoading(btn, false); return; }   // cancelled — abort cleanly
+                    try { data = await closeReq(ov.pin, ov.note); break; }
+                    catch (e2) {
+                        if (/invalid|PIN|approval|exceeds|note/i.test(e2?.message || '')) { showToast(e2.message || 'Invalid PIN — try again', 'error'); continue; }
+                        throw e2;
+                    }
+                }
+            } else { throw err; }
+        }
 
         State.closeData = data.session || data;
         populateStep2();
         goToStep(2);
+        if (typeof showToast === 'function') showToast('✓ Saved! Till session closed', 'success');
 
     } catch (err) {
         showToast(err.message || 'Failed to submit till count. Please try again.', 'error');
@@ -268,14 +326,16 @@ function populateStep2() {
     const variance  = parseFloat(d.variance     || (actual - expected));
     const totalSales= parseFloat(d.totalSales   || State.sessionData?.session?.totalSales || 0);
     const totalCash = parseFloat(d.totalCash    || 0);
-    const totalCard = parseFloat(d.totalCard    || 0) + parseFloat(d.totalEFT || 0);
+    const totalCard = parseFloat(d.totalCard    || 0);
+    const totalEFT  = parseFloat(d.totalEFT     || 0);
     const txCount   = parseInt(d.transactionCount || State.sessionData?.session?.transactionCount || 0);
 
     setText('v2Expected',   fmtZAR(expected));
     setText('v2Counted',    fmtZAR(actual));
     setText('v2Variance',   (variance >= 0 ? '' : '− ') + 'R ' + Math.abs(variance).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
     setText('v2CashSales',  fmtZAR(totalCash));
-    setText('v2CardEft',    fmtZAR(totalCard));
+    setText('v2Card',       fmtZAR(totalCard));
+    setText('v2Eft',        fmtZAR(totalEFT));
     setText('v2TotalSales', fmtZAR(totalSales));
     setText('v2Transactions', txCount.toString());
 
@@ -446,7 +506,7 @@ function populateStep4() {
     setText('zr-eft',  fmtZAR(totalEft));
 
     // Till reconciliation
-    const openingFloat  = parseFloat(session.openingFloat  || FLOAT_AMOUNT);
+    const openingFloat  = parseFloat(session.openingFloat != null ? session.openingFloat : FLOAT_AMOUNT);
     const expectedInTill= openingFloat + totalCash;
     const counted       = parseFloat(close.actualCash       || State.grandTotal);
     const variance      = counted - expectedInTill;
@@ -519,9 +579,16 @@ async function initDayEnd() {
     initDenomCounter();
     resolveBranchId();
 
+    // Keep auth alive across the page navigation so "Back to POS" never logs out
+    const _t = getToken();
+    if (_t) localStorage.setItem('token', _t);
+    const _u = sessionStorage.getItem('user') || localStorage.getItem('user');
+    if (_u) localStorage.setItem('user', _u);
+
     // Load session data
     try {
-        const data = await apiGet('/pos/till/active');
+        const branchId = State.branchId || getBranchIdFallback();
+        const data = await apiGet(`/pos/till/active?branchId=${branchId}&tillNumber=TILL-01`);
         State.sessionData = data;
         populateSessionCard(data);
     } catch (err) {
@@ -580,9 +647,9 @@ function resolveBranchId() {
 
     State.branchId = fromSession?._id
         || fromLocal?._id
-        || fromUser?.primaryBranch
+        || (fromUser?.primaryBranch && (fromUser.primaryBranch._id || fromUser.primaryBranch))
         || fromUser?.branchId
-        || null;
+        || '69a5848c4d2f6747055eca16'; // Potchefstroom — single-branch fallback so it's never empty
 }
 
 function getBranchIdFallback() {

@@ -3,6 +3,12 @@ const express = require('express');
 const router = express.Router();
 const { authenticateToken, requireRole } = require('../middleware/auth');
 const controller = require('../controllers/pos.controller');
+const salesReport = require('../controllers/salesreport.controller');
+const REPORT_ROLES = ['super_admin', 'owner', 'admin', 'branch_manager', 'branch_assistant'];
+
+// Date-range takings report (manager reporting)
+router.get('/report/range', authenticateToken, requireRole(REPORT_ROLES), salesReport.rangeReport);
+router.get('/report/range/csv', authenticateToken, requireRole(REPORT_ROLES), salesReport.rangeCsv);
 
 // Sale operations
 router.post('/sale', authenticateToken, controller.createSale);
@@ -11,6 +17,11 @@ router.get('/sales', authenticateToken, controller.getSales);
 router.get('/sales/export/csv', authenticateToken, controller.exportSalesCsv);
 router.post('/sale/:saleId/void', authenticateToken, requireRole(['super_admin', 'owner', 'admin', 'branch_manager']), controller.voidSale);
 router.post('/sale/:saleId/refund', authenticateToken, controller.refundSale);
+router.post('/sale/:saleId/quick-void', authenticateToken, controller.quickVoid);
+router.post('/sale/:saleId/quick-refund', authenticateToken, controller.quickRefund);
+router.get('/till/:sessionId/zreport.pdf', authenticateToken, controller.getZReportPdf);
+router.get('/till/:sessionId/zreport.csv', authenticateToken, controller.getZReportCsv);
+router.post('/till/:sessionId/email-report', authenticateToken, controller.emailZReport);
 router.post('/sale/offline-sync', authenticateToken, controller.offlineSync);
 
 // Sale documents

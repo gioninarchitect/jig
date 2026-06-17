@@ -228,6 +228,10 @@ function prepareCloseShiftModal() {
     document.getElementById('shiftTransactions').textContent = currentTillSession.transactionCount || 0;
     document.getElementById('shiftTotalSales').textContent = `R ${(currentTillSession.totalSales || 0).toFixed(2)}`;
     document.getElementById('shiftCashSales').textContent = `R ${(currentTillSession.totalCash || 0).toFixed(2)}`;
+    const _cardEl = document.getElementById('shiftCardSales');
+    const _eftEl = document.getElementById('shiftEftSales');
+    if (_cardEl) _cardEl.textContent = `R ${(currentTillSession.totalCard || 0).toFixed(2)}`;
+    if (_eftEl) _eftEl.textContent = `R ${(currentTillSession.totalEFT || 0).toFixed(2)}`;
 
     // Calculate expected cash
     const expectedCash = (currentTillSession.openingFloat || 500) + (currentTillSession.totalCash || 0) - (currentTillSession.totalRefunds || 0);
@@ -309,9 +313,19 @@ function calculateCashTotal() {
     }
 }
 
-async function closeTillSession() {
+async function closeTillSession(confirmed, approvalPin) {
     if (!currentTillSession) {
         showToast('Error', 'No active till session', 'error');
+        return;
+    }
+
+    // Guard against accidental day-session close — require explicit confirmation
+    if (!confirmed) {
+        _originShowConfirm(
+            'Close today\'s session? This ends trading for the day and runs the cash-up. Only do this at day end.',
+            function () { closeTillSession(true); },
+            { title: 'Close Day Session?', confirmText: 'Yes, Close The Day', cancelText: 'Cancel', icon: 'fa-lock', type: 'warning' }
+        );
         return;
     }
 
@@ -343,7 +357,8 @@ async function closeTillSession() {
             body: JSON.stringify({
                 sessionId: currentTillSession._id,
                 denominations,
-                closingNotes
+                closingNotes,
+                approvalPin
             })
         });
 
@@ -351,25 +366,101 @@ async function closeTillSession() {
 
         if (data.success) {
             const session = data.session;
+            const closedSessionId = currentTillSession._id;
             currentTillSession = null;
             updateTillStatusUI(false);
             closeModal('closeShiftModal');
-
-            // Show summary
-            const varianceMsg = session.variance !== 0
-                ? `Variance: R${session.variance.toFixed(2)}`
-                : 'Balanced';
-            showToast('Shift Closed', `Sales: R${session.totalSales?.toFixed(2) || 0} | ${varianceMsg}`, session.requiresApproval ? 'warning' : 'success');
-
-            if (session.requiresApproval) {
-                showToast('Approval Required', 'Variance exceeds R50 - manager approval needed', 'warning');
-            }
+            showDayEndReport(closedSessionId, session);
+        } else if (data.requiresApproval) {
+            // Variance over R50 — get a manager/admin PIN, then resubmit
+            promptManagerPin(data.message, function (pin) {
+                const notes = document.getElementById('closingNotes');
+                if (notes && !notes.value.trim()) { showToast('Note Required', 'Add a closing note explaining the variance', 'warning'); return; }
+                closeTillSession(true, pin);
+            });
         } else {
             showToast('Error', data.message || 'Failed to close shift', 'error');
         }
     } catch (error) {
         showToast('Error', 'Failed to close shift', 'error');
     }
+}
+
+// Manager/admin PIN prompt for variance approval
+function promptManagerPin(message, onPin) {
+    document.getElementById('mgrPinModal')?.remove();
+    const modal = document.createElement('div');
+    modal.id = 'mgrPinModal';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:10020;display:flex;align-items:center;justify-content:center;';
+    modal.innerHTML = `
+        <div style="background:#141414;border:1px solid #2a2a2a;border-radius:18px;width:92%;max-width:380px;overflow:hidden;">
+            <div style="background:rgba(220,38,38,0.14);padding:16px 20px;border-bottom:1px solid #2a2a2a;color:#FAFAFA;font-weight:700;">Manager Approval Needed</div>
+            <div style="padding:18px 20px;display:flex;flex-direction:column;gap:12px;">
+                <div style="font-size:0.85rem;color:#ccc;">${message || 'Variance exceeds R50 — a manager/admin PIN is required to close.'}</div>
+                <input id="mgrPinInput" type="password" inputmode="numeric" placeholder="••••••" style="padding:13px;font-size:1.3rem;letter-spacing:6px;text-align:center;background:#1d1d1d;border:1px solid #DC2626;border-radius:10px;color:#FAFAFA;">
+            </div>
+            <div style="display:flex;gap:10px;padding:0 20px 20px;">
+                <button onclick="document.getElementById('mgrPinModal').remove()" style="flex:1;padding:13px;background:#262626;border:none;border-radius:11px;color:#FAFAFA;font-weight:600;cursor:pointer;">Cancel</button>
+                <button id="mgrPinGo" style="flex:2;padding:13px;background:#DC2626;border:none;border-radius:11px;color:#fff;font-weight:700;cursor:pointer;">Approve & Close</button>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+    document.getElementById('mgrPinGo').addEventListener('click', function () {
+        const pin = document.getElementById('mgrPinInput').value;
+        if (!pin) return;
+        modal.remove();
+        onPin(pin);
+    });
+}
+
+// ==========================================
+// DAY-END REPORT (PDF / CSV / auto-email)
+// ==========================================
+function showDayEndReport(sessionId, session) {
+    const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token') || '';
+    const base = `${API_URL}/pos/till/${sessionId}`;
+    const variance = session.variance || 0;
+    document.getElementById('dayEndReportModal')?.remove();
+    const modal = document.createElement('div');
+    modal.id = 'dayEndReportModal';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:10010;display:flex;align-items:center;justify-content:center;';
+    modal.innerHTML = `
+        <div style="background:#141414;border:1px solid #2a2a2a;border-radius:18px;width:94%;max-width:440px;overflow:hidden;">
+            <div style="background:rgba(201,168,76,0.14);padding:18px 20px;text-align:center;border-bottom:1px solid #2a2a2a;">
+                <div style="font-size:1.3rem;font-weight:700;color:#FAFAFA;">Day Closed ✓</div>
+                <div style="font-size:0.82rem;color:#888;margin-top:3px;">Z-Report ready</div>
+            </div>
+            <div style="padding:16px 20px;font-size:0.9rem;color:#ccc;">
+                <div style="display:flex;justify-content:space-between;padding:4px 0;"><span>Total Sales</span><b style="color:#C9A84C;">R${(session.totalSales||0).toFixed(2)}</b></div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0;"><span>Cash</span><span>R${(session.totalCash||0).toFixed(2)}</span></div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0;"><span>Card</span><span>R${(session.totalCard||0).toFixed(2)}</span></div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0;"><span>EFT</span><span>R${(session.totalEFT||0).toFixed(2)}</span></div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid #2a2a2a;margin-top:4px;"><span>Variance</span><b style="color:${Math.abs(variance)>50?'#DC2626':'#22C55E'};">R${variance.toFixed(2)}</b></div>
+                <div id="dayEndEmailMsg" style="font-size:0.8rem;color:#888;margin-top:10px;text-align:center;">Emailing report…</div>
+            </div>
+            <div style="display:flex;gap:10px;padding:0 20px 14px;">
+                <button onclick="window.open('${base}/zreport.pdf?token=${encodeURIComponent(token)}','_blank')" style="flex:1;padding:13px;background:#262626;border:none;border-radius:11px;color:#FAFAFA;font-weight:600;cursor:pointer;"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button onclick="window.open('${base}/zreport.csv?token=${encodeURIComponent(token)}','_blank')" style="flex:1;padding:13px;background:#262626;border:none;border-radius:11px;color:#FAFAFA;font-weight:600;cursor:pointer;"><i class="fas fa-file-csv"></i> CSV</button>
+            </div>
+            <div style="padding:0 20px 20px;">
+                <button onclick="document.getElementById('dayEndReportModal').remove()" style="width:100%;padding:13px;background:#C9A84C;border:none;border-radius:11px;color:#1A1A1A;font-weight:700;cursor:pointer;">Done</button>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+
+    // Auto-email the report to the configured recipients
+    fetch(`${base}/email-report`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({})
+    }).then(r => r.json()).then(d => {
+        const el = document.getElementById('dayEndReportMsg') || document.getElementById('dayEndEmailMsg');
+        if (el) el.textContent = d.success ? ('✓ Emailed to ' + (d.recipients || []).join(', ')) : 'Email failed — use Download buttons';
+        if (el && d.success) el.style.color = '#22C55E';
+    }).catch(() => {
+        const el = document.getElementById('dayEndEmailMsg');
+        if (el) el.textContent = 'Email failed — use Download buttons';
+    });
 }
 
 // ==========================================
@@ -547,6 +638,18 @@ async function showShiftSummary() {
     document.getElementById('summaryCard').textContent = `R ${(session.totalCard || 0).toFixed(2)}`;
     document.getElementById('summaryInstapay').textContent = `R ${(session.totalInstapay || 0).toFixed(2)}`;
     document.getElementById('summaryEFT').textContent = `R ${(session.totalEFT || 0).toFixed(2)}`;
+
+    // Voided/refunded transparency — count + amount from today's sales
+    try {
+        const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
+        const branchId = getSelectedBranchId();
+        const r = await fetch(`${API_URL}/pos/sales/today?branchId=${branchId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const d = await r.json();
+        const voided = (d.sales || []).filter(s => s.status === 'voided' || s.status === 'refunded');
+        const vAmt = voided.reduce((a, s) => a + (s.totalAmount || 0), 0);
+        const el = document.getElementById('summaryVoided');
+        if (el) el.textContent = `${voided.length} · R ${vAmt.toFixed(2)}`;
+    } catch (e) { /* non-fatal */ }
 
     document.getElementById('shiftSummaryModal').style.display = 'flex';
 }

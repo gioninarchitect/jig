@@ -14,15 +14,19 @@ document.addEventListener('DOMContentLoaded', function() {
 async function checkAuth() {
     const token = sessionStorage.getItem('adminToken') || localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || '{}');
+    const uid = user.id || user._id;
 
-    if (!token || !user.id) {
+    if (!token || !uid) {
         document.getElementById('posLoginScreen').style.display = 'flex';
         return;
     }
 
-    // Store token in sessionStorage for API calls
+    // Persist to BOTH storages so navigating to day-end.html and back never logs out
+    // (OTP/keyboard login previously only set sessionStorage; day-end reads localStorage)
     sessionStorage.setItem('adminToken', token);
     sessionStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
 
     document.getElementById('userName').textContent = user.firstName || 'Assistant';
 
@@ -340,9 +344,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function logout() {
-    if (currentShift) {
-        clockOut();
-    }
+    // RULE: logging out must NOT close the day's till session or clock the user out.
+    // The till stays open until an explicit Day End cashup. Logout only clears this device's session.
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('adminToken');
     sessionStorage.removeItem('user');

@@ -1,4 +1,5 @@
-import { FileText, Shield } from 'lucide-react';
+import { FileText, Shield, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 // =====================================================================
 // SOPHeader — standard pharma-GMP SOP stamp for any page
@@ -18,11 +19,12 @@ interface SOPHeaderProps {
   checkedBy?: string;         // e.g. "Coenraad Venter (Responsible Pharmacist)"
   reportsTo?: string;         // e.g. "Head Grower"
   responsibility?: string;    // e.g. "Plant Technicians"
+  referenceDoc?: string;      // e.g. "New Cloning form" — the source paper doc
 }
 
 export default function SOPHeader({
   sopNumber, title, effectiveDate, version = '1.0',
-  authorisedBy, checkedBy, reportsTo, responsibility,
+  authorisedBy, checkedBy, reportsTo, responsibility, referenceDoc,
 }: SOPHeaderProps) {
   return (
     <div className="border border-amber-700/30 bg-gradient-to-r from-amber-950/30 via-zinc-900/40 to-amber-950/20 rounded-xl px-5 py-4 mb-6 print:break-inside-avoid">
@@ -33,8 +35,12 @@ export default function SOPHeader({
             <FileText size={16} />
           </div>
           <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-amber-500/80 mb-0.5">
-              SOP {sopNumber} · v{version} · effective {effectiveDate}
+            <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-amber-500/80 mb-0.5 flex items-center gap-1.5 flex-wrap">
+              <Link to="/sop-library" className="inline-flex items-center gap-1 hover:text-amber-300 underline-offset-2 hover:underline" title="Open this SOP in the SOP Library">
+                SOP {sopNumber} <ExternalLink size={9} className="opacity-60" />
+              </Link>
+              <span className="text-amber-500/40">· v{version} · effective {effectiveDate}</span>
+              {referenceDoc && <span className="text-white/30 normal-case tracking-normal">· ref: {referenceDoc}</span>}
             </div>
             <h2 className="font-semibold text-white text-sm leading-tight">
               {title}

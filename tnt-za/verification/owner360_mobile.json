@@ -1,0 +1,25 @@
+{
+  "app": "origin",
+  "flow": "owner360_mobile",
+  "viewport": "390x844",
+  "base_url": "https://tntilco.cleva-ai.co.za",
+  "role_key": "owner",
+  "module_key": "origin",
+  "steps": [
+    { "goto": "/login?email=florisolivier7%2Bcoenie%40gmail.com" },
+    { "expect": "input[type=email]" },
+    { "click": "button[type=submit]" },
+    { "expect_text": "PIN sent to" },
+    { "fill": ["input[inputmode=numeric]", "__PIN__"] },
+    { "click": "button[type=submit]" },
+    { "expect_text": "Welcome, Coenie" },
+    { "goto": "/owner" },
+    { "expect_text": "Good" },
+    { "expect": "h1:has-text('Coenie')" },
+    { "expect_text": "Plants" },
+    { "expect_text": "Batches" },
+    { "expect_text": "Staff" },
+    { "expect_text": "Open Tickets" },
+    { "screenshot": "owner360_390.png" }
+  ]
+}

@@ -74,4 +74,29 @@ router.get('/stats', requireLevel(2), async (req: AuthRequest, res: Response) =>
   } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
 
+// ── LEAVE ──
+router.post('/leave', requireLevel(0), async (req: AuthRequest, res: Response) => {
+  try {
+    const lr = await hr.requestLeave({ userId: req.user!.userId, userName: req.body.userName || '', leaveType: req.body.leaveType, startDate: req.body.startDate, endDate: req.body.endDate, reason: req.body.reason, tenantId: req.user!.tenantId });
+    res.status(201).json({ success: true, leave: lr });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+});
+router.get('/leave', requireLevel(2), async (req: AuthRequest, res: Response) => {
+  try { res.json({ success: true, leave: await hr.listLeave(req.user!.tenantId, { status: req.query.status as string | undefined }) }); }
+  catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
+});
+router.patch('/leave/:id', requireLevel(2), async (req: AuthRequest, res: Response) => {
+  try {
+    const lr = await hr.decideLeave(p(req.params.id), { status: req.body.status === 'REJECTED' ? 'REJECTED' : 'APPROVED', approvedById: req.user!.userId, approverNote: req.body.approverNote, tenantId: req.user!.tenantId });
+    res.json({ success: true, leave: lr });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+});
+
+// ── COMPETENCY MATRIX ──
+router.get('/competency-matrix', requireLevel(2), async (req: AuthRequest, res: Response) => {
+  try { res.json({ success: true, matrix: await hr.getCompetencyMatrix(req.user!.tenantId) }); }
+  catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
+});
+
 export default router;
+

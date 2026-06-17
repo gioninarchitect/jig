@@ -150,7 +150,7 @@ export default function ShiftPage() {
 
               <button onClick={() => completeMut.mutate()}
                 disabled={completeMut.isPending || (hasIncomplete && !deviationNotes)}
-                className="w-full py-4 bg-green-600 hover:bg-green-500 text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition active:scale-[0.98] disabled:opacity-40 min-h-[56px]">
+                className="w-full py-4 bg-primary hover:bg-primary-dark text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition active:scale-[0.98] disabled:opacity-40 min-h-[56px]">
                 <Check size={22} /> Complete Shift
               </button>
             </div>

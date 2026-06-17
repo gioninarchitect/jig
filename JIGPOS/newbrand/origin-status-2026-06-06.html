@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Owner Status Report · Week to 6 June 2026</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --amber:#F59E0B; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',sans-serif; background:#070707; color:var(--txt); line-height:1.6; }
+  .toolbar{ position:fixed; top:14px; right:14px; z-index:50; }
+  .toolbar button{ background:var(--gold); color:#1a1a1a; border:none; padding:11px 18px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.4); }
+  .page{ max-width:800px; margin:0 auto; padding:0 22px 70px; }
+  .hero{ text-align:center; padding:54px 20px 30px; background:radial-gradient(circle at 50% 0%, #1f1a10, #070707 70%); }
+  .hero img{ width:64px; margin-bottom:14px; }
+  .lockup b{ font-family:'Cinzel'; letter-spacing:7px; color:var(--gold); font-size:1.7rem; display:block; }
+  .lockup em{ font-style:normal; color:#8a8472; font-size:.66rem; letter-spacing:5px; text-transform:uppercase; }
+  .rule{ width:64px; height:3px; background:var(--gold); margin:24px auto; border-radius:2px; }
+  h1{ font-family:'Cinzel'; font-size:1.7rem; color:#fff; }
+  .date{ color:var(--grey); letter-spacing:3px; text-transform:uppercase; font-size:.72rem; margin-top:8px; }
+  .lead{ background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:0 14px 14px 0; padding:18px 22px; margin:26px 0; color:#e6e0d2; }
+  .kpis{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:26px 0; }
+  .kpi{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px 14px; text-align:center; }
+  .kpi .v{ font-family:'Cinzel'; font-size:1.3rem; color:var(--gold); } .kpi .l{ color:var(--grey); font-size:.7rem; text-transform:uppercase; letter-spacing:.5px; margin-top:3px; }
+  h2.sec{ font-family:'Cinzel'; color:var(--gold); font-size:1.25rem; margin:38px 0 4px; display:flex; align-items:center; gap:12px; }
+  h2.sec svg{ width:24px; height:24px; stroke:var(--gold); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+  .sec-note{ color:var(--grey); font-size:.86rem; margin:0 0 14px 36px; }
+  .item{ display:flex; gap:12px; align-items:flex-start; padding:10px 0 10px 36px; border-bottom:1px solid #1c1912; }
+  .item:last-child{ border-bottom:none; }
+  .item .tick{ width:18px; height:18px; flex-shrink:0; margin-top:2px; }
+  .item .tick svg{ width:18px; height:18px; stroke:var(--green); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .item b{ color:#fff; } .item span{ color:#d8d2c2; font-size:.93rem; }
+  .next .item .tick svg{ stroke:var(--amber); }
+  .foot{ text-align:center; color:#6f6a5d; font-size:.78rem; margin-top:42px; border-top:1px solid var(--line); padding-top:18px; }
+  @media print{
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    @page{ size:A4; margin:0; } .toolbar{ display:none; } body{ background:#070707; }
+    .item,.lead,.kpi,h2.sec{ break-inside:avoid; } h2.sec{ break-after:avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">Save as PDF</button></div>
+
+<div class="hero">
+  <img src="images/origin-logo.png" alt="Origin" onerror="this.style.display='none'">
+  <div class="lockup"><b>ORIGIN</b><em>by ILCO Farming</em></div>
+  <div class="rule"></div>
+  <h1>Owner Status Report</h1>
+  <div class="date">Week to Friday · 6 June 2026</div>
+</div>
+
+<div class="page">
+  <div class="lead">A week that moved Origin from "a store that's open" to "a platform ready to scale." The Potchefstroom till is now trading on numbers you can trust, the medical and farm sides are connected, and — most importantly — the machinery to bring <b>new pharmacies onto the network</b> is built, with our second outlet already queued.</div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v">Live</div><div class="l">Potch till trading daily</div></div>
+    <div class="kpi"><div class="v">Branch #2</div><div class="l">Röscher Pharmacy queued</div></div>
+    <div class="kpi"><div class="v">Section 21</div><div class="l">Patient portal live</div></div>
+    <div class="kpi"><div class="v">Brand kit</div><div class="l">Design system + range</div></div>
+  </div>
+
+  <h2 class="sec"><svg viewBox="0 0 24 24"><rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3"/><path d="M8.5 14h7"/></svg>The store, on numbers you can trust</h2>
+  <div class="sec-note">A week of hardening the live Potchefstroom till.</div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Takings made accurate.</b> VAT corrected to inclusive pricing; pre-launch test transactions removed (the figure dropped from an inflated <b>R6,645 to the true R2,176</b>); card takings now reconcile <b>to the cent</b> against the Capitec terminal.</span></div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Day-end &amp; float fixed.</b> Removed the phantom R500 float and the kiosk pop-up bug that stopped Ray closing; shifts now balance and close cleanly.</span></div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Stock that behaves.</b> Sales now deduct stock correctly, new products appear on the till instantly, and the <b>brand-first Wellness layout</b> with product images is live for staff.</span></div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Reporting.</b> A new <b>Takings Report</b> — any date range, cash/card split, daily breakdown, CSV/PDF — with <b>email to stakeholders</b>.</span></div>
+
+  <h2 class="sec"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3z"/><path d="m9 12 2 2 4-4.5"/></svg>The medical &amp; compliance layer</h2>
+  <div class="sec-note">Building the regulated foundation under the retail.</div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Patient portal &amp; Section 21 gate.</b> Online medical orders are now gated behind Section 21 status and prescription upload, with a pharmacist review queue — grounded to a legal-foundation map.</span></div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Compliance tooling</b> continues to mature — POPIA data-consent layer, SOP library and GMP inspection-readiness, keeping us audit-ready for SAHPRA.</span></div>
+
+  <h2 class="sec"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Farm ↔ retail connected</h2>
+  <div class="sec-note">One view from cultivation to till.</div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Owner Dashboard (TnT-ZA).</b> A combined farm + retail view, with the Potchefstroom store's live takings pulled into the farm platform via a secure bridge.</span></div>
+
+  <h2 class="sec"><svg viewBox="0 0 24 24"><path d="M12 20v-7"/><path d="M12 13C12 9 9 7 5 7c0 4 3 6 7 6z"/><path d="M12 11c0-3 2.5-5 6-5 0 3.5-2.5 5-6 5z"/></svg>The national network engine</h2>
+  <div class="sec-note">The week's headline — how Origin scales past one store.</div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Outlet onboarding system.</b> A document-gated wizard for pharmacies to join Origin — verifies <b>SAPC premises &amp; Responsible Pharmacist, company &amp; banking</b>. The medical-cannabis authority (SAHPRA 22A / Section 21) stays with <b>ILCO Farming</b>; a joining pharmacy only proves it's a licensed pharmacy.</span></div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>One-click activation.</b> An admin review screen checks the documents, switches the outlet's <b>own branch-scoped POS</b> live and seeds the product catalogue — ready to trade.</span></div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Branch #2 queued:</b> <b>Röscher Pharmacy, Kroonstad</b> — loaded and ready to onboard as the first network pharmacy dispensing ILCO medical cannabis.</span></div>
+
+  <h2 class="sec"><svg viewBox="0 0 24 24"><path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14z"/><path d="M5 19c4-4 7-7 11-9"/></svg>Brand &amp; product</h2>
+  <div class="sec-note">A house identity worth franchising.</div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Origin Design System</b> + a custom <b>Origin &amp; TnT-ZA icon language</b> — one consistent look across every surface.</span></div>
+  <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Origin Botanica</b> — a farm-to-skin cosmetic range proposal, turning post-trim farm material into a high-margin house range the whole network can carry.</span></div>
+
+  <h2 class="sec next"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>Next week</h2>
+  <div class="sec-note"></div>
+  <div class="next">
+    <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span>Onboard <b>Röscher Pharmacy</b> live — first network outlet.</span></div>
+    <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span><b>Capitec card-report upload</b> for fully automated reconciliation.</span></div>
+    <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span>Finalise <b>Origin Botanica</b> costing &amp; first product line.</span></div>
+    <div class="item"><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span><b>Onboard &amp; train the farm team on TnT-ZA</b> — the Facility Manager, cultivation, processing and compliance, on-site at the farm.</span></div>
+  </div>
+
+  <div class="foot">Origin · by ILCO Farming — Owner Status Report · Week to 6 June 2026<br>Prepared for the ILCO owners.</div>
+</div>
+</body>
+</html>

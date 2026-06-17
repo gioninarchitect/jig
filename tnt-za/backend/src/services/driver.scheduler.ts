@@ -3,6 +3,7 @@ import { eventBus } from './eventBus';
 import { evaluate } from './driver.service';
 import { escalateStaleTickets } from './smart-tickets.service';
 import { runIntegrityCheck, getActiveTenantIds } from './integrity.service';
+import { materializeRecurringForms } from './tasks.service';
 
 const TICK_MS = 15 * 60 * 1000; // 15 min
 let running = false;
@@ -36,6 +37,14 @@ async function evaluateAllTenants(reason: string) {
         if (esc.escalated) console.log(`[driver] ${reason} tenant=${t.id} escalated=${esc.escalated}`);
       } catch (e: any) {
         console.error(`[driver] escalate failed tenant=${t.id}:`, e.message);
+      }
+      // Daily recurring-form materializer — every active DAILY/WEEKLY/MONTHLY
+      // template becomes a dated task for sign-off (idempotent, once/day).
+      try {
+        const m = await materializeRecurringForms(t.id);
+        if (m.created) console.log(`[driver] ${reason} tenant=${t.id} forms-materialized=${m.created}`);
+      } catch (e: any) {
+        console.error(`[driver] materialize failed tenant=${t.id}:`, e.message);
       }
     }
   } finally {

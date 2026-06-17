@@ -65,6 +65,7 @@ export default function TicketsPage() {
     assignTarget: '',  // either "user:<id>" or "role:<ROLE>"
   });
   const [comment, setComment] = useState('');
+  const [reassignTarget, setReassignTarget] = useState('');
 
   // Users for the assignee picker (grouped by role in the dropdown below)
   const { data: users } = useQuery({
@@ -144,6 +145,42 @@ export default function TicketsPage() {
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['ticket', selectedTicket.id] }); setComment(''); addToast('success', 'Comment added'); },
   });
 
+  // Reassign / re-route a ticket to a different person or department from the detail modal.
+  const reassignMut = useMutation({
+    mutationFn: (target: string) => {
+      const assignedToId = target.startsWith('user:') ? target.slice(5) : '';
+      const assignedToRole = target.startsWith('role:') ? target.slice(5) : '';
+      return api.patch(`/baygrid/tickets/${selectedTicket.id}`, {
+        assignedToId, assignedToRole, status: 'ASSIGNED',
+      });
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['tickets'] });
+      qc.invalidateQueries({ queryKey: ['ticket', selectedTicket?.id] });
+      setReassignTarget('');
+      addToast('success', 'Ticket reassigned');
+    },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed to reassign'),
+  });
+
+  // Move a ticket into IN_PROGRESS (claim / start work) from the detail modal.
+  const startMut = useMutation({
+    mutationFn: (id: string) => api.patch(`/baygrid/tickets/${id}`, { status: 'IN_PROGRESS' }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['tickets'] }); qc.invalidateQueries({ queryKey: ['ticket', selectedTicket?.id] }); addToast('success', 'Marked in progress'); },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
+  });
+
+  // Resolve the display name of whoever a ticket is currently assigned to.
+  const assigneeName = (t: any): string | null => {
+    if (!t) return null;
+    if (t.assignedToId) {
+      const u = (users || []).find((x: any) => x.id === t.assignedToId);
+      return u ? `${u.name} · ${u.role.replace(/_/g, ' ')}` : 'Assigned person';
+    }
+    if (t.assignedToRole) return `${t.assignedToRole.replace(/_/g, ' ')} (department)`;
+    return null;
+  };
+
   const openCount = tickets?.filter((t: any) => t.status === 'OPEN' || t.status === 'IN_PROGRESS').length || 0;
   const reqCount = tickets?.filter((t: any) => t.ticketType === 'REQUISITION' && t.status !== 'COMPLETED' && t.status !== 'CLOSED').length || 0;
   const rpCount = tickets?.filter((t: any) => t.ticketType === 'RP_SIGNOFF' && !t.rpSignedAt).length || 0;
@@ -208,12 +245,12 @@ export default function TicketsPage() {
         <div className="w-px h-6 bg-white/10 self-center" />
         {/* Type */}
         <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
-          className="px-3 py-1.5 rounded-lg text-xs bg-white/5 text-white/60 border border-white/10 min-h-[36px]">
+          className="px-3 py-1.5 rounded-lg text-xs bg-dark text-white border border-white/10 min-h-[36px] [&>option]:bg-dark [&>option]:text-white">
           {TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
         </select>
         {/* Stage */}
         <select value={stageFilter} onChange={e => setStageFilter(e.target.value)}
-          className="px-3 py-1.5 rounded-lg text-xs bg-white/5 text-white/60 border border-white/10 min-h-[36px]">
+          className="px-3 py-1.5 rounded-lg text-xs bg-dark text-white border border-white/10 min-h-[36px] [&>option]:bg-dark [&>option]:text-white">
           {STAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
         </select>
       </div>
@@ -299,6 +336,51 @@ export default function TicketsPage() {
             </div>
 
             <p className="text-sm text-white/70 leading-relaxed">{ticketDetail.description}</p>
+
+            {/* Assignment — who owns it + reassign (issuer, current assignee, or any manager) */}
+            {(() => {
+              const canReassign = hasMinLevel(2) || ticketDetail.reportedById === user?.id || ticketDetail.assignedToId === user?.id;
+              const current = assigneeName(ticketDetail);
+              const isDone = ticketDetail.status === 'COMPLETED' || ticketDetail.status === 'CLOSED';
+              return (
+                <div className="bg-white/5 border border-white/10 rounded-lg p-3 space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs text-white/40">Assigned to</span>
+                    <span className={`text-sm font-medium ${current ? 'text-primary' : 'text-white/30'}`}>
+                      {current || 'Unassigned'}
+                    </span>
+                  </div>
+                  {canReassign && !isDone && (
+                    <div className="flex gap-2 pt-1">
+                      <select value={reassignTarget} onChange={e => setReassignTarget(e.target.value)}
+                        className="flex-1 px-3 py-2 rounded-lg text-xs bg-dark text-white border border-white/10 min-h-[40px] [&>option]:bg-dark [&>option]:text-white">
+                        <option value="">— Reassign to… —</option>
+                        <optgroup label="👤  Person">
+                          {(users || []).filter((u: any) => u.active !== false).map((u: any) => (
+                            <option key={u.id} value={`user:${u.id}`}>{u.name} · {u.role.replace(/_/g, ' ')}</option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="🏢  Department / role">
+                          {Array.from(new Set((users ?? []).map((u: any) => u.role))).sort().map((r: any) => (
+                            <option key={`re-role-${r}`} value={`role:${r}`}>{String(r).replace(/_/g, ' ')}</option>
+                          ))}
+                        </optgroup>
+                      </select>
+                      <button onClick={() => reassignMut.mutate(reassignTarget)} disabled={!reassignTarget || reassignMut.isPending}
+                        className="px-3 py-2 bg-primary/10 border border-primary/30 text-primary rounded-lg text-xs font-semibold hover:bg-primary/20 transition disabled:opacity-40 min-h-[40px] whitespace-nowrap">
+                        Reassign
+                      </button>
+                    </div>
+                  )}
+                  {canReassign && !isDone && ticketDetail.status !== 'IN_PROGRESS' && (
+                    <button onClick={() => startMut.mutate(ticketDetail.id)} disabled={startMut.isPending}
+                      className="w-full px-3 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-lg text-xs font-semibold hover:bg-amber-500/20 transition min-h-[40px] flex items-center justify-center gap-1.5">
+                      <Clock size={13} /> Claim / Start work
+                    </button>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Requisition details */}
             {ticketDetail.estimatedCost && (

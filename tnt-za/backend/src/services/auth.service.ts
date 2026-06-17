@@ -22,6 +22,24 @@ export async function requestPin(email: string, ip?: string) {
 
   const openLoginRole = OPEN_LOGIN_ROLES.has(user.role);
 
+  // Debounce duplicate sends: if a still-valid PIN session was created in the last 60s,
+  // reuse it instead of generating+emailing a new PIN. The first email's PIN is still valid.
+  // PINs are bcrypt-hashed so we cannot re-email the same plaintext — we suppress the SEND.
+  // Checked BEFORE the openLoginRole cleanup so the recent session is still present.
+  const existing = await prisma.session.findFirst({
+    where: {
+      userId: user.id,
+      createdAt: { gte: new Date(Date.now() - 60_000) },
+      expiresAt: { gt: new Date() },
+      token: { startsWith: '$2' }, // unverified PIN hash (not yet a JWT)
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+  if (existing) {
+    console.log(`[Auth] Debounced duplicate PIN request for ${email} — reusing session ${existing.id} (created ${Math.round((Date.now() - existing.createdAt.getTime()) / 1000)}s ago), no new email sent`);
+    return { sessionId: existing.id, expiresAt: existing.expiresAt };
+  }
+
   if (openLoginRole) {
     await prisma.session.deleteMany({
       where: {
@@ -111,6 +129,21 @@ export async function verifyPin(email: string, pin: string, ip?: string) {
   }
 
   if (!session) {
+    // Stored-PIN fallback even when an OTP session exists (UAT/permanent PIN).
+    // The login UI calls request-pin first (creating a session), so the permanent
+    // PIN must still verify here, not only when sessions.length === 0.
+    if (user.pinHash && (env.ALLOW_STORED_PIN_LOGIN || OPEN_LOGIN_ROLES.has(user.role))) {
+      const storedValid2 = await bcrypt.compare(normalizedPin, user.pinHash);
+      if (storedValid2) {
+        const token2 = jwt.sign(
+          { userId: user.id, email: user.email, role: user.role, tenantId: user.tenantId, facilityId: user.facilityId },
+          env.JWT_SECRET, { expiresIn: '24h' });
+        await prisma.user.update({ where: { id: user.id }, data: { failedAttempts: 0, lockedAt: null } });
+        try { await prisma.session.update({ where: { id: sessions[0].id }, data: { token: token2 } }); } catch { /* ignore */ }
+        eventBus.emit('LOGIN_SUCCESS', { userId: user.id, tenantId: user.tenantId, entityType: 'User', entityId: user.id, ip });
+        return { token: token2, user: { id: user.id, email: user.email, name: user.name, role: user.role, tenantId: user.tenantId, facilityId: user.facilityId } };
+      }
+    }
     const attempts = user.failedAttempts + 1;
     const update: any = { failedAttempts: attempts };
     if (attempts >= 5) {

@@ -78,13 +78,6 @@ class Database {
     this.models.Ticket = require('./models/Ticket');
     this.models.Transaction = require('./models/Transaction');
     
-    // Cultivation Dashboard models
-    this.models.CultivationZone = require('./models/CultivationZone');
-    this.models.CultivationBatch = require('./models/CultivationBatch');
-    this.models.EnvironmentReading = require('./models/EnvironmentReading');
-    this.models.HarvestRecord = require('./models/HarvestRecord');
-    this.models.ComplianceLog = require('./models/ComplianceLog');
-
     logger.info('✅ Database models initialized');
   }
 

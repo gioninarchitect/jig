@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Update for Ray</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --ink:#0A0A0A; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',sans-serif; background:#070707; color:var(--txt); line-height:1.6; }
+  .toolbar{ position:fixed; top:14px; right:14px; z-index:50; }
+  .toolbar button{ background:var(--gold); color:#1a1a1a; border:none; padding:11px 18px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.4); }
+  .page{ max-width:780px; margin:0 auto; padding:0 22px 70px; }
+  .hero{ text-align:center; padding:54px 20px 36px; background:radial-gradient(circle at 50% 0%, #1f1a10, #070707 70%); }
+  .hero img{ width:74px; margin-bottom:18px; }
+  .brand{ font-family:'Cinzel'; letter-spacing:5px; color:var(--gold); font-size:1.6rem; }
+  .sub{ color:#8a8472; letter-spacing:5px; font-size:.72rem; text-transform:uppercase; margin-top:4px; }
+  .rule{ width:64px; height:3px; background:var(--gold); margin:26px auto; border-radius:2px; }
+  h1{ font-family:'Cinzel'; font-size:1.8rem; color:#fff; }
+  .hero p{ color:var(--grey); max-width:540px; margin:12px auto 0; font-size:.98rem; }
+  .greet{ background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:0 14px 14px 0; padding:18px 22px; margin:28px 0; color:#e6e0d2; font-size:1rem; }
+  h2.sec{ font-family:'Cinzel'; color:var(--gold); font-size:1.25rem; margin:34px 0 6px; }
+  .sec-note{ color:var(--grey); font-size:.85rem; margin-bottom:16px; }
+  .item{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-bottom:14px; }
+  .said{ display:flex; gap:10px; align-items:flex-start; color:#cfc6ad; font-style:italic; font-size:.95rem; }
+  .said .q{ color:var(--gold-d); font-family:'Cinzel'; font-size:1.4rem; line-height:.8; }
+  .did{ display:flex; gap:10px; align-items:flex-start; margin-top:12px; padding-top:12px; border-top:1px solid var(--line); }
+  .did .tick{ color:var(--green); font-weight:800; flex-shrink:0; margin-top:1px; }
+  .did b{ color:#fff; }
+  .did span{ color:#d8d2c2; font-size:.93rem; }
+  .chips{ display:flex; flex-wrap:wrap; gap:7px; margin-top:10px; }
+  .chip{ background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.3); color:var(--gold); font-size:.78rem; padding:4px 11px; border-radius:20px; font-weight:600; }
+  .cta{ background:linear-gradient(135deg,#1a1408,#15130d); border:1px solid var(--gold-d); border-radius:16px; padding:24px; text-align:center; margin:30px 0; }
+  .cta h3{ font-family:'Cinzel'; color:var(--gold); font-size:1.1rem; }
+  .cta p{ color:var(--grey); font-size:.9rem; margin:6px 0 14px; }
+  .cta code{ background:#000; color:var(--gold); padding:6px 12px; border-radius:8px; font-size:.85rem; }
+  .foot{ text-align:center; color:#6f6a5d; font-size:.78rem; margin-top:36px; border-top:1px solid var(--line); padding-top:18px; }
+  @media print{
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    @page{ size:A4; margin:0; }
+    body{ background:#070707; }
+    .toolbar{ display:none; }
+    .hero{ padding-top:40px; }
+    .item,.cta,.greet{ break-inside:avoid; }
+    h2.sec{ break-after:avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">⬇ Save as PDF</button></div>
+
+<div class="hero">
+  <img src="images/origin-logo.png" alt="Origin" onerror="this.style.display='none'">
+  <div class="brand">ORIGIN</div><div class="sub">by ILCO · Potchefstroom</div>
+  <div class="rule"></div>
+  <h1>Your feedback — actioned</h1>
+  <p>Everything you flagged on the till, in your own words, and exactly what we changed. All of it is ready on the demo for you to try.</p>
+</div>
+
+<div class="page">
+  <div class="greet">Hi Ray 👋 — thank you for the detailed walk-throughs and voice notes; they were spot-on and made this easy to get right. Here's everything you raised, sorted.</div>
+
+  <h2 class="sec">From your videos today</h2>
+  <div class="sec-note">Making products easy to find on the till.</div>
+
+  <div class="item">
+    <div class="said"><span class="q">“</span><span>It's a bit hard to find individual products… could we take all of this out and only leave the brands? Then under each brand is the product.</span></div>
+    <div class="did"><span class="tick">✓</span><span><b>Done.</b> The <b>Wellness &amp; Pharmacy</b> group is now <b>brand-first</b> — the category tabs are gone. Tap a brand to see its products, and the search box filters within it.
+      <div class="chips"><span class="chip">Bio Sculpture</span><span class="chip">Lamelle</span><span class="chip">Origin Teas</span><span class="chip">CannaMed</span><span class="chip">HM Mycology</span><span class="chip">CBD Full Spectrum</span></div>
+    </span></div>
+  </div>
+
+  <div class="item">
+    <div class="said"><span class="q">“</span><span>If I go to Cannabis, I don't know what Lamelle's doing here… CannaMed, I can't find it, it's not there.</span></div>
+    <div class="did"><span class="tick">✓</span><span><b>Fixed.</b> Lamelle and CannaMed were slipping into the cannabis side because of an odd category tag. Wellness is now grouped <b>by brand</b>, so every wellness product shows under its brand — including the ones you couldn't find.</span></div>
+  </div>
+
+  <div class="item">
+    <div class="said"><span class="q">“</span><span>I don't know why it keeps jumping back to Bio Sculpture if I'm in cannabis.</span></div>
+    <div class="did"><span class="tick">✓</span><span><b>Fixed.</b> "Bio Sculpture" was accidentally stored two different ways and split in two — merged into one brand, and it no longer auto-jumps.</span></div>
+  </div>
+
+  <div class="item">
+    <div class="said"><span class="q">“</span><span>When I add the product it says brand — it shouldn't be optional, we should link each product to its brand.</span></div>
+    <div class="did"><span class="tick">✓</span><span><b>Done.</b> On the Stock Sheet, <b>Brand is now required</b> when adding a product, with a <b>drop-down of your existing brands</b> so everything links cleanly (no more duplicates or lost products).</span></div>
+  </div>
+
+  <div class="item">
+    <div class="said"><span class="q">“</span><span>We've got this search for customers, but where do I put the info? … take that out for now, I don't want to confuse the ladies.</span></div>
+    <div class="did"><span class="tick">✓</span><span><b>Removed</b> from the till — it now just rings up as a walk-in. We've kept it in the background for the future cannabis / Section 21 patient flow.</span></div>
+  </div>
+
+  <div class="item">
+    <div class="did"><span class="tick">✓</span><span>The <b>Cannabis group is left exactly as it was</b>, as you asked.</span></div>
+  </div>
+
+  <h2 class="sec">Also fixed from your earlier testing</h2>
+  <div class="sec-note">The things you caught during the first live days.</div>
+
+  <div class="item"><div class="did"><span class="tick">✓</span><span><b>VAT was reading too high</b> (R908 instead of R790) — prices are VAT-inclusive now; the till shows the right total.</span></div></div>
+  <div class="item"><div class="did"><span class="tick">✓</span><span><b>Stock not coming off after a sale</b> — now every sale subtracts stock, and we corrected the day's counts.</span></div></div>
+  <div class="item"><div class="did"><span class="tick">✓</span><span><b>"My changes don't save"</b> — they were saving all along; the screen just wasn't refreshing. It now updates on its own (and there's a ↻ button).</span></div></div>
+  <div class="item"><div class="did"><span class="tick">✓</span><span><b>Day-end "R500 float" you couldn't get past</b> — the system was assuming a R500 float you don't keep; removed. If a real variance is over R50 it now asks for a note + manager PIN.</span></div></div>
+  <div class="item"><div class="did"><span class="tick">✓</span><span><b>Hidden / deleted products still on the till</b>, and the <b>Stock button disappearing</b> — both fixed.</span></div></div>
+
+  <h2 class="sec">Latest — just shipped</h2>
+  <div class="sec-note">From this morning.</div>
+
+  <div class="item">
+    <div class="said"><span class="q">“</span><span>I'm trying to close the shift for yesterday so I can reopen for today… it doesn't let me type, it doesn't show anything.</span></div>
+    <div class="did"><span class="tick">✓</span><span><b>Fixed.</b> The manager-approval box was a browser pop-up that the till's kiosk mode hides — so nothing appeared. It's now a proper <b>on-screen pop-up</b> (note + manager PIN). We also corrected yesterday's stuck shift, so it <b>closes straight through</b>.</span></div>
+  </div>
+
+  <div class="item">
+    <div class="said"><span class="q">“</span><span>Can we have a reporting function to do date-range reports?</span></div>
+    <div class="did"><span class="tick">✓</span><span><b>Built.</b> A new <b>Takings Reports</b> page — pick <b>any date range</b> (or Today / Yesterday / Last 7 days / This month / Last month) and see <b>total takings, VAT, net, transactions, the cash vs card split, a day-by-day breakdown and top products</b> — with <b>CSV download</b> and <b>print to PDF</b>.</span></div>
+  </div>
+
+  <div class="cta">
+    <h3>Have a look</h3>
+    <p>Everything above is live on the demo with the full product list.</p>
+    <code>open the demo link &amp; tap “Wellness &amp; Pharmacy”</code>
+  </div>
+
+  <div class="foot">Origin by ILCO · Potchefstroom · prepared for Ray<br>Tell us what still feels off — we'll keep refining it with you.</div>
+</div>
+</body>
+</html>

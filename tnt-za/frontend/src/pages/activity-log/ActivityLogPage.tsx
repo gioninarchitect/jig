@@ -16,12 +16,13 @@ import api from '../../services/api';
 // whom, and why. Feeds the audit chain.
 // =====================================================================
 
-type Zone = 'MOTHER_BAY' | 'CLONE_ROOM' | 'GREENHOUSE';
+import { FACILITY_ZONES, zoneFamily, zoneLabel } from '../../constants/facilityZones';
 
-const ZONE_CONFIG: Record<Zone, { label: string; sop: string; effective: string }> = {
-  MOTHER_BAY: { label: 'Mother Bay', sop: '3-CUL-6', effective: '03/09/2025' },
-  CLONE_ROOM: { label: 'Clone Room', sop: '3-CUL-7', effective: '01/03/2026' },
-  GREENHOUSE: { label: 'Greenhouse', sop: '3-CUL-9/10', effective: '03/09/2025' },
+type Zone = string;
+const FAMILY_CFG: Record<string, { sop: string; effective: string }> = {
+  MOTHER:     { sop: '3-CUL-6',    effective: '03/09/2025' },
+  CLONE:      { sop: '3-CUL-7',    effective: '01/03/2026' },
+  GREENHOUSE: { sop: '3-CUL-9/10', effective: '03/09/2025' },
 };
 
 interface ActivityEntry {
@@ -37,11 +38,11 @@ export default function ActivityLogPage() {
   const qc = useQueryClient();
   const canLog = hasMinLevel(1);
 
-  const [zone, setZone] = useState<Zone>('GREENHOUSE');
+  const [zone, setZone] = useState<Zone>('GH1');
   const [showLog, setShowLog] = useState(false);
   const [form, setForm] = useState({ activityPerformed: '', reason: '', strainId: '', batchNo: '', numberSize: '' });
 
-  const config = ZONE_CONFIG[zone];
+  const config = { ...FAMILY_CFG[zoneFamily(zone)], label: zoneLabel(zone) };
 
   const { data: entries, isLoading } = useQuery<ActivityEntry[]>({
     queryKey: ['activity-log', zone],
@@ -97,14 +98,14 @@ export default function ActivityLogPage() {
 
       {/* Zone chips */}
       <div className="flex gap-2 flex-wrap">
-        {(Object.keys(ZONE_CONFIG) as Zone[]).map(z => (
-          <button key={z} onClick={() => setZone(z)}
+        {FACILITY_ZONES.map(z => (
+          <button key={z.key} onClick={() => setZone(z.key)}
             className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition border min-h-[36px] ${
-              zone === z
+              zone === z.key
                 ? 'bg-amber-500/20 text-amber-200 border-amber-500/40'
                 : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
             }`}>
-            {ZONE_CONFIG[z].label}
+            {z.label}
           </button>
         ))}
       </div>

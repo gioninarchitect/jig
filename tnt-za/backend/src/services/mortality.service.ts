@@ -6,6 +6,7 @@ export async function recordDeath(data: {
   quantity: number; causeCategory: string; causeDetail?: string;
   preventable?: boolean; actionTaken?: string;
   greenhouseId?: string; bayId?: string; phase?: string;
+  weight?: number; batchNumber?: string; plantTag?: string; zone?: string;
   photos?: string[]; notes?: string;
   tenantId: string; userId: string;
 }) {
@@ -17,6 +18,8 @@ export async function recordDeath(data: {
       causeDetail: data.causeDetail, preventable: data.preventable || false,
       actionTaken: data.actionTaken, greenhouseId: data.greenhouseId,
       bayId: data.bayId, phase: data.phase, photos: data.photos || [],
+      weight: data.weight ?? null, batchNumber: data.batchNumber || null,
+      plantTag: data.plantTag || null, zone: data.zone || null,
       notes: data.notes, reportedById: data.userId, tenantId: data.tenantId,
     },
   });

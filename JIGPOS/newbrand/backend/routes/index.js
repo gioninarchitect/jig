@@ -12,6 +12,11 @@ module.exports = function(app) {
   app.use('/api/v1/leads', require('./leads'));
   app.use('/api/v1/pos', require('./pos'));
   app.use('/api/v1/products', require('./products'));
+  app.use('/api/v1/sops', require('./sop'));
+  app.use('/api/v1/capa', require('./capa'));
+  app.use('/api/v1/role-context', require('./rolecontext'));
+  app.use('/api/v1/gmp-cert', require('./gmpcert'));
+  app.use('/api/v1/popia', require('./popia'));
   app.use('/api/v1/orders', require('./order'));
   app.use('/api/v1/cart', require('./cart'));
   app.use('/api/v1/vouchers', require('./vouchers'));

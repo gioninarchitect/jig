@@ -428,7 +428,7 @@
         }
         .product-grid.list-view .product-card {
             display: grid;
-            grid-template-columns: 36px 1fr auto auto;
+            grid-template-columns: 36px 1fr auto 44px;
             align-items: center;
             gap: 10px;
             min-height: 52px;
@@ -437,6 +437,38 @@
             border: none;
             border-bottom: 1px solid #222;
             text-align: left;
+        }
+        /* Edit pencil — top-left of every card, admin-gated */
+        .card-edit {
+            position: absolute; top: 6px; left: 6px; z-index: 3;
+            width: 30px; height: 30px;
+            display: inline-flex; align-items: center; justify-content: center;
+            border: none; border-radius: 8px;
+            background: rgba(20,20,20,0.7); color: #C9A84C;
+            font-size: 0.95rem; cursor: pointer;
+            opacity: 0.65; transition: opacity 0.15s, background 0.15s;
+        }
+        .card-edit:hover, .card-edit:active { opacity: 1; background: rgba(201,168,76,0.25); }
+        .product-grid.list-view .card-edit {
+            top: 50%; transform: translateY(-50%);
+            left: auto; right: 56px; opacity: 0.8;
+        }
+
+        /* Add button — only shown in list view */
+        .card-add { display: none; }
+        .product-grid.list-view .card-add {
+            display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 40px; height: 40px;
+            border: none; border-radius: 10px;
+            background: #C9A84C; color: #1A1A1A;
+            font-size: 1.2rem; cursor: pointer;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(201,168,76,0.35);
+        }
+        .product-grid.list-view .card-add:active {
+            transform: scale(0.92);
+            background: #B8973B;
         }
         .product-grid.list-view .product-card:last-child { border-bottom: none; }
         .product-grid.list-view .product-card:hover { transform: none; background: rgba(201,168,76,0.06); }
@@ -1170,9 +1202,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
             gap: 10px;
             border-left: 3px solid #C9A84C;
         }
+
+        /* Quick-add quantity row (+1 +2 +5 +10) */
+        .qty-quick {
+            flex-basis: 100%;
+            display: flex;
+            gap: 6px;
+            margin-top: 2px;
+        }
+        .qty-quick-btn {
+            flex: 1;
+            padding: 8px 0;
+            border: 1px solid rgba(201,168,76,0.35);
+            background: rgba(201,168,76,0.10);
+            color: #C9A84C;
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .qty-quick-btn:active { background: #C9A84C; color: #0E0E0E; transform: scale(0.95); }
 
         .item-info {
             flex: 1;
@@ -1769,7 +1823,11 @@
                 <i class="fas fa-chevron-down" id="branchSwitchIcon" style="display: none; font-size: 0.7rem; margin-left: 4px; opacity: 0.7;"></i>
             </div>
         </div>
-        <div class="header-right">
+        <div class="header-right" style="flex-wrap:wrap;">
+            <!-- Transactions / Void & Refund (prominent, always visible) -->
+            <button class="icon-btn" id="txnBtn" onclick="openTransactions()" title="Transactions (Void / Refund)" style="background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color:#1A1A1A; font-weight:700; display:flex; align-items:center; gap:6px; padding:0 14px; width:auto; border-radius:10px;">
+                <i class="fas fa-receipt"></i> <span style="font-size:0.8rem;">Sales</span>
+            </button>
             <!-- Break Button -->
             <button class="icon-btn" id="breakBtn" onclick="toggleBreak()" title="Take Break" style="background: rgba(255,255,255,0.15);">
                 <i class="fas fa-mug-hot"></i>
@@ -1787,8 +1845,16 @@
             <button class="icon-btn" onclick="showShiftSummary()" title="Shift Summary" style="background: rgba(255,255,255,0.15);">
                 <i class="fas fa-chart-bar"></i>
             </button>
+            <!-- Stock Sheet (managers/admin/owner) -->
+            <a class="icon-btn" id="stockBtn" href="stock-sheet.html" title="Stock Sheet" style="background: rgba(255,255,255,0.15); color: var(--or-white); display:none; text-decoration:none; align-items:center; justify-content:center;">
+                <i class="fas fa-boxes-stacked"></i>
+            </a>
+            <!-- Takings Reports (managers/admin/owner) -->
+            <a class="icon-btn" id="reportsBtn" href="reports.html" title="Takings Reports" style="background: rgba(255,255,255,0.15); color: var(--or-white); display:none; text-decoration:none; align-items:center; justify-content:center;">
+                <i class="fas fa-file-invoice-dollar"></i>
+            </a>
             <!-- Day End Button (managers/admin/owner only) -->
-            <button class="icon-btn" id="dayEndBtn" onclick="openDayEnd()" title="Day End Cashup" style="background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--or-white); display: none;">
+            <button class="icon-btn" id="dayEndBtn" onclick="openDayEnd()" title="Day End Cashup" style="background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--or-white);">
                 <i class="fas fa-cash-register"></i>
             </button>
             <div class="till-status closed" id="tillStatus" onclick="manageTillSession()" title="Click to manage shift">
@@ -1925,12 +1991,8 @@
                         <i class="fas fa-box"></i> 5g Bag
                     </button>
                 </div>
-                <!-- Wellness quick-add — single "1 BAG" button -->
-                <div id="quickAddTeas" style="display:none;gap:8px;flex-wrap:wrap;">
-                    <button class="quick-add-btn" onclick="quickAddWellnessUnit()" style="display:flex;align-items:center;gap:8px;padding:12px 20px;background:rgba(74,222,128,0.12);color:#4ADE80;border:1px solid rgba(74,222,128,0.3);border-radius:10px;font-family:'Cinzel',sans-serif;font-size:1rem;cursor:pointer;font-weight:600;">
-                        <i class="ph-leaf-fill"></i> 1 BAG
-                    </button>
-                </div>
+                <!-- (Wellness "1 BAG" quick-add removed — products add by tapping their card) -->
+                <div id="quickAddTeas" style="display:none;"></div>
             </div>
 
             <!-- Category Hierarchy - 3 Level -->
@@ -1960,6 +2022,9 @@
                 <!-- Brand Filter Row + View Toggle -->
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
                     <div id="brandFilterRow" style="display:none;flex-wrap:nowrap;gap:6px;overflow-x:auto;padding:2px 0;flex:1;"></div>
+                    <button class="view-toggle" onclick="refreshProducts()" title="Refresh products (pull latest prices &amp; stock)">
+                        <i class="ph-bold ph-arrows-clockwise"></i>
+                    </button>
                     <button id="viewToggleBtn" class="view-toggle" onclick="toggleListView()" title="Toggle list/grid view">
                         <i id="viewToggleIcon" class="ph-list-fill"></i>
                     </button>
@@ -2010,8 +2075,8 @@
 
         <!-- Right Panel: Cart -->
         <div class="cart-panel">
-            <!-- Customer Selection -->
-            <div class="customer-selector" id="customerSelector">
+            <!-- Customer Selection — hidden per Ray (confusing, no use yet; walk-in is the default). Kept for the future cannabis/Section 21 flow. -->
+            <div class="customer-selector" id="customerSelector" style="display:none;">
                 <div class="customer-header" onclick="toggleCustomerSearch()">
                     <div class="customer-info">
                         <i class="fas fa-user"></i>
@@ -2099,6 +2164,7 @@
     <script src="frontend/pos-products.js"></script>
     <script src="frontend/pos-cart.js"></script>
     <script src="frontend/pos-checkout.js"></script>
+    <script src="frontend/pos-transactions.js"></script>
     <script src="frontend/pos-cashup.js"></script>
     <!-- pos-inventory.js removed — stock managed via Stocktake App only -->
 
@@ -2297,7 +2363,7 @@
 
     <!-- Close Shift Modal -->
     <div class="modal" id="closeShiftModal">
-        <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-content" style="width: 96vw; max-width: 760px; margin: 0 auto; overflow-x: hidden;">
             <div class="modal-header">
                 <div class="modal-title">Close Shift & Count Cash</div>
                 <button class="modal-close" onclick="closeModal('closeShiftModal')">×</button>
@@ -2327,7 +2393,15 @@
                         <span id="shiftCashSales">R 0.00</span>
                     </div>
                     <div class="cash-summary-row">
-                        <span>Expected Cash:</span>
+                        <span>Card (Speedpoint):</span>
+                        <span id="shiftCardSales">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Manual EFT:</span>
+                        <span id="shiftEftSales">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span>Expected Cash in Drawer:</span>
                         <span id="expectedCashAmount" style="font-weight: 700;">R 0.00</span>
                     </div>
                 </div>
@@ -2505,8 +2579,12 @@
                         <span id="summaryTransactions" style="font-weight: 700;">0</span>
                     </div>
                     <div class="cash-summary-row">
-                        <span><i class="fas fa-coins" style="width: 20px;"></i> Total Sales</span>
+                        <span><i class="fas fa-coins" style="width: 20px;"></i> Net Sales (excl. voids)</span>
                         <span id="summaryTotalSales" style="font-weight: 700; color: var(--or-gold);">R 0.00</span>
+                    </div>
+                    <div class="cash-summary-row">
+                        <span><i class="fas fa-ban" style="width: 20px; color: #DC2626;"></i> Voided / Refunded</span>
+                        <span id="summaryVoided" style="font-weight: 700; color: #DC2626;">0 · R 0.00</span>
                     </div>
                 </div>
 

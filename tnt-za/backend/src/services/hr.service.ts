@@ -1,3 +1,4 @@
+import { eventBus } from './eventBus';
 import { prisma } from '../config/db';
 
 // ── ATTENDANCE ──
@@ -91,4 +92,43 @@ export async function getHRStats(tenantId: string) {
   ]);
 
   return { presentToday, totalStaff, pendingTraining, expiredTraining };
+}
+
+// ── LEAVE ──
+export async function requestLeave(data: { userId: string; userName: string; leaveType: string; startDate: string; endDate: string; reason?: string; tenantId: string }) {
+  const s = new Date(data.startDate), e = new Date(data.endDate);
+  const days = Math.max(1, Math.round((e.getTime() - s.getTime()) / 86400000) + 1);
+  const lr = await prisma.leaveRequest.create({
+    data: { userId: data.userId, userName: data.userName, leaveType: data.leaveType || 'ANNUAL', startDate: s, endDate: e, days, reason: data.reason || null, tenantId: data.tenantId },
+  });
+  eventBus.emit('LEAVE_REQUESTED', { userId: data.userId, tenantId: data.tenantId, entityType: 'LeaveRequest', entityId: lr.id });
+  return lr;
+}
+export async function listLeave(tenantId: string, opts: { userId?: string; status?: string } = {}) {
+  return prisma.leaveRequest.findMany({ where: { tenantId, ...(opts.userId ? { userId: opts.userId } : {}), ...(opts.status ? { status: opts.status } : {}) }, orderBy: { createdAt: 'desc' } });
+}
+export async function decideLeave(id: string, data: { status: 'APPROVED' | 'REJECTED'; approvedById: string; approverNote?: string; tenantId: string }) {
+  const lr = await prisma.leaveRequest.update({ where: { id }, data: { status: data.status, approvedById: data.approvedById, approverNote: data.approverNote || null } });
+  eventBus.emit(data.status === 'APPROVED' ? 'LEAVE_APPROVED' : 'LEAVE_REJECTED', { userId: lr.userId, tenantId: data.tenantId, entityType: 'LeaveRequest', entityId: id });
+  return lr;
+}
+
+// ── COMPETENCY MATRIX (staff × training/SOP) ──
+export async function getCompetencyMatrix(tenantId: string) {
+  const users = await prisma.user.findMany({ where: { tenantId }, select: { id: true, name: true, role: true }, orderBy: { name: 'asc' } });
+  const records = await prisma.trainingRecord.findMany({ where: { tenantId }, orderBy: { createdAt: 'desc' } });
+  const titles = Array.from(new Set(records.map(r => r.title)));
+  const now = new Date();
+  const staff = users.map(u => {
+    const competencies: Record<string, any> = {};
+    for (const t of titles) {
+      const rec = records.find(r => r.userId === u.id && r.title === t); // latest (records desc)
+      if (rec) {
+        const expired = rec.expiresAt && new Date(rec.expiresAt) < now;
+        competencies[t] = { status: expired ? 'EXPIRED' : rec.status, expiresAt: rec.expiresAt };
+      }
+    }
+    return { id: u.id, name: u.name, role: u.role, competencies };
+  });
+  return { titles, staff };
 }

@@ -53,10 +53,6 @@ const userSchema = new mongoose.Schema({
       'dispatch_manager',     // Pick, verify, dispatch, courier handoff
       'branch_manager',       // Branch manager - branch operations, cashups, local staff
       'branch_assistant',      // POS/till operations
-      'pharmacy_admin',        // Partner pharmacy admin - staff/queue management
-      'responsible_pharmacist', // Responsible pharmacist - dispensing sign-off
-      'pharmacist',            // Pharmacist - arrival scans, OTP collection, handover
-      'pharmacy_assistant',    // Pharmacy assistant - limited pickup/return actions
       'supplier'              // Supplier portal access (cultivator, processor, distributor, etc.)
     ],
     default: 'user'
@@ -97,7 +93,7 @@ const userSchema = new mongoose.Schema({
     hireDate: Date,
     department: {
       type: String,
-      enum: ['sales', 'inventory', 'dispatch', 'management', 'admin', 'pharmacy']
+      enum: ['sales', 'inventory', 'dispatch', 'management', 'admin']
     },
     supervisor: {
       type: mongoose.Schema.Types.ObjectId,

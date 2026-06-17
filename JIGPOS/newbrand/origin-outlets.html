@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Pending Outlets</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --red:#DC2626; --amber:#F59E0B; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',sans-serif; background:#070707; color:var(--txt); }
+  header{ background:linear-gradient(135deg,#0A0A0A,#1a1408); border-bottom:2px solid var(--gold); padding:12px 22px; display:flex; align-items:center; gap:12px; }
+  header img{ height:36px; } .lockup{ display:flex; flex-direction:column; line-height:1; }
+  .lockup b{ font-family:'Cinzel'; letter-spacing:4px; color:var(--gold); font-size:1.1rem; } .lockup em{ font-style:normal; color:var(--grey); font-size:.56rem; letter-spacing:4px; text-transform:uppercase; margin-top:3px; }
+  header .pg{ color:var(--grey); font-size:.8rem; border-left:1px solid var(--line); padding-left:12px; }
+  .wrap{ max-width:760px; margin:0 auto; padding:24px 20px 70px; }
+  h1{ font-family:'Cinzel'; color:#fff; font-size:1.3rem; margin-bottom:4px; }
+  .note{ color:var(--grey); font-size:.86rem; margin-bottom:20px; }
+  .outlet{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px 22px; margin-bottom:14px; }
+  .otop{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; }
+  .oname{ font-family:'Cinzel'; color:#fff; font-size:1.1rem; } .osub{ color:var(--grey); font-size:.84rem; }
+  .pill{ font-size:.66rem; padding:4px 10px; border-radius:20px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+  .pill.warn{ background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.4); color:var(--amber); }
+  .meta{ display:grid; grid-template-columns:1fr 1fr; gap:8px 18px; margin:14px 0; }
+  .meta .k{ color:var(--grey); font-size:.72rem; text-transform:uppercase; letter-spacing:.5px; } .meta .v{ color:#e6e0d2; font-size:.9rem; }
+  .docs{ display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 14px; }
+  .docs a{ background:#100e09; border:1px solid var(--line); border-radius:8px; padding:7px 12px; font-size:.8rem; color:var(--gold); text-decoration:none; }
+  .docs a:hover{ border-color:var(--gold); }
+  .acts{ display:flex; gap:10px; }
+  .btn{ border:none; border-radius:10px; padding:11px 18px; font-weight:700; cursor:pointer; font-size:.86rem; }
+  .btn-ok{ background:var(--green); color:#08210f; } .btn-no{ background:transparent; border:1px solid var(--red); color:var(--red); }
+  .msg{ font-size:.82rem; min-height:16px; margin-top:8px; }
+  .empty{ text-align:center; color:var(--grey); padding:50px 0; }
+  .gate{ position:fixed; inset:0; background:#070707; z-index:999; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .gate .box{ background:#15130d; border:1px solid var(--gold-d); border-radius:18px; padding:30px 26px; max-width:330px; width:100%; text-align:center; }
+  .gate input{ width:100%; padding:11px; background:#1d1d1d; border:1px solid var(--line); border-radius:10px; color:#fff; margin-bottom:8px; }
+  .gate input.pin{ letter-spacing:4px; text-align:center; }
+  .gate button{ width:100%; background:var(--gold); color:#1a1a1a; border:none; border-radius:10px; padding:11px; font-weight:700; cursor:pointer; }
+</style>
+</head>
+<body>
+<header><img src="images/origin-logo.png" onerror="this.style.display='none'"><div class="lockup"><b>ORIGIN</b><em>by ILCO Farming</em></div><span class="pg">Pending Outlets</span></header>
+<div class="wrap">
+  <h1>Outlets awaiting verification</h1>
+  <div class="note">Review each outlet's documents, then activate (seeds the network catalogue + switches on their POS) or reject.</div>
+  <div id="list"><div class="empty">Loading…</div></div>
+</div>
+
+<div class="gate" id="gate" style="display:none;">
+  <div class="box">
+    <div style="font-family:'Cinzel';letter-spacing:5px;color:var(--gold);font-size:1.2rem;">ORIGIN</div>
+    <div style="color:#8a8472;letter-spacing:4px;font-size:.56rem;text-transform:uppercase;margin:3px 0 18px;">by ILCO Farming · Admin</div>
+    <input id="gEmail" type="email" placeholder="Admin email">
+    <input id="gPin" class="pin" type="password" inputmode="numeric" placeholder="PIN" onkeydown="if(event.key==='Enter')doLogin()">
+    <div id="gErr" style="color:var(--red);font-size:.78rem;min-height:16px;margin:6px 0;"></div>
+    <button onclick="doLogin()">Sign in</button>
+  </div>
+</div>
+
+<script>
+const API=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'/api/v1':'/pos/api/v1';
+let token=sessionStorage.getItem('adminToken')||localStorage.getItem('token')||'';
+function hdr(){return{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'};}
+function showGate(){document.getElementById('gate').style.display='flex';}
+async function doLogin(){
+  const email=document.getElementById('gEmail').value.trim().toLowerCase(),pin=document.getElementById('gPin').value.trim(),err=document.getElementById('gErr');
+  if(!email||!pin){err.textContent='Enter email and PIN';return;} err.style.color='#888';err.textContent='Signing in…';
+  try{const r=await fetch(`${API}/auth/otp/verify-pin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,pin})});const d=await r.json();
+    if(!d.success||!d.token){err.style.color='var(--red)';err.textContent=d.message||'Invalid';return;}
+    token=d.token;sessionStorage.setItem('adminToken',token);document.getElementById('gate').style.display='none';load();
+  }catch(e){err.style.color='var(--red)';err.textContent='Login failed';}
+}
+async function load(){
+  const el=document.getElementById('list');
+  try{
+    const r=await fetch(`${API}/pos/onboarding/pending`,{headers:hdr()});
+    if(r.status===401||r.status===403){showGate();return;}
+    const d=await r.json(); const outlets=d.outlets||[];
+    if(!outlets.length){el.innerHTML='<div class="empty">No outlets pending verification.</div>';return;}
+    el.innerHTML=outlets.map(o=>{
+      const docs=(o.documents||[]).map(x=>`<a href="${x.url}" target="_blank">${(x.field||'doc')}</a>`).join('')||'<span style="color:var(--grey);font-size:.84rem;">No documents</span>';
+      return `<div class="outlet" id="o_${o.branchId}">
+        <div class="otop"><div><div class="oname">${o.outlet&&o.outlet.name||'(unnamed)'}</div><div class="osub">${o.branchCode||''} · ${o.outlet&&o.outlet.town||''}</div></div><span class="pill warn">Pending</span></div>
+        <div class="meta">
+          <div><div class="k">Responsible Pharmacist</div><div class="v">${o.rp&&o.rp.name||'—'}</div></div>
+          <div><div class="k">SAPC</div><div class="v">${o.rp&&o.rp.sapc||'—'}</div></div>
+          <div><div class="k">Email</div><div class="v">${o.rp&&o.rp.email||'—'}</div></div>
+          <div><div class="k">Submitted</div><div class="v">${o.submittedAt?new Date(o.submittedAt).toLocaleDateString('en-ZA'):'—'}</div></div>
+        </div>
+        <div class="k" style="color:var(--grey);font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Documents</div>
+        <div class="docs">${docs}</div>
+        <div class="acts"><button class="btn btn-ok" onclick="approve('${o.branchId}',this)">Verify & activate</button><button class="btn btn-no" onclick="reject('${o.branchId}',this)">Reject</button></div>
+        <div class="msg" id="m_${o.branchId}"></div>
+      </div>`;
+    }).join('');
+  }catch(e){el.innerHTML='<div class="empty" style="color:var(--red)">Failed to load.</div>';}
+}
+async function approve(id,btn){
+  const m=document.getElementById('m_'+id); m.style.color='#888'; m.textContent='Activating…'; btn.disabled=true;
+  try{const r=await fetch(`${API}/pos/onboarding/${id}/approve`,{method:'POST',headers:hdr()});const d=await r.json();
+    if(d.success){ m.style.color='var(--green)'; m.textContent=d.message+' — '+d.seededProducts+' products seeded.'; setTimeout(load,1400); }
+    else{ m.style.color='var(--red)'; m.textContent=d.message||'Failed'; btn.disabled=false; }
+  }catch(e){ m.style.color='var(--red)'; m.textContent='Failed'; btn.disabled=false; }
+}
+async function reject(id,btn){
+  const m=document.getElementById('m_'+id); m.style.color='#888'; m.textContent='Rejecting…';
+  try{const r=await fetch(`${API}/pos/onboarding/${id}/reject`,{method:'POST',headers:hdr(),body:JSON.stringify({reason:''})});const d=await r.json();
+    if(d.success){ m.style.color='var(--amber)'; m.textContent='Rejected'; setTimeout(load,1000); }
+    else{ m.style.color='var(--red)'; m.textContent=d.message||'Failed'; }
+  }catch(e){ m.style.color='var(--red)'; m.textContent='Failed'; }
+}
+if(!token) showGate(); else load();
+</script>
+</body>
+</html>

@@ -4,6 +4,9 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const controller = require('../controllers/section21.controller');
+const { authenticateToken, requireRole } = require('../middleware/auth');
+// Section 21 is a pharmacist/dispensing decision — restrict approvals accordingly.
+const S21_ADMIN = ['super_admin', 'owner', 'admin', 'responsible_pharmacist', 'pharmacist', 'pharmacy_admin'];
 
 // Multer config (stays in router - it's middleware)
 const storage = multer.diskStorage({
@@ -41,10 +44,10 @@ router.post('/upload', upload.single('document'), controller.upload);
 // Compliance stats (must come before admin/* to avoid route clash)
 router.get('/compliance-stats', controller.getComplianceStats);
 
-// Admin routes
-router.get('/admin/pending', controller.adminGetPending);
-router.get('/admin/expiring', controller.adminGetExpiring);
-router.post('/admin/approve/:documentId', controller.adminApprove);
-router.post('/admin/reject/:documentId', controller.adminReject);
+// Admin routes — pharmacist/admin only (medical approval)
+router.get('/admin/pending', authenticateToken, requireRole(S21_ADMIN), controller.adminGetPending);
+router.get('/admin/expiring', authenticateToken, requireRole(S21_ADMIN), controller.adminGetExpiring);
+router.post('/admin/approve/:documentId', authenticateToken, requireRole(S21_ADMIN), controller.adminApprove);
+router.post('/admin/reject/:documentId', authenticateToken, requireRole(S21_ADMIN), controller.adminReject);
 
 module.exports = router;

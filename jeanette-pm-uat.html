@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: #1a1a1a; }
+  .page { width: 210mm; min-height: 297mm; padding: 15mm 15mm 13mm; page-break-after: always; position: relative; background: #fff; }
+  .page:last-child { page-break-after: auto; }
+  .top { display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid #C9A84C; padding-bottom:11px; margin-bottom:16px; }
+  .brand { font-size:23px; font-weight:800; letter-spacing:3px; color:#0A0A0A; }
+  .brand small { display:block; font-size:9px; letter-spacing:3px; color:#C9A84C; font-weight:700; margin-top:2px; }
+  .who { text-align:right; } .who b { font-size:13px; } .who span { display:block; font-size:10px; color:#8a8270; }
+  h1 { font-size:21px; margin:0 0 3px; } .sub { font-size:12px; color:#8a8270; margin:0 0 16px; }
+  h2 { font-size:13px; color:#0A0A0A; margin:20px 0 9px; padding-left:9px; border-left:4px solid #C9A84C; text-transform:uppercase; letter-spacing:.5px; }
+  .login { background:#0A0A0A; color:#f2e9d2; border-radius:11px; padding:13px 16px; margin-bottom:6px; display:flex; gap:22px; flex-wrap:wrap; }
+  .login div span { color:#a89f8c; font-size:10px; display:block; } .login div b { color:#fff; font-size:13px; font-family:"SF Mono",Menlo,monospace; }
+  table { width:100%; border-collapse:collapse; margin-top:4px; }
+  th { background:#0A0A0A; color:#C9A84C; font-size:9.5px; text-transform:uppercase; letter-spacing:.5px; text-align:left; padding:7px 9px; }
+  td { font-size:11px; padding:8px 9px; border-bottom:1px solid #eee; vertical-align:top; }
+  td.n { font-weight:800; color:#C9A84C; width:18px; }
+  td.exp { color:#5a5648; }
+  .chk { white-space:nowrap; width:90px; color:#8a8270; font-size:11px; }
+  .box { display:inline-block; width:11px; height:11px; border:1.5px solid #b9ad88; border-radius:3px; vertical-align:-1px; margin-right:3px; }
+  .tag { display:inline-block; font-size:8.5px; font-weight:700; color:#7a6f4a; background:#f3ecd8; border:1px solid #e6dcc0; border-radius:20px; padding:1px 7px; margin-top:4px; }
+  .note { background:#fbf7ec; border:1px solid #ecdfba; border-left:4px solid #C9A84C; border-radius:8px; padding:11px 13px; font-size:11px; color:#5a5648; line-height:1.55; margin-top:14px; }
+  .foot { position:absolute; bottom:9mm; left:15mm; right:15mm; display:flex; justify-content:space-between; font-size:9px; color:#b3ac98; border-top:1px solid #eee; padding-top:7px; }
+  a { color:#0A0A0A; }
+  ul.forms { margin:4px 0 0; padding-left:16px; column-count:2; font-size:11px; color:#5a5648; }
+  ul.forms li { margin-bottom:3px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+    <div class="who"><b>Jeanette Ferreira</b><span>Processing Manager · Head of Processing</span><span>UAT · 17 June 2026</span></div>
+  </div>
+  <h1>Your UAT Test Sheet — Processing</h1>
+  <p class="sub">Work through each test on your phone. Tick <b>Pass</b> if it works, or <b>Issue</b> and tell Flo what happened.</p>
+
+  <h2>Your login</h2>
+  <div class="login">
+    <div><span>Website</span><b><a href="https://tntilco.cleva-ai.co.za">tntilco.cleva-ai.co.za</a></b></div>
+    <div><span>Email</span><b>jen@ilcofarming.co.za</b></div>
+    <div><span>PIN</span><b>300300</b></div>
+  </div>
+  <div class="note" style="margin-top:8px;">On your phone: open the website → browser menu → <b>Add to Home Screen</b> to install it like an app.</div>
+
+  <h2>A · Your daily forms</h2>
+  <table>
+    <thead><tr><th>#</th><th>Do this</th><th>Expected</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td>Log in and open your <b>task queue</b></td><td class="exp">You see today's processing forms (Temp &amp; Humidity + the cleaning schedules you check)</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+      <tr><td class="n">2</td><td>Open <b>Temperature &amp; Humidity Check</b> → fill the readings → enter your PIN to sign</td><td class="exp">The real fields show (8am / 11:50 / 16:50, desired vs actual). Saves + signs.</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+      <tr><td class="n">3</td><td>Open any <b>Cleaning Schedule</b> (e.g. Trimming Room) → tick the tasks → sign</td><td class="exp">The room's exact cleaning tasks show; saved as evidence with your name</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+      <tr><td class="n">4</td><td>Check a signed form is <b>recorded</b></td><td class="exp">It shows as completed, timestamped, with your sign-off</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+    </tbody>
+  </table>
+
+  <h2>B · Your per-batch forms (appear when a real batch is processed)</h2>
+  <p style="font-size:11px;color:#5a5648;margin:0 0 4px;">These fire automatically once the first harvest flows into processing — no need to create them. Confirm you can find them and that the fields match your paper forms:</p>
+  <ul class="forms">
+    <li>Batch Quality Check Register (5-PDT-007)</li>
+    <li>Wet Cannabis Flower Inspection (5-PDT-6)</li>
+    <li>Curing Record</li>
+    <li>Trimming Dried Flower Batch Control</li>
+    <li>Sample Moisture Readings (5-PDT-003)</li>
+    <li>Sampling Room Register (5-PDT-003)</li>
+    <li>Receiving Register (5-PDT-4)</li>
+    <li>Rejected Goods Register (5-PDT-13)</li>
+    <li>Return to Supplier (5-PDT-015)</li>
+    <li>Bulk Storage Inventory</li>
+  </ul>
+
+  <h2>C · Quality fail → automatic deviation</h2>
+  <table>
+    <thead><tr><th>#</th><th>Do this</th><th>Expected</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td class="n">5</td><td>On a <b>Batch Quality Check</b>, mark <b>FREE FROM BUDROT = NO</b> or <b>APPROVED = NO</b> and sign off<div class="tag">GMP · AUTO-DEVIATION</div></td><td class="exp">A <b>Deviation report is raised automatically</b> and you (PM), the FM and QA are notified — so a quality escape is never lost.</td><td class="chk"><span class="box"></span>Pass &nbsp;<span class="box"></span>Issue</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note"><b>Found an issue?</b> Note the test number + exactly what you tapped and what happened (a screenshot helps), and send it to Flo. We fix live, same day. <b>Note:</b> a full harvest→trim→cure→pack run needs a real batch, which comes after the first harvest — until then you're testing the forms + sign-off.</div>
+
+  <div class="foot"><span>ORIGIN · by ILCO Farming — Confidential UAT</span><span>Jeanette · Processing UAT · 17 Jun 2026</span></div>
+</div>
+</body>
+</html>

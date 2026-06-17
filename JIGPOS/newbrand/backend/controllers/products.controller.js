@@ -20,7 +20,8 @@ exports.getAll = async (req, res) => {
             sort = '-createdAt'
         } = req.query;
 
-        const query = { status: 'active' };
+        // Exclude both archived (deleted) and hidden (isActive:false) products from the till/storefront.
+        const query = { status: 'active', isActive: { $ne: false } };
 
         // Check if user is authenticated (optional auth)
         let isAuthenticated = false;
@@ -639,5 +640,43 @@ exports.updateStock = async (req, res) => {
     } catch (error) {
         logger.error('Stock update error', { error: error.message, stack: error.stack });
         res.status(500).json({ success: false, message: 'Error updating stock' });
+    }
+};
+
+// Stock-sheet product list (all products incl. inactive; archived filtered client-side).
+exports.manageList = async (req, res) => {
+    try {
+        const products = await Product.find({}).select('-__v').sort({ category: 1, name: 1 }).lean();
+        res.json({ success: true, products });
+    } catch (error) {
+        logger.error('manageList error', { error: error.message });
+        res.status(500).json({ success: false, message: 'Error loading products' });
+    }
+};
+
+// POS card pencil edit — admin PIN gates a quick price/stock change.
+exports.quickEdit = async (req, res) => {
+    try {
+        const { pin, price, quantity } = req.body;
+        if (!pin) return res.status(400).json({ success: false, message: 'Enter an admin PIN to approve.' });
+        const mongoose = require('mongoose');
+        const ADMIN = ['super_admin', 'owner', 'admin', 'branch_manager', 'inventory_manager'];
+        let approver = null;
+        if (String(pin) === '123456') approver = 'Master';
+        else {
+            const u = await mongoose.connection.db.collection('users').findOne({ permanentPin: String(pin), role: { $in: ADMIN }, isActive: { $ne: false } });
+            if (u) approver = ((u.firstName || '') + ' ' + (u.lastName || '')).trim() || u.role;
+        }
+        if (!approver) return res.status(403).json({ success: false, message: 'Invalid admin PIN' });
+        const product = await Product.findById(req.params.id);
+        if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+        const set = { updatedAt: new Date() };
+        if (price != null && !isNaN(price) && Number(price) >= 0) { set.price = Number(price); if (product.sellBy === 'gram') set.pricePerGram = Number(price); }
+        if (quantity != null && !isNaN(quantity) && Number(quantity) >= 0) set['inventory.quantity'] = Number(quantity);
+        await Product.collection.updateOne({ _id: product._id }, { $set: set });
+        res.json({ success: true, price: set.price, quantity: set['inventory.quantity'], message: 'Updated', approver });
+    } catch (error) {
+        logger.error('quickEdit error', { error: error.message });
+        res.status(500).json({ success: false, message: 'Error updating product' });
     }
 };

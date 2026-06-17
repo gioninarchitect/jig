@@ -12,7 +12,7 @@
 
     // Inputs that should NOT trigger the keyboard (already handled by device)
     const SKIP_SELECTORS = [
-        '#cashReceived',   // payment modal — native numpad is fine
+        // #cashReceived removed — POSBANK desktop has no native numpad, so show the on-screen one
         '.otp-cell',       // OTP input — individual digit cells
     ];
 
@@ -25,6 +25,7 @@
     ];
 
     const QWERTY_LAYOUT = [
+        ['1','2','3','4','5','6','7','8','9','0'],
         ['q','w','e','r','t','y','u','i','o','p'],
         ['a','s','d','f','g','h','j','k','l'],
         ['⇧','z','x','c','v','b','n','m','⌫'],
@@ -90,7 +91,10 @@
                     btn.textContent = 'DONE ✓';
                 } else if (key === 'SPACE') {
                     btn.className += ' key-space';
-                    btn.innerHTML = '<i class="ph-minus-fill" style="opacity:0.4;"></i>';
+                    btn.textContent = 'space';
+                    btn.style.flex = '5';
+                    btn.style.fontSize = '0.8rem';
+                    btn.style.letterSpacing = '1px';
                 } else if (key === '⇧') {
                     btn.className += ' key-shift';
                     btn.innerHTML = '<i class="ph-arrow-fat-up-fill"></i>';

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useAuthStore } from '../../stores/authStore';
 import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import { BookOpen, AlertTriangle, Wrench, Plus, CheckCircle, ShieldCheck, ExternalLink, Database, GitBranch, Tags } from 'lucide-react';
@@ -8,6 +9,7 @@ import api from '../../services/api';
 
 export default function QMSPage() {
   const { hasMinLevel } = useRBAC();
+  const user = useAuthStore(s => s.user);
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
 
@@ -17,7 +19,9 @@ export default function QMSPage() {
   const [showCalibrate, setShowCalibrate] = useState<string | null>(null);
 
   const [sopForm, setSopForm] = useState({ title: '', content: '', facilityId: '' });
-  const [devForm, setDevForm] = useState({ sopId: '', description: '', severity: 'MEDIUM', facilityId: '' });
+  const devBlank = { sopId: '', description: '', severity: 'MEDIUM', facilityId: '', deviationType: 'Process', referenceId: '', area: '', impactOnQuality: 'NOT_KNOWN', level: '', capaRequired: false, capaNo: '', actionsRequired: '' };
+  const [devForm, setDevForm] = useState<any>(devBlank);
+  const [devDetail, setDevDetail] = useState<any>(null);
   const [equipForm, setEquipForm] = useState({ equipmentName: '', facilityId: '' });
 
   const { data: sops } = useQuery({ queryKey: ['sops'], queryFn: () => api.get('/qms/sops').then(r => r.data.sops) });
@@ -36,8 +40,23 @@ export default function QMSPage() {
   });
 
   const devMut = useMutation({
-    mutationFn: () => api.post('/qms/deviations', { ...devForm, facilityId }),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['deviations'] }); setShowDev(false); setDevForm({ sopId: '', description: '', severity: 'MEDIUM', facilityId: '' }); addToast('success', 'Deviation raised'); },
+    mutationFn: () => api.post('/qms/deviations', { ...devForm, level: devForm.level ? parseInt(devForm.level) : undefined, facilityId }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['deviations'] }); setShowDev(false); setDevForm(devBlank); addToast('success', 'Deviation raised'); },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
+  });
+  const approveDevMut = useMutation({
+    mutationFn: (id: string) => api.patch(`/qms/deviations/${id}/approve`, { name: user?.name }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['deviations'] }); setDevDetail(null); addToast('success', 'Deviation approved — QA Manager'); },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
+  });
+  const closeDevMut = useMutation({
+    mutationFn: (id: string) => api.patch(`/qms/deviations/${id}/close`, { name: user?.name }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['deviations'] }); setDevDetail(null); addToast('success', 'Deviation closed — RP sign-off'); },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
+  });
+  const saveInvMut = useMutation({
+    mutationFn: () => api.patch(`/qms/deviations/${devDetail.id}`, { investigations: devDetail.investigations, rootCause: devDetail.rootCause, capa: devDetail.capa }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['deviations'] }); addToast('success', 'Investigation saved'); },
     onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
   });
 
@@ -203,13 +222,16 @@ export default function QMSPage() {
           {hasMinLevel(2) && <button onClick={() => setShowDev(true)} className="text-xs text-amber-400 flex items-center gap-1 hover:text-amber-300"><Plus size={12} /> Raise Deviation</button>}
         </div>
         {!deviations?.length ? <p className="text-white/30 text-sm">No open deviations</p> : deviations.map((d: any) => (
-          <div key={d.id} className="py-2 border-b border-white/5 text-sm">
-            <div className="flex justify-between">
+          <button key={d.id} onClick={() => setDevDetail(d)} className="w-full text-left py-2 border-b border-white/5 text-sm hover:bg-white/5 rounded-lg px-1 transition">
+            <div className="flex justify-between gap-2">
               <span className="text-white/80">{d.description}</span>
-              <span className={`text-xs px-2 py-0.5 rounded-full ${d.severity === 'HIGH' || d.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>{d.severity}</span>
+              <span className="flex items-center gap-1 shrink-0">
+                {d.qaApprovedAt && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300" title="QA approved">QA✓</span>}
+                <span className={`text-xs px-2 py-0.5 rounded-full ${d.level === 1 || d.severity === 'HIGH' || d.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>{d.level ? `L${d.level}` : d.severity}</span>
+              </span>
             </div>
-            <span className="text-xs text-white/30">SOP: {d.sop?.title}</span>
-          </div>
+            <span className="text-xs text-white/30">{d.deviationType ? `${d.deviationType} · ` : ''}{d.area ? `${d.area} · ` : ''}SOP: {d.sop?.title}</span>
+          </button>
         ))}
       </div>
 
@@ -250,20 +272,62 @@ export default function QMSPage() {
         <ModalButton loading={sopMut.isPending} onClick={() => sopMut.mutate()} disabled={!sopForm.title || !sopForm.content}>Create SOP</ModalButton>
       </Modal>
 
-      {/* Raise Deviation Modal */}
-      <Modal open={showDev} onClose={() => setShowDev(false)} title="Raise Deviation">
-        <ModalSelect label="Against SOP" value={devForm.sopId} onChange={e => setDevForm(f => ({ ...f, sopId: (e.target as HTMLSelectElement).value }))}>
+      {/* Raise Deviation Modal — ILCO Deviation Report Form */}
+      <Modal open={showDev} onClose={() => setShowDev(false)} title="Deviation Report Form">
+        <ModalSelect label="Type of deviation" value={devForm.deviationType} onChange={e => setDevForm((f: any) => ({ ...f, deviationType: (e.target as HTMLSelectElement).value }))}>
+          {['Equipment', 'Consumable', 'Temperature and humidity', 'Process', 'Documentation', 'Sample'].map(t => <option key={t} value={t}>{t}</option>)}
+        </ModalSelect>
+        <ModalInput label="Reference ID (Sample / Equipment / Document ID)" value={devForm.referenceId} onChange={e => setDevForm((f: any) => ({ ...f, referenceId: (e.target as HTMLInputElement).value }))} />
+        <ModalInput label="Area of deviation" placeholder="e.g. GH1, Clone Room, MR1" value={devForm.area} onChange={e => setDevForm((f: any) => ({ ...f, area: (e.target as HTMLInputElement).value }))} />
+        <ModalSelect label="Procedure deviated from (SOP)" value={devForm.sopId} onChange={e => setDevForm((f: any) => ({ ...f, sopId: (e.target as HTMLSelectElement).value }))}>
           <option value="">Select SOP</option>
           {sops?.map((s: any) => <option key={s.id} value={s.id}>{s.title}</option>)}
         </ModalSelect>
-        <ModalInput label="Description" placeholder="What deviated from the SOP?" value={devForm.description} onChange={e => setDevForm(f => ({ ...f, description: (e.target as HTMLInputElement).value }))} />
-        <ModalSelect label="Severity" value={devForm.severity} onChange={e => setDevForm(f => ({ ...f, severity: (e.target as HTMLSelectElement).value }))}>
-          <option value="LOW">LOW</option>
-          <option value="MEDIUM">MEDIUM</option>
-          <option value="HIGH">HIGH</option>
-          <option value="CRITICAL">CRITICAL</option>
+        <ModalInput label="Description of the deviation" value={devForm.description} onChange={e => setDevForm((f: any) => ({ ...f, description: (e.target as HTMLInputElement).value }))} />
+        <ModalSelect label="Impact on product quality" value={devForm.impactOnQuality} onChange={e => setDevForm((f: any) => ({ ...f, impactOnQuality: (e.target as HTMLSelectElement).value }))}>
+          <option value="YES">Yes</option><option value="NO">No</option><option value="NOT_KNOWN">Not Known</option>
         </ModalSelect>
+        <ModalSelect label="Level of deviation" value={devForm.level} onChange={e => setDevForm((f: any) => ({ ...f, level: (e.target as HTMLSelectElement).value }))}>
+          <option value="">— derive from severity —</option>
+          <option value="1">Level 1 · Critical</option>
+          <option value="2">Level 2 · Serious</option>
+          <option value="3">Level 3 · Minor / Standard</option>
+        </ModalSelect>
+        <ModalInput label="CAPA no. (if required)" value={devForm.capaNo} onChange={e => setDevForm((f: any) => ({ ...f, capaNo: (e.target as HTMLInputElement).value, capaRequired: !!(e.target as HTMLInputElement).value }))} />
+        <ModalInput label="Actions required" value={devForm.actionsRequired} onChange={e => setDevForm((f: any) => ({ ...f, actionsRequired: (e.target as HTMLInputElement).value }))} />
         <ModalButton loading={devMut.isPending} onClick={() => devMut.mutate()} disabled={!devForm.sopId || !devForm.description}>Raise Deviation</ModalButton>
+      </Modal>
+
+      {/* Deviation detail — investigation + QA approval + RP close-off */}
+      <Modal open={!!devDetail} onClose={() => setDevDetail(null)} title={devDetail ? `Deviation · Level ${devDetail.level ?? '—'}` : ''}>
+        {devDetail && (
+          <div className="space-y-2 text-sm">
+            <div className="text-white/80">{devDetail.description}</div>
+            <div className="grid grid-cols-2 gap-2 text-xs text-white/50">
+              <div>Type: <span className="text-white/80">{devDetail.deviationType || '—'}</span></div>
+              <div>Area: <span className="text-white/80">{devDetail.area || '—'}</span></div>
+              <div>Impact on quality: <span className="text-white/80">{devDetail.impactOnQuality || '—'}</span></div>
+              <div>Severity: <span className="text-white/80">{devDetail.severity}</span></div>
+              <div>CAPA no: <span className="text-white/80">{devDetail.capaNo || '—'}</span></div>
+              <div>SOP: <span className="text-white/80">{devDetail.sop?.title || '—'}</span></div>
+            </div>
+            <textarea placeholder="Details of the Investigations…" value={devDetail.investigations || ''} onChange={e => setDevDetail((d: any) => ({ ...d, investigations: e.target.value }))}
+              className="w-full px-3 py-2 bg-dark border border-white/10 rounded-xl text-white text-sm min-h-[80px]" />
+            <ModalButton loading={saveInvMut.isPending} onClick={() => saveInvMut.mutate()}>Save investigation</ModalButton>
+            {hasMinLevel(3) && (
+              <div className="flex gap-2 pt-1">
+                <button onClick={() => approveDevMut.mutate(devDetail.id)} disabled={approveDevMut.isPending || !!devDetail.qaApprovedAt}
+                  className="flex-1 px-3 py-2 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-200 text-xs font-semibold disabled:opacity-50">
+                  {devDetail.qaApprovedAt ? `QA approved ✓ ${devDetail.qaApprovedName || ''}` : 'QA Manager — Approve'}
+                </button>
+                <button onClick={() => closeDevMut.mutate(devDetail.id)} disabled={closeDevMut.isPending || !devDetail.qaApprovedAt}
+                  className="flex-1 px-3 py-2 rounded-lg bg-green-500/15 border border-green-500/40 text-green-200 text-xs font-semibold disabled:opacity-50" title={!devDetail.qaApprovedAt ? 'QA must approve first' : ''}>
+                  RP — Close off
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </Modal>
 
       {/* Register Equipment Modal */}

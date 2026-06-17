@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cultivation Setup & Data-Capture Checklist · ORIGIN by ILCO</title>
+<style>
+  :root{--black:#0A0A0A;--dark:#141414;--gold:#C9A84C;--gold-bright:#D4B86A;--gold-light:#E8D5A3;
+    --white:#F5F0E8;--grey:#A89F8C;--green:#22C55E;--amber:#F8C242;--red:#DC2626;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--black);color:var(--white);font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.55;}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 22px 64px;}
+  .brand{font-weight:800;letter-spacing:.32em;font-size:26px;color:var(--gold);}
+  .brand small{display:block;letter-spacing:.34em;font-size:10px;color:var(--grey);font-weight:600;margin-top:4px;}
+  h1{font-size:23px;margin:24px 0 4px;}
+  .sub{color:var(--grey);font-size:14px;margin-bottom:20px;}
+  h2{font-size:15px;margin:28px 0 10px;color:var(--gold-bright);border-bottom:1px solid #2a2a2a;padding-bottom:7px;}
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px;}
+  th,td{text-align:left;padding:8px 9px;border-bottom:1px solid #222;vertical-align:top;}
+  th{color:var(--gold-light);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;}
+  code{background:#222;border:1px solid #333;border-radius:5px;padding:1px 6px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold-light);}
+  .pill{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid;white-space:nowrap;}
+  .live{color:var(--green);border-color:#1f6b3a;background:#0e2417;}
+  .upd{color:var(--amber);border-color:#6b551f;background:#241e0e;}
+  .gap{color:var(--red);border-color:#7a2626;background:#240e0e;}
+  ol.steps{counter-reset:s;list-style:none;padding-left:0;}
+  ol.steps li{position:relative;padding:9px 0 9px 40px;border-bottom:1px solid #1c1c1c;font-size:14px;color:var(--grey);}
+  ol.steps li b{color:var(--white);}
+  ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:8px;background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#0A0A0A;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .box{width:15px;height:15px;border:2px solid var(--gold);border-radius:4px;display:inline-block;vertical-align:middle;margin-right:8px;}
+  .foot{margin-top:32px;padding-top:14px;border-top:1px solid #222;color:#6a6356;font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+  a{color:var(--gold-bright);}
+  .legend{font-size:12px;color:var(--grey);margin:6px 0 0;}
+  @media print{body{background:#fff;color:#111}.brand,h2{color:#8a6f1e}.foot{color:#999}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <h1>Cultivation Setup &amp; Data-Capture Checklist</h1>
+  <div class="sub">Nursery-first. Every real clone-room document → the dashboard screen that populates it. Owner: <b>Loraine</b> (FACILITY_MANAGER).</div>
+
+  <h2>Part A · One-time setup (do these first, in order)</h2>
+  <ol class="steps">
+    <li><b>Add the cultivation team</b> — <code>System → Users</code>. Nursery Manager + 4–5 Cultivators (Lou exists). So tasks can be assigned.</li>
+    <li><b>Build the nursery / clone room</b> — <code>Cultivation → BayGrid → Add Greenhouse</code>. Use the <b>real</b> bays × rows × spots (clone room is small — not the 520 default).</li>
+    <li><b>Register the mother plants</b> — <code>Cultivation → Mothers</code>. The genetics every clone + foliar log hangs off.</li>
+    <li><b>Switch on the recurring schedules</b> — the cleaning / temp-humidity / activity / foliar / jiffy forms then auto-fire daily to the team (TaskTemplate + calendar connector).</li>
+  </ol>
+
+  <h2>Part B · The 10 documents → where each is populated</h2>
+  <p class="legend"><span class="pill live">live</span> screen ready now &nbsp; <span class="pill upd">update</span> screen exists, needs a field add &nbsp; <span class="pill gap">build</span> new screen needed</p>
+  <table>
+    <thead><tr><th>#</th><th>Document (SOP)</th><th>Dashboard screen</th><th>Captures</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>New Cloning form</b> (3-CUL-7)</td><td><code>Mothers → New Clone Tray</code></td><td>strain, batch#, clone date, mother#, tray#, # clones, W1–3 mortality, # transplanted</td><td><span class="pill upd">update</span></td></tr>
+      <tr><td>2</td><td><b>Mother cloning</b> (3-CUL-7)</td><td><code>Mothers → Clone Tray</code></td><td>+ grower, reviewed-by sign-off, transplant date</td><td><span class="pill upd">update</span></td></tr>
+      <tr><td>3</td><td><b>New Cloning – Client</b> (3-CUL-7)</td><td><code>Clone Tray + client</code></td><td>client name, dispatch date, grower</td><td><span class="pill gap">build</span></td></tr>
+      <tr><td>4</td><td><b>Cultivation Activity Log</b> (3-CUL-9)</td><td><code>Cultivation → Activity Log</code></td><td>date, time, activity, reason, performed-by, signed</td><td><span class="pill live">live</span></td></tr>
+      <tr><td>5</td><td><b>Culling log</b></td><td><code>Cultivation → Mortality</code> (cull reason)</td><td>date, time, strain, reason, signed</td><td><span class="pill upd">update</span></td></tr>
+      <tr><td>6</td><td><b>Mortality Clone Room</b> (3-CUL-7)</td><td><code>Cultivation → Mortality</code></td><td>tray#, clones made, deaths, reason, performed-by (+ weight/batch/tag/zone)</td><td><span class="pill upd">update</span></td></tr>
+      <tr><td>7</td><td><b>Jiffy stock sheet</b></td><td><code>Consumables stock</code></td><td>date, stock in, stock out, balance, name, sign</td><td><span class="pill gap">build</span></td></tr>
+      <tr><td>8</td><td><b>Temp &amp; Humidity</b></td><td><code>Cultivation → Env Log</code></td><td>desired vs actual temp/RH at 8AM / 11:50 / 16:30, aircon set</td><td><span class="pill upd">update</span></td></tr>
+      <tr><td>9</td><td><b>Motherbay Foliar log</b></td><td><code>Cultivation → Feeding</code></td><td>date, time, strain, weight (kg), reason, signed</td><td><span class="pill upd">update</span></td></tr>
+      <tr><td>10</td><td><b>Clone Room Cleaning Schedule</b></td><td><code>Cultivation → Cleaning</code></td><td>daily 9-task checklist, PIN-initialed</td><td><span class="pill live">live</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Part C · Input-dashboard updates we recommend (to populate everything cleanly)</h2>
+  <table>
+    <thead><tr><th>Update</th><th>Why / which doc</th><th>Size</th></tr></thead>
+    <tbody>
+      <tr><td><b>Cloning Schedule screen</b> (the "Schedule a Cloning Job" form)</td><td>New Cloning form #1 — writes a Clone Tray + auto-schedules W1–3 mortality + transplant. <i>(task W8.4)</i></td><td>medium</td></tr>
+      <tr><td><b>Client cloning variant</b></td><td>New Cloning – Client #3 — add client name + dispatch date to the clone-tray form</td><td>small</td></tr>
+      <tr><td><b>Mortality form fields</b> — weight, batch#, tray/tag, zone, "cull" reason</td><td>Mortality #6 + Culling #5 in one form. <i>(task W8.3)</i></td><td>small</td></tr>
+      <tr><td><b>Env Log: 3×/day slots</b> (8AM / 11:50 / 16:30) + desired-vs-actual + aircon-set</td><td>Temp &amp; Humidity #8 — match the real form's 3 daily readings</td><td>small</td></tr>
+      <tr><td><b>Foliar entry on Feeding</b> — weight (kg) + reason</td><td>Motherbay Foliar #9</td><td>small</td></tr>
+      <tr><td><b>Jiffy / consumables stock screen</b> — in / out / running balance</td><td>Jiffy stock #7 — no screen exists yet</td><td>medium</td></tr>
+      <tr><td><b>Grower + reviewer sign-off</b> on clone forms</td><td>Mother cloning #2 — captures who grew + who reviewed (GMP)</td><td>small</td></tr>
+    </tbody>
+  </table>
+  <p class="legend">6 of 10 forms capture on screens that are <b>live today</b>; the rest are small field-adds plus 2 new screens (Cloning Schedule + Jiffy stock). All feed the same rail — auto-scheduled, PIN-signed, escalated, filed as EU-GMP evidence.</p>
+
+  <div class="foot">
+    <span>ORIGIN · by ILCO Farming — Cultivation Data-Capture Checklist</span>
+    <span>tntilco.cleva-ai.co.za · 16 June 2026 · Private &amp; Confidential</span>
+  </div>
+</div>
+</body>
+</html>

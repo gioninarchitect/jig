@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin POS — Cashier & Manager Training Manual</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --ink:#1A1A1A; --cream:#F7F2E7; --grey:#6b6b6b; --line:#e3dcc9; --green:#22A06B; --red:#C0392B; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',sans-serif; color:var(--ink); background:#4a4a4a; line-height:1.55; }
+  .page{ width:210mm; min-height:297mm; background:#fff; margin:18px auto; padding:22mm 20mm; position:relative; box-shadow:0 6px 30px rgba(0,0,0,.35); }
+  h1,h2,h3,.cinzel{ font-family:'Cinzel',serif; }
+  .toolbar{ position:fixed; top:14px; right:14px; z-index:50; display:flex; gap:10px; }
+  .toolbar button{ background:var(--gold); color:var(--ink); border:none; padding:11px 18px; border-radius:10px; font-weight:700; cursor:pointer; font-family:'Inter'; box-shadow:0 4px 14px rgba(0,0,0,.3); }
+  /* Cover */
+  .cover{ background:linear-gradient(150deg,#0A0A0A,#1f1a10 60%,#2a2010); color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+  .cover img{ width:120px; margin-bottom:24px; filter:drop-shadow(0 4px 12px rgba(201,168,76,.4)); }
+  .cover .brand{ font-family:'Cinzel'; font-size:2.6rem; letter-spacing:4px; color:var(--gold); }
+  .cover .sub{ color:#cfc6ad; letter-spacing:6px; font-size:.8rem; margin-top:6px; text-transform:uppercase; }
+  .cover h1{ font-size:2rem; margin-top:40px; color:#fff; letter-spacing:1px; }
+  .cover .meta{ margin-top:30px; color:#9a9277; font-size:.85rem; }
+  .cover .rule{ width:80px; height:3px; background:var(--gold); margin:26px auto; }
+  /* Section headers */
+  .sec-tag{ display:inline-block; background:var(--gold); color:var(--ink); font-weight:700; font-size:.7rem; letter-spacing:2px; padding:5px 12px; border-radius:20px; text-transform:uppercase; }
+  h2.sec{ font-size:1.7rem; color:var(--gold-d); margin:10px 0 4px; }
+  .sec-lead{ color:var(--grey); margin-bottom:18px; border-bottom:2px solid var(--line); padding-bottom:14px; }
+  h3.step-h{ font-size:1.05rem; color:var(--ink); margin:20px 0 8px; display:flex; align-items:center; gap:10px; }
+  .num{ background:var(--gold); color:#fff; width:26px; height:26px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem; flex-shrink:0; font-family:'Inter'; }
+  p.body{ margin:6px 0 6px 36px; color:#333; }
+  ul.body{ margin:6px 0 10px 56px; color:#333; }
+  ul.body li{ margin:4px 0; }
+  .callout{ margin:12px 0 12px 36px; border-left:4px solid var(--gold); background:var(--cream); padding:11px 16px; border-radius:0 8px 8px 0; font-size:.92rem; }
+  .callout.warn{ border-left-color:var(--red); background:#fdecea; }
+  .callout.ok{ border-left-color:var(--green); background:#eafaf2; }
+  .callout b{ color:var(--gold-d); }
+  .callout.warn b{ color:var(--red); }
+  .kbd{ background:#1a1a1a; color:#fff; padding:2px 8px; border-radius:5px; font-size:.8rem; font-weight:600; }
+  .pill{ background:var(--gold); color:#1a1a1a; padding:2px 9px; border-radius:12px; font-size:.8rem; font-weight:700; }
+  table.ref{ width:100%; border-collapse:collapse; margin:14px 0; }
+  table.ref th{ background:var(--ink); color:var(--gold); text-align:left; padding:9px 12px; font-size:.78rem; letter-spacing:1px; }
+  table.ref td{ padding:9px 12px; border-bottom:1px solid var(--line); font-size:.9rem; vertical-align:top; }
+  table.ref tr:nth-child(even){ background:#faf7ef; }
+  .foot{ position:absolute; bottom:12mm; left:20mm; right:20mm; display:flex; justify-content:space-between; color:#aaa; font-size:.7rem; border-top:1px solid var(--line); padding-top:8px; }
+  .role-band{ display:inline-block; padding:4px 14px; border-radius:6px; font-weight:700; font-size:.75rem; letter-spacing:1px; }
+  .role-cashier{ background:#eafaf2; color:var(--green); border:1px solid #b7e6cf; }
+  .role-manager{ background:#fdf3e0; color:var(--gold-d); border:1px solid #ecd9a8; }
+  .signbox{ border:1px dashed #bbb; border-radius:10px; padding:18px; margin:14px 0; }
+  .signrow{ display:flex; gap:30px; margin-top:26px; }
+  .signrow div{ flex:1; border-top:1px solid #888; padding-top:6px; color:var(--grey); font-size:.82rem; }
+  @media print{
+    body{ background:#fff; }
+    .toolbar{ display:none; }
+    .page{ margin:0; box-shadow:none; width:auto; min-height:auto; page-break-after:always; padding:16mm 16mm; }
+    .page:last-child{ page-break-after:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">⬇ Print / Save as PDF</button>
+</div>
+
+<!-- COVER -->
+<section class="page cover">
+  <img src="images/origin-logo.png" alt="Origin">
+  <div class="brand">ORIGIN</div>
+  <div class="sub">by ILCO</div>
+  <div class="rule"></div>
+  <h1>Point-of-Sale<br>Training Manual</h1>
+  <div style="color:#cfc6ad;margin-top:14px;letter-spacing:2px;">CASHIER &amp; MANAGER EDITION</div>
+  <div class="meta">Potchefstroom Branch · Origin Retail POS<br>Issued for staff training &amp; daily reference</div>
+</section>
+
+<!-- HOW TO USE / CONTENTS -->
+<section class="page">
+  <span class="sec-tag">Welcome</span>
+  <h2 class="sec">Using this manual</h2>
+  <p class="sec-lead">This guide teaches you everything you need to run the Origin till — ringing up sales, taking payment, fixing mistakes, and closing the day. Keep it at the till.</p>
+
+  <h3 class="step-h"><span class="num">i</span> Who this is for</h3>
+  <p class="body"><span class="role-band role-cashier">CASHIER</span> sections cover everyday selling. <span class="role-band role-manager">MANAGER</span> sections cover approvals, price changes and day-end.</p>
+
+  <h3 class="step-h"><span class="num">1</span> Contents</h3>
+  <table class="ref">
+    <tr><th>Section</th><th>For</th><th>What you'll learn</th></tr>
+    <tr><td>1 · Getting Started</td><td>Cashier</td><td>Log in, open the till</td></tr>
+    <tr><td>2 · Ringing Up Sales</td><td>Cashier</td><td>Add products, teas by the gram, quantities</td></tr>
+    <tr><td>3 · Taking Payment</td><td>Cashier</td><td>Cash, card, EFT, slip &amp; drawer, email</td></tr>
+    <tr><td>4 · Fixing Mistakes</td><td>Cashier</td><td>Void &amp; refund (needs a manager PIN)</td></tr>
+    <tr><td>5 · Transactions</td><td>Both</td><td>View the day's sales, search a slip</td></tr>
+    <tr><td>6 · Price Changes</td><td>Manager</td><td>Edit a price with approval</td></tr>
+    <tr><td>7 · Day End &amp; Cash-Up</td><td>Manager</td><td>Count cash, variance, Z-report</td></tr>
+    <tr><td>8 · Golden Rules</td><td>Both</td><td>Quick reference &amp; troubleshooting</td></tr>
+  </table>
+  <div class="foot"><span>Origin by ILCO · POS Training Manual</span><span>Welcome</span></div>
+</section>
+
+<!-- 1. GETTING STARTED -->
+<section class="page">
+  <span class="sec-tag">Section 1 · Cashier</span>
+  <h2 class="sec">Getting Started</h2>
+  <p class="sec-lead">How to switch on and sign in to the till.</p>
+
+  <h3 class="step-h"><span class="num">1</span> The till starts itself</h3>
+  <p class="body">When the POSBANK is switched on, the Origin POS opens automatically, full-screen. If it ever closes, it reopens by itself within a second.</p>
+
+  <h3 class="step-h"><span class="num">2</span> Log in</h3>
+  <ul class="body">
+    <li>Type your <b>email address</b> using the on-screen keyboard.</li>
+    <li>Enter your <b>6-digit code</b> (PIN or the OTP sent to email).</li>
+    <li>Tap <span class="kbd">DONE</span>.</li>
+  </ul>
+  <div class="callout"><b>Tip:</b> The keyboard has a full number row and a numpad for codes. The space bar is the wide key at the bottom.</div>
+
+  <h3 class="step-h"><span class="num">3</span> Open the till for the day</h3>
+  <p class="body">Top-right shows the till status. If it says <b>"Shift Closed,"</b> tap it → enter the opening cash float (or 0 if none) → the till is now <span class="pill">Till Open</span> and ready to sell.</p>
+  <div class="callout ok"><b>Good to know:</b> Logging out, reloading, or the screen restarting does <b>NOT</b> close the day. Only the <b>Day End</b> cash-up closes the till.</div>
+  <div class="foot"><span>Origin by ILCO · POS Training Manual</span><span>1 · Getting Started</span></div>
+</section>
+
+<!-- 2. RINGING UP SALES -->
+<section class="page">
+  <span class="sec-tag">Section 2 · Cashier</span>
+  <h2 class="sec">Ringing Up Sales</h2>
+  <p class="sec-lead">Adding products to the customer's order.</p>
+
+  <h3 class="step-h"><span class="num">1</span> Find the product</h3>
+  <ul class="body">
+    <li>Use the two groups at the top: <b>Cannabis</b> and <b>Wellness &amp; Pharmacy</b>.</li>
+    <li>Tap a category (Teas, Mushrooms, Skincare, Nail Gel, etc.) or filter by brand.</li>
+    <li>Or type in <b>Search</b> — by name, brand or SKU.</li>
+  </ul>
+
+  <h3 class="step-h"><span class="num">2</span> Add a normal product</h3>
+  <p class="body"><b>Tap the product card</b> — it drops into the cart on the left. Tap again to add another.</p>
+
+  <h3 class="step-h"><span class="num">3</span> Sell tea by the gram</h3>
+  <p class="body">Teas are loose and sold per gram. Tap a tea (it shows e.g. <span class="pill">R2 /g</span>) → a <b>numpad</b> opens → type the grams (or tap 10g / 25g / 50g / 100g) → see the total → <b>Add to Cart</b>.</p>
+  <div class="callout"><b>Tea prices:</b> most teas R2/g · Ginger &amp; Rooibos R1/g · Blue Lotus R6/g.</div>
+
+  <h3 class="step-h"><span class="num">4</span> Change quantities in the cart</h3>
+  <ul class="body">
+    <li>Use <span class="kbd">−</span> / <span class="kbd">+</span> or the quick buttons <span class="pill">+1</span> <span class="pill">+2</span> <span class="pill">+5</span> <span class="pill">+10</span> on each cart line.</li>
+    <li>Tap <span class="kbd">×</span> to remove a line, or <b>Clear Cart</b> to start over.</li>
+  </ul>
+  <div class="callout"><b>VAT:</b> The till adds <b>15% VAT</b> automatically at checkout — you don't add it yourself.</div>
+  <div class="foot"><span>Origin by ILCO · POS Training Manual</span><span>2 · Ringing Up Sales</span></div>
+</section>
+
+<!-- 3. TAKING PAYMENT -->
+<section class="page">
+  <span class="sec-tag">Section 3 · Cashier</span>
+  <h2 class="sec">Taking Payment</h2>
+  <p class="sec-lead">Closing the sale and giving the customer their slip.</p>
+
+  <h3 class="step-h"><span class="num">1</span> Go to checkout</h3>
+  <p class="body">Tap <b>Checkout</b> at the bottom of the cart. The <b>Process Payment</b> screen shows the <b>Amount Due</b>.</p>
+
+  <h3 class="step-h"><span class="num">2</span> Choose the payment type</h3>
+  <ul class="body">
+    <li><b>Cash</b> — type the amount received on the numpad; the screen shows the <b>change</b> to give.</li>
+    <li><b>Card (Speedpoint)</b> — swipe on the card machine, then type the Speedpoint reference.</li>
+    <li><b>Manual EFT</b> — for a bank transfer; capture the reference.</li>
+  </ul>
+
+  <h3 class="step-h"><span class="num">2</span> Slip &amp; drawer (automatic)</h3>
+  <ul class="body">
+    <li>The <b>receipt prints automatically</b> to the printer — no pop-up, no PDF.</li>
+    <li>On a <b>cash</b> sale, the <b>cash drawer pops open</b> automatically. (Card/EFT do not open the drawer — no cash changes hands.)</li>
+  </ul>
+
+  <h3 class="step-h"><span class="num">3</span> Email the invoice (optional)</h3>
+  <p class="body">On the "Sale Complete" screen, type the customer's email and tap <b>Email Receipt</b> to send them a copy.</p>
+  <div class="callout ok"><b>That's a complete sale.</b> Tap <b>New Sale / Done</b> to serve the next customer.</div>
+  <div class="foot"><span>Origin by ILCO · POS Training Manual</span><span>3 · Taking Payment</span></div>
+</section>
+
+<!-- 4. FIXING MISTAKES -->
+<section class="page">
+  <span class="sec-tag">Section 4 · Cashier + Manager</span>
+  <h2 class="sec">Fixing Mistakes — Void &amp; Refund</h2>
+  <p class="sec-lead">Before payment you can just edit the cart. After a sale is paid, you need a manager.</p>
+
+  <h3 class="step-h"><span class="num">1</span> Before paying</h3>
+  <p class="body">Just use <span class="kbd">−</span>, <span class="kbd">×</span> or <b>Clear Cart</b> — no approval needed.</p>
+
+  <h3 class="step-h"><span class="num">2</span> After paying — open Transactions</h3>
+  <p class="body">Tap the gold <b>🧾 Sales</b> button (top of the header) → find the slip (it's at the top, or search the slip number) → tap it.</p>
+
+  <h3 class="step-h"><span class="num">3</span> Void or Refund</h3>
+  <ul class="body">
+    <li><b>Void</b> — for a sale rung up wrong / cancelled. Cancels it, puts stock back, removes it from takings.</li>
+    <li><b>Refund</b> — for a customer return. Tick the items (all, or just some) to refund.</li>
+    <li>Type a short <b>reason/note</b>, then a <b>manager/admin PIN</b> to approve.</li>
+  </ul>
+  <div class="callout warn"><b>Manager PIN required.</b> A cashier cannot void or refund alone — an owner/admin PIN must approve every one. Each is logged with who approved it.</div>
+  <div class="callout"><b>After approval</b> the slip shows a red <span style="color:#C0392B;font-weight:700;">VOIDED</span> or orange <span style="color:#E08600;font-weight:700;">REFUNDED</span> badge, and the day's totals update automatically.</div>
+  <div class="foot"><span>Origin by ILCO · POS Training Manual</span><span>4 · Void &amp; Refund</span></div>
+</section>
+
+<!-- 5. TRANSACTIONS -->
+<section class="page">
+  <span class="sec-tag">Section 5 · Cashier + Manager</span>
+  <h2 class="sec">Transactions List</h2>
+  <p class="sec-lead">A running record of the day's sales — anyone can view it.</p>
+
+  <h3 class="step-h"><span class="num">1</span> Open it</h3>
+  <p class="body">Tap the gold <b>🧾 Sales</b> button. You'll see <b>Today's Transactions</b> with the live <b>net total</b> at the top.</p>
+
+  <h3 class="step-h"><span class="num">2</span> Read a row</h3>
+  <p class="body">Each row shows the <b>slip number</b>, <b>time</b>, <b>item count</b>, <b>payment type</b> (CASH / CARD / EFT) and <b>amount</b>, with a status badge: <span style="color:#22A06B;font-weight:700;">COMPLETED</span>, <span style="color:#C0392B;font-weight:700;">VOIDED</span> or <span style="color:#E08600;font-weight:700;">REFUNDED</span>.</p>
+
+  <h3 class="step-h"><span class="num">3</span> Search</h3>
+  <p class="body">Type a <b>slip number</b> in the search box to jump to one sale. Tap a sale to see its items and (with a manager PIN) Void or Refund it.</p>
+  <div class="callout"><b>The total is net.</b> Voided/refunded sales are excluded from the total and shown separately, so the figure is the real takings.</div>
+  <div class="foot"><span>Origin by ILCO · POS Training Manual</span><span>5 · Transactions</span></div>
+</section>
+
+<!-- 6. PRICE CHANGES (MANAGER) -->
+<section class="page">
+  <span class="sec-tag">Section 6 · Manager</span>
+  <h2 class="sec">Changing a Price</h2>
+  <p class="sec-lead">Prices can be corrected on the spot — but only an admin can approve it.</p>
+
+  <h3 class="step-h"><span class="num">1</span> Tap the pencil</h3>
+  <p class="body">Every product card has a small <b>gold pencil</b> (top-left). Tap it to open <b>Edit Product</b>.</p>
+
+  <h3 class="step-h"><span class="num">2</span> Enter the new price</h3>
+  <p class="body">Type the new <b>price</b> (for teas this is the <b>per-gram</b> rate). Stock is <b>not</b> edited here — that comes in through receiving/orders.</p>
+
+  <h3 class="step-h"><span class="num">3</span> Approve</h3>
+  <p class="body">Enter an <b>owner/admin PIN</b> → <b>Save · Admin Approve</b>. The card updates instantly and shows <b>"Approved by [name]."</b></p>
+  <div class="callout warn"><b>Nothing changes without the PIN.</b> The cashier's own PIN will not work — every price change is logged.</div>
+  <div class="foot"><span>Origin by ILCO · POS Training Manual</span><span>6 · Price Changes</span></div>
+</section>
+
+<!-- 7. DAY END (MANAGER) -->
+<section class="page">
+  <span class="sec-tag">Section 7 · Manager</span>
+  <h2 class="sec">Day End &amp; Cash-Up</h2>
+  <p class="sec-lead">Closing the trading day, counting the drawer, and sending the report.</p>
+
+  <h3 class="step-h"><span class="num">1</span> Start day end</h3>
+  <p class="body">Tap the gold <b>cash-register</b> button (or the <b>Till Open</b> status). The cash-up screen opens.</p>
+
+  <h3 class="step-h"><span class="num">2</span> Count the cash</h3>
+  <p class="body">Count the physical cash and type the <b>quantity of each note &amp; coin</b>. The screen totals it and compares to the <b>Expected Cash</b>.</p>
+
+  <h3 class="step-h"><span class="num">3</span> Check the variance</h3>
+  <ul class="body">
+    <li>Within <b>±R50</b> → green, you can close.</li>
+    <li>Over <b>R50</b> → a <b>note + manager/admin PIN</b> is required to close (over/short must be explained).</li>
+  </ul>
+
+  <h3 class="step-h"><span class="num">4</span> Confirm &amp; report</h3>
+  <ul class="body">
+    <li>You'll be asked <b>"Close today's session?"</b> — confirm only at true day end.</li>
+    <li>The <b>Z-Report</b> appears: <b>Cash / Card / EFT</b> breakdown, net sales, variance.</li>
+    <li>It <b>auto-emails the PDF + CSV</b> to the owner &amp; head office, and you can <b>Download PDF / CSV</b>.</li>
+    <li>Tap <b>Back to POS</b> — you stay logged in for the next day.</li>
+  </ul>
+  <div class="callout warn"><b>Only Day End closes the till.</b> Don't run it unless you're closing for the day.</div>
+  <div class="foot"><span>Origin by ILCO · POS Training Manual</span><span>7 · Day End</span></div>
+</section>
+
+<!-- 8. GOLDEN RULES + QUICK REF -->
+<section class="page">
+  <span class="sec-tag">Section 8 · Reference</span>
+  <h2 class="sec">Golden Rules &amp; Troubleshooting</h2>
+  <p class="sec-lead">Keep these in mind — and how to fix the small stuff.</p>
+
+  <h3 class="step-h"><span class="num">★</span> Golden rules</h3>
+  <ul class="body">
+    <li>Every sale goes <b>through the till</b> — never on paper (VAT must be captured).</li>
+    <li><b>Voids &amp; refunds</b> always need a <b>manager PIN</b> + a reason.</li>
+    <li><b>Count the drawer honestly</b> at day end — explain any variance.</li>
+    <li>Only run <b>Day End</b> when closing for the day.</li>
+  </ul>
+
+  <h3 class="step-h"><span class="num">?</span> Quick troubleshooting</h3>
+  <table class="ref">
+    <tr><th>Problem</th><th>Do this</th></tr>
+    <tr><td>Screen looks stuck / old</td><td>Close the POS (it reopens itself). Tell the manager if it persists.</td></tr>
+    <tr><td>"Shift Closed" but you were trading</td><td>Tap the status → it should show the open till. Re-open if needed.</td></tr>
+    <tr><td>Slip didn't print</td><td>Check paper is loaded the right way (printable side out). Re-print from the sale.</td></tr>
+    <tr><td>Drawer didn't open on cash</td><td>Only cash sales open it. Check the slip printed first.</td></tr>
+    <tr><td>Can't void / change price</td><td>You need a manager/admin PIN — call a manager.</td></tr>
+  </table>
+
+  <div class="signbox">
+    <b style="font-family:'Cinzel';color:var(--gold-d);">Training Sign-Off</b>
+    <p style="font-size:.85rem;color:var(--grey);margin-top:6px;">I confirm I have read this manual and can operate the till.</p>
+    <div class="signrow">
+      <div>Staff name</div><div>Signature</div><div>Date</div>
+    </div>
+    <div class="signrow">
+      <div>Trained by</div><div>Signature</div><div>Date</div>
+    </div>
+  </div>
+  <div class="foot"><span>Origin by ILCO · POS Training Manual</span><span>8 · Reference</span></div>
+</section>
+
+</body>
+</html>

@@ -7,7 +7,11 @@ export default function LoginPage() {
   const { requestPin, verifyPin, loading } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState<'email' | 'pin'>('email');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    const params = new URLSearchParams(window.location.search);
+    return params.get('email')?.trim() ?? '';
+  });
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
 
@@ -41,7 +45,7 @@ export default function LoginPage() {
         </div>
         <div>
           <h1 className="text-2xl font-bold text-white tracking-wide">Origin</h1>
-          <p className="text-xs text-white/40">Track & Trace — by ILCO Farming</p>
+          <p className="text-xs text-white/40">Track & Trace — Origin Farming</p>
         </div>
       </div>
 

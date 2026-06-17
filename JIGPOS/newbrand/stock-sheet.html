@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Stock Sheet</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --ink:#0E0E0E; --panel:#161616; --line:#2a2a2a; --txt:#F5F0E8; --grey:#9a9a9a; --green:#22C55E; --red:#DC2626; }
+  *{ box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  body{ background:#0A0A0A; color:var(--txt); }
+  header{ background:linear-gradient(135deg,#0A0A0A,#1a1408); border-bottom:2px solid var(--gold); padding:14px 22px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:10; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand img{ height:34px; }
+  .brand b{ font-family:'Cinzel'; letter-spacing:2px; color:var(--gold); font-size:1.2rem; }
+  .brand span{ color:var(--grey); font-size:.8rem; }
+  .top-actions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .btn{ border:none; border-radius:9px; padding:10px 16px; font-weight:700; cursor:pointer; font-size:.9rem; }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; }
+  .btn-ghost{ background:#222; color:var(--txt); }
+  .wrap{ padding:18px 22px; max-width:1200px; margin:0 auto; }
+  .bar{ display:flex; gap:10px; margin-bottom:14px; flex-wrap:wrap; align-items:center; }
+  .bar input,.bar select{ padding:10px 12px; background:#1d1d1d; border:1px solid var(--line); border-radius:9px; color:var(--txt); font-size:.9rem; }
+  #search{ flex:1; min-width:200px; }
+  .stat{ color:var(--grey); font-size:.85rem; }
+  /* Column header strip (aligns with accordion tables) */
+  .colhead{ display:flex; background:#050505; color:var(--gold); border:1px solid var(--line); border-bottom:2px solid var(--gold-d); border-radius:12px 12px 0 0; font-size:.66rem; letter-spacing:1.5px; text-transform:uppercase; position:sticky; top:58px; z-index:6; }
+  .colhead > div{ padding:12px 8px; }
+  /* Accordions */
+  #rows{ border:1px solid var(--line); border-top:none; border-radius:0 0 12px 12px; overflow:hidden; }
+  .acc{ border-bottom:1px solid #232323; }
+  .acc-head{ width:100%; display:flex; align-items:center; gap:10px; background:#120d04; color:var(--gold); border:none; border-bottom:1px solid var(--gold-d); padding:13px 16px; cursor:pointer; font-family:'Cinzel',serif; letter-spacing:1px; font-size:.92rem; text-transform:capitalize; text-align:left; }
+  .acc-head:hover{ background:#1a1206; }
+  .acc-head .chev{ transition:transform .2s; font-size:.8rem; color:var(--gold-d); }
+  .acc.open .acc-head .chev{ transform:rotate(90deg); }
+  .acc-head .acc-meta{ margin-left:auto; color:var(--grey); font-size:.72rem; font-family:'Inter',sans-serif; letter-spacing:0; text-transform:none; }
+  .acc-head .lowbadge{ background:rgba(220,38,38,.18); color:#ff6b6b; padding:2px 8px; border-radius:10px; font-size:.66rem; font-family:'Inter'; }
+  .acc-body{ display:none; }
+  .acc.open .acc-body{ display:block; }
+  table{ width:100%; border-collapse:collapse; table-layout:fixed; }
+  tbody td{ padding:10px 8px; border-bottom:1px solid #1e1e1e; vertical-align:middle; }
+  tbody tr:hover{ background:#1b1b1b; }
+  tr.inactive{ opacity:.4; }
+  td:first-child{ padding-left:14px; }
+  td input,td select{ width:100%; padding:9px 10px; background:#1d1d1d; border:1px solid var(--line); border-radius:8px; color:var(--txt); font-size:.88rem; }
+  td input:focus,td select:focus{ outline:none; border-color:var(--gold); }
+  td input.price,td input.qty{ text-align:right; font-weight:600; }
+  .prodname{ font-weight:600; }
+  .brand{ color:var(--grey); font-size:.7rem; text-transform:uppercase; letter-spacing:.5px; margin-top:4px; }
+  .pergram{ color:var(--gold); font-size:.66rem; margin-top:3px; }
+  .actcell{ display:flex; gap:8px; justify-content:flex-end; }
+  .save{ background:var(--gold); color:#1a1a1a; border:none; border-radius:7px; padding:7px 12px; font-weight:700; cursor:pointer; font-size:.8rem; }
+  .save.saved{ background:var(--green); color:#fff; }
+  .del{ background:transparent; border:1px solid var(--red); color:var(--red); border-radius:7px; padding:7px 10px; cursor:pointer; font-size:.78rem; }
+  .low{ color:var(--red); font-weight:700; }
+  .loginmsg{ text-align:center; padding:60px 20px; color:var(--grey); }
+  .loginmsg a{ color:var(--gold); }
+  /* Add modal */
+  .modal{ position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:50; }
+  .modal.open{ display:flex; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:16px; width:92%; max-width:440px; overflow:hidden; }
+  .card h3{ font-family:'Cinzel'; color:var(--gold); padding:16px 20px; border-bottom:1px solid var(--line); }
+  .card .body{ padding:18px 20px; display:flex; flex-direction:column; gap:12px; }
+  .card label{ font-size:.72rem; color:var(--grey); letter-spacing:.5px; display:flex; flex-direction:column; gap:5px; }
+  .card input,.card select{ padding:11px; background:#1d1d1d; border:1px solid var(--line); border-radius:9px; color:var(--txt); }
+  .card .row2{ display:flex; gap:12px; } .card .row2 label{ flex:1; }
+  .card .foot{ display:flex; gap:10px; padding:0 20px 20px; }
+  .toast{ position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--gold); color:#1a1a1a; padding:12px 22px; border-radius:10px; font-weight:700; z-index:99; display:none; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="images/origin-logo.png"><b>ORIGIN</b><span>Stock Sheet</span></div>
+  <div class="top-actions">
+    <button class="btn btn-gold" onclick="openAdd()">+ Add Product</button>
+    <a class="btn btn-ghost" href="pos.html" style="text-decoration:none;">← Back to POS</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="gate" class="loginmsg" style="display:none;">
+    <div style="max-width:350px;margin:40px auto;text-align:left;background:#161616;border:1px solid #2a2a2a;border-radius:16px;padding:26px;">
+      <div style="font-family:'Cinzel',serif;color:var(--gold);font-size:1.3rem;text-align:center;">Manager Login</div>
+      <div style="color:#888;text-align:center;font-size:.82rem;margin:4px 0 20px;">Stock Sheet — restricted access</div>
+      <label style="font-size:.7rem;color:#888;letter-spacing:.5px;">EMAIL
+        <input id="lgEmail" type="email" autocomplete="username" style="width:100%;padding:12px;margin:6px 0 14px;background:#1d1d1d;border:1px solid #2a2a2a;border-radius:9px;color:#fff;font-size:.95rem;"></label>
+      <label style="font-size:.7rem;color:#888;letter-spacing:.5px;">PIN
+        <input id="lgPin" type="password" inputmode="numeric" autocomplete="current-password" style="width:100%;padding:12px;margin:6px 0 6px;background:#1d1d1d;border:1px solid #2a2a2a;border-radius:9px;color:#fff;font-size:1.1rem;letter-spacing:5px;" onkeydown="if(event.key==='Enter')doLogin()"></label>
+      <div id="lgMsg" style="color:#DC2626;font-size:.8rem;min-height:15px;"></div>
+      <button class="btn btn-gold" style="width:100%;margin-top:8px;" onclick="doLogin()">Sign In</button>
+    </div>
+  </div>
+
+  <div id="main" style="display:none;">
+    <div class="bar">
+      <input id="search" placeholder="Search name, SKU, brand, category…" oninput="render()">
+      <select id="catFilter" onchange="render()"><option value="">All categories</option></select>
+      <label class="stat"><input type="checkbox" id="showInactive" onchange="render()"> show hidden</label>
+      <label class="stat"><input type="checkbox" id="lowOnly" onchange="render()"> low stock</label>
+      <button class="btn btn-ghost" style="padding:9px 13px;" onclick="exportCsv()"><i class="fas"></i>⬇ CSV</button>
+      <button class="btn btn-ghost" style="padding:9px 13px;" onclick="bulkAdjust()">% Bulk price</button>
+      <button class="btn btn-ghost" style="padding:9px 13px;" onclick="openAudit()">📋 Change log</button>
+      <button class="btn btn-ghost" style="padding:9px 13px;" id="vatModeBtn" onclick="openVatMode()">VAT: …</button>
+      <span class="stat" id="count"></span>
+    </div>
+    <div class="bar" style="margin-bottom:10px;">
+      <button class="btn btn-ghost" style="padding:8px 13px;" onclick="setAll(true)">Expand all</button>
+      <button class="btn btn-ghost" style="padding:8px 13px;" onclick="setAll(false)">Collapse all</button>
+      <span class="stat" id="summary"></span>
+    </div>
+    <div class="colhead">
+      <div style="width:34%;padding-left:14px;">Product</div><div style="width:13%">Category</div><div style="width:9%">Size</div><div style="width:11%">Price (R)</div><div style="width:9%">Stock</div><div style="width:8%;text-align:center;">On POS</div><div style="width:16%"></div>
+    </div>
+    <div id="rows"></div>
+  </div>
+</div>
+
+<!-- Add product modal -->
+<div class="modal" id="addModal">
+  <div class="card">
+    <h3>Add Product</h3>
+    <div class="body">
+      <label>NAME<input id="aName" placeholder="e.g. Lavender Oil 30ml"></label>
+      <div class="row2">
+        <label>CATEGORY<input id="aCat" placeholder="e.g. skincare" list="catList"></label>
+        <label>SIZE<input id="aSize" placeholder="e.g. 30ml"></label>
+      </div>
+      <div class="row2">
+        <label>PRICE (R)<input id="aPrice" type="number" inputmode="decimal" placeholder="0.00"></label>
+        <label>STOCK QTY<input id="aQty" type="number" inputmode="numeric" placeholder="0"></label>
+      </div>
+      <label>BRAND (required) — links the product to its brand<input id="aBrand" placeholder="e.g. Lamelle" list="brandList" required></label>
+      <label style="flex-direction:row;align-items:center;gap:9px;cursor:pointer;color:#cfc6ad;">
+        <input type="checkbox" id="aExVat" style="width:18px;height:18px;accent-color:var(--gold);" onchange="addExVatHint()">
+        <span>Price <b>excludes</b> VAT — add 15% to get the shelf price</span>
+      </label>
+      <div id="exVatHint" style="color:#8a8472;font-size:.78rem;min-height:14px;"></div>
+      <div id="addMsg" style="color:var(--red);font-size:.8rem;min-height:14px;"></div>
+    </div>
+    <div class="foot">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeAdd()">Cancel</button>
+      <button class="btn btn-gold" style="flex:2;" onclick="createProduct()">Add to Stock</button>
+    </div>
+  </div>
+</div>
+<!-- Approval (override) modal — manager/role code + note required for every change -->
+<div class="modal" id="apprModal">
+  <div class="card">
+    <h3>Approval required</h3>
+    <div class="body">
+      <div id="apprWhat" style="color:#cfc6ad;font-size:.9rem;margin-bottom:4px;"></div>
+      <label>OVERRIDE CODE<input id="apprCode" type="password" inputmode="numeric" autocomplete="off" placeholder="role approval code" style="letter-spacing:5px;font-size:1.1rem;" onkeydown="if(event.key==='Enter')apprConfirm()"></label>
+      <label>NOTE / REASON<textarea id="apprNote" rows="2" placeholder="Why is this change being made? (recorded in the audit trail)" style="resize:vertical;"></textarea></label>
+      <div id="apprMsg" style="color:var(--red);font-size:.8rem;min-height:14px;"></div>
+      <div style="color:#777;font-size:.7rem;">The role behind the code, the operator, the note and the time are written to the audit trail.</div>
+    </div>
+    <div class="foot">
+      <button class="btn btn-ghost" style="flex:1;" onclick="apprCancel()">Cancel</button>
+      <button class="btn btn-gold" style="flex:2;" onclick="apprConfirm()">Approve &amp; Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Audit trail modal -->
+<div class="modal" id="auditModal">
+  <div class="card" style="max-width:680px;">
+    <h3>Change log — audit trail</h3>
+    <div class="body" style="max-height:60vh;overflow:auto;"><div id="auditRows" style="font-size:.85rem;"></div></div>
+    <div class="foot"><button class="btn btn-ghost" style="flex:1;" onclick="document.getElementById('auditModal').classList.remove('open')">Close</button></div>
+  </div>
+</div>
+<!-- VAT mode modal -->
+<div class="modal" id="vatModal">
+  <div class="card">
+    <h3>VAT mode</h3>
+    <div class="body">
+      <div style="color:#cfc6ad;font-size:.9rem;margin-bottom:6px;">How are your product prices captured?</div>
+      <label style="flex-direction:row;align-items:flex-start;gap:10px;cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:12px;">
+        <input type="radio" name="vatmode" value="inclusive" style="margin-top:3px;accent-color:var(--gold);">
+        <span><b style="color:#e6e0d2;">VAT inclusive</b> <span style="color:#8a8472;">(recommended)</span><br><span style="color:#8a8472;font-size:.82rem;">Prices already include 15% VAT — the shelf price is what the customer pays. VAT is shown as the portion within it. Required by SA law for displayed retail prices.</span></span>
+      </label>
+      <label style="flex-direction:row;align-items:flex-start;gap:10px;cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px;">
+        <input type="radio" name="vatmode" value="exclusive" style="margin-top:3px;accent-color:var(--gold);">
+        <span><b style="color:#e6e0d2;">Add VAT on top</b><br><span style="color:#8a8472;font-size:.82rem;">Prices exclude VAT — the till adds 15% at checkout. Only for a store that prices ex-VAT (e.g. pure wholesale).</span></span>
+      </label>
+      <div id="vatModalMsg" style="color:var(--amber,#F59E0B);font-size:.8rem;min-height:14px;margin-top:8px;"></div>
+    </div>
+    <div class="foot">
+      <button class="btn btn-ghost" style="flex:1;" onclick="document.getElementById('vatModal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-gold" style="flex:2;" onclick="saveVatMode()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bulk-select action bar (appears when rows are ticked) -->
+<div id="bulkBar" style="display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:80;background:#1a1410;border:1px solid var(--gold,#C9A84C);border-radius:14px;padding:10px 14px;gap:12px;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,.5);">
+  <span id="bulkCount" style="color:#e6e0d2;font-weight:700;font-size:.9rem;">0 selected</span>
+  <button class="btn" style="background:#262626;color:#fff;border:none;border-radius:9px;padding:9px 13px;font-weight:700;cursor:pointer;" onclick="clearSelection()">Clear</button>
+  <button class="btn" style="background:#DC2626;color:#fff;border:none;border-radius:9px;padding:9px 15px;font-weight:800;cursor:pointer;" onclick="bulkDeleteSelected()">🗑 Delete selected</button>
+</div>
+<datalist id="catList"></datalist>
+<datalist id="brandList"></datalist>
+<div class="toast" id="toast"></div>
+
+<script>
+const API = (location.hostname==='localhost'||location.hostname==='127.0.0.1') ? '/api/v1' : '/pos/api/v1';
+let token = sessionStorage.getItem('adminToken') || localStorage.getItem('token') || '';
+const MGR_ROLES = ['owner','admin','super_admin','branch_manager','inventory_manager'];
+// Who may OPEN the stock sheet (view). Editing still needs an override code regardless of who is logged in.
+const VIEW_ROLES = ['owner','admin','super_admin','branch_manager','inventory_manager','branch_assistant','pharmacy_admin'];
+const VIEW_EMAILS = ['originbyilcofarming@gmail.com'];
+
+async function doLogin(){
+  const email = document.getElementById('lgEmail').value.trim().toLowerCase();
+  const pin = document.getElementById('lgPin').value.trim();
+  const msg = document.getElementById('lgMsg');
+  if(!email || !pin){ msg.style.color='#DC2626'; msg.textContent='Enter email and PIN'; return; }
+  msg.style.color='#888'; msg.textContent='Signing in…';
+  try{
+    const r = await fetch(`${API}/auth/otp/verify-pin`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,pin}) });
+    const d = await r.json();
+    if(!d.success || !d.token){ msg.style.color='#DC2626'; msg.textContent=d.message||'Invalid login'; return; }
+    const em = (d.user?.email||'').toLowerCase();
+    if(!VIEW_ROLES.includes(d.user?.role) && !VIEW_EMAILS.includes(em)){ msg.style.color='#DC2626'; msg.textContent='This account cannot open the stock sheet.'; return; }
+    sessionStorage.setItem('adminToken', d.token); localStorage.setItem('token', d.token);
+    sessionStorage.setItem('user', JSON.stringify(d.user)); localStorage.setItem('user', JSON.stringify(d.user));
+    token = d.token;
+    document.getElementById('gate').style.display='none';
+    load();
+  }catch(e){ msg.style.color='#DC2626'; msg.textContent='Login failed — try again'; }
+}
+let PRODUCTS = [];
+let VISIBLE = [];
+let OPEN = new Set();
+
+function exportCsv(){
+  const rows = [['Name','SKU','Brand','Category','Size','Price','Stock','OnPOS']];
+  VISIBLE.forEach(p => rows.push([p.name, p.sku, p.brand||'', p.category||'', p.size||'', p.price??0, (p.inventory?.quantity??0), p.isActive===false?'no':'yes']));
+  const csv = rows.map(r => r.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = 'origin-stock-sheet.csv'; a.click();
+}
+
+async function bulkAdjust(){
+  if(!VISIBLE.length){ toast('Nothing visible to adjust'); return; }
+  const pct = prompt('Adjust the '+VISIBLE.length+' visible prices by what %?\n(e.g. 10 for +10%, -5 for -5%)');
+  if(pct===null) return;
+  const f = parseFloat(pct); if(isNaN(f)){ toast('Enter a number'); return; }
+  const appr = await requireApproval(`Adjust ${VISIBLE.length} visible prices by ${f}%`);
+  if(!appr) return;
+  let n=0;
+  for(const p of VISIBLE){
+    const np = Math.round((p.price||0) * (1 + f/100) * 100) / 100;
+    try{
+      const r = await fetch(`${API}/products/${p._id}/manage`, {method:'PATCH', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body:JSON.stringify({price:np, approvalCode:appr.code, note:appr.note+' (bulk '+f+'%)'})});
+      if((await r.json()).success){ p.price=np; n++; }
+    }catch(e){}
+  }
+  toast(n+' prices updated'); render();
+}
+
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.style.display='block'; setTimeout(()=>t.style.display='none',2200); }
+
+// Prominent confirmation shown ONLY after the record is confirmed persisted in the DB.
+function saveConfirm(title, detail){
+  let el = document.getElementById('saveConfirm');
+  if(!el){ el = document.createElement('div'); el.id='saveConfirm';
+    el.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.9);z-index:120;background:#0f1a12;border:2px solid #22C55E;border-radius:16px;padding:22px 28px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.55);opacity:0;transition:opacity .15s,transform .15s;pointer-events:none;max-width:90vw;';
+    document.body.appendChild(el);
+  }
+  el.innerHTML = `<div style="font-size:2rem;color:#22C55E;line-height:1;">✓</div>
+    <div style="font-family:'Cinzel',serif;color:#22C55E;font-size:1.15rem;margin-top:8px;">Saved!</div>
+    <div style="color:#e6f5ec;margin-top:6px;font-size:.95rem;">${title}</div>
+    <div style="color:#8fb89f;margin-top:4px;font-size:.82rem;">${detail||''}</div>`;
+  el.style.opacity='1'; el.style.transform='translate(-50%,-50%) scale(1)';
+  clearTimeout(window._scTimer); window._scTimer=setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translate(-50%,-50%) scale(.9)'; }, 2600);
+}
+
+// ===== Approval (override code + note) — resolves to {code, note} or null =====
+let _apprResolve = null;
+function requireApproval(what){
+  return new Promise(resolve => {
+    _apprResolve = resolve;
+    document.getElementById('apprWhat').textContent = what || 'Confirm this change';
+    document.getElementById('apprCode').value = '';
+    document.getElementById('apprNote').value = '';
+    document.getElementById('apprMsg').textContent = '';
+    document.getElementById('apprModal').classList.add('open');
+    setTimeout(()=>document.getElementById('apprCode').focus(), 50);
+  });
+}
+function apprConfirm(){
+  const code = document.getElementById('apprCode').value.trim();
+  const note = document.getElementById('apprNote').value.trim();
+  const msg = document.getElementById('apprMsg');
+  if(!code){ msg.textContent='Enter the override code'; return; }
+  if(!note){ msg.textContent='A note / reason is required'; return; }
+  document.getElementById('apprModal').classList.remove('open');
+  const r=_apprResolve; _apprResolve=null; if(r) r({code, note});
+}
+function apprCancel(){ document.getElementById('apprModal').classList.remove('open'); const r=_apprResolve; _apprResolve=null; if(r) r(null); }
+
+// ===== Audit trail viewer =====
+async function openAudit(){
+  document.getElementById('auditModal').classList.add('open');
+  const el = document.getElementById('auditRows');
+  el.innerHTML = '<div style="color:#888;padding:14px;">Loading…</div>';
+  try{
+    const r = await fetch(`${API}/products/manage/audit`, { headers:{ 'Authorization':`Bearer ${token}` } });
+    const d = await r.json();
+    const rows = d.audit || [];
+    if(!rows.length){ el.innerHTML='<div style="color:#888;padding:14px;">No changes recorded yet.</div>'; return; }
+    el.innerHTML = rows.map(a => {
+      const when = new Date(a.at).toLocaleString('en-ZA',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+      const ch = (a.changes||[]).map(c=>`${c.field}: <s style="color:#888">${c.from??'—'}</s> → <b style="color:var(--gold)">${c.to??'—'}</b>`).join(' · ') || a.action;
+      return `<div style="border-bottom:1px solid #2a2620;padding:9px 2px;">
+        <div><b>${a.action.toUpperCase()}</b> · ${a.productName||''} <span style="color:#777;float:right;">${when}</span></div>
+        <div style="color:#bdb59f;margin:3px 0;">${ch}</div>
+        <div style="color:#8a8472;font-size:.78rem;">approved by <b style="color:#cfc6ad">${a.approverLabel||a.approverRole||'—'}</b> · operator ${a.operatorEmail||'—'}${a.note?` · "${a.note}"`:''}</div>
+      </div>`;
+    }).join('');
+  }catch(e){ el.innerHTML='<div style="color:var(--red);padding:14px;">Could not load audit trail.</div>'; }
+}
+
+async function load(){
+  try{
+    const r = await fetch(`${API}/products/manage/list`, { headers:{ 'Authorization':`Bearer ${token}` } });
+    if(r.status===401||r.status===403){ document.getElementById('gate').style.display='block'; return; }
+    const d = await r.json();
+    PRODUCTS = d.products || [];
+    document.getElementById('main').style.display='block';
+    // categories
+    const cats = [...new Set(PRODUCTS.map(p=>p.category).filter(Boolean))].sort();
+    document.getElementById('catFilter').innerHTML = '<option value="">All categories</option>' + cats.map(c=>`<option>${c}</option>`).join('');
+    document.getElementById('catList').innerHTML = cats.map(c=>`<option value="${c}">`).join('');
+    const brands = [...new Set(PRODUCTS.map(p=>p.brand).filter(Boolean))].sort();
+    document.getElementById('brandList').innerHTML = brands.map(b=>`<option value="${b}">`).join('');
+    render();
+  }catch(e){ document.getElementById('gate').style.display='block'; }
+}
+
+function render(){
+  const q = (document.getElementById('search').value||'').toLowerCase().trim();
+  const cf = document.getElementById('catFilter').value;
+  const showInactive = document.getElementById('showInactive').checked;
+  const lowOnly = document.getElementById('lowOnly').checked;
+  let list = PRODUCTS.filter(p=>{
+    if(p.status==='archived') return false;  // deleted products never show
+    if(!showInactive && p.isActive===false) return false;
+    if(cf && p.category!==cf) return false;
+    if(lowOnly && (p.inventory?.quantity ?? 0) > 5) return false;
+    if(q){ const h=[p.name,p.sku,p.brand,p.category].filter(Boolean).join(' ').toLowerCase(); if(!h.includes(q)) return false; }
+    return true;
+  });
+  VISIBLE = list;
+  document.getElementById('count').textContent = `${list.length} items`;
+  const groups = {};
+  list.forEach(p => { const c = p.category || 'uncategorised'; (groups[c] = groups[c] || []).push(p); });
+  const cats = Object.keys(groups).sort();
+  const lowTotal = list.filter(p => (p.inventory?.quantity ?? 0) <= 5).length;
+  document.getElementById('summary').textContent = `${list.length} items · ${cats.length} categories${lowTotal?` · ${lowTotal} low stock`:''}`;
+  const autoOpen = !!q || cats.length === 1;
+  const COLS = '<colgroup><col style="width:34%"><col style="width:13%"><col style="width:9%"><col style="width:11%"><col style="width:9%"><col style="width:8%"><col style="width:16%"></colgroup>';
+  document.getElementById('rows').innerHTML = cats.map(cat => {
+    const items = groups[cat];
+    const low = items.filter(p => (p.inventory?.quantity ?? 0) <= 5).length;
+    const open = OPEN.has(cat) || autoOpen;
+    return `<div class="acc ${open?'open':''}" data-cat="${cat}">
+      <button class="acc-head" onclick="toggleAcc('${cat}')">
+        <span class="chev">▸</span> ${cat.replace(/-/g,' ')}
+        <span class="acc-meta">${items.length} item${items.length!==1?'s':''}${low?` <span class="lowbadge">${low} low</span>`:''}</span>
+      </button>
+      <div class="acc-body"><table>${COLS}<tbody>${items.map(rowHtml).join('')}</tbody></table></div>
+    </div>`;
+  }).join('') || '<div style="text-align:center;color:#888;padding:36px;">No products match.</div>';
+}
+
+function toggleAcc(cat){
+  if(OPEN.has(cat)) OPEN.delete(cat); else OPEN.add(cat);
+  const el = document.querySelector(`.acc[data-cat="${cat}"]`);
+  if(el) el.classList.toggle('open');
+}
+function setAll(open){
+  const cats = [...new Set(VISIBLE.map(p => p.category || 'uncategorised'))];
+  OPEN = open ? new Set(cats) : new Set();
+  render();
+}
+
+function rowHtml(p){
+  const qty = p.inventory?.quantity ?? 0;
+  const gram = p.sellBy === 'gram';
+  return `<tr class="${p.isActive===false?'inactive':''}" data-id="${p._id}">
+    <td><input class="name prodname" value="${(p.name||'').replace(/"/g,'&quot;')}"><div class="brand">${p.brand||p.sku||''}</div></td>
+    <td><input class="catedit" value="${p.category||''}" list="catList"></td>
+    <td><input class="size" value="${p.size||''}" placeholder="${gram?'grams':'–'}"></td>
+    <td><input class="price" type="number" step="0.01" value="${p.price??0}">${gram?'<div class="pergram">per gram</div>':''}</td>
+    <td><input class="qty ${qty<=5?'low':''}" type="number" value="${qty}"></td>
+    <td style="text-align:center;"><input type="checkbox" class="active" ${p.isActive===false?'':'checked'} style="width:20px;height:20px;accent-color:var(--gold);"></td>
+    <td><div class="actcell" style="align-items:center;">
+      <input type="checkbox" class="rowsel" title="Select" onchange="updateBulkBar()" style="width:18px;height:18px;accent-color:#DC2626;">
+      <button class="save" onclick="save('${p._id}',this)">Save</button>
+      <button class="del" onclick="hide('${p._id}',this)">Hide</button>
+      <button class="del" style="background:#7a1f1f;" onclick="delOne('${p._id}',this)" title="Delete permanently">Delete</button>
+    </div></td>
+  </tr>`;
+}
+
+async function save(id, btn, appr){
+  const tr = btn.closest('tr');
+  const body = {
+    name: tr.querySelector('.name').value,
+    category: tr.querySelector('.catedit').value,
+    size: tr.querySelector('.size').value,
+    price: parseFloat(tr.querySelector('.price').value),
+    quantity: parseInt(tr.querySelector('.qty').value),
+    isActive: tr.querySelector('.active').checked
+  };
+  // Every change needs an override code + note (unless one was supplied by the caller, e.g. hide()).
+  if(!appr){ appr = await requireApproval(`Save changes to “${body.name}”`); if(!appr) return; }
+  body.approvalCode = appr.code; body.note = appr.note;
+  const r = await fetch(`${API}/products/${id}/manage`, { method:'PATCH', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body:JSON.stringify(body) });
+  const d = await r.json();
+  if(d.success && d.persisted){
+    btn.textContent='Saved ✓'; btn.classList.add('saved'); setTimeout(()=>{btn.textContent='Save';btn.classList.remove('saved');},1500);
+    const s = d.saved || {};
+    saveConfirm(`“${s.name||body.name}”`, `Price R${(s.price??body.price)} · Stock ${s.quantity??body.quantity}${s.isActive===false?' · hidden from POS':''} — approved by ${d.approvedBy||'role'}`);
+    // Reflect the DB-confirmed values back into the row + local cache
+    const p=PRODUCTS.find(x=>x._id===id);
+    if(p){ Object.assign(p,{name:s.name??body.name,category:s.category??body.category,size:s.size??body.size,price:s.price??body.price,isActive:s.isActive??body.isActive}); p.inventory={quantity:(s.quantity??body.quantity)}; }
+    if(tr){ tr.querySelector('.price').value = s.price??body.price; tr.querySelector('.qty').value = s.quantity??body.quantity; }
+  } else { toast(d.message||'Save failed — not saved'); }
+  return d;
+}
+
+async function hide(id, btn){
+  const tr = btn.closest('tr');
+  const nm = tr.querySelector('.name').value;
+  const appr = await requireApproval(`Hide “${nm}” from the POS`);
+  if(!appr) return;
+  tr.querySelector('.active').checked=false;
+  const d = await save(id, tr.querySelector('.save'), appr);
+  if(d && d.success){ toast('Product hidden from POS'); const p=PRODUCTS.find(x=>x._id===id); if(p) p.isActive=false; render(); }
+}
+
+// ===== Delete (archive) — single + multi-select, gated by override code =====
+async function delOne(id, btn){
+  const tr = btn.closest('tr');
+  const nm = tr.querySelector('.name').value;
+  const appr = await requireApproval(`DELETE “${nm}” — removes it from the catalogue (kept in audit)`);
+  if(!appr) return;
+  const r = await fetch(`${API}/products/${id}/manage`, { method:'DELETE', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body:JSON.stringify({approvalCode:appr.code, note:appr.note}) });
+  const d = await r.json();
+  if(d.success && d.persisted){ saveConfirm(`“${nm}” deleted`, `Removed from catalogue — approved by ${d.approvedBy||'role'}`);
+    const p=PRODUCTS.find(x=>x._id===id); if(p) p.status='archived'; render(); updateBulkBar();
+  } else { toast(d.message||'Delete failed'); }
+}
+
+function selectedIds(){ return [...document.querySelectorAll('.rowsel:checked')].map(c=>c.closest('tr').dataset.id); }
+function updateBulkBar(){
+  const ids = selectedIds();
+  const bar = document.getElementById('bulkBar');
+  if(!bar) return;
+  if(ids.length){ bar.style.display='flex'; document.getElementById('bulkCount').textContent = ids.length + ' selected'; }
+  else bar.style.display='none';
+}
+function clearSelection(){ document.querySelectorAll('.rowsel:checked').forEach(c=>c.checked=false); updateBulkBar(); }
+async function bulkDeleteSelected(){
+  const ids = selectedIds();
+  if(!ids.length) return;
+  const appr = await requireApproval(`DELETE ${ids.length} selected product${ids.length>1?'s':''} — removes them from the catalogue`);
+  if(!appr) return;
+  const r = await fetch(`${API}/products/manage/bulk-delete`, { method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body:JSON.stringify({ids, approvalCode:appr.code, note:appr.note}) });
+  const d = await r.json();
+  if(d.success){ saveConfirm(`${d.deleted} product${d.deleted!==1?'s':''} deleted`, `Approved by ${d.approvedBy||'role'}`);
+    ids.forEach(id=>{ const p=PRODUCTS.find(x=>x._id===id); if(p) p.status='archived'; }); render(); updateBulkBar();
+  } else { toast(d.message||'Bulk delete failed'); }
+}
+
+// ===== VAT mode (shared with the POS via localStorage 'posVatMode') =====
+function getVatMode(){ return localStorage.getItem('posVatMode') || 'inclusive'; }
+function vatBtnLabel(){ const b=document.getElementById('vatModeBtn'); if(b) b.textContent = 'VAT: ' + (getVatMode()==='exclusive' ? 'Add 15%' : 'Inclusive'); }
+function openVatMode(){
+  const m=getVatMode();
+  document.querySelectorAll('input[name=vatmode]').forEach(r=>r.checked = (r.value===m));
+  document.getElementById('vatModalMsg').textContent='';
+  document.getElementById('vatModal').classList.add('open');
+}
+function saveVatMode(){
+  const sel=document.querySelector('input[name=vatmode]:checked');
+  if(!sel){ document.getElementById('vatModalMsg').textContent='Pick a mode'; return; }
+  localStorage.setItem('posVatMode', sel.value);
+  vatBtnLabel(); document.getElementById('vatModal').classList.remove('open');
+  saveConfirm('VAT mode set to '+(sel.value==='exclusive'?'Add 15% on top':'Inclusive'), 'Applies to the till on its next reload');
+}
+function addExVatHint(){
+  const ex=document.getElementById('aExVat').checked, price=parseFloat(document.getElementById('aPrice').value);
+  const h=document.getElementById('exVatHint');
+  h.textContent = (ex && !isNaN(price)) ? `Shelf price will be R${(price*1.15).toFixed(2)} (incl. VAT)` : '';
+}
+
+function openAdd(){ document.getElementById('addModal').classList.add('open'); document.getElementById('addMsg').textContent=''; }
+function closeAdd(){ document.getElementById('addModal').classList.remove('open'); ['aName','aCat','aSize','aPrice','aQty','aBrand'].forEach(i=>document.getElementById(i).value=''); document.getElementById('aExVat').checked=false; document.getElementById('exVatHint').textContent=''; }
+
+async function createProduct(){
+  const body = {
+    name: document.getElementById('aName').value.trim(),
+    category: document.getElementById('aCat').value.trim(),
+    size: document.getElementById('aSize').value.trim(),
+    price: parseFloat(document.getElementById('aPrice').value),
+    quantity: parseInt(document.getElementById('aQty').value)||0,
+    brand: document.getElementById('aBrand').value.trim()
+  };
+  const msg = document.getElementById('addMsg');
+  if(!body.name || isNaN(body.price)){ msg.textContent='Name and price are required.'; return; }
+  if(!body.brand){ msg.textContent='Brand is required — pick or type the product’s brand so it links correctly.'; document.getElementById('aBrand').focus(); return; }
+  // Ex-VAT helper: convert the entered price to the inclusive shelf price so the catalogue stays uniform.
+  if(document.getElementById('aExVat').checked){ body.price = Math.round(body.price * 1.15 * 100) / 100; }
+  const appr = await requireApproval(`Add new product “${body.name}”`);
+  if(!appr) return;
+  body.approvalCode = appr.code; body.note = appr.note;
+  msg.textContent='Adding…'; msg.style.color='#9a9a9a';
+  const r = await fetch(`${API}/products/manage/create`, { method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body:JSON.stringify(body) });
+  const d = await r.json();
+  if(d.success && d.persisted){
+    closeAdd(); const s=d.saved||{};
+    saveConfirm(`“${s.name||body.name}” added`, `Price R${s.price??body.price} · Stock ${s.quantity??body.quantity} — approved by ${d.approvedBy||'role'}`);
+    const cat=(s.category||body.category||'').trim().toLowerCase();
+    document.getElementById('search').value='';
+    await load();                          // refetch so the new product is in PRODUCTS
+    if(cat){ OPEN.add(cat); render(); const el=document.querySelector(`.acc[data-cat="${cat}"]`); if(el){ el.classList.add('open'); el.scrollIntoView({behavior:'smooth',block:'center'}); } }
+  }
+  else { msg.style.color='#DC2626'; msg.textContent=d.message||'Failed to add'; }
+}
+
+vatBtnLabel();
+document.getElementById('aPrice').addEventListener('input', addExVatHint);
+if(!token){ document.getElementById('gate').style.display='block'; } else { load(); }
+</script>
+</body>
+</html>

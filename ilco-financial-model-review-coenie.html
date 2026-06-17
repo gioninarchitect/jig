@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ILCO Farming — Financial Model Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    color: #20201c; background: #ffffff; font-size: 11.2px; line-height: 1.5;
+  }
+  .page { padding: 14mm 15mm 16mm; }
+  h1, h2, h3, .lockup, .tagline { font-family: 'Cinzel', Georgia, 'Times New Roman', serif; }
+
+  /* ── Branded header band ── */
+  .band {
+    background: #0A0A0A; color: #F5F0E8; padding: 13mm 15mm 11mm;
+    border-bottom: 3px solid #C9A84C;
+  }
+  .lockup { font-size: 25px; font-weight: 800; letter-spacing: 7px; color: #C9A84C; }
+  .lockup .by { display:block; font-size: 9px; letter-spacing: 4px; color:#A89F8C; font-weight:500; margin-top:3px; }
+  .doc-title { font-family:'Cinzel',Georgia,serif; font-size: 16px; font-weight:600; color:#F5F0E8; margin-top: 9mm; }
+  .doc-sub { color:#C4BBA8; font-size: 10.5px; margin-top: 3px; }
+  .meta { margin-top: 6mm; font-size: 9.5px; color:#8f887b; letter-spacing:.3px; }
+  .meta b { color:#C9A84C; font-weight:600; }
+
+  h2 {
+    font-size: 13.5px; color:#0A0A0A; margin: 7mm 0 2.5mm; font-weight:700;
+    padding-bottom: 2mm; border-bottom: 1px solid #E8D5A3; break-after: avoid;
+  }
+  h2 .n { color:#C9A84C; margin-right: 7px; }
+  p { margin: 0 0 2.6mm; }
+  .lead { font-size: 12.5px; line-height:1.55; color:#2e2e2e; }
+  strong { color:#0A0A0A; }
+  .gold { color:#8B6914; font-weight:600; }
+
+  .callout {
+    background:#FBF7EE; border-left: 3px solid #C9A84C; padding: 4mm 5mm; margin: 3.5mm 0;
+    break-inside: avoid;
+  }
+  .callout.green { border-left-color:#4A7C3F; background:#F2F6EF; }
+
+  table { width:100%; border-collapse: collapse; margin: 3.5mm 0; break-inside:auto; font-size:10.6px; }
+  thead { display: table-header-group; }
+  th { background:#0A0A0A; color:#E8D5A3; text-align:left; padding: 2.6mm 3.5mm; font-weight:600;
+       font-family:'Cinzel',Georgia,serif; letter-spacing:.5px; }
+  td { padding: 2.6mm 3.5mm; border-bottom:1px solid #ECE6D8; vertical-align: top; }
+  tr { break-inside: avoid; }
+  tbody tr:nth-child(even) { background:#FAF6EE; }
+  .num { text-align:right; font-variant-numeric: tabular-nums; white-space:nowrap; }
+  .real { color:#3A6230; font-weight:600; }
+  .assumed { color:#B91C1C; font-weight:600; }
+
+  ol.steps { margin: 2mm 0 2mm; padding-left: 0; counter-reset: s; list-style:none; }
+  ol.steps li { position:relative; padding: 1mm 0 2.5mm 10mm; break-inside:avoid; }
+  ol.steps li::before {
+    counter-increment: s; content: counter(s); position:absolute; left:0; top:0;
+    width: 7mm; height:7mm; background:#C9A84C; color:#0A0A0A; border-radius:50%;
+    font-family:'Cinzel',serif; font-weight:700; font-size:11px; text-align:center; line-height:7mm;
+  }
+  ol.steps li b { color:#0A0A0A; }
+
+  .footer { margin-top: 9mm; padding-top: 3mm; border-top:1px solid #E8D5A3;
+            font-size: 8.8px; color:#8f887b; letter-spacing:.4px; display:flex; justify-content:space-between; }
+  h1,h2,h3 { break-after: avoid; } p, li { orphans:3; widows:3; }
+</style>
+</head>
+<body>
+
+<div class="band">
+  <div class="lockup">ORIGIN<span class="by">BY ILCO FARMING</span></div>
+  <div class="doc-title">Your Financial Model — Plain-English Review &amp; the Way Forward</div>
+  <div class="doc-sub">An honest look at the Brightstar “Business Plan 2025” model, and how we make it real.</div>
+  <div class="meta">PREPARED FOR &nbsp;<b>Coenie &amp; Ilse Venter</b> &nbsp;·&nbsp; 16 June 2026 &nbsp;·&nbsp; Private &amp; Confidential</div>
+</div>
+
+<div class="page">
+
+  <p class="lead">Coenie — you said the figures in the model are what the previous advisor put in, and
+  <strong>definitely not the real numbers</strong>, otherwise the situation today would look different.
+  You’re right. Here is the plain truth of it, and the smart way to fix it — <strong>without you and Ilse
+  ever having to hand your books to anyone.</strong></p>
+
+  <h2><span class="n">1</span>What you already have — the good news</h2>
+  <p>The model itself is <strong>professionally built</strong> (by Brightstar) — and it's much more than a
+  revenue forecast. It's a <strong>complete model of the whole farm</strong>, 10 years out: production and
+  yield by grade, finished-goods stock and what it costs you per kg, debtors and creditors, your buildings
+  and equipment, the loans and the interest, the full profit &amp; loss, balance sheet, cash flow, VAT and
+  tax — and whether you're meeting the bank's covenants. The <strong>engine is sound and the history in it
+  is real.</strong> We're not throwing any of that away — we're going to <strong>feed it the right fuel.</strong></p>
+  <div class="callout">
+    <p style="margin:0;">Think of it as <strong>your whole farm written in numbers</strong> — what grows,
+    what's in stock, what it costs, what you own, what you owe, what you make, and what the taxman and the
+    bank will say. That's exactly why the real numbers matter so much: this one model drives <em>every</em>
+    financial answer about the business.</p>
+  </div>
+
+  <h2><span class="n">2</span>Where it goes wrong — in one picture</h2>
+  <p>The model’s <em>history</em> is real, but the <em>future</em> it then predicts was built on hopeful
+  assumptions — not what your farm actually does. That is the gap you felt:</p>
+
+  <table>
+    <thead><tr><th>The farm’s story</th><th class="num">Revenue</th><th>Profit reality</th></tr></thead>
+    <tbody>
+      <tr><td><span class="real">REAL · 2023 actual</span></td><td class="num">≈ R3.8 million</td><td>Modest profit</td></tr>
+      <tr><td><span class="real">REAL · 2024 actual</span></td><td class="num">≈ R6.5 million</td><td>Roughly <strong>break-even</strong> after costs</td></tr>
+      <tr><td><span class="assumed">ASSUMED · 2025 forecast</span></td><td class="num">≈ R9.8 million</td><td>Profit appears</td></tr>
+      <tr><td><span class="assumed">ASSUMED · 2026 forecast</span></td><td class="num">≈ R25.6 million</td><td>Nearly <strong>4× the best real year</strong></td></tr>
+      <tr><td><span class="assumed">ASSUMED · 2027–2034</span></td><td class="num">flat ≈ R28 million</td><td>Held flat for 7 years</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p style="margin:0;">In plain terms: the model assumes the farm jumps from a <strong>break-even R6.5 million</strong> year
+    straight to <strong>R25.6 million at profit margins more than double anything ILCO has ever achieved</strong> —
+    and then simply holds that line for years. That is a hope, not a forecast.</p>
+  </div>
+
+  <h2><span class="n">3</span>Why this matters</h2>
+  <p>A financial model is the tool a <strong>bank, an investor, or your board</strong> uses to make decisions.
+  Built on guesses, it can quietly point you the wrong way and cost you credibility the moment someone
+  checks it against reality. Built on <strong>your real numbers</strong>, it becomes a weapon — believable,
+  defensible, and it shows the <em>true</em> path to growth instead of a fairy tale.</p>
+
+  <h2><span class="n">4</span>The smart fix — you stay in control of your numbers</h2>
+  <p>You and Ilse <strong>never hand your books to us or anyone else.</strong> Instead, we give you a simple,
+  private, step-by-step form where <strong>you</strong> enter your own real figures. And here is the clever part:</p>
+
+  <ol class="steps">
+    <li><b>It pre-fills what we already know.</b> Your new farm system (going live this week) and the Origin
+    till already capture production, harvest and sales — so those lines are filled in for you automatically.</li>
+    <li><b>You only add the confidential bits.</b> The private financial lines — your real costs, loans and
+    accounts — you type in yourself, on your own screen. They stay yours.</li>
+    <li><b>It rebuilds the model instantly</b> on those real numbers, ready for the bank or the board.</li>
+  </ol>
+
+  <p>Because the model covers the <strong>whole farm</strong>, most of it fills itself in from the system
+  that's now running the farm and the shop. Here is the clean split — the operational side fills in by
+  itself; only the private money side is yours to enter:</p>
+
+  <table>
+    <thead><tr><th>The system fills this in automatically</th><th>You enter privately (stays yours)</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>What's grown &amp; harvested — yield by grade (A / B / Pops / Trim), clones</td>
+        <td>Your real selling prices &amp; sales terms</td>
+      </tr>
+      <tr>
+        <td>What's in stock — finished-goods on hand, what it cost to make per kg</td>
+        <td>Real production &amp; operating costs (labour, inputs, overheads)</td>
+      </tr>
+      <tr>
+        <td>What's sold — Origin till &amp; online orders, money in</td>
+        <td>The loans — drawdowns, repayments, interest, the bank's terms</td>
+      </tr>
+      <tr>
+        <td>Who owes you / debtors &amp; creditors as the orders flow</td>
+        <td>Shareholders &amp; equity — capital in, dividends out</td>
+      </tr>
+      <tr>
+        <td>The assets on the ground — buildings &amp; equipment in use</td>
+        <td>Anything confidential you'd rather not put in front of the team</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>From those two sides together the model builds the rest by itself — the <strong>full profit &amp; loss,
+  balance sheet, cash flow, VAT and tax, and the bank-covenant checks</strong>. That is the whole farm's
+  operations and finances in one living picture, and you only ever touched the private money side.</p>
+
+  <div class="callout green">
+    <p style="margin:0;"><strong>The bonus — it stays alive.</strong> Because the farm system goes live this week
+    (the site commissioning and the staff training on FM, Cultivation, Processing and QA), your real numbers
+    start flowing in from day one. The model stops being a once-off snapshot that goes stale on a shelf — it
+    becomes a <strong>living picture that updates as the farm runs.</strong></p>
+  </div>
+
+  <h2><span class="n">5</span>Where it lives — right inside your dashboard</h2>
+  <p>This isn't a spreadsheet sitting on someone's laptop. The model plugs straight into <strong>your owner
+  dashboard</strong> — the same screen that shows you the farm and the shop:</p>
+  <ol class="steps">
+    <li><b>The model and your dashboard read the same numbers.</b> What's grown, harvested and sold flows
+    in from one place — so the forecast and the live business never disagree.</li>
+    <li><b>You see your forecast live</b> — revenue, profit, cash, and whether you're meeting the bank's
+    terms — sitting right next to the rest of the business, not in a separate file.</li>
+    <li><b>It warns you when reality drifts off the plan</b> — so the forecast can never quietly go stale
+    on a shelf the way the old one did.</li>
+    <li><b>One button for the bank or board</b> — it produces a clean, branded Excel/PDF from the same real
+    numbers whenever you need it.</li>
+  </ol>
+
+  <h2><span class="n">6</span>What we need from you to start</h2>
+  <p>Only a few things, all entered <strong>privately by you</strong> — never shared with the team:
+  your latest management accounts, your real monthly cost and loan figures, and a quick confirmation
+  that this private, self-load approach is the way you’d like to go. We handle the rest.</p>
+
+  <div class="footer">
+    <span>ORIGIN &nbsp;·&nbsp; by ILCO Farming</span>
+    <span>Private &amp; Confidential &nbsp;·&nbsp; Prepared 16 June 2026 &nbsp;·&nbsp; for Coenie &amp; Ilse Venter</span>
+  </div>
+
+</div>
+</body>
+</html>

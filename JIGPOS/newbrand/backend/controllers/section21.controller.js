@@ -175,6 +175,9 @@ const upload = async (req, res) => {
       userAgent: req.get('user-agent')
     });
 
+    // Reflect on the patient account that a document is awaiting review.
+    if (userId) await User.findByIdAndUpdate(userId, { section21Status: 'pending' });
+
     res.status(201).json({
       message: 'Section 21 document uploaded successfully. Awaiting admin approval.',
       document
@@ -218,6 +221,9 @@ const adminApprove = async (req, res) => {
       return res.status(404).json({ error: 'Document not found' });
     }
 
+    // Sync the patient's account so the medical gate (cart/checkout) reflects the approval.
+    if (document.userId) await User.findByIdAndUpdate(document.userId, { section21Status: 'approved' });
+
     res.json({
       message: 'Section 21 document approved. User can now access medical cannabis products.',
       document
@@ -248,6 +254,8 @@ const adminReject = async (req, res) => {
     if (!document) {
       return res.status(404).json({ error: 'Document not found' });
     }
+
+    if (document.userId) await User.findByIdAndUpdate(document.userId, { section21Status: 'rejected' });
 
     res.json({
       message: 'Section 21 document rejected.',

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Something went wrong</title>
+<link rel="icon" type="image/png" href="/images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --ink:#0A0A0A; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{ font-family:'Inter',sans-serif; background:radial-gradient(circle at 50% 30%, #1f1a10 0%, #0A0A0A 70%); color:#F2ECDD;
+        min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; }
+  .card{ max-width:440px; width:100%; }
+  .logo{ width:88px; height:88px; border-radius:24px; object-fit:contain; background:rgba(201,168,76,.08); padding:14px; margin:0 auto 22px; display:block; border:1px solid rgba(201,168,76,.25); }
+  .brand{ font-family:'Cinzel'; letter-spacing:5px; color:var(--gold); font-size:1.5rem; }
+  .sub{ color:#8a8472; letter-spacing:5px; font-size:.7rem; text-transform:uppercase; margin-top:4px; }
+  .rule{ width:60px; height:3px; background:var(--gold); margin:26px auto; border-radius:2px; }
+  h1{ font-family:'Cinzel'; font-size:1.5rem; margin-bottom:10px; }
+  p{ color:#b8b1a0; line-height:1.6; font-size:.98rem; }
+  .code{ display:inline-block; margin-top:18px; font-family:'Inter'; font-size:.72rem; letter-spacing:2px; color:#6f6a5d; text-transform:uppercase; }
+  .actions{ margin-top:30px; display:flex; flex-direction:column; gap:12px; }
+  .btn{ display:block; width:100%; padding:16px; border-radius:14px; font-weight:700; font-size:1rem; text-decoration:none; cursor:pointer; border:none; transition:transform .12s, background .15s; }
+  .btn:active{ transform:scale(.98); }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; }
+  .btn-gold:hover{ background:#d8b85e; }
+  .btn-ghost{ background:transparent; color:#cfc6ad; border:1px solid rgba(201,168,76,.35); }
+  .btn-ghost:hover{ background:rgba(201,168,76,.1); }
+  .help{ margin-top:22px; color:#6f6a5d; font-size:.78rem; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <img class="logo" src="/images/origin-logo.png" alt="Origin" onerror="this.style.display='none'">
+    <div class="brand">ORIGIN</div>
+    <div class="sub">by ILCO</div>
+    <div class="rule"></div>
+    <h1>This page needs a sign-in</h1>
+    <p>You don't have access to open this page directly, or your session has ended. No problem — head back to the POS and carry on.</p>
+    <div class="actions">
+      <a class="btn btn-gold" href="/pos.html">← Back to POS</a>
+      <button class="btn btn-ghost" onclick="location.reload()">Try again</button>
+    </div>
+    <div class="code" id="code"></div>
+    <div class="help">If this keeps happening, contact your manager or IT support.</div>
+  </div>
+<script>
+  // Surface the status code if nginx passed it via query (?code=401) — purely informational.
+  var m = location.search.match(/code=(\d{3})/);
+  if(m){ document.getElementById('code').textContent = 'Error ' + m[1]; }
+</script>
+</body>
+</html>

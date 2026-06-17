@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GH1 GridView — Bay / Row / Subrow (lengthwise) · ORIGIN by ILCO</title>
+<style>
+  :root{--black:#0A0A0A;--dark:#141414;--gold:#C9A84C;--gold-bright:#D4B86A;--grey:#A89F8C;--white:#F5F0E8;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--black);color:var(--white);font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
+  .wrap{max-width:1040px;margin:0 auto;padding:26px 18px 60px;}
+  .brand{font-weight:800;letter-spacing:.3em;font-size:22px;color:var(--gold);}
+  .brand small{display:block;letter-spacing:.32em;font-size:9px;color:var(--grey);font-weight:600;margin-top:3px;}
+  h1{font-size:20px;margin:18px 0 2px;}
+  .sub{color:var(--grey);font-size:13px;margin-bottom:14px;}
+  .legend{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px;}
+  .chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#0A0A0A;font-weight:700;padding:3px 9px;border-radius:999px;}
+  .bay{background:var(--dark);border:1px solid #262626;border-radius:14px;padding:14px 16px;margin:16px 0;}
+  .bay h2{font-size:14px;margin:0 0 4px;color:var(--gold-bright);letter-spacing:.04em;}
+  .baymeta{font-size:10.5px;color:#6a6356;margin-bottom:12px;}
+  .lengthbar{display:flex;justify-content:space-between;font-size:9px;color:#5a5a5a;letter-spacing:.1em;margin:0 0 6px 70px;text-transform:uppercase;}
+  .rowgrp{margin-bottom:12px;}
+  .rowlbl{font-size:11px;color:var(--grey);font-weight:700;margin:0 0 3px 70px;}
+  .lane{display:grid;grid-template-columns:70px 1fr;gap:8px;align-items:center;margin-bottom:4px;}
+  .lanetag{font-size:10px;color:#7a7468;text-align:right;font-weight:600;}
+  .strip{height:24px;border-radius:6px;display:flex;align-items:center;padding:0 10px;font-size:11px;font-weight:700;color:#0A0A0A;border:1px solid rgba(0,0,0,.25);position:relative;overflow:hidden;}
+  .strip .cnt{margin-left:auto;font-size:9.5px;font-weight:600;opacity:.75;}
+  .empty{background:#1c1c1c;color:#5a5a5a;border:1px dashed #333;font-weight:600;}
+  .flag{outline:2px solid #F8C242;outline-offset:-2px;}
+  .mixedstrip{height:auto;min-height:24px;background:#241e0e;border:1px solid #6b551f;color:#E8D5A3;font-size:10.5px;font-weight:600;padding:6px 10px;border-radius:6px;line-height:1.4;}
+  /* segmented strip for fractional rows */
+  .seg{height:24px;border-radius:6px;display:flex;overflow:hidden;border:1px solid rgba(0,0,0,.25);}
+  .seg > div{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#0A0A0A;border-right:1px solid rgba(0,0,0,.2);}
+  .key{margin-top:18px;font-size:12px;color:var(--grey);}
+  .key b{color:#F8C242;}
+  .foot{margin-top:26px;padding-top:12px;border-top:1px solid #222;color:#6a6356;font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <h1>GH1 GridView — lengthwise lanes <span style="font-size:12px;color:#A89F8C">(VEG · 3 bays · 4 rows × 4 subrows)</span></h1>
+  <div class="sub">Bays run <b>long</b>; each row = 4 <b>subrows</b> = long parallel lanes down the bay's length. Plants run along each lane. <span style="color:#F8C242">■ Gold = confirm.</span></div>
+
+  <div class="legend" id="legend"></div>
+  <div id="grid"></div>
+
+  <div class="key">
+    <b>Confirm:</b> Bay 2 Row 2 (Elvis sub1–2 / KB sub3–4?) · Bay 2 Row 4 "Subr01" strain? · Bay 3 Row 2 (HD/HE/GP/Sunday Driver — one per subrow?) · Bay 1 Rows 2–4 strains? · Bay 3 Row 4 R&D mix (split into subrows by count?). &nbsp; Also confirm <b>plants per subrow = 130</b> (4 × 130 = 520/row).
+  </div>
+
+  <div class="foot">
+    <span>ORIGIN · by ILCO Farming — GH1 GridView (lengthwise)</span>
+    <span>tntilco.cleva-ai.co.za · 16 June 2026 · Private &amp; Confidential</span>
+  </div>
+</div>
+
+<script>
+const COLORS = {
+  'SL':'#7CC47C','KB':'#D4B86A','Heady Eddy':'#5FC9C0','Heady Daddy':'#B68BD4','Elvis':'#E58BA0',
+  'GP':'#7FA8E5','Sunday Driver':'#F0A65A','Keke':'#6FD0E0','Avro Banana':'#E8D86A','Old Cheese':'#B7B05A',
+  'Cereal Milk':'#E0C9A8','DP':'#C08A6A','Higher Primate':'#D46AB0','Subr01?':'#888'
+};
+document.getElementById('legend').innerHTML = Object.keys(COLORS).map(s=>
+  `<span class="chip" style="background:${COLORS[s]}">${s}</span>`).join('');
+
+// Each row = 4 subrows. A subrow is either a strain string, '' (empty), or
+// {seg:[[strain,frac],...]} for a fractional lane.
+const BAYS = [
+  { name:'Bay 1', note:'clean — single strain', rows:[
+    ['SL','SL','SL','SL'],
+    ['','','',''],
+    ['','','',''],
+    ['','','',''],
+  ]},
+  { name:'Bay 2', note:'⚠ multi-strain culprit', flagRows:[1,3], rows:[
+    ['KB','KB','KB','KB'],
+    ['Elvis','Elvis','KB','KB'],
+    ['Heady Eddy','Heady Eddy','Heady Eddy','Heady Eddy'],
+    ['Subr01?','Subr01?','Subr01?','Subr01?'],
+  ]},
+  { name:'Bay 3', note:'⚠ multi-strain culprit', flagRows:[1,2,3], rows:[
+    ['SL','SL','SL','SL'],
+    ['Heady Daddy','Heady Eddy','GP','Sunday Driver'],
+    ['Elvis','Heady Eddy','Heady Eddy','SL'],
+    {mixed:'R&D mix → Keke ×6 · Heady Daddy ×21 · Avro Banana · Sunday Driver ×2 · Old Cheese ×2 · Cereal Milk ×3 · SL ×1 · DP ×7 · Higher Primate ×8'},
+  ]},
+];
+
+const grid=document.getElementById('grid');
+BAYS.forEach(bay=>{
+  const card=document.createElement('div'); card.className='bay';
+  card.innerHTML=`<h2>${bay.name}</h2><div class="baymeta">${bay.note} · 4 rows × 4 subrows · lanes run the bay length →</div>`;
+  bay.rows.forEach((row,ri)=>{
+    const grp=document.createElement('div'); grp.className='rowgrp';
+    grp.innerHTML=`<div class="rowlbl">Row ${ri+1}</div>`;
+    const flag = bay.flagRows && bay.flagRows.includes(ri);
+    if(row.mixed){
+      const lane=document.createElement('div'); lane.className='lane';
+      lane.innerHTML=`<div class="lanetag">Row ${ri+1}</div><div class="mixedstrip flag">${row.mixed}</div>`;
+      grp.appendChild(lane);
+    } else {
+      row.forEach((strain,si)=>{
+        const lane=document.createElement('div'); lane.className='lane';
+        const empty = !strain;
+        const col = COLORS[strain]||'#888';
+        lane.innerHTML=`<div class="lanetag">Subrow ${si+1}</div>`+
+          (empty
+            ? `<div class="strip empty ${flag?'flag':''}">— set strain —</div>`
+            : `<div class="strip ${flag?'flag':''}" style="background:${col}">${strain}<span class="cnt">~130 plants</span></div>`);
+        grp.appendChild(lane);
+      });
+    }
+    card.appendChild(grp);
+  });
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>

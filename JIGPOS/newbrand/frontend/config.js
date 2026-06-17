@@ -39,3 +39,18 @@ const Origin_CONFIG = {
 var API_URL = Origin_CONFIG.API_URL;
 var DEV_MODE = Origin_CONFIG.DEV_MODE;
 var VAT_RATE = Origin_CONFIG.VAT_RATE;
+
+// ===== Single source of truth for VAT maths (so it can never drift across cart/checkout/slip) =====
+// Mode: 'inclusive' (default — shelf prices already include VAT, SA CPA) or 'exclusive' (add VAT on top).
+function getVatMode() { return localStorage.getItem('posVatMode') || 'inclusive'; }
+function setVatMode(m) { localStorage.setItem('posVatMode', m === 'exclusive' ? 'exclusive' : 'inclusive'); }
+// Given the summed shelf prices (price × qty), return { net, vat, total }.
+function vatBreakdown(sumOfPrices) {
+  const s = Number(sumOfPrices) || 0;
+  if (getVatMode() === 'exclusive') {
+    const vat = s * VAT_RATE;
+    return { net: s, vat: vat, total: s + vat };
+  }
+  const vat = s - (s / (1 + VAT_RATE));
+  return { net: s - vat, vat: vat, total: s };
+}

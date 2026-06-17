@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin Design System</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#C9A84C; --gold-d:#8B6914; --gold-bright:#D4B86A; --gold-light:#E8D5A3;
+    --ink:#0A0A0A; --panel:#15130d; --dark:#141414; --dark2:#1C1C1C; --line:#2a2620;
+    --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --red:#DC2626; --amber:#F59E0B;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',sans-serif; background:#070707; color:var(--txt); line-height:1.6; }
+  .toolbar{ position:fixed; top:14px; right:14px; z-index:50; }
+  .toolbar button{ background:var(--gold); color:#1a1a1a; border:none; padding:11px 18px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.4); }
+  .hero{ text-align:center; padding:56px 20px 30px; background:radial-gradient(circle at 50% 0%, #1f1a10, #070707 70%); }
+  .hero img{ width:66px; margin-bottom:14px; }
+  .brand{ font-family:'Cinzel'; letter-spacing:6px; color:var(--gold); font-size:1.5rem; }
+  .sub{ color:#8a8472; letter-spacing:5px; font-size:.7rem; text-transform:uppercase; margin-top:4px; }
+  h1{ font-family:'Cinzel'; color:#fff; font-size:2rem; margin-top:16px; }
+  .hero p{ color:var(--grey); max-width:560px; margin:12px auto 0; }
+  .page{ max-width:920px; margin:0 auto; padding:0 22px 80px; }
+  .nav{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:24px 0 8px; }
+  .nav a{ color:#cfc6ad; background:#1d1a12; border:1px solid var(--line); border-radius:20px; padding:7px 13px; font-size:.78rem; text-decoration:none; }
+  .nav a:hover{ border-color:var(--gold); color:var(--gold); }
+  h2.sec{ font-family:'Cinzel'; color:var(--gold); font-size:1.4rem; margin:46px 0 4px; padding-top:10px; }
+  .sec-note{ color:var(--grey); font-size:.88rem; margin-bottom:18px; }
+  .panel{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px; margin-bottom:14px; }
+  /* palette */
+  .swatches{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; }
+  .sw{ border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .sw .chip{ height:64px; } .sw .meta{ padding:9px 11px; background:var(--panel); }
+  .sw .nm{ font-size:.82rem; color:#fff; } .sw .hex{ font-family:'JetBrains Mono'; font-size:.74rem; color:var(--grey); }
+  /* type */
+  .type-row{ display:flex; align-items:baseline; gap:16px; padding:12px 0; border-bottom:1px solid #211d16; flex-wrap:wrap; }
+  .type-row .tag{ font-family:'JetBrains Mono'; font-size:.72rem; color:var(--gold-d); width:170px; flex-shrink:0; }
+  .disp{ font-family:'Cinzel'; color:#fff; } .ui{ font-family:'Inter'; color:var(--txt); } .mono{ font-family:'JetBrains Mono'; color:var(--gold); }
+  /* components */
+  .btn{ background:#222; color:var(--txt); border:none; border-radius:9px; padding:10px 16px; font-weight:700; cursor:pointer; font-size:.84rem; }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; }
+  .btn-ghost{ background:transparent; border:1px solid var(--line); color:#cfc6ad; }
+  .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .pill{ font-size:.7rem; padding:4px 11px; border-radius:20px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; }
+  .pill.ok{ background:rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.4); color:var(--green); }
+  .pill.warn{ background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.4); color:var(--amber); }
+  .pill.bad{ background:rgba(220,38,38,.12); border:1px solid rgba(220,38,38,.4); color:var(--red); }
+  .pill.gold{ background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.4); color:var(--gold); }
+  .inp{ padding:11px; background:#1d1d1d; border:1px solid var(--line); border-radius:9px; color:#fff; width:200px; }
+  table.demo{ width:100%; border-collapse:collapse; margin-top:4px; }
+  table.demo th{ text-align:left; color:var(--gold-d); font-size:.72rem; text-transform:uppercase; letter-spacing:.5px; padding:9px 10px; border-bottom:1px solid var(--line); }
+  table.demo td{ padding:9px 10px; border-bottom:1px solid #211d16; font-size:.9rem; }
+  table.demo td.num{ text-align:right; font-family:'JetBrains Mono'; }
+  .statcard{ background:#100e09; border:1px solid var(--line); border-radius:14px; padding:16px 18px; display:inline-block; }
+  .statcard .v{ font-family:'Cinzel'; font-size:1.6rem; color:var(--gold); } .statcard .l{ color:var(--grey); font-size:.72rem; text-transform:uppercase; letter-spacing:1px; }
+  /* icons */
+  .igrid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:10px; }
+  .ic{ background:#100e09; border:1px solid var(--line); border-radius:12px; padding:14px 6px 9px; text-align:center; }
+  .ic svg{ width:26px; height:26px; stroke:var(--gold); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+  .ic .nm{ color:var(--grey); font-size:.66rem; margin-top:8px; }
+  /* do/dont + sub-brands */
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .do{ border:1px solid rgba(34,197,94,.3); border-radius:12px; padding:16px; } .do h4{ color:var(--green); margin-bottom:8px; font-size:.9rem; }
+  .dont{ border:1px solid rgba(220,38,38,.3); border-radius:12px; padding:16px; } .dont h4{ color:var(--red); margin-bottom:8px; font-size:.9rem; }
+  .do ul,.dont ul{ list-style:none; } .do li,.dont li{ font-size:.86rem; color:#d8d2c2; padding:4px 0 4px 18px; position:relative; }
+  .do li:before{ content:'—'; position:absolute; left:0; color:var(--green); } .dont li:before{ content:'—'; position:absolute; left:0; color:var(--red); }
+  .sbrand{ display:flex; gap:14px; align-items:flex-start; padding:14px 0; border-bottom:1px solid #211d16; }
+  .sbrand .dot{ width:12px; height:12px; border-radius:50%; margin-top:6px; flex-shrink:0; }
+  .sbrand b{ color:#fff; } .sbrand p{ color:var(--grey); font-size:.88rem; }
+  .foot{ text-align:center; color:#6f6a5d; font-size:.78rem; margin-top:46px; border-top:1px solid var(--line); padding-top:18px; }
+  code{ font-family:'JetBrains Mono'; background:#000; color:var(--gold); padding:2px 7px; border-radius:6px; font-size:.82rem; }
+  @media print{ *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; } @page{ size:A4; margin:0; } .toolbar,.nav{ display:none; } .panel,.sbrand{ break-inside:avoid; } }
+  @media(max-width:580px){ .two{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div id="originGate" style="position:fixed;inset:0;background:#070707;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;font-family:'Inter',sans-serif;">
+  <div style="background:#15130d;border:1px solid #8B6914;border-radius:18px;padding:32px 28px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);">
+    <img src="images/origin-logo.png" style="width:56px;margin-bottom:14px;" onerror="this.style.display='none'">
+    <div style="font-family:'Cinzel',serif;letter-spacing:6px;color:#C9A84C;font-size:1.25rem;">ORIGIN</div>
+    <div style="color:#8a8472;letter-spacing:4px;font-size:.66rem;text-transform:uppercase;margin:5px 0 22px;">Internal · Restricted</div>
+    <input id="ogPass" type="password" placeholder="Passphrase" style="width:100%;padding:13px;background:#1d1d1d;border:1px solid #2a2620;border-radius:11px;color:#fff;text-align:center;letter-spacing:3px;outline:none;" onkeydown="if(event.key==='Enter')ogCheck()">
+    <div id="ogErr" style="color:#DC2626;font-size:.8rem;min-height:18px;margin-top:9px;"></div>
+    <button onclick="ogCheck()" style="width:100%;background:#C9A84C;color:#1a1a1a;border:none;border-radius:11px;padding:13px;font-weight:700;cursor:pointer;font-size:.9rem;">Enter</button>
+  </div>
+</div>
+<script>
+function ogCheck(){var v=(document.getElementById('ogPass').value||'').trim().toLowerCase();if(v==='origin2026'){try{sessionStorage.setItem('ogGate','ok')}catch(e){}document.getElementById('originGate').remove();}else{document.getElementById('ogErr').textContent='Incorrect passphrase';}}
+try{if(sessionStorage.getItem('ogGate')==='ok'){var g=document.getElementById('originGate');if(g)g.remove();}}catch(e){}
+</script>
+<div class="toolbar"><button onclick="window.print()">Save as PDF</button></div>
+
+<div class="hero">
+  <img src="images/origin-logo.png" alt="Origin" onerror="this.style.display='none'">
+  <div class="brand">ORIGIN</div><div class="sub">Design System</div>
+  <h1>One brand, every surface</h1>
+  <p>The single source of truth for how Origin looks, reads and behaves — across the POS, reports, Botanica, the patient portal and the TnT farm platform. Gold on dark. Considered, clinical, warm.</p>
+  <div class="nav">
+    <a href="#essence">Essence</a><a href="#logo">Logo</a><a href="#colour">Colour</a><a href="#type">Type</a>
+    <a href="#icons">Icons</a><a href="#components">Components</a><a href="#voice">Voice</a><a href="#architecture">Sub-brands</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <h2 class="sec" id="essence">01 · Brand essence</h2>
+  <div class="sec-note">What Origin feels like before a single word is read.</div>
+  <div class="panel">
+    <div class="row" style="gap:18px;">
+      <div style="flex:1;min-width:200px;"><b style="color:#fff;font-family:'Cinzel'">Considered</b><p style="color:var(--grey);font-size:.9rem;">Nothing accidental. Generous spacing, restrained palette, intentional hierarchy.</p></div>
+      <div style="flex:1;min-width:200px;"><b style="color:#fff;font-family:'Cinzel'">Clinical</b><p style="color:var(--grey);font-size:.9rem;">Medical-grade trust. Precise numbers, clear states, audit-ready.</p></div>
+      <div style="flex:1;min-width:200px;"><b style="color:#fff;font-family:'Cinzel'">Warm</b><p style="color:var(--grey);font-size:.9rem;">Gold, not chrome. Earthy, single-origin, human — never cold tech.</p></div>
+    </div>
+  </div>
+
+  <h2 class="sec" id="logo">02 · Logo</h2>
+  <div class="sec-note">The mark, with room to breathe.</div>
+  <div class="panel row" style="gap:30px;">
+    <div style="text-align:center;"><img src="images/origin-logo.png" style="width:80px;" onerror="this.style.display='none'"><div style="color:var(--grey);font-size:.74rem;margin-top:8px;">On dark — primary</div></div>
+    <div style="text-align:center;"><div style="background:#F2ECDD;border-radius:12px;padding:18px;"><img src="images/origin-logo.png" style="width:64px;" onerror="this.style.display='none'"></div><div style="color:var(--grey);font-size:.74rem;margin-top:8px;">On light — secondary</div></div>
+    <div style="flex:1;min-width:220px;color:var(--grey);font-size:.88rem;">
+      Clear space ≥ the height of the mark on all sides. Never stretch, recolour, add shadows, or place on a busy photo without a scrim. Wordmark sets in <b style="color:var(--gold);font-family:'Cinzel'">Cinzel</b>, letter-spacing 5–6px, uppercase.
+    </div>
+  </div>
+
+  <h2 class="sec" id="colour">03 · Colour</h2>
+  <div class="sec-note">Gold is the only accent. Everything else is structure, ink and state.</div>
+  <div class="panel">
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#C9A84C"></div><div class="meta"><div class="nm">Gold — primary</div><div class="hex">#C9A84C</div></div></div>
+      <div class="sw"><div class="chip" style="background:#D4B86A"></div><div class="meta"><div class="nm">Gold bright</div><div class="hex">#D4B86A</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E8D5A3"></div><div class="meta"><div class="nm">Gold light</div><div class="hex">#E8D5A3</div></div></div>
+      <div class="sw"><div class="chip" style="background:#8B6914"></div><div class="meta"><div class="nm">Gold muted</div><div class="hex">#8B6914</div></div></div>
+      <div class="sw"><div class="chip" style="background:#070707"></div><div class="meta"><div class="nm">Black</div><div class="hex">#070707 / #0A0A0A</div></div></div>
+      <div class="sw"><div class="chip" style="background:#15130d"></div><div class="meta"><div class="nm">Panel</div><div class="hex">#15130d</div></div></div>
+      <div class="sw"><div class="chip" style="background:#2a2620"></div><div class="meta"><div class="nm">Line / border</div><div class="hex">#2a2620</div></div></div>
+      <div class="sw"><div class="chip" style="background:#F2ECDD"></div><div class="meta"><div class="nm">Text</div><div class="hex">#F2ECDD</div></div></div>
+      <div class="sw"><div class="chip" style="background:#9a9486"></div><div class="meta"><div class="nm">Muted text</div><div class="hex">#9a9486</div></div></div>
+      <div class="sw"><div class="chip" style="background:#22C55E"></div><div class="meta"><div class="nm">Success</div><div class="hex">#22C55E</div></div></div>
+      <div class="sw"><div class="chip" style="background:#F59E0B"></div><div class="meta"><div class="nm">Warning</div><div class="hex">#F59E0B</div></div></div>
+      <div class="sw"><div class="chip" style="background:#DC2626"></div><div class="meta"><div class="nm">Danger</div><div class="hex">#DC2626</div></div></div>
+    </div>
+  </div>
+
+  <h2 class="sec" id="type">04 · Typography</h2>
+  <div class="sec-note">Three voices: a display serif, a UI sans, a data mono.</div>
+  <div class="panel">
+    <div class="type-row"><div class="tag">Cinzel · display</div><div class="disp" style="font-size:1.8rem;">Origin by ILCO</div></div>
+    <div class="type-row"><div class="tag">Cinzel · section</div><div class="disp" style="font-size:1.3rem;color:var(--gold);">Takings Report</div></div>
+    <div class="type-row"><div class="tag">Inter · body</div><div class="ui">The quick brown fox — UI labels, paragraphs, buttons. 300–700.</div></div>
+    <div class="type-row"><div class="tag">Inter · caption</div><div class="ui" style="font-size:.8rem;color:var(--grey);text-transform:uppercase;letter-spacing:1px;">Total takings</div></div>
+    <div class="type-row"><div class="tag">JetBrains Mono · data</div><div class="mono" style="font-size:1.2rem;">R 2,176.10</div></div>
+  </div>
+
+  <h2 class="sec" id="icons">05 · Icon series</h2>
+  <div class="sec-note">Custom line icons on a 24×24 grid, 1.6 stroke, round caps. <b style="color:var(--amber)">Never emoji.</b> Full set in <code>origin-icons.html</code>.</div>
+  <div class="panel"><div class="igrid" id="igrid"></div></div>
+
+  <h2 class="sec" id="components">06 · Components</h2>
+  <div class="sec-note">Live examples — copy the patterns, don't reinvent them.</div>
+  <div class="panel">
+    <div style="color:var(--grey);font-size:.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Buttons</div>
+    <div class="row"><button class="btn btn-gold">Primary</button><button class="btn">Secondary</button><button class="btn-ghost btn">Ghost</button></div>
+    <div style="color:var(--grey);font-size:.78rem;text-transform:uppercase;letter-spacing:1px;margin:22px 0 10px;">Badges / states</div>
+    <div class="row"><span class="pill gold">Brand</span><span class="pill ok">Reconciled</span><span class="pill warn">Draft</span><span class="pill bad">Variance</span></div>
+    <div style="color:var(--grey);font-size:.78rem;text-transform:uppercase;letter-spacing:1px;margin:22px 0 10px;">Inputs</div>
+    <div class="row"><input class="inp" placeholder="Search name, SKU…"><button class="btn btn-gold">Run</button></div>
+    <div style="color:var(--grey);font-size:.78rem;text-transform:uppercase;letter-spacing:1px;margin:22px 0 10px;">Stat card &amp; table</div>
+    <div class="row" style="align-items:flex-start;">
+      <div class="statcard"><div class="v">R 2,176</div><div class="l">Total takings</div></div>
+      <table class="demo" style="flex:1;min-width:240px;">
+        <tr><th>Date</th><th class="num">Sales</th><th class="num">Tx</th></tr>
+        <tr><td>3 Jun</td><td class="num">R 802.00</td><td class="num">3</td></tr>
+        <tr><td>5 Jun</td><td class="num">R 740.00</td><td class="num">4</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h2 class="sec" id="voice">07 · Voice &amp; do / don't</h2>
+  <div class="sec-note">Plain, warm, precise. Speak to a busy store owner, not a developer.</div>
+  <div class="two">
+    <div class="do"><h4>Do</h4><ul>
+      <li>Lead with the number that matters, then explain.</li>
+      <li>Use the Origin Icon Series for every glyph.</li>
+      <li>Say "Saved" / "Reconciled" — short, human, definite.</li>
+      <li>Flag regulated claims as <b>VERIFY</b> until signed off.</li>
+    </ul></div>
+    <div class="dont"><h4>Don't</h4><ul>
+      <li>No emoji. Ever. (🌿 ✓ ✉ → use the icon set.)</li>
+      <li>No second accent colour competing with gold.</li>
+      <li>No jargon, no "please try again later".</li>
+      <li>No unverified medical/CBD claims in shipped copy.</li>
+    </ul></div>
+  </div>
+
+  <h2 class="sec" id="architecture">08 · Sub-brand architecture</h2>
+  <div class="sec-note">One design system, several surfaces — all share the palette, type and icons.</div>
+  <div class="panel">
+    <div class="sbrand"><div class="dot" style="background:var(--gold)"></div><div><b>Origin Retail</b> — the POS, stock sheet, takings reports, day-end. Operational, dense, number-first.<p></p></div></div>
+    <div class="sbrand"><div class="dot" style="background:var(--green)"></div><div><b>Origin Botanica</b> — the farm-to-skin cosmetic range. Same gold, warmer/botanical accents, lifestyle photography.<p></p></div></div>
+    <div class="sbrand"><div class="dot" style="background:#6FA86F"></div><div><b>Origin Medical / Patient Portal</b> — Section 21, prescriptions, pharmacist review. Clinical, calm, compliance-led.<p></p></div></div>
+    <div class="sbrand"><div class="dot" style="background:var(--amber)"></div><div><b>TnT-ZA (farm platform)</b> — track &amp; trace, batches, compliance. Same tokens, JetBrains Mono-forward for data density.<p></p></div></div>
+  </div>
+
+  <div class="foot">Origin Design System · by ILCO · Potchefstroom — living document. Tokens shared across the POS, Botanica, Patient Portal &amp; TnT. Pair with <code>origin-icons.html</code>.</div>
+</div>
+
+<script>
+// Mirror a representative slice of the Origin Icon Series here.
+const ICONS = {
+  download:'<path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 20h16"/>',
+  email:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/>',
+  report:'<rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M9 9h6M9 12.5h6M9 16h4"/>',
+  cart:'<circle cx="9.5" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/><path d="M3 4h2l2.2 11h10l1.8-8H6"/>',
+  till:'<rect x="3.5" y="9" width="17" height="10" rx="2"/><path d="M7 9V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3"/><path d="M8.5 14h7"/>',
+  card:'<rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M3 10h18M6.5 14.5h4"/>',
+  leaf:'<path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14z"/><path d="M5 19c4-4 7-7 11-9"/>',
+  balm:'<path d="M7 9h10v8a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3V9z"/><path d="M8 9V7a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+  flask:'<path d="M10 3h4M10.5 3v6l-4.5 8a2 2 0 0 0 1.8 3h8.4a2 2 0 0 0 1.8-3L13.5 9V3"/><path d="M8 15h8"/>',
+  seedling:'<path d="M12 20v-7"/><path d="M12 13C12 9 9 7 5 7c0 4 3 6 7 6z"/><path d="M12 11c0-3 2.5-5 6-5 0 3.5-2.5 5-6 5z"/>',
+  batch:'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+  shield:'<path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3z"/><path d="m9 12 2 2 4-4.5"/>'
+};
+const g=document.getElementById('igrid');
+for(const [n,inner] of Object.entries(ICONS)){ const c=document.createElement('div'); c.className='ic'; c.innerHTML=`<svg viewBox="0 0 24 24">${inner}</svg><div class="nm">${n}</div>`; g.appendChild(c); }
+</script>
+</body>
+</html>

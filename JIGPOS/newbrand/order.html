@@ -956,8 +956,10 @@
                 clearCartAfterOrder();
 
                 showSuccessModal(orderNumber, shippingText);
+            } else if (data.code === 'SECTION21_REQUIRED') {
+                showSection21Required(data);
             } else {
-                showToast('Order creation failed. Please try again.', 'error');
+                showToast(data.message || 'Order creation failed. Please try again.', 'error');
             }
         })
         .catch(error => {
@@ -983,6 +985,33 @@
     }
     
     // Show success modal
+    function showSection21Required(data) {
+        const items = (data.medicalItems || []).map(n => `<li>${n}</li>`).join('');
+        let el = document.getElementById('s21Modal');
+        if (el) el.remove();
+        el = document.createElement('div');
+        el.id = 's21Modal';
+        el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:10005;display:flex;align-items:center;justify-content:center;padding:20px;';
+        el.innerHTML = `<div style="background:#15130d;border:1px solid #C9A84C;border-radius:18px;max-width:440px;width:100%;overflow:hidden;font-family:'Inter',sans-serif;">
+            <div style="background:linear-gradient(135deg,#0A0A0A,#1a1408);padding:18px 22px;border-bottom:1px solid #2a2620;display:flex;align-items:center;gap:12px;">
+                <img src="images/origin-logo.png" style="height:30px;" onerror="this.style.display='none'">
+                <div><div style="font-family:'Cinzel',serif;letter-spacing:2px;color:#C9A84C;font-weight:700;">ORIGIN</div><div style="color:#9a9486;font-size:.72rem;">Medical authorisation required</div></div>
+            </div>
+            <div style="padding:22px;color:#F2ECDD;">
+                <div style="font-family:'Cinzel',serif;color:#C9A84C;font-size:1.15rem;margin-bottom:8px;">A prescription is needed for these items</div>
+                <p style="color:#b8b1a0;font-size:.92rem;line-height:1.55;">Medical cannabis products can only be dispensed once your <b style="color:#F2ECDD;">Section&nbsp;21 authorisation and prescription</b> have been uploaded and approved by our pharmacist.</p>
+                ${items ? `<ul style="color:#cfc6ad;font-size:.88rem;margin:12px 0 4px 20px;">${items}</ul>` : ''}
+                <p style="color:#8a8472;font-size:.8rem;margin-top:12px;">Your wellness &amp; lifestyle items are unaffected — you can order those any time.</p>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+                    <a href="patient-portal.html" style="background:#C9A84C;color:#1a1a1a;text-align:center;padding:14px;border-radius:12px;font-weight:800;text-decoration:none;">Upload my Section 21 &amp; prescription →</a>
+                    <button onclick="document.getElementById('s21Modal').remove()" style="background:transparent;border:1px solid #2a2620;color:#9a9486;padding:12px;border-radius:12px;font-weight:600;cursor:pointer;">Back to my order</button>
+                </div>
+            </div>
+        </div>`;
+        document.body.appendChild(el);
+        el.addEventListener('click', e => { if (e.target === el) el.remove(); });
+    }
+
     function showSuccessModal(orderNum, shipping) {
         const modalHtml = `
             <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 20000; display: flex; align-items: center; justify-content: center;">

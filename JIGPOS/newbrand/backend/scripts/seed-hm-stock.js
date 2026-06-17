@@ -8,7 +8,7 @@ const Branch = require('../modules/database/models/Branch');
 const BranchInventory = require('../modules/database/models/BranchInventory');
 
 const BRANCH_CODE = 'OR-POT';
-const RAW = require('/Users/florisolivier/origin/inventory/HM/hm_products_clean.json');
+const RAW = require('/var/www/origin/inventory/HM/hm_products_clean.json');
 
 // ── Category mapping ─────────────────────────────────────────────────────────
 // Maps HM product types onto the Product model's allowed enum values:

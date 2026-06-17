@@ -1,0 +1,26 @@
+{
+  "app": "origin", "flow": "loraine_fm_uat", "viewport": "390x844",
+  "base_url": "https://tntilco.cleva-ai.co.za", "role_key": "owner", "module_key": "origin",
+  "steps": [
+    { "goto": "/login?email=florisolivier7%2Bloraine%40gmail.com" },
+    { "expect": "input[type=email]" },
+    { "click": "button[type=submit]" },
+    { "expect_text": "PIN sent to" },
+    { "fill": ["input[inputmode=numeric]", "100100"] },
+    { "click": "button[type=submit]" },
+    { "expect_text": "Welcome, Loraine" },
+    { "goto": "/owner" },
+    { "expect_text": "Good" },
+    { "expect": "h1:has-text('Loraine')" },
+    { "expect_text": "Plants" }, { "expect_text": "Batches" },
+    { "expect_text": "Staff" }, { "expect_text": "Open Tickets" },
+    { "screenshot": "loraine_dashboard_390.png" },
+    { "goto": "/tickets" },
+    { "expect": "h1:has-text('Tickets')" },
+    { "expect_text": "SOP governance sync" },
+    { "screenshot": "loraine_tickets_390.png" },
+    { "goto": "/audit" },
+    { "expect": "h1:has-text('Audit Log')" },
+    { "screenshot": "loraine_audit_390.png" }
+  ]
+}

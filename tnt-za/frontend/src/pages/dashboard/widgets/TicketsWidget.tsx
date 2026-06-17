@@ -46,7 +46,9 @@ export default function TicketsWidget() {
   });
 
   const allOpen = (tickets ?? []).filter((t: any) => t.status !== 'COMPLETED' && t.status !== 'CLOSED');
-  const mine     = allOpen.filter((t: any) => t.assignedToId === user?.id);
+  // "Mine" = assigned to me personally OR to my role/department (was missing the role match,
+  // so a ticket routed to HEAD_OF_CULTIVATION never showed in Lou's "Mine" tab).
+  const mine     = allOpen.filter((t: any) => t.assignedToId === user?.id || (t.assignedToRole && t.assignedToRole === user?.role));
   const reported = allOpen.filter((t: any) => t.reportedById === user?.id);
 
   const list = tab === 'mine' ? mine : tab === 'reported' ? reported : allOpen;

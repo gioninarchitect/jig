@@ -85,11 +85,15 @@ export default function DashboardPage() {
         <p className="text-xs text-white/30">{role.replace(/_/g, ' ')} — Origin</p>
       </div>
 
-      <SetupBannerWidget />
+      {/* Facility setup is an owner / FM concern — not for operational roles */}
+      {(isOwner || isFM) && <SetupBannerWidget />}
+      {/* Per-user smart notifications (weight-variance alerts self-gate to FM/admin inside) */}
       <NotificationsWidget />
       <ApprovalsWaitingBanner />
       <ActionQueueWidget />
-      <StatCardsWidget />
+      {/* Facility-wide KPIs (Active Plants, Batches, INCB Quota) — managers with a facility
+          view only. Operational roles get their own scoped widgets in their section below. */}
+      {(isOwner || isFM || isHeadCult || isProcessingMgr) && <StatCardsWidget />}
 
       {/* ═══ OWNER / ADMIN — 360 Command Centre ═══ */}
       {isOwner && (

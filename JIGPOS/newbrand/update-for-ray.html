@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Store Update for Ray</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --ink:#0E0E0E; --cream:#F7F2E7; --line:#e3dcc9; --green:#1E9E63; --grey:#6b6b6b; }
+  *{ box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  body{ background:#3a3a3a; color:#1a1a1a; }
+  .toolbar{ position:fixed; top:14px; right:14px; z-index:50; }
+  .toolbar button{ background:var(--gold); color:#1a1a1a; border:none; padding:11px 18px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.3); }
+  .page{ width:210mm; min-height:297mm; background:#fff; margin:18px auto; box-shadow:0 6px 30px rgba(0,0,0,.35); }
+  .hero{ background:linear-gradient(150deg,#0A0A0A,#1f1810 70%); color:#fff; padding:34px 40px 26px; }
+  .hero .top{ display:flex; align-items:center; gap:14px; }
+  .hero img{ height:42px; }
+  .hero .brand{ font-family:'Cinzel'; letter-spacing:3px; color:var(--gold); font-size:1.5rem; }
+  .hero .brand small{ display:block; letter-spacing:5px; font-size:.55rem; color:#cfc6ad; }
+  .hero h1{ font-family:'Cinzel'; font-size:1.9rem; margin-top:22px; letter-spacing:.5px; }
+  .hero p{ color:#cfc6ad; margin-top:6px; font-size:.92rem; }
+  .body{ padding:30px 40px; }
+  .intro{ color:#444; line-height:1.6; border-left:4px solid var(--gold); background:var(--cream); padding:14px 18px; border-radius:0 10px 10px 0; margin-bottom:26px; }
+  .card{ border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-bottom:16px; }
+  .card .h{ display:flex; align-items:center; gap:10px; }
+  .tick{ width:26px; height:26px; border-radius:50%; background:var(--green); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:.85rem; flex-shrink:0; }
+  .card h3{ font-size:1.12rem; color:var(--ink); }
+  .card .tag{ margin-left:auto; background:#eafaf2; color:var(--green); font-size:.66rem; font-weight:700; letter-spacing:1px; padding:4px 10px; border-radius:20px; }
+  .card p{ color:#444; line-height:1.55; margin-top:8px; margin-left:36px; font-size:.93rem; }
+  .card ul{ margin:8px 0 0 56px; color:#444; font-size:.92rem; }
+  .card ul li{ margin:3px 0; }
+  .card .link{ margin:10px 0 0 36px; font-size:.85rem; }
+  .card .link b{ color:var(--gold-d); }
+  .ask{ background:#0A0A0A; color:#f0e9d6; border-radius:14px; padding:20px 22px; margin-top:8px; }
+  .ask h3{ font-family:'Cinzel'; color:var(--gold); margin-bottom:8px; }
+  .ask p{ line-height:1.6; font-size:.93rem; color:#d8cfb7; }
+  .sign{ margin-top:26px; color:var(--grey); font-size:.9rem; }
+  .foot{ text-align:center; color:#aaa; font-size:.72rem; padding:14px; border-top:1px solid var(--line); }
+  @media print{ body{ background:#fff; } .toolbar{ display:none; } .page{ margin:0; box-shadow:none; width:auto; } }
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">⬇ Save as PDF</button></div>
+
+<div class="page">
+  <div class="hero">
+    <div class="top">
+      <img src="images/origin-logo.png" alt="Origin">
+      <div class="brand">ORIGIN<small>BY ILCO</small></div>
+    </div>
+    <h1>Store Update — Potchefstroom</h1>
+    <p>Prepared for Ray · POS &amp; Stock improvements</p>
+  </div>
+
+  <div class="body">
+    <div class="intro">
+      Hi Ray — thank you for the detailed notes from the floor today, they were spot-on and really helpful. Here's everything you raised, now sorted. 🙏
+    </div>
+
+    <div class="card">
+      <div class="h"><span class="tick">✓</span><h3>VAT corrected — no more double VAT</h3><span class="tag">FIXED</span></div>
+      <p>You were 100% right: the till was adding 15% on top of prices that already include VAT. It's now set to <b>VAT-inclusive</b> — a R130 product charges R130, with the VAT portion still shown on the slip for SARS.</p>
+    </div>
+
+    <div class="card">
+      <div class="h"><span class="tick">✓</span><h3>Stock Sheet — your inventory &amp; price control</h3><span class="tag">NEW</span></div>
+      <p>A proper stock page where you can manage everything yourself:</p>
+      <ul>
+        <li>See <b>every product and its current stock level</b></li>
+        <li>Edit <b>price, size and stock</b> inline, then Save</li>
+        <li><b>Add a new product</b> (name, category, size, price, stock)</li>
+        <li><b>Hide products you don't carry</b> — removes them from the till</li>
+        <li>Feeds the POS instantly; <b>stock deducts automatically on every sale</b></li>
+        <li>Search, low-stock filter, CSV export, and bulk % price updates</li>
+      </ul>
+      <div class="link">Open: <b>origin.cleva-ai.co.za/stock-sheet.html</b> (sign in on the POS first), or tap the <b>📦 Stock</b> button in the till header.</div>
+    </div>
+
+    <div class="card">
+      <div class="h"><span class="tick">✓</span><h3>Day-End cash-up — closing the day</h3><span class="tag">FIXED</span></div>
+      <p>The "error closing till" was a bug on our side, now resolved. You can count the drawer and close the day cleanly — it emails the <b>Z-report (PDF + CSV)</b> automatically.</p>
+    </div>
+
+    <div class="card">
+      <div class="h"><span class="tick">✓</span><h3>Cash sale not reflecting</h3><span class="tag">FIXED</span></div>
+      <p>That was the screen running an older cached version. The till now updates to the latest automatically, so sales reflect correctly.</p>
+    </div>
+
+    <div class="ask">
+      <h3>One thing from your side</h3>
+      <p>The prices are loaded as a starting point. Please run through the <b>Stock Sheet</b> and correct any prices, set your sizes, and hide anything you don't stock. Happy to do a quick walkthrough whenever suits you.</p>
+    </div>
+
+    <div class="sign">Thanks again for the sharp eye on the floor — it's making the system better fast. — Origin Team</div>
+  </div>
+  <div class="foot">Origin by ILCO · Potchefstroom · Retail POS</div>
+</div>
+</body>
+</html>

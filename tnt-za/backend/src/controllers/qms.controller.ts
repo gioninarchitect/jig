@@ -62,9 +62,15 @@ export async function updateDeviation(req: AuthRequest, res: Response) {
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 }
 
+export async function approveDeviation(req: AuthRequest, res: Response) {
+  try {
+    const dev = await qms.approveDeviation(p(req.params.id), { userId: req.user!.userId, name: req.body?.name, tenantId: req.user!.tenantId });
+    res.json({ success: true, deviation: dev });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}
 export async function closeDeviation(req: AuthRequest, res: Response) {
   try {
-    const dev = await qms.closeDeviation(p(req.params.id), { userId: req.user!.userId, tenantId: req.user!.tenantId });
+    const dev = await qms.closeDeviation(p(req.params.id), { userId: req.user!.userId, name: req.body?.name, tenantId: req.user!.tenantId });
     res.json({ success: true, deviation: dev });
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 }

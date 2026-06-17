@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin UAT — Loraine · ORIGIN by ILCO</title>
+<style>
+  :root{
+    --black:#0A0A0A; --dark:#141414; --dark2:#1C1C1C; --gold:#C9A84C; --gold-bright:#D4B86A;
+    --gold-light:#E8D5A3; --white:#F5F0E8; --grey:#A89F8C; --green:#22C55E; --amber:#F8C242; --red:#DC2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--black);color:var(--white);
+    font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.55;}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 22px 64px;}
+  .brand{font-weight:800;letter-spacing:.32em;font-size:26px;color:var(--gold);}
+  .brand small{display:block;letter-spacing:.34em;font-size:10px;color:var(--grey);font-weight:600;margin-top:4px;}
+  h1{font-size:24px;margin:26px 0 4px;color:var(--white);}
+  .sub{color:var(--grey);font-size:14px;margin-bottom:6px;}
+  .switch{font-size:13px;margin:0 0 22px;}
+  h2{font-size:16px;margin:30px 0 12px;color:var(--gold-bright);border-bottom:1px solid #2a2a2a;padding-bottom:7px;}
+  .card{background:var(--dark);border:1px solid #262626;border-radius:14px;padding:16px 18px;margin:14px 0;}
+  .login{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:center;}
+  .login .k{color:var(--grey);font-size:13px;}
+  .pin{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:.12em;}
+  .step{font-size:14px;color:var(--grey);}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px;}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid #222;vertical-align:top;}
+  th{color:var(--gold-light);font-size:11px;text-transform:uppercase;letter-spacing:.06em;}
+  td .n{color:var(--gold);font-weight:700;font-family:'JetBrains Mono',monospace;}
+  code{background:#222;border:1px solid #333;border-radius:6px;padding:1px 6px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--gold-light);}
+  .pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid;}
+  .pill.green{color:var(--green);border-color:#1f6b3a;background:#0e2417;}
+  .pill.amber{color:var(--amber);border-color:#6b551f;background:#241e0e;}
+  .wow{background:linear-gradient(180deg,#1a1606,#141414);border:1px solid #4a3d14;}
+  .wow b{color:var(--gold-bright);}
+  .gaps li{margin:6px 0;color:var(--grey);font-size:13.5px;}
+  .foot{margin-top:34px;padding-top:14px;border-top:1px solid #222;color:#6a6356;font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+  a{color:var(--gold-bright);}
+  .cta{display:block;text-align:center;margin:16px 0 4px;padding:15px 20px;border-radius:12px;
+    background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#0A0A0A;font-weight:800;
+    font-size:16px;letter-spacing:.02em;text-decoration:none;box-shadow:0 6px 22px rgba(201,168,76,.28);}
+  .cta:hover{filter:brightness(1.07);}
+  @media print{body{background:#fff;color:#111}.card{background:#faf7ef;border-color:#e6dcc2}.brand,h2,.pin,td .n{color:#8a6f1e}.cta{background:#8a6f1e;color:#fff;box-shadow:none}.foot{color:#999}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+
+  <h1>Admin — UAT &amp; Day-One Guide</h1>
+  <div class="sub">For <b>Loraine</b> · Role: <b>Facility Manager + Admin</b> (FACILITY_MANAGER) — admin dashboard, not the owner's view (the owner seat is Ilse).</div>
+  <div class="switch">This is the <b>admin</b> half. FM side → <a href="/loraine-fm-uat.html">Facility Manager UAT →</a></div>
+
+  <h2>How Loraine logs in</h2>
+  <div class="card login">
+    <span class="k">Open</span><span><a href="https://tntilco.cleva-ai.co.za/login">tntilco.cleva-ai.co.za/login</a></span>
+    <span class="k">Email</span><span><code>fm@ilcofarming.co.za</code></span>
+    <span class="k">PIN</span><span class="pin">100100</span>
+    <span class="k">Lands on</span><span class="step"><b>Admin / Ops Dashboard</b> — her command centre. Full System menu (Users, HR, Setup, Security) + compliance admin. (Owner 360 is Ilse's view.)</span>
+  </div>
+  <a class="cta" href="https://tntilco.cleva-ai.co.za/login?email=fm%40ilcofarming.co.za">Log in &amp; start the Admin UAT →</a>
+
+  <h2>The admin surface — what she governs</h2>
+  <p class="step">There's no separate "/admin" page — the <b>admin dashboard is the Dashboard plus the System &amp;
+  Compliance menus</b> in her sidebar (Owner 360 is the owner's view, reserved for Ilse). Everything below is
+  live and data-backed (no mock data).</p>
+  <table>
+    <thead><tr><th>#</th><th>She does…</th><th>Screen</th><th>Expect</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td>Open her command centre</td><td>Dashboard <code>/dashboard</code></td><td>Live admin/ops tiles, AI brief, priorities &amp; approvals — no owner-only finance view</td><td><span class="pill green">live</span></td></tr>
+      <tr><td class="n">2</td><td>View the team</td><td>Users <code>/users</code></td><td>Full staff list with roles — real accounts, not samples</td><td><span class="pill green">live</span></td></tr>
+      <tr><td class="n">3</td><td><b>Add a user / change a role</b></td><td>Users <code>/users</code></td><td>New account saves; role takes effect; audit-logged</td><td><span class="pill green">live</span></td></tr>
+      <tr><td class="n">4</td><td>Assign training to staff</td><td>HR &amp; Training <code>/hr</code></td><td>Training assigned; appears on that person's record</td><td><span class="pill green">live</span></td></tr>
+      <tr><td class="n">5</td><td>Clock-in / attendance</td><td>HR &amp; Training <code>/hr</code></td><td>Attendance + stats render for the team</td><td><span class="pill green">live</span></td></tr>
+      <tr><td class="n">6</td><td>Review the quality system</td><td>QMS <code>/qms</code></td><td>Controls + training overview render</td><td><span class="pill green">live</span></td></tr>
+      <tr><td class="n">7</td><td>Open the Site Master File</td><td>SMF <code>/site-master-file</code></td><td>SMF chapters/sections; "Draft with AI" available</td><td><span class="pill green">live</span></td></tr>
+      <tr><td class="n">8</td><td>Check inspection readiness</td><td>GMP Audit <code>/gmp-audit</code></td><td>EU-GMP evidence map + readiness state</td><td><span class="pill green">live</span></td></tr>
+      <tr><td class="n">9</td><td>Read the audit trail</td><td>Audit <code>/audit</code></td><td>Her admin actions appear — tamper-proof, hash-chained, append-only</td><td><span class="pill green">live</span></td></tr>
+      <tr><td class="n">10</td><td>Tenant setup / onboarding</td><td>Setup <code>/onboarding</code></td><td>Tenant configuration &amp; activation steps render</td><td><span class="pill green">live</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>★ The wow — Smart Chat governs from the admin seat</h2>
+  <div class="card wow">
+    <p style="margin:0 0 8px">From any admin screen, tap the chat (bottom-right) and ask
+    <i>"Give me the owner brief for today."</i> The grounded reply lands with the
+    <b>FLOCORE micro-model's governed action buttons</b>:</p>
+    <p style="margin:0 0 8px"><b>Create Issue Ticket</b> · <b>SOP Reminder</b> · Protect weight integrity ·
+    reconcile + sign every custody hand-over · work-queue SLA adherence · team training current.</p>
+    <p style="margin:0">Tapping <b>Create Issue Ticket</b> writes a <b>real, audit-logged</b> ticket — the full
+    round-trip, <span style="color:var(--green)">verified live today</span>. Answers run on the
+    <b>native on-server model (gemma)</b> — no external AI.</p>
+  </div>
+
+  <h2>Known gaps — don't send her here today</h2>
+  <ul class="gaps">
+    <li><b>Shift / staff allocation UI</b> (assign people to shifts) — not built yet (API exists). <span style="color:var(--amber)">Scope out of today.</span></li>
+    <li><b>Self-service password/PIN reset</b> — runs on the permanent-PIN stopgap for the UAT; migrates to the FLOCORE PIN rail next.</li>
+  </ul>
+
+  <h2>Bottom line</h2>
+  <p class="step"><b>Nothing is UAT-blocking on the admin side.</b> All 10 admin flows are live and data-backed.
+  Loraine runs <b>both</b> guides off one login (<code>fm@ilcofarming.co.za</code> / <code>100100</code>):
+  the <a href="/loraine-fm-uat.html">FM UAT</a> for site operations and this one for admin &amp; governance.</p>
+
+  <div class="foot">
+    <span>ORIGIN · by ILCO Farming — Admin UAT</span>
+    <span>tntilco.cleva-ai.co.za · 16 June 2026 · Private &amp; Confidential</span>
+  </div>
+</div>
+</body>
+</html>

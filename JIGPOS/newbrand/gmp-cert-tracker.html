@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — SAHPRA GMP Cert Tracker</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --amber:#F59E0B; --red:#DC2626; }
+  *{ box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  body{ background:#0A0A0A; color:var(--txt); }
+  header{ background:linear-gradient(135deg,#0A0A0A,#1a1408); border-bottom:2px solid var(--gold); padding:14px 22px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .brand{ display:flex; align-items:center; gap:12px; } .brand img{ height:34px; } .brand b{ font-family:'Cinzel'; letter-spacing:2px; color:var(--gold); } .brand span{ color:var(--grey); font-size:.8rem; }
+  .btn{ background:#222; color:var(--txt); border:none; border-radius:9px; padding:9px 15px; font-weight:700; cursor:pointer; font-size:.85rem; text-decoration:none; }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; }
+  .wrap{ max-width:780px; margin:0 auto; padding:24px 22px 60px; }
+  .gate{ max-width:350px; margin:50px auto; background:#161616; border:1px solid #2a2a2a; border-radius:16px; padding:26px; }
+  .lbl{ font-size:.72rem; color:var(--grey); display:flex; flex-direction:column; gap:5px; }
+  .lbl input,.lbl textarea{ padding:11px; background:#1d1d1d; border:1px solid #2a2a2a; border-radius:9px; color:#fff; font-family:'Inter'; }
+  .appcard{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px 22px; margin-bottom:18px; }
+  .appcard .top{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+  .appcard h2{ font-family:'Cinzel'; color:var(--gold); font-size:1.25rem; }
+  .appcard .ref{ font-family:'JetBrains Mono'; color:var(--grey); font-size:.72rem; }
+  .chip{ font-size:.7rem; font-weight:800; padding:4px 12px; border-radius:20px; letter-spacing:.5px; text-transform:uppercase; }
+  .c-await{ background:rgba(245,158,11,.16); color:var(--amber); } .c-approved{ background:rgba(34,197,94,.16); color:var(--green); } .c-rejected{ background:rgba(220,38,38,.16); color:var(--red); }
+  .stats{ display:flex; gap:24px; margin-top:16px; flex-wrap:wrap; }
+  .stat .v{ font-family:'Cinzel'; font-size:1.5rem; color:var(--txt); } .stat .l{ color:var(--grey); font-size:.72rem; text-transform:uppercase; letter-spacing:1px; }
+  .stat .v.warn{ color:var(--amber); }
+  h3.s{ font-family:'Cinzel'; color:var(--gold); font-size:1rem; margin:18px 0 10px; }
+  .tl{ position:relative; padding-left:22px; }
+  .tl::before{ content:''; position:absolute; left:6px; top:4px; bottom:4px; width:2px; background:var(--gold-d); }
+  .ev{ position:relative; margin-bottom:14px; }
+  .ev::before{ content:''; position:absolute; left:-19px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 3px #0A0A0A; }
+  .ev .d{ font-family:'JetBrains Mono'; color:var(--gold-d); font-size:.72rem; }
+  .ev .n{ color:#e6e0d2; font-size:.9rem; margin-top:2px; } .ev .by{ color:var(--grey); font-size:.7rem; }
+  .addbox{ background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:16px; margin-top:8px; display:flex; flex-direction:column; gap:10px; }
+  .addbox .row{ display:flex; gap:10px; flex-wrap:wrap; } .addbox .row input{ flex:1; }
+  .toast{ position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--gold); color:#1a1a1a; padding:12px 22px; border-radius:10px; font-weight:700; z-index:99; display:none; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="images/origin-logo.png"><b>ORIGIN</b><span>SAHPRA GMP Certificate Tracker</span></div>
+  <div style="display:flex;gap:10px;"><a class="btn" href="gmp-readiness.html">Readiness</a><a class="btn" href="pos.html">← POS</a></div>
+</header>
+<div class="wrap">
+  <div id="gate" class="gate" style="display:none;">
+    <div style="font-family:'Cinzel';color:var(--gold);font-size:1.3rem;text-align:center;">QA / Admin Login</div>
+    <div style="color:#888;text-align:center;font-size:.82rem;margin:4px 0 20px;">GMP cert tracker</div>
+    <label class="lbl">EMAIL<input id="lgEmail" type="email" style="margin:6px 0 14px;"></label>
+    <label class="lbl">PIN<input id="lgPin" type="password" inputmode="numeric" style="letter-spacing:5px;" onkeydown="if(event.key==='Enter')doLogin()"></label>
+    <div id="lgMsg" style="color:#DC2626;font-size:.8rem;min-height:15px;margin-top:6px;"></div>
+    <button class="btn btn-gold" style="width:100%;margin-top:8px;" onclick="doLogin()">Sign In</button>
+  </div>
+  <div id="main" style="display:none;"></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const API=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'/api/v1':'/pos/api/v1';
+let token=sessionStorage.getItem('adminToken')||localStorage.getItem('token')||''; let CAN_EDIT=false;
+function hdr(){return{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'};}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2200);}
+function fmt(d){ return d? new Date(d).toLocaleDateString('en-ZA',{day:'2-digit',month:'short',year:'numeric'}):'—'; }
+async function doLogin(){
+  const email=document.getElementById('lgEmail').value.trim().toLowerCase(),pin=document.getElementById('lgPin').value.trim(),msg=document.getElementById('lgMsg');
+  if(!email||!pin){msg.textContent='Enter email and PIN';return;} msg.style.color='#888';msg.textContent='Signing in…';
+  try{const r=await fetch(`${API}/auth/otp/verify-pin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,pin})});const d=await r.json();
+    if(!d.success||!d.token){msg.style.color='#DC2626';msg.textContent=d.message||'Invalid';return;}
+    token=d.token;sessionStorage.setItem('adminToken',token);localStorage.setItem('token',token);
+    sessionStorage.setItem('user',JSON.stringify(d.user));localStorage.setItem('user',JSON.stringify(d.user));
+    document.getElementById('gate').style.display='none';load();
+  }catch(e){msg.style.color='#DC2626';msg.textContent='Login failed';}
+}
+async function load(){
+  try{const r=await fetch(`${API}/gmp-cert`,{headers:hdr()});
+    if(r.status===401||r.status===403){document.getElementById('gate').style.display='block';return;}
+    const d=await r.json(); CAN_EDIT=!!d.canEdit; document.getElementById('main').style.display='block'; render(d.applications||[]);
+  }catch(e){document.getElementById('gate').style.display='block';}
+}
+function statusChip(s){ const map={awaiting_outcome:['c-await','Awaiting outcome'],approved:['c-approved','Approved'],rejected:['c-rejected','Rejected'],in_review:['c-await','In review']}; const [c,t]=map[s]||['c-await',s]; return `<span class="chip ${c}">${t}</span>`; }
+function render(apps){
+  document.getElementById('main').innerHTML=apps.map(a=>{
+    const due = a.expectedResponseDays && a.submittedDate ? a.daysSinceSubmission - a.expectedResponseDays : null;
+    const overdue = due!=null && due>0;
+    const tl=(a.followUps||[]).map(f=>`<div class="ev"><div class="d">${fmt(f.date)}</div><div class="n">${f.note}</div><div class="by">${f.by||''}</div></div>`).join('');
+    const add = CAN_EDIT ? `<h3 class="s">Log a follow-up</h3><div class="addbox">
+        <div class="row"><input type="date" id="fd_${a._id}"><input id="fn_${a._id}" placeholder="What happened / who you contacted…"></div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <button class="btn btn-gold" onclick="addFollow('${a._id}')">Add follow-up</button>
+          <select id="st_${a._id}" style="padding:9px;background:#1d1d1d;border:1px solid var(--line);border-radius:8px;color:#fff;">
+            <option value="">— set status —</option><option value="awaiting_outcome">Awaiting outcome</option><option value="in_review">In review</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select>
+          <button class="btn" onclick="setStatus('${a._id}')">Update status</button>
+        </div></div>` : '';
+    return `<div class="appcard">
+      <div class="top"><div><h2>${a.title}</h2><div class="ref">${a.ref} · ${a.authority} · ${a.type}</div></div>${statusChip(a.status)}</div>
+      <div class="stats">
+        <div class="stat"><div class="v">${fmt(a.submittedDate)}</div><div class="l">Submitted</div></div>
+        <div class="stat"><div class="v ${overdue?'warn':''}">${a.daysSinceSubmission!=null?a.daysSinceSubmission:'—'}</div><div class="l">Days since</div></div>
+        <div class="stat"><div class="v">${a.expectedResponseDays||'—'}</div><div class="l">Expected (days)</div></div>
+        <div class="stat"><div class="v ${overdue?'warn':''}">${overdue?('+'+due+' over'):(due!=null?(Math.abs(due)+' to go'):'—')}</div><div class="l">vs expected</div></div>
+      </div>
+      ${a.contact?`<div style="color:var(--grey);font-size:.82rem;margin-top:12px;">Contact: ${a.contact}</div>`:''}
+      <h3 class="s">Timeline</h3><div class="tl">${tl||'<div style="color:#888">No entries.</div>'}</div>
+      ${add}
+    </div>`;
+  }).join('') || '<div style="color:#888;text-align:center;padding:30px;">No applications tracked.</div>';
+}
+async function addFollow(id){
+  const date=document.getElementById('fd_'+id).value, note=document.getElementById('fn_'+id).value.trim();
+  if(!note){toast('Enter a note');return;}
+  const r=await fetch(`${API}/gmp-cert/${id}/followup`,{method:'POST',headers:hdr(),body:JSON.stringify({date,note})}); const d=await r.json();
+  if(d.success){toast('Follow-up logged');load();}else toast(d.message||'Failed');
+}
+async function setStatus(id){
+  const status=document.getElementById('st_'+id).value; if(!status){toast('Pick a status');return;}
+  const r=await fetch(`${API}/gmp-cert/${id}`,{method:'PATCH',headers:hdr(),body:JSON.stringify({status})}); const d=await r.json();
+  if(d.success){toast('Status updated');load();}else toast(d.message||'Failed');
+}
+if(!token){document.getElementById('gate').style.display='block';}else{load();}
+</script>
+</body>
+</html>

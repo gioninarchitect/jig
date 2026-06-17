@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 
 const PHASE_COLORS: Record<string, string> = {
   SEEDLING: '#86EFAC', VEGETATIVE: '#4ADE80', FLOWERING: '#22C55E', HARVESTED: '#C9A84C',
-  DRYING: '#E8A317', CURING: '#D97706', PROCESSING: '#A855F7', PACKAGED: '#0D6B3D',
+  DRYING: '#E8A317', CURING: '#D97706', PROCESSING: '#A855F7', PACKAGED: '#8B6914',
 };
 
 export default function PhaseChartWidget() {

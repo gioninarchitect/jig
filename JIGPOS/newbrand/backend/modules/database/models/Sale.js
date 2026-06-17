@@ -254,15 +254,17 @@ saleSchema.pre('save', async function(next) {
 saleSchema.pre('save', function(next) {
   // Calculate line item totals
   this.items.forEach(item => {
-    item.subtotal = item.unitPrice * item.quantity;
-    item.taxAmount = (item.subtotal - item.discount) * (item.taxRate / 100);
-    item.total = item.subtotal - item.discount + item.taxAmount;
+    const _gross = (item.unitPrice * item.quantity) - (item.discount || 0); // VAT-inclusive line
+    const _rate = (item.taxRate || 0) / 100;
+    item.taxAmount = _rate > 0 ? (_gross - (_gross / (1 + _rate))) : 0; // VAT portion within
+    item.subtotal = _gross - item.taxAmount; // ex-VAT
+    item.total = _gross; // what the customer pays (incl VAT)
   });
 
   // Calculate sale totals
   this.subtotal = this.items.reduce((sum, item) => sum + item.subtotal, 0);
   this.totalTax = this.items.reduce((sum, item) => sum + item.taxAmount, 0);
-  this.totalAmount = this.subtotal - this.totalDiscount + this.totalTax + this.deliveryFee + this.tip;
+  this.totalAmount = this.subtotal + this.totalTax + this.deliveryFee + this.tip; // VAT-inclusive
 
   next();
 });

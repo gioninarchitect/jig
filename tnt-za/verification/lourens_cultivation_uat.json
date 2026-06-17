@@ -1,0 +1,22 @@
+{
+  "app": "origin", "flow": "lourens_cultivation_uat", "viewport": "390x844",
+  "base_url": "https://tntilco.cleva-ai.co.za", "role_key": "cultivator", "module_key": "origin",
+  "steps": [
+    { "goto": "/login?email=florisolivier7%2Blou%40gmail.com" },
+    { "expect": "input[type=email]" },
+    { "click": "button[type=submit]" },
+    { "expect_text": "PIN sent to" },
+    { "fill": ["input[inputmode=numeric]", "200200"] },
+    { "click": "button[type=submit]" },
+    { "expect_text": "Welcome, Lou" },
+    { "goto": "/dashboard" },
+    { "expect_text": "Good" },
+    { "expect": "h1:has-text('Lou')" },
+    { "expect_text": "Today" },
+    { "screenshot": "lourens_dashboard_390.png" },
+    { "goto": "/tasks" },
+    { "expect": "h1:has-text('Tasks')" },
+    { "expect_text": "My Tasks" },
+    { "screenshot": "lourens_tasks_390.png" }
+  ]
+}

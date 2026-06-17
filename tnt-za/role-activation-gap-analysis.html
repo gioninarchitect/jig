@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TnT-ZA — Role Activation · Review & Gap Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --amber:#F59E0B; --red:#DC2626; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Inter',sans-serif; background:#070707; color:var(--txt); line-height:1.6; }
+  .toolbar{ position:fixed; top:14px; right:14px; z-index:50; }
+  .toolbar button{ background:var(--gold); color:#1a1a1a; border:none; padding:11px 18px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.4); }
+  .page{ max-width:840px; margin:0 auto; padding:0 22px 70px; }
+  .hero{ text-align:center; padding:52px 20px 28px; background:radial-gradient(circle at 50% 0%, #1f1a10, #070707 70%); }
+  .lockup b{ font-family:'Cinzel'; letter-spacing:7px; color:var(--gold); font-size:1.55rem; display:block; }
+  .lockup em{ font-style:normal; color:#8a8472; font-size:.64rem; letter-spacing:5px; text-transform:uppercase; }
+  .rule{ width:60px; height:3px; background:var(--gold); margin:22px auto; border-radius:2px; }
+  h1{ font-family:'Cinzel'; font-size:1.6rem; color:#fff; }
+  .date{ color:var(--grey); letter-spacing:3px; text-transform:uppercase; font-size:.7rem; margin-top:8px; }
+  .lead{ background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:0 14px 14px 0; padding:18px 22px; margin:24px 0; color:#e6e0d2; }
+  h2.sec{ font-family:'Cinzel'; color:var(--gold); font-size:1.25rem; margin:38px 0 6px; }
+  .sec-note{ color:var(--grey); font-size:.86rem; margin-bottom:16px; }
+  table.read{ width:100%; border-collapse:collapse; margin:6px 0 8px; }
+  table.read th{ text-align:left; color:var(--gold-d); font-size:.7rem; text-transform:uppercase; letter-spacing:.5px; padding:9px 8px; border-bottom:1px solid var(--line); }
+  table.read td{ padding:10px 8px; border-bottom:1px solid #1c1912; font-size:.88rem; color:#e6e0d2; vertical-align:top; }
+  .bar{ height:8px; border-radius:5px; background:#241f16; overflow:hidden; min-width:80px; }
+  .bar i{ display:block; height:100%; background:linear-gradient(90deg,var(--gold-d),var(--gold)); }
+  .pct{ font-family:'JetBrains Mono'; font-size:.8rem; color:var(--gold); }
+  .role{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-bottom:12px; }
+  .role h3{ font-family:'Cinzel'; color:#fff; font-size:1.05rem; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .role .who{ color:var(--grey); font-size:.78rem; font-family:'Inter'; font-weight:400; }
+  .role ul{ list-style:none; margin-top:10px; }
+  .role li{ font-size:.88rem; color:#d8d2c2; padding:5px 0 5px 20px; position:relative; }
+  .role li:before{ content:'—'; position:absolute; left:0; color:var(--gold-d); }
+  .tag{ font-size:.64rem; padding:3px 9px; border-radius:20px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+  .tag.amber{ background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.4); color:var(--amber); }
+  .tag.red{ background:rgba(220,38,38,.12); border:1px solid rgba(220,38,38,.4); color:var(--red); }
+  .tag.green{ background:rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.4); color:var(--green); }
+  .module{ background:linear-gradient(135deg,#1a1408,#15130d); border:1px solid var(--gold-d); border-radius:16px; padding:22px; margin:14px 0; }
+  .module h3{ font-family:'Cinzel'; color:var(--gold); font-size:1.1rem; margin-bottom:6px; }
+  .module p{ color:#d8d2c2; font-size:.92rem; } .module ul{ list-style:none; margin-top:10px; } .module li{ font-size:.9rem; color:#d8d2c2; padding:5px 0 5px 20px; position:relative; } .module li:before{ content:'›'; position:absolute; left:2px; color:var(--gold); }
+  .crit{ background:rgba(220,38,38,.06); border:1px solid rgba(220,38,38,.3); border-radius:12px; padding:14px 18px; margin:8px 0; color:#e9d2d2; font-size:.9rem; } .crit b{ color:#ff8585; }
+  .foot{ text-align:center; color:#6f6a5d; font-size:.78rem; margin-top:40px; border-top:1px solid var(--line); padding-top:18px; }
+  @media print{ *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; } @page{ size:A4; margin:0; } .toolbar{ display:none; } .role,.module,.lead,.crit,table.read tr{ break-inside:avoid; } h2.sec{ break-after:avoid; } }
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">Save as PDF</button></div>
+<div class="hero">
+  <div class="lockup"><b>ORIGIN</b><em>by ILCO Farming · TnT-ZA</em></div>
+  <div class="rule"></div>
+  <h1>Role Activation — Review &amp; Gap Analysis</h1>
+  <div class="date">Roles to activate · Week of 9 June 2026</div>
+</div>
+
+<div class="page">
+  <div class="lead">To bring the farm and pharmacy roles live, each role needs three things working together: <b>(1)</b> the tools to do the job (close the functional gaps below), <b>(2)</b> <b>interactive training built into their own dashboard</b> — step-by-step on real screens, never a PDF manual, and <b>(3)</b> a <b>one-tap way to flag bugs &amp; ideas</b> that flows straight to the owner's backlog. This review is grounded in the actual TnT-ZA code.</div>
+
+  <h2 class="sec">Readiness at a glance</h2>
+  <div class="sec-note">How close each role is to operating end-to-end today.</div>
+  <table class="read">
+    <tr><th>Role</th><th>Readiness</th><th>Biggest blocker</th></tr>
+    <tr><td><b>Facility Manager</b><div class="who">Renae Purdon</div></td><td><div class="bar"><i style="width:70%"></i></div><span class="pct">~70%</span></td><td>No staff shift-allocation calendar; critical-variance alerts not wired</td></tr>
+    <tr><td><b>Cultivation</b><div class="who">Nursery Mgr · Nursery Staff · Cultivation Mgr / Head Grower</div></td><td><div class="bar"><i style="width:60%"></i></div><span class="pct">~60%</span></td><td>Daily-check backend returns empty; no photo capture on steps</td></tr>
+    <tr><td><b>Processing</b><div class="who">Processing Mgr · trimmers</div></td><td><div class="bar"><i style="width:65%"></i></div><span class="pct">~65%</span></td><td>No QA-decision endpoint; no packaging phase</td></tr>
+    <tr><td><b>QA / Compliance</b><div class="who">Keke (QA)</div></td><td><div class="bar"><i style="width:40%"></i></div><span class="pct">~40%</span></td><td>QA sign-off + GMP audit forms not backed; batch quarantine missing</td></tr>
+    <tr><td><b>Responsible Pharmacist</b><div class="who">Berne Swart · network RPs</div></td><td><div class="bar"><i style="width:12%"></i></div><span class="pct">~10%</span></td><td>Dashboard shell only — no Schedule-6 register, S21 intake or PIL</td></tr>
+  </table>
+
+  <h2 class="sec">Per-role gaps to activate</h2>
+  <div class="sec-note">Grounded in the codebase — what works, and the concrete blockers.</div>
+
+  <div class="role"><h3>Facility Manager <span class="tag amber">Partial · ~70%</span></h3>
+    <span class="who">Works: Facility 360, anomalies, QMS/SOPs, harvest approval, trim, dispatch, HR. Gaps:</span>
+    <ul><li>Staff <b>shift-allocation calendar</b> (assign people to zones by day) — not built</li><li>Critical weight-variance → <b>email/SMS alert</b> to FM not wired</li><li>Harvest-request approve endpoint to verify end-to-end</li><li>Photo proof on harvest/trim handovers</li></ul></div>
+
+  <div class="role"><h3>Cultivation <span class="tag amber">Partial · ~60%</span></h3>
+    <span class="who"><b>Roles:</b> Nursery Manager, Nursery Staff, Cultivation Manager / Head Grower. <i>(Head-of-Cultivation trains on <b>GroOS</b>, a separate app — not part of TnT-ZA training.)</i><br>Works: plant register, phase changes, feeding, mortality, bay grid. Gaps:</span>
+    <ul><li><b>Daily-check sheets</b> fall back to empty — backend not wired</li><li>No <b>photo capture</b> on checks / scans / mortality / IPM (SOP needs it)</li><li>IPM scouting + cleaning schedule are view-only</li><li>No SOP-training prerequisite gate before plant operations</li></ul></div>
+
+  <div class="role"><h3>Processing <span class="tag amber">Partial · ~65%</span></h3>
+    <span class="who">Works: trim sessions + weights, containers, lab results, batches, dispatch. Gaps:</span>
+    <ul><li>No unified <b>QA-decision endpoint</b> (approve/reject/rework + audit)</li><li>No explicit <b>packaging phase</b> / hand-off to QA</li><li>Lab out-of-spec triage (retest / quarantine) form missing</li><li>Trimmer→supervisor handover photo + sign-off missing</li></ul></div>
+
+  <div class="role"><h3>QA / Compliance <span class="tag red">Needs work · ~40%</span></h3>
+    <span class="who">Works: anomaly resolution, SOP/deviation list, append-only audit log. Gaps:</span>
+    <ul><li><b>QA sign-off decision endpoint</b> missing (the critical one)</li><li><b>GMP audit</b> form (findings → corrective actions) not backed</li><li>Batch <b>quarantine / retest</b> state machine missing</li><li>Deviation/CAPA closure + verification not capturable</li></ul></div>
+
+  <div class="role"><h3>Responsible Pharmacist <span class="tag red">Not ready · ~10%</span></h3>
+    <span class="who">Currently a dashboard shell with mock data. Gaps:</span>
+    <ul><li><b>Schedule-6 digital register</b> (dispense event, witness, RP signature)</li><li><b>Section 21 prescription intake</b> + validation + dispensing authority</li><li><b>PIL generation</b> per product</li><li>Cold-chain monitoring backend; RP signature endpoint + audit anchor</li></ul></div>
+
+  <h2 class="sec">Two modules every role gets</h2>
+  <div class="sec-note">The activation layer you asked for — the same for every dashboard.</div>
+
+  <div class="module"><h3>1 · Interactive in-dashboard training</h3>
+    <p>Training lives <b>inside each role's dashboard</b>, on the real screens — not a separate course or a PDF. A guided, step-by-step walkthrough of that role's actual daily workflow, that anyone can finish without help.</p>
+    <ul>
+      <li>Role-aware: Nursery Staff are walked through plant register → daily check → phase change; an RP through prescription intake → dispense → sign-off.</li>
+      <li>Interactive coach marks / guided steps on the live UI, with "try it" checkpoints and progress tracking per person.</li>
+      <li>Tied to the competency record — completing the walkthrough logs training (links to the SOP-training gate).</li>
+      <li>Re-runnable any time from the dashboard ("Show me how").</li>
+    </ul>
+  </div>
+
+  <div class="module"><h3>2 · In-dashboard bug &amp; idea assistant → your backlog + kanban</h3>
+    <p>Every role gets a small <b>AI assistant in their dashboard</b> to report a bug or suggest an enhancement in plain language. It captures context (role, page, what they were doing) and files it straight to a <b>working backlog</b> and a <b>draggable kanban board — for you</b>.</p>
+    <ul>
+      <li>One tap from any screen: "Report a bug / suggest something" → the assistant asks 1–2 clarifying questions, auto-tags role + page + severity.</li>
+      <li>Flows to an owner-only board: <b>New → Triaged → In progress → Done</b>, drag-and-drop, filter by role / facility / type (bug vs enhancement).</li>
+      <li>Turns every person on the farm + every network pharmacy into a live feedback channel — you see exactly what's breaking and what they want, in one place.</li>
+    </ul>
+  </div>
+
+  <h2 class="sec">The three critical blockers</h2>
+  <div class="sec-note">Fix these first — they unblock multiple roles.</div>
+  <div class="crit"><b>1 · Daily-check backend</b> — unblocks all of Cultivation's day-to-day. Wire the zone config + submission + audit trail.</div>
+  <div class="crit"><b>2 · QA-decision endpoint</b> — unblocks both Processing and QA/Compliance sign-off and batch release.</div>
+  <div class="crit"><b>3 · Section 21 dispensing workflow</b> — the Responsible Pharmacist can't operate without it (register + intake + signature).</div>
+
+  <h2 class="sec">Suggested activation order</h2>
+  <div class="sec-note"></div>
+  <table class="read">
+    <tr><th>#</th><th>Activate</th><th>Why first</th></tr>
+    <tr><td>1</td><td><b>Facility Manager</b></td><td>Highest readiness (~70%); add shift calendar + alerts → FM oversees everyone else's rollout</td></tr>
+    <tr><td>2</td><td><b>Cultivation</b></td><td>Fix daily-check backend + photo capture → the largest crew goes live</td></tr>
+    <tr><td>3</td><td><b>Processing + QA</b></td><td>Share the QA-decision endpoint; activate together</td></tr>
+    <tr><td>4</td><td><b>Responsible Pharmacist</b></td><td>Needs the most build (S21 register/intake/PIL); pair with Röscher onboarding</td></tr>
+  </table>
+
+  <div class="foot">Origin · by ILCO Farming · TnT-ZA — Role Activation Review &amp; Gap Analysis · prepared for the owners<br>Readiness figures grounded in the TnT-ZA codebase, 6 June 2026.</div>
+</div>
+</body>
+</html>

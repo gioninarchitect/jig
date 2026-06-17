@@ -94,6 +94,7 @@ enum ContainerType {
   BAG
   JAR
   PACKAGE
+  POT
   CUSTOM
 }
 
@@ -368,9 +369,10 @@ model Bay {
 
 model BaySpot {
   id          String   @id @default(uuid())
-  spotId      String   // BAY1-R1P1 (permanent, never changes)
-  row         Int      // 1-4
-  position    Int      // 1-2 (position within row)
+  spotId      String   // GH1-B1-R1-S1-P001 (permanent, never changes)
+  row         Int      // 1-4 (rows per bay)
+  subrow      Int      @default(1) // 1-4 (subrows per row) — the strain-controlled lane
+  position    Int      // position within the subrow
   status      String   @default("EMPTY") // EMPTY, OCCUPIED, RESERVED, MAINTENANCE
 
   // What's in this spot (null if empty)
@@ -388,7 +390,7 @@ model BaySpot {
   bayId       String
   bay         Bay      @relation(fields: [bayId], references: [id])
 
-  @@unique([bayId, row, position])
+  @@unique([bayId, row, subrow, position])
   @@index([bayId])
   @@index([status])
 }
@@ -421,6 +423,11 @@ model MotherPlant {
   source        String       @default("CLONED") // CLONED or PURCHASED
   breeder       String?
   purchaseDate  DateTime?
+  room          String?      // MP1 or MP2 — which mother room
+  quantity      Int          @default(1) // number of mother plants of this strain/entry
+  inceptionDate DateTime?    // date established (rooted/potted into the mother room)
+  lifecycleDays Int          @default(180) // configurable mother lifecycle length (general 180)
+  cullDate      DateTime?    // planned cull = inceptionDate + lifecycleDays (overridable)
   defects       Json?        // string[]
   testStatus    String       @default("NOT_TESTED") // TESTED, NOT_TESTED
   testResults   Json?
@@ -489,6 +496,8 @@ model CloneTray {
   transplantDate DateTime?
   photo          String?
   notes          String?
+  motherUnit     Int?            // which pot within the mother entry (1..quantity)
+  motherLabel    String?         // composed pot label, e.g. SL1-01
   createdAt      DateTime        @default(now())
 
   motherPlantId  String
@@ -967,6 +976,10 @@ model MortalityRecord {
   greenhouseId  String?
   bayId         String?
   phase         String?  // which phase the plant was in when it died
+  weight        Float?   // weight of destroyed material (kg) — SAHPRA destruction
+  batchNumber   String?  // batch # at time of death
+  plantTag      String?  // plant tag / RFID ID
+  zone          String?  // zone / room
 
   // Evidence
   photos        Json?    // string[]
@@ -1523,6 +1536,25 @@ model Deviation {
   closedAt    DateTime?
   createdAt   DateTime      @default(now())
 
+  // ── ILCO Deviation Report Form fields ──
+  deviationType   String?   // Equipment | Consumable | Temperature and humidity | Process | Documentation | Sample
+  referenceId     String?   // Sample / Equipment / Consumable / Data Logger / Document ID
+  raisedByName    String?   // Raised by (Name and Surname)
+  area            String?   // Area of Deviation
+  procedureRef    String?   // Procedure Deviated from (free text; sopId still linked when known)
+  impactOnQuality String?   // YES | NO | NOT_KNOWN
+  level           Int?      // 1 = Critical | 2 = Serious | 3 = Minor/Standard
+  capaRequired    Boolean?
+  capaNo          String?
+  actionsRequired String?
+  investigations  String?   // Details of the Investigations
+  qaApprovedById  String?   // Deviation Approval — Quality Assurance Manager
+  qaApprovedName  String?
+  qaApprovedAt    DateTime?
+  rpClosedById    String?   // Deviation Close-off — Responsible Pharmacist
+  rpClosedName    String?
+  rpClosedAt      DateTime?
+
   sopId       String
   sop         SOP           @relation(fields: [sopId], references: [id])
   raisedById  String
@@ -1939,4 +1971,47 @@ model DriverItem {
 
   @@unique([tenantId, dedupeKey])
   @@index([tenantId, role, status])
+}
+
+model ChickenCrate {
+  id            String    @id @default(uuid())
+  crateNumber   String    @unique // CR-YYYY-NNN
+  house         String    // House 1..4
+  chickenCount  Int       // count claimed at loading
+  verifiedCount Int?      // admin's verified count (if it differs)
+  photoUrl      String?   // crate evidence photo
+  loadedDate    DateTime  @default(now())
+  status        String    @default("PENDING") // PENDING, VERIFIED, FLAGGED
+  flagReason    String?
+  verifiedById  String?
+  verifiedAt    DateTime?
+  loadedById    String
+  notes         String?
+  facilityId    String
+  tenantId      String
+  createdAt     DateTime  @default(now())
+
+  @@index([tenantId])
+  @@index([house])
+  @@index([status])
+}
+
+model LeaveRequest {
+  id           String   @id @default(uuid())
+  userId       String
+  userName     String
+  leaveType    String   @default("ANNUAL") // ANNUAL, SICK, FAMILY, UNPAID, OTHER
+  startDate    DateTime
+  endDate      DateTime
+  days         Int      @default(1)
+  reason       String?
+  status       String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  approvedById String?
+  approverNote String?
+  tenantId     String
+  createdAt    DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([userId])
+  @@index([status])
 }

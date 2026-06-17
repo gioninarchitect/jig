@@ -40,6 +40,7 @@ import chatRoutes from './chat.routes';
 import labelRoutes from './labels.routes';
 import originRoutes from './origin.routes';
 import driverRoutes from './driver.routes';
+import chickenRoutes from './chicken.routes';
 
 const router = Router();
 
@@ -83,6 +84,7 @@ router.use('/concierge', conciergeRoutes);
 router.use('/chat', chatRoutes);
 router.use('/labels', labelRoutes);
 router.use('/origin', originRoutes);
+router.use('/chickens', chickenRoutes);
 
 router.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'tnt-za', timestamp: new Date().toISOString() });

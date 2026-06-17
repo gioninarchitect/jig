@@ -9,6 +9,7 @@ import api from '../../services/api';
 
 // Phase colors and labels
 const PHASE_CONFIG: Record<string, { color: string; bg: string; label: string }> = {
+  CLONE: { color: 'text-teal-300', bg: 'bg-teal-500/10 border-teal-500/20', label: 'Clone / Nursery' },
   VEG: { color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20', label: 'Vegetative' },
   FLIP: { color: 'text-yellow-400', bg: 'bg-yellow-500/10 border-yellow-500/20', label: 'Flip' },
   FLOWER: { color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20', label: 'Flower' },
@@ -67,6 +68,8 @@ export default function GrowCalendarPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [selectedGH, setSelectedGH] = useState('');
   const [selectedDay, setSelectedDay] = useState<CalendarDay | null>(null);
+  const [view, setView] = useState<'day' | 'week' | 'month' | 'year'>('day');
+  const [periodOffset, setPeriodOffset] = useState(0); // 0 = current week/month
   const [createForm, setCreateForm] = useState({
     title: '', strain: '', greenhouseId: '', startDate: '', vegDays: '14', flowerDays: '56',
   });
@@ -80,6 +83,24 @@ export default function GrowCalendarPage() {
     queryKey: ['schedules'],
     queryFn: () => api.get('/baygrid/schedules').then(r => r.data.schedules),
   });
+  const { data: strainList } = useQuery({ queryKey: ['strains-list'], queryFn: () => api.get('/strains').then(r => r.data.strains || r.data) });
+  const { data: motherList } = useQuery({ queryKey: ['mothers-list'], queryFn: () => api.get('/baygrid/mothers').then(r => r.data.mothers) });
+  const { data: staff } = useQuery({ queryKey: ['staff-list'], queryFn: () => api.get('/users').then(r => r.data.users || r.data).catch(() => []) });
+  const CULT_ROLES = ['NURSERY_MANAGER', 'CULTIVATOR', 'HEAD_OF_CULTIVATION', 'GENERAL_WORKER', 'IRRIGATION_TECH', 'FACILITY_MANAGER'];
+  const cultStaff = (staff || []).filter((u: any) => CULT_ROLES.includes(u.role));
+  const { data: dayShifts } = useQuery({
+    queryKey: ['day-shifts', selectedDay?.date],
+    queryFn: () => api.get(`/shifts?date=${selectedDay!.date}`).then(r => r.data.shifts || r.data).catch(() => []),
+    enabled: !!selectedDay,
+  });
+
+  // multi-strain on one schedule (cloned same day, same timeline)
+  const selectedStrains = createForm.strain ? createForm.strain.split(',').map(s => s.trim()).filter(Boolean) : [];
+  const toggleStrain = (name: string) => {
+    const set = new Set(selectedStrains);
+    set.has(name) ? set.delete(name) : set.add(name);
+    setCreateForm(f => ({ ...f, strain: [...set].join(', ') }));
+  };
 
   const createMut = useMutation({
     mutationFn: () => {
@@ -154,12 +175,74 @@ export default function GrowCalendarPage() {
         </div>
       )}
 
+      {/* View toggle */}
+      {calendarDays.length > 0 && (
+        <div className="flex items-center gap-1 bg-white/5 border border-white/10 rounded-xl p-1 w-fit">
+          {(['day','week','month','year'] as const).map(v => (
+            <button key={v} onClick={() => { setView(v); setPeriodOffset(0); }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${view === v ? 'bg-primary text-white' : 'text-white/50 hover:text-white/80'}`}>{v}</button>
+          ))}
+        </div>
+      )}
+
       {/* Calendar timeline — mobile-first vertical scroll */}
       {!calendarDays.length ? (
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 sm:p-12 text-center">
           <Calendar size={40} className="text-white/15 mx-auto mb-3" />
           <p className="text-white/40 mb-2">No grow schedules yet</p>
           <p className="text-xs text-white/20">Create a schedule to see the day-by-day calendar</p>
+        </div>
+      ) : view === 'month' || view === 'week' ? (
+        (() => {
+          const dayMap = new Map(calendarDays.map((d: any) => [d.date, d]));
+          const base = new Date(); base.setHours(0,0,0,0);
+          let gridStart: Date, gridDays: number, title: string;
+          if (view === 'week') {
+            gridStart = new Date(base); gridStart.setDate(base.getDate() - base.getDay() + 1 + periodOffset * 7);
+            gridDays = 7; title = `Week of ${gridStart.toLocaleDateString('en-ZA', { day: 'numeric', month: 'short' })}`;
+          } else {
+            const m = new Date(base.getFullYear(), base.getMonth() + periodOffset, 1);
+            const firstDow = (m.getDay() + 6) % 7; // Mon=0
+            gridStart = new Date(m); gridStart.setDate(1 - firstDow);
+            gridDays = 42; title = m.toLocaleDateString('en-ZA', { month: 'long', year: 'numeric' });
+          }
+          const cells = Array.from({ length: gridDays }, (_, i) => { const d = new Date(gridStart); d.setDate(gridStart.getDate() + i); return d; });
+          return (
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <button onClick={() => setPeriodOffset(o => o - 1)} className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10"><ChevronLeft size={16} className="text-white/60" /></button>
+                <span className="text-sm font-bold text-white">{title}</span>
+                <button onClick={() => setPeriodOffset(o => o + 1)} className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10"><ChevronRight size={16} className="text-white/60" /></button>
+              </div>
+              <div className="grid grid-cols-7 gap-1">
+                {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d => <div key={d} className="text-center text-[10px] text-white/30 font-semibold pb-1">{d}</div>)}
+                {cells.map((d, i) => {
+                  const key = d.toISOString().split('T')[0];
+                  const cd: any = dayMap.get(key);
+                  const cfg = cd ? (PHASE_CONFIG[cd.phase] || PHASE_CONFIG.VEG) : null;
+                  const isToday = key === today;
+                  return (
+                    <button key={i} onClick={() => cd?.hasTask && setSelectedDay(cd)}
+                      className={`min-h-[52px] rounded-lg p-1 text-left border transition ${cfg ? cfg.bg : 'bg-white/[0.02] border-white/5'} ${isToday ? 'ring-2 ring-primary' : ''} ${cd?.hasTask ? 'cursor-pointer hover:brightness-125' : ''}`}>
+                      <div className={`text-[11px] font-bold ${cfg ? cfg.color : 'text-white/30'}`}>{d.getDate()}</div>
+                      {cd && <div className="text-[8px] text-white/40">D{cd.dayNum}</div>}
+                      {cd?.hasTask && <div className="w-1.5 h-1.5 rounded-full bg-primary mt-0.5" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()
+      ) : view === 'year' ? (
+        <div className="space-y-2">
+          <div className="text-sm font-bold text-white mb-1">Full cycle — {calendarDays.length} days</div>
+          <div className="flex h-6 rounded-lg overflow-hidden border border-white/10">
+            {calendarDays.map((d: any, i: number) => { const cfg = PHASE_CONFIG[d.phase] || PHASE_CONFIG.VEG; return <div key={i} title={`Day ${d.dayNum} · ${cfg.label}${d.task ? ' · ' + d.task : ''}`} onClick={() => d.hasTask && setSelectedDay(d)} className={`flex-1 ${d.phase === 'FLOWER' ? 'bg-purple-500/60' : d.phase === 'HARVEST' ? 'bg-red-500/60' : d.phase === 'FLIP' ? 'bg-yellow-500/60' : 'bg-green-500/50'} ${d.isToday ? 'ring-2 ring-white' : ''} ${d.hasTask ? 'cursor-pointer' : ''}`} style={{ minWidth: 2 }} />; })}
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">
+            {Object.entries(calendarDays.reduce((acc: any, d: any) => { acc[d.phase] = (acc[d.phase] || 0) + 1; return acc; }, {})).map(([ph, n]: any) => { const cfg = PHASE_CONFIG[ph] || PHASE_CONFIG.VEG; return <div key={ph} className={`rounded-lg p-2 border ${cfg.bg}`}><div className={`text-xs font-bold ${cfg.color}`}>{cfg.label}</div><div className="text-[11px] text-white/40">{n} days</div></div>; })}
+          </div>
         </div>
       ) : (
         <div className="space-y-1">
@@ -289,6 +372,27 @@ export default function GrowCalendarPage() {
               </div>
             )}
 
+            {/* Smart row — governing SOP · relevant role · status */}
+            {selectedDay.hasTask && (() => {
+              const t = (selectedDay.task || selectedDay.additionalTask || '').toLowerCase();
+              const sop = t.includes('clon') || t.includes('transplant') ? '3-CUL-7'
+                : t.includes('spray') || t.includes('folia') || t.includes('ipm') || t.includes('scout') ? '3-CUL-9'
+                : t.includes('defoliat') || t.includes('top') || t.includes('deleaf') ? '3-CUL-4'
+                : t.includes('harvest') ? '3-CUL-10'
+                : t.includes('run') || t.includes('feed') ? '3-CUL-5' : '3-CUL-3';
+              const role = selectedDay.phase === 'VEG' ? 'Cultivator' : selectedDay.phase === 'FLOWER' ? 'Head of Cultivation' : 'Cultivator';
+              const assigned = (dayShifts || []).filter((s: any) => (s.tasks || []).some((tk: any) => (tk.title || '').includes(selectedDay.task || '')) || true);
+              return (
+                <div className="flex flex-wrap items-center gap-2 mb-3">
+                  <a href="/sop-library" className="text-[11px] px-2 py-1 rounded-lg bg-amber-700/15 border border-amber-700/30 text-amber-300 font-semibold">SOP {sop} →</a>
+                  <span className="text-[11px] px-2 py-1 rounded-lg bg-primary/10 border border-primary/25 text-primary font-semibold">Role: {role}</span>
+                  <span className={`text-[11px] px-2 py-1 rounded-lg border font-semibold ${assigned.length ? 'bg-green-500/10 border-green-500/30 text-green-300' : 'bg-white/5 border-white/15 text-white/40'}`}>
+                    {assigned.length ? `Assigned: ${assigned.map((s: any) => s.userName).filter(Boolean).join(', ') || assigned.length}` : 'Unassigned'}
+                  </span>
+                </div>
+              );
+            })()}
+
             {/* Staff allocation for this day */}
             {hasMinLevel(2) && selectedDay.hasTask && (
               <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
@@ -297,16 +401,19 @@ export default function GrowCalendarPage() {
                   <select className="w-full px-3 py-2.5 bg-dark border border-white/10 rounded-xl text-white text-sm focus:border-primary focus:outline-none"
                     onChange={e => {
                       if (!e.target.value || !selectedDay) return;
+                      const u = cultStaff.find((x: any) => x.id === e.target.value);
                       api.post('/shifts', {
                         date: selectedDay.date, userId: e.target.value,
-                        userName: e.target.selectedOptions[0]?.text?.split(' (')[0] || '',
-                        role: 'CULTIVATOR',
+                        userName: u?.name || '',
+                        role: u?.role || 'CULTIVATOR',
                         tasks: [{ title: selectedDay.task || selectedDay.additionalTask || 'Calendar task', description: selectedDay.ipmApplication ? `IPM: ${selectedDay.ipmApplication} ${selectedDay.dosage || ''}` : '' }],
-                      }).then(() => addToast('success', 'Staff allocated'));
+                      }).then(() => { qc.invalidateQueries({ queryKey: ['day-shifts'] }); addToast('success', 'Staff allocated'); });
                       e.target.value = '';
                     }}>
-                    <option value="">Assign staff...</option>
+                    <option value="">Assign staff…</option>
+                    {cultStaff.map((u: any) => <option key={u.id} value={u.id}>{u.name} ({u.role.replace(/_/g, ' ').toLowerCase()})</option>)}
                   </select>
+                  {cultStaff.length === 0 && <p className="text-[10px] text-amber-300/70">No cultivation staff found — add staff in Users first.</p>}
                   <p className="text-[10px] text-white/20">Staff will see this in their "My Shift" view</p>
                 </div>
               </div>
@@ -318,14 +425,31 @@ export default function GrowCalendarPage() {
       {/* Create Schedule Modal */}
       <Modal open={showCreate} onClose={() => setShowCreate(false)} title="New Grow Schedule">
         <ModalInput label="Schedule Name" placeholder="e.g. GH1 Batch #03 2026" value={createForm.title} onChange={e => setCreateForm(f => ({ ...f, title: (e.target as HTMLInputElement).value }))} />
-        <ModalInput label="Strain" placeholder="e.g. Durban Poison" value={createForm.strain} onChange={e => setCreateForm(f => ({ ...f, strain: (e.target as HTMLInputElement).value }))} />
+        <div className="mb-3">
+          <label className="block text-xs text-white/50 mb-1.5">Strains on this schedule <span className="text-white/30">(pick one or more cloned on the same day)</span></label>
+          <div className="flex flex-wrap gap-1.5">
+            {(strainList || []).map((s: any) => {
+              const on = selectedStrains.includes(s.name);
+              return (
+                <button key={s.id || s.name} type="button" onClick={() => toggleStrain(s.name)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition ${on ? 'bg-primary/20 border-primary text-primary' : 'bg-white/5 border-white/10 text-white/50 hover:border-white/25'}`}>
+                  {on ? '✓ ' : ''}{s.name}
+                </button>
+              );
+            })}
+          </div>
+          {selectedStrains.length > 0 && <div className="text-[11px] text-white/40 mt-1.5">Selected: <span className="text-white/70">{createForm.strain}</span></div>}
+          {motherList && motherList.length > 0 && (
+            <div className="mt-2 text-[11px] text-white/30">Strains come from your mothers ({Array.from(new Set(motherList.map((m: any) => m.strain))).length} available).</div>
+          )}
+        </div>
         {greenhouses && (
           <ModalSelect label="Greenhouse" value={createForm.greenhouseId} onChange={e => setCreateForm(f => ({ ...f, greenhouseId: (e.target as HTMLSelectElement).value }))}>
             <option value="">Select greenhouse</option>
             {greenhouses.map((gh: any) => <option key={gh.id} value={gh.id}>{gh.name}</option>)}
           </ModalSelect>
         )}
-        <ModalInput label="Transplant Date" type="date" value={createForm.startDate} onChange={e => setCreateForm(f => ({ ...f, startDate: (e.target as HTMLInputElement).value }))} />
+        <ModalInput label="Cloning Date (cycle start · transplant auto = +14 days)" type="date" value={createForm.startDate} onChange={e => setCreateForm(f => ({ ...f, startDate: (e.target as HTMLInputElement).value }))} />
         <div className="grid grid-cols-2 gap-3">
           <ModalInput label="Veg Days" type="number" value={createForm.vegDays} onChange={e => setCreateForm(f => ({ ...f, vegDays: (e.target as HTMLInputElement).value }))} />
           <ModalInput label="Flower Days" type="number" value={createForm.flowerDays} onChange={e => setCreateForm(f => ({ ...f, flowerDays: (e.target as HTMLInputElement).value }))} />
@@ -431,10 +555,53 @@ function buildCalendarDays(schedule: any): CalendarDay[] {
   return days;
 }
 
-function buildDefaultPhases(startDate: string, vegDays: number, flowerDays: number) {
-  const days = buildCalendarDays({ startDate, phases: [], strain: '' });
-  return days.map(d => ({
-    date: d.date, dayNum: d.dayNum, task: d.task, additionalTask: d.additionalTask,
-    ipmApplication: d.ipmApplication, dosage: d.dosage, phase: d.phase, completed: false,
-  }));
+// Intelligent ILCO grow-cycle playbook generator. Given the CLONING date it projects
+// the whole dated cycle: Clone/Nursery → Transplant → Veg → Flip → Flower → Harvest → Post,
+// auto-filling the real GH2 cadence (scouting/IPM sprays, run-off tests, topping, defoliation,
+// pre-harvest deleaf). cloneDays default 14 (transplant on day cloneDays).
+function buildDefaultPhases(startDate: string, vegDays: number, flowerDays: number, cloneDays = 14, postDays = 7) {
+  const start = new Date(startDate);
+  const ymd = (n: number) => { const d = new Date(start); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+  const out: any[] = [];
+  let day = 0;
+  const push = (phase: string, task = '', x: any = {}) => {
+    out.push({ date: ymd(day), dayNum: out.length, phase, task, additionalTask: x.additionalTask || '', ipmApplication: x.ipm || '', dosage: x.dosage || '', completed: false });
+    day++;
+  };
+  // ── CLONE / NURSERY ──
+  for (let d = 0; d < cloneDays; d++) {
+    let t = '', x: any = {};
+    if (d === 0) t = 'Take cuttings · set clone tray';
+    else if (d === 6) t = 'Mortality Check — W1';
+    else if (d === cloneDays - 1) { t = 'Harden off · prep transplant'; }
+    else t = 'Clone room check · temp/humidity';
+    push('CLONE', t, x);
+  }
+  // ── VEG (day 0 = transplant) ──
+  for (let d = 0; d < vegDays; d++) {
+    let t = '', x: any = {};
+    if (d === 0) t = 'TRANSPLANT into greenhouse';
+    if (d === 3 || d === 8 || d === 13) { t = 'Scouting'; x = { ipm: 'Pyrol', dosage: '180ml' }; }
+    else if (d === 4 || d === 9) t = 'Run-off test';
+    else if (d === 7) { t = 'Top plants to 6 nodes'; x = { ipm: 'CeraSulpher', dosage: '32ml' }; }
+    else if (d === 12) x = { additionalTask: 'Bottom clean & defoliate' };
+    push('VEG', t, x);
+  }
+  // ── FLIP ──
+  push('FLIP', 'FLIP INTO FLOWER', { additionalTask: 'Bottom clean & defoliate' });
+  // ── FLOWER ──
+  for (let d = 0; d < flowerDays; d++) {
+    let t = '', x: any = {};
+    if (d % 7 === 2) { t = 'Scouting'; const bn = Math.floor(d / 7) % 2 === 1; x = { ipm: bn ? 'Bioneem' : 'Pyrol', dosage: bn ? '80ml' : '180ml', additionalTask: d < flowerDays - 14 ? 'Spray on & under plants' : 'NO MORE SPRAYING' }; }
+    else if (d % 7 === 4) t = 'Run-off test';
+    if (d === 19 || d === 33) x = { ...x, additionalTask: 'Defoliate / fan-leaf removal' };
+    if (d >= flowerDays - 3) x = { ...x, additionalTask: 'Pre-harvest deleaf' };
+    push('FLOWER', t, x);
+  }
+  // ── HARVEST ──
+  push('HARVEST', 'Prepare for harvest', { additionalTask: 'Pre-harvest deleaf' });
+  push('HARVEST', 'HARVEST', { additionalTask: 'Harvest all plants · record wet weight' });
+  // ── POST ──
+  for (let d = 0; d < postDays; d++) push('POST', d === postDays - 2 ? 'Clean greenhouse' : '', {});
+  return out;
 }

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facility Drill-Down — GH › Bay › Row › Subrow › Plant · ORIGIN by ILCO</title>
+<style>
+  :root{--black:#0A0A0A;--dark:#141414;--d2:#1c1c1c;--gold:#C9A84C;--gold-bright:#D4B86A;--grey:#A89F8C;--white:#F5F0E8;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--black);color:var(--white);font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
+  .wrap{max-width:1080px;margin:0 auto;padding:22px 16px 60px;}
+  .brand{font-weight:800;letter-spacing:.3em;font-size:20px;color:var(--gold);}
+  .brand small{display:block;letter-spacing:.32em;font-size:9px;color:var(--grey);font-weight:600;margin-top:3px;}
+  .crumb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:16px 0;font-size:13px;}
+  .crumb a{color:var(--gold-bright);cursor:pointer;text-decoration:none;padding:3px 9px;border:1px solid #2a2a2a;border-radius:8px;background:#141414;}
+  .crumb a:hover{border-color:var(--gold);}
+  .crumb span{color:#5a5a5a;}
+  .crumb .here{color:var(--white);font-weight:700;}
+  h2{font-size:15px;margin:8px 0 12px;color:var(--gold-bright);}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;}
+  .card{background:var(--dark);border:1px solid #262626;border-radius:12px;padding:14px;cursor:pointer;transition:.12s;}
+  .card:hover{border-color:var(--gold);transform:translateY(-1px);}
+  .card .t{font-weight:700;font-size:14px;}
+  .card .m{font-size:11px;color:var(--grey);margin-top:5px;line-height:1.5;}
+  .swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:middle;}
+  .lanes{display:flex;flex-direction:column;gap:6px;}
+  .lane{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:center;background:var(--dark);border:1px solid #262626;border-radius:10px;padding:8px 10px;cursor:pointer;}
+  .lane:hover{border-color:var(--gold);}
+  .lane .tag{font-size:11px;color:var(--grey);font-weight:700;}
+  .strip{height:26px;border-radius:6px;display:flex;align-items:center;padding:0 10px;font-size:11px;font-weight:700;color:#0A0A0A;}
+  .strip .cnt{margin-left:auto;font-size:9.5px;opacity:.75;}
+  .empty{background:#1c1c1c;color:#5a5a5a;border:1px dashed #333;}
+  .plantgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:5px;}
+  .plant{aspect-ratio:1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#0A0A0A;text-align:center;line-height:1.1;cursor:pointer;border:1px solid rgba(0,0,0,.25);}
+  .plant:hover{outline:2px solid #fff;}
+  .pill{font-size:11px;color:var(--grey);background:#141414;border:1px solid #262626;border-radius:8px;padding:4px 10px;display:inline-block;margin:0 0 12px;}
+  .foot{margin-top:26px;padding-top:12px;border-top:1px solid #222;color:#6a6356;font-size:11px;}
+  .legend{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 14px;}
+  .chip{font-size:10px;color:#0A0A0A;font-weight:700;padding:2px 8px;border-radius:999px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">ORIGIN<small>BY ILCO FARMING</small></div>
+  <div class="crumb" id="crumb"></div>
+  <div class="legend" id="legend"></div>
+  <div id="view"></div>
+  <div class="foot">ORIGIN · by ILCO Farming — Facility Drill-Down (GH › Bay › Row › Subrow › Plant) · tntilco.cleva-ai.co.za · 16 June 2026</div>
+</div>
+
+<script>
+const COLORS={'SL':'#7CC47C','KB':'#D4B86A','Heady Eddy':'#5FC9C0','Heady Daddy':'#B68BD4','Elvis':'#E58BA0','GP':'#7FA8E5','Sunday Driver':'#F0A65A','Keke':'#6FD0E0','Avro Banana':'#E8D86A','Old Cheese':'#B7B05A','Cereal Milk':'#E0C9A8','DP':'#C08A6A','Higher Primate':'#D46AB0','Strawberry Lemonade':'#E5D17F','Cheese':'#C9C36A','Subr01?':'#888','—':'#2a2a2a'};
+const SPP=130; // plants per subrow (confirm)
+// helper: row of 4 subrow strains
+const R=(a,b,c,d)=>[a,b,c,d];
+const FACILITY={
+  GH1:{type:'VEG',bays:{
+    'Bay 1':{rows:{'Row 1':R('SL','SL','SL','SL'),'Row 2':R('—','—','—','—'),'Row 3':R('—','—','—','—'),'Row 4':R('—','—','—','—')}},
+    'Bay 2':{rows:{'Row 1':R('KB','KB','KB','KB'),'Row 2':R('Elvis','Elvis','KB','KB'),'Row 3':R('Heady Eddy','Heady Eddy','Heady Eddy','Heady Eddy'),'Row 4':R('Subr01?','Subr01?','Subr01?','Subr01?')}},
+    'Bay 3':{rows:{'Row 1':R('SL','SL','SL','SL'),'Row 2':R('Heady Daddy','Heady Eddy','GP','Sunday Driver'),'Row 3':R('Elvis','Heady Eddy','Heady Eddy','SL'),'Row 4':R('Keke','Heady Daddy','DP','Higher Primate')}},
+  }},
+  GH2:{type:'FLOWERING',bays:{
+    'Bay 4':{rows:{'Row 1':R('KB','KB','KB','KB'),'Row 2':R('KB','KB','KB','KB'),'Row 3':R('—','—','—','—'),'Row 4':R('—','—','—','—')}},
+    'Bay 5':{rows:{'Row 1':R('Elvis','Elvis','Elvis','Elvis'),'Row 2':R('Elvis','Elvis','Elvis','Elvis'),'Row 3':R('Strawberry Lemonade','Strawberry Lemonade','Strawberry Lemonade','Strawberry Lemonade'),'Row 4':R('Strawberry Lemonade','Strawberry Lemonade','Strawberry Lemonade','Strawberry Lemonade')}},
+    'Bay 6 (?)':{rows:{'Row 1':R('Cereal Milk','Cereal Milk','Cheese','Cheese'),'Row 2':R('—','—','—','—'),'Row 3':R('—','—','—','—'),'Row 4':R('—','—','—','—')}},
+  }},
+};
+document.getElementById('legend').innerHTML=Object.keys(COLORS).filter(s=>s!=='—').map(s=>`<span class="chip" style="background:${COLORS[s]}">${s}</span>`).join('');
+
+let path=[]; // [gh, bay, row, subIdx]
+const view=document.getElementById('view'), crumb=document.getElementById('crumb');
+function go(p){path=p;render();}
+function col(s){return COLORS[s]||'#888';}
+
+function render(){
+  // breadcrumb
+  const parts=[['Facility',()=>go([])]];
+  if(path[0])parts.push([path[0],()=>go([path[0]])]);
+  if(path[1])parts.push([path[1],()=>go([path[0],path[1]])]);
+  if(path[2])parts.push([path[2],()=>go([path[0],path[1],path[2]])]);
+  if(path[3]!=null)parts.push(['Subrow '+(path[3]+1),null]);
+  crumb.innerHTML='';
+  parts.forEach((p,i)=>{
+    if(i)crumb.insertAdjacentHTML('beforeend','<span>›</span>');
+    if(p[1]){const a=document.createElement('a');a.textContent=p[0];a.onclick=p[1];crumb.appendChild(a);}
+    else{const s=document.createElement('span');s.className='here';s.textContent=p[0];crumb.appendChild(s);}
+  });
+
+  // levels
+  if(path.length===0){ // GH list
+    view.innerHTML='<h2>Greenhouses</h2><div class="cards">'+Object.entries(FACILITY).map(([g,d])=>{
+      const bays=Object.keys(d.bays).length;
+      return `<div class="card" onclick="go(['${g}'])"><div class="t">${g}</div><div class="m">${d.type} · ${bays} bays · 4 rows × 4 subrows</div></div>`;
+    }).join('')+'</div>';
+  } else if(path.length===1){ // bays
+    const d=FACILITY[path[0]];
+    view.innerHTML=`<h2>${path[0]} — bays</h2><div class="cards">`+Object.entries(d.bays).map(([b,bd])=>{
+      const strains=[...new Set(Object.values(bd.rows).flat().filter(s=>s!=='—'))];
+      return `<div class="card" onclick="go(['${path[0]}','${b}'])"><div class="t">${b}</div><div class="m">${strains.length} strain(s)<br>${strains.slice(0,4).map(s=>`<span class="swatch" style="background:${col(s)}"></span>${s}`).join('<br>')||'empty'}</div></div>`;
+    }).join('')+'</div>';
+  } else if(path.length===2){ // rows
+    const rows=FACILITY[path[0]].bays[path[1]].rows;
+    view.innerHTML=`<h2>${path[0]} › ${path[1]} — rows (long lanes →)</h2><div class="cards">`+Object.entries(rows).map(([r,subs])=>{
+      const strains=[...new Set(subs.filter(s=>s!=='—'))];
+      return `<div class="card" onclick="go(['${path[0]}','${path[1]}','${r}'])"><div class="t">${r}</div><div class="m">${strains.map(s=>`<span class="swatch" style="background:${col(s)}"></span>${s}`).join(' ')||'empty'}</div></div>`;
+    }).join('')+'</div>';
+  } else if(path.length===3){ // subrows
+    const subs=FACILITY[path[0]].bays[path[1]].rows[path[2]];
+    view.innerHTML=`<h2>${path[0]} › ${path[1]} › ${path[2]} — 4 subrows</h2><div class="lanes">`+subs.map((s,i)=>{
+      const empty=s==='—';
+      return `<div class="lane" onclick="${empty?'':`go(['${path[0]}','${path[1]}','${path[2]}',${i}])`}"><div class="tag">Subrow ${i+1}</div>`+
+        (empty?`<div class="strip empty">— set strain —</div>`:`<div class="strip" style="background:${col(s)}">${s}<span class="cnt">${SPP} plants ›</span></div>`)+`</div>`;
+    }).join('')+'</div>';
+  } else { // plants
+    const s=FACILITY[path[0]].bays[path[1]].rows[path[2]][path[3]];
+    const code=path[0]+'·'+path[1].replace(/\D/g,'')+'·R'+path[2].replace(/\D/g,'')+'·S'+(path[3]+1);
+    view.innerHTML=`<div class="pill"><span class="swatch" style="background:${col(s)}"></span><b>${s}</b> · Subrow ${path[3]+1} · ${SPP} plants · lane code ${code}</div><div class="plantgrid">`+
+      Array.from({length:SPP},(_,i)=>{const id=String(i+1).padStart(3,'0');return `<div class="plant" style="background:${col(s)}" title="${code}-P${id} · ${s}">P${id}</div>`;}).join('')+'</div>';
+  }
+}
+render();
+</script>
+</body>
+</html>

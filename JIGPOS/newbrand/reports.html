@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin — Takings Reports</title>
+<link rel="icon" type="image/png" href="images/origin-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#C9A84C; --gold-d:#8B6914; --panel:#15130d; --line:#2a2620; --txt:#F2ECDD; --grey:#9a9486; --green:#22C55E; --red:#DC2626; }
+  *{ box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  body{ background:#0A0A0A; color:var(--txt); }
+  header{ background:linear-gradient(135deg,#0A0A0A,#1a1408); border-bottom:2px solid var(--gold); padding:14px 22px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .brand{ display:flex; align-items:center; gap:12px; } .brand img{ height:34px; } .brand b{ font-family:'Cinzel'; letter-spacing:2px; color:var(--gold); } .brand span{ color:var(--grey); font-size:.8rem; }
+  .btn{ background:#222; color:var(--txt); border:none; border-radius:9px; padding:10px 15px; font-weight:700; cursor:pointer; font-size:.84rem; text-decoration:none; display:inline-block; }
+  .btn-gold{ background:var(--gold); color:#1a1a1a; }
+  .wrap{ max-width:900px; margin:0 auto; padding:22px 20px 70px; }
+  .gate{ max-width:350px; margin:50px auto; background:#161616; border:1px solid #2a2a2a; border-radius:16px; padding:26px; }
+  .lbl{ font-size:.72rem; color:var(--grey); display:flex; flex-direction:column; gap:5px; }
+  .lbl input{ padding:11px; background:#1d1d1d; border:1px solid #2a2a2a; border-radius:9px; color:#fff; }
+  .controls{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:18px 20px; margin-bottom:18px; }
+  .presets{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .preset{ background:#1d1a12; border:1px solid var(--line); color:#cfc6ad; border-radius:20px; padding:7px 14px; font-size:.8rem; cursor:pointer; }
+  .preset:hover,.preset.active{ border-color:var(--gold); color:var(--gold); }
+  .daterow{ display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; }
+  .daterow .lbl{ flex:1; min-width:140px; } .daterow input[type=date]{ padding:11px; background:#1d1d1d; border:1px solid var(--line); border-radius:9px; color:#fff; }
+  .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:18px; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px 18px; }
+  .card .v{ font-family:'Cinzel'; font-size:1.6rem; color:#fff; } .card .v.gold{ color:var(--gold); }
+  .card .l{ color:var(--grey); font-size:.72rem; text-transform:uppercase; letter-spacing:1px; margin-top:3px; }
+  h3.s{ font-family:'Cinzel'; color:var(--gold); font-size:1.05rem; margin:22px 0 10px; }
+  table{ width:100%; border-collapse:collapse; }
+  th{ text-align:left; color:var(--gold-d); font-size:.74rem; padding:9px 10px; border-bottom:1px solid var(--line); text-transform:uppercase; letter-spacing:.5px; }
+  td{ padding:9px 10px; border-bottom:1px solid #211d16; font-size:.9rem; color:#e6e0d2; }
+  td.num,th.num{ text-align:right; font-family:'JetBrains Mono'; }
+  tr:nth-child(even) td{ background:#100e09; }
+  .split{ display:flex; gap:10px; flex-wrap:wrap; }
+  .pill{ background:#100e09; border:1px solid var(--line); border-radius:10px; padding:10px 14px; }
+  .pill .m{ color:var(--grey); font-size:.72rem; text-transform:uppercase; } .pill .a{ font-family:'JetBrains Mono'; color:#fff; font-size:1.05rem; }
+  .msg{ color:var(--amber,#F59E0B); font-size:.85rem; min-height:16px; }
+  @media print{ header,.controls,.btn,.gate{ display:none !important; } body{ background:#fff; color:#000; } .card,.pill,td,th{ color:#000 !important; } .card,.controls{ border-color:#ccc; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="images/origin-logo.png"><b>ORIGIN</b><span>Takings Reports</span></div>
+  <div style="display:flex;gap:8px;"><a class="btn" href="pos.html">← POS</a></div>
+</header>
+<div class="wrap">
+  <div id="gate" class="gate" style="display:none;">
+    <div style="font-family:'Cinzel';color:var(--gold);font-size:1.3rem;text-align:center;">Manager Login</div>
+    <div style="color:#888;text-align:center;font-size:.82rem;margin:4px 0 20px;">Takings reports</div>
+    <label class="lbl">EMAIL<input id="lgEmail" type="email" style="margin:6px 0 14px;"></label>
+    <label class="lbl">PIN<input id="lgPin" type="password" inputmode="numeric" style="letter-spacing:5px;" onkeydown="if(event.key==='Enter')doLogin()"></label>
+    <div id="lgMsg" style="color:var(--red);font-size:.8rem;min-height:15px;margin-top:6px;"></div>
+    <button class="btn btn-gold" style="width:100%;margin-top:8px;" onclick="doLogin()">Sign In</button>
+  </div>
+
+  <div id="main" style="display:none;">
+    <div class="controls">
+      <div class="presets" id="presets">
+        <button class="preset" data-p="today">Today</button>
+        <button class="preset" data-p="yesterday">Yesterday</button>
+        <button class="preset" data-p="7">Last 7 days</button>
+        <button class="preset" data-p="thismonth">This month</button>
+        <button class="preset" data-p="lastmonth">Last month</button>
+      </div>
+      <div class="daterow">
+        <label class="lbl">FROM<input type="date" id="from"></label>
+        <label class="lbl">TO<input type="date" id="to"></label>
+        <button class="btn btn-gold" onclick="run()">Run report</button>
+        <button class="btn" onclick="downloadCsv()">⬇ CSV</button>
+        <button class="btn" onclick="window.print()">🖨 PDF</button>
+      </div>
+      <div id="msg" class="msg" style="margin-top:8px;"></div>
+    </div>
+    <div id="result"></div>
+  </div>
+</div>
+<script>
+const API=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'/api/v1':'/pos/api/v1';
+const BRANCH='69a5848c4d2f6747055eca16'; // Potchefstroom
+let token=sessionStorage.getItem('adminToken')||localStorage.getItem('token')||'';
+function hdr(){return{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'};}
+function R(n){return 'R'+(Number(n)||0).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function iso(d){return d.toISOString().slice(0,10);}
+
+async function doLogin(){
+  const email=document.getElementById('lgEmail').value.trim().toLowerCase(),pin=document.getElementById('lgPin').value.trim(),msg=document.getElementById('lgMsg');
+  if(!email||!pin){msg.textContent='Enter email and PIN';return;} msg.style.color='#888';msg.textContent='Signing in…';
+  try{const r=await fetch(`${API}/auth/otp/verify-pin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,pin})});const d=await r.json();
+    if(!d.success||!d.token){msg.style.color='var(--red)';msg.textContent=d.message||'Invalid';return;}
+    token=d.token;sessionStorage.setItem('adminToken',token);localStorage.setItem('token',token);
+    document.getElementById('gate').style.display='none';document.getElementById('main').style.display='block';preset('7');
+  }catch(e){msg.style.color='var(--red)';msg.textContent='Login failed';}
+}
+
+function preset(p){
+  document.querySelectorAll('.preset').forEach(b=>b.classList.toggle('active', b.dataset.p===p));
+  const now=new Date(); let f=new Date(now), t=new Date(now);
+  if(p==='today'){}
+  else if(p==='yesterday'){ f.setDate(f.getDate()-1); t.setDate(t.getDate()-1); }
+  else if(p==='7'){ f.setDate(f.getDate()-6); }
+  else if(p==='thismonth'){ f=new Date(now.getFullYear(),now.getMonth(),1); }
+  else if(p==='lastmonth'){ f=new Date(now.getFullYear(),now.getMonth()-1,1); t=new Date(now.getFullYear(),now.getMonth(),0); }
+  document.getElementById('from').value=iso(f); document.getElementById('to').value=iso(t);
+  run();
+}
+document.getElementById('presets').addEventListener('click',e=>{ if(e.target.dataset.p) preset(e.target.dataset.p); });
+
+async function run(){
+  const from=document.getElementById('from').value, to=document.getElementById('to').value, msg=document.getElementById('msg');
+  if(!from||!to){msg.textContent='Pick a from and to date';return;}
+  msg.style.color='#888';msg.textContent='Loading…';
+  try{
+    const r=await fetch(`${API}/pos/report/range?from=${from}&to=${to}&branchId=${BRANCH}`,{headers:hdr()});
+    if(r.status===401||r.status===403){document.getElementById('gate').style.display='block';document.getElementById('main').style.display='none';return;}
+    const d=await r.json(); if(!d.success){msg.style.color='var(--red)';msg.textContent=d.message||'Error';return;}
+    msg.textContent=''; render(d);
+  }catch(e){msg.style.color='var(--red)';msg.textContent='Failed to load report';}
+}
+
+function render(d){
+  const methods=Object.entries(d.byMethod||{}).map(([m,a])=>`<div class="pill"><div class="m">${m}</div><div class="a">${R(a)}</div></div>`).join('') || '<div style="color:#888">No payments</div>';
+  const daily=(d.daily||[]).map(x=>`<tr><td>${x.date}</td><td class="num">${R(x.sales)}</td><td class="num">${x.tx}</td></tr>`).join('') || '<tr><td colspan="3" style="color:#888">No sales in range</td></tr>';
+  const tops=(d.topProducts||[]).map(p=>`<tr><td>${p.name}</td><td class="num">${p.qty}</td><td class="num">${R(p.revenue)}</td></tr>`).join('') || '<tr><td colspan="3" style="color:#888">—</td></tr>';
+  document.getElementById('result').innerHTML=`
+    <div style="color:var(--grey);font-size:.85rem;margin-bottom:10px;">Potchefstroom · ${d.from} → ${d.to}</div>
+    <div class="cards">
+      <div class="card"><div class="v gold">${R(d.total)}</div><div class="l">Total takings</div></div>
+      <div class="card"><div class="v">${R(d.net)}</div><div class="l">Net (excl VAT)</div></div>
+      <div class="card"><div class="v">${R(d.vat)}</div><div class="l">VAT</div></div>
+      <div class="card"><div class="v">${d.transactions}</div><div class="l">Transactions</div></div>
+      <div class="card"><div class="v">${R(d.avgBasket)}</div><div class="l">Avg basket</div></div>
+      <div class="card"><div class="v" style="color:${d.voided.count?'#F59E0B':'#fff'}">${d.voided.count}</div><div class="l">Voided/refunded</div></div>
+    </div>
+    <h3 class="s">Payment methods</h3><div class="split">${methods}</div>
+    <h3 class="s">Daily breakdown</h3>
+    <table><tr><th>Date</th><th class="num">Sales</th><th class="num">Transactions</th></tr>${daily}</table>
+    <h3 class="s">Top products</h3>
+    <table><tr><th>Product</th><th class="num">Qty</th><th class="num">Revenue</th></tr>${tops}</table>`;
+}
+function downloadCsv(){
+  const from=document.getElementById('from').value, to=document.getElementById('to').value;
+  if(!from||!to)return;
+  fetch(`${API}/pos/report/range/csv?from=${from}&to=${to}&branchId=${BRANCH}`,{headers:hdr()}).then(r=>r.blob()).then(b=>{
+    const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`origin-takings-${from}_to_${to}.csv`;a.click();
+  });
+}
+if(!token){document.getElementById('gate').style.display='block';}else{document.getElementById('main').style.display='block';preset('7');}
+</script>
+</body>
+</html>

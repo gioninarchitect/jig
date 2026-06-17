@@ -71,11 +71,19 @@ export async function acknowledgeSOP(sopId: string, data: { userId: string; tena
 export async function createDeviation(data: {
   sopId: string; description: string; severity: SeverityLevel;
   facilityId: string; tenantId: string; userId: string;
+  deviationType?: string; referenceId?: string; raisedByName?: string; area?: string;
+  procedureRef?: string; impactOnQuality?: string; level?: number;
+  capaRequired?: boolean; capaNo?: string; actionsRequired?: string;
 }) {
+  // ILCO levels: 1 Critical · 2 Serious · 3 Minor — derive from severity if not given
+  const level = data.level ?? (data.severity === 'CRITICAL' ? 1 : data.severity === 'HIGH' ? 2 : 3);
   const deviation = await prisma.deviation.create({
     data: {
       sopId: data.sopId, description: data.description, severity: data.severity,
       facilityId: data.facilityId, raisedById: data.userId,
+      deviationType: data.deviationType, referenceId: data.referenceId, raisedByName: data.raisedByName,
+      area: data.area, procedureRef: data.procedureRef, impactOnQuality: data.impactOnQuality,
+      level, capaRequired: data.capaRequired, capaNo: data.capaNo, actionsRequired: data.actionsRequired,
     },
   });
   eventBus.emit('DEVIATION_RAISED', { userId: data.userId, tenantId: data.tenantId, entityType: 'Deviation', entityId: deviation.id });
@@ -99,17 +107,35 @@ export async function listDeviations(query: { tenantId: string; facilityId?: str
   });
 }
 
-export async function updateDeviation(id: string, data: { rootCause?: string; capa?: string; userId: string; tenantId: string }) {
+export async function updateDeviation(id: string, data: any) {
+  const pick = (k: string) => (data[k] !== undefined ? data[k] : undefined);
   return prisma.deviation.update({
     where: { id },
-    data: { rootCause: data.rootCause, capa: data.capa },
+    data: {
+      rootCause: pick('rootCause'), capa: pick('capa'),
+      deviationType: pick('deviationType'), referenceId: pick('referenceId'), raisedByName: pick('raisedByName'),
+      area: pick('area'), procedureRef: pick('procedureRef'), impactOnQuality: pick('impactOnQuality'),
+      level: pick('level'), capaRequired: pick('capaRequired'), capaNo: pick('capaNo'),
+      actionsRequired: pick('actionsRequired'), investigations: pick('investigations'),
+    },
   });
 }
 
-export async function closeDeviation(id: string, data: { userId: string; tenantId: string }) {
+// Deviation Approval Section — Quality Assurance Manager signs off the deviation.
+export async function approveDeviation(id: string, data: { userId: string; name?: string; tenantId: string }) {
   const updated = await prisma.deviation.update({
     where: { id },
-    data: { closedAt: new Date() },
+    data: { qaApprovedById: data.userId, qaApprovedName: data.name, qaApprovedAt: new Date() },
+  });
+  eventBus.emit('DEVIATION_APPROVED', { userId: data.userId, tenantId: data.tenantId, entityType: 'Deviation', entityId: id });
+  return updated;
+}
+
+// Deviation Close-off Section — Responsible Pharmacist signs the close-off.
+export async function closeDeviation(id: string, data: { userId: string; name?: string; tenantId: string }) {
+  const updated = await prisma.deviation.update({
+    where: { id },
+    data: { closedAt: new Date(), rpClosedById: data.userId, rpClosedName: data.name, rpClosedAt: new Date() },
   });
   eventBus.emit('DEVIATION_CLOSED', { userId: data.userId, tenantId: data.tenantId, entityType: 'Deviation', entityId: id });
   return updated;
