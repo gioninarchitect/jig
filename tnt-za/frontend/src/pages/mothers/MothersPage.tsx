@@ -1,12 +1,40 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
 import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import { SkeletonCard } from '../../components/Skeleton';
 import SOPHeader from '../../components/SOPHeader';
-import { Crown, Plus, GitBranch, Scissors, AlertTriangle, Pencil, Trash2 } from 'lucide-react';
+import { Crown, Plus, GitBranch, Scissors, AlertTriangle, Pencil, Trash2, Skull, Grid3x3, List } from 'lucide-react';
+import { strainColor } from '../../utils/strainColor';
 import api from '../../services/api';
+
+const STATUS_LIGHT: Record<string, string> = { ACTIVE: '#22C55E', STRESSED: '#F8C242', CULLED: '#DC2626', RETIRED: '#6b7280' };
+
+// dd/mm from a date (year ignored — survives the 3026/2027 typos in raw identifiers)
+const ddmm = (d?: string | null) => { if (!d) return ''; const x = new Date(d); return `${String(x.getDate()).padStart(2, '0')}/${String(x.getMonth() + 1).padStart(2, '0')}`; };
+const STRAIN_ABBR: Record<string, string> = { 'Cereal Milk': 'CM', 'Strawberry Lemonade': 'SL' };
+// Consistent mother code: "SL 007 14/10/2025" → "SL-M7 · 14/10" (mother line = M0, offspring M1+)
+function motherCode(m: any) {
+  const ab = STRAIN_ABBR[m.strain] || String(m.identifier || '').match(/^([A-Za-z]{1,3})/)?.[1] || String(m.strain || '').slice(0, 2).toUpperCase();
+  const num = String(m.identifier || '').match(/\b(\d{1,4})\b/);
+  const n = num ? parseInt(num[1], 10) : null;
+  const dt = ddmm(m.inceptionDate);
+  return n != null ? `${ab}-M${n}${dt ? ` · ${dt}` : ''}` : (m.identifier || '—');
+}
+
+// Explode a room's mother entries into individual pots, numbered SL1-01, SL1-02… (strain + room digit + running pot #)
+function roomPots(entries: any[]) {
+  const sorted = [...entries].sort((a, b) => (a.identifier || '').localeCompare(b.identifier || ''));
+  let n = 0; const pots: any[] = [];
+  sorted.forEach((m: any) => {
+    const roomDigit = (m.room || '').replace(/\D/g, '') || '0';
+    const ab = STRAIN_ABBR[m.strain] || String(m.identifier || '').match(/^([A-Za-z]{1,3})/)?.[1] || String(m.strain || '').slice(0, 2).toUpperCase();
+    for (let u = 1; u <= (m.quantity || 1); u++) { n++; pots.push({ m, unit: u, label: `${ab}${roomDigit}-${String(n).padStart(2, '0')}` }); }
+  });
+  return pots;
+}
 
 const STATUS_COLORS: Record<string, string> = {
   ACTIVE: 'bg-green-500/20 text-green-400', STRESSED: 'bg-amber-500/20 text-amber-400',
@@ -18,14 +46,20 @@ export default function MothersPage() {
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const [showCreate, setShowCreate] = useState(false);
+  const [roomView, setRoomView] = useState<'map' | 'list'>('list');
   const [editMotherId, setEditMotherId] = useState<string | null>(null);
   const [confirmDelMother, setConfirmDelMother] = useState<string | null>(null);
+  const [confirmCull, setConfirmCull] = useState<string | null>(null);
   const openEditMother = (m: any) => {
     setEditMotherId(m.id);
     setMotherForm({ identifier: m.identifier || '', strain: m.strain || '', source: m.source || 'CLONED', breeder: m.breeder || '', room: m.room || 'MR1', quantity: String(m.quantity || 1), inceptionDate: m.inceptionDate ? new Date(m.inceptionDate).toISOString().slice(0, 10) : '', lifecycleDays: String(m.lifecycleDays || 180) });
     setShowCreate(true);
   };
   const [showClone, setShowClone] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const [search, setSearch] = useState('');
+  const [sortBy, setSortBy] = useState<'newest' | 'oldest'>('newest'); // by inception date, so NM sees age clearly
+  const [roomTab, setRoomTab] = useState<string>('MR1'); // view one mother room at a time
   const [selectedMother, setSelectedMother] = useState<any>(null);
   const [motherForm, setMotherForm] = useState({ identifier: '', strain: '', source: 'CLONED', breeder: '', room: 'MR1', quantity: '1', inceptionDate: '', lifecycleDays: '180' });
   const [cuttings, setCuttings] = useState('10');
@@ -64,6 +98,13 @@ export default function MothersPage() {
     onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
   });
 
+  // Cull a specific mother → status CULLED (records mortality + raises change-control deviation server-side).
+  const cullMut = useMutation({
+    mutationFn: (id: string) => api.patch(`/baygrid/mothers/${id}/status`, { status: 'CULLED' }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['mothers'] }); setConfirmCull(null); addToast('success', 'Mother culled — recorded + deviation raised'); },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
+  });
+
   const cloneMut = useMutation({
     mutationFn: () => api.post('/baygrid/clone-trays', {
       motherPlantId: showClone, strain: mothers?.find((m: any) => m.id === showClone)?.strain,
@@ -89,14 +130,26 @@ export default function MothersPage() {
 
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Mother Plants</h1>
-          <p className="text-sm text-white/40">Mother → Clone Trays → Plants → Bays</p>
+          <h1 className="text-2xl font-bold text-white">Mother Room</h1>
+          <p className="text-sm text-white/40">Pots by room · coloured by strain · tap a pot for detail</p>
         </div>
-        {hasMinLevel(2) && (
-          <button onClick={() => { setEditMotherId(null); setMotherForm({ identifier: '', strain: '', source: 'CLONED', breeder: '', room: 'MR1', quantity: '1', inceptionDate: '', lifecycleDays: '180' }); setShowCreate(true); }} className="px-4 py-2.5 bg-primary hover:bg-primary-light text-white rounded-xl text-sm font-semibold flex items-center gap-2 transition min-h-[44px]">
-            <Plus size={16} /> Register Mother
-          </button>
-        )}
+        <div className="flex items-center gap-2 flex-wrap justify-end">
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search mother (e.g. SL 021, BC, MR1)…"
+            className="px-3 py-2 bg-dark border border-white/10 rounded-lg text-white text-sm w-44 sm:w-56 focus:border-primary focus:outline-none" />
+          <div className="flex rounded-lg border border-white/10 overflow-hidden">
+            <button onClick={() => setSortBy('newest')} className={`px-3 py-2 text-xs font-semibold ${sortBy === 'newest' ? 'bg-primary text-white' : 'bg-white/5 text-white/50'}`}>Newest</button>
+            <button onClick={() => setSortBy('oldest')} className={`px-3 py-2 text-xs font-semibold ${sortBy === 'oldest' ? 'bg-primary text-white' : 'bg-white/5 text-white/50'}`}>Oldest</button>
+          </div>
+          <div className="flex rounded-lg border border-white/10 overflow-hidden">
+            <button onClick={() => setRoomView('map')} className={`px-3 py-2 text-xs font-semibold flex items-center gap-1.5 ${roomView === 'map' ? 'bg-primary text-white' : 'bg-white/5 text-white/50'}`}><Grid3x3 size={13} /> Map</button>
+            <button onClick={() => setRoomView('list')} className={`px-3 py-2 text-xs font-semibold flex items-center gap-1.5 ${roomView === 'list' ? 'bg-primary text-white' : 'bg-white/5 text-white/50'}`}><List size={13} /> List</button>
+          </div>
+          {hasMinLevel(2) && (
+            <button onClick={() => { setEditMotherId(null); setMotherForm({ identifier: '', strain: '', source: 'CLONED', breeder: '', room: 'MR1', quantity: '1', inceptionDate: '', lifecycleDays: '180' }); setShowCreate(true); }} className="px-4 py-2.5 bg-primary hover:bg-primary-light text-white rounded-xl text-sm font-semibold flex items-center gap-2 transition min-h-[44px]">
+              <Plus size={16} /> Register Mother
+            </button>
+          )}
+        </div>
       </div>
 
       {isLoading ? (
@@ -109,17 +162,49 @@ export default function MothersPage() {
       ) : (
         <div className="space-y-6">
           {(() => {
-            const rooms = Array.from(new Set(mothers.map((m: any) => m.room || 'Unassigned'))).sort();
+            const q = search.trim().toLowerCase();
+            const ms = q ? mothers.filter((m: any) => `${m.identifier || ''} ${m.strain || ''} ${m.room || ''}`.toLowerCase().includes(q)) : mothers;
+            const rooms = (Array.from(new Set(ms.map((m: any) => m.room || 'Unassigned'))).sort() as string[]);
             const today = new Date();
-            return rooms.map((room: any) => {
-              const inRoom = mothers.filter((m: any) => (m.room || 'Unassigned') === room);
-              const totalQty = inRoom.reduce((s: number, m: any) => s + (m.quantity || 1), 0);
-              return (
-                <div key={room}>
+            if (!ms.length) return <div className="text-white/40 text-sm py-8 text-center">No mothers match "{search}".</div>;
+            const roomLabel = (r: string) => r === 'MR1' ? 'Mother Room 1 · MR1' : r === 'MR2' ? 'Mother Room 2 · MR2' : r;
+            const room: string = rooms.includes(roomTab) ? roomTab : rooms[0];
+            const inRoom = [...ms.filter((m: any) => (m.room || 'Unassigned') === room)].sort((a: any, b: any) => {
+              const da = new Date(a.inceptionDate || 0).getTime(), db = new Date(b.inceptionDate || 0).getTime();
+              return sortBy === 'newest' ? db - da : da - db;
+            });
+            const totalQty = inRoom.reduce((s: number, m: any) => s + (m.quantity || 1), 0);
+            return (
+              <div>
+                {/* Mother rooms as tabs — one room per screen */}
+                <div className="flex gap-2 flex-wrap mb-4">
+                  {rooms.map((r: any) => (
+                    <button key={r} onClick={() => setRoomTab(r)} className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${room === r ? 'bg-primary text-white' : 'bg-white/5 text-white/50 hover:text-white'}`}>
+                      {roomLabel(r)} <span className="opacity-60">({ms.filter((m: any) => (m.room || 'Unassigned') === r).length})</span>
+                    </button>
+                  ))}
+                </div>
+                <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-sm font-bold text-amber-300 font-mono">{room === 'MR1' ? 'Mother Room 1 · MR1' : room === 'MR2' ? 'Mother Room 2 · MR2' : room}</span>
-                    <span className="text-xs text-white/40">{inRoom.length} entries · {totalQty} plants</span>
+                    <span className="text-sm font-bold text-amber-300 font-mono">{roomLabel(room)}</span>
+                    <span className="text-xs text-white/40">{inRoom.length} entries · {totalQty} plants · {sortBy} first</span>
                   </div>
+                  {roomView === 'map' ? (
+                    /* POT MAP — one cell per plant, strain-coloured, status-ringed. Tap → mother detail. */
+                    <div className="grid grid-cols-6 sm:grid-cols-10 lg:grid-cols-12 gap-1.5">
+                      {roomPots(inRoom).map((p: any) => {
+                        const culled = p.m.status === 'CULLED';
+                        return (
+                          <button key={p.label} onClick={() => setSelectedMother(p.m)} title={`${p.label} · ${p.m.identifier} · ${p.m.strain} · ${p.m.status}`}
+                            className="aspect-square rounded-md flex flex-col items-center justify-center p-0.5 transition active:scale-90 hover:ring-1 hover:ring-white/50 relative overflow-hidden"
+                            style={{ background: `${strainColor(p.m.strain)}${culled ? '2e' : 'cc'}`, border: `1.5px solid ${STATUS_LIGHT[p.m.status] || '#555'}`, boxShadow: culled || p.m.status === 'STRESSED' ? `0 0 5px ${STATUS_LIGHT[p.m.status]}` : 'none' }}>
+                            <span className="text-[7.5px] font-mono font-bold leading-none" style={{ color: culled ? '#fca5a5' : 'rgba(0,0,0,0.8)' }}>{p.label}</span>
+                            {culled && <Skull size={9} className="text-red-300 mt-0.5" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {inRoom.map((m: any) => {
                       const cullOverdue = m.cullDate && new Date(m.cullDate) <= today;
@@ -128,8 +213,10 @@ export default function MothersPage() {
                           className="bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer hover:bg-white/[0.07] transition active:scale-[0.98]">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
+                              {/* status light — red = culled (Loraine's request) */}
+                              <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: STATUS_LIGHT[m.status] || '#6b7280', boxShadow: m.status === 'CULLED' || m.status === 'STRESSED' ? `0 0 6px ${STATUS_LIGHT[m.status]}` : 'none' }} title={m.status} />
                               <Crown size={16} className="text-amber-400" />
-                              <span className="font-bold font-mono text-white">{m.identifier}</span>
+                              <span className="font-bold font-mono text-white" title={m.identifier}>{motherCode(m)}</span>
                             </div>
                             <div className="flex items-center gap-1.5">
                               <span className={`text-xs px-2 py-1 rounded-full font-medium ${STATUS_COLORS[m.status]}`}>{m.status}</span>
@@ -152,20 +239,30 @@ export default function MothersPage() {
                             <div className="flex gap-4 text-xs text-white/40">
                               <span><GitBranch size={12} className="inline mr-1" />{m.totalClones} clones</span>
                             </div>
+                            {m.status === 'CULLED' && (
+                              <span className="flex items-center gap-1 text-xs font-semibold text-red-400"><Skull size={13} /> Culled</span>
+                            )}
                             {hasMinLevel(2) && m.status === 'ACTIVE' && (
-                              <button onClick={(e) => { e.stopPropagation(); setShowClone(m.id); setCuttings('10'); }}
-                                className="px-3 py-1.5 bg-primary/10 border border-primary/30 text-primary rounded-lg text-xs font-semibold hover:bg-primary/20 transition flex items-center gap-1 min-h-[36px]">
-                                <Scissors size={12} /> Clone
-                              </button>
+                              <div className="flex gap-1.5" onClick={(e) => e.stopPropagation()}>
+                                <button onClick={() => confirmCull === m.id ? cullMut.mutate(m.id) : setConfirmCull(m.id)}
+                                  className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border flex items-center gap-1 min-h-[36px] transition ${confirmCull === m.id ? 'bg-red-500/25 border-red-500/50 text-red-200' : 'bg-red-500/10 border-red-500/25 text-red-300 hover:bg-red-500/20'}`}>
+                                  <Skull size={12} /> {confirmCull === m.id ? 'Confirm' : 'Cull'}
+                                </button>
+                                <button onClick={() => navigate(`/cloning?mother=${m.id}`)}
+                                  className="px-3 py-1.5 bg-primary/10 border border-primary/30 text-primary rounded-lg text-xs font-semibold hover:bg-primary/20 transition flex items-center gap-1 min-h-[36px]">
+                                  <Scissors size={12} /> Clone
+                                </button>
+                              </div>
                             )}
                           </div>
                         </div>
                       );
                     })}
                   </div>
+                  )}
                 </div>
+              </div>
               );
-            });
           })()}
         </div>
       )}
@@ -174,6 +271,13 @@ export default function MothersPage() {
       <Modal open={!!selectedMother && !!motherDetail} onClose={() => setSelectedMother(null)} title={`Mother: ${motherDetail?.identifier || ''}`}>
         {motherDetail && (
           <div className="space-y-4">
+            {/* Clone straight from this mother — strain + mother pre-linked on the cloning form */}
+            {motherDetail.status === 'ACTIVE' && (
+              <button onClick={() => navigate(`/cloning?mother=${motherDetail.id}`)}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary hover:bg-primary-light text-white rounded-xl text-sm font-bold min-h-[48px] transition">
+                <Scissors size={16} /> Clone from this mother
+              </button>
+            )}
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-white/5 border border-white/10 rounded-lg p-3">
                 <div className="text-xs text-white/40">Strain</div>

@@ -31,7 +31,7 @@ router.get('/attendance/:date', requireLevel(2), async (req: AuthRequest, res: R
 });
 
 // Mark absent/leave
-router.post('/absent', requireLevel(2), async (req: AuthRequest, res: Response) => {
+router.post('/absent', requireLevel(3), async (req: AuthRequest, res: Response) => {
   try {
     const record = await hr.markAbsent(req.body.userId, req.body.userName, req.body.date, req.body.reason || 'ABSENT', req.user!.tenantId);
     res.json({ success: true, record });
@@ -51,7 +51,7 @@ router.get('/training', requireLevel(0), async (req: AuthRequest, res: Response)
 });
 
 // Training — create
-router.post('/training', requireLevel(2), async (req: AuthRequest, res: Response) => {
+router.post('/training', requireLevel(3), async (req: AuthRequest, res: Response) => {
   try {
     const record = await hr.createTraining({ ...req.body, tenantId: req.user!.tenantId });
     res.json({ success: true, record });
@@ -59,7 +59,7 @@ router.post('/training', requireLevel(2), async (req: AuthRequest, res: Response
 });
 
 // Training — complete
-router.patch('/training/:id/complete', requireLevel(2), async (req: AuthRequest, res: Response) => {
+router.patch('/training/:id/complete', requireLevel(3), async (req: AuthRequest, res: Response) => {
   try {
     const record = await hr.completeTraining(p(req.params.id), req.body);
     res.json({ success: true, record });
@@ -85,7 +85,7 @@ router.get('/leave', requireLevel(2), async (req: AuthRequest, res: Response) =>
   try { res.json({ success: true, leave: await hr.listLeave(req.user!.tenantId, { status: req.query.status as string | undefined }) }); }
   catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
-router.patch('/leave/:id', requireLevel(2), async (req: AuthRequest, res: Response) => {
+router.patch('/leave/:id', requireLevel(3), async (req: AuthRequest, res: Response) => {
   try {
     const lr = await hr.decideLeave(p(req.params.id), { status: req.body.status === 'REJECTED' ? 'REJECTED' : 'APPROVED', approvedById: req.user!.userId, approverNote: req.body.approverNote, tenantId: req.user!.tenantId });
     res.json({ success: true, leave: lr });

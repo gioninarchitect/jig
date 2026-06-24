@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useAuthStore } from '../../stores/authStore';
 import { useToastStore } from '../../stores/toastStore';
 import { SkeletonCard } from '../../components/Skeleton';
@@ -68,7 +69,8 @@ export default function DailyCheckPage() {
   const user = useAuthStore(s => s.user);
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
-  const canSubmit = hasMinLevel(1);
+  const readOnly = useReadOnly();
+  const canSubmit = !readOnly && hasMinLevel(1);
 
   const [zone, setZone] = useState<Zone>('GH1');
   const [showSubmit, setShowSubmit] = useState(false);

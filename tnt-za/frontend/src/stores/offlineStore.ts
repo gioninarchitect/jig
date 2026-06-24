@@ -75,6 +75,12 @@ export const useOfflineStore = create<OfflineState>((set, get) => ({
     const item: QueuedAction = { ...action, id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}` };
     await saveToIDB(item);
     set(s => ({ queue: [...s.queue, item] }));
+    // Register OS-level background sync so the queue flushes when connectivity returns
+    // even if the app/tab was closed. Falls back to the window 'online' listener below.
+    try {
+      const reg: any = await navigator.serviceWorker.ready;
+      await reg.sync?.register('sync-offline-queue');
+    } catch { /* Background Sync API unsupported — online-event sync still covers it */ }
   },
 
   syncQueue: async () => {

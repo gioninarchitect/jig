@@ -1,4 +1,4 @@
-const CACHE_NAME = 'origin-tnt-v2';
+const CACHE_NAME = 'origin-tnt-v3';
 const API_CACHE = 'origin-api-v1';
 const OFFLINE_QUEUE = 'origin-offline-queue';
 
@@ -8,10 +8,18 @@ const APP_SHELL = [
   '/index.html',
 ];
 
-// Install — cache app shell
+// Install — cache app shell + precache the CURRENT JS/CSS bundle so the app opens
+// fully offline even on a fresh load (not only after the assets were lazily fetched).
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL))
+    caches.open(CACHE_NAME).then(async (cache) => {
+      await cache.addAll(APP_SHELL);
+      try {
+        const html = await (await fetch('/index.html', { cache: 'no-cache' })).text();
+        const assets = [...new Set([...html.matchAll(/\/assets\/[A-Za-z0-9_.-]+\.(?:js|css)/g)].map(m => m[0]))];
+        if (assets.length) await cache.addAll(assets);
+      } catch (e) { /* best-effort precache — lazy caching still covers it */ }
+    })
   );
   self.skipWaiting();
 });

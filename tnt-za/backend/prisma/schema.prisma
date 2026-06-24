@@ -495,6 +495,7 @@ model CloneTray {
   rootedDate     DateTime?
   transplantDate DateTime?
   photo          String?
+  photos         Json?           // string[] of /uploads/media URLs — photo + short-video proof
   notes          String?
   motherUnit     Int?            // which pot within the mother entry (1..quantity)
   motherLabel    String?         // composed pot label, e.g. SL1-01
@@ -1115,6 +1116,7 @@ model SensorReading {
 model ComplianceSource {
   id             String   @id @default(uuid())
   sourceId       String   @unique // e.g. EU_GMP_VOL4_ANNEX11
+  framework      String   @default("EU_GMP") // EU_GMP | SAHPRA | SAPC | HPCSA | SA_LAW | OTHER
   title          String
   part           String   // Part I, Part III, Annex
   chapter        String?
@@ -1255,6 +1257,7 @@ model Batch {
   destructions DestructionEvent[]
   cultivationRecord BatchCultivationRecord?
   labelRecords LabelLifecycleRecord[]
+  batchRecords BatchRecord[]
 
   @@index([tenantId])
   @@index([status])
@@ -1282,6 +1285,35 @@ model BatchCultivationRecord {
 
   @@index([tenantId])
   @@index([status])
+}
+
+// ── BATCH RECORDS — BMR / BPR / BDR (GMP batch documentation) ──────────────────
+// Each batch carries up to three signed records through processing:
+//   BMR Batch Manufacturing Record (harvest → drying → trimming)
+//   BPR Batch Processing Record (processing / packaging)
+//   BDR Batch Dispatch Record (release & dispatch)
+// QA signs each before the next stage proceeds.
+model BatchRecord {
+  id           String    @id @default(uuid())
+  recordType   String    // BMR | BPR | BDR
+  refNo        String    @unique // e.g. BMR-B-2026-001
+  status       String    @default("DRAFT") // DRAFT | IN_PROGRESS | QA_SIGNED | CLOSED
+  summary      String?
+  data         Json?     // stage fields: yields, weights, dates, lab refs, raw-material spec
+  qaSignedById String?
+  qaSignedName String?
+  qaSignedAt   DateTime?
+  createdById  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  batchId      String
+  batch        Batch     @relation(fields: [batchId], references: [id])
+  tenantId     String
+  facilityId   String?
+
+  @@index([batchId])
+  @@index([tenantId])
 }
 
 model LabelLifecycleRecord {
@@ -1509,9 +1541,24 @@ model SOP {
 
   acknowledgements SOPAcknowledgement[]
   deviations       Deviation[]
+  versions         SOPVersion[]
 
   @@index([facilityId])
   @@index([category])
+}
+
+// Append-only snapshot of an SOP's content BEFORE each edit — makes every amendment revertible.
+// (Closes the gap where an overwrite was unrecoverable.)
+model SOPVersion {
+  id          String   @id @default(uuid())
+  sopId       String
+  sop         SOP      @relation(fields: [sopId], references: [id])
+  version     Int      // the version number this snapshot represents
+  content     String
+  editedById  String?
+  createdAt   DateTime @default(now())
+
+  @@index([sopId])
 }
 
 model SOPAcknowledgement {
@@ -1541,6 +1588,8 @@ model Deviation {
   referenceId     String?   // Sample / Equipment / Consumable / Data Logger / Document ID
   raisedByName    String?   // Raised by (Name and Surname)
   area            String?   // Area of Deviation
+  department      String?   // Cultivation | Nursery | Processing | QA/Lab | Engineering | Facility
+  phase           String?   // Propagation/Cloning | Vegetative | Flowering | Harvest | Drying | Curing/Trim | Packaging | N/A
   procedureRef    String?   // Procedure Deviated from (free text; sopId still linked when known)
   impactOnQuality String?   // YES | NO | NOT_KNOWN
   level           Int?      // 1 = Critical | 2 = Serious | 3 = Minor/Standard
@@ -1578,6 +1627,35 @@ model EquipmentCalibration {
   calibratedBy   User?    @relation("Calibrator", fields: [calibratedById], references: [id])
 
   @@index([facilityId])
+}
+
+// ── QMS REGISTER — one generic record powering every QMS section ──────────────
+// Legal & Regulatory, Validations, Risk Assessment, Stability, Barcode,
+// Engineering and Procurement all share this shape (a register of records that
+// move OPEN → IN_PROGRESS → APPROVED/CLOSED). Deviations keep their own richer
+// model; everything else lives here so the module is one table, not eight.
+model QmsRecord {
+  id          String    @id @default(uuid())
+  module      String    // LEGAL | VALIDATION | RISK | STABILITY | BARCODE | ENGINEERING | PROCUREMENT | CHANGE_CONTROL | OOS | OOT
+  recordType  String?   // sub-type: PROCESS|MACHINERY|EQUIPMENT|MOISTURE|HVAC | RO|ELECTRICAL|SOFTWARE_URS | SUPPLIER | FMEA …
+  refNo       String?   // human reference e.g. VAL-2026-001, SUP-014
+  title       String
+  description String?
+  status      String    @default("OPEN")  // OPEN | IN_PROGRESS | APPROVED | CLOSED
+  severity    String?   // optional risk/priority
+  grade       String?   // supplier grading: APPROVED | CONDITIONAL | REJECTED | PENDING
+  data        Json?     // section-specific extra fields (FMEA scores, URS items, supplier contact…)
+  ownerName   String?
+  raisedById  String?
+  dueDate     DateTime?
+  closedAt    DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tenantId    String
+  facilityId  String?
+
+  @@index([tenantId, module])
 }
 
 // ── SYSTEM ───────────────────────────────────────────────────────────────────

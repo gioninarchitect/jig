@@ -39,6 +39,9 @@ export async function updateSOP(id: string, data: { content: string; tenantId: s
   const sop = await prisma.sOP.findFirst({ where: { id, tenantId: data.tenantId } });
   if (!sop) throw Object.assign(new Error('SOP not found'), { status: 404 });
 
+  // Snapshot the CURRENT content before overwriting — every amendment is now revertible.
+  await prisma.sOPVersion.create({ data: { sopId: id, version: sop.version, content: sop.content, editedById: data.userId } }).catch(() => {});
+
   const updated = await prisma.sOP.update({
     where: { id },
     data: {
@@ -53,6 +56,13 @@ export async function updateSOP(id: string, data: { content: string; tenantId: s
   eventBus.emit('SOP_UPDATED', { userId: data.userId, tenantId: data.tenantId, entityType: 'SOP', entityId: id });
   const governance = await syncSopGovernance(updated.id, data.tenantId, data.userId);
   return { ...updated, governance };
+}
+
+// Previous content snapshots for an SOP (newest first) — QA can read or restore any of them.
+export async function listSopVersions(id: string, tenantId: string) {
+  const sop = await prisma.sOP.findFirst({ where: { id, tenantId } });
+  if (!sop) throw Object.assign(new Error('SOP not found'), { status: 404 });
+  return prisma.sOPVersion.findMany({ where: { sopId: id }, orderBy: { version: 'desc' } });
 }
 
 export async function acknowledgeSOP(sopId: string, data: { userId: string; tenantId: string }) {
@@ -72,6 +82,7 @@ export async function createDeviation(data: {
   sopId: string; description: string; severity: SeverityLevel;
   facilityId: string; tenantId: string; userId: string;
   deviationType?: string; referenceId?: string; raisedByName?: string; area?: string;
+  department?: string; phase?: string;
   procedureRef?: string; impactOnQuality?: string; level?: number;
   capaRequired?: boolean; capaNo?: string; actionsRequired?: string;
 }) {
@@ -82,7 +93,7 @@ export async function createDeviation(data: {
       sopId: data.sopId, description: data.description, severity: data.severity,
       facilityId: data.facilityId, raisedById: data.userId,
       deviationType: data.deviationType, referenceId: data.referenceId, raisedByName: data.raisedByName,
-      area: data.area, procedureRef: data.procedureRef, impactOnQuality: data.impactOnQuality,
+      area: data.area, department: data.department, phase: data.phase, procedureRef: data.procedureRef, impactOnQuality: data.impactOnQuality,
       level, capaRequired: data.capaRequired, capaNo: data.capaNo, actionsRequired: data.actionsRequired,
     },
   });
@@ -132,7 +143,16 @@ export async function approveDeviation(id: string, data: { userId: string; name?
 }
 
 // Deviation Close-off Section — Responsible Pharmacist signs the close-off.
+// GMP segregation of duties: QA must approve BEFORE the RP can close. Block otherwise.
 export async function closeDeviation(id: string, data: { userId: string; name?: string; tenantId: string }) {
+  const dev = await prisma.deviation.findFirst({ where: { id, facility: { tenantId: data.tenantId } } });
+  if (!dev) throw Object.assign(new Error('Deviation not found'), { status: 404 });
+  if (!dev.qaApprovedById) throw Object.assign(new Error('QA Manager must approve this deviation before the RP can close it off.'), { status: 409 });
+  // GMP: Critical (Level 1) & Serious (Level 2) deviations require a documented CAPA before close. Minor (Level 3) does not.
+  const needsCapa = dev.capaRequired ?? (dev.level != null && dev.level <= 2);
+  if (needsCapa && !(dev.capa || dev.capaNo || dev.actionsRequired)) {
+    throw Object.assign(new Error(`Level ${dev.level ?? '1/2'} (Critical/Serious) deviation — a CAPA (corrective & preventive action) must be recorded before it can be closed. Level 3 (Minor) deviations don't need one.`), { status: 409 });
+  }
   const updated = await prisma.deviation.update({
     where: { id },
     data: { closedAt: new Date(), rpClosedById: data.userId, rpClosedName: data.name, rpClosedAt: new Date() },
@@ -165,4 +185,50 @@ export async function listEquipment(facilityId: string) {
     include: { calibratedBy: { select: { name: true } } },
     orderBy: { nextDue: 'asc' },
   });
+}
+
+// ── QMS REGISTER (generic) — Legal, Validations, Risk, Stability, Barcode, Engineering, Procurement ──
+
+export async function listQmsRecords(q: { tenantId: string; module?: string }) {
+  const where: any = { tenantId: q.tenantId };
+  if (q.module) where.module = q.module;
+  return prisma.qmsRecord.findMany({ where, orderBy: { createdAt: 'desc' } });
+}
+
+export async function createQmsRecord(data: {
+  tenantId: string; facilityId?: string | null; userId: string;
+  module: string; recordType?: string; refNo?: string; title: string;
+  description?: string; severity?: string; grade?: string; dueDate?: string; data?: any; ownerName?: string;
+}) {
+  if (!data.module || !data.title) throw Object.assign(new Error('module and title are required'), { status: 400 });
+  const rec = await prisma.qmsRecord.create({
+    data: {
+      tenantId: data.tenantId, facilityId: data.facilityId ?? null, raisedById: data.userId,
+      module: data.module, recordType: data.recordType, refNo: data.refNo, title: data.title,
+      description: data.description, severity: data.severity, grade: data.grade,
+      ownerName: data.ownerName, data: data.data ?? undefined,
+      dueDate: data.dueDate ? new Date(data.dueDate) : undefined,
+    },
+  });
+  eventBus.emit('QMS_RECORD_CREATED', { userId: data.userId, tenantId: data.tenantId, entityType: 'QmsRecord', entityId: rec.id });
+  return rec;
+}
+
+export async function updateQmsRecord(id: string, tenantId: string, userId: string, patch: any) {
+  const rec = await prisma.qmsRecord.findFirst({ where: { id, tenantId } });
+  if (!rec) throw Object.assign(new Error('QMS record not found'), { status: 404 });
+  const pick = (k: string) => (patch[k] !== undefined ? patch[k] : undefined);
+  const status = pick('status');
+  const updated = await prisma.qmsRecord.update({
+    where: { id },
+    data: {
+      title: pick('title'), description: pick('description'), recordType: pick('recordType'),
+      refNo: pick('refNo'), severity: pick('severity'), grade: pick('grade'),
+      ownerName: pick('ownerName'), data: pick('data'), status,
+      dueDate: patch.dueDate !== undefined ? (patch.dueDate ? new Date(patch.dueDate) : null) : undefined,
+      closedAt: status === 'CLOSED' ? new Date() : status && status !== 'CLOSED' ? null : undefined,
+    },
+  });
+  eventBus.emit('QMS_RECORD_UPDATED', { userId, tenantId, entityType: 'QmsRecord', entityId: id });
+  return updated;
 }

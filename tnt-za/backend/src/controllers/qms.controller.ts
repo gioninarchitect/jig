@@ -30,6 +30,13 @@ export async function updateSOP(req: AuthRequest, res: Response) {
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 }
 
+export async function listSopVersions(req: AuthRequest, res: Response) {
+  try {
+    const versions = await qms.listSopVersions(p(req.params.id), req.user!.tenantId);
+    res.json({ success: true, versions });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}
+
 export async function acknowledgeSOP(req: AuthRequest, res: Response) {
   try {
     const ack = await qms.acknowledgeSOP(p(req.params.id), { userId: req.user!.userId, tenantId: req.user!.tenantId });
@@ -93,5 +100,27 @@ export async function listEquipment(req: AuthRequest, res: Response) {
   try {
     const eq = await qms.listEquipment(p(req.query.facilityId as string) || req.user!.facilityId || '');
     res.json({ success: true, equipment: eq });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}
+
+// ── QMS register (generic) ──
+export async function listQmsRecords(req: AuthRequest, res: Response) {
+  try {
+    const records = await qms.listQmsRecords({ tenantId: req.user!.tenantId, module: p(req.query.module as string) });
+    res.json({ success: true, records });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}
+
+export async function createQmsRecord(req: AuthRequest, res: Response) {
+  try {
+    const record = await qms.createQmsRecord({ ...req.body, tenantId: req.user!.tenantId, facilityId: req.user!.facilityId, userId: req.user!.userId });
+    res.status(201).json({ success: true, record });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}
+
+export async function updateQmsRecord(req: AuthRequest, res: Response) {
+  try {
+    const record = await qms.updateQmsRecord(p(req.params.id), req.user!.tenantId, req.user!.userId, req.body);
+    res.json({ success: true, record });
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 }

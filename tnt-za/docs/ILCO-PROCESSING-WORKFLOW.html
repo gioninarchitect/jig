@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ILCO Processing Workflow</title>
+<style>
+  @page { size: A4 portrait; margin: 12mm; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: #1A1A1A; margin: 0; font-size: 11px; }
+  .band { background: #0A0A0A; color: #C9A84C; padding: 18px 24px; border-radius: 10px; margin-bottom: 14px; }
+  .band h1 { margin: 0; font-size: 19px; letter-spacing: 1.5px; }
+  .band .sub { color: #A89F8C; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+  .legend { font-size: 10px; color: #5C5648; margin: 0 0 12px; }
+  .legend b { color: #8B6914; }
+  .flow { display: flex; flex-direction: column; align-items: stretch; }
+  .stage { border: 1.5px solid #C9A84C; border-radius: 9px; padding: 9px 13px; background: #F8F4EA; break-inside: avoid; }
+  .stage .top { display: flex; align-items: baseline; gap: 8px; }
+  .stage .num { background: #0A0A0A; color: #C9A84C; font-weight: bold; font-size: 11px; width: 19px; height: 19px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+  .stage .name { font-weight: 700; font-size: 13px; color: #0A0A0A; }
+  .stage .meta { margin: 5px 0 0 27px; display: flex; flex-wrap: wrap; gap: 5px 7px; align-items: center; }
+  .chip { font-size: 9px; padding: 2px 7px; border-radius: 9px; font-weight: 600; }
+  .sop { background: #0A0A0A; color: #C9A84C; }
+  .form { background: #EFE6CE; color: #5C5648; }
+  .weigh { background: #C9A84C; color: #0A0A0A; }
+  .owner { background: #E4DCC9; color: #1A1A1A; }
+  .arrow { text-align: center; color: #C9A84C; font-size: 16px; line-height: 1; margin: 3px 0; }
+  .branch { margin: 4px 0 4px 27px; border-left: 3px solid #B23B2E; background: #FBEFEC; padding: 7px 11px; border-radius: 0 8px 8px 0; font-size: 10px; color: #7a2b22; break-inside: avoid; }
+  .branch.lab { border-left-color: #8B6914; background: #FBF6E8; color: #6b5410; }
+  .branch b { font-weight: 700; }
+  .foot { margin-top: 14px; font-size: 9px; color: #A89F8C; border-top: 1px solid #E4DCC9; padding-top: 7px; }
+</style>
+</head>
+<body>
+  <div class="band">
+    <h1>ILCO PROCESSING WORKFLOW</h1>
+    <div class="sub">SOP → Stage → Form → Weigh · Wet intake to dispatch</div>
+  </div>
+  <p class="legend">
+    <b>📷</b> = scale-snap weigh point (Claude-Vision auto-fills weight via <b>/api/scan</b>) &nbsp;·&nbsp;
+    <b>⏳</b> = async 3rd-party lab/moisture (up to 2 weeks) &nbsp;·&nbsp;
+    <span class="chip sop">SOP</span> <span class="chip form">form</span> <span class="chip weigh">📷 weigh</span> <span class="chip owner">owner</span>
+  </p>
+
+  <div class="flow">
+    <div class="stage"><div class="top"><span class="num">1</span><span class="name">Wet intake / Handover</span></div>
+      <div class="meta"><span class="chip sop">5-PDT-6 · 5-PDT-4</span><span class="chip form">Wet Flower Inspection</span><span class="chip form">Receiving Register</span><span class="chip weigh">📷 wet weight</span><span class="chip owner">ps1 / ps2</span></div></div>
+    <div class="arrow">↓</div>
+
+    <div class="stage"><div class="top"><span class="num">2</span><span class="name">Sampling &amp; Testing — before drying</span></div>
+      <div class="meta"><span class="chip sop">5-PDT-003</span><span class="chip form">Sampling Room Register</span><span class="chip form">Sample Moisture</span><span class="chip weigh">📷 sample weight</span><span class="chip owner">ps + Keke (QA)</span></div></div>
+    <div class="branch lab">⏳ <b>Sample → 3rd-party lab + moisture</b> — up to <b>2 weeks</b>, runs in parallel. Result <b>gates Dispatch</b> (no release without a PASS).</div>
+    <div class="arrow">↓</div>
+
+    <div class="stage"><div class="top"><span class="num">3</span><span class="name">Drying</span></div>
+      <div class="meta"><span class="chip form">Temp &amp; Humidity (3×/day)</span><span class="chip weigh">📷 dry weight</span><span class="chip owner">ps1 / ps2</span></div></div>
+    <div class="arrow">↓</div>
+
+    <div class="stage"><div class="top"><span class="num">4</span><span class="name">Debucking (destalk)</span></div>
+      <div class="meta"><span class="chip form">strip flower from stems &amp; branches</span><span class="chip weigh">📷 debucked weight</span><span class="chip owner">Trimmers / ps</span></div></div>
+    <div class="arrow">↓</div>
+
+    <div class="stage"><div class="top"><span class="num">5</span><span class="name">Trimming</span></div>
+      <div class="meta"><span class="chip form">Trimming Dried Flower Batch Control</span><span class="chip weigh">📷 issued → finished + waste + trimmings</span><span class="chip owner">Trimmers (shared)</span></div></div>
+    <div class="arrow">↓</div>
+
+    <div class="stage"><div class="top"><span class="num">6</span><span class="name">Visual Inspection</span></div>
+      <div class="meta"><span class="chip sop">5-PDT-007</span><span class="chip form">Batch Quality Check Register</span><span class="chip owner">Keke (QA) / ps</span></div></div>
+    <div class="branch">❌ <b>Defects / rejects</b> → Rejected Goods Register (5-PDT-13) → <b>Disposal &amp; destruction workflow</b>.</div>
+    <div class="arrow">↓</div>
+
+    <div class="stage"><div class="top"><span class="num">7</span><span class="name">Packaging</span></div>
+      <div class="meta"><span class="chip form">trim-weight packages</span><span class="chip weigh">📷 pack weight</span><span class="chip owner">ps1 / ps2</span></div></div>
+    <div class="arrow">↓</div>
+
+    <div class="stage"><div class="top"><span class="num">8</span><span class="name">Bulk Storage</span></div>
+      <div class="meta"><span class="chip form">Bulk Storage Inventory (in/out)</span><span class="chip weigh">📷 stock-in</span><span class="chip owner">ps1 / ps2</span></div></div>
+    <div class="arrow">↓</div>
+
+    <div class="stage"><div class="top"><span class="num">9</span><span class="name">Dispatch — lab-gated</span></div>
+      <div class="meta"><span class="chip form">Transport Manifest</span><span class="chip weigh">📷 dispatch weight</span><span class="chip owner">Ray (FM) / ps</span></div></div>
+    <div class="branch lab">🔒 Releases <b>only once the ⏳ lab PASS is back</b>. No COA / no pass → batch stays locked in bulk storage.</div>
+  </div>
+
+  <div class="foot">
+    ORIGIN by ILCO Farming · Track &amp; Trace · Processing workflow grounded in Jeanette Ferreira's 23 ILCO processing forms (SOP 5-PDT-xxx, EU-GMP Vol.4 Ch.3/4/5).
+    Cross-cutting: Temp/RH 3×/day · 12 room cleaning schedules (Cleaners) · Rejected Goods &amp; Return-to-Supplier registers.
+  </div>
+</body>
+</html>

@@ -13,7 +13,7 @@ router.patch('/quota/:facilityId', requireRole('SUPER_ADMIN'), compliance.update
 router.post('/destruction', requireLevel(3), compliance.createDestruction);
 router.get('/destruction', requireLevel(1), compliance.listDestructions);
 router.get('/destruction/:id', requireLevel(1), compliance.getDestruction);
-router.post('/destruction/:id/confirm', requireLevel(3), compliance.confirmDestruction);
+router.post('/destruction/:id/confirm', requireRole('FACILITY_MANAGER', 'TENANT_ADMIN', 'SUPER_ADMIN'), compliance.confirmDestruction);
 
 // Permits
 router.get('/permits/:facilityId', requireLevel(0), compliance.listPermits);

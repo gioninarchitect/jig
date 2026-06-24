@@ -36,7 +36,7 @@ export default function SOPHeader({
           </div>
           <div>
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-amber-500/80 mb-0.5 flex items-center gap-1.5 flex-wrap">
-              <Link to="/sop-library" className="inline-flex items-center gap-1 hover:text-amber-300 underline-offset-2 hover:underline" title="Open this SOP in the SOP Library">
+              <Link to={`/sop-library?ref=${encodeURIComponent(title)}`} className="inline-flex items-center gap-1 hover:text-amber-300 underline-offset-2 hover:underline" title="Open this form in the SOP Library">
                 SOP {sopNumber} <ExternalLink size={9} className="opacity-60" />
               </Link>
               <span className="text-amber-500/40">· v{version} · effective {effectiveDate}</span>

@@ -246,6 +246,27 @@ export async function getEuGmpRegistry() {
   };
 }
 
+// QA adds a regulatory source (the verified human types the citation; the AI only stores it).
+// New sources start DRAFT_TRACKED; QA activates them once verified.
+export async function createSource(data: { sourceId?: string; framework: string; title: string; part?: string; chapter?: string; officialUrl: string; notes?: string }) {
+  if (!data.framework || !data.title || !data.officialUrl) throw Object.assign(new Error('framework, title and officialUrl are required'), { status: 400 });
+  const sourceId = (data.sourceId || `${data.framework}_${data.title}`).toUpperCase().replace(/[^A-Z0-9]+/g, '_').slice(0, 60);
+  return prisma.complianceSource.create({
+    data: {
+      sourceId, framework: data.framework, title: data.title, part: data.part || data.framework,
+      chapter: data.chapter || null, officialUrl: data.officialUrl, notes: data.notes || null, status: 'DRAFT_TRACKED',
+    },
+  });
+}
+
+export async function updateSource(id: string, data: { title?: string; framework?: string; chapter?: string; officialUrl?: string; notes?: string; status?: string }) {
+  const src = await prisma.complianceSource.findUnique({ where: { id } });
+  if (!src) throw Object.assign(new Error('Source not found'), { status: 404 });
+  const updates: any = {};
+  for (const k of ['title', 'framework', 'chapter', 'officialUrl', 'notes', 'status'] as const) if (data[k] !== undefined) updates[k] = data[k];
+  return prisma.complianceSource.update({ where: { id }, data: updates });
+}
+
 export async function createComplianceControl(data: {
   controlId: string;
   domain: string;

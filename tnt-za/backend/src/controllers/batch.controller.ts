@@ -110,3 +110,42 @@ export async function updateStatus(req: AuthRequest, res: Response) {
     res.json({ success: true, batch });
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 }
+
+// ── Batch records (BMR / BPR / BDR) ──
+export async function listRecords(req: AuthRequest, res: Response) {
+  try {
+    const records = await batchService.listBatchRecords(p(req.params.id), req.user!.tenantId);
+    res.json({ success: true, records });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}
+
+export async function createRecord(req: AuthRequest, res: Response) {
+  try {
+    const record = await batchService.createBatchRecord({
+      batchId: p(req.params.id), tenantId: req.user!.tenantId, facilityId: req.user!.facilityId,
+      userId: req.user!.userId, recordType: req.body.recordType, summary: req.body.summary, data: req.body.data,
+    });
+    res.status(201).json({ success: true, record });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}
+
+export async function updateRecord(req: AuthRequest, res: Response) {
+  try {
+    const record = await batchService.updateBatchRecord(p(req.params.recordId), req.user!.tenantId, req.user!.userId, req.body.name || req.user!.email, req.body);
+    res.json({ success: true, record });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}
+
+// ── Processing stage weigh event ──
+export async function recordStage(req: AuthRequest, res: Response) {
+  try {
+    const record = await batchService.recordProcessingStage({
+      batchId: p(req.params.id), tenantId: req.user!.tenantId, facilityId: req.user!.facilityId,
+      userId: req.user!.userId, userName: req.body.name,
+      stage: req.body.stage,
+      weight: req.body.weight !== undefined && req.body.weight !== null && req.body.weight !== '' ? Number(req.body.weight) : null,
+      weightUnit: req.body.weightUnit, photoUrl: req.body.photoUrl, notes: req.body.notes,
+    });
+    res.status(201).json({ success: true, record });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}

@@ -15,6 +15,14 @@ router.get('/tray/:trayId', requireLevel(0), async (req: AuthRequest, res: Respo
   } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
 
+// Update one clone — status / health / death cause (per-clone CRUD, like a bay pot)
+router.patch('/:id', requireLevel(1), async (req: AuthRequest, res: Response) => {
+  try {
+    const clone = await cloneService.updateClone(p(req.params.id), req.user!.tenantId, req.body);
+    res.json({ success: true, clone });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+});
+
 // List clones by mother
 router.get('/mother/:identifier', requireLevel(0), async (req: AuthRequest, res: Response) => {
   try {

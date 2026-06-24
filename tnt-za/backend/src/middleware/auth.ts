@@ -19,6 +19,29 @@ export interface AuthRequest extends Request {
   ghostAs?: string;      // userId of ghost target if active
 }
 
+// Roles that get VIEW-ONLY oversight into operational areas they don't own.
+// Keyed by role → list of /api path prefixes the role may READ but never write.
+// QA (Keke) reviews product-quality evidence across cultivation + processing.
+const READ_ONLY_AREAS: Record<string, string[]> = {
+  QA_INSPECTOR: [
+    // Cultivation quality signals
+    '/api/baygrid', '/api/env-log', '/api/daily-checks', '/api/ipm-scouting',
+    '/api/cleaning-schedule', '/api/mortality',
+    // Processing / product side
+    '/api/batches', '/api/containers', '/api/lab', '/api/coa', '/api/trim',
+  ],
+};
+
+// True when `role` may only read `url` — i.e. the path is in its read-only set
+// and the request is a write (anything other than GET).
+function isReadOnlyArea(role: string, method: string, url: string): boolean {
+  if (method === 'GET') return false;
+  const prefixes = READ_ONLY_AREAS[role];
+  if (!prefixes) return false;
+  const path = url.split('?')[0];
+  return prefixes.some((p) => path === p || path.startsWith(p + '/'));
+}
+
 export async function requireAuth(req: AuthRequest, res: Response, next: NextFunction) {
   const header = req.headers.authorization;
   if (!header?.startsWith('Bearer ')) {
@@ -32,6 +55,18 @@ export async function requireAuth(req: AuthRequest, res: Response, next: NextFun
     req.realUser = decoded;
   } catch {
     return res.status(401).json({ success: false, error: 'Invalid or expired token' });
+  }
+
+  // ── View-only oversight enforcement ──────────────────────────────────
+  // Some roles get READ access to operational areas they don't own (QA oversees
+  // product quality across cultivation + processing) but must never edit those
+  // records — the owning role stays the single source of truth. Block every
+  // non-GET on those prefixes; reads pass through untouched.
+  if (isReadOnlyArea(req.user!.role, req.method, req.originalUrl)) {
+    return res.status(403).json({
+      success: false,
+      error: 'View-only: you can review this area for QA oversight, but edits stay with the team that owns it.',
+    });
   }
 
   // ── Ghost Mode handling ──────────────────────────────────────────────

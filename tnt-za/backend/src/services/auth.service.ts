@@ -89,6 +89,9 @@ export async function verifyPin(email: string, pin: string, ip?: string) {
   const normalizedPin = pin.trim();
   const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
   if (!user) throw Object.assign(new Error('Invalid credentials'), { status: 401 });
+  // Deactivated accounts cannot authenticate — blocks the open-login / stored-PIN path too.
+  // (Only affects users with active=false; active super-admins are unaffected.)
+  if (!user.active) throw Object.assign(new Error('Account is disabled'), { status: 403 });
 
   if (user.lockedAt && Date.now() - user.lockedAt.getTime() < 3600_000) {
     throw Object.assign(new Error('Account locked'), { status: 429 });

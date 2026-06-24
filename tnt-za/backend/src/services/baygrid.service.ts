@@ -483,27 +483,22 @@ export async function createCloneTray(data: {
     { title: `Mortality Check W3 — ${trayNumber} (${data.strain})`, dueDate: due(21), category: 'MORTALITY' },
     { title: `Transplant — ${trayNumber} (${data.strain})`, dueDate: due(rootingDays), category: 'CULTIVATION' },
   ];
-  // Daily Temp & Humidity capture for every rooting day (the clone-room T&H sheet),
-  // each pre-set with that day's target from the SOP step-down. Capture 3 readings
-  // (08:00 / 11:50 / 16:30) + sign off.
-  const TH_STAGES = [
-    { temp: '20–24', rh: '95–100' }, { temp: '24–26', rh: '90–95' }, { temp: '24–25', rh: '85–90' },
-    { temp: '23–25', rh: '80–85' }, { temp: '22–25', rh: '70–75' },
-  ];
-  const days = Math.min(rootingDays, 21); // cap so a long rooting doesn't flood the queue
-  for (let n = 1; n <= days; n++) {
-    const stage = TH_STAGES[Math.min(TH_STAGES.length - 1, Math.floor(((n - 1) / Math.max(1, days)) * TH_STAGES.length))];
-    followUps.push({
-      title: `Temp & Humidity — ${trayNumber} Day ${n} (target ${stage.temp}°C / ${stage.rh}% RH)`,
-      dueDate: due(n), category: 'ENVIRONMENT',
-    });
-  }
-  for (const f of followUps) {
-    const task = await prisma.task.create({
-      data: { title: f.title, assignedToId: assignee.id, assignerId: data.userId, dueDate: f.dueDate, priority: 'MEDIUM', category: f.category, tenantId: data.tenantId },
-    });
-    eventBus.emit('TASK_CREATED', { userId: data.userId, tenantId: data.tenantId, entityType: 'Task', entityId: task.id });
-  }
+  const days = Math.min(rootingDays, 21); // used in the kickoff message below
+  // Lou: cuttings events were over-noisy — a separate task per rooting day. Collapse to ONE
+  // aggregated clone-room T&H task per tray; the daily readings are captured on the clone-room
+  // daily check sheet, this is just the tray anchor.
+  followUps.push({
+    title: `Clone-room Temp & Humidity — ${trayNumber} (${rootingDays}-day rooting)`,
+    dueDate: cloneDate, category: 'ENVIRONMENT',
+  });
+  // Create the milestone tasks in ONE write with NO per-task event — the single CLONE_TRAY_CREATED
+  // event (below) is the aggregate tray signal, so the board/activity feed stays quiet.
+  await prisma.task.createMany({
+    data: followUps.map((f) => ({
+      title: f.title, assignedToId: assignee.id, assignerId: data.userId,
+      dueDate: f.dueDate, priority: 'MEDIUM', category: f.category, tenantId: data.tenantId,
+    })),
+  });
 
   // Auto-create individual clone records (M01-01, M01-02, etc.)
   const mother = await prisma.motherPlant.findUnique({ where: { id: data.motherPlantId } });
@@ -515,20 +510,90 @@ export async function createCloneTray(data: {
     });
   }
 
+  // ── Batch kickoff — alert the whole cultivation chain so nobody waits on a silent board ──
+  try {
+    const transplantDate = due(rootingDays);
+    const fmt = transplantDate.toISOString().slice(0, 10);
+    // HoC (Lou) — ONE actionable "build grow calendar" ticket at a time. He builds a single grow
+    // calendar per cycle, not one per tray. Suppress duplicates while an unresolved one is already
+    // on his board (root cause of the spam: genesis cloned ~16 trays → 16 identical nudges).
+    const openCalendarTicket = await prisma.ticket.findFirst({
+      where: {
+        tenantId: data.tenantId, assignedToRole: 'HEAD_OF_CULTIVATION',
+        title: { startsWith: 'Build grow calendar' }, resolvedAt: null,
+      },
+      select: { id: true },
+    });
+    if (!openCalendarTicket) {
+      await createTicket({
+        title: `Build grow calendar — batch ${trayNumber} (${data.strain})`,
+        description: `Cloning batch ${trayNumber} — ${data.totalCuttings} ${data.strain} cuttings from ${data.motherLabel || 'mother'}, cloned ${cloneDate.toISOString().slice(0, 10)}. Build the grow calendar / playbook for this cycle (clone → veg → flip → flower → harvest). Transplant due ~${fmt}.`,
+        priority: 'HIGH', category: 'CULTIVATION', ticketType: 'ISSUE',
+        workflowStage: 'PROPAGATION', assignedToRole: 'HEAD_OF_CULTIVATION',
+        tenantId: data.tenantId, userId: data.userId,
+      });
+    }
+    // Ping the rest of the chain (NM already holds the task board; Loraine oversees;
+    // cultivators get a heads-up to prep the GH bays for transplant in ~rootingDays).
+    const chain = await prisma.user.findMany({
+      where: { tenantId: data.tenantId, active: true, role: { in: ['NURSERY_MANAGER', 'FACILITY_SUPERVISOR', 'CULTIVATOR'] as any } },
+      select: { id: true, role: true },
+    });
+    const msgFor = (role: string) =>
+      role === 'NURSERY_MANAGER' ? `Clone-room monitoring + mortality + transplant tasks queued on your board (${days}-day schedule).`
+      : role === 'FACILITY_SUPERVISOR' ? `Oversee the clone room — daily checks + mortality due over the rooting period. Deviations route to you.`
+      : `Transplant to the greenhouse in ~${rootingDays} days (≈${fmt}) — prepare the GH bays.`;
+    if (chain.length) {
+      await prisma.notification.createMany({
+        data: chain.map((u) => ({
+          userId: u.id,
+          title: `Batch ${trayNumber} cloned (${data.totalCuttings} ${data.strain})`,
+          message: msgFor(u.role),
+          link: u.role === 'CULTIVATOR' ? '/baygrid' : '/tasks',
+        })),
+      });
+    }
+  } catch (e: any) { console.error('[clone] batch-kickoff notify failed:', e.message); }
+
   eventBus.emit('CLONE_TRAY_CREATED', { userId: data.userId, tenantId: data.tenantId, entityType: 'CloneTray', entityId: tray.id });
   return tray;
 }
 
-export async function updateCloneTray(id: string, data: { rooted?: number; mortality?: number; status?: CloneTrayStatus; userId: string }) {
+export async function updateCloneTray(id: string, data: { rooted?: number; mortality?: number; status?: CloneTrayStatus; photos?: string[]; notes?: string; userId: string }) {
   const updates: any = {};
   if (data.rooted !== undefined) updates.rooted = data.rooted;
   if (data.mortality !== undefined) updates.mortality = data.mortality;
+  if (data.photos !== undefined) updates.photos = data.photos;       // photo + short-video proof
+  if (data.notes !== undefined) updates.notes = data.notes;
   if (data.status) {
     updates.status = data.status;
     if (data.status === 'ROOTED') updates.rootedDate = new Date();
     if (data.status === 'TRANSPLANTED') updates.transplantDate = new Date();
   }
   return prisma.cloneTray.update({ where: { id }, data: updates });
+}
+
+// Delete a clone tray (the whole tray, not individual clones). Blocked once transplanted —
+// those cuttings are already placed as plants in the bays. Removes the tray + its cutting rows. Audited.
+export async function deleteCloneTray(id: string, tenantId: string, userId: string) {
+  const tray = await prisma.cloneTray.findFirst({ where: { id, tenantId }, include: { _count: { select: { clones: true } } } });
+  if (!tray) { const e: any = new Error('Clone tray not found'); e.status = 404; throw e; }
+  if (tray.status === 'TRANSPLANTED') {
+    const e: any = new Error('Cannot delete a transplanted tray — its clones are already placed in the bays. Re-strain or clear the bay pots instead.');
+    e.status = 409; throw e;
+  }
+  await prisma.$transaction([
+    prisma.clone.deleteMany({ where: { cloneTrayId: id } }),
+    prisma.cloneTray.delete({ where: { id } }),
+  ]);
+  // Fix the double-count: re-derive the mother's totalClones from her REMAINING trays. Deleting a
+  // tray to redo it now SUBTRACTS those clones instead of leaving the mother inflated (e.g. 237 vs 119).
+  if (tray.motherPlantId) {
+    const agg = await prisma.cloneTray.aggregate({ where: { motherPlantId: tray.motherPlantId }, _sum: { totalCuttings: true } });
+    await prisma.motherPlant.update({ where: { id: tray.motherPlantId }, data: { totalClones: agg._sum.totalCuttings || 0 } }).catch(() => {});
+  }
+  await logAction({ userId, tenantId, action: 'CLONE_TRAY_DELETED', entityType: 'CloneTray', entityId: id, after: { trayNumber: tray.trayNumber, strain: tray.strain, totalCuttings: tray.totalCuttings, clonesRemoved: tray._count.clones } as any }).catch(() => {});
+  return { deleted: true, trayNumber: tray.trayNumber, clonesRemoved: tray._count.clones };
 }
 
 export async function listCloneTrays(tenantId: string) {
@@ -620,7 +685,10 @@ export async function listTickets(query: {
   role?: string; userId?: string;
 }) {
   const where: any = { tenantId: query.tenantId };
-  if (query.status) where.status = query.status;
+  // 'OPEN' is the umbrella for un-finished work — a reassigned ticket is ASSIGNED,
+  // not OPEN, so without this it would vanish from the Open filter + counts.
+  if (query.status === 'OPEN') where.status = { in: ['OPEN', 'ASSIGNED'] };
+  else if (query.status) where.status = query.status;
   if (query.priority) where.priority = query.priority;
   if (query.ticketType) where.ticketType = query.ticketType;
   if (query.workflowStage) where.workflowStage = query.workflowStage;
@@ -909,13 +977,15 @@ export async function updateScheduleWithChangeControl(
       });
       eventBus.emit('DEVIATION_RAISED', { userId: ctx.userId, tenantId: ctx.tenantId, entityType: 'Deviation', entityId: deviation.id });
 
-      // route to Loraine (FM) + QA reviewer. QA is not onboarded until QA day —
-      // until then QA review is redirected to the SuperAdmin (Flo), NOT Keke (LAB_TECH).
+      // route to the FM (Ray) + Cultivation Supervisor (Loraine) + QA reviewer. QA is not
+      // onboarded until QA day — until then QA review is redirected to the SuperAdmin (Flo),
+      // NOT Keke (LAB_TECH).
       const recipients = await prisma.user.findMany({
         where: {
           tenantId: ctx.tenantId, active: true,
           OR: [
           { role: 'FACILITY_MANAGER' as any },
+          { role: 'FACILITY_SUPERVISOR' as any }, // Cultivation Supervisor (Loraine) — floor oversight
           { role: 'PROCESSING_MANAGER' as any }, // earlier harvest = earlier processing — cascade to PM
           { email: 'florisolivier7@gmail.com' },
         ],
@@ -984,6 +1054,16 @@ export async function getSubrowSpots(bayId: string, row: number, subrow: number)
   });
 }
 
+// All pots in a bay (every row/subrow) — for the portrait Bay view's live plant grid,
+// so each pot's status colour shows at a glance (culled = red, etc.).
+export async function getBaySpots(bayId: string) {
+  return prisma.baySpot.findMany({
+    where: { bayId },
+    select: { id: true, row: true, subrow: true, position: true, status: true, strain: true, plantId: true },
+    orderBy: [{ row: 'asc' }, { subrow: 'asc' }, { position: 'asc' }],
+  });
+}
+
 // Set/change a subrow's strain (strain-controlled lane). CFS-setup: change allowed;
 // once plants are placed it locks (must clear first). Audited via BAY_ALLOCATED.
 export async function setSubrowStrain(bayId: string, row: number, subrow: number, strain: string | null, userId: string, tenantId: string) {
@@ -1028,7 +1108,7 @@ export async function restrainSubrow(bayId: string, row: number, subrow: number,
   await prisma.bay.update({ where: { id: bayId }, data: { currentStrain: distinct.length === 1 ? distinct[0].strain : distinct.length > 1 ? 'MIXED' : null } });
   eventBus.emit('BAY_ALLOCATED', { userId, tenantId, entityType: 'Bay', entityId: bayId, plantCount: res.count });
   await logAction({ userId, tenantId, action: 'SUBROW_RESTRAINED', entityType: 'Bay', entityId: bayId, after: { row, subrow, strain, clearedPlants: cleared } });
-  await raisePlantChangeDeviation(tenantId, userId, `Subrow re-strain → ${strain} (Row ${row}.${subrow}): ${cleared} plant(s) cleared`, cleared || res.count).catch(() => {});
+  await raisePlantChangeDeviation(tenantId, userId, `Subrow re-strain → ${strain} (Row ${row}.${subrow}): ${cleared} plant(s) cleared`, cleared).catch(() => {});
   return { updated: res.count, cleared, strain };
 }
 
@@ -1037,17 +1117,33 @@ export async function restrainSubrow(bayId: string, row: number, subrow: number,
 // Severity scales with the plant count. Adapting pots/strains/plant-status therefore
 // always flows back into the deviation/CAPA chain — GMP change control.
 async function raisePlantChangeDeviation(tenantId: string, userId: string, summary: string, count: number) {
+  // Only a change-control deviation when REAL plants were affected. Re-straining empty
+  // pots (config / genesis setup, 0 plants cleared) is not a deviation — don't flood QMS.
+  if (!count || count <= 0) return;
+  // Commissioning buffer — during genesis/setup, corrective re-strains/clears (e.g. fixing clone
+  // trays placed on the wrong mother) are setup actions, not GMP deviations. Audit them, but don't
+  // flood QMS/Keke. Flip COMMISSIONING_MODE off when the facility goes operational and deviations resume.
+  if (process.env.COMMISSIONING_MODE === 'true') {
+    await logAction({ userId, tenantId, action: 'PLANT_CHANGE_SUPPRESSED_COMMISSIONING', entityType: 'Deviation', entityId: 'suppressed', after: { summary, count } as any }).catch(() => {});
+    return;
+  }
   const severity = count >= 50 ? 'HIGH' : count >= 10 ? 'MEDIUM' : 'LOW';
+  const level = severity === 'HIGH' ? 2 : 3; // ILCO: 1=Critical, 2=Serious, 3=Minor
+  // Dedup — skip if an OPEN deviation with this exact summary already exists (kills UAT / double-tap noise).
+  const dup = await prisma.deviation.findFirst({ where: { closedAt: null, description: { contains: summary }, facility: { tenantId } } });
+  if (dup) return;
   const sop = (await prisma.sOP.findFirst({ where: { tenantId, title: { contains: 'Harvest' } } })) || (await prisma.sOP.findFirst({ where: { tenantId } }));
   const editor = await prisma.user.findUnique({ where: { id: userId } });
   const facilityId = editor?.facilityId || (await prisma.facility.findFirst({ where: { tenantId } }))?.id;
-  if (!sop || !facilityId) return;
+  // Never silently drop a compliance record — log loudly so it can be reconciled.
+  if (!sop) { console.error('[deviation] plant-change deviation NOT raised — no SOP exists for tenant', tenantId, '·', summary); return; }
+  if (!facilityId) { console.error('[deviation] plant-change deviation NOT raised — no facility for tenant', tenantId, '·', summary); return; }
   const dev = await prisma.deviation.create({
-    data: { sopId: sop.id, description: `PLANT CHANGE CONTROL — ${summary}. By ${editor?.name || 'staff'}. Requires root-cause + CAPA + QA sign-off.`, severity: severity as any, facilityId, raisedById: userId },
+    data: { sopId: sop.id, description: `PLANT CHANGE CONTROL — ${summary}. By ${editor?.name || 'staff'}. Requires root-cause + QA sign-off${level <= 2 ? ' + CAPA' : ''}.`, severity: severity as any, level, capaRequired: level <= 2, facilityId, raisedById: userId },
   });
   eventBus.emit('DEVIATION_RAISED', { userId, tenantId, entityType: 'Deviation', entityId: dev.id });
   const recipients = await prisma.user.findMany({
-    where: { tenantId, active: true, OR: [{ role: 'FACILITY_MANAGER' as any }, { role: 'HEAD_OF_CULTIVATION' as any }, { email: 'florisolivier7@gmail.com' }] },
+    where: { tenantId, active: true, OR: [{ role: 'FACILITY_MANAGER' as any }, { role: 'FACILITY_SUPERVISOR' as any }, { role: 'HEAD_OF_CULTIVATION' as any }, { role: 'QA_INSPECTOR' as any }, { email: 'florisolivier7@gmail.com' }] },
     select: { id: true },
   });
   if (recipients.length) {
@@ -1111,7 +1207,7 @@ export async function bulkSpotAction(spotIds: string[], action: string, strain: 
     const summary = action === 'restrain'
       ? `Group re-strain → ${strain}: ${spots.length} pots, ${mortality} plant(s) cleared`
       : `${mortality} plant(s) ${action === 'cull' ? 'culled (destroyed)' : 'cleared'} across ${bayIds.size} bay(s)`;
-    await raisePlantChangeDeviation(tenantId, userId, summary, mortality || spots.length).catch(() => {});
+    await raisePlantChangeDeviation(tenantId, userId, summary, mortality).catch(() => {});
   }
   return { affected: spots.length, action, strain: strain || undefined, mortality };
 }

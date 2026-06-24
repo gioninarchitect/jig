@@ -41,4 +41,20 @@ router.patch('/:id', requireLevel(3), async (req: AuthRequest, res: Response) =>
   } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
 
+// Strain history — cloning / transplant / stress / yield timeline (Lou & Loraine).
+router.get('/:id/history', requireLevel(0), async (req: AuthRequest, res: Response) => {
+  try {
+    const history = await strainService.getStrainHistory(p(req.params.id), req.user!.tenantId);
+    res.json({ success: true, history });
+  } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
+});
+
+// Soft-delete a strain (HoC / FM).
+router.delete('/:id', requireLevel(3), async (req: AuthRequest, res: Response) => {
+  try {
+    await strainService.deleteStrain(p(req.params.id), req.user!.tenantId);
+    res.json({ success: true });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+});
+
 export default router;

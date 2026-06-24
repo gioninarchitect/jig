@@ -3,14 +3,17 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { SkeletonPage } from '../../components/Skeleton';
 import { Layers, CheckCircle2, XCircle, Clock, FileCheck, RefreshCw, Tags, AlertTriangle } from 'lucide-react';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useToastStore } from '../../stores/toastStore';
 import api from '../../services/api';
+import BatchRecords from './BatchRecords';
 
-const TESTS = ['POTENCY', 'PESTICIDE', 'HEAVY_METALS', 'MICROBIAL', 'MYCOTOXIN', 'RESIDUAL_SOLVENTS', 'MOISTURE', 'FOREIGN_MATTER'];
+const TESTS =['POTENCY', 'PESTICIDE', 'HEAVY_METALS', 'MICROBIAL', 'MYCOTOXIN', 'RESIDUAL_SOLVENTS', 'MOISTURE', 'FOREIGN_MATTER'];
 
 export default function BatchDetailPage() {
   const { id } = useParams();
   const { hasMinLevel } = useRBAC();
+  const readOnly = useReadOnly();
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const { data, isLoading } = useQuery({
@@ -55,7 +58,7 @@ export default function BatchDetailPage() {
               <p className="text-xs text-white/40">Auto-created from batch number. Links SOP checklists, labels, deviations, mortality, environmental logs, and signatures.</p>
             </div>
           </div>
-          {hasMinLevel(2) && (
+          {!readOnly && hasMinLevel(2) && (
             <button onClick={() => syncBcrMut.mutate()} className="px-3 py-2 bg-primary/10 border border-primary/30 rounded-lg text-xs text-primary flex items-center gap-1.5">
               <RefreshCw size={12} /> Sync BCR
             </button>
@@ -72,6 +75,9 @@ export default function BatchDetailPage() {
           </div>
         )}
       </div>
+
+      {/* Batch records — BMR / BPR / BDR */}
+      {id && <BatchRecords batchId={id} />}
 
       {/* Labels and deviation controls */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

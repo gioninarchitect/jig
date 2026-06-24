@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import { SkeletonTable } from '../../components/Skeleton';
@@ -9,6 +10,7 @@ import api from '../../services/api';
 
 export default function DispatchPage() {
   const { hasMinLevel } = useRBAC();
+  const readOnly = useReadOnly();
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const [showCreate, setShowCreate] = useState(false);
@@ -104,7 +106,7 @@ export default function DispatchPage() {
           <h1 className="text-2xl font-bold text-white">Dispatch & Transport</h1>
           <p className="text-sm text-white/40">Transport manifests — Steps 15-17</p>
         </div>
-        {hasMinLevel(3) && (
+        {!readOnly && hasMinLevel(3) && (
           <button onClick={() => setShowCreate(true)} className="px-4 py-2.5 bg-primary hover:bg-primary-light text-white rounded-xl text-sm font-semibold flex items-center gap-2 transition min-h-[44px]">
             <Plus size={16} /> New Manifest
           </button>
@@ -168,7 +170,7 @@ export default function DispatchPage() {
                 </div>
 
                 {/* Actions */}
-                {hasMinLevel(1) && (
+                {!readOnly && hasMinLevel(1) && (
                   <div className="flex gap-2 mt-2 flex-wrap">
                     {!m.vehicleInspectedAt && (
                       <button onClick={() => setShowInspect(m)}

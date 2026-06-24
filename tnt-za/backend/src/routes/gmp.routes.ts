@@ -1,6 +1,6 @@
 import { Router, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { requireAuth, requireLevel, AuthRequest } from '../middleware/auth';
+import { requireAuth, requireLevel, requireRole, AuthRequest } from '../middleware/auth';
 import { p } from '../utils/params';
 
 // =====================================================================
@@ -89,7 +89,7 @@ router.get('/findings', requireLevel(0), async (req: AuthRequest, res: Response)
   } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
 
-router.post('/findings', requireLevel(2), async (req: AuthRequest, res: Response) => {
+router.post('/findings', requireRole('GMP_PARTNER', 'QA_INSPECTOR', 'TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
   try {
     const { severity, reference, description } = req.body;
     if (!reference || !description) return res.status(400).json({ success: false, error: 'reference + description required' });
@@ -136,7 +136,7 @@ router.get('/observations', requireLevel(0), async (req: AuthRequest, res: Respo
   } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
 
-router.post('/observations', requireLevel(0), async (req: AuthRequest, res: Response) => {
+router.post('/observations', requireRole('GMP_PARTNER', 'QA_INSPECTOR', 'TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
   try {
     const { reference, description, sopId, deviationId } = req.body;
     if (!description) return res.status(400).json({ success: false, error: 'description required' });

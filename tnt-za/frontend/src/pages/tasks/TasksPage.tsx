@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import { SkeletonTable } from '../../components/Skeleton';
-import { CheckSquare, Plus, Target, Clock, Check, AlertTriangle } from 'lucide-react';
+import { CheckSquare, Plus, Target, Clock, Check, AlertTriangle, Pencil } from 'lucide-react';
 import api from '../../services/api';
 
 const PRIORITY_COLORS: Record<string, string> = {
@@ -190,10 +190,15 @@ export default function TasksPage() {
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className={`text-xs px-2 py-1 rounded-full ${PRIORITY_COLORS[t.priority]}`}>{t.priority}</span>
-                    {t.status !== 'COMPLETED' && (
+                    {t.status !== 'COMPLETED' ? (
                       <button onClick={() => openComplete(t)}
                         className="px-3 py-1.5 bg-primary/10 border border-primary/30 text-primary rounded-lg text-xs font-semibold hover:bg-primary/20 transition min-h-[36px]">
                         Done
+                      </button>
+                    ) : (
+                      <button onClick={() => openComplete(t)}
+                        className="px-3 py-1.5 bg-white/5 border border-white/10 text-white/50 rounded-lg text-xs font-semibold hover:text-white hover:border-white/25 transition min-h-[36px] flex items-center gap-1">
+                        <Pencil size={12} /> Edit
                       </button>
                     )}
                   </div>
@@ -246,11 +251,37 @@ export default function TasksPage() {
             const composed = [...lines, completeNotes.trim() ? `\nNotes: ${completeNotes.trim()}` : ''].filter(Boolean).join('\n');
             completeMut.mutate({ id: showComplete.id, notes: composed });
           };
+          // Live progress + a quick "all done" sweep for routine checks.
+          const answered = checklist.filter((item, i) => {
+            const k = fieldKind(item.item);
+            return k === 'check' ? !!itemStates[i] : !!(fieldValues[i] || '').trim();
+          }).length;
+          const pct = checklist.length ? Math.round((answered / checklist.length) * 100) : 0;
+          // Fill every still-blank tick-box with Done; leaves any Issue/N-A the user already set.
+          const markAllDone = () => setItemStates(s => {
+            const next = { ...s };
+            checklist.forEach((item, i) => { if (fieldKind(item.item) === 'check' && !next[i]) next[i] = 'DONE'; });
+            return next;
+          });
+          const isEditing = showComplete?.status === 'COMPLETED';
           return (
             <>
+              {isEditing && (
+                <div className="mb-3 text-xs bg-white/[0.03] border border-white/10 rounded-lg p-2.5 text-white/50">
+                  <span className="text-amber-300 font-semibold">Editing a completed task.</span> Amend the lines below and re-submit — the record updates.
+                </div>
+              )}
               {checklist.length > 0 && (
                 <div className="mb-4 space-y-2.5">
-                  <label className="block text-xs text-white/40 uppercase tracking-wide">Checklist · tap a state for each line</label>
+                  <div className="flex items-center justify-between gap-2">
+                    <label className="block text-xs text-white/40 uppercase tracking-wide">Checklist · tap a state for each line</label>
+                    <button onClick={markAllDone} className="text-[11px] px-2 py-1 rounded-md bg-green-500/10 border border-green-500/25 text-green-300 font-semibold hover:bg-green-500/20 min-h-[30px]">✓ All done</button>
+                  </div>
+                  {/* Live progress */}
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden"><div className="h-full bg-green-500 transition-all" style={{ width: `${pct}%` }} /></div>
+                    <span className="text-[11px] text-white/40 font-mono">{answered}/{checklist.length}</span>
+                  </div>
                   {checklist.map((item: any, i: number) => {
                     const kind = fieldKind(item.item);
                     if (kind === 'date' || kind === 'initials') {
@@ -299,7 +330,7 @@ export default function TasksPage() {
               </div>
               {blocked && <div className="text-xs text-amber-300/80 mb-2">Answer every required line (mark Done / N-A, add a note for any Issue, fill Date & Initials) to complete.</div>}
               <ModalButton loading={completeMut.isPending} disabled={blocked} onClick={submit}>
-                Mark Complete
+                {isEditing ? 'Save changes' : 'Mark Complete'}
               </ModalButton>
             </>
           );

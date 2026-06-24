@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useAuthStore } from '../../stores/authStore';
 import { useToastStore } from '../../stores/toastStore';
 import { SkeletonCard } from '../../components/Skeleton';
@@ -48,7 +49,7 @@ const ZONE_CONFIG: Record<Zone, {
       FRI: ['Clean switches', 'Clean access control', 'Empty & clean bins', 'Spot check walls', 'Clean doors & handles', 'Clean DB boxes', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'],
     },
     frequencyRows: ['Weekly · Clean fan blades & fins', 'Weekly · De-humidifier clean', 'Weekly · Clean curtains', 'Weekly · Clean floor water gutter', 'Weekly · Clean lights', 'After batch · Wash evaporator cooling pads', 'After batch · Wash floor & radiator'],
-    compiler: 'Jeanette Ferreira', authorisedBy: 'Coenraad Venter',
+    compiler: 'Jeanette Ferreira', authorisedBy: 'Authorised Representative',
   },
   CLONE_ROOM: {
     label: 'Clone Room', sop: '8-CLN-9', effective: '13/02/2026', areaColour: 'Green',
@@ -62,7 +63,7 @@ const ZONE_CONFIG: Record<Zone, {
       FRI: ['Take mops & cloths to laundry', 'Clean brooms & dustpans', 'Clean clips, handles & buckets', 'Clean table & chair', 'Spot clean walls & doors', 'Sweep & mop floors', 'Clean racks & domes', 'Check & clean dispensers, empty dustbin', 'Door handles & light'],
     },
     frequencyRows: ['Pre/Post cloning · Clean clone racks & domes/trays', 'Pre/Post cloning · Clean table & chair', 'Pre/Post cloning · Clean walls, doors, ceiling', 'Pre/Post cloning · Clean fans & aircons, humidifiers', 'Pre/Post cloning · Wash capillary mats', 'Pre/Post cloning · Scrub floors'],
-    compiler: 'Jeanette Ferreira', authorisedBy: 'Ilse Venter',
+    compiler: 'Jeanette Ferreira', authorisedBy: 'Authorised Representative',
   },
 };
 
@@ -77,7 +78,8 @@ export default function CleaningSchedulePage() {
   const user = useAuthStore(s => s.user);
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
-  const canInit = hasMinLevel(1);
+  const readOnly = useReadOnly();
+  const canInit = !readOnly && hasMinLevel(1);
 
   const [zone, setZone] = useState<Zone>('GREENHOUSE');
   const config = ZONE_CONFIG[zone];

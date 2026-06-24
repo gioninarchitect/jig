@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import { SkeletonCard } from '../../components/Skeleton';
@@ -34,6 +35,7 @@ function statusLight(status?: string, strain?: string | null) {
 
 export default function BayGridPage() {
   const { hasMinLevel } = useRBAC();
+  const readOnly = useReadOnly();
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const [showCreate, setShowCreate] = useState(false);
@@ -44,6 +46,7 @@ export default function BayGridPage() {
   const [row, setRow] = useState<any>(null);
   const [sub, setSub] = useState<any>(null);
   const [pot, setPot] = useState<any>(null);
+  const [potView, setPotView] = useState<'grid' | 'list'>('grid'); // LEVEL 3 plant view mode
 
   const { data: layout, isLoading } = useQuery({ queryKey: ['baygrid-layout'], queryFn: () => api.get('/baygrid/layout').then(r => r.data.layout) });
 
@@ -52,6 +55,29 @@ export default function BayGridPage() {
     queryFn: () => api.get(`/baygrid/bays/${bay.id}/subrow/${row.row}/${sub.subrow}`).then(r => r.data.spots),
     enabled: !!(bay && row && sub),
   });
+
+  // All pots in the bay — drives the portrait Bay view's live plant grid + the last view's bed.
+  const { data: baySpots } = useQuery({
+    queryKey: ['bay-spots', bay?.id],
+    queryFn: () => api.get(`/baygrid/bays/${bay.id}/spots`).then(r => r.data.spots),
+    enabled: !!bay,
+  });
+  const spotsByLane = useMemo(() => {
+    const m: Record<string, any[]> = {};
+    (baySpots || []).forEach((s: any) => { const k = `${s.row}-${s.subrow}`; (m[k] = m[k] || []).push(s); });
+    return m;
+  }, [baySpots]);
+  // Last view = the selected ROW's 4-across bed. seq = (depth-1)*4 + lane (subrow), so #1 is
+  // bottom-LEFT and numbers climb left→right then up (top-right = highest). For a 4-column
+  // grid that means rendering rows top-down: highest depth first, lanes 1→4 within each:
+  //   9 10 11 12 / 5 6 7 8 / 1 2 3 4   (#1 bottom-left → top-right).
+  const bedPots = useMemo(() => {
+    if (!row) return [];
+    return (baySpots || [])
+      .filter((s: any) => s.row === row.row)
+      .map((s: any) => ({ ...s, seq: (Number(s.position) - 1) * 4 + s.subrow }))
+      .sort((a: any, b: any) => (Number(b.position) - Number(a.position)) || (a.subrow - b.subrow));
+  }, [baySpots, row]);
   const { data: strainList } = useQuery({ queryKey: ['strains-list'], queryFn: () => api.get('/strains').then(r => r.data.strains || r.data) });
 
   const [showEdit, setShowEdit] = useState(false);
@@ -70,6 +96,7 @@ export default function BayGridPage() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['baygrid-layout'] });
       qc.invalidateQueries({ queryKey: ['subrow-spots'] });
+      qc.invalidateQueries({ queryKey: ['bay-spots'] });
       setSub((s: any) => ({ ...s, strain: editStrain || null }));
       setShowEdit(false); addToast('success', 'Subrow strain updated');
     },
@@ -81,6 +108,7 @@ export default function BayGridPage() {
     onSuccess: (r: any) => {
       qc.invalidateQueries({ queryKey: ['baygrid-layout'] });
       qc.invalidateQueries({ queryKey: ['subrow-spots'] });
+      qc.invalidateQueries({ queryKey: ['bay-spots'] });
       setSub((s: any) => ({ ...s, strain: editStrain }));
       setShowEdit(false);
       addToast('success', `Re-strained to ${editStrain} · cleared ${r.data?.cleared ?? 0} plant(s)`);
@@ -93,6 +121,7 @@ export default function BayGridPage() {
     onSuccess: (r: any, vars) => {
       qc.invalidateQueries({ queryKey: ['baygrid-layout'] });
       qc.invalidateQueries({ queryKey: ['subrow-spots'] });
+      qc.invalidateQueries({ queryKey: ['bay-spots'] });
       addToast('success', `${vars.action === 'restrain' ? 'Re-strained' : vars.action} ${r.data?.affected ?? selected.size} pot(s)${r.data?.mortality ? ` · ${r.data.mortality} mortality` : ''}`);
       setSelected(new Set()); setRangeStart(null); setRangeMode(false); setShowBulkStrain(false); setBulkStrain(''); setConfirmBulk(null);
     },
@@ -103,6 +132,7 @@ export default function BayGridPage() {
     mutationFn: (action: string) => api.patch(`/baygrid/spots/${pot.id}/status`, { action }),
     onSuccess: (res, action) => {
       qc.invalidateQueries({ queryKey: ['subrow-spots'] });
+      qc.invalidateQueries({ queryKey: ['bay-spots'] });
       setPot((p: any) => ({ ...p, status: res.data.spot?.status }));
       addToast('success', `Pot ${action === 'cull' ? 'culled' : action === 'flag' ? 'flagged' : action === 'clear' ? 'cleared' : 'restored'}`);
     },
@@ -143,7 +173,7 @@ export default function BayGridPage() {
         {bay && <><ChevronRight size={14} className="text-white/20" /><button onClick={() => { setRow(null); setSub(null); }} className={`px-2.5 py-1 rounded-lg border ${!row ? 'bg-primary/15 border-primary/30 text-primary' : 'bg-white/5 border-white/10 text-white/60'}`}>{bay.name}</button></>}
         {row && <><ChevronRight size={14} className="text-white/20" /><button onClick={() => setSub(null)} className={`px-2.5 py-1 rounded-lg border ${!sub ? 'bg-primary/15 border-primary/30 text-primary' : 'bg-white/5 border-white/10 text-white/60'}`}>Row {row.row}</button></>}
         {sub && <><ChevronRight size={14} className="text-white/20" /><span className="px-2.5 py-1 rounded-lg bg-primary/15 border border-primary/30 text-primary">Subrow {sub.subrow}</span></>}
-        {!gh && hasMinLevel(3) && (
+        {!gh && !readOnly && hasMinLevel(3) && (
           <button onClick={() => setShowCreate(true)} className="ml-auto px-3 py-1.5 bg-primary hover:bg-primary-light text-white rounded-lg text-sm font-semibold flex items-center gap-1.5"><Plus size={14} /> Greenhouse</button>
         )}
       </div>
@@ -162,7 +192,7 @@ export default function BayGridPage() {
                       <div className="text-xs text-white/40">{g.bays.length} bays · {strains.size} strains</div>
                       <div className="flex flex-wrap gap-1 mt-2">{[...strains].slice(0, 8).map(s => <span key={s} className="w-3 h-3 rounded-sm" style={{ background: strainColor(s) }} title={s} />)}</div>
                     </button>
-                    {hasMinLevel(3) && (
+                    {!readOnly && hasMinLevel(3) && (
                       <button onClick={(e) => { e.stopPropagation(); setGhEditForm({ name: g.name, type: g.type, totalBays: g.bays.length }); setConfirmDelGh(false); setEditGh(g); }} title="Edit greenhouse"
                         className="absolute top-2 right-2 p-1.5 rounded-lg bg-white/5 border border-white/10 text-white/50 hover:text-primary hover:border-primary/40 transition"><Pencil size={13} /></button>
                     )}
@@ -188,44 +218,55 @@ export default function BayGridPage() {
             </div>
           )}
 
-          {/* LEVEL 2 — Rows (portrait: each row = 4 subrow lanes running down).
-              Shown whenever no subrow is selected, so switching to ANY row's subrow
-              always works + updates the breadcrumb (no dead row-set/no-sub state). */}
+          {/* LEVEL 2 — the BAY in PORTRAIT: Row 1..N as tall columns side-by-side, each
+              column = its 4 subrow lanes running DOWN (the physical bed length), strain-
+              coloured. Horizontal-scroll on small screens so the rows stay portrait.
+              Tap a lane → drill to its plants (1,5,9… sequence) where strain is editable. */}
           {bay && !sub && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="flex gap-2 overflow-x-auto pb-2">
               {bay.rows.map((r: any) => {
                 const rowStrains = new Set<string>(r.subrows.map((s: any) => s.strain).filter(Boolean));
                 const rowTotal = r.subrows.reduce((a: number, s: any) => a + (s.spots || 0), 0);
                 return (
-                <div key={r.row} className="bg-white/5 border border-white/10 rounded-xl p-3">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold text-white/70">Row {r.row}</span>
-                    <span className="text-[10px] text-white/30">{rowStrains.size > 1 ? `${rowStrains.size} strains` : [...rowStrains][0] || 'empty'} · {rowTotal} plants</span>
+                <div key={r.row} className="flex-shrink-0 w-[200px] sm:w-[240px] bg-white/5 border border-white/10 rounded-xl p-2.5">
+                  <div className="flex items-center justify-between mb-2 px-1">
+                    <div className="text-sm font-bold text-white/80">Row {r.row}</div>
+                    <div className="text-[9px] text-white/30 truncate max-w-[60%] text-right">{rowStrains.size > 1 ? `${rowStrains.size} strains` : [...rowStrains][0] || 'empty'} · {rowTotal}/{r.subrows.length * 130} plants</div>
                   </div>
-                  {/* 4 lanes across = the physical field layout, each tinted by its strain.
-                      Tap a lane to drill into its plants (1,5,9… sequence). */}
-                  <div className="flex gap-1.5" style={{ minHeight: 150 }}>
+                  {/* 4 subrow lanes running DOWN — each shows its LIVE plant grid, every pot
+                      coloured by status (green active · amber flagged · red culled/dead · grey empty). */}
+                  <div className="flex gap-1.5" style={{ height: 384 }}>
                     {r.subrows.map((s: any) => {
-                      const cap = 130;
-                      const fill = Math.min(100, Math.round(((s.spots || 0) / cap) * 100));
                       const col = strainColor(s.strain);
+                      const lanePots = spotsByLane[`${r.row}-${s.subrow}`] || [];
                       return (
                       <button key={s.subrow} onClick={() => { setRow(r); setSub(s); }}
-                        className="flex-1 rounded-md overflow-hidden border border-white/10 hover:ring-2 hover:ring-primary/50 transition flex flex-col"
-                        title={`Lane ${s.subrow} · ${s.strain || 'empty'} · ${s.spots} of ${cap} plants`}>
-                        <div className="px-1 py-0.5 text-center" style={{ background: col }}>
-                          <span className="text-[9px] font-bold text-black/80">S{s.subrow}</span>
+                        className="flex-1 rounded-md overflow-hidden border border-white/10 hover:ring-1 hover:ring-white/50 transition flex flex-col"
+                        title={`Lane ${s.subrow} · ${s.strain || 'empty'} · ${s.spots} plants — tap for pots`}>
+                        <div className="py-0.5 text-center" style={{ background: col }}>
+                          <span className="text-[8px] font-bold text-black/80">S{s.subrow}</span>
                         </div>
-                        {/* strain-tinted body with a proportional occupancy fill from the bottom */}
-                        <div className="relative flex-1 bg-black/50 flex flex-col items-center justify-center gap-0.5 px-0.5">
-                          <div className="absolute bottom-0 left-0 right-0" style={{ height: `${fill}%`, background: col, opacity: 0.28 }} />
-                          <span className="relative text-[10px] font-bold text-white text-center leading-tight truncate w-full" title={s.strain}>{s.strain || '—'}</span>
-                          <span className="relative text-[8px] text-white/55 font-mono">{s.spots}/{cap}</span>
+                        <div className="flex-1 bg-black/40 p-0.5 overflow-y-auto">
+                          {lanePots.length > 0 ? (
+                            <div className="grid gap-px content-start" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
+                              {lanePots.map((pp: any) => {
+                                const lt = statusLight(pp.status, pp.strain);
+                                const issue = pp.status === 'FLAGGED' || pp.status === 'RESERVED' || pp.status === 'DESTROYED' || pp.status === 'DEAD' || pp.status === 'MAINTENANCE';
+                                const empty = !pp.strain && (!pp.status || pp.status === 'EMPTY');
+                                // healthy pot → STRAIN colour (4-in-a-row strain map); issue → status colour; empty → grey
+                                const cell = issue ? lt.dot : empty ? '#2f2f2f' : strainColor(pp.strain || s.strain);
+                                return <div key={pp.id} className="rounded-[1px]" style={{ background: cell, aspectRatio: '1' }} title={`#${pp.position} · ${pp.strain || s.strain || 'empty'} · ${lt.label}`} />;
+                              })}
+                            </div>
+                          ) : (
+                            <div className="h-full flex items-center justify-center text-[8px] text-white/30" style={{ writingMode: 'vertical-rl' as any }}>{s.strain || 'empty'}</div>
+                          )}
                         </div>
                       </button>
                       );
                     })}
                   </div>
+                  <div className="text-center text-[8px] text-white/25 mt-1 tracking-wider">S1 · S2 · S3 · S4 — tap a lane to drill</div>
                 </div>
                 );
               })}
@@ -237,7 +278,7 @@ export default function BayGridPage() {
             <div>
               <div className="flex items-center gap-3 mb-3 text-sm">
                 <span className="px-2 py-1 rounded-lg font-bold" style={{ background: strainColor(sub.strain), color: '#0A0A0A' }}>{sub.strain || 'empty'}</span>
-                {hasMinLevel(2) && (
+                {!readOnly && hasMinLevel(2) && (
                   <button onClick={() => { setEditStrain(sub.strain || ''); setShowEdit(true); }} className="px-2 py-1 rounded-lg bg-white/5 border border-white/15 text-white/70 text-xs font-semibold hover:border-primary/40">Edit strain</button>
                 )}
                 <span className="text-white/50">{(spots || []).length} pots · {bay.name} · Row {row.row} · Subrow {sub.subrow}</span>
@@ -247,49 +288,74 @@ export default function BayGridPage() {
                   <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full" style={{ background: '#DC2626' }} /> Dead</span>
                 </div>
               </div>
-              {hasMinLevel(1) && (
+              {!readOnly && hasMinLevel(1) && (
                 <div className="flex items-center gap-2 mb-2 flex-wrap">
                   <button onClick={() => { setSelectMode(m => !m); setSelected(new Set()); setRangeMode(false); setRangeStart(null); setConfirmBulk(null); }}
                     className={`px-2.5 py-1 rounded-lg border text-xs font-semibold ${selectMode ? 'bg-primary/20 border-primary/50 text-primary' : 'bg-white/5 border-white/15 text-white/70 hover:border-primary/40'}`}>
                     {selectMode ? 'Done selecting' : 'Select pots'}
                   </button>
                   {selectMode && <>
-                    <button onClick={() => setSelected(new Set((spots || []).map((s: any) => s.id)))} className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/15 text-white/70 text-xs font-semibold">Select all</button>
+                    <button onClick={() => setSelected(new Set(bedPots.map((s: any) => s.id)))} className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/15 text-white/70 text-xs font-semibold">Select all</button>
                     <button onClick={() => { setRangeMode(m => !m); setRangeStart(null); }} className={`px-2.5 py-1 rounded-lg border text-xs font-semibold ${rangeMode ? 'bg-amber-500/20 border-amber-500/50 text-amber-200' : 'bg-white/5 border-white/15 text-white/70'}`}>{rangeMode ? (rangeStart === null ? 'Tap start pot…' : 'Tap end pot…') : 'Range'}</button>
                     <button onClick={() => { setSelected(new Set()); setRangeStart(null); }} className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/15 text-white/70 text-xs font-semibold">Clear</button>
                     <span className="text-primary text-xs font-bold">{selected.size} selected</span>
                   </>}
                 </div>
               )}
-              {/* A subrow is ONE lane of the 4-across bed. The "4 in a row" lives at the Row
-                  level (LEVEL 2, the 4 lanes). Here we show only THIS lane's plants, running
-                  lengthwise down, numbered by their true transplant position in the row:
-                  lane s → 1×4+? … i.e. position = i*4 + subrow → lane 1 = 1,5,9,13 … */}
-              <div className="flex flex-col gap-1 max-h-[62vh] overflow-y-auto pr-1">
-                {(spots || []).map((sp: any, i: number) => {
+              {/* List / Grid toggle — grid = visual status map · list = easy range-select + re-strain */}
+              <div className="flex items-center gap-1 mb-2">
+                <button onClick={() => setPotView('grid')} className={`px-2.5 py-1 rounded-lg text-xs font-semibold border ${potView === 'grid' ? 'bg-primary/20 border-primary/50 text-primary' : 'bg-white/5 border-white/15 text-white/50'}`}>Grid</button>
+                <button onClick={() => setPotView('list')} className={`px-2.5 py-1 rounded-lg text-xs font-semibold border ${potView === 'list' ? 'bg-primary/20 border-primary/50 text-primary' : 'bg-white/5 border-white/15 text-white/50'}`}>List</button>
+              </div>
+              {/* GRID — the row's 4-across bed: #1 bottom-left → top-right. Each pot tappable → modal. */}
+              {potView === 'grid' && (
+              <div className="grid gap-1 max-h-[64vh] overflow-y-auto pr-1" style={{ gridTemplateColumns: 'repeat(4, minmax(40px, 1fr))' }}>
+                {bedPots.map((sp: any, i: number) => {
                   const light = statusLight(sp.status, sp.strain);
                   const isSel = selected.has(sp.id);
-                  // Global transplant position in the row. position = lane-local depth (1..130);
-                  // plants fill 4-across, so row-wide # = (depth-1)*4 + lane → lane 1 = 1,5,9…,
-                  // and it stays continuous as batches fill (50 placed → next is 51, 52…).
-                  const seq = (Number(sp.position) - 1) * 4 + sub.subrow;
+                  const issue = sp.status === 'FLAGGED' || sp.status === 'RESERVED' || sp.status === 'DESTROYED' || sp.status === 'DEAD' || sp.status === 'MAINTENANCE';
+                  const tint = issue ? light.dot : (sp.strain ? strainColor(sp.strain) : '#262626');
                   return (
                     <button key={sp.id} onClick={() => {
-                      if (!selectMode) { setPot({ ...sp, seq }); return; }
+                      if (!selectMode) { setPot(sp); return; }
                       if (rangeMode) {
                         if (rangeStart === null) { setRangeStart(i); setSelected(prev => new Set(prev).add(sp.id)); }
-                        else { const a = Math.min(rangeStart, i), b = Math.max(rangeStart, i); setSelected(prev => { const n = new Set(prev); for (let k = a; k <= b; k++) n.add(spots[k].id); return n; }); setRangeMode(false); setRangeStart(null); }
+                        else { const a = Math.min(rangeStart, i), b = Math.max(rangeStart, i); setSelected(prev => { const n = new Set(prev); for (let k = a; k <= b; k++) n.add(bedPots[k].id); return n; }); setRangeMode(false); setRangeStart(null); }
                       } else { setSelected(prev => { const n = new Set(prev); n.has(sp.id) ? n.delete(sp.id) : n.add(sp.id); return n; }); }
-                    }} className="flex items-center gap-2.5 rounded-md px-2.5 py-2 hover:ring-2 hover:ring-white/40 transition text-left min-h-[40px]"
-                      style={{ background: isSel ? '#3a3320' : '#161616', border: isSel ? '2px solid #C9A84C' : `1px solid ${strainColor(sp.strain)}55`, boxShadow: isSel ? '0 0 6px #C9A84C88' : 'none' }} title={`${sp.spotId} · pos ${seq} · ${light.label}`}>
-                      <span className="text-[11px] font-mono text-white/45 w-9 flex-shrink-0">#{seq}</span>
-                      <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: light.dot, boxShadow: `0 0 5px ${light.dot}` }} />
-                      <span className="text-[11px] text-white/55 truncate">{light.label}</span>
-                      <span className="text-[10px] text-white/25 font-mono ml-auto truncate">{sp.spotId}</span>
+                    }} className="aspect-square rounded-md flex flex-col items-center justify-center gap-0.5 hover:ring-1 hover:ring-white/50 transition relative"
+                      style={{ background: isSel ? '#3a3320' : `${tint}33`, border: isSel ? '2px solid #C9A84C' : `1px solid ${tint}` }}
+                      title={`#${sp.seq} · L${sp.subrow} · ${sp.strain || 'empty'} · ${light.label}`}>
+                      <span className="w-2.5 h-2.5 rounded-full" style={{ background: light.dot, boxShadow: `0 0 4px ${light.dot}` }} />
+                      <span className="text-[8px] font-mono text-white/55">#{sp.seq}</span>
                     </button>
                   );
                 })}
               </div>
+              )}
+              {/* LIST — same bed, top→bottom; easier for range-select + re-strain */}
+              {potView === 'list' && (
+              <div className="flex flex-col gap-1 max-h-[64vh] overflow-y-auto pr-1">
+                {bedPots.map((sp: any, i: number) => {
+                  const light = statusLight(sp.status, sp.strain);
+                  const isSel = selected.has(sp.id);
+                  return (
+                    <button key={sp.id} onClick={() => {
+                      if (!selectMode) { setPot(sp); return; }
+                      if (rangeMode) {
+                        if (rangeStart === null) { setRangeStart(i); setSelected(prev => new Set(prev).add(sp.id)); }
+                        else { const a = Math.min(rangeStart, i), b = Math.max(rangeStart, i); setSelected(prev => { const n = new Set(prev); for (let k = a; k <= b; k++) n.add(bedPots[k].id); return n; }); setRangeMode(false); setRangeStart(null); }
+                      } else { setSelected(prev => { const n = new Set(prev); n.has(sp.id) ? n.delete(sp.id) : n.add(sp.id); return n; }); }
+                    }} className="flex items-center gap-2.5 rounded-md px-2.5 py-2 hover:ring-1 hover:ring-white/50 transition text-left min-h-[38px]"
+                      style={{ background: isSel ? '#3a3320' : '#161616', border: isSel ? '2px solid #C9A84C' : `1px solid ${strainColor(sp.strain)}55` }} title={`#${sp.seq} · ${light.label}`}>
+                      <span className="text-[11px] font-mono text-white/45 w-9 flex-shrink-0">#{sp.seq}</span>
+                      <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: light.dot }} />
+                      <span className="text-[11px] text-white/55 truncate">L{sp.subrow} · {light.label}</span>
+                      <span className="text-[10px] text-white/25 font-mono ml-auto truncate">{sp.spotId || ''}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              )}
               {selectMode && selected.size > 0 && (
                 <div className="mt-3 flex items-center gap-2 flex-wrap bg-zinc-900/90 border border-white/10 rounded-xl p-2.5">
                   <span className="text-xs text-white/70 font-bold mr-1">{selected.size} pots →</span>
@@ -297,7 +363,9 @@ export default function BayGridPage() {
                   <button onClick={() => bulkMut.mutate({ action: 'restore' })} disabled={bulkMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-green-500/10 border border-green-500/30 text-green-300 text-xs font-semibold">Restore</button>
                   <button onClick={() => { confirmBulk === 'cull' ? bulkMut.mutate({ action: 'cull' }) : setConfirmBulk('cull'); }} disabled={bulkMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-semibold">{confirmBulk === 'cull' ? '⚠ Tap again — cull' : 'Cull'}</button>
                   <button onClick={() => { confirmBulk === 'clear' ? bulkMut.mutate({ action: 'clear' }) : setConfirmBulk('clear'); }} disabled={bulkMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/15 text-white/60 text-xs font-semibold">{confirmBulk === 'clear' ? '⚠ Tap again — clear (empty pot)' : 'Clear'}</button>
-                  <span className="text-[10px] text-white/30 ml-1">Strain is set per subrow → use “Edit strain”</span>
+                  {hasMinLevel(2) && (
+                    <button onClick={() => setShowBulkStrain(true)} disabled={bulkMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold">Re-strain</button>
+                  )}
                 </div>
               )}
             </div>
@@ -306,7 +374,7 @@ export default function BayGridPage() {
       )}
 
       {/* POT data modal */}
-      <Modal open={!!pot} onClose={() => setPot(null)} title={pot ? `Pot · ${pot.spotId}` : ''}>
+      <Modal open={!!pot} onClose={() => setPot(null)} title={pot ? `Pot · #${pot.seq ?? pot.position ?? ''}` : ''}>
         {pot && (() => { const light = statusLight(pot.status, pot.strain); return (
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full" style={{ background: light.dot, boxShadow: `0 0 6px ${light.dot}` }} /><span className="text-white font-semibold">{light.label}</span></div>
@@ -317,12 +385,17 @@ export default function BayGridPage() {
               <div className="bg-white/5 rounded-lg p-2"><div className="text-white/40">Plant</div><div className="text-white font-mono">{pot.plantId || 'CFS baseline — slot'}</div></div>
             </div>
             <div className="text-[11px] text-white/30 pt-1">Permanent pot QR; content (plant) changes per cycle. {pot.allocatedAt ? `Allocated ${new Date(pot.allocatedAt).toLocaleDateString()}.` : ''}</div>
-            {hasMinLevel(1) && (
+            {!readOnly && hasMinLevel(1) && (
               <div className="flex flex-wrap gap-2 pt-2 border-t border-white/10 mt-2">
                 <button onClick={() => potActionMut.mutate('cull')} disabled={potActionMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-semibold hover:bg-red-500/20">Cull (dead)</button>
                 <button onClick={() => potActionMut.mutate('flag')} disabled={potActionMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold hover:bg-amber-500/20">Flag (sick)</button>
                 <button onClick={() => potActionMut.mutate('restore')} disabled={potActionMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-green-500/10 border border-green-500/30 text-green-300 text-xs font-semibold hover:bg-green-500/20">Restore</button>
                 <button onClick={() => potActionMut.mutate('clear')} disabled={potActionMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/15 text-white/60 text-xs font-semibold hover:bg-white/10">Clear pot</button>
+                {/* Re-strain this pot's subrow (strain is set per subrow) — level 2+ (incl. Cultivation Supervisor) */}
+                {hasMinLevel(2) && (
+                  <button onClick={() => { setSub({ subrow: pot.subrow, strain: pot.strain }); setEditStrain(pot.strain || ''); setConfirmRestrain(false); setPot(null); setShowEdit(true); }}
+                    className="px-2.5 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold hover:bg-purple-500/20">Re-strain subrow</button>
+                )}
               </div>
             )}
           </div>

@@ -114,14 +114,23 @@ export async function createBatch(data: {
     if (destructionRate > 0.3) { // > 30% of batches destroyed = concerning
       const existing = await prisma.anomaly.findFirst({ where: { type: AnomalyType.DESTRUCTION_RATE, tenantId: data.tenantId, resolvedAt: null } });
       if (!existing) {
+        const msg = `Facility destruction rate at ${(destructionRate * 100).toFixed(0)}% (${facilityDestructions} destructions / ${facilityBatches} batches)`;
         await prisma.anomaly.create({
           data: {
             type: AnomalyType.DESTRUCTION_RATE,
             severity: destructionRate > 0.5 ? SeverityLevel.CRITICAL : SeverityLevel.HIGH,
-            description: `Facility destruction rate at ${(destructionRate * 100).toFixed(0)}% (${facilityDestructions} destructions / ${facilityBatches} batches)`,
+            description: msg,
             entityType: 'Facility', entityId: plants[0].facilityId, tenantId: data.tenantId,
           },
         });
+        // A high destruction rate is a diversion red-flag — alert the senior roles (was alerting NOBODY).
+        const seniors = await prisma.user.findMany({
+          where: { tenantId: data.tenantId, active: true, role: { in: ['FACILITY_MANAGER', 'TENANT_ADMIN', 'SUPER_ADMIN'] as any } },
+          select: { id: true },
+        });
+        if (seniors.length) {
+          await prisma.notification.createMany({ data: seniors.map((u) => ({ userId: u.id, title: `⚠ Destruction rate ${(destructionRate * 100).toFixed(0)}%`, message: msg + ' — investigate possible diversion.', link: '/compliance' })) });
+        }
       }
     }
   }
@@ -311,5 +320,113 @@ export async function updateStatus(id: string, data: {
     before: { status: batch.status }, after: { status: data.status },
   });
 
+  return updated;
+}
+
+// ── BATCH RECORDS — BMR / BPR / BDR ──────────────────────────────────────────
+
+const BATCH_RECORD_TYPES = ['BMR', 'BPR', 'BDR'] as const;
+
+export async function listBatchRecords(batchId: string, tenantId: string) {
+  const batch = await prisma.batch.findFirst({ where: { id: batchId, tenantId } });
+  if (!batch) throw Object.assign(new Error('Batch not found'), { status: 404 });
+  return prisma.batchRecord.findMany({ where: { batchId, tenantId }, orderBy: { recordType: 'asc' } });
+}
+
+export async function createBatchRecord(data: {
+  batchId: string; tenantId: string; facilityId?: string | null; userId: string;
+  recordType: string; summary?: string; data?: any;
+}) {
+  if (!BATCH_RECORD_TYPES.includes(data.recordType as any)) {
+    throw Object.assign(new Error('recordType must be BMR, BPR or BDR'), { status: 400 });
+  }
+  const batch = await prisma.batch.findFirst({ where: { id: data.batchId, tenantId: data.tenantId } });
+  if (!batch) throw Object.assign(new Error('Batch not found'), { status: 404 });
+  // One record of each type per batch.
+  const existing = await prisma.batchRecord.findFirst({ where: { batchId: data.batchId, recordType: data.recordType } });
+  if (existing) throw Object.assign(new Error(`${data.recordType} already exists for this batch`), { status: 409 });
+
+  const refNo = `${data.recordType}-${batch.batchNumber}`;
+  const rec = await prisma.batchRecord.create({
+    data: {
+      recordType: data.recordType, refNo, batchId: data.batchId,
+      tenantId: data.tenantId, facilityId: data.facilityId ?? batch.facilityId,
+      createdById: data.userId, summary: data.summary, data: data.data ?? undefined,
+    },
+  });
+  eventBus.emit('BATCH_RECORD_CREATED', { userId: data.userId, tenantId: data.tenantId, entityType: 'BatchRecord', entityId: rec.id });
+  return rec;
+}
+
+export async function updateBatchRecord(id: string, tenantId: string, userId: string, name: string | undefined, patch: any) {
+  const rec = await prisma.batchRecord.findFirst({ where: { id, tenantId } });
+  if (!rec) throw Object.assign(new Error('Batch record not found'), { status: 404 });
+
+  const sign = patch.status === 'QA_SIGNED' && rec.status !== 'QA_SIGNED';
+  const updated = await prisma.batchRecord.update({
+    where: { id },
+    data: {
+      summary: patch.summary !== undefined ? patch.summary : undefined,
+      data: patch.data !== undefined ? patch.data : undefined,
+      status: patch.status !== undefined ? patch.status : undefined,
+      // QA sign-off stamps the signer; clearing back to a pre-sign state wipes it.
+      qaSignedById: sign ? userId : patch.status && patch.status !== 'QA_SIGNED' && patch.status !== 'CLOSED' ? null : undefined,
+      qaSignedName: sign ? name : patch.status && patch.status !== 'QA_SIGNED' && patch.status !== 'CLOSED' ? null : undefined,
+      qaSignedAt: sign ? new Date() : patch.status && patch.status !== 'QA_SIGNED' && patch.status !== 'CLOSED' ? null : undefined,
+    },
+  });
+  eventBus.emit('BATCH_RECORD_UPDATED', { userId, tenantId, entityType: 'BatchRecord', entityId: id });
+  return updated;
+}
+
+// ── PROCESSING STAGES — weigh events along the processing workflow ────────────
+// Confirmed ILCO order: wet intake → sampling(lab) → drying → debucking → trimming
+// → visual inspection → packaging → bulk storage → dispatch. Each weigh point is
+// stored as an event on the batch's BPR record (data.stages[]). Weight is read from
+// the scale photo via /api/scan (Claude Vision) on the frontend, or entered manually.
+export const PROCESSING_STAGES = [
+  'WET_INTAKE', 'SAMPLING', 'DRYING', 'DEBUCKING', 'TRIMMING',
+  'VISUAL_INSPECTION', 'PACKAGING', 'BULK_STORAGE', 'DISPATCH',
+] as const;
+
+export async function recordProcessingStage(data: {
+  batchId: string; tenantId: string; facilityId?: string | null; userId: string; userName?: string;
+  stage: string; weight?: number | null; weightUnit?: string; photoUrl?: string; notes?: string;
+}) {
+  if (!PROCESSING_STAGES.includes(data.stage as any)) {
+    throw Object.assign(new Error('Invalid processing stage'), { status: 400 });
+  }
+  const batch = await prisma.batch.findFirst({ where: { id: data.batchId, tenantId: data.tenantId } });
+  if (!batch) throw Object.assign(new Error('Batch not found'), { status: 404 });
+
+  // Upsert the BPR (Batch Processing Record) for this batch.
+  let bpr = await prisma.batchRecord.findFirst({ where: { batchId: data.batchId, recordType: 'BPR' } });
+  if (!bpr) {
+    bpr = await prisma.batchRecord.create({
+      data: {
+        recordType: 'BPR', refNo: `BPR-${batch.batchNumber}`, batchId: data.batchId,
+        tenantId: data.tenantId, facilityId: data.facilityId ?? batch.facilityId,
+        createdById: data.userId, status: 'IN_PROGRESS', data: { stages: [] },
+      },
+    });
+  }
+  const current = (bpr.data as any) || {};
+  const stages = Array.isArray(current.stages) ? current.stages : [];
+  stages.push({
+    stage: data.stage,
+    weight: data.weight ?? null,
+    weightUnit: data.weightUnit ?? 'g',
+    photoUrl: data.photoUrl ?? null,
+    notes: data.notes ?? null,
+    by: data.userName ?? null,
+    byId: data.userId,
+    at: new Date().toISOString(),
+  });
+
+  const updated = await prisma.batchRecord.update({
+    where: { id: bpr.id },
+    data: { data: { ...current, stages }, status: bpr.status === 'DRAFT' ? 'IN_PROGRESS' : bpr.status },
+  });
+  eventBus.emit('PROCESSING_STAGE_RECORDED', { userId: data.userId, tenantId: data.tenantId, entityType: 'BatchRecord', entityId: bpr.id });
   return updated;
 }

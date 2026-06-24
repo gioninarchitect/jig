@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { requireAuth, requireLevel } from '../middleware/auth';
+import { requireAuth, requireLevel, requireRole } from '../middleware/auth';
 import * as batch from '../controllers/batch.controller';
 
 const router = Router();
@@ -14,6 +14,14 @@ router.post('/:id/split', requireLevel(3), batch.split);
 router.post('/merge', requireLevel(3), batch.merge);
 router.patch('/:id/status', requireLevel(3), batch.updateStatus);
 router.post('/:id/request-destruction', requireLevel(3), batch.requestDestruction);
-router.post('/:id/confirm-destruction', requireLevel(3), batch.confirmDestruction);
+router.post('/:id/confirm-destruction', requireRole('FACILITY_MANAGER', 'TENANT_ADMIN', 'SUPER_ADMIN'), batch.confirmDestruction);
+
+// Batch records — BMR / BPR / BDR
+router.get('/:id/records', requireLevel(0), batch.listRecords);
+router.post('/:id/records', requireLevel(1), batch.createRecord);
+router.patch('/records/:recordId', requireLevel(2), batch.updateRecord);
+
+// Processing stage weigh event (wet intake → … → dispatch)
+router.post('/:id/processing/stage', requireLevel(1), batch.recordStage);
 
 export default router;

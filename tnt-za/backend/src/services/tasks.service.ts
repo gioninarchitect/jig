@@ -17,6 +17,18 @@ export async function createTemplate(data: {
   return prisma.taskTemplate.create({ data });
 }
 
+// QA edits a form template — title, checklist items, category, active. (The form/checklist editor.)
+export async function updateTemplate(id: string, tenantId: string, data: { title?: string; checklist?: any; category?: string; active?: boolean }) {
+  const tpl = await prisma.taskTemplate.findFirst({ where: { id, tenantId } });
+  if (!tpl) throw Object.assign(new Error('Template not found'), { status: 404 });
+  const updates: any = {};
+  if (data.title !== undefined) updates.title = data.title;
+  if (data.checklist !== undefined) updates.checklist = data.checklist;
+  if (data.category !== undefined) updates.category = data.category;
+  if (data.active !== undefined) updates.active = data.active;
+  return prisma.taskTemplate.update({ where: { id }, data: updates });
+}
+
 // ── TASKS ──
 
 export async function listTasks(query: { tenantId: string; assignedToId?: string; status?: string; batchId?: string }) {
@@ -126,7 +138,13 @@ async function raiseProcessingDeviationIfFailed(taskId: string, checklistDone: a
   }
 }
 
-export async function updateTaskStatus(id: string, status: string) {
+export async function updateTaskStatus(id: string, status: string, tenantId?: string) {
+  // Tenant-scope the write so a task id alone can't reach across tenants.
+  if (tenantId) {
+    const res = await prisma.task.updateMany({ where: { id, tenantId }, data: { status } });
+    if (res.count === 0) throw Object.assign(new Error('Task not found'), { status: 404 });
+    return prisma.task.findUnique({ where: { id } });
+  }
   return prisma.task.update({ where: { id }, data: { status } });
 }
 
@@ -444,6 +462,7 @@ export async function materializeRecurringForms(tenantId: string) {
     where: { tenantId, active: true, frequency: { in: ['DAILY', 'WEEKLY', 'MONTHLY'] } },
   });
   let created = 0;
+  const byAssignee = new Map<string, number>();   // userId → how many new checklists landed on them
   for (const t of templates) {
     if (t.frequency === 'WEEKLY' && dow !== 1) continue;   // Mondays
     if (t.frequency === 'MONTHLY' && dom !== 1) continue;   // 1st of month
@@ -461,6 +480,21 @@ export async function materializeRecurringForms(tenantId: string) {
       data: { title: t.title, templateId: t.id, assignedToId: assignee.id, assignerId: assignee.id, dueDate: now, priority: 'MEDIUM', category: t.category, tenantId },
     });
     created++;
+    byAssignee.set(assignee.id, (byAssignee.get(assignee.id) || 0) + 1);
+  }
+  // One bell ping per responsible person summarising the checklists that just landed on
+  // their board (a summary, not one-per-task — keeps the bell useful, not noisy).
+  for (const [userId, count] of byAssignee) {
+    try {
+      await prisma.notification.create({
+        data: {
+          userId,
+          title: `${count} checklist${count > 1 ? 's' : ''} due today`,
+          message: 'Your daily checklists are on your board — tap to complete + sign off.',
+          link: '/tasks',
+        },
+      });
+    } catch (e: any) { console.error('[materialize] notify failed:', e.message); }
   }
   return { created };
 }

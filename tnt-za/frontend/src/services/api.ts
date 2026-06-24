@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useGhostStore } from '../stores/ghostStore';
+import { useToastStore } from '../stores/toastStore';
 
 const api = axios.create({ baseURL: '/api' });
 
@@ -18,8 +19,23 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Track whether we've already warned this offline burst, so a batch of queued
+// writes doesn't spam one toast per request.
+let warnedQueuedAt = 0;
+
 api.interceptors.response.use(
-  (res) => res,
+  (res) => {
+    // The service worker returns {queued:true} when it parks a write offline.
+    // Tell the user the truth — it's saved locally and will sync, NOT live yet.
+    if (res.data?.queued) {
+      const now = Date.now();
+      if (now - warnedQueuedAt > 4000) {
+        warnedQueuedAt = now;
+        useToastStore.getState().addToast('info', 'Saved offline — will sync when you’re back online.');
+      }
+    }
+    return res;
+  },
   (err) => {
     if (err.response?.status === 401) {
       localStorage.removeItem('tnt-token');

@@ -1,5 +1,5 @@
 import { Router, Response } from 'express';
-import { requireAuth, requireLevel, AuthRequest } from '../middleware/auth';
+import { requireAuth, requireLevel, requireRole, AuthRequest } from '../middleware/auth';
 import { p } from '../utils/params';
 import * as bg from '../services/baygrid.service';
 
@@ -64,6 +64,14 @@ router.get('/layout', requireLevel(0), async (req: AuthRequest, res: Response) =
 router.get('/bays/:id/subrow/:row/:subrow', requireLevel(0), async (req: AuthRequest, res: Response) => {
   try {
     const spots = await bg.getSubrowSpots(p(req.params.id), Number(req.params.row), Number(req.params.subrow));
+    res.json({ success: true, spots });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+});
+
+// All pots in a bay — drives the portrait Bay view's live plant grid (per-pot status colour).
+router.get('/bays/:id/spots', requireLevel(0), async (req: AuthRequest, res: Response) => {
+  try {
+    const spots = await bg.getBaySpots(p(req.params.id));
     res.json({ success: true, spots });
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 });
@@ -194,6 +202,13 @@ router.patch('/clone-trays/:id', requireLevel(1), async (req: AuthRequest, res: 
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 });
 
+router.delete('/clone-trays/:id', requireLevel(1), async (req: AuthRequest, res: Response) => {
+  try {
+    const result = await bg.deleteCloneTray(p(req.params.id), req.user!.tenantId, req.user!.userId);
+    res.json({ success: true, ...result });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+});
+
 // ── TICKETS ──
 router.get('/tickets', requireLevel(0), async (req: AuthRequest, res: Response) => {
   try {
@@ -246,7 +261,7 @@ router.get('/schedules', requireLevel(0), async (req: AuthRequest, res: Response
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 });
 
-router.post('/schedules', requireLevel(3), async (req: AuthRequest, res: Response) => {
+router.post('/schedules', requireRole('HEAD_OF_CULTIVATION', 'TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
   try {
     const schedule = await bg.createSchedule({ ...req.body, tenantId: req.user!.tenantId, userId: req.user!.userId });
     res.status(201).json({ success: true, schedule });
@@ -254,7 +269,7 @@ router.post('/schedules', requireLevel(3), async (req: AuthRequest, res: Respons
 });
 
 // Alter an approved schedule — auto change-control + deviation when harvest is pulled earlier.
-router.patch('/schedules/:id', requireLevel(3), async (req: AuthRequest, res: Response) => {
+router.patch('/schedules/:id', requireRole('HEAD_OF_CULTIVATION', 'TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
   try {
     const result = await bg.updateScheduleWithChangeControl(p(req.params.id), req.body, {
       tenantId: req.user!.tenantId, userId: req.user!.userId,

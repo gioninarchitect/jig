@@ -12,8 +12,6 @@ import LoginPage from './pages/auth/LoginPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 
 // Domain pages
-import PlantsPage from './pages/plants/PlantsPage';
-import PlantDetailPage from './pages/plants/PlantDetailPage';
 import ContainersPage from './pages/containers/ContainersPage';
 import ContainerDetailPage from './pages/containers/ContainerDetailPage';
 import BatchesPage from './pages/batches/BatchesPage';
@@ -60,6 +58,7 @@ import AutoLoginPage from './pages/auto-login/AutoLoginPage';
 
 // Scan
 import ScanPage from './pages/scan/ScanPage';
+import ProcessingPage from './pages/processing/ProcessingPage';
 
 // Onboarding
 import OnboardingWizard from './pages/onboarding/OnboardingWizard';
@@ -116,8 +115,9 @@ export default function App() {
         <Route path="/hr" element={<DashRoute><HRPage /></DashRoute>} />
         <Route path="/client" element={<DashRoute><ClientPortal /></DashRoute>} />
         <Route path="/scan" element={<DashRoute><ScanPage /></DashRoute>} />
-        <Route path="/plants" element={<DashRoute><PlantsPage /></DashRoute>} />
-        <Route path="/plants/:id" element={<DashRoute><PlantDetailPage /></DashRoute>} />
+        <Route path="/processing" element={<DashRoute><ProcessingPage /></DashRoute>} />
+        <Route path="/plants" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/plants/:id" element={<Navigate to="/dashboard" replace />} />
         <Route path="/containers" element={<DashRoute><ContainersPage /></DashRoute>} />
         <Route path="/containers/:id" element={<DashRoute><ContainerDetailPage /></DashRoute>} />
         <Route path="/batches" element={<DashRoute><BatchesPage /></DashRoute>} />

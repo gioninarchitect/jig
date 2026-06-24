@@ -23,6 +23,39 @@ export async function updateStrain(id: string, data: any) {
   return prisma.strain.update({ where: { id }, data });
 }
 
+// Soft-delete — strains may be referenced by plants / clones / batches, so we deactivate
+// rather than hard-delete (keeps the history + analytics intact).
+export async function deleteStrain(id: string, tenantId: string) {
+  const strain = await prisma.strain.findFirst({ where: { id, tenantId } });
+  if (!strain) { const e: any = new Error('Strain not found'); e.status = 404; throw e; }
+  return prisma.strain.update({ where: { id }, data: { active: false } });
+}
+
+// Derived strain history: real lifecycle events for this strain — cloning, transplant,
+// rooting stress (mortality), and yields — pulled from clone trays + batches. No new table.
+export async function getStrainHistory(id: string, tenantId: string) {
+  const strain = await prisma.strain.findFirst({ where: { id, tenantId } });
+  if (!strain) return [];
+  const name = strain.name;
+  const events: any[] = [];
+
+  const trays = await prisma.cloneTray.findMany({ where: { tenantId, strain: name }, orderBy: { cloneDate: 'asc' } });
+  for (const t of trays) {
+    events.push({ date: t.cloneDate, type: 'CLONE', label: `Cloned ${t.totalCuttings} cuttings`, detail: `${t.trayNumber}${t.motherLabel ? ` · ${t.motherLabel}` : ''}` });
+    if (t.transplantDate) events.push({ date: t.transplantDate, type: 'TRANSPLANT', label: `Transplanted ${t.rooted}`, detail: t.trayNumber });
+    if ((t.mortality ?? 0) > 0) events.push({ date: t.rootedDate || t.cloneDate, type: 'STRESS', label: `${t.mortality} lost (rooting)`, detail: t.trayNumber });
+  }
+
+  try {
+    const batches = await prisma.batch.findMany({ where: { tenantId, strain: name }, orderBy: { createdAt: 'asc' } });
+    for (const b of batches) {
+      events.push({ date: b.createdAt, type: 'YIELD', label: b.totalWeight ? `${b.totalWeight} g harvested` : 'Batch created', detail: b.batchNumber });
+    }
+  } catch { /* batch shape variance — non-fatal */ }
+
+  return events.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
 export async function getStrainAnalytics(tenantId: string) {
   const strains = await prisma.strain.findMany({ where: { tenantId, active: true } });
   const analytics = [];

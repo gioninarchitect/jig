@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import { SkeletonTable } from '../../components/Skeleton';
@@ -9,6 +10,7 @@ import api from '../../services/api';
 
 export default function TrimPage() {
   const { hasMinLevel } = useRBAC();
+  const readOnly = useReadOnly();
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const [showCreate, setShowCreate] = useState(false);
@@ -76,7 +78,7 @@ export default function TrimPage() {
           <h1 className="text-2xl font-bold text-white">Trim Sessions</h1>
           <p className="text-sm text-white/40">Per-trimmer weight tracking — Step 12</p>
         </div>
-        {hasMinLevel(3) && (
+        {!readOnly && hasMinLevel(3) && (
           <button onClick={() => setShowCreate(true)} className="px-4 py-2.5 bg-primary hover:bg-primary-light text-white rounded-xl text-sm font-semibold flex items-center gap-2 transition min-h-[44px]">
             <Plus size={16} /> New Session
           </button>
@@ -166,7 +168,7 @@ export default function TrimPage() {
                       {a.weightOut !== null && <span>OUT: {a.weightOut}g</span>}
                       {a.wasteWeight !== null && <span>Waste: {a.wasteWeight}g</span>}
                     </div>
-                    {a.status !== 'COMPLETED' && hasMinLevel(1) && (
+                    {!readOnly && a.status !== 'COMPLETED' && hasMinLevel(1) && (
                       <button onClick={() => { setShowComplete(a); setCompleteForm({ weightOut: '', wasteWeight: '', notes: '' }); }}
                         className="mt-2 px-3 py-1.5 bg-primary/10 border border-primary/30 text-primary rounded-lg text-xs font-semibold hover:bg-primary/20 transition min-h-[36px]">
                         Record Output
@@ -180,7 +182,7 @@ export default function TrimPage() {
             )}
 
             {/* Actions */}
-            {sessionDetail.status !== 'COMPLETED' && hasMinLevel(3) && (
+            {!readOnly && sessionDetail.status !== 'COMPLETED' && hasMinLevel(3) && (
               <div className="flex gap-2">
                 <button onClick={() => { setShowAssign(sessionDetail.id); setAssignForm({ trimmerId: '', trimmerName: '', weightIn: '' }); }}
                   className="flex-1 py-2.5 bg-primary hover:bg-primary-light text-white rounded-xl text-sm font-semibold transition min-h-[44px] flex items-center justify-center gap-1.5">

@@ -1,5 +1,5 @@
 import { Router, Response } from 'express';
-import { requireAuth, requireLevel, AuthRequest } from '../middleware/auth';
+import { requireAuth, requireLevel, requireRole, AuthRequest } from '../middleware/auth';
 import { p } from '../utils/params';
 import * as ts from '../services/tasks.service';
 import * as kpiService from '../services/kpi.service';
@@ -19,6 +19,14 @@ router.post('/templates', requireLevel(3), async (req: AuthRequest, res: Respons
   try {
     const tmpl = await ts.createTemplate({ ...req.body, tenantId: req.user!.tenantId });
     res.status(201).json({ success: true, template: tmpl });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+});
+
+// QA edits a form template (checklist items, title, active) — the form/checklist editor.
+router.patch('/templates/:id', requireLevel(3), async (req: AuthRequest, res: Response) => {
+  try {
+    const template = await ts.updateTemplate(p(req.params.id), req.user!.tenantId, req.body);
+    res.json({ success: true, template });
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 });
 
@@ -74,13 +82,13 @@ router.patch('/:id/complete', requireLevel(1), async (req: AuthRequest, res: Res
 
 router.patch('/:id/status', requireLevel(1), async (req: AuthRequest, res: Response) => {
   try {
-    const task = await ts.updateTaskStatus(p(req.params.id), req.body.status);
+    const task = await ts.updateTaskStatus(p(req.params.id), req.body.status, req.user!.tenantId);
     res.json({ success: true, task });
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 });
 
 // Quarantine auto-tasks
-router.post('/quarantine/:batchId', requireLevel(3), async (req: AuthRequest, res: Response) => {
+router.post('/quarantine/:batchId', requireRole('QA_INSPECTOR', 'RESPONSIBLE_PHARMACIST', 'TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
   try {
     const tasks = await ts.createQuarantineTasks(p(req.params.batchId), req.user!.tenantId, req.user!.userId);
     res.json({ success: true, created: tasks.length, tasks });

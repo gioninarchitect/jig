@@ -4,8 +4,23 @@ import { useRBAC } from '../../hooks/useRBAC';
 import { useAuthStore } from '../../stores/authStore';
 import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
-import { BookOpen, AlertTriangle, Wrench, Plus, CheckCircle, ShieldCheck, ExternalLink, Database, GitBranch, Tags } from 'lucide-react';
+import { BookOpen, AlertTriangle, Wrench, Plus, CheckCircle, ShieldCheck, ExternalLink, Database, GitBranch, Tags, Scale, FlaskConical, Activity, Boxes, Cpu, Truck, LayoutGrid } from 'lucide-react';
 import api from '../../services/api';
+import QmsRegister from './QmsRegister';
+
+// QMS hub — the section rail. Quality Events + Overview keep their rich native flows;
+// the rest run on the generic QmsRegister (shared /qms/records table).
+const TABS = [
+  { id: 'overview', label: 'Overview', icon: LayoutGrid },
+  { id: 'quality-events', label: 'Quality Events', icon: AlertTriangle },
+  { id: 'legal', label: 'Legal & Regulatory', icon: Scale },
+  { id: 'validations', label: 'Validations', icon: CheckCircle },
+  { id: 'risk', label: 'Risk Assessment', icon: Activity },
+  { id: 'stability', label: 'Stability Studies', icon: FlaskConical },
+  { id: 'barcode', label: 'Barcode', icon: Tags },
+  { id: 'engineering', label: 'Engineering', icon: Cpu },
+  { id: 'procurement', label: 'Procurement', icon: Truck },
+];
 
 export default function QMSPage() {
   const { hasMinLevel } = useRBAC();
@@ -13,10 +28,10 @@ export default function QMSPage() {
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
 
+  const [tab, setTab] = useState('overview');
   const [showSOP, setShowSOP] = useState(false);
   const [showDev, setShowDev] = useState(false);
   const [showEquip, setShowEquip] = useState(false);
-  const [showCalibrate, setShowCalibrate] = useState<string | null>(null);
 
   const [sopForm, setSopForm] = useState({ title: '', content: '', facilityId: '' });
   const devBlank = { sopId: '', description: '', severity: 'MEDIUM', facilityId: '', deviationType: 'Process', referenceId: '', area: '', impactOnQuality: 'NOT_KNOWN', level: '', capaRequired: false, capaNo: '', actionsRequired: '' };
@@ -68,7 +83,7 @@ export default function QMSPage() {
 
   const calibrateMut = useMutation({
     mutationFn: (id: string) => api.patch(`/qms/equipment/${id}/calibrate`, { nextDueDays: 30 }),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['equipment'] }); setShowCalibrate(null); addToast('success', 'Calibration recorded'); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['equipment'] }); addToast('success', 'Calibration recorded'); },
     onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
   });
 
@@ -95,173 +110,224 @@ export default function QMSPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <h1 className="text-2xl font-bold text-white">Quality Management</h1>
 
-      <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-5">
-        <div className="flex items-center gap-2 mb-4">
-          <GitBranch size={17} className="text-primary" />
-          <h2 className="text-sm font-semibold text-white/70">Production Readiness Chain</h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-6 gap-2">
-          {['EU GMP Source', 'SOP', 'Checklist', 'Task/Ticket', 'Evidence', 'Digital SMF'].map((step, i) => (
-            <div key={step} className="bg-black/20 border border-white/[0.06] rounded-lg p-3">
-              <div className="text-[10px] text-primary font-mono mb-1">STEP {i + 1}</div>
-              <div className="text-xs text-white/70 font-semibold">{step}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* EU GMP Source Registry */}
-      <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
-        <div className="flex items-start justify-between gap-3 mb-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <ShieldCheck size={17} className="text-primary" />
-              <h2 className="text-sm font-semibold text-white/70">EU GMP Source Registry</h2>
-            </div>
-            <p className="text-xs text-white/40 max-w-3xl">
-              EU GMP / EudraLex Volume 4 is the sole source of truth. QMS controls and the Digital SMF map evidence back to these official resources.
-            </p>
-          </div>
-          <div className="flex gap-2 flex-shrink-0">
-            {euGmp?.officialUrl && (
-              <a href={euGmp.officialUrl} target="_blank" className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-xs text-white/50 hover:text-white flex items-center gap-1.5">
-                <ExternalLink size={12} /> Official source
-              </a>
-            )}
-            {hasMinLevel(4) && (
-              <button onClick={() => syncEuGmpMut.mutate()} disabled={syncEuGmpMut.isPending} className="px-3 py-2 bg-primary/10 border border-primary/30 rounded-lg text-xs text-primary hover:bg-primary/20 flex items-center gap-1.5">
-                <Database size={12} /> Sync registry
-              </button>
-            )}
-          </div>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
-            <div className="text-lg font-bold font-mono text-primary">{euGmp?.sources?.length ?? '—'}</div>
-            <div className="text-[10px] text-white/25">EU GMP Sources</div>
-          </div>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
-            <div className="text-lg font-bold font-mono text-white">{euGmp?.controls?.length ?? '—'}</div>
-            <div className="text-[10px] text-white/25">Mapped Controls</div>
-          </div>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
-            <div className="text-lg font-bold font-mono text-green-400">0</div>
-            <div className="text-[10px] text-white/25">Unmapped Controls</div>
-          </div>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
-            <div className="text-lg font-bold font-mono text-amber-300">Vol 4</div>
-            <div className="text-[10px] text-white/25">Regulatory Baseline</div>
-          </div>
-        </div>
-        <div className="space-y-2">
-          {(euGmp?.controls ?? []).slice(0, 8).map((control: any) => (
-            <div key={control.id} className="bg-black/20 border border-white/[0.06] rounded-lg p-3">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <div className="text-sm text-white font-medium">{control.title}</div>
-                  <div className="text-xs text-white/30 mt-0.5">{control.domain} · {control.controlId}</div>
-                </div>
-                <span className="text-[10px] px-2 py-1 rounded-full bg-green-500/10 text-green-300 border border-green-500/20">{control.status}</span>
-              </div>
-              <div className="flex flex-wrap gap-1.5 mt-2">
-                {control.sourceIds?.map((sourceId: string) => (
-                  <span key={sourceId} className="text-[10px] px-2 py-1 rounded bg-primary/10 text-primary border border-primary/15 font-mono">{sourceId}</span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* SOPs */}
-      <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2"><BookOpen size={16} className="text-primary" /><h2 className="text-sm font-semibold text-white/60">SOPs</h2></div>
-          <div className="flex gap-3">
-            {hasMinLevel(3) && <button onClick={() => syncSopGovernanceMut.mutate()} className="text-xs text-amber-300 flex items-center gap-1 hover:text-amber-200"><GitBranch size={12} /> Sync governance</button>}
-            {hasMinLevel(3) && <button onClick={() => setShowSOP(true)} className="text-xs text-primary flex items-center gap-1 hover:text-primary-light"><Plus size={12} /> Add SOP</button>}
-          </div>
-        </div>
-        {!sops?.length ? <p className="text-white/30 text-sm">No SOPs</p> : sops.map((s: any) => (
-          <div key={s.id} className="flex justify-between py-2 border-b border-white/5 text-sm">
-            <span className="text-white/80">{s.title}</span>
-            <div className="flex gap-3 text-xs text-white/40">
-              <span>v{s.version}</span><span>{s._count?.acknowledgements || 0} acks</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Label / Stationary Controls */}
-      <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2"><Tags size={16} className="text-primary" /><h2 className="text-sm font-semibold text-white/60">Label & Stationary Controls</h2></div>
-          {hasMinLevel(3) && <button onClick={() => reconcileLabelsMut.mutate()} className="text-xs text-primary flex items-center gap-1 hover:text-primary-light"><CheckCircle size={12} /> Reconcile</button>}
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-white">{labels?.length || 0}</div><div className="text-[10px] text-white/25">Total labels</div></div>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-amber-300">{labels?.filter((l: any) => ['ISSUED','PRINTED','REPRINTED'].includes(l.status)).length || 0}</div><div className="text-[10px] text-white/25">Unreconciled</div></div>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-red-300">{labels?.filter((l: any) => ['MISSING','DESTROYED','MISPRINTED','DAMAGED'].includes(l.status)).length || 0}</div><div className="text-[10px] text-white/25">Controlled</div></div>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-primary">EU GMP</div><div className="text-[10px] text-white/25">Grounded</div></div>
-        </div>
-        {!labels?.length ? <p className="text-white/30 text-sm">No labels issued yet</p> : labels.slice(0, 6).map((l: any) => (
-          <div key={l.id} className="flex justify-between py-2 border-b border-white/5 text-sm">
-            <span className="text-white/80 font-mono">{l.labelCode}</span>
-            <span className="text-xs text-white/40">{l.labelType} · {l.status}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Deviations */}
-      <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2"><AlertTriangle size={16} className="text-amber-400" /><h2 className="text-sm font-semibold text-white/60">Open Deviations</h2></div>
-          {hasMinLevel(2) && <button onClick={() => setShowDev(true)} className="text-xs text-amber-400 flex items-center gap-1 hover:text-amber-300"><Plus size={12} /> Raise Deviation</button>}
-        </div>
-        {!deviations?.length ? <p className="text-white/30 text-sm">No open deviations</p> : deviations.map((d: any) => (
-          <button key={d.id} onClick={() => setDevDetail(d)} className="w-full text-left py-2 border-b border-white/5 text-sm hover:bg-white/5 rounded-lg px-1 transition">
-            <div className="flex justify-between gap-2">
-              <span className="text-white/80">{d.description}</span>
-              <span className="flex items-center gap-1 shrink-0">
-                {d.qaApprovedAt && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300" title="QA approved">QA✓</span>}
-                <span className={`text-xs px-2 py-0.5 rounded-full ${d.level === 1 || d.severity === 'HIGH' || d.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>{d.level ? `L${d.level}` : d.severity}</span>
-              </span>
-            </div>
-            <span className="text-xs text-white/30">{d.deviationType ? `${d.deviationType} · ` : ''}{d.area ? `${d.area} · ` : ''}SOP: {d.sop?.title}</span>
+      {/* Section rail */}
+      <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1">
+        {TABS.map(t => (
+          <button key={t.id} onClick={() => setTab(t.id)}
+            className={`px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition min-h-[40px] flex items-center gap-1.5 ${tab === t.id ? 'bg-primary text-white' : 'bg-white/5 text-white/45 hover:text-white'}`}>
+            <t.icon size={14} /> {t.label}
           </button>
         ))}
       </div>
 
-      {/* Equipment */}
-      <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2"><Wrench size={16} className="text-primary" /><h2 className="text-sm font-semibold text-white/60">Equipment Calibration</h2></div>
-          {hasMinLevel(3) && <button onClick={() => setShowEquip(true)} className="text-xs text-primary flex items-center gap-1 hover:text-primary-light"><Plus size={12} /> Add Equipment</button>}
-        </div>
-        {!equipment?.length ? <p className="text-white/30 text-sm">No equipment</p> : equipment.map((e: any) => {
-          const daysUntil = e.nextDue ? Math.floor((new Date(e.nextDue).getTime() - Date.now()) / 86400000) : null;
-          return (
-            <div key={e.id} className="flex items-center justify-between py-2 border-b border-white/5 text-sm">
-              <span className="text-white/80">{e.equipmentName}</span>
-              <div className="flex items-center gap-3">
-                <span className={`text-xs ${daysUntil !== null && daysUntil <= 7 ? 'text-red-400' : 'text-white/40'}`}>
-                  {daysUntil !== null ? `Due in ${daysUntil}d` : 'Not scheduled'}
-                </span>
-                {hasMinLevel(3) && (
-                  <button onClick={() => calibrateMut.mutate(e.id)} className="text-xs text-primary hover:text-primary-light flex items-center gap-1">
-                    <CheckCircle size={12} /> Calibrate
+      {/* ── OVERVIEW ── */}
+      {tab === 'overview' && (
+        <div className="space-y-6">
+          <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-4">
+              <GitBranch size={17} className="text-primary" />
+              <h2 className="text-sm font-semibold text-white/70">Production Readiness Chain</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-6 gap-2">
+              {['EU GMP Source', 'SOP', 'Checklist', 'Task/Ticket', 'Evidence', 'Digital SMF'].map((step, i) => (
+                <div key={step} className="bg-black/20 border border-white/[0.06] rounded-lg p-3">
+                  <div className="text-[10px] text-primary font-mono mb-1">STEP {i + 1}</div>
+                  <div className="text-xs text-white/70 font-semibold">{step}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* EU GMP Source Registry */}
+          <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
+            <div className="flex items-start justify-between gap-3 mb-4">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <ShieldCheck size={17} className="text-primary" />
+                  <h2 className="text-sm font-semibold text-white/70">EU GMP Source Registry</h2>
+                </div>
+                <p className="text-xs text-white/40 max-w-3xl">
+                  EU GMP / EudraLex Volume 4 is the sole source of truth. QMS controls and the Digital SMF map evidence back to these official resources.
+                </p>
+              </div>
+              <div className="flex gap-2 flex-shrink-0">
+                {euGmp?.officialUrl && (
+                  <a href={euGmp.officialUrl} target="_blank" className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-xs text-white/50 hover:text-white flex items-center gap-1.5">
+                    <ExternalLink size={12} /> Official source
+                  </a>
+                )}
+                {hasMinLevel(4) && (
+                  <button onClick={() => syncEuGmpMut.mutate()} disabled={syncEuGmpMut.isPending} className="px-3 py-2 bg-primary/10 border border-primary/30 rounded-lg text-xs text-primary hover:bg-primary/20 flex items-center gap-1.5">
+                    <Database size={12} /> Sync registry
                   </button>
                 )}
               </div>
             </div>
-          );
-        })}
-      </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+                <div className="text-lg font-bold font-mono text-primary">{euGmp?.sources?.length ?? '—'}</div>
+                <div className="text-[10px] text-white/25">EU GMP Sources</div>
+              </div>
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+                <div className="text-lg font-bold font-mono text-white">{euGmp?.controls?.length ?? '—'}</div>
+                <div className="text-[10px] text-white/25">Mapped Controls</div>
+              </div>
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+                <div className="text-lg font-bold font-mono text-green-400">0</div>
+                <div className="text-[10px] text-white/25">Unmapped Controls</div>
+              </div>
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+                <div className="text-lg font-bold font-mono text-amber-300">Vol 4</div>
+                <div className="text-[10px] text-white/25">Regulatory Baseline</div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              {(euGmp?.controls ?? []).map((control: any) => (
+                <div key={control.id} className="bg-black/20 border border-white/[0.06] rounded-lg p-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <div className="text-sm text-white font-medium">{control.title}</div>
+                      <div className="text-xs text-white/30 mt-0.5">{control.domain} · {control.controlId}</div>
+                    </div>
+                    <span className="text-[10px] px-2 py-1 rounded-full bg-green-500/10 text-green-300 border border-green-500/20">{control.status}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {control.sourceIds?.map((sourceId: string) => {
+                      const src = (euGmp?.sources ?? []).find((s: any) => s.sourceId === sourceId);
+                      const cls = 'text-[10px] px-2 py-1 rounded bg-primary/10 text-primary border border-primary/15 font-mono inline-flex items-center gap-1';
+                      return src?.officialUrl
+                        ? <a key={sourceId} href={src.officialUrl} target="_blank" rel="noreferrer" title={`Open: ${src.title || sourceId}`} className={`${cls} hover:bg-primary/20 hover:border-primary/40`}>{sourceId} <ExternalLink size={9} className="opacity-70" /></a>
+                        : <span key={sourceId} className={cls} title="No document URL on file yet">{sourceId}</span>;
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
-      {/* Create SOP Modal */}
+          {/* SOPs */}
+          <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2"><BookOpen size={16} className="text-primary" /><h2 className="text-sm font-semibold text-white/60">SOPs</h2></div>
+              <div className="flex gap-3">
+                {hasMinLevel(3) && <button onClick={() => syncSopGovernanceMut.mutate()} className="text-xs text-amber-300 flex items-center gap-1 hover:text-amber-200"><GitBranch size={12} /> Sync governance</button>}
+                {hasMinLevel(3) && <button onClick={() => setShowSOP(true)} className="text-xs text-primary flex items-center gap-1 hover:text-primary-light"><Plus size={12} /> Add SOP</button>}
+              </div>
+            </div>
+            {!sops?.length ? <p className="text-white/30 text-sm">No SOPs</p> : sops.map((s: any) => (
+              <div key={s.id} className="flex justify-between py-2 border-b border-white/5 text-sm">
+                <span className="text-white/80">{s.title}</span>
+                <div className="flex gap-3 text-xs text-white/40">
+                  <span>v{s.version}</span><span>{s._count?.acknowledgements || 0} acks</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── QUALITY EVENTS (Deviations) ── */}
+      {tab === 'quality-events' && (
+        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2"><AlertTriangle size={16} className="text-amber-400" /><h2 className="text-sm font-semibold text-white/60">Open Deviations</h2></div>
+            {hasMinLevel(2) && <button onClick={() => setShowDev(true)} className="text-xs text-amber-400 flex items-center gap-1 hover:text-amber-300"><Plus size={12} /> Raise Deviation</button>}
+          </div>
+          {!deviations?.length ? <p className="text-white/30 text-sm">No open deviations</p> : deviations.map((d: any) => (
+            <button key={d.id} onClick={() => setDevDetail(d)} className="w-full text-left py-2 border-b border-white/5 text-sm hover:bg-white/5 rounded-lg px-1 transition">
+              <div className="flex justify-between gap-2">
+                <span className="text-white/80">{d.description}</span>
+                <span className="flex items-center gap-1 shrink-0">
+                  {d.qaApprovedAt && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300" title="QA approved">QA✓</span>}
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${d.level === 1 || d.severity === 'HIGH' || d.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'}`}>{d.level ? `L${d.level}` : d.severity}</span>
+                </span>
+              </div>
+              <span className="text-xs text-white/30">{d.deviationType ? `${d.deviationType} · ` : ''}{d.department ? `${d.department} · ` : ''}{d.area ? `${d.area} · ` : ''}SOP: {d.sop?.title}</span>
+            </button>
+          ))}
+          <p className="text-[11px] text-white/25 mt-3">Change Control, OOS &amp; OOT events are logged as deviation types — raise one and pick the type.</p>
+        </div>
+      )}
+
+      {/* ── Generic registers ── */}
+      {tab === 'legal' && <QmsRegister module="LEGAL" title="Legal & Regulatory" intro="Licences, permits, regulatory correspondence and statutory obligations — with renewal dates." />}
+      {tab === 'validations' && <QmsRegister module="VALIDATION" title="Validations" intro="Validation & qualification of each system. Track protocol → execution → approved."
+        typeLabel="Validation of" recordTypes={[
+          { id: 'PROCESS', label: 'Process' }, { id: 'MACHINERY', label: 'Machinery' }, { id: 'EQUIPMENT', label: 'Equipment' },
+          { id: 'MOISTURE', label: 'Moisture Analyser' }, { id: 'HVAC', label: 'HVAC' }, { id: 'CLEANING', label: 'Cleaning' },
+        ]} />}
+      {tab === 'risk' && <QmsRegister module="RISK" title="Risk Assessment" intro="FMEA / HACCP risk assessments scored on ALCOA+ data-integrity principles."
+        typeLabel="Method" recordTypes={[
+          { id: 'FMEA', label: 'FMEA' }, { id: 'HACCP', label: 'HACCP' }, { id: 'QRA', label: 'Quality Risk Assessment' },
+        ]} />}
+      {tab === 'stability' && <QmsRegister module="STABILITY" title="Stability Studies" intro="Stability protocols, pull points and shelf-life conclusions per product/strain." />}
+      {tab === 'barcode' && <QmsRegister module="BARCODE" title="Barcode & Label Control" intro="Barcode/label specifications and reconciliation records." />}
+      {tab === 'engineering' && (
+        <div className="space-y-6">
+          <QmsRegister module="ENGINEERING" title="Engineering" intro="HVAC, RO water, electrical and software/URS systems — and the maintenance that keeps them qualified."
+            typeLabel="System" recordTypes={[
+              { id: 'HVAC', label: 'HVAC' }, { id: 'RO', label: 'RO System' }, { id: 'ELECTRICAL', label: 'Electrical' },
+              { id: 'SOFTWARE_URS', label: 'Software / URS' }, { id: 'MAINTENANCE', label: 'Maintenance' },
+            ]} />
+          {/* Equipment calibration lives under Engineering */}
+          <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2"><Wrench size={16} className="text-primary" /><h2 className="text-sm font-semibold text-white/60">Equipment Calibration</h2></div>
+              {hasMinLevel(3) && <button onClick={() => setShowEquip(true)} className="text-xs text-primary flex items-center gap-1 hover:text-primary-light"><Plus size={12} /> Add Equipment</button>}
+            </div>
+            {!equipment?.length ? <p className="text-white/30 text-sm">No equipment</p> : equipment.map((e: any) => {
+              const daysUntil = e.nextDue ? Math.floor((new Date(e.nextDue).getTime() - Date.now()) / 86400000) : null;
+              return (
+                <div key={e.id} className="flex items-center justify-between py-2 border-b border-white/5 text-sm">
+                  <span className="text-white/80">{e.equipmentName}</span>
+                  <div className="flex items-center gap-3">
+                    <span className={`text-xs ${daysUntil !== null && daysUntil <= 7 ? 'text-red-400' : 'text-white/40'}`}>
+                      {daysUntil !== null ? `Due in ${daysUntil}d` : 'Not scheduled'}
+                    </span>
+                    {hasMinLevel(3) && (
+                      <button onClick={() => calibrateMut.mutate(e.id)} className="text-xs text-primary hover:text-primary-light flex items-center gap-1">
+                        <CheckCircle size={12} /> Calibrate
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+      {tab === 'procurement' && (
+        <div className="space-y-6">
+          <QmsRegister module="PROCUREMENT" title="Procurement & Suppliers" intro="Approved-supplier register. Every supplier must be graded before goods are accepted."
+            typeLabel="Record type" showGrade recordTypes={[
+              { id: 'SUPPLIER', label: 'Supplier' }, { id: 'MATERIAL', label: 'Raw Material' }, { id: 'SERVICE', label: 'Service Provider' },
+            ]} />
+          {/* Label / Stationary Controls — barcode/label reconciliation reference */}
+          <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2"><Boxes size={16} className="text-primary" /><h2 className="text-sm font-semibold text-white/60">Label & Stationary Controls</h2></div>
+              {hasMinLevel(3) && <button onClick={() => reconcileLabelsMut.mutate()} className="text-xs text-primary flex items-center gap-1 hover:text-primary-light"><CheckCircle size={12} /> Reconcile</button>}
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-white">{labels?.length || 0}</div><div className="text-[10px] text-white/25">Total labels</div></div>
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-amber-300">{labels?.filter((l: any) => ['ISSUED','PRINTED','REPRINTED'].includes(l.status)).length || 0}</div><div className="text-[10px] text-white/25">Unreconciled</div></div>
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-red-300">{labels?.filter((l: any) => ['MISSING','DESTROYED','MISPRINTED','DAMAGED'].includes(l.status)).length || 0}</div><div className="text-[10px] text-white/25">Controlled</div></div>
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3"><div className="text-lg font-bold font-mono text-primary">EU GMP</div><div className="text-[10px] text-white/25">Grounded</div></div>
+            </div>
+            {!labels?.length ? <p className="text-white/30 text-sm">No labels issued yet</p> : labels.slice(0, 6).map((l: any) => (
+              <div key={l.id} className="flex justify-between py-2 border-b border-white/5 text-sm">
+                <span className="text-white/80 font-mono">{l.labelCode}</span>
+                <span className="text-xs text-white/40">{l.labelType} · {l.status}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Modals (always mounted, controlled by state) ── */}
       <Modal open={showSOP} onClose={() => setShowSOP(false)} title="Create SOP">
         <ModalInput label="Title" placeholder="e.g. Harvest & Weighing Procedure" value={sopForm.title} onChange={e => setSopForm(f => ({ ...f, title: (e.target as HTMLInputElement).value }))} />
         <div className="mb-3">
@@ -272,10 +338,9 @@ export default function QMSPage() {
         <ModalButton loading={sopMut.isPending} onClick={() => sopMut.mutate()} disabled={!sopForm.title || !sopForm.content}>Create SOP</ModalButton>
       </Modal>
 
-      {/* Raise Deviation Modal — ILCO Deviation Report Form */}
       <Modal open={showDev} onClose={() => setShowDev(false)} title="Deviation Report Form">
         <ModalSelect label="Type of deviation" value={devForm.deviationType} onChange={e => setDevForm((f: any) => ({ ...f, deviationType: (e.target as HTMLSelectElement).value }))}>
-          {['Equipment', 'Consumable', 'Temperature and humidity', 'Process', 'Documentation', 'Sample'].map(t => <option key={t} value={t}>{t}</option>)}
+          {['Product Quality', 'Batch / Plant', 'Equipment', 'Consumable', 'Temperature and humidity', 'Process', 'Documentation', 'Sample', 'Change Control', 'OOS', 'OOT'].map(t => <option key={t} value={t}>{t}</option>)}
         </ModalSelect>
         <ModalInput label="Reference ID (Sample / Equipment / Document ID)" value={devForm.referenceId} onChange={e => setDevForm((f: any) => ({ ...f, referenceId: (e.target as HTMLInputElement).value }))} />
         <ModalInput label="Area of deviation" placeholder="e.g. GH1, Clone Room, MR1" value={devForm.area} onChange={e => setDevForm((f: any) => ({ ...f, area: (e.target as HTMLInputElement).value }))} />
@@ -298,7 +363,6 @@ export default function QMSPage() {
         <ModalButton loading={devMut.isPending} onClick={() => devMut.mutate()} disabled={!devForm.sopId || !devForm.description}>Raise Deviation</ModalButton>
       </Modal>
 
-      {/* Deviation detail — investigation + QA approval + RP close-off */}
       <Modal open={!!devDetail} onClose={() => setDevDetail(null)} title={devDetail ? `Deviation · Level ${devDetail.level ?? '—'}` : ''}>
         {devDetail && (
           <div className="space-y-2 text-sm">
@@ -311,9 +375,16 @@ export default function QMSPage() {
               <div>CAPA no: <span className="text-white/80">{devDetail.capaNo || '—'}</span></div>
               <div>SOP: <span className="text-white/80">{devDetail.sop?.title || '—'}</span></div>
             </div>
-            <textarea placeholder="Details of the Investigations…" value={devDetail.investigations || ''} onChange={e => setDevDetail((d: any) => ({ ...d, investigations: e.target.value }))}
-              className="w-full px-3 py-2 bg-dark border border-white/10 rounded-xl text-white text-sm min-h-[80px]" />
-            <ModalButton loading={saveInvMut.isPending} onClick={() => saveInvMut.mutate()}>Save investigation</ModalButton>
+            <label className="block text-xs text-white/40">Investigation</label>
+            <textarea placeholder="Details of the investigation…" value={devDetail.investigations || ''} onChange={e => setDevDetail((d: any) => ({ ...d, investigations: e.target.value }))}
+              className="w-full px-3 py-2 bg-dark border border-white/10 rounded-xl text-white text-sm min-h-[70px]" />
+            <label className="block text-xs text-white/40">Root cause</label>
+            <textarea placeholder="What caused it…" value={devDetail.rootCause || ''} onChange={e => setDevDetail((d: any) => ({ ...d, rootCause: e.target.value }))}
+              className="w-full px-3 py-2 bg-dark border border-white/10 rounded-xl text-white text-sm min-h-[60px]" />
+            <label className="block text-xs text-white/40">CAPA — corrective &amp; preventive action {(devDetail.capaRequired ?? (devDetail.level != null && devDetail.level <= 2)) ? <span className="text-amber-300">· required (Level {devDetail.level})</span> : <span className="text-white/30">· not required (Level 3)</span>}</label>
+            <textarea placeholder="Corrective action + preventive action…" value={devDetail.capa || ''} onChange={e => setDevDetail((d: any) => ({ ...d, capa: e.target.value }))}
+              className="w-full px-3 py-2 bg-dark border border-white/10 rounded-xl text-white text-sm min-h-[70px]" />
+            <ModalButton loading={saveInvMut.isPending} onClick={() => saveInvMut.mutate()}>Save investigation + CAPA</ModalButton>
             {hasMinLevel(3) && (
               <div className="flex gap-2 pt-1">
                 <button onClick={() => approveDevMut.mutate(devDetail.id)} disabled={approveDevMut.isPending || !!devDetail.qaApprovedAt}
@@ -330,7 +401,6 @@ export default function QMSPage() {
         )}
       </Modal>
 
-      {/* Register Equipment Modal */}
       <Modal open={showEquip} onClose={() => setShowEquip(false)} title="Register Equipment">
         <ModalInput label="Equipment Name" placeholder="e.g. Mettler Toledo XS205 — Drying Room" value={equipForm.equipmentName} onChange={e => setEquipForm(f => ({ ...f, equipmentName: (e.target as HTMLInputElement).value }))} />
         <ModalButton loading={equipMut.isPending} onClick={() => equipMut.mutate()} disabled={!equipForm.equipmentName}>Register</ModalButton>

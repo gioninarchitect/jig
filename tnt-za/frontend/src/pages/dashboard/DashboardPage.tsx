@@ -1,5 +1,6 @@
 import { useRBAC } from '../../hooks/useRBAC';
 import { useAuth } from '../../hooks/useAuth';
+import { roleLabel } from '../../utils/roleLabel';
 import { Link, Navigate } from 'react-router-dom';
 import { Grid3X3, Crown, Scissors, Layers, Package, Leaf, CalendarDays, Kanban, TicketCheck, Building2, Dna, Sprout, ClipboardCheck, ShieldCheck } from 'lucide-react';
 
@@ -76,21 +77,25 @@ export default function DashboardPage() {
   const isProcessing = hasRole('PROCESSING_SUPERVISOR', 'TRIMMER');
   const isLab = hasRole('LAB_TECH');
   const isManager = hasMinLevel(3) && !isOwner;
+  // Operational (floor) roles get a focused, single-domain dashboard — no facility-wide banners.
+  // Cultivation Supervisor (Loraine) is a cultivation-floor role too — cultivation only, no owner banners.
+  const isOperational = isNursery || isGrower || isProcessing || isLab || isFacilitySupervisor;
 
   return (
     <div className="space-y-4">
       {/* Greeting */}
       <div>
         <h1 className="text-xl sm:text-2xl font-bold text-white">{greeting}, {firstName}</h1>
-        <p className="text-xs text-white/30">{role.replace(/_/g, ' ')} — Origin</p>
+        <p className="text-xs text-white/30">{roleLabel(role)} — Origin</p>
       </div>
 
-      {/* Facility setup is an owner / FM concern — not for operational roles */}
+      {/* Operational roles (NM, cultivator, trimmer, lab) get a CULTIVATION-ONLY dashboard:
+          their bell + their own section. Facility-wide banners (setup, approvals queue,
+          action queue) are oversight concerns — managers + owners only. */}
       {(isOwner || isFM) && <SetupBannerWidget />}
-      {/* Per-user smart notifications (weight-variance alerts self-gate to FM/admin inside) */}
       <NotificationsWidget />
-      <ApprovalsWaitingBanner />
-      <ActionQueueWidget />
+      {!isOperational && <ApprovalsWaitingBanner />}
+      {!isOperational && <ActionQueueWidget />}
       {/* Facility-wide KPIs (Active Plants, Batches, INCB Quota) — managers with a facility
           view only. Operational roles get their own scoped widgets in their section below. */}
       {(isOwner || isFM || isHeadCult || isProcessingMgr) && <StatCardsWidget />}
@@ -197,20 +202,23 @@ export default function DashboardPage() {
         </>
       )}
 
-      {/* ═══ FACILITY SUPERVISOR — Floor Oversight ═══ */}
+      {/* ═══ CULTIVATION SUPERVISOR (Loraine) — cultivation floor only, no owner views ═══ */}
       {!isOwner && isFacilitySupervisor && (
         <>
-          <div className="grid grid-cols-3 gap-2">
-            <QuickAction to="/daily-check" icon={ClipboardCheck} label="Daily" color="text-primary" />
-            <QuickAction to="/tasks" icon={TicketCheck} label="Tasks" color="text-amber-400" />
+          <div className="grid grid-cols-4 gap-2">
+            <QuickAction to="/baygrid" icon={Grid3X3} label="BayGrid" color="text-green-400" />
+            <QuickAction to="/mothers" icon={Crown} label="Mothers" color="text-amber-400" />
+            <QuickAction to="/cloning" icon={Scissors} label="Cloning" color="text-emerald-400" />
             <QuickAction to="/tickets" icon={TicketCheck} label="Tickets" color="text-red-400" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <BayGridQuickWidget />
             <TasksDueWidget />
-            <TicketsWidget />
           </div>
 
+          <CloneTraysWidget />
+          <TicketsWidget />
           <ActivityFeedWidget />
         </>
       )}
@@ -331,6 +339,32 @@ export default function DashboardPage() {
       {/* ═══ QA INSPECTOR ═══ */}
       {!isOwner && isQA && (
         <>
+          {/* Plain-language orientation so the QA dashboard explains itself */}
+          <div className="rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/10 to-transparent p-4 sm:p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <ShieldCheck size={18} className="text-primary" />
+              <h2 className="text-base font-bold text-white">Your QA &amp; Compliance home</h2>
+            </div>
+            <p className="text-xs sm:text-sm text-white/60 mb-3 leading-relaxed">
+              This is your quality system, live. The cards below are your daily view — anything with a number or in red needs you. Your full toolkit is in the <span className="text-primary font-semibold">Compliance</span> menu on the left.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-1.5 text-xs">
+              {[
+                ['QA Inspection', 'Your GMP inspection-readiness — clear the open items'],
+                ['Compliance Summary', 'Anomalies, permits, quota & destructions at a glance'],
+                ['Checklists Due', 'Forms to fill & sign today — tap one to open'],
+                ['Tickets', 'Issues & requests routed to you — action & close'],
+                ['Weight Alerts', 'A possible diversion flag — investigate at once'],
+                ['Compliance menu →', 'SOP Library · QMS/Deviations · Inspection Readiness'],
+              ].map(([t, d]) => (
+                <div key={t} className="flex gap-2">
+                  <span className="text-primary font-semibold whitespace-nowrap">{t}</span>
+                  <span className="text-white/45">— {d}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <QAInspectionWidget />
             <ComplianceSummaryWidget />
@@ -342,11 +376,6 @@ export default function DashboardPage() {
           </div>
 
           <WeightAlertsWidget />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <PhaseChartWidget />
-            <ActivityFeedWidget />
-          </div>
         </>
       )}
 

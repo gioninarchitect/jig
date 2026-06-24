@@ -1,5 +1,5 @@
 import { Router, Response } from 'express';
-import { requireAuth, requireLevel, AuthRequest } from '../middleware/auth';
+import { requireAuth, requireLevel, requireRole, AuthRequest } from '../middleware/auth';
 import { p } from '../utils/params';
 import { prisma } from '../config/db';
 import multer from 'multer';
@@ -65,7 +65,7 @@ router.get('/', requireLevel(0), async (req: AuthRequest, res: Response) => {
 });
 
 // Delete document
-router.delete('/:id', requireLevel(3), async (req: AuthRequest, res: Response) => {
+router.delete('/:id', requireRole('FACILITY_MANAGER', 'RESPONSIBLE_PHARMACIST', 'TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
   try {
     await prisma.complianceDocument.delete({ where: { id: p(req.params.id) } });
     res.json({ success: true });

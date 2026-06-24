@@ -4,9 +4,8 @@ import { useWorldState } from '../../hooks/useWorldModel';
 import { useRBAC } from '../../hooks/useRBAC';
 import { useToastStore } from '../../stores/toastStore';
 import StatCard from '../../components/StatCard';
-import Modal, { ModalInput, ModalButton } from '../../components/Modal';
-import { SkeletonTable } from '../../components/Skeleton';
-import { ShieldCheck, Gauge, FileWarning, Trash2, CheckCircle } from 'lucide-react';
+import Modal, { ModalButton } from '../../components/Modal';
+import { ShieldCheck, Gauge, FileWarning, Trash2, CheckCircle, Sun, Moon } from 'lucide-react';
 import api from '../../services/api';
 
 export default function CompliancePage() {
@@ -15,6 +14,17 @@ export default function CompliancePage() {
   const qc = useQueryClient();
   const [resolveId, setResolveId] = useState<string | null>(null);
   const [notes, setNotes] = useState('');
+
+  // Light/dark toggle — Keke (QA) found the dark theme hard to read. Choice persists per device.
+  const [light, setLight] = useState(() => localStorage.getItem('compliance-theme') === 'light');
+  const toggleTheme = () => { const v = !light; setLight(v); localStorage.setItem('compliance-theme', v ? 'light' : 'dark'); };
+
+  // Theme-aware class helpers
+  const tHead = light ? 'text-[#0A0A0A]' : 'text-white';
+  const tCard = light ? 'bg-black/[0.03] border-black/15' : 'bg-white/5 border-white/10';
+  const tSub = light ? 'text-black/60' : 'text-white/70';
+  const tBody = light ? 'text-black/80' : 'text-white/80';
+  const tMeta = light ? 'text-black/50' : 'text-white/50';
 
   const resolveMut = useMutation({
     mutationFn: () => api.patch(`/anomalies/${resolveId}/resolve`, { investigationNotes: notes }),
@@ -26,8 +36,16 @@ export default function CompliancePage() {
   const { data: destructions } = useQuery({ queryKey: ['destructions'], queryFn: () => api.get('/compliance/destruction').then(r => r.data.destructions) });
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-white">Compliance</h1>
+    <div className={light ? 'space-y-6 bg-[#F5F0E8] -mx-4 -my-4 sm:-mx-6 px-4 py-5 sm:px-6 min-h-[calc(100vh-4rem)] rounded-none' : 'space-y-6'}>
+      <div className="flex items-center justify-between gap-3">
+        <h1 className={`text-2xl font-bold ${tHead}`}>Compliance</h1>
+        <button onClick={toggleTheme}
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold border min-h-[40px] ${light ? 'bg-black/5 border-black/20 text-black/70 hover:bg-black/10' : 'bg-white/5 border-white/15 text-white/70 hover:bg-white/10'}`}
+          title="Switch light / dark">
+          {light ? <Moon size={14} /> : <Sun size={14} />}{light ? 'Dark' : 'Light'}
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Quota Used" value={state?.facility?.quotaUsedPercent !== undefined ? `${state.facility.quotaUsedPercent.toFixed(0)}%` : undefined} icon={<Gauge size={20} />} loading={isLoading} />
         <StatCard label="Open Anomalies" value={state?.compliance?.openAnomalies} icon={<FileWarning size={20} />} loading={isLoading} danger={(state?.compliance?.openAnomalies ?? 0) > 0} />
@@ -36,18 +54,18 @@ export default function CompliancePage() {
       </div>
 
       {anomalies?.length > 0 && (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-          <h2 className="text-sm font-semibold text-white/60 mb-3">Open Anomalies</h2>
+        <div className={`${tCard} border rounded-xl p-5`}>
+          <h2 className={`text-sm font-semibold ${tSub} mb-3`}>Open Anomalies</h2>
           <div className="space-y-2">
             {anomalies.map((a: any) => (
-              <div key={a.id} className={`border rounded-xl p-4 ${a.severity === 'CRITICAL' ? 'border-red-500/30 bg-red-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
+              <div key={a.id} className={`border rounded-xl p-4 ${a.severity === 'CRITICAL' ? (light ? 'border-red-600/40 bg-red-500/10' : 'border-red-500/30 bg-red-500/5') : (light ? 'border-amber-600/40 bg-amber-500/10' : 'border-amber-500/20 bg-amber-500/5')}`}>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className={`text-sm font-semibold ${a.severity === 'CRITICAL' ? 'text-red-400' : 'text-amber-400'}`}>{a.type.replace(/_/g, ' ')}</span>
-                  <span className="text-xs text-white/30">{new Date(a.detectedAt).toLocaleDateString('en-ZA')}</span>
+                  <span className={`text-sm font-semibold ${a.severity === 'CRITICAL' ? (light ? 'text-red-700' : 'text-red-400') : (light ? 'text-amber-700' : 'text-amber-400')}`}>{a.type.replace(/_/g, ' ')}</span>
+                  <span className={`text-xs ${tMeta}`}>{new Date(a.detectedAt).toLocaleDateString('en-ZA')}</span>
                 </div>
-                <p className="text-sm text-white/70 leading-relaxed">{a.description}</p>
+                <p className={`text-sm ${tBody} leading-relaxed`}>{a.description}</p>
                 {hasMinLevel(3) && (
-                  <button onClick={() => setResolveId(a.id)} className="mt-3 px-4 py-2.5 bg-primary/10 border border-primary/30 text-primary rounded-lg text-sm font-semibold hover:bg-primary/20 transition flex items-center gap-1.5 min-h-[44px]">
+                  <button onClick={() => setResolveId(a.id)} className={`mt-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition flex items-center gap-1.5 min-h-[44px] ${light ? 'bg-amber-600/15 border border-amber-700/40 text-amber-800 hover:bg-amber-600/25' : 'bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20'}`}>
                     <CheckCircle size={14} /> Resolve
                   </button>
                 )}
@@ -67,17 +85,17 @@ export default function CompliancePage() {
       </Modal>
 
       {destructions?.length > 0 && (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-          <h2 className="text-sm font-semibold text-white/60 mb-3">Destruction Log</h2>
+        <div className={`${tCard} border rounded-xl p-5`}>
+          <h2 className={`text-sm font-semibold ${tSub} mb-3`}>Destruction Log</h2>
           {destructions.map((d: any) => (
-            <div key={d.id} className="flex items-center justify-between py-2 border-b border-white/5 text-sm">
+            <div key={d.id} className={`flex items-center justify-between py-2 border-b text-sm ${light ? 'border-black/10' : 'border-white/5'}`}>
               <div>
-                <span className="text-white/80">{d.reason}</span>
-                <span className="text-white/30 ml-2 text-xs">{d.batch?.batchNumber || '—'}</span>
+                <span className={tBody}>{d.reason}</span>
+                <span className={`${tMeta} ml-2 text-xs`}>{d.batch?.batchNumber || '—'}</span>
               </div>
               <div className="text-right">
-                <span className="font-mono text-white/60">{d.weight}g</span>
-                <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${d.confirmed ? 'bg-green-500/20 text-green-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                <span className={`font-mono ${tSub}`}>{d.weight}g</span>
+                <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${d.confirmed ? (light ? 'bg-green-600/20 text-green-800' : 'bg-green-500/20 text-green-400') : (light ? 'bg-amber-600/20 text-amber-800' : 'bg-amber-500/20 text-amber-400')}`}>
                   {d.confirmed ? 'Confirmed' : 'Pending'}
                 </span>
               </div>

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import authRoutes from './auth.routes';
+import mediaRoutes from './media.routes';
 import plantRoutes from './plant.routes';
 import containerRoutes from './container.routes';
 import batchRoutes from './batch.routes';
@@ -45,6 +46,7 @@ import chickenRoutes from './chicken.routes';
 const router = Router();
 
 router.use('/auth', authRoutes);
+router.use('/media', mediaRoutes);
 router.use('/scan', scanRoutes);
 router.use('/onboarding', onboardingRoutes);
 router.use('/qr', qrRoutes);

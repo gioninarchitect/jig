@@ -7,3 +7,57 @@ body {
   background: #0A0A0A;
   color: #F5F0E8;
 }
+
+/* ============================================================
+   LIGHT THEME — global, toggled via <html data-theme="light">.
+   Remaps the dark-first utility classes the app uses to light
+   equivalents. Gold (#C9A84C) accents are kept on both themes.
+   ============================================================ */
+html[data-theme="light"] body { background: #F4F1EA; color: #1A1A1A; }
+
+/* Page / surface backgrounds */
+html[data-theme="light"] .bg-dark,
+html[data-theme="light"] .bg-\[\#0A0A0A\],
+html[data-theme="light"] .bg-black { background-color: #F4F1EA !important; }
+html[data-theme="light"] .bg-\[\#0D0D0D\] { background-color: #FFFFFF !important; }
+html[data-theme="light"] .bg-dark-2,
+html[data-theme="light"] .bg-\[\#141414\] { background-color: #FFFFFF !important; }
+html[data-theme="light"] .bg-dark-3,
+html[data-theme="light"] .bg-\[\#1C1C1C\] { background-color: #F7F4ED !important; }
+html[data-theme="light"] .bg-white\/5,
+html[data-theme="light"] .bg-white\/\[0\.03\],
+html[data-theme="light"] .bg-white\/\[0\.02\],
+html[data-theme="light"] .bg-white\/10 { background-color: rgba(0,0,0,0.045) !important; }
+
+/* Text */
+html[data-theme="light"] .text-white,
+html[data-theme="light"] .text-or-white { color: #16140F !important; }
+html[data-theme="light"] .text-white\/90 { color: rgba(22,20,15,0.92) !important; }
+html[data-theme="light"] .text-white\/85 { color: rgba(22,20,15,0.88) !important; }
+html[data-theme="light"] .text-white\/80 { color: rgba(22,20,15,0.82) !important; }
+html[data-theme="light"] .text-white\/75 { color: rgba(22,20,15,0.78) !important; }
+html[data-theme="light"] .text-white\/70 { color: rgba(22,20,15,0.72) !important; }
+html[data-theme="light"] .text-white\/60 { color: rgba(22,20,15,0.64) !important; }
+html[data-theme="light"] .text-white\/55 { color: rgba(22,20,15,0.60) !important; }
+html[data-theme="light"] .text-white\/50 { color: rgba(22,20,15,0.55) !important; }
+html[data-theme="light"] .text-white\/45 { color: rgba(22,20,15,0.52) !important; }
+html[data-theme="light"] .text-white\/40 { color: rgba(22,20,15,0.50) !important; }
+html[data-theme="light"] .text-white\/35 { color: rgba(22,20,15,0.48) !important; }
+html[data-theme="light"] .text-white\/30 { color: rgba(22,20,15,0.45) !important; }
+html[data-theme="light"] .text-white\/25 { color: rgba(22,20,15,0.42) !important; }
+html[data-theme="light"] .text-white\/20 { color: rgba(22,20,15,0.40) !important; }
+html[data-theme="light"] .text-white\/15 { color: rgba(22,20,15,0.38) !important; }
+html[data-theme="light"] .text-white\/10 { color: rgba(22,20,15,0.35) !important; }
+
+/* Borders */
+html[data-theme="light"] .border-white\/10,
+html[data-theme="light"] .border-white\/5,
+html[data-theme="light"] .border-white\/20,
+html[data-theme="light"] .border-white\/\[0\.08\] { border-color: rgba(0,0,0,0.12) !important; }
+
+/* Inputs / textareas keep readable contrast */
+html[data-theme="light"] input,
+html[data-theme="light"] textarea,
+html[data-theme="light"] select { color: #16140F; }
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder { color: rgba(22,20,15,0.4); }

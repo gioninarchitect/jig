@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useAuthStore } from '../../stores/authStore';
 import { useToastStore } from '../../stores/toastStore';
 import { SkeletonTable } from '../../components/Skeleton';
@@ -53,7 +54,8 @@ export default function EnvLogPage() {
   const user = useAuthStore(s => s.user);
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
-  const canLog = hasMinLevel(1);
+  const readOnly = useReadOnly();
+  const canLog = !readOnly && hasMinLevel(1);
 
   const [zone, setZone] = useState<Zone>('GH1');
   const [showLog, setShowLog] = useState(false);

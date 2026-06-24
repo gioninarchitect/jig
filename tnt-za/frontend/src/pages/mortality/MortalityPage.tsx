@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useToastStore } from '../../stores/toastStore';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import { SkeletonTable } from '../../components/Skeleton';
@@ -25,6 +26,7 @@ const CAUSE_COLORS: Record<string, string> = {
 
 export default function MortalityPage() {
   const { hasMinLevel } = useRBAC();
+  const readOnly = useReadOnly();
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const [showRecord, setShowRecord] = useState(false);
@@ -64,7 +66,7 @@ export default function MortalityPage() {
           <h1 className="text-2xl font-bold text-white">Mortality Register</h1>
           <p className="text-sm text-white/40">Deaths, culling, root cause analysis</p>
         </div>
-        {hasMinLevel(1) && (
+        {!readOnly && hasMinLevel(1) && (
           <button onClick={() => setShowRecord(true)} className="px-4 py-2.5 bg-red-500/80 hover:bg-red-500 text-white rounded-xl text-sm font-semibold flex items-center gap-2 transition min-h-[44px]">
             <Plus size={16} /> Record Death
           </button>
@@ -140,7 +142,7 @@ export default function MortalityPage() {
                 {r.phase && <span>Phase: {r.phase}</span>}
                 {r.reviewedAt ? (
                   <span className="text-green-400 ml-auto">Reviewed ✓</span>
-                ) : hasMinLevel(3) ? (
+                ) : !readOnly && hasMinLevel(3) ? (
                   <button onClick={() => reviewMut.mutate(r.id)} className="text-primary hover:text-primary-light ml-auto">Review</button>
                 ) : null}
               </div>

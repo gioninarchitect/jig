@@ -2,15 +2,36 @@ import { Router, Response } from 'express';
 import { requireAuth, requireLevel, AuthRequest } from '../middleware/auth';
 import { p } from '../utils/params';
 import * as smart from '../services/smart-tickets.service';
+import { prisma } from '../config/db';
 
 const router = Router();
 router.use(requireAuth);
 
-// Get smart notifications for current user
+// Notifications for the current user — computed smart signals PLUS the user's direct
+// inbox (Notification table). The inbox holds ticket-assignment alerts, batch-kickoff
+// pings (genesis cloning → NM / HoC / Cult.Supervisor / Cultivator) and deviation
+// routes; nothing rendered the table before, so those events were captured but invisible.
 router.get('/notifications', requireLevel(0), async (req: AuthRequest, res: Response) => {
   try {
     const notifications = await smart.generateSmartNotifications(req.user!.userId, req.user!.tenantId);
-    res.json({ success: true, notifications });
+    const inbox = await prisma.notification.findMany({
+      where: { userId: req.user!.userId, read: false },
+      orderBy: { createdAt: 'desc' },
+      take: 15,
+    });
+    const inboxMapped = inbox.map((n) => ({
+      type: 'inbox', priority: 2,
+      title: n.title, message: n.message, link: n.link || '/tasks',
+    }));
+    res.json({ success: true, notifications: [...inboxMapped, ...notifications] });
+  } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
+});
+
+// Mark a notification read (dismiss from the bell).
+router.patch('/notifications/:id/read', requireLevel(0), async (req: AuthRequest, res: Response) => {
+  try {
+    await prisma.notification.updateMany({ where: { id: p(req.params.id), userId: req.user!.userId }, data: { read: true } });
+    res.json({ success: true });
   } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
 

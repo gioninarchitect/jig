@@ -1,15 +1,16 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useRBAC } from '../hooks/useRBAC';
+import { roleLabel } from '../utils/roleLabel';
 import OfflineIndicator from '../components/OfflineIndicator';
 import GhostSwitcher from '../components/GhostSwitcher';
 import GhostBanner from '../components/GhostBanner';
 import SmartChat from '../components/SmartChat';
 import {
   LayoutDashboard, Leaf, Box, Layers, Building2, ScrollText,
-  FlaskConical, ShieldCheck, Lock, BookOpen, Users, Bell,
-  Menu, X, LogOut, ChevronLeft, Camera, Sparkles, Grid3X3, Crown, TicketCheck, CheckSquare, Package, CalendarDays, Scissors, Dna, Droplets, Truck, Kanban, Skull, Bug, ClipboardCheck, ClipboardList, SprayCan, Thermometer, Eye, Bird } from 'lucide-react';
+  FlaskConical, ShieldCheck, Lock, BookOpen, Users, Bell, Sun, Moon, AlertTriangle,
+  Menu, X, LogOut, ChevronLeft, ChevronDown, Camera, Sparkles, Grid3X3, Crown, TicketCheck, CheckSquare, Package, CalendarDays, Scissors, Dna, Droplets, Truck, Kanban, Skull, Bug, ClipboardCheck, ClipboardList, SprayCan, Thermometer, Eye, Bird, Factory } from 'lucide-react';
 
 // Role → which nav groups they see
 const ROLE_NAV: Record<string, string[]> = {
@@ -23,7 +24,7 @@ const ROLE_NAV: Record<string, string[]> = {
   NURSERY_MANAGER: ['core', 'management', 'cultivation'],
   PROCESSING_MANAGER: ['core', 'management', 'processing', 'compliance'],
   PROCESSING_SUPERVISOR: ['core', 'processing'],
-  QA_INSPECTOR: ['core', 'management', 'processing', 'compliance'],
+  QA_INSPECTOR: ['core', 'management', 'cultivation', 'processing', 'compliance'],
   MAINTENANCE_MANAGER: ['core', 'management', 'system'],
   IT_MANAGER: ['core', 'management', 'system'],
   CULTIVATOR: ['core', 'cultivation'],
@@ -44,11 +45,23 @@ const ROLE_NAV: Record<string, string[]> = {
 // cultivation suite + Chickens + Facility 360 — everything an FM sees. Owners / FM /
 // admins are deliberately absent here, so they keep the full menu.
 const ROLE_NAV_ITEMS: Record<string, string[]> = {
-  NURSERY_MANAGER: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/baygrid', '/calendar', '/cloning', '/mothers', '/strains', '/plants', '/daily-check', '/env-log', '/activity-log', '/ipm-scouting', '/cleaning-schedule', '/mortality'],
-  CULTIVATOR: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/baygrid', '/plants', '/feeding', '/daily-check', '/env-log', '/activity-log', '/ipm-scouting', '/cleaning-schedule', '/mortality'],
+  NURSERY_MANAGER: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/baygrid', '/calendar', '/cloning', '/mothers', '/strains', '/daily-check', '/env-log', '/activity-log', '/ipm-scouting', '/cleaning-schedule', '/mortality'],
+  // Keke — QA Inspector. MANAGE: her compliance area (dashboard, work board, tickets,
+  // checklists, SOPs, QMS, sign-off, audit). VIEW-ONLY oversight: the product-quality
+  // signals across cultivation + processing (see READ_ONLY_AREAS in useRBAC — server
+  // blocks her writes there). Everything else stays out of her menu.
+  QA_INSPECTOR: [
+    '/dashboard', '/kanban', '/tickets', '/tasks', '/sop-library', '/compliance', '/qms', '/qa-sign-off', '/gmp-audit', '/audit', '/site-master-file',
+    // view-only oversight
+    '/baygrid', '/env-log', '/daily-check', '/ipm-scouting', '/cleaning-schedule', '/mortality',
+    '/batches', '/containers', '/lab', '/trim', '/dispatch',
+  ],
+  // Loraine — Cultivation Supervisor: cultivation suite + Chickens (she runs the chicken farm) but NO owner dashboards.
+  FACILITY_SUPERVISOR: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/chickens', '/baygrid', '/calendar', '/cloning', '/mothers', '/strains', '/feeding', '/env-log', '/daily-check', '/cleaning-schedule', '/activity-log', '/ipm-scouting', '/mortality', '/harvest-request'],
+  CULTIVATOR: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/baygrid', '/feeding', '/daily-check', '/env-log', '/activity-log', '/ipm-scouting', '/cleaning-schedule', '/mortality'],
   IRRIGATION_TECH: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/feeding', '/env-log', '/daily-check'],
   TRIMMER: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/trim', '/batches'],
-  PROCESSING_SUPERVISOR: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/batches', '/containers', '/trim', '/dispatch'],
+  PROCESSING_SUPERVISOR: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/processing', '/batches', '/containers', '/trim', '/dispatch'],
   GENERAL_WORKER: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/cleaning-schedule', '/daily-check'],
   HOUSEKEEPING: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/cleaning-schedule'],
   SECURITY_OFFICER: ['/my-shift', '/tickets', '/tasks', '/scan', '/dashboard', '/security'],
@@ -72,9 +85,9 @@ const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: s
     items: [
       { to: '/owner', label: 'Owner 360', icon: Building2, minLevel: 4 },
       { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, minLevel: 0 },
-      { to: '/kanban', label: 'Task Board', icon: Kanban, minLevel: 2 },
+      { to: '/kanban', label: 'Work Board', icon: Kanban, minLevel: 2 },
       { to: '/facility360', label: 'Facility 360', icon: Building2, minLevel: 0, roles: ['SUPER_ADMIN', 'TENANT_ADMIN', 'FACILITY_MANAGER', 'FACILITY_SUPERVISOR', 'HEAD_OF_CULTIVATION'] },
-      { to: '/chickens', label: 'Chickens', icon: Bird, minLevel: 0, roles: ['SUPER_ADMIN', 'TENANT_ADMIN', 'FACILITY_MANAGER'] },
+      { to: '/chickens', label: 'Chickens', icon: Bird, minLevel: 0, roles: ['SUPER_ADMIN', 'TENANT_ADMIN', 'FACILITY_MANAGER', 'FACILITY_SUPERVISOR'] },
     ],
   },
   {
@@ -85,7 +98,6 @@ const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: s
       { to: '/mothers', label: 'Mothers', icon: Crown, minLevel: 0 },
       { to: '/cloning', label: 'Cloning', icon: Scissors, minLevel: 1 },
       { to: '/strains', label: 'Strains', icon: Dna, minLevel: 0 },
-      { to: '/plants', label: 'Plants', icon: Leaf, minLevel: 0 },
       { to: '/feeding', label: 'Feeding', icon: Droplets, minLevel: 2 },
       { to: '/env-log', label: 'Env Log', icon: Thermometer, minLevel: 1 },
       { to: '/daily-check', label: 'Daily Check', icon: ClipboardCheck, minLevel: 1 },
@@ -99,6 +111,7 @@ const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: s
   {
     id: 'processing', label: 'Processing',
     items: [
+      { to: '/processing', label: 'Processing Flow', icon: Factory, minLevel: 1 },
       { to: '/batches', label: 'Batches', icon: Layers, minLevel: 0 },
       { to: '/containers', label: 'Containers', icon: Box, minLevel: 0 },
       { to: '/trim', label: 'Trim Sessions', icon: Scissors, minLevel: 1 },
@@ -111,11 +124,11 @@ const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: s
     items: [
       { to: '/sop-library', label: 'SOP Library', icon: BookOpen, minLevel: 0 },
       { to: '/compliance', label: 'Anomalies', icon: ShieldCheck, minLevel: 2 },
-      { to: '/qms', label: 'QMS', icon: BookOpen, minLevel: 2 },
-      { to: '/qa-sign-off', label: 'QA Sign-Off', icon: ShieldCheck, minLevel: 3 },
-      { to: '/gmp-audit', label: 'GMP Audit', icon: ShieldCheck, minLevel: 3 },
-      { to: '/responsible-pharmacist', label: 'Pharmacist', icon: ShieldCheck, minLevel: 3 },
-      { to: '/audit', label: 'Audit Trail', icon: ScrollText, minLevel: 0 },
+      { to: '/qms', label: 'Quality Management', icon: AlertTriangle, minLevel: 2 },
+      { to: '/qa-sign-off', label: 'QA Sign-Off', icon: ShieldCheck, minLevel: 3, roles: ['QA_INSPECTOR', 'RESPONSIBLE_PHARMACIST', 'TENANT_ADMIN', 'SUPER_ADMIN'] },
+      { to: '/gmp-audit', label: 'GMP Audit', icon: ShieldCheck, minLevel: 3, roles: ['GMP_PARTNER', 'QA_INSPECTOR', 'TENANT_ADMIN', 'SUPER_ADMIN'] },
+      { to: '/responsible-pharmacist', label: 'Pharmacist', icon: ShieldCheck, minLevel: 3, roles: ['RESPONSIBLE_PHARMACIST', 'TENANT_ADMIN', 'SUPER_ADMIN'] },
+      { to: '/audit', label: 'Audit Trail', icon: ScrollText, minLevel: 3 },
       { to: '/audit/ghost', label: 'Ghost Audit', icon: Eye, minLevel: 4 },
       { to: '/site-master-file', label: 'Site Master File', icon: ScrollText, minLevel: 3 },
     ],
@@ -142,14 +155,44 @@ const BOTTOM_NAV = [
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const { user, logout } = useAuth();
-  const { hasMinLevel } = useRBAC();
+  const { hasMinLevel, isReadOnlyPath } = useRBAC();
   const navigate = useNavigate();
   const location = useLocation();
+  const mainRef = useRef<HTMLElement>(null);
+  // Reset scroll to the top of the content area on every route change (and close mobile nav).
+  useEffect(() => {
+    mainRef.current?.scrollTo({ top: 0, left: 0 });
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // Global light/dark theme — persists per device, applied on <html data-theme>.
+  const [theme, setTheme] = useState<string>(() => document.documentElement.getAttribute('data-theme') || localStorage.getItem('tnt-theme') || 'dark');
+  const toggleTheme = () => {
+    const next = theme === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('tnt-theme', next);
+  };
   const [collapsed, setCollapsed] = useState(false);
   const filteredBottom = BOTTOM_NAV.filter((n) => hasMinLevel(n.minLevel));
   const handleLogout = () => { logout(); navigate('/login'); };
   const allowedGroups = ROLE_NAV[user?.role || ''] || ['core'];
+
+  // Accordion nav — each department group collapses; choice persists per device.
+  // Default open; the group holding the active route is force-opened.
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    try { return JSON.parse(localStorage.getItem('tnt-nav-groups') || '{}'); } catch { return {}; }
+  });
+  const isGroupOpen = (id: string) => openGroups[id] !== false;
+  const toggleGroup = (id: string) => setOpenGroups((prev) => {
+    const next = { ...prev, [id]: prev[id] === false };
+    localStorage.setItem('tnt-nav-groups', JSON.stringify(next));
+    return next;
+  });
+  const activeGroupId = NAV_GROUPS.find((g) => g.items.some((it) => location.pathname === it.to || location.pathname.startsWith(it.to + '/')))?.id;
+  useEffect(() => {
+    if (activeGroupId) setOpenGroups((prev) => (prev[activeGroupId] === false ? { ...prev, [activeGroupId]: true } : prev));
+  }, [activeGroupId]);
 
   return (
     <div className="min-h-screen bg-dark flex">
@@ -173,10 +216,17 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               && (!itemScope || itemScope.includes(n.to))            // tightly-scoped roles: only their lane
             );
             if (visibleItems.length === 0) return null;
+            const open = collapsed || isGroupOpen(group.id);
             return (
-              <div key={group.label} className="mb-3">
-                {!collapsed && <div className="text-[9px] text-white/15 font-bold uppercase tracking-widest px-3 mb-1">{group.label}</div>}
-                {visibleItems.map((n) => (
+              <div key={group.label} className="mb-2">
+                {!collapsed && (
+                  <button onClick={() => toggleGroup(group.id)}
+                    className="w-full flex items-center justify-between px-3 mb-1 group/nav min-h-[28px]">
+                    <span className="text-[9px] text-white/15 font-bold uppercase tracking-widest group-hover/nav:text-white/35 transition-colors">{group.label}</span>
+                    <ChevronDown size={12} className={`text-white/15 group-hover/nav:text-white/35 transition-all ${open ? '' : '-rotate-90'}`} />
+                  </button>
+                )}
+                {open && visibleItems.map((n) => (
                   <NavLink key={n.to} to={n.to} onClick={() => setSidebarOpen(false)}
                     className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors min-h-[40px] ${isActive ? 'bg-primary/15 text-primary' : 'text-white/50 hover:text-white hover:bg-white/5'}`}>
                     <n.icon size={16} />{!collapsed && <span>{n.label}</span>}
@@ -189,7 +239,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <div className="p-3 border-t border-white/10">
           <div className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'}`}>
             <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center text-primary text-sm font-bold flex-shrink-0">{user?.name?.charAt(0) || '?'}</div>
-            {!collapsed && <div className="flex-1 min-w-0"><div className="text-sm text-white truncate">{user?.name}</div><div className="text-xs text-white/30">{user?.role?.replace(/_/g, ' ')}</div></div>}
+            {!collapsed && <div className="flex-1 min-w-0"><div className="text-sm text-white truncate">{user?.name}</div><div className="text-xs text-white/30">{roleLabel(user?.role)}</div></div>}
             <button onClick={handleLogout} className="p-2 text-white/30 hover:text-red-400 min-w-[44px] min-h-[44px] flex items-center justify-center" title="Logout"><LogOut size={18} /></button>
           </div>
         </div>
@@ -203,13 +253,23 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <div className="lg:hidden text-primary font-bold text-base">Origin</div>
           <div className="flex items-center gap-2">
             <GhostSwitcher />
+            <button onClick={toggleTheme} title={theme === 'light' ? 'Switch to dark' : 'Switch to light'}
+              className="relative p-2 text-white/50 hover:text-primary min-w-[44px] min-h-[44px] flex items-center justify-center">
+              {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+            </button>
             <button className="relative p-2 text-white/40 hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center"><Bell size={20} /></button>
           </div>
         </header>
 
         <GhostBanner />
 
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6 pb-24 lg:pb-6">
+        <main key={location.pathname} ref={mainRef} className="flex-1 overflow-y-auto p-4 lg:p-6 pb-24 lg:pb-6">
+          {isReadOnlyPath(location.pathname) && (
+            <div className="mb-4 flex items-center gap-2.5 rounded-lg border border-primary/30 bg-primary/10 px-4 py-2.5 text-sm text-primary">
+              <Eye size={16} className="flex-shrink-0" />
+              <span><span className="font-semibold">View only.</span> You're reviewing this for QA oversight — edits stay with the team that owns it.</span>
+            </div>
+          )}
           {children}
         </main>
 

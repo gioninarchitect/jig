@@ -60,7 +60,10 @@ interface CalendarDay {
 }
 
 export default function GrowCalendarPage() {
-  const { hasMinLevel } = useRBAC();
+  const { hasMinLevel, hasRole } = useRBAC();
+  // Only the Head of Cultivation (Lou) builds/edits the grow calendar — NOT the Cultivation
+  // Supervisor (Loraine, FACILITY_SUPERVISOR) or other level-3 roles. Owners/Flo retained for support.
+  const canEditCalendar = hasRole('HEAD_OF_CULTIVATION', 'TENANT_ADMIN', 'SUPER_ADMIN');
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const todayRef = useRef<HTMLDivElement>(null);
@@ -117,6 +120,34 @@ export default function GrowCalendarPage() {
     onError: (e: any) => addToast('error', e.response?.data?.error || 'Failed'),
   });
 
+  // Reschedule the whole cycle (unplanned scenarios — e.g. rooting delayed → push everything).
+  // PATCH re-flows all phases from the new start + raises change-control if harvest moves earlier.
+  const [reschedule, setReschedule] = useState<{ start: string; reason: string } | null>(null);
+  const rescheduleMut = useMutation({
+    mutationFn: (p: { id: string; startDate: string; reason: string }) =>
+      api.patch(`/baygrid/schedules/${p.id}`, { startDate: p.startDate, reason: p.reason }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['schedules'] });
+      setReschedule(null); setSelectedDay(null);
+      addToast('success', 'Cycle rescheduled — calendar + tasks shifted');
+    },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Reschedule failed'),
+  });
+
+  // Adjust phase lengths (veg / flower) — Lou tunes a cycle's durations; the backend re-flows every
+  // downstream phase + derived task/ticket and raises change-control automatically (same cascade path).
+  const [adjust, setAdjust] = useState<{ veg: string; flower: string; reason: string } | null>(null);
+  const adjustMut = useMutation({
+    mutationFn: (p: { id: string; phases: any[]; reason: string }) =>
+      api.patch(`/baygrid/schedules/${p.id}`, { phases: p.phases, reason: p.reason }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['schedules'] });
+      setAdjust(null); setSelectedDay(null);
+      addToast('success', 'Phase lengths adjusted — calendar + tasks cascaded');
+    },
+    onError: (e: any) => addToast('error', e.response?.data?.error || 'Adjust failed'),
+  });
+
   // Auto-scroll to today
   useEffect(() => {
     if (todayRef.current) {
@@ -137,7 +168,7 @@ export default function GrowCalendarPage() {
           <h1 className="text-2xl font-bold text-white">Grow Calendar</h1>
           <p className="text-sm text-white/40">Day-by-day schedule per greenhouse</p>
         </div>
-        {hasMinLevel(2) && (
+        {canEditCalendar && (
           <button onClick={() => setShowCreate(true)} className="px-4 py-2.5 bg-primary hover:bg-primary-light text-white rounded-xl text-sm font-semibold flex items-center gap-2 transition min-h-[44px]">
             <Plus size={16} /> New Schedule
           </button>
@@ -396,28 +427,117 @@ export default function GrowCalendarPage() {
             {/* Staff allocation for this day */}
             {hasMinLevel(2) && selectedDay.hasTask && (
               <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
-                <div className="text-xs text-primary font-semibold mb-2">Assign Staff for This Day</div>
-                <div className="space-y-2">
-                  <select className="w-full px-3 py-2.5 bg-dark border border-white/10 rounded-xl text-white text-sm focus:border-primary focus:outline-none"
-                    onChange={e => {
-                      if (!e.target.value || !selectedDay) return;
-                      const u = cultStaff.find((x: any) => x.id === e.target.value);
-                      api.post('/shifts', {
-                        date: selectedDay.date, userId: e.target.value,
-                        userName: u?.name || '',
-                        role: u?.role || 'CULTIVATOR',
-                        tasks: [{ title: selectedDay.task || selectedDay.additionalTask || 'Calendar task', description: selectedDay.ipmApplication ? `IPM: ${selectedDay.ipmApplication} ${selectedDay.dosage || ''}` : '' }],
-                      }).then(() => { qc.invalidateQueries({ queryKey: ['day-shifts'] }); addToast('success', 'Staff allocated'); });
-                      e.target.value = '';
-                    }}>
-                    <option value="">Assign staff…</option>
-                    {cultStaff.map((u: any) => <option key={u.id} value={u.id}>{u.name} ({u.role.replace(/_/g, ' ').toLowerCase()})</option>)}
-                  </select>
-                  {cultStaff.length === 0 && <p className="text-[10px] text-amber-300/70">No cultivation staff found — add staff in Users first.</p>}
-                  <p className="text-[10px] text-white/20">Staff will see this in their "My Shift" view</p>
-                </div>
+                <div className="text-xs text-primary font-semibold mb-2">Assign staff for this day</div>
+                {/* Currently assigned — confirms the pick persisted */}
+                {(dayShifts || []).length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mb-2">
+                    {(dayShifts || []).map((s: any) => (
+                      <span key={s.id} className="text-[11px] px-2 py-1 rounded-lg bg-green-500/15 border border-green-500/30 text-green-200">
+                        ✓ {s.userName || 'staff'}{s.role ? ` · ${String(s.role).replace(/_/g, ' ').toLowerCase()}` : ''}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <select className="w-full px-3 py-2.5 bg-dark border border-white/10 rounded-xl text-white text-sm focus:border-primary focus:outline-none"
+                  onChange={e => {
+                    if (!e.target.value || !selectedDay) return;
+                    const u = cultStaff.find((x: any) => x.id === e.target.value);
+                    api.post('/shifts', {
+                      date: selectedDay.date, userId: e.target.value,
+                      userName: u?.name || '',
+                      role: u?.role || 'CULTIVATOR',
+                      tasks: [{ title: selectedDay.task || selectedDay.additionalTask || 'Calendar task', description: selectedDay.ipmApplication ? `IPM: ${selectedDay.ipmApplication} ${selectedDay.dosage || ''}` : '' }],
+                    }).then(() => { qc.invalidateQueries({ queryKey: ['day-shifts'] }); addToast('success', `${u?.name || 'Staff'} assigned`); });
+                    e.target.value = '';
+                  }}>
+                  <option value="">+ Assign staff…</option>
+                  {cultStaff.map((u: any) => <option key={u.id} value={u.id}>{u.name} ({u.role.replace(/_/g, ' ').toLowerCase()})</option>)}
+                </select>
+                {cultStaff.length === 0 && <p className="text-[10px] text-amber-300/70 mt-1">No cultivation staff found — add staff in Users first.</p>}
+                <p className="text-[10px] text-white/20 mt-1">Assigned staff see it in their "My Shift" view.</p>
               </div>
             )}
+
+            {/* Reschedule — Lou (HoC) ONLY shifts the whole cycle (not the Cultivation Supervisor) */}
+            {canEditCalendar && activeSchedule && (
+              <div className="bg-white/[0.03] border border-amber-500/10 rounded-xl p-4">
+                <div className="text-xs text-amber-300 font-semibold mb-2">Reschedule cycle (unplanned change)</div>
+                {!reschedule ? (
+                  <button onClick={() => setReschedule({ start: String(activeSchedule.startDate || '').slice(0, 10), reason: '' })}
+                    className="text-xs px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-200 font-semibold min-h-[40px]">Shift the cycle dates…</button>
+                ) : (
+                  <div className="space-y-2">
+                    <div>
+                      <label className="text-[10px] text-white/40">New cycle start (clone date)</label>
+                      <input type="date" value={reschedule.start} onChange={e => setReschedule(r => r && ({ ...r, start: e.target.value }))}
+                        className="w-full px-3 py-2 bg-dark border border-white/10 rounded-lg text-white text-sm focus:border-primary focus:outline-none" />
+                    </div>
+                    <input placeholder="Reason (e.g. rooting delayed, heat event)" value={reschedule.reason} onChange={e => setReschedule(r => r && ({ ...r, reason: e.target.value }))}
+                      className="w-full px-3 py-2 bg-dark border border-white/10 rounded-lg text-white text-sm focus:border-primary focus:outline-none" />
+                    <div className="flex gap-2 flex-wrap">
+                      <button onClick={() => rescheduleMut.mutate({ id: activeSchedule.id, startDate: reschedule.start, reason: reschedule.reason })}
+                        disabled={!reschedule.reason.trim() || rescheduleMut.isPending}
+                        className="px-3 py-2 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-200 text-xs font-semibold disabled:opacity-40 min-h-[40px]">Apply — re-flow calendar</button>
+                      <button onClick={() => setReschedule(null)} className="px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white/50 text-xs min-h-[40px]">Cancel</button>
+                    </div>
+                    <p className="text-[10px] text-white/25">Shifts every phase together. If harvest moves earlier, a change-control deviation auto-raises to Loraine + FM.</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Adjust phase lengths — Lou (HoC) ONLY; everything downstream cascades + change-control */}
+            {canEditCalendar && activeSchedule && (() => {
+              const phs = ((activeSchedule.phases as any[]) || []);
+              const curVeg = phs.filter((p: any) => p.phase === 'VEG').length || 14;
+              const curFlower = phs.filter((p: any) => p.phase === 'FLOWER').length || 56;
+              const start = String(activeSchedule.startDate || '').slice(0, 10);
+              const harvestOf = (a: any[]) => a.find((p: any) => p.task === 'HARVEST')?.date;
+              const curHarvest = harvestOf(phs);
+              const nv = adjust ? (parseInt(adjust.veg) || curVeg) : curVeg;
+              const nf = adjust ? (parseInt(adjust.flower) || curFlower) : curFlower;
+              const newHarvest = adjust ? harvestOf(buildDefaultPhases(start, nv, nf)) : null;
+              const delta = curHarvest && newHarvest ? Math.round((new Date(curHarvest).getTime() - new Date(newHarvest).getTime()) / 86400000) : 0;
+              return (
+                <div className="bg-white/[0.03] border border-primary/10 rounded-xl p-4">
+                  <div className="text-xs text-primary font-semibold mb-2">Adjust phase lengths</div>
+                  {!adjust ? (
+                    <button onClick={() => setAdjust({ veg: String(curVeg), flower: String(curFlower), reason: '' })}
+                      className="text-xs px-3 py-2 rounded-lg bg-primary/10 border border-primary/30 text-primary font-semibold min-h-[40px]">Tune veg / flower days…</button>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <div className="flex-1">
+                          <label className="text-[10px] text-white/40">Veg days</label>
+                          <input type="number" min={1} value={adjust.veg} onChange={e => setAdjust(a => a && ({ ...a, veg: e.target.value }))}
+                            className="w-full px-3 py-2 bg-dark border border-white/10 rounded-lg text-white text-sm focus:border-primary focus:outline-none" />
+                        </div>
+                        <div className="flex-1">
+                          <label className="text-[10px] text-white/40">Flower days</label>
+                          <input type="number" min={1} value={adjust.flower} onChange={e => setAdjust(a => a && ({ ...a, flower: e.target.value }))}
+                            className="w-full px-3 py-2 bg-dark border border-white/10 rounded-lg text-white text-sm focus:border-primary focus:outline-none" />
+                        </div>
+                      </div>
+                      <input placeholder="Reason (GMP change control)" value={adjust.reason} onChange={e => setAdjust(a => a && ({ ...a, reason: e.target.value }))}
+                        className="w-full px-3 py-2 bg-dark border border-white/10 rounded-lg text-white text-sm focus:border-primary focus:outline-none" />
+                      {newHarvest && (
+                        <p className="text-[11px] text-white/50">New harvest ≈ <span className="text-white font-semibold">{new Date(newHarvest).toLocaleDateString('en-ZA')}</span>{delta !== 0 && <span className={delta > 0 ? 'text-red-300' : 'text-green-300'}> ({delta > 0 ? `${delta}d earlier` : `${-delta}d later`})</span>}</p>
+                      )}
+                      <div className="flex gap-2 flex-wrap">
+                        <button onClick={() => adjustMut.mutate({ id: activeSchedule.id, phases: buildDefaultPhases(start, nv, nf), reason: adjust.reason })}
+                          disabled={!adjust.reason.trim() || adjustMut.isPending}
+                          className="px-3 py-2 rounded-lg bg-primary/15 border border-primary/40 text-primary text-xs font-semibold disabled:opacity-40 min-h-[40px]">Apply — cascade calendar</button>
+                        <button onClick={() => setAdjust(null)} className="px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white/50 text-xs min-h-[40px]">Cancel</button>
+                      </div>
+                      <p className="text-[10px] text-white/25">Re-flows every downstream phase + task. If harvest moves earlier, a change-control deviation auto-raises to Loraine + FM + QA.</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            <button onClick={() => { setSelectedDay(null); setReschedule(null); setAdjust(null); }}
+              className="w-full px-4 py-2.5 bg-primary/10 border border-primary/30 text-primary rounded-xl text-sm font-semibold hover:bg-primary/20 transition min-h-[44px]">Done</button>
           </div>
         )}
       </Modal>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useToastStore } from '../../stores/toastStore';
 import { SkeletonTable } from '../../components/Skeleton';
 import Modal, { ModalSelect, ModalButton } from '../../components/Modal';
@@ -14,6 +15,7 @@ const TYPE_LABELS: Record<string, string> = { BIN: 'Bin', RACK: 'Rack', BAG: 'Ba
 export default function ContainersPage() {
   const navigate = useNavigate();
   const { hasMinLevel } = useRBAC();
+  const readOnly = useReadOnly();
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const [showCreate, setShowCreate] = useState(false);
@@ -33,7 +35,7 @@ export default function ContainersPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-white">Containers</h1>
-        {hasMinLevel(2) && (
+        {!readOnly && hasMinLevel(2) && (
           <button onClick={() => setShowCreate(true)} className="px-4 py-2 bg-primary hover:bg-primary-light text-white rounded-lg text-sm font-semibold flex items-center gap-2 transition">
             <Plus size={16} /> Register Container
           </button>

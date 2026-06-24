@@ -7,6 +7,9 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { initOffline } from './stores/offlineStore';
 import './index.css';
 
+// Apply saved light/dark theme before first paint (no flash).
+document.documentElement.setAttribute('data-theme', localStorage.getItem('tnt-theme') || 'dark');
+
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1 } },
 });

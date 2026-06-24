@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Keke — Your QA Work Board &amp; QMS</title>
+<style>
+  @page { size: A4; margin: 15mm; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; color:#1f2933; font-size:11.5px; line-height:1.55; }
+  .head { display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:10px; border-bottom:2px solid #C9A84C; }
+  .mark { font-weight:800; letter-spacing:3px; color:#1f2933; font-size:16px; }
+  .mark .g { color:#C9A84C; }
+  .mark small { display:block; letter-spacing:2px; color:#8a96a4; font-weight:600; font-size:8.5px; margin-top:3px; }
+  .meta { text-align:right; font-size:9.5px; color:#8a96a4; line-height:1.6; }
+  .meta b { color:#1f2933; }
+  h1 { font-size:15px; margin:15px 0 3px; }
+  .sub { color:#5b6b7a; font-size:11px; margin:0 0 12px; }
+  .hi { background:#fafbfc; border:1px solid #e3e7eb; border-left:3px solid #C9A84C; border-radius:6px; padding:10px 14px; margin:0 0 14px; }
+  .hi b { color:#8B6914; }
+  h2 { font-size:11px; letter-spacing:1px; text-transform:uppercase; color:#C9A84C; margin:15px 0 5px; padding-bottom:3px; border-bottom:1px solid #eef1f4; }
+  h2 .n { display:inline-block; width:18px; height:18px; line-height:18px; text-align:center; background:#C9A84C; color:#0A0A0A; border-radius:50%; font-size:10px; font-weight:800; margin-right:6px; }
+  p { margin:5px 0; } b { color:#1f2933; }
+  ul { margin:4px 0 0; padding-left:16px; } li { margin:3px 0; }
+  .flow { display:flex; gap:6px; align-items:center; margin:8px 0; flex-wrap:wrap; }
+  .flow .step { border:1px solid #e3e7eb; border-radius:6px; padding:5px 11px; font-size:10.5px; font-weight:600; background:#fafbfc; }
+  .flow .step.you { border-color:#C9A84C; background:#fffdf3; color:#8B6914; }
+  .flow .arr { color:#C9A84C; font-weight:700; }
+  table { width:100%; border-collapse:collapse; margin-top:4px; }
+  td { padding:6px 8px; border-bottom:1px solid #eef1f4; font-size:11px; }
+  td.m { width:34%; font-weight:600; color:#1f2933; }
+  .login { background:#0A0A0A; color:#F5F0E8; border-radius:8px; padding:12px 16px; margin-top:12px; font-size:11px; display:flex; justify-content:space-between; align-items:center; }
+  .login .g { color:#C9A84C; font-weight:700; }
+  .foot { margin-top:14px; color:#aab4be; font-size:8.5px; border-top:1px solid #eef1f4; padding-top:8px; }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="mark">ILCO <span class="g">·</span> TRACK &amp; TRACE<small>QUALITY &middot; WHAT'S NEW FOR QA</small></div>
+    <div class="meta"><b>For:</b> Keke (QA Inspector)<br>23 June 2026</div>
+  </div>
+
+  <h1>Your QA work board &amp; QMS — what's changed</h1>
+  <p class="sub">We rebuilt the quality side around how you actually run QA. This is your GMP control system, in one place.</p>
+
+  <div class="hi"><b>The big change:</b> your work board now shows <b>your</b> quality work — not everyone else's daily checklists. Deviations to review and sign-offs come to you; the rest of the farm's tasks stay on their own boards.</div>
+
+  <h2><span class="n">1</span>Your work board = your QA queue</h2>
+  <p>When you open your board, you land on the <b>QA view</b>: every <b>deviation</b> (from any department) plus your <b>QA / Lab</b> work and <b>sign-offs</b>. The hundreds of daily cleaning &amp; cultivation checklists other roles complete no longer clutter your screen — you see what needs <i>your</i> quality decision.</p>
+
+  <h2><span class="n">2</span>Deviations — raise, approve, close</h2>
+  <p>Deviations move across your board like cards:</p>
+  <div class="flow">
+    <span class="step">Raised (anyone)</span><span class="arr">→</span>
+    <span class="step you">You approve (QA)</span><span class="arr">→</span>
+    <span class="step">RP closes (with CAPA)</span>
+  </div>
+  <p>A deviation can't be closed without a <b>CAPA</b> (corrective/preventive action) — quality is enforced, not optional.</p>
+
+  <h2><span class="n">3</span>Your QMS hub — all live</h2>
+  <table>
+    <tr><td class="m">SOP register</td><td>Versioned SOPs + staff acknowledgement tracking</td></tr>
+    <tr><td class="m">Deviations &amp; CAPA</td><td>Raise, review, approve, close with corrective action</td></tr>
+    <tr><td class="m">Equipment calibration</td><td>Calibration schedule + due dates</td></tr>
+    <tr><td class="m">EU-GMP control registry</td><td>Every control mapped to its EU-GMP source</td></tr>
+    <tr><td class="m">QMS records</td><td>Your quality records, in one auditable place</td></tr>
+  </table>
+
+  <h2><span class="n">4</span>You can still see everything</h2>
+  <p>Oversight hasn't gone away — you can still view the <b>whole facility's</b> activity through the Oversight view. The difference is it's now a <b>separate</b> view you choose, not mixed into your daily to-do.</p>
+
+  <div class="login">
+    <div>Log in: <span class="g">keke@ilcofarming.co.za</span> &middot; PIN <span class="g">224466</span></div>
+    <div>tntilco.cleva-ai.co.za</div>
+  </div>
+
+  <div class="foot">ILCO Farming &middot; Track &amp; Trace &middot; QA orientation for Keke &middot; 23 June 2026. All modules verified live. Your feedback shapes the next round.</div>
+</body>
+</html>

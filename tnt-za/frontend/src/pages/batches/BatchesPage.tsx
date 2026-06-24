@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useToastStore } from '../../stores/toastStore';
 import { SkeletonCard } from '../../components/Skeleton';
 import Modal, { ModalInput, ModalButton } from '../../components/Modal';
@@ -17,6 +18,7 @@ const STATUS_COLORS: Record<string, string> = {
 export default function BatchesPage() {
   const navigate = useNavigate();
   const { hasMinLevel } = useRBAC();
+  const readOnly = useReadOnly();
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
   const [showCreate, setShowCreate] = useState(false);
@@ -53,7 +55,7 @@ export default function BatchesPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-white">Batches</h1>
-        {hasMinLevel(3) && (
+        {!readOnly && hasMinLevel(3) && (
           <button onClick={() => setShowCreate(true)} className="px-4 py-2 bg-primary hover:bg-primary-light text-white rounded-lg text-sm font-semibold flex items-center gap-2 transition">
             <Plus size={16} /> Create Batch
           </button>
@@ -104,7 +106,7 @@ export default function BatchesPage() {
                 </span>
                 <span className="text-xs text-white/30">{b._count?.labResults || 0}/8 tests</span>
               </div>
-              {hasMinLevel(3) && b.status !== 'DESTROYED' && (
+              {!readOnly && hasMinLevel(3) && b.status !== 'DESTROYED' && (
                 <button onClick={(e) => { e.stopPropagation(); setShowDestroy(b); setDestroyReason(''); }}
                   className="mt-3 w-full py-2 bg-red-500/5 border border-red-500/20 text-red-400 rounded-lg text-xs font-semibold hover:bg-red-500/10 transition flex items-center justify-center gap-1.5 min-h-[36px]">
                   <Trash2 size={12} /> Request Destruction

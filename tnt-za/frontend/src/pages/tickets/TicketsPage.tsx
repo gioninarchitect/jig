@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
 import { useAuth } from '../../hooks/useAuth';
 import { useToastStore } from '../../stores/toastStore';
-import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
+import Modal, { ModalInput, ModalButton } from '../../components/Modal';
 import { SkeletonTable } from '../../components/Skeleton';
 import { Plus, CheckCircle, XCircle, Clock, MessageSquare, ShieldCheck, ThumbsUp, ChevronDown } from 'lucide-react';
 import api from '../../services/api';
@@ -42,11 +42,58 @@ const TYPES = [
   { value: 'RP_SIGNOFF', label: 'RP Sign-off' },
 ];
 
-const CATEGORIES = [
-  'GENERAL', 'PEST', 'MOULD', 'EQUIPMENT', 'FEEDING', 'ENVIRONMENT', 'IRRIGATION', 'MAINTENANCE',
-  'REQUISITION_SUPPLIES', 'REQUISITION_EQUIPMENT', 'REQUISITION_PPE', 'REQUISITION_SERVICES',
-  'COMPLIANCE_APPROVAL', 'RP_SIGNOFF',
+// Categories are filtered by ticket type so the operator only sees relevant choices.
+const ISSUE_CATS = ['GENERAL', 'PEST', 'MOULD', 'EQUIPMENT', 'FEEDING', 'ENVIRONMENT', 'IRRIGATION', 'MAINTENANCE'];
+const REQ_CATS = ['REQUISITION_SUPPLIES', 'REQUISITION_EQUIPMENT', 'REQUISITION_PPE', 'REQUISITION_SERVICES'];
+const APPROVAL_CATS = ['COMPLIANCE_APPROVAL'];
+const RP_CATS = ['RP_SIGNOFF'];
+const catsForType = (t: string) =>
+  t === 'REQUISITION' ? REQ_CATS : t === 'APPROVAL' ? APPROVAL_CATS : t === 'RP_SIGNOFF' ? RP_CATS : ISSUE_CATS;
+const pretty = (s: string) =>
+  s.replace(/^REQUISITION_/, '').replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+
+const PRIORITY_OPTS = [
+  { value: 'LOW', label: 'Low' },
+  { value: 'MEDIUM', label: 'Medium' },
+  { value: 'HIGH', label: 'High', color: 'bg-amber-500 text-black border-amber-500' },
+  { value: 'CRITICAL', label: 'Critical', color: 'bg-red-500 text-white border-red-500' },
 ];
+const STAGE_PILLS = [
+  { value: '', label: 'Not sure' },
+  { value: 'PROPAGATION', label: 'Propagation' },
+  { value: 'VEGETATIVE', label: 'Vegetative' },
+  { value: 'FLOWERING', label: 'Flowering' },
+  { value: 'HARVEST', label: 'Harvest' },
+  { value: 'FACILITY', label: 'Facility' },
+];
+
+// Tap-friendly pill selector — replaces the fiddly mobile <select> dropdowns the NM found confusing.
+function PillRow({ options, value, onChange }: { options: { value: string; label: string; color?: string }[]; value: string; onChange: (v: string) => void; }) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map(o => {
+        const active = value === o.value;
+        return (
+          <button key={o.value} type="button" onClick={() => onChange(o.value)}
+            className={`px-3.5 py-2 rounded-full text-sm font-medium border transition min-h-[42px] active:scale-95 ${active ? (o.color || 'bg-primary text-white border-primary') : 'bg-white/5 text-white/50 border-white/10 hover:text-white hover:border-white/25'}`}>
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+function PillField({ label, hint, children }: { label: string; hint?: string; children: any }) {
+  return (
+    <div className="mb-4">
+      <div className="flex items-baseline gap-2 mb-2">
+        <label className="block text-sm text-white/50">{label}</label>
+        {hint && <span className="text-xs text-white/25">{hint}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
 
 export default function TicketsPage() {
   const { hasMinLevel, hasRole } = useRBAC();
@@ -66,6 +113,7 @@ export default function TicketsPage() {
   });
   const [comment, setComment] = useState('');
   const [reassignTarget, setReassignTarget] = useState('');
+  const [showPeople, setShowPeople] = useState(false);
 
   // Users for the assignee picker (grouped by role in the dropdown below)
   const { data: users } = useQuery({
@@ -181,7 +229,7 @@ export default function TicketsPage() {
     return null;
   };
 
-  const openCount = tickets?.filter((t: any) => t.status === 'OPEN' || t.status === 'IN_PROGRESS').length || 0;
+  const openCount = tickets?.filter((t: any) => ['OPEN', 'ASSIGNED', 'IN_PROGRESS'].includes(t.status)).length || 0;
   const reqCount = tickets?.filter((t: any) => t.ticketType === 'REQUISITION' && t.status !== 'COMPLETED' && t.status !== 'CLOSED').length || 0;
   const rpCount = tickets?.filter((t: any) => t.ticketType === 'RP_SIGNOFF' && !t.rpSignedAt).length || 0;
 
@@ -473,31 +521,34 @@ export default function TicketsPage() {
         )}
       </Modal>
 
-      {/* Create Ticket Modal */}
+      {/* Create Ticket Modal — tap-friendly pills instead of fiddly dropdowns */}
       <Modal open={showCreate} onClose={() => setShowCreate(false)} title="New Ticket">
-        <ModalSelect label="Type" value={form.ticketType} onChange={e => setForm(f => ({ ...f, ticketType: (e.target as HTMLSelectElement).value }))}>
-          <option value="ISSUE">Issue / Problem</option>
-          <option value="REQUISITION">Requisition (supplies/equipment)</option>
-          {hasMinLevel(3) && <option value="APPROVAL">Compliance Approval</option>}
-          {hasMinLevel(3) && <option value="RP_SIGNOFF">RP Sign-off Required</option>}
-        </ModalSelect>
-        <ModalSelect label="Workflow Stage" value={form.workflowStage} onChange={e => setForm(f => ({ ...f, workflowStage: (e.target as HTMLSelectElement).value }))}>
-          {STAGES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
-        </ModalSelect>
+        <PillField label="What is it?">
+          <PillRow value={form.ticketType}
+            onChange={v => setForm(f => ({ ...f, ticketType: v, category: catsForType(v)[0] }))}
+            options={[
+              { value: 'ISSUE', label: '⚠ Issue / Problem' },
+              { value: 'REQUISITION', label: '🛒 Need supplies' },
+              ...(hasMinLevel(3) ? [{ value: 'APPROVAL', label: '✓ Approval' }, { value: 'RP_SIGNOFF', label: 'RP Sign-off' }] : []),
+            ]} />
+        </PillField>
+
         <ModalInput label="Title" placeholder="Brief description" value={form.title} onChange={e => setForm(f => ({ ...f, title: (e.target as HTMLInputElement).value }))} />
         <div className="mb-4">
           <label className="block text-sm text-white/50 mb-1.5">Details</label>
           <textarea placeholder="Full description..." value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
             className="w-full px-4 py-3 bg-dark border border-white/10 rounded-xl text-white text-base focus:border-primary focus:outline-none min-h-[80px] resize-y" />
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <ModalSelect label="Priority" value={form.priority} onChange={e => setForm(f => ({ ...f, priority: (e.target as HTMLSelectElement).value }))}>
-            <option value="LOW">Low</option><option value="MEDIUM">Medium</option><option value="HIGH">High</option><option value="CRITICAL">Critical</option>
-          </ModalSelect>
-          <ModalSelect label="Category" value={form.category} onChange={e => setForm(f => ({ ...f, category: (e.target as HTMLSelectElement).value }))}>
-            {CATEGORIES.map(c => <option key={c} value={c}>{c.replace(/_/g, ' ')}</option>)}
-          </ModalSelect>
-        </div>
+
+        <PillField label="Category">
+          <PillRow value={form.category} onChange={v => setForm(f => ({ ...f, category: v }))}
+            options={catsForType(form.ticketType).map(c => ({ value: c, label: pretty(c) }))} />
+        </PillField>
+
+        <PillField label="Priority">
+          <PillRow value={form.priority} onChange={v => setForm(f => ({ ...f, priority: v }))} options={PRIORITY_OPTS} />
+        </PillField>
+
         {form.ticketType === 'REQUISITION' && (
           <div className="grid grid-cols-2 gap-3">
             <ModalInput label="Est. Cost (R)" type="number" placeholder="0.00" value={form.estimatedCost} onChange={e => setForm(f => ({ ...f, estimatedCost: (e.target as HTMLInputElement).value }))} />
@@ -505,24 +556,27 @@ export default function TicketsPage() {
           </div>
         )}
 
-        <ModalSelect label="Assign to (person OR department)" value={form.assignTarget}
-          onChange={e => setForm(f => ({ ...f, assignTarget: (e.target as HTMLSelectElement).value }))}>
-          <option value="">— Unassigned (anyone can pick up) —</option>
-          {users && users.length > 0 && (
-            <optgroup label="👤  Specific person">
-              {users.filter((u: any) => u.active !== false).map((u: any) => (
-                <option key={u.id} value={`user:${u.id}`}>
-                  {u.name} · {u.role.replace(/_/g, ' ')}
-                </option>
-              ))}
-            </optgroup>
+        <PillField label="Send to" hint="leave on Anyone if unsure">
+          <PillRow value={form.assignTarget} onChange={v => setForm(f => ({ ...f, assignTarget: v }))}
+            options={[
+              { value: '', label: '🙌 Anyone' },
+              ...Array.from(new Set((users ?? []).map((u: any) => u.role))).sort().map((r: any) => ({ value: `role:${r}`, label: pretty(String(r)) })),
+            ]} />
+          <button type="button" onClick={() => setShowPeople(s => !s)}
+            className="mt-2 text-xs text-primary/70 hover:text-primary">
+            {showPeople ? '− hide people' : '＋ pick a specific person'}
+          </button>
+          {showPeople && (
+            <div className="mt-2">
+              <PillRow value={form.assignTarget} onChange={v => setForm(f => ({ ...f, assignTarget: v }))}
+                options={(users ?? []).filter((u: any) => u.active !== false).map((u: any) => ({ value: `user:${u.id}`, label: u.name }))} />
+            </div>
           )}
-          <optgroup label="🏢  Department / role (any of these can claim)">
-            {Array.from(new Set((users ?? []).map((u: any) => u.role))).sort().map((r: any) => (
-              <option key={`role-${r}`} value={`role:${r}`}>{String(r).replace(/_/g, ' ')}</option>
-            ))}
-          </optgroup>
-        </ModalSelect>
+        </PillField>
+
+        <PillField label="Stage" hint="optional">
+          <PillRow value={form.workflowStage} onChange={v => setForm(f => ({ ...f, workflowStage: v }))} options={STAGE_PILLS} />
+        </PillField>
 
         <ModalButton loading={createMut.isPending} onClick={() => createMut.mutate()} disabled={!form.title || !form.description}>
           Create Ticket

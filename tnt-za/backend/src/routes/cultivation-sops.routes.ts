@@ -1,7 +1,8 @@
 import { Router, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { requireAuth, requireLevel, AuthRequest } from '../middleware/auth';
+import { requireAuth, requireLevel, requireRole, AuthRequest } from '../middleware/auth';
 import { p } from '../utils/params';
+import { logAction } from '../services/audit.service';
 
 // =====================================================================
 // Cultivation SOP routes — digitised paper SOPs (3-CUL / 8-CLN / 4-FAC)
@@ -186,6 +187,37 @@ router.post('/env-log', requireLevel(1), async (req: AuthRequest, res: Response)
   } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
 
+// Edit a reading (fix a wrong temp/rh/zone/slot). Tenant-scoped + audited.
+router.patch('/env-log/:id', requireLevel(1), async (req: AuthRequest, res: Response) => {
+  try {
+    const existing = await prisma.envReading.findFirst({ where: { id: p(req.params.id), tenantId: req.user!.tenantId } });
+    if (!existing) return res.status(404).json({ success: false, error: 'Reading not found' });
+    const { temp, rh, zone, slot } = req.body;
+    const reading = await prisma.envReading.update({
+      where: { id: existing.id },
+      data: {
+        ...(temp !== undefined ? { temp: parseFloat(temp) } : {}),
+        ...(rh !== undefined ? { rh: parseFloat(rh) } : {}),
+        ...(zone !== undefined ? { zone } : {}),
+        ...(slot !== undefined ? { slot } : {}),
+      },
+    });
+    await logAction({ userId: req.user!.userId, tenantId: req.user!.tenantId, action: 'ENV_READING_EDITED', entityType: 'EnvReading', entityId: reading.id, before: { temp: existing.temp, rh: existing.rh, zone: existing.zone, slot: existing.slot } as any, after: { temp: reading.temp, rh: reading.rh, zone: reading.zone, slot: reading.slot } as any }).catch(() => {});
+    res.json({ success: true, reading });
+  } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
+});
+
+// Delete a wrong env reading (e.g. a mis-keyed clone-room measurement). Tenant-scoped + audited.
+router.delete('/env-log/:id', requireLevel(1), async (req: AuthRequest, res: Response) => {
+  try {
+    const reading = await prisma.envReading.findFirst({ where: { id: p(req.params.id), tenantId: req.user!.tenantId } });
+    if (!reading) return res.status(404).json({ success: false, error: 'Reading not found' });
+    await prisma.envReading.delete({ where: { id: reading.id } });
+    await logAction({ userId: req.user!.userId, tenantId: req.user!.tenantId, action: 'ENV_READING_DELETED', entityType: 'EnvReading', entityId: reading.id, before: { zone: reading.zone, slot: reading.slot, temp: reading.temp, rh: reading.rh } as any }).catch(() => {});
+    res.json({ success: true });
+  } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
+});
+
 // ─── Harvest Requests ────────────────────────────────────────────────
 router.get('/harvest-requests', requireLevel(0), async (req: AuthRequest, res: Response) => {
   try {
@@ -229,7 +261,7 @@ router.post('/harvest-requests', requireLevel(2), async (req: AuthRequest, res: 
   } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
 
-router.post('/harvest-requests/:id/approve', requireLevel(3), async (req: AuthRequest, res: Response) => {
+router.post('/harvest-requests/:id/approve', requireRole('QA_INSPECTOR', 'HEAD_OF_CULTIVATION', 'TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
   try {
     const { checklistAnswers, dryingRoomAllocated } = req.body;
     const request = await prisma.harvestRequest.update({

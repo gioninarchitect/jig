@@ -11,6 +11,16 @@ const ROLE_LEVELS: Record<string, number> = {
   CLIENT: 0, VIEWER: 0,
 };
 
+// Operational areas a role may READ for oversight but never edit. Mirrors the
+// backend READ_ONLY_AREAS in middleware/auth.ts — the server is the hard guard;
+// this drives the view-only banner + lets pages disable their edit controls.
+const READ_ONLY_AREAS: Record<string, string[]> = {
+  QA_INSPECTOR: [
+    '/baygrid', '/env-log', '/daily-check', '/ipm-scouting', '/cleaning-schedule', '/mortality',
+    '/batches', '/containers', '/lab', '/trim', '/dispatch',
+  ],
+};
+
 export function useRBAC() {
   const realUser = useAuthStore((s) => s.user);
   const ghostUser = useGhostStore((s) => s.ghostUser);
@@ -29,5 +39,8 @@ export function useRBAC() {
     hasRole: (...roles: string[]) => !!effective && roles.includes(effective.role),
     hasMinLevel: (min: number) => level >= min,
     canAccess: (minLevel: number) => level >= minLevel,
+    // True when the current role may only VIEW the given path (oversight, no edits).
+    isReadOnlyPath: (path: string) =>
+      (READ_ONLY_AREAS[effective?.role || ''] || []).some((p) => path === p || path.startsWith(p)),
   };
 }

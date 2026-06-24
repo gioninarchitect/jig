@@ -22,6 +22,33 @@ export async function createIndividualClones(data: {
   return clones;
 }
 
+// Update one clone — status / health / death cause (consistent with bay-pot + mother CRUD).
+// Tray rooted/mortality counts are recomputed from the clones so the tray stays in sync.
+export async function updateClone(id: string, tenantId: string, data: { status?: string; healthStatus?: string; deathCause?: string; deathNotes?: string }) {
+  const clone = await prisma.clone.findFirst({ where: { id, tenantId } });
+  if (!clone) { const e: any = new Error('Clone not found'); e.status = 404; throw e; }
+  const updates: any = {};
+  if (data.status) {
+    updates.status = data.status;
+    if (data.status === 'ROOTED') { updates.rootsVisible = true; if (clone.healthStatus === 'DEAD') updates.healthStatus = 'HEALTHY'; }
+    if (data.status === 'CULLED' || data.status === 'DEAD') { updates.healthStatus = 'DEAD'; updates.deathDate = new Date(); updates.deathCause = data.deathCause || clone.deathCause || 'UNKNOWN'; }
+    if (data.status === 'ROOTING') { updates.healthStatus = 'HEALTHY'; updates.deathDate = null; }
+  }
+  if (data.healthStatus) updates.healthStatus = data.healthStatus;
+  if (data.deathCause !== undefined) updates.deathCause = data.deathCause;
+  if (data.deathNotes !== undefined) updates.deathNotes = data.deathNotes;
+  const updated = await prisma.clone.update({ where: { id }, data: updates });
+  await recomputeTrayCounts(clone.cloneTrayId);
+  return updated;
+}
+
+async function recomputeTrayCounts(cloneTrayId: string) {
+  const clones = await prisma.clone.findMany({ where: { cloneTrayId }, select: { status: true } });
+  const rooted = clones.filter(c => c.status === 'ROOTED' || c.status === 'TRANSPLANTED').length;
+  const mortality = clones.filter(c => c.status === 'CULLED' || c.status === 'DEAD').length;
+  await prisma.cloneTray.update({ where: { id: cloneTrayId }, data: { rooted, mortality } });
+}
+
 // List clones for a tray
 export async function listClonesForTray(cloneTrayId: string) {
   return prisma.clone.findMany({ where: { cloneTrayId }, orderBy: { sequenceNumber: 'asc' } });

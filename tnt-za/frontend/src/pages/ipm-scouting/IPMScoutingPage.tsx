@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRBAC } from '../../hooks/useRBAC';
+import { useReadOnly } from '../../hooks/useReadOnly';
 import { useAuthStore } from '../../stores/authStore';
 import { useToastStore } from '../../stores/toastStore';
 import { SkeletonTable } from '../../components/Skeleton';
@@ -56,7 +57,8 @@ export default function IPMScoutingPage() {
   const user = useAuthStore(s => s.user);
   const addToast = useToastStore(s => s.addToast);
   const qc = useQueryClient();
-  const canLog = hasMinLevel(2); // Cultivator and above
+  const readOnly = useReadOnly();
+  const canLog = !readOnly && hasMinLevel(2); // Cultivator and above
 
   const [zoneFilter, setZoneFilter] = useState<string>('');
   const [showLog, setShowLog] = useState(false);

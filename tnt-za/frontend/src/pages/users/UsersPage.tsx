@@ -5,6 +5,7 @@ import { useToastStore } from '../../stores/toastStore';
 import { SkeletonTable } from '../../components/Skeleton';
 import Modal, { ModalInput, ModalSelect, ModalButton } from '../../components/Modal';
 import { Plus, Shield, UserX } from 'lucide-react';
+import { roleLabel } from '../../utils/roleLabel';
 import api from '../../services/api';
 
 const ROLES = [
@@ -87,7 +88,7 @@ export default function UsersPage() {
                   {ROLES.map(r => <option key={r} value={r}>{r.replace(/_/g, ' ')}</option>)}
                 </select>
               ) : (
-                <span className={`text-xs px-2 py-1 rounded-full font-medium ${ROLE_COLORS[u.role] || 'bg-white/10 text-white/50'}`}>{u.role.replace(/_/g, ' ')}</span>
+                <span className={`text-xs px-2 py-1 rounded-full font-medium ${ROLE_COLORS[u.role] || 'bg-white/10 text-white/50'}`}>{roleLabel(u.role)}</span>
               )}
               {!u.active && <span className="text-xs text-red-400">Deactivated</span>}
               {hasMinLevel(5) && u.active && u.role !== 'SUPER_ADMIN' && (

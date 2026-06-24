@@ -1,5 +1,5 @@
 import { Router, Response } from 'express';
-import { requireAuth, requireLevel, AuthRequest } from '../middleware/auth';
+import { requireAuth, requireLevel, requireRole, AuthRequest } from '../middleware/auth';
 import { p } from '../utils/params';
 import { prisma } from '../config/db';
 import bcrypt from 'bcryptjs';
@@ -49,7 +49,7 @@ router.post('/', requireLevel(4), async (req: AuthRequest, res: Response) => {
 });
 
 // Update user role — FM (level 3) can switch staff roles
-router.patch('/:id', requireLevel(3), async (req: AuthRequest, res: Response) => {
+router.patch('/:id', requireRole('TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
   try {
     const user = await prisma.user.update({
       where: { id: p(req.params.id) },

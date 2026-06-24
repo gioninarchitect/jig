@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ILCO UAT — QA &amp; Processing</title>
+<style>
+  @page { size: A4; margin: 13mm; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; color:#1f2933; font-size:10px; line-height:1.42; }
+  .head { display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:9px; border-bottom:2px solid #C9A84C; }
+  .mark { font-weight:800; letter-spacing:3px; color:#1f2933; font-size:15px; }
+  .mark .g { color:#C9A84C; }
+  .mark small { display:block; letter-spacing:2px; color:#8a96a4; font-weight:600; font-size:8px; margin-top:3px; }
+  .meta { text-align:right; font-size:9px; color:#8a96a4; line-height:1.6; } .meta b { color:#1f2933; }
+  h1 { font-size:14px; margin:13px 0 2px; }
+  .sub { color:#5b6b7a; font-size:10px; margin:0 0 10px; }
+  h2 { font-size:10.5px; letter-spacing:1px; text-transform:uppercase; color:#C9A84C; margin:14px 0 5px; padding-bottom:3px; border-bottom:1px solid #eef1f4; }
+  h2 .who { float:right; font-size:9px; color:#5b6b7a; letter-spacing:0; text-transform:none; font-weight:600; }
+  .prep { background:#fffdf3; border:1px solid #e6cf72; border-left:3px solid #C9A84C; border-radius:6px; padding:9px 13px; margin:0 0 12px; font-size:9.5px; }
+  .prep b { color:#8B6914; }
+  table { width:100%; border-collapse:collapse; margin-top:2px; break-inside:auto; }
+  thead { display:table-header-group; }
+  tr { break-inside:avoid; }
+  th { background:#0A0A0A; color:#C9A84C; text-align:left; font-size:7.5px; letter-spacing:1px; text-transform:uppercase; padding:6px 6px; }
+  td { padding:5px 6px; border-bottom:1px solid #eef1f4; vertical-align:top; }
+  td.id { font-weight:700; color:#8B6914; width:5%; }
+  td.exp { color:#3a4754; }
+  td.cta { width:15%; }
+  td.cta a { color:#8B6914; font-weight:700; text-decoration:none; font-family:"JetBrains Mono","SF Mono",Menlo,monospace; font-size:9px; }
+  td.pf { width:10%; text-align:center; color:#cbd2d9; font-weight:700; letter-spacing:1px; }
+  tr:nth-child(even) td { background:#faf8f2; }
+  .legend { font-size:9px; color:#8a96a4; margin-top:4px; }
+  .foot { margin-top:12px; color:#aab4be; font-size:8px; border-top:1px solid #eef1f4; padding-top:7px; }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="mark">ILCO <span class="g">·</span> TRACK &amp; TRACE<small>USER ACCEPTANCE TESTING &middot; QA &amp; PROCESSING</small></div>
+    <div class="meta"><b>Date:</b> ____________<br><b>Tester:</b> ____________<br>23 June 2026</div>
+  </div>
+
+  <h1>UAT Test Pack — QA &amp; Processing</h1>
+  <p class="sub">Work through each step in order. <b>Tap &ldquo;Go to&rdquo;</b> to open the exact screen, do the step, then tick <b>P</b> (pass) or <b>F</b> (fail). Be hard on it — that's the point.</p>
+
+  <div class="prep"><b>Before UAT starts (FO sets up):</b> (1) boards scoped so each tester sees only their own queue — not the whole farm's checklists; (2) at least one <b>batch in the processing stage</b> so per-batch forms appear; (3) Processing Supervisor login(s) provisioned; (4) testers have their credential sheet. All links open on <b>tntilco.cleva-ai.co.za</b>.</p>
+
+  <h2>Part A — Processing <span class="who">Tester: Jeanette &middot; jen@ilcofarming.co.za / 300300</span></h2>
+  <table>
+    <thead><tr><th>#</th><th>Test step</th><th>Expected result</th><th>Go to</th><th>P / F</th></tr></thead>
+    <tbody>
+      <tr><td class="id">P1</td><td>Log in (email + PIN, one screen)</td><td class="exp">Lands on her board showing <b>only her own</b> tasks</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/login">↗ /login</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">P2</td><td>Open today's daily form (Temp &amp; Humidity Check — Processing)</td><td class="exp">Form opens, complete + sign off → done</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/tasks">↗ /tasks</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">P3</td><td>Log a wet intake — Receiving Register</td><td class="exp">Intake recorded against a batch</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/processing">↗ /processing</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">P4</td><td>Wet Cannabis Flower Inspection on that batch</td><td class="exp">Per-batch form appears + saves to batch</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/processing">↗ /processing</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">P5</td><td>Capture Sample Moisture Readings</td><td class="exp">Readings recorded</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/processing">↗ /processing</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">P6</td><td>Trimming Dried Flower Batch Control</td><td class="exp">Trim record saved to batch</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/processing">↗ /processing</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">P7</td><td>Complete a Curing Record</td><td class="exp">Curing record saved</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/processing">↗ /processing</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">P8</td><td>Run the Batch Quality Check Register</td><td class="exp">Quality check saved</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/processing">↗ /processing</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">P9</td><td><b>Mark a quality FAIL</b> on the check</td><td class="exp"><b>Deviation auto-raises &amp; routes to QA</b></td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/processing">↗ /processing</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">P10</td><td>Record Bulk Storage Inventory</td><td class="exp">Stock recorded</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/processing">↗ /processing</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">P11</td><td>Log a Rejected Goods entry</td><td class="exp">Rejected goods recorded</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/processing">↗ /processing</a></td><td class="pf">P &nbsp; F</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Part B — Quality (QA) <span class="who">Tester: Keke &middot; keke@ilcofarming.co.za / 224466</span></h2>
+  <table>
+    <thead><tr><th>#</th><th>Test step</th><th>Expected result</th><th>Go to</th><th>P / F</th></tr></thead>
+    <tbody>
+      <tr><td class="id">Q1</td><td>Log in &rarr; open the work board</td><td class="exp">Lands on the <b>QA view</b> — deviations + QA/Lab, <b>not</b> everyone's checklists</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/kanban">↗ /kanban</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">Q2</td><td>Open the SOP register, acknowledge an SOP</td><td class="exp">Acknowledgement recorded against her name</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/sop-library">↗ /sop-library</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">Q3</td><td>Open the deviation raised in P9</td><td class="exp">Deviation details + source batch visible</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/kanban">↗ /kanban</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">Q4</td><td><b>Approve the deviation (QA)</b></td><td class="exp">Card moves Raised → In Progress</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/kanban">↗ /kanban</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">Q5</td><td>Try to close WITHOUT a CAPA, then WITH one</td><td class="exp">Blocked without CAPA; closes once CAPA added</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/kanban">↗ /kanban</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">Q6</td><td>Open Equipment Calibration</td><td class="exp">Equipment + calibration due dates listed</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/qms">↗ /qms</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">Q7</td><td>Open the EU-GMP control registry</td><td class="exp">Controls mapped to their EU-GMP source</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/qms">↗ /qms</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">Q8</td><td>View QMS records</td><td class="exp">Records list shows + filters</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/qms">↗ /qms</a></td><td class="pf">P &nbsp; F</td></tr>
+      <tr><td class="id">Q9</td><td>Switch to the Oversight / All view</td><td class="exp">Sees whole facility — separate from her to-do</td><td class="cta"><a href="https://tntilco.cleva-ai.co.za/kanban">↗ /kanban</a></td><td class="pf">P &nbsp; F</td></tr>
+    </tbody>
+  </table>
+  <p class="legend">Log every <b>F</b> with: what you did, what you expected, what happened (screenshots help). Hand back to FO.</p>
+
+  <div class="foot">ILCO Farming &middot; Track &amp; Trace UAT &middot; QA &amp; Processing &middot; 23 June 2026 &middot; Steps + screens grounded in the live app (tntilco.cleva-ai.co.za). Confidential.</div>
+</body>
+</html>

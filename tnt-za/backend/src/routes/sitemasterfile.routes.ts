@@ -63,14 +63,14 @@ router.post('/sections/:id/sign-rp', requireRole('RESPONSIBLE_PHARMACIST'), asyn
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 });
 
-router.post('/sections/:id/sign-dar', requireLevel(4), async (req: AuthRequest, res: Response) => {
+router.post('/sections/:id/sign-dar', requireRole('TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
   try {
     const section = await smfSections.signSection(p(req.params.id), req.user!.tenantId, 'DAR', req.user!.userId, req.body?.notes);
     res.json({ success: true, section });
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 });
 
-router.post('/sections/:id/approve-ar', requireLevel(4), async (req: AuthRequest, res: Response) => {
+router.post('/sections/:id/approve-ar', requireRole('TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
   try {
     const section = await smfSections.signSection(p(req.params.id), req.user!.tenantId, 'AR', req.user!.userId, req.body?.notes);
     res.json({ success: true, section });

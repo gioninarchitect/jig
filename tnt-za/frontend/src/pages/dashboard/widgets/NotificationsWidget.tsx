@@ -19,6 +19,7 @@ const ICON_MAP: Record<string, any> = {
   maint_tickets: AlertTriangle,
   active_trim: Clock,
   facility_tickets: AlertTriangle,
+  deviation: ShieldCheck,
 };
 
 const COLOR_MAP: Record<number, string> = {
@@ -56,9 +57,19 @@ export default function NotificationsWidget() {
     });
   }
 
-  if (notifications.length === 0) return null;
+  // Collapse a burst of deviation notifications into ONE entry so they don't bury the dashboard.
+  // (The full alter/resolve flow lives in Quality Management → Open Deviations.)
+  const isDev = (n: any) => /deviation/i.test(n.title || '') || n.link === '/qms';
+  const devNotifs = notifications.filter(isDev);
+  const display = devNotifs.length > 1
+    ? [{ type: 'deviation', priority: Math.min(...devNotifs.map((n: any) => n.priority || 3)),
+         title: `${devNotifs.length} deviations to review`, message: 'Review & close in Quality Management', link: '/qms' },
+       ...notifications.filter((n: any) => !isDev(n))]
+    : notifications;
 
-  const hasCritical = notifications.some(n => n.priority === 1);
+  if (display.length === 0) return null;
+
+  const hasCritical = display.some(n => n.priority === 1);
 
   return (
     <div className={`rounded-xl border p-4 sm:p-5 ${hasCritical ? 'bg-red-500/5 border-red-500/15' : 'bg-amber-500/5 border-amber-500/15'}`}>
@@ -66,11 +77,13 @@ export default function NotificationsWidget() {
         <div className="flex items-center gap-2">
           <Bell size={16} className={hasCritical ? 'text-red-400' : 'text-amber-400'} />
           <h2 className="text-sm font-semibold text-white/60">Notifications</h2>
-          <span className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-white/40 font-mono">{notifications.length}</span>
+          <span className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-white/40 font-mono">{display.length}</span>
         </div>
       </div>
+      {/* Cap the bell so a burst of deviations can't bury the dashboard — show the top 5
+          (criticals first), then a "+N more" link to the full board. */}
       <div className="space-y-1.5">
-        {notifications.map((n: any, i: number) => {
+        {[...display].sort((a, b) => (a.priority || 3) - (b.priority || 3)).slice(0, 5).map((n: any, i: number) => {
           const Icon = ICON_MAP[n.type] || AlertTriangle;
           const color = COLOR_MAP[n.priority] || 'text-white/40';
           return (
@@ -78,12 +91,15 @@ export default function NotificationsWidget() {
               <Icon size={14} className={`${color} flex-shrink-0 mt-0.5`} />
               <div className="flex-1 min-w-0">
                 <div className={`text-sm font-medium ${n.priority === 1 ? 'text-white' : 'text-white/70'}`}>{n.title}</div>
-                <div className="text-xs text-white/30 mt-0.5">{n.message}</div>
+                <div className="text-xs text-white/30 mt-0.5 truncate">{n.message}</div>
               </div>
               <ArrowRight size={12} className="text-white/10 flex-shrink-0 mt-1" />
             </Link>
           );
         })}
+        {display.length > 5 && (
+          <Link to="/tickets" className="block text-center text-xs text-white/40 hover:text-primary py-1.5">+{display.length - 5} more</Link>
+        )}
       </div>
     </div>
   );
