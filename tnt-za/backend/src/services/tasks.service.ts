@@ -464,6 +464,9 @@ export async function materializeRecurringForms(tenantId: string) {
   let created = 0;
   const byAssignee = new Map<string, number>();   // userId → how many new checklists landed on them
   for (const t of templates) {
+    // ILCO is closed over weekends — daily checklists run Mon–Fri only (Loraine).
+    // (Weekly already targets Monday; monthly targets the 1st, so those are unaffected.)
+    if (t.frequency === 'DAILY' && (dow === 0 || dow === 6)) continue;   // Sun (0) / Sat (6)
     if (t.frequency === 'WEEKLY' && dow !== 1) continue;   // Mondays
     if (t.frequency === 'MONTHLY' && dom !== 1) continue;   // 1st of month
     const exists = await prisma.task.findFirst({ where: { templateId: t.id, createdAt: { gte: dayStart } }, select: { id: true } });
