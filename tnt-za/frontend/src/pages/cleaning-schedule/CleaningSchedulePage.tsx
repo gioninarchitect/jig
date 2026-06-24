@@ -48,7 +48,7 @@ const ZONE_CONFIG: Record<Zone, {
       THU: ['Clean switches', 'Clean access control', 'Empty & clean bins', 'Spot check walls', 'Clean doors & handles', 'Clean DB boxes', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'],
       FRI: ['Clean switches', 'Clean access control', 'Empty & clean bins', 'Spot check walls', 'Clean doors & handles', 'Clean DB boxes', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'],
     },
-    frequencyRows: ['Weekly · Clean fan blades & fins', 'Weekly · De-humidifier clean', 'Weekly · Clean curtains', 'Weekly · Clean floor water gutter', 'Weekly · Clean lights', 'After batch · Wash evaporator cooling pads', 'After batch · Wash floor & radiator'],
+    frequencyRows: ['After batch · Clean fan blades & fins', 'After batch · De-humidifier clean', 'After batch · Clean curtains', 'After batch · Clean floor water gutter', 'After batch · Clean lights', 'After batch · Wash evaporator cooling pads', 'After batch · Wash floor & radiator'],
     compiler: 'Jeanette Ferreira', authorisedBy: 'Authorised Representative',
   },
   CLONE_ROOM: {
@@ -69,15 +69,15 @@ const ZONE_CONFIG: Record<Zone, {
     label: 'PPE (Mother & GH)', sop: 'To assign', effective: '—', areaColour: 'Teal',
     colourClass: 'bg-teal-400/20 border-teal-400/40 text-teal-200',
     sanitizers: ['Steri-5', 'Hydrogen peroxide 2 pct'],
-    tasksByDay: { MON: ['Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], TUE: ['Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], WED: ['Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], THU: ['Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], FRI: ['Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'] },
-    frequencyRows: ['Weekly · Deep-clean PPE store', 'After batch · Launder reusable gowns', 'Monthly · Audit PPE stock & condition'],
+    tasksByDay: { MON: ['Launder reusable gowns / PPE', 'Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], TUE: ['Launder reusable gowns / PPE', 'Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], WED: ['Launder reusable gowns / PPE', 'Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], THU: ['Launder reusable gowns / PPE', 'Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], FRI: ['Launder reusable gowns / PPE', 'Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'] },
+    frequencyRows: ['Weekly · Deep-clean PPE store', 'Monthly · Audit PPE stock & condition'],
   },
   CULTIVATION: {
     label: 'Cultivation Area', sop: 'To assign', effective: '—', areaColour: 'Lime',
     colourClass: 'bg-lime-400/20 border-lime-400/40 text-lime-200',
     sanitizers: ['Steri-5'],
     tasksByDay: { MON: ['Clean switches & handles', 'Empty & clean bins', 'Spot check walls', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'], TUE: ['Clean switches & handles', 'Empty & clean bins', 'Spot check walls', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'], WED: ['Clean switches & handles', 'Empty & clean bins', 'Spot check walls', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'], THU: ['Clean switches & handles', 'Empty & clean bins', 'Spot check walls', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'], FRI: ['Clean switches & handles', 'Empty & clean bins', 'Spot check walls', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'] },
-    frequencyRows: ['Weekly · Clean fans & fins', 'Weekly · Clean lights', 'After batch / Monthly · Wash floor & radiator'],
+    frequencyRows: ['Weekly · Clean fans & fins', 'Weekly · Clean lights', 'After batch / Monthly · Wash floor'],
   },
   GENERAL: {
     label: 'General Area', sop: 'To assign', effective: '—', areaColour: 'Slate',

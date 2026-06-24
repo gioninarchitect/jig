@@ -170,11 +170,21 @@ export async function getSummary(tenantId: string, facilityId?: string) {
   ]);
   const houses = coops.map(c => {
     const m = mortality.filter(x => x.coopName === c.name);
+    // "This cycle" = from the DAY the flock count was last set (coop.updatedAt, day-granular so a
+    // same-day death dated at midnight still counts). Editing the count for a new batch resets the
+    // baseline, so deaths from the previous batch don't subtract from the new one.
+    const cycleStart = new Date(c.updatedAt); cycleStart.setHours(0, 0, 0, 0);
+    const diedCycle = m.filter(x => x.date >= cycleStart).reduce((s, x) => s + x.count, 0);
     const todayM = m.filter(x => x.date >= today).reduce((s, x) => s + x.count, 0);
     const totalM = m.reduce((s, x) => s + x.count, 0);
+    const remaining = Math.max(0, c.flockCount - diedCycle);
     const latestTemp = temps.find(t => t.coopName === c.name);
     return {
-      id: c.id, name: c.name, flock: c.flockCount,
+      id: c.id, name: c.name,
+      placed: c.flockCount,        // what was put in the coop (editable)
+      remaining,                   // placed − deaths this cycle (live "birds left")
+      flock: remaining,            // headline number everyone sees = live remaining
+      diedCycle,
       mortalityToday: todayM, mortalityTotal: totalM,
       tempC: latestTemp?.tempC ?? null,
     };
@@ -182,7 +192,8 @@ export async function getSummary(tenantId: string, facilityId?: string) {
   return {
     houses,
     totals: {
-      flock: coops.reduce((s, c) => s + c.flockCount, 0),
+      flock: houses.reduce((s, h) => s + h.remaining, 0),  // live birds left across all coops
+      placed: coops.reduce((s, c) => s + c.flockCount, 0),
       coops: coops.length,
       mortalityToday: mortality.filter(x => x.date >= today).reduce((s, x) => s + x.count, 0),
       mortalityTotal: mortality.reduce((s, x) => s + x.count, 0),

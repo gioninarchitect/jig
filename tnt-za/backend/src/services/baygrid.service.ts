@@ -1193,7 +1193,9 @@ export async function bulkSpotAction(spotIds: string[], action: string, strain: 
     for (const s of spots) {
       const data: any = { status };
       if (action === 'harvest') { data.harvestedAt = new Date(); data.harvestedBy = userId; }
-      if (action === 'clear') { data.plantId = null; data.previousPlantId = s.plantId; data.clearedAt = new Date(); data.clearedBy = userId; }
+      // Clear = fully empty the pot: drop the plant AND the strain so the grid shows it as
+      // empty (grey), not its old strain colour. (Loraine: cleared/harvested pots "won't delete".)
+      if (action === 'clear') { data.plantId = null; data.strain = null; data.previousPlantId = s.plantId; data.clearedAt = new Date(); data.clearedBy = userId; }
       await prisma.baySpot.update({ where: { id: s.id }, data });
       if (action === 'cull' && s.strain) { await recordMortality(s, `Bulk cull at ${s.spotId}`); mortality++; }
       bayIds.add(s.bayId);
@@ -1227,7 +1229,9 @@ export async function setSpotStatus(spotId: string, action: string, userId: stri
   if (!spot) throw Object.assign(new Error('Pot not found'), { status: 404 });
   const data: any = { status };
   if (action === 'harvest') { data.harvestedAt = new Date(); data.harvestedBy = userId; }
-  if (action === 'clear') { data.plantId = null; data.previousPlantId = spot.plantId; data.clearedAt = new Date(); data.clearedBy = userId; }
+  // Clear = fully empty the pot: drop the plant AND the strain so the grid shows it empty
+  // (grey), not its old strain colour. (Loraine: cleared/harvested pots "won't delete".)
+  if (action === 'clear') { data.plantId = null; data.strain = null; data.previousPlantId = spot.plantId; data.clearedAt = new Date(); data.clearedBy = userId; }
   const updated = await prisma.baySpot.update({ where: { id: spotId }, data });
   // Cull → record a mortality (1 plant) for traceability
   if (action === 'cull' && spot.strain) {
@@ -1236,6 +1240,11 @@ export async function setSpotStatus(spotId: string, action: string, userId: stri
         greenhouseId: spot.bay?.greenhouseId || null, bayId: spot.bayId, plantTag: spot.spotId,
         zone: spot.bay?.greenhouse?.name || null, reportedById: userId, tenantId, notes: `Culled at ${spot.spotId}` },
     });
+  }
+  // Clearing a pot can change the bay's strain mix — recompute currentStrain.
+  if (action === 'clear') {
+    const distinct = await prisma.baySpot.findMany({ where: { bayId: spot.bayId, strain: { not: null } }, distinct: ['strain'], select: { strain: true } });
+    await prisma.bay.update({ where: { id: spot.bayId }, data: { currentStrain: distinct.length === 1 ? distinct[0].strain : distinct.length > 1 ? 'MIXED' : null } });
   }
   eventBus.emit('BAY_ALLOCATED', { userId, tenantId, entityType: 'Bay', entityId: spot.bayId, plantCount: 0 });
   return { spot: updated };
