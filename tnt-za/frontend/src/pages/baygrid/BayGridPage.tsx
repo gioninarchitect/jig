@@ -28,6 +28,7 @@ function statusLight(status?: string, strain?: string | null) {
     case 'OCCUPIED': return { dot: '#22C55E', label: 'Active' };       // green
     case 'FLAGGED': case 'RESERVED': return { dot: '#F8C242', label: 'Flagged' }; // yellow
     case 'DESTROYED': case 'DEAD': return { dot: '#DC2626', label: 'Dead' };      // red
+    case 'HARVESTED': return { dot: '#3B82F6', label: 'Harvested' };              // blue
     case 'MAINTENANCE': return { dot: '#7FA8E5', label: 'Maintenance' };
     default: return { dot: strain ? '#22C55E' : '#3a3a3a', label: strain ? 'Active' : 'Empty' };
   }
@@ -251,7 +252,7 @@ export default function BayGridPage() {
                             <div className="grid gap-px content-start" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
                               {lanePots.map((pp: any) => {
                                 const lt = statusLight(pp.status, pp.strain);
-                                const issue = pp.status === 'FLAGGED' || pp.status === 'RESERVED' || pp.status === 'DESTROYED' || pp.status === 'DEAD' || pp.status === 'MAINTENANCE';
+                                const issue = pp.status === 'FLAGGED' || pp.status === 'RESERVED' || pp.status === 'DESTROYED' || pp.status === 'DEAD' || pp.status === 'MAINTENANCE' || pp.status === 'HARVESTED';
                                 const empty = !pp.strain && (!pp.status || pp.status === 'EMPTY');
                                 // healthy pot → STRAIN colour (4-in-a-row strain map); issue → status colour; empty → grey
                                 const cell = issue ? lt.dot : empty ? '#2f2f2f' : strainColor(pp.strain || s.strain);
@@ -286,6 +287,7 @@ export default function BayGridPage() {
                   <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full" style={{ background: '#22C55E' }} /> Active</span>
                   <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full" style={{ background: '#F8C242' }} /> Flagged</span>
                   <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full" style={{ background: '#DC2626' }} /> Dead</span>
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full" style={{ background: '#3B82F6' }} /> Harvested</span>
                 </div>
               </div>
               {!readOnly && hasMinLevel(1) && (
@@ -313,7 +315,7 @@ export default function BayGridPage() {
                 {bedPots.map((sp: any, i: number) => {
                   const light = statusLight(sp.status, sp.strain);
                   const isSel = selected.has(sp.id);
-                  const issue = sp.status === 'FLAGGED' || sp.status === 'RESERVED' || sp.status === 'DESTROYED' || sp.status === 'DEAD' || sp.status === 'MAINTENANCE';
+                  const issue = sp.status === 'FLAGGED' || sp.status === 'RESERVED' || sp.status === 'DESTROYED' || sp.status === 'DEAD' || sp.status === 'MAINTENANCE' || sp.status === 'HARVESTED';
                   const tint = issue ? light.dot : (sp.strain ? strainColor(sp.strain) : '#262626');
                   return (
                     <button key={sp.id} onClick={() => {
@@ -359,6 +361,7 @@ export default function BayGridPage() {
               {selectMode && selected.size > 0 && (
                 <div className="mt-3 flex items-center gap-2 flex-wrap bg-zinc-900/90 border border-white/10 rounded-xl p-2.5">
                   <span className="text-xs text-white/70 font-bold mr-1">{selected.size} pots →</span>
+                  <button onClick={() => bulkMut.mutate({ action: 'harvest' })} disabled={bulkMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-semibold">Harvested</button>
                   <button onClick={() => bulkMut.mutate({ action: 'flag' })} disabled={bulkMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">Flag</button>
                   <button onClick={() => bulkMut.mutate({ action: 'restore' })} disabled={bulkMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-green-500/10 border border-green-500/30 text-green-300 text-xs font-semibold">Restore</button>
                   <button onClick={() => { confirmBulk === 'cull' ? bulkMut.mutate({ action: 'cull' }) : setConfirmBulk('cull'); }} disabled={bulkMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-semibold">{confirmBulk === 'cull' ? '⚠ Tap again — cull' : 'Cull'}</button>
@@ -384,9 +387,10 @@ export default function BayGridPage() {
               <div className="bg-white/5 rounded-lg p-2"><div className="text-white/40">Location</div><div className="text-white">{gh?.name} › {bay?.name} › R{row?.row} › Lane {sub?.subrow} › #{pot.seq ?? pot.position}</div></div>
               <div className="bg-white/5 rounded-lg p-2"><div className="text-white/40">Plant</div><div className="text-white font-mono">{pot.plantId || 'CFS baseline — slot'}</div></div>
             </div>
-            <div className="text-[11px] text-white/30 pt-1">Permanent pot QR; content (plant) changes per cycle. {pot.allocatedAt ? `Allocated ${new Date(pot.allocatedAt).toLocaleDateString()}.` : ''}</div>
+            <div className="text-[11px] text-white/30 pt-1">Permanent pot QR; content (plant) changes per cycle. {pot.allocatedAt ? `Allocated ${new Date(pot.allocatedAt).toLocaleDateString()}.` : ''}{pot.status === 'HARVESTED' && pot.harvestedAt ? ` Harvested ${new Date(pot.harvestedAt).toLocaleDateString()}.` : ''}</div>
             {!readOnly && hasMinLevel(1) && (
               <div className="flex flex-wrap gap-2 pt-2 border-t border-white/10 mt-2">
+                <button onClick={() => potActionMut.mutate('harvest')} disabled={potActionMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-semibold hover:bg-blue-500/20">Harvested</button>
                 <button onClick={() => potActionMut.mutate('cull')} disabled={potActionMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-semibold hover:bg-red-500/20">Cull (dead)</button>
                 <button onClick={() => potActionMut.mutate('flag')} disabled={potActionMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold hover:bg-amber-500/20">Flag (sick)</button>
                 <button onClick={() => potActionMut.mutate('restore')} disabled={potActionMut.isPending} className="px-2.5 py-1.5 rounded-lg bg-green-500/10 border border-green-500/30 text-green-300 text-xs font-semibold hover:bg-green-500/20">Restore</button>

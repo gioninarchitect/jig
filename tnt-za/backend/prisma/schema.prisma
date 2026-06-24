@@ -386,6 +386,8 @@ model BaySpot {
   previousPlantId String?
   clearedAt   DateTime?
   clearedBy   String?
+  harvestedAt DateTime?
+  harvestedBy String?
 
   bayId       String
   bay         Bay      @relation(fields: [bayId], references: [id])

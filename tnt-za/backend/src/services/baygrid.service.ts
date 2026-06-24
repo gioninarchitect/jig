@@ -1187,11 +1187,12 @@ export async function bulkSpotAction(spotIds: string[], action: string, strain: 
       data: { plantId: null, strain, status: 'OCCUPIED', allocatedAt: new Date(), allocatedBy: userId, clearedAt: new Date(), clearedBy: userId },
     });
   } else {
-    const map: Record<string, string> = { cull: 'DESTROYED', flag: 'FLAGGED', restore: 'OCCUPIED', clear: 'EMPTY' };
+    const map: Record<string, string> = { cull: 'DESTROYED', flag: 'FLAGGED', restore: 'OCCUPIED', clear: 'EMPTY', harvest: 'HARVESTED' };
     const status = map[action];
     if (!status) throw Object.assign(new Error('Invalid action'), { status: 400 });
     for (const s of spots) {
       const data: any = { status };
+      if (action === 'harvest') { data.harvestedAt = new Date(); data.harvestedBy = userId; }
       if (action === 'clear') { data.plantId = null; data.previousPlantId = s.plantId; data.clearedAt = new Date(); data.clearedBy = userId; }
       await prisma.baySpot.update({ where: { id: s.id }, data });
       if (action === 'cull' && s.strain) { await recordMortality(s, `Bulk cull at ${s.spotId}`); mortality++; }
@@ -1219,12 +1220,13 @@ export async function bulkSpotAction(spotIds: string[], action: string, strain: 
 // Pot-level status action (cull / flag / restore / clear). Drives the status light
 // in the drill-down. Cull records mortality. Audited via BAY_ALLOCATED.
 export async function setSpotStatus(spotId: string, action: string, userId: string, tenantId: string) {
-  const map: Record<string, string> = { cull: 'DESTROYED', flag: 'FLAGGED', restore: 'OCCUPIED', clear: 'EMPTY' };
+  const map: Record<string, string> = { cull: 'DESTROYED', flag: 'FLAGGED', restore: 'OCCUPIED', clear: 'EMPTY', harvest: 'HARVESTED' };
   const status = map[action];
   if (!status) throw Object.assign(new Error('Invalid action'), { status: 400 });
   const spot = await prisma.baySpot.findUnique({ where: { id: spotId }, include: { bay: { include: { greenhouse: true } } } });
   if (!spot) throw Object.assign(new Error('Pot not found'), { status: 404 });
   const data: any = { status };
+  if (action === 'harvest') { data.harvestedAt = new Date(); data.harvestedBy = userId; }
   if (action === 'clear') { data.plantId = null; data.previousPlantId = spot.plantId; data.clearedAt = new Date(); data.clearedBy = userId; }
   const updated = await prisma.baySpot.update({ where: { id: spotId }, data });
   // Cull → record a mortality (1 plant) for traceability
