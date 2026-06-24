@@ -236,9 +236,9 @@ export default function OwnerDashboard() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { label: 'Flock Size', value: chickenSummary ? chickenSummary.totals.flock.toLocaleString() : '—' },
-              { label: 'Crates Loaded', value: chickenSummary ? chickenSummary.totals.crates : '—' },
-              { label: 'Pending Verify', value: chickenSummary ? chickenSummary.totals.pending : '—', warn: (chickenSummary?.totals.pending || 0) > 0 },
-              { label: 'Flagged', value: chickenSummary ? chickenSummary.totals.flagged : '—', danger: (chickenSummary?.totals.flagged || 0) > 0 },
+              { label: 'Coops', value: chickenSummary ? chickenSummary.totals.coops : '—' },
+              { label: 'Mortality Today', value: chickenSummary ? chickenSummary.totals.mortalityToday : '—', warn: (chickenSummary?.totals.mortalityToday || 0) > 0 },
+              { label: 'Total Mortality', value: chickenSummary ? chickenSummary.totals.mortalityTotal : '—', danger: (chickenSummary?.totals.mortalityTotal || 0) > 0 },
             ].map((s: any) => (
               <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-4">
                 <div className={`text-2xl font-bold ${s.danger ? 'text-red-300' : s.warn ? 'text-amber-300' : 'text-white'}`}>{s.value}</div>
@@ -250,8 +250,8 @@ export default function OwnerDashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {chickenSummary.houses.map((h: any) => (
                 <div key={h.name} className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-center justify-between">
-                  <div><div className="font-bold text-white">{h.name}</div><div className="text-xs text-white/40">{h.flock.toLocaleString()} birds · {h.crates} crates</div></div>
-                  <div className="flex gap-3 text-xs"><span className="text-green-300">✓ {h.verified}</span><span className="text-amber-300">⏳ {h.pending}</span>{h.flagged > 0 && <span className="text-red-300">⚑ {h.flagged}</span>}</div>
+                  <div><div className="font-bold text-white">{h.name}</div><div className="text-xs text-white/40">{h.flock.toLocaleString()} birds{h.tempC != null ? ` · ${h.tempC}°C` : ''}</div></div>
+                  <div className="flex gap-3 text-xs"><span className="text-amber-300">↓ {h.mortalityToday} today</span><span className="text-red-300">Σ {h.mortalityTotal}</span></div>
                 </div>
               ))}
             </div>

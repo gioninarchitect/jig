@@ -2078,6 +2078,95 @@ model ChickenCrate {
   @@index([status])
 }
 
+// ── Chicken broiler ops (Loraine) ─────────────────────────────────────
+// 5 coops with editable, fluctuating flock counts; daily mortality, temp,
+// catch-day totals, abattoir dispatch (weight + sign-off) and chick intake.
+model ChickenCoop {
+  id         String   @id @default(uuid())
+  name       String   // "Coop 1".."Coop 5"
+  flockCount Int      @default(0)
+  facilityId String
+  tenantId   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+}
+
+model ChickenMortality {
+  id           String   @id @default(uuid())
+  coopName     String
+  date         DateTime @default(now())
+  count        Int
+  notes        String?
+  recordedById String
+  tenantId     String
+  createdAt    DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([coopName])
+}
+
+model ChickenTemp {
+  id           String   @id @default(uuid())
+  coopName     String
+  date         DateTime @default(now())
+  tempC        Float
+  recordedById String
+  tenantId     String
+  createdAt    DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([coopName])
+}
+
+model ChickenCatch {
+  id            String   @id @default(uuid())
+  date          DateTime @default(now())
+  coopName      String?
+  cratesLoaded  Int
+  perCrate      Int
+  totalChickens Int      // cratesLoaded * perCrate
+  notes         String?
+  recordedById  String
+  tenantId      String
+  createdAt     DateTime @default(now())
+
+  @@index([tenantId])
+}
+
+model ChickenAbattoir {
+  id            String    @id @default(uuid())
+  date          DateTime  @default(now())
+  cratesOnScale Int
+  perCrate      Int
+  totalChickens Int       // cratesOnScale * perCrate
+  totalWeightKg Float
+  signedById    String?
+  signedByName  String?
+  signedAt      DateTime?
+  notes         String?
+  recordedById  String
+  tenantId      String
+  createdAt     DateTime  @default(now())
+
+  @@index([tenantId])
+}
+
+model ChickenIntake {
+  id           String   @id @default(uuid())
+  date         DateTime @default(now())   // when new chicks come in
+  coopName     String?
+  count        Int
+  notes        String?
+  recordedById String
+  tenantId     String
+  createdAt    DateTime @default(now())
+
+  @@index([tenantId])
+}
+
 model LeaveRequest {
   id           String   @id @default(uuid())
   userId       String
