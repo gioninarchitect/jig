@@ -28,7 +28,7 @@ const FAMILY_CFG: Record<string, { sop: string; effective: string }> = {
 interface ActivityEntry {
   id: string; date: string; time: string; zone: Zone;
   activityPerformed: string; reason: string; performedBy: string; signedAt: string;
-  strainId?: string; batchNo?: string; numberSize?: number;
+  strainId?: string; batchNo?: string; numberSize?: number; equipment?: string; dose?: string;
 }
 
 export default function ActivityLogPage() {
@@ -40,7 +40,9 @@ export default function ActivityLogPage() {
 
   const [zone, setZone] = useState<Zone>('GH1');
   const [showLog, setShowLog] = useState(false);
-  const [form, setForm] = useState({ activityPerformed: '', reason: '', strainId: '', batchNo: '', numberSize: '' });
+  const [form, setForm] = useState({ activityPerformed: '', reason: '', strainId: '', batchNo: '', numberSize: '', equipment: '', dose: '', time: '' });
+  const [editId, setEditId] = useState<string | null>(null);   // edit mode — Loraine: entries editable
+  const [changeReason, setChangeReason] = useState('');         // mandatory reason for any edit (GMP audit)
 
   const config = { ...FAMILY_CFG[zoneFamily(zone)], label: zoneLabel(zone) };
 
@@ -50,19 +52,21 @@ export default function ActivityLogPage() {
   });
 
   const logMut = useMutation({
-    mutationFn: () => api.post('/activity-log', {
-      zone,
-      activityPerformed: form.activityPerformed,
-      reason: form.reason,
-      strainId: form.strainId || undefined,
-      batchNo: form.batchNo || undefined,
-      numberSize: form.numberSize ? parseInt(form.numberSize) : undefined,
-    }),
+    mutationFn: () => {
+      const body = {
+        zone, activityPerformed: form.activityPerformed, reason: form.reason,
+        strainId: form.strainId || undefined, batchNo: form.batchNo || undefined,
+        numberSize: form.numberSize ? parseInt(form.numberSize) : undefined,
+        equipment: form.equipment || undefined, dose: form.dose || undefined,
+        time: form.time || undefined,
+      };
+      return editId ? api.patch(`/activity-log/${editId}`, { ...body, changeReason }) : api.post('/activity-log', body);
+    },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['activity-log'] });
-      setShowLog(false);
-      setForm({ activityPerformed: '', reason: '', strainId: '', batchNo: '', numberSize: '' });
-      addToast('success', 'Activity logged');
+      setShowLog(false); setEditId(null); setChangeReason('');
+      setForm({ activityPerformed: '', reason: '', strainId: '', batchNo: '', numberSize: '', equipment: '', dose: '', time: '' });
+      addToast('success', editId ? 'Activity updated' : 'Activity logged');
     },
     onError: (e: any) => addToast('error', e.response?.data?.error ?? 'Failed'),
   });
@@ -89,7 +93,7 @@ export default function ActivityLogPage() {
         </div>
         {canLog && (
           <button
-            onClick={() => setShowLog(true)}
+            onClick={() => { setEditId(null); setChangeReason(''); setForm({ activityPerformed: '', reason: '', strainId: '', batchNo: '', numberSize: '', equipment: '', dose: '', time: '' }); setShowLog(true); }}
             className="px-4 py-2.5 bg-primary hover:bg-primary-light text-white rounded-xl text-sm font-semibold flex items-center gap-2 transition min-h-[44px]">
             <Plus size={16} /> Log activity
           </button>
@@ -134,9 +138,11 @@ export default function ActivityLogPage() {
                 <tr key={e.id} className="border-b border-white/5 hover:bg-white/5">
                   <td className="px-4 py-2.5 font-mono text-xs text-white/80">{new Date(e.date).toLocaleDateString()}</td>
                   <td className="px-4 py-2.5 font-mono text-xs text-white/60">{e.time}</td>
-                  <td className="px-4 py-2.5 text-white">{e.activityPerformed}</td>
+                  <td className="px-4 py-2.5 text-white">{e.activityPerformed}{(e.equipment || e.dose) && (<span className="block text-[11px] text-amber-300/70 font-mono mt-0.5">{[e.equipment, e.dose].filter(Boolean).join(' · ')}</span>)}</td>
                   <td className="px-4 py-2.5 text-white/60">{e.reason}</td>
-                  <td className="px-4 py-2.5 text-white/60 text-xs">{e.performedBy}</td>
+                  <td className="px-4 py-2.5 text-white/60 text-xs">{e.performedBy}
+                    <button onClick={() => { setEditId(e.id); setChangeReason(''); setForm({ activityPerformed: e.activityPerformed, reason: e.reason, strainId: (e as any).strainId || '', batchNo: (e as any).batchNo || '', numberSize: (e as any).numberSize != null ? String((e as any).numberSize) : '', equipment: (e as any).equipment || '', dose: (e as any).dose || '', time: e.time || '' }); setShowLog(true); }} className="ml-2 text-primary hover:text-primary-light text-[11px] font-semibold">Edit</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -144,13 +150,23 @@ export default function ActivityLogPage() {
         </div>
       )}
 
-      <Modal open={showLog} onClose={() => setShowLog(false)} title={`Log activity · ${config.label}`}>
+      <Modal open={showLog} onClose={() => { setShowLog(false); setEditId(null); setChangeReason(''); }} title={editId ? `Edit activity · ${config.label}` : `Log activity · ${config.label}`}>
         <div className="space-y-2">
           <ModalInput label="Activity performed" placeholder="e.g. Foliar spray, Trim, Topping"
             value={form.activityPerformed} onChange={e => setForm({ ...form, activityPerformed: e.target.value })} />
 
           <ModalInput label="Reason" placeholder="Why this activity was performed"
             value={form.reason} onChange={e => setForm({ ...form, reason: e.target.value })} />
+
+          {/* Chemical / Foliar free-entry (SOP 3-CUL-13) — optional; set your own time */}
+          <div className="grid grid-cols-2 gap-2">
+            <ModalInput label="Time (optional)" placeholder="HH:MM" type="time"
+              value={form.time} onChange={e => setForm({ ...form, time: e.target.value })} />
+            <ModalInput label="Equipment # (optional)" placeholder="e.g. Sprayer 2"
+              value={form.equipment} onChange={e => setForm({ ...form, equipment: e.target.value })} />
+          </div>
+          <ModalInput label="Dose / rate (optional)" placeholder="e.g. 5 ml/L, 2 g/m²"
+            value={form.dose} onChange={e => setForm({ ...form, dose: e.target.value })} />
 
           {zone === 'CLONE_ROOM' && (
             <>
@@ -163,11 +179,15 @@ export default function ActivityLogPage() {
             </>
           )}
 
+          {editId && (
+            <ModalInput label="Reason for change (required)" placeholder="Why are you correcting this entry?"
+              value={changeReason} onChange={e => setChangeReason(e.target.value)} />
+          )}
           <ModalButton
             onClick={() => logMut.mutate()}
-            disabled={logMut.isPending || !form.activityPerformed || !form.reason}
+            disabled={logMut.isPending || !form.activityPerformed || !form.reason || (!!editId && !changeReason.trim())}
           >
-            {logMut.isPending ? 'Logging…' : 'Log activity'}
+            {logMut.isPending ? 'Saving…' : editId ? 'Save changes' : 'Log activity'}
           </ModalButton>
           <p className="text-[11px] text-white/30 text-center">
             Performed by <span className="text-white/50">{user?.name ?? 'you'}</span> · recorded in audit chain

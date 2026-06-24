@@ -126,20 +126,53 @@ router.get('/activity-log', requireLevel(0), async (req: AuthRequest, res: Respo
 
 router.post('/activity-log', requireLevel(1), async (req: AuthRequest, res: Response) => {
   try {
-    const { zone, activityPerformed, reason, strainId, batchNo, numberSize } = req.body;
+    const { zone, activityPerformed, reason, strainId, batchNo, numberSize, equipment, dose, time } = req.body;
     const now = new Date();
+    const manualTime = typeof time === 'string' && /^\d{2}:\d{2}$/.test(time) ? time : null;
     const entry = await prisma.cultivationActivity.create({
       data: {
         tenantId: req.user!.tenantId,
         performedBy: req.user!.userId,
         performedByName: (req.user as any)?.email?.split('@')[0] ?? req.user!.userId.slice(0, 8),
         zone, activityPerformed, reason,
-        time: `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
+        time: manualTime ?? `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
         strainId: strainId || null, batchNo: batchNo || null,
         numberSize: numberSize ?? null,
+        equipment: equipment || null, dose: dose || null,
       },
     });
     res.status(201).json({ success: true, entry });
+  } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
+});
+
+// Edit an activity-log entry (Loraine: "all entries must be editable"). GMP change-control:
+// a reason-for-change is MANDATORY, and the edit is fully audited (who · timestamp · before→after · reason).
+router.patch('/activity-log/:id', requireLevel(1), async (req: AuthRequest, res: Response) => {
+  try {
+    const changeReason = String(req.body?.changeReason ?? '').trim();
+    if (!changeReason) return res.status(400).json({ success: false, error: 'A reason for the change is required' });
+    const existing = await prisma.cultivationActivity.findFirst({ where: { id: p(req.params.id), tenantId: req.user!.tenantId } });
+    if (!existing) return res.status(404).json({ success: false, error: 'Activity entry not found' });
+    const { zone, activityPerformed, reason, strainId, batchNo, numberSize, equipment, dose, time } = req.body;
+    const manualTime = typeof time === 'string' && /^\d{2}:\d{2}$/.test(time) ? time : undefined;
+    const entry = await prisma.cultivationActivity.update({
+      where: { id: existing.id },
+      data: {
+        ...(zone !== undefined ? { zone } : {}),
+        ...(activityPerformed !== undefined ? { activityPerformed } : {}),
+        ...(reason !== undefined ? { reason } : {}),
+        ...(strainId !== undefined ? { strainId: strainId || null } : {}),
+        ...(batchNo !== undefined ? { batchNo: batchNo || null } : {}),
+        ...(numberSize !== undefined ? { numberSize: numberSize ?? null } : {}),
+        ...(equipment !== undefined ? { equipment: equipment || null } : {}),
+        ...(dose !== undefined ? { dose: dose || null } : {}),
+        ...(manualTime !== undefined ? { time: manualTime } : {}),
+      },
+    });
+    await logAction({ userId: req.user!.userId, tenantId: req.user!.tenantId, action: 'ACTIVITY_EDITED', entityType: 'CultivationActivity', entityId: entry.id,
+      before: { activityPerformed: existing.activityPerformed, reason: existing.reason, zone: existing.zone } as any,
+      after: { activityPerformed: entry.activityPerformed, reason: entry.reason, zone: entry.zone, changeReason } as any }).catch(() => {});
+    res.json({ success: true, entry });
   } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
 
@@ -160,10 +193,11 @@ router.get('/env-log', requireLevel(0), async (req: AuthRequest, res: Response) 
       const existing = byDay.get(key) ?? {
         id: r.id, date: r.date, zone: r.zone, checkedBy: r.checkedByName ?? r.checkedBy,
         temp8: null, rh8: null, temp12: null, rh12: null, temp17: null, rh17: null,
+        id8: null, id12: null, id17: null,   // per-slot reading ids so a single slot can be corrected
       };
-      if (r.slot === '08:00') { existing.temp8  = r.temp; existing.rh8  = r.rh; }
-      else if (r.slot === '11:50') { existing.temp12 = r.temp; existing.rh12 = r.rh; }
-      else if (r.slot === '16:50') { existing.temp17 = r.temp; existing.rh17 = r.rh; }
+      if (r.slot === '08:00') { existing.temp8  = r.temp; existing.rh8  = r.rh; existing.id8  = r.id; }
+      else if (r.slot === '11:50') { existing.temp12 = r.temp; existing.rh12 = r.rh; existing.id12 = r.id; }
+      else if (r.slot === '16:50') { existing.temp17 = r.temp; existing.rh17 = r.rh; existing.id17 = r.id; }
       byDay.set(key, existing);
     }
 
@@ -190,6 +224,8 @@ router.post('/env-log', requireLevel(1), async (req: AuthRequest, res: Response)
 // Edit a reading (fix a wrong temp/rh/zone/slot). Tenant-scoped + audited.
 router.patch('/env-log/:id', requireLevel(1), async (req: AuthRequest, res: Response) => {
   try {
+    const changeReason = String(req.body?.changeReason ?? '').trim();
+    if (!changeReason) return res.status(400).json({ success: false, error: 'A reason for the change is required' });
     const existing = await prisma.envReading.findFirst({ where: { id: p(req.params.id), tenantId: req.user!.tenantId } });
     if (!existing) return res.status(404).json({ success: false, error: 'Reading not found' });
     const { temp, rh, zone, slot } = req.body;
@@ -202,7 +238,7 @@ router.patch('/env-log/:id', requireLevel(1), async (req: AuthRequest, res: Resp
         ...(slot !== undefined ? { slot } : {}),
       },
     });
-    await logAction({ userId: req.user!.userId, tenantId: req.user!.tenantId, action: 'ENV_READING_EDITED', entityType: 'EnvReading', entityId: reading.id, before: { temp: existing.temp, rh: existing.rh, zone: existing.zone, slot: existing.slot } as any, after: { temp: reading.temp, rh: reading.rh, zone: reading.zone, slot: reading.slot } as any }).catch(() => {});
+    await logAction({ userId: req.user!.userId, tenantId: req.user!.tenantId, action: 'ENV_READING_EDITED', entityType: 'EnvReading', entityId: reading.id, before: { temp: existing.temp, rh: existing.rh, zone: existing.zone, slot: existing.slot } as any, after: { temp: reading.temp, rh: reading.rh, zone: reading.zone, slot: reading.slot, changeReason } as any }).catch(() => {});
     res.json({ success: true, reading });
   } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
 });
@@ -275,6 +311,30 @@ router.post('/harvest-requests/:id/approve', requireRole('QA_INSPECTOR', 'HEAD_O
         qamApprovedBy: req.user!.userId,
         qamApprovedByName: (req.user as any)?.email?.split('@')[0] ?? req.user!.userId.slice(0, 8),
         approvedAt: new Date(),
+      },
+    });
+    res.json({ success: true, request });
+  } catch (err: any) { res.status(500).json({ success: false, error: err.message }); }
+});
+
+// Record the ACTUAL harvest yield against a request — Loraine: "we harvested Elvis & SI but
+// couldn't log it anywhere." The cultivation team (L2+, incl. the Cultivation Supervisor) records
+// what was actually cut; variance vs the expected estimate auto-computes; request → COMPLETED.
+router.post('/harvest-requests/:id/record-yield', requireRole('HEAD_OF_CULTIVATION', 'FACILITY_SUPERVISOR', 'CULTIVATOR', 'FACILITY_MANAGER', 'TENANT_ADMIN', 'SUPER_ADMIN'), async (req: AuthRequest, res: Response) => {
+  try {
+    const kg = Number(req.body?.actualYieldKg);
+    if (!(kg > 0)) return res.status(400).json({ success: false, error: 'actualYieldKg must be a positive number' });
+    const existing = await prisma.harvestRequest.findFirst({ where: { id: p(req.params.id), tenantId: req.user!.tenantId } });
+    if (!existing) return res.status(404).json({ success: false, error: 'Harvest request not found' });
+    const expected = existing.expectedYieldKg ? Number(existing.expectedYieldKg) : null;
+    const variance = expected && expected > 0 ? ((kg - expected) / expected) * 100 : null;
+    const request = await prisma.harvestRequest.update({
+      where: { id: existing.id },
+      data: {
+        actualYieldKg: kg as any,
+        actualHarvestDate: req.body?.actualHarvestDate ? new Date(req.body.actualHarvestDate) : new Date(),
+        yieldVariancePct: variance,
+        status: 'COMPLETED',
       },
     });
     res.json({ success: true, request });

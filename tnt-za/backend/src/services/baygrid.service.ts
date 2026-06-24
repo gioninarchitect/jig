@@ -327,11 +327,12 @@ export async function requestHarvestForBay(bayId: string, data: {
 // ── MOTHER PLANTS ──
 
 export async function listMothers(tenantId: string) {
-  return prisma.motherPlant.findMany({
+  const mothers = await prisma.motherPlant.findMany({
     where: { tenantId },
     include: { cloneTrays: { orderBy: { cloneDate: 'desc' }, take: 5 } },
-    orderBy: { createdAt: 'desc' },
   });
+  // Loraine: mothers in natural order (M1, M2 … M10, not M1, M10, M2).
+  return mothers.sort((a, b) => (a.identifier || '').localeCompare(b.identifier || '', undefined, { numeric: true }));
 }
 
 export async function getMother(id: string, tenantId: string) {
@@ -597,14 +598,17 @@ export async function deleteCloneTray(id: string, tenantId: string, userId: stri
 }
 
 export async function listCloneTrays(tenantId: string) {
-  return prisma.cloneTray.findMany({
+  const trays = await prisma.cloneTray.findMany({
     where: { tenantId },
     include: {
       motherPlant: { select: { identifier: true, strain: true, status: true } },
       _count: { select: { clones: true } },
     },
-    orderBy: { cloneDate: 'desc' },
   });
+  // Loraine: trays in tray-number order (T1 → T49), not clone date — so a missed tray is obvious.
+  const trayNo = (t: string) => { const m = /T(\d+)/i.exec(t || ''); return m ? parseInt(m[1], 10) : 0; };
+  return trays.sort((a, b) => trayNo(a.trayNumber) - trayNo(b.trayNumber)
+    || (a.trayNumber || '').localeCompare(b.trayNumber || '', undefined, { numeric: true }));
 }
 
 // ── TICKETS ──

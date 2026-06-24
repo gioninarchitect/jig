@@ -17,7 +17,7 @@ import api from '../../services/api';
 // attached to the zone.
 // =====================================================================
 
-type Zone = 'MOTHER_BAY' | 'CLONE_ROOM' | 'GREENHOUSE';
+type Zone = 'MOTHER_BAY' | 'CLONE_ROOM' | 'GREENHOUSE' | 'PPE' | 'CULTIVATION' | 'GENERAL' | 'IRRIGATION';
 
 const ZONE_CONFIG: Record<Zone, {
   label: string; sop: string; effective: string; areaColour: string; colourClass: string;
@@ -64,6 +64,34 @@ const ZONE_CONFIG: Record<Zone, {
     },
     frequencyRows: ['Pre/Post cloning · Clean clone racks & domes/trays', 'Pre/Post cloning · Clean table & chair', 'Pre/Post cloning · Clean walls, doors, ceiling', 'Pre/Post cloning · Clean fans & aircons, humidifiers', 'Pre/Post cloning · Wash capillary mats', 'Pre/Post cloning · Scrub floors'],
     compiler: 'Jeanette Ferreira', authorisedBy: 'Authorised Representative',
+  },
+  PPE: {
+    label: 'PPE (Mother & GH)', sop: 'To assign', effective: '—', areaColour: 'Teal',
+    colourClass: 'bg-teal-400/20 border-teal-400/40 text-teal-200',
+    sanitizers: ['Steri-5', 'Hydrogen peroxide 2 pct'],
+    tasksByDay: { MON: ['Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], TUE: ['Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], WED: ['Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], THU: ['Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'], FRI: ['Clean & sanitise reusable PPE', 'Restock disposable PPE', 'Wipe PPE lockers & hooks', 'Empty & clean bins', 'Sweep & mop floor', 'Check & clean dispensers'] },
+    frequencyRows: ['Weekly · Deep-clean PPE store', 'After batch · Launder reusable gowns', 'Monthly · Audit PPE stock & condition'],
+  },
+  CULTIVATION: {
+    label: 'Cultivation Area', sop: 'To assign', effective: '—', areaColour: 'Lime',
+    colourClass: 'bg-lime-400/20 border-lime-400/40 text-lime-200',
+    sanitizers: ['Steri-5'],
+    tasksByDay: { MON: ['Clean switches & handles', 'Empty & clean bins', 'Spot check walls', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'], TUE: ['Clean switches & handles', 'Empty & clean bins', 'Spot check walls', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'], WED: ['Clean switches & handles', 'Empty & clean bins', 'Spot check walls', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'], THU: ['Clean switches & handles', 'Empty & clean bins', 'Spot check walls', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'], FRI: ['Clean switches & handles', 'Empty & clean bins', 'Spot check walls', 'Wipe flat surfaces', 'Sweep floors', 'Spot check fans', 'Check & clean dispensers'] },
+    frequencyRows: ['Weekly · Clean fans & fins', 'Weekly · Clean lights', 'After batch / Monthly · Wash floor & radiator'],
+  },
+  GENERAL: {
+    label: 'General Area', sop: 'To assign', effective: '—', areaColour: 'Slate',
+    colourClass: 'bg-slate-400/20 border-slate-400/40 text-slate-200',
+    sanitizers: ['Steri-5'],
+    tasksByDay: { MON: ['Empty & clean bins', 'Clean doors & handles', 'Wipe flat surfaces', 'Sweep & mop floors', 'Spot check walls', 'Check & clean dispensers'], TUE: ['Empty & clean bins', 'Clean doors & handles', 'Wipe flat surfaces', 'Sweep & mop floors', 'Spot check walls', 'Check & clean dispensers'], WED: ['Empty & clean bins', 'Clean doors & handles', 'Wipe flat surfaces', 'Sweep & mop floors', 'Spot check walls', 'Check & clean dispensers'], THU: ['Empty & clean bins', 'Clean doors & handles', 'Wipe flat surfaces', 'Sweep & mop floors', 'Spot check walls', 'Check & clean dispensers'], FRI: ['Empty & clean bins', 'Clean doors & handles', 'Wipe flat surfaces', 'Sweep & mop floors', 'Spot check walls', 'Check & clean dispensers'] },
+    frequencyRows: ['Weekly · Rinse floor', 'Monthly · Deep clean', 'After batch · Wash down'],
+  },
+  IRRIGATION: {
+    label: 'Irrigation', sop: 'To assign', effective: '—', areaColour: 'Cyan',
+    colourClass: 'bg-cyan-400/20 border-cyan-400/40 text-cyan-200',
+    sanitizers: ['HOCL'],
+    tasksByDay: { MON: ['Wipe dosing pumps & lines', 'Clean stock-solution area', 'Check & clean filters', 'Clean drip lines / emitters', 'Empty & clean bins', 'Sweep floor'], TUE: ['Wipe dosing pumps & lines', 'Clean stock-solution area', 'Check & clean filters', 'Clean drip lines / emitters', 'Empty & clean bins', 'Sweep floor'], WED: ['Wipe dosing pumps & lines', 'Clean stock-solution area', 'Check & clean filters', 'Clean drip lines / emitters', 'Empty & clean bins', 'Sweep floor'], THU: ['Wipe dosing pumps & lines', 'Clean stock-solution area', 'Check & clean filters', 'Clean drip lines / emitters', 'Empty & clean bins', 'Sweep floor'], FRI: ['Wipe dosing pumps & lines', 'Clean stock-solution area', 'Check & clean filters', 'Clean drip lines / emitters', 'Empty & clean bins', 'Sweep floor'] },
+    frequencyRows: ['Weekly · Flush & sanitise lines', 'Weekly · Clean tanks', 'Monthly · Descale dosers', 'After batch · Full system flush'],
   },
 };
 
@@ -219,12 +247,23 @@ export default function CleaningSchedulePage() {
       <div className="rounded-xl border border-white/10 bg-white/5 p-4">
         <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-amber-400/80 mb-3">Weekly · After-batch · Monthly</div>
         <ul className="space-y-1.5">
-          {config.frequencyRows.map((r, i) => (
-            <li key={i} className="flex items-center gap-2 text-xs text-white/70 py-1 border-b border-white/5 last:border-0">
-              <span className="inline-block w-1 h-1 rounded-full bg-amber-400" />
-              {r}
-            </li>
-          ))}
+          {config.frequencyRows.map((r, i) => {
+            const fk = `FREQ::${1000 + i}`;
+            const mark = todaysMarks[fk];
+            return (
+              <li key={i} className="flex items-center gap-2 text-xs text-white/70 py-1 border-b border-white/5 last:border-0">
+                {mark ? (
+                  <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-500/20 border border-green-500/40 text-green-300 font-mono text-[9px] font-bold flex-shrink-0">{mark.slice(0, 2).toUpperCase()}</span>
+                ) : canInit ? (
+                  <button onClick={() => initialMut.mutate({ day: 'FREQ', taskIndex: 1000 + i, taskLabel: r })} title={`Initial: ${r}`}
+                    className="w-6 h-6 rounded-full border border-dashed border-white/20 text-white/30 hover:border-amber-500/40 hover:text-amber-300 transition flex-shrink-0"><Check size={11} className="mx-auto" /></button>
+                ) : (
+                  <span className="inline-block w-1 h-1 rounded-full bg-amber-400 flex-shrink-0" />
+                )}
+                {r}
+              </li>
+            );
+          })}
         </ul>
       </div>
 

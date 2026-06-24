@@ -102,6 +102,24 @@ export default function HarvestRequestPage() {
     onError: (e: any) => addToast('error', e.response?.data?.error ?? 'Failed'),
   });
 
+  // Record actual harvest yield (kg) — Loraine's "plante geharvest" capture. Harvest only — this has
+  // NOTHING to do with clone cuttings; it records wet weight per harvest (SOP 3-CUL-012).
+  const canRecordHarvest = hasRole('HEAD_OF_CULTIVATION', 'FACILITY_SUPERVISOR', 'CULTIVATOR', 'FACILITY_MANAGER', 'TENANT_ADMIN', 'SUPER_ADMIN');
+  const [showRecord, setShowRecord] = useState<string | null>(null);
+  const [recordKg, setRecordKg] = useState('');
+  const [recordDate, setRecordDate] = useState('');
+  const recordMut = useMutation({
+    mutationFn: (id: string) => api.post(`/harvest-requests/${id}/record-yield`, {
+      actualYieldKg: Number(recordKg), actualHarvestDate: recordDate || undefined,
+    }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['harvest-requests'] });
+      setShowRecord(null); setRecordKg(''); setRecordDate('');
+      addToast('success', 'Harvest recorded');
+    },
+    onError: (e: any) => addToast('error', e.response?.data?.error ?? 'Failed'),
+  });
+
   const allChecked = checklist.every(v => v);
   const openForReview = requests?.find(r => r.id === showCheck);
 
@@ -195,6 +213,13 @@ export default function HarvestRequestPage() {
                     Pre-harvest check
                   </button>
                 )}
+                {canRecordHarvest && !(r as any).actualYieldKg && (
+                  <button
+                    onClick={() => { setRecordKg(''); setRecordDate(''); setShowRecord(r.id); }}
+                    className="px-3 py-1.5 bg-primary hover:bg-primary-light text-white rounded-lg text-xs font-semibold transition flex-shrink-0">
+                    Record harvest
+                  </button>
+                )}
               </div>
             </div>
           ))}
@@ -284,6 +309,22 @@ export default function HarvestRequestPage() {
             </p>
           </div>
         )}
+      </Modal>
+
+      {/* Record actual harvest yield — wet weight (kg) per harvest. Harvest only (SOP 3-CUL-012). */}
+      <Modal open={!!showRecord} onClose={() => setShowRecord(null)} title="Record harvest">
+        <div className="space-y-3">
+          <p className="text-xs text-white/50">Capture what was actually harvested — wet weight in kilograms.</p>
+          <ModalInput label="Actual harvest weight (kg)" type="number" placeholder="e.g. 12.5"
+            value={recordKg} onChange={(e: any) => setRecordKg(e.target.value)} />
+          <ModalInput label="Harvest date" type="date"
+            value={recordDate} onChange={(e: any) => setRecordDate(e.target.value)} />
+          <ModalButton
+            onClick={() => { if (Number(recordKg) > 0 && showRecord) recordMut.mutate(showRecord); }}
+            disabled={!(Number(recordKg) > 0) || recordMut.isPending}>
+            Save harvest
+          </ModalButton>
+        </div>
       </Modal>
     </div>
   );

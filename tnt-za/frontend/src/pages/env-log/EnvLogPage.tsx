@@ -36,6 +36,7 @@ interface EnvReading {
   temp8: number | null;  rh8:  number | null;
   temp12: number | null; rh12: number | null;
   temp17: number | null; rh17: number | null;
+  id8?: string | null; id12?: string | null; id17?: string | null;
   checkedBy: string;
 }
 
@@ -61,6 +62,14 @@ export default function EnvLogPage() {
   const [showLog, setShowLog] = useState(false);
   const [slot, setSlot] = useState<'08:00' | '11:50' | '16:50'>('08:00');
   const [form, setForm] = useState({ temp: '', rh: '', batchNo: '', strainId: '' });
+  const [editRow, setEditRow] = useState<EnvReading | null>(null);   // Loraine: env log editable
+  const [editSlot, setEditSlot] = useState<'08:00' | '11:50' | '16:50'>('08:00');
+  const [editTemp, setEditTemp] = useState(''); const [editRh, setEditRh] = useState('');
+  const [editReason, setEditReason] = useState('');   // mandatory reason for any edit (GMP audit)
+  const slotId = (r: EnvReading | null, sl: string) => !r ? null : sl === '08:00' ? r.id8 : sl === '11:50' ? r.id12 : r.id17;
+  const slotTemp = (r: EnvReading, sl: string) => sl === '08:00' ? r.temp8 : sl === '11:50' ? r.temp12 : r.temp17;
+  const slotRh = (r: EnvReading, sl: string) => sl === '08:00' ? r.rh8 : sl === '11:50' ? r.rh12 : r.rh17;
+  const openEdit = (r: EnvReading) => { const sl = r.id8 ? '08:00' : r.id12 ? '11:50' : '16:50'; setEditRow(r); setEditSlot(sl); setEditTemp(String(slotTemp(r, sl) ?? '')); setEditRh(String(slotRh(r, sl) ?? '')); setEditReason(''); };
 
   const config = ZONE_CONFIG[FAMILY_KEY[zoneFamily(zone)]];
 
@@ -81,6 +90,12 @@ export default function EnvLogPage() {
       setForm({ temp: '', rh: '', batchNo: '', strainId: '' });
       addToast('success', `${slot} reading logged`);
     },
+    onError: (e: any) => addToast('error', e.response?.data?.error ?? 'Failed'),
+  });
+
+  const editMut = useMutation({
+    mutationFn: () => api.patch(`/env-log/${slotId(editRow, editSlot)}`, { temp: parseFloat(editTemp), rh: parseFloat(editRh), changeReason: editReason }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['env-log'] }); setEditRow(null); setEditReason(''); addToast('success', 'Reading updated'); },
     onError: (e: any) => addToast('error', e.response?.data?.error ?? 'Failed'),
   });
 
@@ -159,7 +174,9 @@ export default function EnvLogPage() {
                   <ReadingCell temp={r.temp8}  rh={r.rh8}  config={config} />
                   <ReadingCell temp={r.temp12} rh={r.rh12} config={config} />
                   <ReadingCell temp={r.temp17} rh={r.rh17} config={config} />
-                  <td className="px-4 py-2.5 text-xs text-white/60">{r.checkedBy}</td>
+                  <td className="px-4 py-2.5 text-xs text-white/60">{r.checkedBy}
+                    <button onClick={() => openEdit(r)} className="ml-2 text-primary hover:text-primary-light text-[11px] font-semibold">Edit</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -186,6 +203,26 @@ export default function EnvLogPage() {
           </p>
         </div>
       </Modal>
+
+      {editRow && (
+        <Modal open={!!editRow} onClose={() => { setEditRow(null); setEditReason(''); }} title="Correct reading">
+          <div className="space-y-2">
+            <p className="text-xs text-white/50">Choose the slot to correct, then enter the corrected values + a reason (logged for audit).</p>
+            <div className="flex gap-2">
+              {(['08:00', '11:50', '16:50'] as const).filter(sl => slotId(editRow, sl)).map(sl => (
+                <button key={sl} onClick={() => { setEditSlot(sl); setEditTemp(String(slotTemp(editRow!, sl) ?? '')); setEditRh(String(slotRh(editRow!, sl) ?? '')); }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${editSlot === sl ? 'bg-primary text-white' : 'bg-white/5 text-white/50 border border-white/10'}`}>{sl}</button>
+              ))}
+            </div>
+            <ModalInput label="Temperature (°C)" type="number" value={editTemp} onChange={e => setEditTemp(e.target.value)} />
+            <ModalInput label="Relative humidity (%)" type="number" value={editRh} onChange={e => setEditRh(e.target.value)} />
+            <ModalInput label="Reason for change (required)" placeholder="Why are you correcting this reading?" value={editReason} onChange={e => setEditReason(e.target.value)} />
+            <ModalButton onClick={() => editMut.mutate()} disabled={editMut.isPending || !editTemp || !editRh || !editReason.trim()}>
+              {editMut.isPending ? 'Saving…' : 'Save correction'}
+            </ModalButton>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

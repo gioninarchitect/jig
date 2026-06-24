@@ -1958,6 +1958,8 @@ model CultivationActivity {
   strainId          String?
   batchNo           String?
   numberSize        Int?
+  equipment         String?  // SOP 3-CUL-13 chemical/foliar: applicator/equipment #
+  dose              String?  // free-text dose (e.g. "5 ml/L", "2 g/m²")
   performedBy       String
   performedByName   String?
   signedAt          DateTime @default(now())
