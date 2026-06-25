@@ -115,10 +115,10 @@ export default function ChickensPage() {
                   {canRecord && <button onClick={() => openEditCoop(h)} className="text-primary hover:text-primary-light text-xs font-semibold flex items-center gap-1"><Pencil size={12} /> {tr.edit}</button>}
                 </div>
                 <div className="text-3xl font-bold text-white">{h.flock.toLocaleString()} <span className="text-sm text-white/40 font-normal">{tr.birds} {tr.left}</span></div>
-                <div className="text-[11px] text-white/35 mt-0.5">{tr.placed} {h.placed.toLocaleString()} · {h.diedCycle} {tr.died}</div>
+                <div className="text-[11px] text-white/35 mt-0.5">{tr.placed} {h.placed.toLocaleString()}</div>
                 <div className="flex gap-3 text-xs mt-2 text-white/50">
                   <span className="text-amber-300">↓ {h.mortalityToday} {tr.today}</span>
-                  <span className="text-red-300">Σ {h.mortalityTotal} {tr.total}</span>
+                  <span className="text-red-300">Σ {h.mortalityTotal} {tr.died}</span>
                   {h.tempC != null && <span className="text-sky-300 flex items-center gap-0.5"><Thermometer size={11} /> {h.tempC}°C</span>}
                 </div>
               </div>
