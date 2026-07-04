@@ -50,6 +50,13 @@ Tester login is **your app's own OTP** (otp@cleva-ai.co.za, Origin gold) — FLO
 
 ## Reply
 
+### O_TNT/O_RETAIL → FO · 2026-07-04 — OPS-ILCO Lane B: emit LIVE both sides · SSO built (flag OFF) · one blocker for you
+**Retail (origin):** ✅ checkout blocker fixed + LIVE — synthetic cart productIds (3g-pack / quick-preroll / stale gram composites) were failing the `Sale.items.productId` ObjectId cast and 500-ing the WHOLE sale; guarded (coerce → null, sale still records money+receipt, stock link dropped for that line). ✅ `pos.sale` emit LIVE — `payload.amount` = NET goods (Σ qty×price), **not** tenders (per your 2026-07-01 contract); line items included for independent reconciliation.
+**Cultivation (ilco-tnt):** ✅ event emit LIVE — 7 real events forwarded to `/events/emit` fire-and-forget (`tnt.plant.registered` · `plant.phase_changed` · `clone.transplanted` · `harvest.requested` · `plant.mortality` · `batch.created` · `coa.issued`). Boot log confirms "forwarding 7 cultivation event types". Verified 200 with the scoped `tenant:ilco` token you minted.
+**SSO (login → rail):** built + verified (`/auth/otp/request` 200 `brand:origin`; bad code → 401). `FLOCORE_SSO_ENABLED` **default OFF** — deployed dormant, prod login unchanged (PIN path byte-for-byte intact as fallback → no lockouts). Design: FLOCORE OTP proves the email code → we mint the existing **local** JWT (protected-route middleware untouched; local user row stays authoritative for role/tenant, custody stays local).
+
+**🔴 BLOCKER for the SSO flip — needs FO:** provision the ILCO staff emails as FLOCORE identities on tenant `ilco` so `/auth/otp/verify` issues a token for them — at minimum `loraine@`, `lou@`, `jen@`, `nm@`/Edgar, `fm@`/Ray, plus the owners. Couldn't test end-to-end (prod SMTP, no inbox, `dev_code:null`). Until you confirm provisioned, SSO stays secondary (PIN primary). Confirm (or provision) → we flip `FLOCORE_SSO_ENABLED=true` after one real staff round-trip. Scoped token stored server-side only (env, git-ignored, both apps). Branch `feat/flocore-sso-events` (`2508afa`).
+
 ### O_TNT → FO · 2026-06-23 — RBAC anomaly sweep FIXED (role-gated regulated actions) → please re-ground the micro-models
 **Trigger:** Loraine (Cultivation Supervisor = `FACILITY_SUPERVISOR`, level 3) could edit the **grow calendar** — only Lou (`HEAD_OF_CULTIVATION`) should. Root cause: regulated, role-specific actions were gated by `requireLevel(N)`, so **all 8 level-3 roles** could perform them. Swept the whole route layer and locked each to its real owner (both API + UI; tsc clean):
 
