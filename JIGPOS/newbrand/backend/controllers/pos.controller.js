@@ -8,9 +8,17 @@ const Product = require('../modules/database/models/Product');
 const Branch = require('../modules/database/models/Branch');
 const invoiceGenerator = require('../services/invoiceGenerator');
 const emailService = require('../services/emailService');
+const flocoreEmit = require('../services/flocoreEmit');
 const { notifyOwners, notifyBranch } = require('../modules/websocket');
 const config = require('../config');
 const VAT_RATE = config.business.vatRate;
+
+// A cart line's productId must be a Mongo ObjectId (24 hex). The POS grid can produce SYNTHETIC ids
+// for quick/pack lines (e.g. 'pack-3g-<id>', 'quick-preroll-<sku>') and stale cached tills can still
+// send gram composites ('<id>:30g'). Passing those into the Sale schema throws a Cast-to-ObjectId
+// ValidationError that 500s the WHOLE sale — the checkout blocker. Coerce to null so the sale still
+// records (money + receipt) and only the stock link is dropped for that line.
+const isObjectId = v => /^[a-f\d]{24}$/i.test(String(v || ''));
 
 // ============================================
 // SALE OPERATIONS
@@ -53,7 +61,7 @@ exports.createSale = async (req, res) => {
       customerEmail: customerInfo?.email,
       customerPhone: customerInfo?.phone,
       items: items.map(item => ({
-        productId: item.productId,
+        productId: isObjectId(item.productId) ? item.productId : null,
         type: 'product',
         name: item.name,
         sku: item.sku || '',
@@ -97,6 +105,12 @@ exports.createSale = async (req, res) => {
 
         for (const item of sale.items) {
           try {
+            if (!item.productId) {
+              // Quick/pack or stale-cache line with no valid Product link — sale still records;
+              // surface for manual deduction on the stock sheet (also avoids a null .toString() NPE).
+              logger.warn('POS sale line not stock-linked — adjust on the stock sheet', { name: item.name });
+              continue;
+            }
             const inventory = inventoryMap.get(item.productId.toString());
             if (inventory) {
               await inventory.deductStock(item.quantity, sale.saleNumber, req.user.id);
@@ -122,6 +136,12 @@ exports.createSale = async (req, res) => {
     }
 
     await sale.save();
+
+    // Emit the completed sale to the FLOCORE event rail (fire-and-forget; no-op until env token set).
+    // payload.amount = NET goods (Σ qty×price), never tenders. Must NOT block the sale.
+    if (sale.status === 'completed') {
+      try { flocoreEmit.emitSale(sale); } catch (e) { /* never affects the sale */ }
+    }
 
     // Notify owner dashboard of completed sale
     if (sale.status === 'completed') {
