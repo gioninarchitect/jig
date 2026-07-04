@@ -14,9 +14,12 @@
 // null and the caller keeps its existing (Claude/ops) behaviour — no regression.
 // =====================================================================
 
-const BASE = process.env.FLOCORE_BASE_URL || 'https://fo.flocore.tech';
-const AUTH = process.env.FLOCORE_BASIC_AUTH || ''; // "user:pass"
+// FO stages the gate URL as FLOCORE_URL and the scoped W32 bearer as FLOCORE_TOKEN.
+// Keep the older FLOCORE_BASE_URL / FLOCORE_SERVICE_TOKEN names as fallbacks.
+const BASE = process.env.FLOCORE_BASE_URL || process.env.FLOCORE_URL || 'https://fo.flocore.tech';
+const AUTH = process.env.FLOCORE_BASIC_AUTH || ''; // "user:pass" (gate basic-auth for /auth/* and AI rails)
 const TENANT = process.env.FLOCORE_TENANT_SLUG || 'ilco';
+const SERVICE_TOKEN = process.env.FLOCORE_TOKEN || process.env.FLOCORE_SERVICE_TOKEN || ''; // scoped tenant:ilco bearer for /events/emit
 
 export const flocoreEnabled = () => AUTH.length > 0;
 
@@ -88,4 +91,98 @@ export async function roleChat(roleKey: string, message: string, timeoutMs = 220
     usedOllama: data.used_ollama === true,
     suggestedActions: data.suggested_actions,
   };
+}
+
+// =====================================================================
+// SSO — W30 centralized identity (OTP issue/verify through the gate).
+// FLOCORE owns the email + code; tnt-za never rolls its own OTP here.
+// Both calls go through the basic-auth gate (no bearer needed).
+// =====================================================================
+
+export interface FlocoreOtpVerifyResult {
+  ok: boolean;
+  status: number;            // FO HTTP status (200 = verified, 401 = bad/expired code)
+  token?: string;            // FLOCORE-issued session JWT (proof the email owns the code)
+  user?: any;
+  expiresAt?: string;
+  error?: string;
+}
+
+/** Ask FLOCORE to email a one-time code. Throws on transport failure so the caller can report. */
+export async function otpRequest(email: string): Promise<{ ok: boolean; delivery: string; expiresInSeconds?: number }> {
+  if (!flocoreEnabled()) throw Object.assign(new Error('FLOCORE SSO not configured'), { status: 503 });
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 12000);
+  try {
+    const res = await fetch(`${BASE}/auth/otp/request`, {
+      method: 'POST',
+      signal: ctrl.signal,
+      headers: { 'Content-Type': 'application/json', ...authHeader() },
+      body: JSON.stringify({ tenant_slug: TENANT, email, brand: 'origin' }),
+    });
+    const data: any = await res.json().catch(() => ({}));
+    if (!res.ok) throw Object.assign(new Error(data?.detail || 'Could not send code'), { status: res.status });
+    return { ok: data.ok === true, delivery: data.delivery || 'unknown', expiresInSeconds: data.expires_in_seconds };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** Verify a code with FLOCORE. Returns status so the caller can distinguish bad-code (401) from FO-down. */
+export async function otpVerify(email: string, code: string): Promise<FlocoreOtpVerifyResult> {
+  if (!flocoreEnabled()) return { ok: false, status: 503, error: 'FLOCORE SSO not configured' };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 12000);
+  try {
+    const res = await fetch(`${BASE}/auth/otp/verify`, {
+      method: 'POST',
+      signal: ctrl.signal,
+      headers: { 'Content-Type': 'application/json', ...authHeader() },
+      body: JSON.stringify({ tenant_slug: TENANT, email, code }),
+    });
+    const data: any = await res.json().catch(() => ({}));
+    if (!res.ok) return { ok: false, status: res.status, error: data?.detail || 'Invalid or expired code' };
+    return { ok: true, status: 200, token: data.token, user: data.user, expiresAt: data.expires_at };
+  } catch (err: any) {
+    return { ok: false, status: 0, error: err?.name === 'AbortError' ? 'FLOCORE timeout' : (err?.message || 'FLOCORE unreachable') };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// =====================================================================
+// Events — W32 gateway (/events/emit). Additive, fire-and-forget.
+// Uses the scoped tenant:ilco service token as a Bearer (NO basic-auth:
+// nginx passes /events/emit through and the app validates the token).
+// A failed emit is logged and swallowed — it must never block a farm action.
+// =====================================================================
+
+export const eventsEnabled = () => SERVICE_TOKEN.length > 0;
+
+/** Fire-and-forget emit of a real tnt event to the FLOCORE event rail. Never throws. */
+export async function emitEvent(type: string, payload: Record<string, any>, metadata: Record<string, any> = {}): Promise<void> {
+  if (!eventsEnabled()) return; // no scoped W32 token yet → no-op (no 401 spam)
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 8000);
+  try {
+    const res = await fetch(`${BASE}/events/emit`, {
+      method: 'POST',
+      signal: ctrl.signal,
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${SERVICE_TOKEN}` },
+      body: JSON.stringify({
+        tenant_slug: TENANT,        // authoritatively re-stamped from the token FO-side
+        module_key: 'ilco-tnt',
+        type,
+        payload,
+        metadata: { source: 'ilco-tnt', ...metadata },
+      }),
+    });
+    if (!res.ok) {
+      console.warn(`[flocore] emit ${type} → HTTP ${res.status}`);
+    }
+  } catch (err: any) {
+    console.warn(`[flocore] emit ${type} failed: ${err?.name === 'AbortError' ? 'timeout' : err?.message}`);
+  } finally {
+    clearTimeout(timer);
+  }
 }

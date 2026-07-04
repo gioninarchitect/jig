@@ -10,6 +10,8 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import './services/audit.service';
 // SMF Drift Daemon — deterministic rule-based drift detection
 import './services/smf-drift.service';
+// FLOCORE event forwarder — emits real cultivation events to the FLOCORE rail (no-op until W32 token set)
+import './services/flocore.events';
 
 const app = express();
 

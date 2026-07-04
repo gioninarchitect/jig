@@ -4,6 +4,7 @@ import { prisma } from '../config/db';
 import { env } from '../config/env';
 import { sendPinEmail } from './email.service';
 import { eventBus } from './eventBus';
+import * as flocore from './flocore.service';
 
 function generatePin(): string {
   return String(Math.floor(100000 + Math.random() * 900000));
@@ -186,6 +187,67 @@ export async function verifyPin(email: string, pin: string, ip?: string) {
       tenantId: user.tenantId,
       facilityId: user.facilityId,
     },
+  };
+}
+
+// =====================================================================
+// FLOCORE SSO (W30) — FLOCORE issues + verifies the email OTP; we mint the
+// LOCAL JWT from the matched local user. The local PIN path above is untouched
+// and remains the fallback, so a FLOCORE outage or an un-provisioned FLOCORE
+// identity can never lock a real user out. Gated behind FLOCORE_SSO_ENABLED.
+// =====================================================================
+
+export async function requestFlocoreOtp(email: string) {
+  if (!env.FLOCORE_SSO_ENABLED) throw Object.assign(new Error('SSO login not enabled'), { status: 404 });
+  const normalizedEmail = email.trim().toLowerCase();
+  // Only provisioned ILCO staff get a code — we gate at our backend (FO's allowlist
+  // does not currently scope the ilco tenant), which also blocks email enumeration abuse.
+  const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+  if (!user) throw Object.assign(new Error('No account found with this email'), { status: 404 });
+  if (!user.active) throw Object.assign(new Error('Account is disabled'), { status: 403 });
+
+  const result = await flocore.otpRequest(normalizedEmail);
+  eventBus.emit('LOGIN_OTP_REQUESTED', { userId: user.id, tenantId: user.tenantId, entityType: 'User', entityId: user.id });
+  return { delivery: result.delivery, expiresInSeconds: result.expiresInSeconds };
+}
+
+export async function verifyFlocoreOtp(email: string, code: string, ip?: string) {
+  if (!env.FLOCORE_SSO_ENABLED) throw Object.assign(new Error('SSO login not enabled'), { status: 404 });
+  const normalizedEmail = email.trim().toLowerCase();
+  const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+  if (!user) throw Object.assign(new Error('Invalid credentials'), { status: 401 });
+  if (!user.active) throw Object.assign(new Error('Account is disabled'), { status: 403 });
+  if (user.lockedAt && Date.now() - user.lockedAt.getTime() < 3600_000) {
+    throw Object.assign(new Error('Account locked'), { status: 429 });
+  }
+
+  // FLOCORE proves the email owns the code. We do NOT trust FO's roles — the local
+  // user row is authoritative for role/tenant/facility (chain-of-custody stays local).
+  const fo = await flocore.otpVerify(normalizedEmail, code.trim());
+  if (!fo.ok) {
+    if (fo.status === 401) {
+      const attempts = user.failedAttempts + 1;
+      const update: any = { failedAttempts: attempts };
+      if (attempts >= 5) { update.lockedAt = new Date(); }
+      await prisma.user.update({ where: { id: user.id }, data: update });
+      eventBus.emit('LOGIN_FAILED', { userId: user.id, tenantId: user.tenantId, entityType: 'User', entityId: user.id });
+      throw Object.assign(new Error('Invalid or expired code'), { status: 401 });
+    }
+    // FO unreachable/misconfigured — surface as 503 so the UI can steer to the PIN fallback.
+    throw Object.assign(new Error(fo.error || 'SSO temporarily unavailable — use your PIN'), { status: 503 });
+  }
+
+  await prisma.user.update({ where: { id: user.id }, data: { failedAttempts: 0, lockedAt: null } });
+  const payload = { userId: user.id, email: user.email, role: user.role, tenantId: user.tenantId, facilityId: user.facilityId };
+  const token = jwt.sign(payload, env.JWT_SECRET, { expiresIn: '24h' } as jwt.SignOptions);
+  await prisma.session.create({
+    data: { userId: user.id, token, ipAddress: ip || null, expiresAt: new Date(Date.now() + 24 * 3600_000) },
+  });
+  eventBus.emit('LOGIN_SUCCESS', { userId: user.id, tenantId: user.tenantId, entityType: 'User', entityId: user.id, ip, via: 'flocore-sso' });
+
+  return {
+    token,
+    user: { id: user.id, email: user.email, name: user.name, role: user.role, tenantId: user.tenantId, facilityId: user.facilityId },
   };
 }
 
