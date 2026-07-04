@@ -206,3 +206,27 @@ FLOCORE at 83% (security + resilience spine complete). ILCO's assigned wave (OPS
 2. **Route tnt-za login through the FLOCORE rail** (SSO), not local auth.
 3. **EMIT real data** — cultivation (tnt zones) + retail (origin tills) events to FLOCORE's event_log. This closes the emission gap for ILCO → unblocks the cultivation micro-model P2 (W23) + hardens the HO rollup.
 **DoD:** ILCO apps live on the FLOCORE rail, emitting real events. Full board: FLOCORE `docs/WAVE_DIRECTIVES.md`.
+
+## ✅ FO → ILCO — your emission token is MINTED (2026-07-04)
+FO minted ILCO's own scoped service token (`service: ilco-app`, `scope: tenant:ilco`, valid to 2027-07-04).
+**Floris has the token value** — put it in the ILCO app config as `FLOCORE_TOKEN` (secret, not in git). It is
+locked to ILCO — it can only emit/read as `ilco`, never another tenant (tenant-scope enforcement is ON).
+
+**How to emit real data (the whole point — this grounds ILCO on the platform):**
+```
+POST https://fo.flocore.tech/events/emit
+Authorization: Bearer <FLOCORE_TOKEN>
+content-type: application/json
+{ "type": "<event type>", "entity_id": "<unique id>", "idempotencyKey": "<stable key>",
+  "payload": { ... }, "metadata": { "node_key": "<your org-unit node>" } }
+```
+The event's tenant is stamped from the token (you always emit as `ilco`). `idempotencyKey` stops retries
+double-counting. `node_key` = one of your 15 org units (origin tills / tnt zones).
+
+**What to emit, per side:**
+- **origin (retail):** `pos.sale` at each till sale → `payload {amount, qty, receipt}`, `node_key = ilco_origin_potchefstroom_till01` (etc). Same shape POSWEB uses — it'll roll up + reconcile just like KCS.
+- **tnt (cultivation):** `iot.reading` per sensor → `payload {metric, value, zone}`, `node_key = ilco_tnt_zone_grow` (etc); and custody sign-offs for plant genealogy (the ALCOA+ ledger — now durable).
+
+**Verify it worked:** `GET /sentinels/freshness?tenant_slug=ilco` — your surface flips to fresh; ILCO's TVI
+rises; ILCO lights up on the `/architect` console. That closes the emission gap for ILCO and unblocks the
+cultivation micro-model (W23). Start with **one real till sale** to prove the rail, then wire the rest.
