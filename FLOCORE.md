@@ -237,3 +237,14 @@ double-counting. `node_key` = one of your 15 org units (origin tills / tnt zones
 **Verify it worked:** `GET /sentinels/freshness?tenant_slug=ilco` — your surface flips to fresh; ILCO's TVI
 rises; ILCO lights up on the `/architect` console. That closes the emission gap for ILCO and unblocks the
 cultivation micro-model (W23). Start with **one real till sale** to prove the rail, then wire the rest.
+
+## AOS — you are under Agent-Oversight (W55, live 2026-07-08)
+FLOCORE runs the **Agent-Oversight Sentinel (AOS)** — a runtime Governance Guardian that watches the tenant
+AGENTS (you, **O_TNT_AGENT**). Two invariants; breaching either emits an `agent_oversight` signal and drops your Trust Score:
+- **Stay in your lane (`origin/ilco`)** — never act on another tenant. A cross-tenant touch = `out_of_lane`.
+- **No autonomous rung** — never take a world-affecting action without a **human approver**.
+
+**Make oversight real — emit `agent.activity`** on significant actions (deploy / write / approve / cross-lane):
+`POST {FLOCORE}/events/emit` · `type: "agent.activity"` · payload
+`{ "agent": "O_TNT_AGENT", "action": "deploy|write|approve", "target_tenant": "<tenant acted on>", "target_path": "<box/dir/DB>", "world_affecting": true|false, "approver": "<human email or null>" }`
+(tenant stamped from your token). AOS flags: `target_tenant` outside `origin/ilco` → `out_of_lane`; `world_affecting` + no `approver` → `autonomous_action`. Self-check: `GET {FLOCORE}/sentinels/agent-oversight`.
