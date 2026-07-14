@@ -76,7 +76,10 @@ const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: s
     items: [
       { to: '/my-shift', label: 'My Shift', icon: CalendarDays, minLevel: 0 },
       { to: '/tickets', label: 'Tickets', icon: TicketCheck, minLevel: 0 },
-      { to: '/tasks', label: 'Checklists', icon: CheckSquare, minLevel: 0 },
+      // "Checklists" nav removed on Loraine's request ("verwyder checklist", 2026-07-14) — checklists
+      // are moving to live inside each ROOM (per-room daily/cleaning checklists). The /tasks board is
+      // NOT gone: the dashboard still reaches it via the "Tasks" quick-action and the Tasks-Due widget,
+      // so nobody is stranded from their daily checklists in the meantime.
       { to: '/scan', label: 'Scan & Tag', icon: Camera, minLevel: 1 },
     ],
   },

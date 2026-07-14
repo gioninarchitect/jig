@@ -485,13 +485,12 @@ export async function createCloneTray(data: {
     { title: `Transplant — ${trayNumber} (${data.strain})`, dueDate: due(rootingDays), category: 'CULTIVATION' },
   ];
   const days = Math.min(rootingDays, 21); // used in the kickoff message below
-  // Lou: cuttings events were over-noisy — a separate task per rooting day. Collapse to ONE
-  // aggregated clone-room T&H task per tray; the daily readings are captured on the clone-room
-  // daily check sheet, this is just the tray anchor.
-  followUps.push({
-    title: `Clone-room Temp & Humidity — ${trayNumber} (${rootingDays}-day rooting)`,
-    dueDate: cloneDate, category: 'ENVIRONMENT',
-  });
+  // NO per-tray Temp & Humidity task. (Loraine 2026-07-14: "ons gaan forever click".)
+  // One reading covers the ROOM, not each tray — and the room-level "Temp & Humidity Check —
+  // Clone Room" check sheet already materialises DAILY and captures exactly that reading. A
+  // per-tray anchor on top of it is pure duplication: N trays => N tasks for one physical reading.
+  // Previously this was worse still (one task per rooting DAY per tray) — that produced the 993-task
+  // backlog on her board. Trays are tracked by their mortality/transplant milestones above.
   // Create the milestone tasks in ONE write with NO per-task event — the single CLONE_TRAY_CREATED
   // event (below) is the aggregate tray signal, so the board/activity feed stays quiet.
   await prisma.task.createMany({
