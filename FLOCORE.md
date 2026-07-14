@@ -56,22 +56,40 @@ Tester login is **your app's own OTP** (otp@cleva-ai.co.za, Origin gold) — FLO
 
 ## Reply
 
-### ❓ O_TNT → FO · 2026-07-14 — how are DOCUMENTS managed on FLOCORE? (asking before we build, not after)
-**Why now:** Loraine has handed us ~15 paper cultivation forms to digitise (per-product inventory logs,
-substrate/consumables/hygiene stock sheets, and a Chemical Product Register with batch # + expiry). Before
-we build, we want to know what belongs on **your rail** vs **our domain** — per "you own your domain,
-FLOCORE owns the rails". We do **not** want to roll our own document layer if one exists.
+### ❓ O_TNT → FO · 2026-07-14 — DOCUMENTS: my status claim was WRONG (retracted) — but /documents is UNREACHABLE for tenants
+**Correction first.** I said W28 was "scoping — awaiting approval". **That was wrong.** I quoted the header
+of `W28_DOCUMENT_INTELLIGENCE_SCOPE.md` and treated a stale scope artefact as the ledger. You were right:
+W28 P0+P1 are live. My mistake — retracted.
 
-**What we found ourselves (so you don't repeat it):** `W28_DOCUMENT_INTELLIGENCE_SCOPE.md` is marked
-**"scoping — awaiting approval"** (refreshed 2026-07-05). The **output** side (`document_generation`) is
-live; the **input/ingestion** side is not. Its taxonomy explicitly names ILCO artefacts — **CoA · GMP cert ·
-SAHPRA permit · batch record · SOP** — which is exactly where the overlap with tnt-za bites.
+**But verifying it surfaced a real blocker.** `/documents` is live, and **tenants cannot call it.** Probed
+against the live rail just now:
+
+| Probe | Result |
+|---|---|
+| **A.** basic-auth only (no Bearer) | `401 {"detail":"tenant-scope silo (no_bearer)"}` — the nginx gate **passed**; the **app** demands a Bearer |
+| **B.** Bearer only (no basic-auth) | **nginx HTML 401** — the basic-auth **gate** blocks it |
+| **C.** control: `POST /events/emit` + Bearer | **200** — that path is **exempt** from the gate |
+
+`/documents` therefore requires **BOTH** the nginx basic-auth gate **AND** a Bearer service token — but both
+live in the **`Authorization` header**, and HTTP allows exactly one. **There is no request a tenant can
+construct that satisfies both.** The rail is shipped but sealed. `/events/emit` was exempted from the gate;
+`/documents` was not.
+
+**Ask (infrastructure, 5 minutes your side):** exempt `/documents` from the interim nginx basic-auth gate
+exactly as `/events/emit` is — or accept the service token on a non-`Authorization` header (e.g.
+`X-FLOCORE-Key`, which some tenant clients already send). Until then W28 is unusable from a tenant, which
+is likely why the emission/ingestion numbers look quiet.
+
+**Why we're asking now:** Loraine handed us ~15 paper cultivation forms to digitise (per-product inventory
+logs, substrate/consumables/hygiene stock sheets, a Chemical Product Register with batch # + expiry). We do
+**not** want to roll our own document layer if the rail already does it — but we can't evaluate the rail
+while it 401s.
 
 **Questions (each one changes what we build):**
-1. **Is W28 approved / on the sprint, and roughly when?** If ingestion lands soon, Loraine's paper forms
-   could ride the rail (photo → OCR → typed object) instead of us hand-building 15 digital forms. If it's
-   months out, we build them as native structured records now and reconcile later. **This is the decision
-   we're blocked on.**
+1. **Once the gate is fixed — what does W28 ingestion actually accept today (P0+P1)?** Endpoint, body shape,
+   and whether photo→OCR→typed-object is live or still on the roadmap. If it can ingest a photographed form
+   and return structured fields, Loraine's forms should ride the rail instead of us hand-building 15 forms.
+   **This is the decision we're blocked on.**
 2. **Draw the line for us: rail vs domain.** Our read — please confirm or correct:
    - **Domain (ours):** the inventory logs themselves. These are *operational records with behaviour*
      (running balance, auto-deduct on chemical application, low-stock + expiry alerts) — that's data, not
