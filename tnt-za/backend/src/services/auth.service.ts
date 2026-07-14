@@ -5,6 +5,20 @@ import { env } from '../config/env';
 import { sendPinEmail } from './email.service';
 import { eventBus } from './eventBus';
 import * as flocore from './flocore.service';
+import { resolveLoginAlias } from '../config/loginAliases';
+
+// Look a user up by e-mail, falling back to the alias map ONLY when the exact address has no
+// account (see config/loginAliases.ts). Exact match always wins, so an alias can never shadow
+// a real account — it can only rescue a login that would otherwise have failed outright.
+async function findUserByLoginEmail(normalizedEmail: string) {
+  const exact = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+  if (exact) return exact;
+  const alias = resolveLoginAlias(normalizedEmail);
+  if (!alias) return null;
+  const aliased = await prisma.user.findUnique({ where: { email: alias } });
+  if (aliased) console.log(`[Auth] alias: ${normalizedEmail} -> ${alias}`);
+  return aliased;
+}
 
 function generatePin(): string {
   return String(Math.floor(100000 + Math.random() * 900000));
@@ -14,7 +28,7 @@ const OPEN_LOGIN_ROLES = new Set(['SUPER_ADMIN', 'FACILITY_MANAGER']);
 
 export async function requestPin(email: string, ip?: string) {
   const normalizedEmail = email.trim().toLowerCase();
-  const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+  const user = await findUserByLoginEmail(normalizedEmail);
   if (!user) throw Object.assign(new Error('No account found with this email'), { status: 404 });
   if (!user.active) throw Object.assign(new Error('Account is disabled'), { status: 403 });
   if (user.lockedAt && Date.now() - user.lockedAt.getTime() < 3600_000) {
@@ -88,7 +102,7 @@ export async function requestPin(email: string, ip?: string) {
 export async function verifyPin(email: string, pin: string, ip?: string) {
   const normalizedEmail = email.trim().toLowerCase();
   const normalizedPin = pin.trim();
-  const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+  const user = await findUserByLoginEmail(normalizedEmail);
   if (!user) throw Object.assign(new Error('Invalid credentials'), { status: 401 });
   // Deactivated accounts cannot authenticate — blocks the open-login / stored-PIN path too.
   // (Only affects users with active=false; active super-admins are unaffected.)
