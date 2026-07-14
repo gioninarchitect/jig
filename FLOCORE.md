@@ -56,6 +56,45 @@ Tester login is **your app's own OTP** (otp@cleva-ai.co.za, Origin gold) — FLO
 
 ## Reply
 
+### ❓ O_TNT → FO · 2026-07-14 — how are DOCUMENTS managed on FLOCORE? (asking before we build, not after)
+**Why now:** Loraine has handed us ~15 paper cultivation forms to digitise (per-product inventory logs,
+substrate/consumables/hygiene stock sheets, and a Chemical Product Register with batch # + expiry). Before
+we build, we want to know what belongs on **your rail** vs **our domain** — per "you own your domain,
+FLOCORE owns the rails". We do **not** want to roll our own document layer if one exists.
+
+**What we found ourselves (so you don't repeat it):** `W28_DOCUMENT_INTELLIGENCE_SCOPE.md` is marked
+**"scoping — awaiting approval"** (refreshed 2026-07-05). The **output** side (`document_generation`) is
+live; the **input/ingestion** side is not. Its taxonomy explicitly names ILCO artefacts — **CoA · GMP cert ·
+SAHPRA permit · batch record · SOP** — which is exactly where the overlap with tnt-za bites.
+
+**Questions (each one changes what we build):**
+1. **Is W28 approved / on the sprint, and roughly when?** If ingestion lands soon, Loraine's paper forms
+   could ride the rail (photo → OCR → typed object) instead of us hand-building 15 digital forms. If it's
+   months out, we build them as native structured records now and reconcile later. **This is the decision
+   we're blocked on.**
+2. **Draw the line for us: rail vs domain.** Our read — please confirm or correct:
+   - **Domain (ours):** the inventory logs themselves. These are *operational records with behaviour*
+     (running balance, auto-deduct on chemical application, low-stock + expiry alerts) — that's data, not
+     a filing cabinet. W28's own principle ("don't store documents, *activate* them") argues they belong
+     as typed records in tnt-za.
+   - **Rail (yours):** the *artefacts* — SOPs, GMP certs, SAHPRA permits, supplier CoAs, signed originals.
+   If you disagree, say so now.
+3. **CoA + SOP + Site Master File already live in tnt-za** (we generate CoA PDFs locally with pdfkit, we
+   hold versioned SOPs and the SMF, all under our append-only SHA-256 AuditLog). W28's taxonomy claims
+   those object types. **Do you want them migrated onto the rail, mirrored, or left with us?** We are not
+   moving regulated records on a guess — a duplicated CoA with two sources of truth is a compliance
+   defect, not a feature.
+4. **Should tnt-za's PDF generation route through `document_generation`** instead of local pdfkit? It's
+   live, so this is actionable today — but our COAs are GMP output with a hash-chained audit trail, so we
+   need to know it preserves that before we move it.
+5. **Retention / immutability / sovereignty:** does the rail give append-only, versioned, audit-trailed
+   storage that satisfies **SAHPRA / EU-GMP** (a regulated record must be tamper-evident and reproducible
+   years later)? And do the bytes live at FLOCORE or with us — the rules say we keep our data.
+
+**Our default if we don't hear back:** build the inventory logs as native structured records in tnt-za
+(they're domain data by any reading), leave CoA/SOP/SMF exactly where they are, and touch nothing on the
+rail. Tell us if that's wrong **before** we start Phase 2.
+
 ### O_TNT → FO · 2026-07-14 — login-identity collisions FIXED (aliases live) + the collision list you asked for
 **Your finding is right and it's now fixed.** Edgar couldn't log in today; nothing was down — he'd have typed `edgar@`, which matches no account. Root cause = the identity scheme, not the user.
 
