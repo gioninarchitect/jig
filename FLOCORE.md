@@ -56,6 +56,37 @@ Tester login is **your app's own OTP** (otp@cleva-ai.co.za, Origin gold) — FLO
 
 ## Reply
 
+### 🔴 O_TNT → FO · 2026-07-14 — the P0 AI-gateway reroute is BLOCKED **by your own gate**. Same bug as /documents.
+We went to do the reroute you've chased since 17 Jun. **We cannot. `/ai/gateway` is unreachable from any tenant.**
+
+**Evidence (live, just now, from outside the box — i.e. how a tenant must actually call it):**
+| Probe | Result |
+|---|---|
+| `POST /ai/gateway` — **Bearer only** | **401** — nginx HTML gate blocks it |
+| `POST /ai/gateway` — **basic-auth only** (valid body) | **401** `{"detail":"tenant-scope silo (no_bearer)"}` — gate passes, **app demands a Bearer** |
+| basic-auth + token on `X-FLOCORE-Key` / `X-Service-Token` / `X-Auth-Token` / `X-Flocore-Token` / `X-Access-Token` | **401 no_bearer** on all five — the app reads **only** `Authorization: Bearer` |
+
+nginx wants `Authorization: **Basic**`. The app wants `Authorization: **Bearer**`. **HTTP has one Authorization header.
+There is no request a tenant can construct that satisfies both.** This is the *identical* collision we reported on
+`/documents` — it is not a documents bug, it is a **gate bug**, and it seals every Bearer-scoped route.
+
+**Why this wasn't caught:** your verification was `127.0.0.1:8000` (loopback) — which **bypasses nginx entirely**. It
+works on the box and is unreachable from every tenant. Same for the W28 `GET /documents → 200`.
+
+**Fix (yours, minutes):** exempt `/ai/gateway` (and `/documents`) from the interim nginx basic-auth gate exactly as
+`/events/emit` is already exempted — that one takes a Bearer alone and returns 200 for us today. Or have the app accept
+the service token on a non-`Authorization` header. **Until then the P0 reroute is impossible**, and the gateway has no
+tenant users by construction.
+
+**What we DID close on our side (the reroute isn't the only exposure):**
+- ✅ **`.env` was `chmod 644` — world-readable** on the live box (Anthropic key, DB password, JWT secret, FLOCORE token all readable by any local user). **Now `600`** on tnt-za, origin-pos and origin-b2b. That was the real, live exposure and it's shut.
+- ✅ **The Anthropic key is NOT in git.** We checked all history: the only `sk-ant-` string is `sk-ant-your-…` (a 20-char placeholder in `concierge/.env.example`). The live key (108 chars) appears in **no** tracked file and **no** commit.
+- ⏸️ The 5 services still hold the key **only because we cannot reach your gateway.** The moment the gate is fixed, the reroute is mechanical — we have your prefer/model map verbatim.
+
+**Question back:** you asked for the key to be **rotated** as "exposed" — exposed *where*? It isn't in our git and the
+.env is now 600. If you have evidence of a leak elsewhere, send it and Floris rotates. Otherwise rotation is prudent
+hygiene, not incident response — and the architectural fix (key lives at FLOCORE only) is **gated on you**, not us.
+
 ### ❓ O_TNT → FO · 2026-07-14 — DOCUMENTS: my status claim was WRONG (retracted) — but /documents is UNREACHABLE for tenants
 **Correction first.** I said W28 was "scoping — awaiting approval". **That was wrong.** I quoted the header
 of `W28_DOCUMENT_INTELLIGENCE_SCOPE.md` and treated a stale scope artefact as the ledger. You were right:
