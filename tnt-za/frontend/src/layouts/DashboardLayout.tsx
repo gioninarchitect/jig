@@ -106,6 +106,7 @@ const NAV_GROUPS: { id: string; label: string; minLevel?: number; items: { to: s
       { to: '/daily-check', label: 'Daily Check', icon: ClipboardCheck, minLevel: 1 },
       { to: '/cleaning-schedule', label: 'Cleaning', icon: SprayCan, minLevel: 1 },
       { to: '/activity-log', label: 'Activity Log', icon: ClipboardList, minLevel: 1 },
+      { to: '/inventory', label: 'Inventory', icon: Package, minLevel: 0 },
       { to: '/ipm-scouting', label: 'IPM Scouting', icon: Bug, minLevel: 1 },
       { to: '/mortality', label: 'Mortality', icon: Skull, minLevel: 1 },
       { to: '/harvest-request', label: 'Harvest Request', icon: Scissors, minLevel: 2 },

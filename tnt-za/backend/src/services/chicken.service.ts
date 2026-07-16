@@ -163,37 +163,43 @@ export async function verifyCrate(id: string, data: { action: 'verify' | 'flag';
 export async function getSummary(tenantId: string, facilityId?: string) {
   if (facilityId) await ensureCoops(tenantId, facilityId);
   const today = new Date(); today.setHours(0, 0, 0, 0);
-  const [coops, mortality, temps] = await Promise.all([
+  const [coops, mortality, temps, catches] = await Promise.all([
     prisma.chickenCoop.findMany({ where: { tenantId }, orderBy: { name: 'asc' } }),
     prisma.chickenMortality.findMany({ where: { tenantId } }),
     prisma.chickenTemp.findMany({ where: { tenantId }, orderBy: { date: 'desc' } }),
+    prisma.chickenCatch.findMany({ where: { tenantId } }),
   ]);
+  // Catches removed from a coop (caught for dispatch/slaughter) also leave the live flock.
+  // Loraine 2026-07-16: "ons is besig om hoenders te vang, ek sien dit trek nie van die hokke af nie".
+  const caughtUnattributed = catches.filter(x => !x.coopName).reduce((s, x) => s + x.totalChickens, 0);
   const houses = coops.map(c => {
     const m = mortality.filter(x => x.coopName === c.name);
-    // Birds left = placed − EVERY death recorded for this coop. Loraine logs mortality from the day
-    // the chicks arrived (often backdated before the coop was set up in the system), so ALL of it
-    // must subtract — not just deaths since the coop record was created.
+    // Birds left = placed − EVERY death − EVERY catch recorded for this coop. Loraine logs both from
+    // the day the chicks arrived (often backdated), so ALL of it subtracts — not just since setup.
     const todayM = m.filter(x => x.date >= today).reduce((s, x) => s + x.count, 0);
     const totalM = m.reduce((s, x) => s + x.count, 0);
-    const remaining = Math.max(0, c.flockCount - totalM);
+    const totalCaught = catches.filter(x => x.coopName === c.name).reduce((s, x) => s + x.totalChickens, 0);
+    const remaining = Math.max(0, c.flockCount - totalM - totalCaught);
     const latestTemp = temps.find(t => t.coopName === c.name);
     return {
       id: c.id, name: c.name,
       placed: c.flockCount,        // what was put in the coop (editable)
-      remaining,                   // placed − all recorded deaths (live "birds left")
+      remaining,                   // placed − deaths − catches (live "birds left")
       flock: remaining,            // headline number everyone sees = live remaining
-      mortalityToday: todayM, mortalityTotal: totalM,
+      mortalityToday: todayM, mortalityTotal: totalM, caughtTotal: totalCaught,
       tempC: latestTemp?.tempC ?? null,
     };
   });
   return {
     houses,
     totals: {
-      flock: houses.reduce((s, h) => s + h.remaining, 0),  // live birds left across all coops
+      // live birds left = Σ per-coop remaining, minus any catches not attributed to a specific coop
+      flock: Math.max(0, houses.reduce((s, h) => s + h.remaining, 0) - caughtUnattributed),
       placed: coops.reduce((s, c) => s + c.flockCount, 0),
       coops: coops.length,
       mortalityToday: mortality.filter(x => x.date >= today).reduce((s, x) => s + x.count, 0),
       mortalityTotal: mortality.reduce((s, x) => s + x.count, 0),
+      caughtTotal: catches.reduce((s, x) => s + x.totalChickens, 0),
     },
   };
 }

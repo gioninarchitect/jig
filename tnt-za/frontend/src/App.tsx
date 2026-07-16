@@ -53,6 +53,7 @@ import DailyCheckPage from './pages/daily-check/DailyCheckPage';
 import CleaningSchedulePage from './pages/cleaning-schedule/CleaningSchedulePage';
 import ActivityLogPage from './pages/activity-log/ActivityLogPage';
 import EnvLogPage from './pages/env-log/EnvLogPage';
+import InventoryPage from './pages/inventory/InventoryPage';
 import HarvestRequestPage from './pages/harvest-request/HarvestRequestPage';
 import AutoLoginPage from './pages/auto-login/AutoLoginPage';
 
@@ -137,6 +138,7 @@ export default function App() {
         <Route path="/cleaning-schedule" element={<DashRoute><CleaningSchedulePage /></DashRoute>} />
         <Route path="/activity-log" element={<DashRoute><ActivityLogPage /></DashRoute>} />
         <Route path="/env-log" element={<DashRoute><EnvLogPage /></DashRoute>} />
+        <Route path="/inventory" element={<DashRoute><InventoryPage /></DashRoute>} />
         <Route path="/harvest-request" element={<DashRoute><HarvestRequestPage /></DashRoute>} />
         <Route path="/users" element={<DashRoute><UsersPage /></DashRoute>} />
 

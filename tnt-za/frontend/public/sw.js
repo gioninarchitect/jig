@@ -1,4 +1,4 @@
-const CACHE_NAME = 'origin-tnt-v3';
+const CACHE_NAME = 'origin-tnt-v4';
 const API_CACHE = 'origin-api-v1';
 const OFFLINE_QUEUE = 'origin-offline-queue';
 

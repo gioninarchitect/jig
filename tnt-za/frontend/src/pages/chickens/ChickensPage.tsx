@@ -17,7 +17,7 @@ const T: Record<Lang, Record<string, string>> = {
     notes: 'Notes', cratesLoaded: 'Crates loaded', perCrate: 'Chickens per crate', totalChickens: 'Total chickens', cratesOnScale: 'Crates on scale',
     weightKg: 'Total weight (kg)', count: 'Count', reasonLabel: 'Reason for change (required)', noRecords: 'No records yet',
     editFlock: 'Edit flock count', flockCount: 'Birds placed in coop', recorded: 'Recorded', saved: 'Saved', newRecord: 'New record', optional: 'optional',
-    placed: 'Placed', left: 'left', died: 'died',
+    placed: 'Placed', left: 'left', died: 'died', caught: 'caught',
     crates: 'Crates', loadCrate: 'Load crate', photo: 'Crate photo', takePhoto: 'Take / choose photo', chickenCount: 'Chicken count',
     verify: 'Verify', flag: 'Flag', pending: 'Pending', verified: 'Verified', flagged: 'Flagged', noCrates: 'No crates loaded yet', staffSaid: 'Staff submitted',
   },
@@ -29,7 +29,7 @@ const T: Record<Lang, Record<string, string>> = {
     notes: 'Notas', cratesLoaded: 'Kratte gelaai', perCrate: 'Hoenders per krat', totalChickens: 'Totale hoenders', cratesOnScale: 'Kratte op skaal',
     weightKg: 'Totale gewig (kg)', count: 'Aantal', reasonLabel: 'Rede vir verandering (verplig)', noRecords: 'Geen rekords nog nie',
     editFlock: 'Wysig trop telling', flockCount: 'Kuikens in hok geplaas', recorded: 'Aangeteken', saved: 'Gestoor', newRecord: 'Nuwe rekord', optional: 'opsioneel',
-    placed: 'Geplaas', left: 'oor', died: 'dood',
+    placed: 'Geplaas', left: 'oor', died: 'dood', caught: 'gevang',
     crates: 'Kratte', loadCrate: 'Laai krat', photo: 'Krat foto', takePhoto: 'Neem / kies foto', chickenCount: 'Hoender telling',
     verify: 'Keur goed', flag: 'Vlag', pending: 'Hangende', verified: 'Gekeur', flagged: 'Gevlag', noCrates: 'Geen kratte gelaai nie', staffSaid: 'Personeel het ingedien',
   },
@@ -119,6 +119,7 @@ export default function ChickensPage() {
                 <div className="flex gap-3 text-xs mt-2 text-white/50">
                   <span className="text-amber-300">↓ {h.mortalityToday} {tr.today}</span>
                   <span className="text-red-300">Σ {h.mortalityTotal} {tr.died}</span>
+                  {h.caughtTotal > 0 && <span className="text-sky-300">⇢ {h.caughtTotal.toLocaleString()} {tr.caught}</span>}
                   {h.tempC != null && <span className="text-sky-300 flex items-center gap-0.5"><Thermometer size={11} /> {h.tempC}°C</span>}
                 </div>
               </div>

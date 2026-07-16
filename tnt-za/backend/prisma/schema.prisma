@@ -1974,6 +1974,54 @@ model CultivationActivity {
   @@index([ticketId])
 }
 
+// ── Cultivation inventory / stock (Loraine — replaces the paper logs) ──────────
+// One generic model covers all her paper shapes: per-product chemical logs, the
+// substrate/consumables/hygiene stock sheets, and the chemical batch+expiry register.
+// balance is auto-maintained = running sum of movements (never hand-calculated).
+model InventoryItem {
+  id           String   @id @default(uuid())
+  name         String
+  category     String   // CHEMICAL | SUBSTRATE | CONSUMABLE | HYGIENE
+  unit         String   @default("unit")  // L · ml · kg · g · unit · bag
+  balance      Float    @default(0)       // current on-hand (auto-maintained from movements)
+  reorderLevel Float?                      // low-stock alert threshold
+  location     String?  @default("Cultivation")
+  active       Boolean  @default(true)
+  facilityId   String
+  tenantId     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  movements    InventoryMovement[]
+
+  @@unique([tenantId, category, name])
+  @@index([tenantId])
+  @@index([category])
+}
+
+model InventoryMovement {
+  id             String        @id @default(uuid())
+  itemId         String
+  item           InventoryItem @relation(fields: [itemId], references: [id])
+  date           DateTime      @default(now())
+  type           String        // IN | OUT | ADJUST
+  quantity       Float         // entered magnitude (always positive; sign derived from type)
+  balanceAfter   Float         // running balance after this movement (recomputed on edit)
+  productIn      String?       // "Product In" column — supplier / PO / source ref
+  batchNumber    String?       // chemical register — batch of the stock received
+  expiryDate     DateTime?     // chemical register — drives expiry alerts
+  comment        String?
+  source         String        @default("MANUAL")  // MANUAL | CHEMICAL_APPLICATION
+  activityId     String?       // links to a CultivationActivity when auto-deducted
+  recordedById   String
+  recordedByName String?
+  tenantId       String
+  createdAt      DateTime      @default(now())
+
+  @@index([tenantId])
+  @@index([itemId])
+  @@index([expiryDate])
+}
+
 // SOP 4-FAC-2 · Temperature & Humidity Daily Check
 model EnvReading {
   id        String   @id @default(uuid())

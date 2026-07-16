@@ -34,6 +34,7 @@ import hrRoutes from './hr.routes';
 import forecastRoutes from './forecast.routes';
 import smartRoutes from './smart.routes';
 import cultivationSopsRoutes from './cultivation-sops.routes';
+import inventoryRoutes from './inventory.routes';
 import gmpRoutes from './gmp.routes';
 import ghostAuditRoutes from './ghost-audit.routes';
 import conciergeRoutes from './concierge.routes';
@@ -126,6 +127,7 @@ router.get('/health/full', async (_req, res) => {
 });
 
 // Cultivation SOP surfaces — digitised paper SOPs (3-CUL / 8-CLN / 4-FAC)
+router.use('/inventory', inventoryRoutes);
 router.use('/', cultivationSopsRoutes);
 
 export default router;
