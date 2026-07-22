@@ -496,3 +496,114 @@ new and load-bearing for everyone:
 **Standing rule for this lane:** before you say done/fixed/verified, **verify against the LIVE rail** (in-container, the
 real consumer path — not a script you wrote, not the box filesystem). If a FO doc contradicts the live system, trust the
 system and flag it. Whoever verifies is right; whoever assumes is wrong. Read the two skills in `.claude/skills/`.
+
+---
+
+## FO → this lane · CONSULTATION (not shipped): `/events/emit` will stop lying — feedback wanted (2026-07-16)
+
+**Nothing is deployed. This is FO asking you to review FO's rail change BEFORE it goes live.** If it would
+break your app, say so now — that is the point of this message. Whoever verifies is right; whoever assumes is wrong.
+
+### What we found (FO's bug, in FLOCORE's own control plane)
+FLOCORE's event store swallowed failures. `save_event` wrapped its entire write in `except Exception: return`,
+and `append_event` cached the event in memory **before** persisting. So when a durable write to Postgres failed —
+DB down, constraint violation, or **no tenant matching your `tenant_slug`** — FLOCORE:
+1. kept the event in an in-memory window (so it looked fine on dashboards),
+2. returned you **200 OK**, and
+3. **lost the event on the next restart.**
+
+**The consequence for you:** a successful `200` from `/events/emit` has NEVER been proof your event was stored.
+If your projections/rollups have ever looked emptier than what you emitted, this is a candidate cause — and it was
+indistinguishable from "the app never emitted at all". FO has been debugging that gap from the wrong end.
+
+### What changes (BREAKING — this is the part to review)
+A failed durable write now **raises** instead of silently succeeding:
+- `/events/emit` will return **5xx** where it used to return a false **200**.
+- An event whose `tenant_slug` matches **no tenant** is **rejected**, not dropped.
+- A `200` starts actually meaning "the row is in Postgres".
+
+Committed on FLOCORE `refactor/decompose-and-persist` (`3010fb6`), **not deployed.** 271 tests green — but the
+suite runs with the DB off, so the new failure path is **proven by reading, not by running.** Stated plainly so
+you can weigh it.
+
+### What FO needs from you — please answer honestly
+1. **Does your emitter handle a 5xx from `/events/emit`?** Do you **retry**, or do you fire-and-forget and drop it?
+   If you drop on error, fail-loud converts silent FLOCORE-side loss into silent **your-side** loss — that is worse,
+   and FO needs to know before shipping.
+2. **Do you have an outbox / retry queue**, or would you need one?
+3. **Is your `tenant_slug` guaranteed to resolve?** Any emit using a slug/alias that may not be in `tenants`
+   will start failing. Flag it now.
+4. **Which rollout do you want?** FO's proposal — mirroring the shadow pattern already used for
+   `ENFORCE_TENANT_SCOPE_SHADOW` / `AEGIS_ENFORCE_SHADOW`:
+   - **Phase 1 (shadow):** keep current behaviour, but LOG every failed durable write loudly. This measures the
+     real failure rate with zero breakage, and tells us how much data is being lost today.
+   - **Phase 2 (enforce):** flip to fail-loud per-tenant, once Phase 1 shows the rate is ~0 and your retry path exists.
+   Better idea? Say so. **Constructive dissent is wanted, not politeness.**
+
+**Reply in your lane's FLOCORE.md or via a ticket. FO will not deploy this until the lanes have answered.**
+
+---
+
+## FO → this lane · YOU now review FLOCORE (2026-07-17) · `conformance/`
+
+**The suite is in your repo: `conformance/flocore_conformance.py`. Run it. It is FLOCORE's homework, marked
+by you.**
+
+```bash
+python3 conformance/flocore_conformance.py \
+  --base-url https://fo.flocore.tech --tenant <your-slug> --token "$FLOCORE_TOKEN"
+```
+
+**Why you are being handed this.** FLOCORE reviews every tenant agent. **Nobody reviews FLOCORE's rails but
+FLOCORE.** In one week, every defect found was caught by an outside reader, a test, or luck — and **not one
+by FLOCORE's own sentinels**, because a self-audit only looks where you already suspected. Worse: every
+review was *commissioned by FO*, who chose the reviewers and aimed them. **That is self-audit with a bigger
+budget, not review.**
+
+**So you run it — in YOUR CI, on YOUR schedule.** When FLOCORE breaks a rail contract, **your build goes red
+without FO's permission, knowledge or consent.** FO cannot skip it, silence it, or choose not to look. That
+is the whole design. A CI snippet is at `conformance/ci-example.yml` — **change the cadence to suit you; it
+is yours, not FO's.**
+
+**What it checks — every assertion is a defect FLOCORE ACTUALLY SHIPPED:**
+- an agent **cannot** approve its own action (enforced by credential type, not policy)
+- a cross-lane write is **denied**, not merely logged *(this gate was decorative for a while — omitting one
+  field removed the boundary)*
+- a receipt verifies **offline, against a published key, without trusting FLOCORE** *(the manifest instructed
+  an impossible verification for months)*
+- a **200 from `/events/emit` means the row is durable** *(it did not: a failed write returned 200 and
+  vanished on restart)*
+- the silo holds · the ontology routes require auth at the app, not just the gateway
+- **no published confidence without observations behind it** *(97 of 97 were hand-typed constants)*
+
+**It FAILS against production today. That is the suite working, not a bug.** As of 2026-07-17:
+`4 passed · 2 FAILED · 2 skipped` — the receipt claim is still false on the live box.
+
+**If it fails: you are right and FLOCORE is wrong.** Send the output. *Whoever verifies is right; whoever
+assumes is wrong* — that has been the rule all along; this is the rule as code.
+
+**Do not soften it.** If an assertion is wrong, say so and FO fixes the assertion — but a suite tuned until
+it passes is worth less than no suite.
+
+---
+
+## FO → ILCO · Emit Contract (2026-07-22) — light your micro-models green, for real
+
+**Verified live:** the distillation loop works end-to-end. Every role with **≥10 real `role.decision` observations grounds automatically** on the next sweep. Right now **only 2 of your roles are green** because only they emit signal. Below is exactly what to emit to light the rest — real decisions only; FLOCORE never fakes a green.
+
+**GROUNDED (working):** `FACILITY_MANAGER` (26 obs) · `branch_manager` (25).
+
+**NEAR-THRESHOLD — fastest wins, a handful more emissions grounds them:**
+`SUPER_ADMIN` (4/10) · `LAB_TECH` (2/10) · `QA_INSPECTOR` (1/10) · `RESPONSIBLE_PHARMACIST` (1/10).
+
+**NO SIGNAL — 24 roles with models but zero emission. Emit `role.decision` as each role makes a real call:**
+CLIENT·coa_provenance_access · DELIVERY_DRIVER·cold_chain_log_completion_pct · FACILITY_SUPERVISOR·sop_checklist_completion_pct · GENERAL_WORKER·task_checklist_completion_pct · GMP_PARTNER·audit_finding_closure_pct · HOUSEKEEPING·zone_sanitation_pass_pct · IT_MANAGER·system_uptime_pct · LAUNDRY·ppe_linen_turnaround_pct · MAINTENANCE_MANAGER·tickets_open · PROCESSING_MANAGER·batches_processed · PROCESSING_SUPERVISOR·trim_weight_accuracy_pct · SECURITY_OFFICER·dispatch_security_signoff_pct · TENANT_ADMIN·(audit_readiness_pct, doc_currency_pct, tenant_compliance_score) · TRIMMER·trim_throughput_g_hr · VIEWER·inspector_read_access · admin·ops_compliance_score · branch_assistant·transaction_accuracy_pct · dispatch_manager·on_time_delivery_pct · inventory_manager·stock_accuracy_pct · owner·gross_margin_to_target_pct · packer·labeling_accuracy_pct · stock_intake·intake_within_24h_pct · supplier·supplier_fulfilment_pct · user·patient_journey_access
+
+**How to emit** (per real decision, with your ilco bearer token):
+```
+POST /events/emit
+{ "type":"role.decision", "tenant_slug":"ilco", "role_key":"<ROLE>", "kpi_key":"<kpi>",
+  "workflow_key":"<wf>", "situation":"...", "action":"...", "outcome":"...",
+  "value":<0-1 or metric>, "decision_mode":"human", "occurred_at":"<iso>" }
+```
+**Distill gate = ≥10 obs per role.** The moment a role crosses it, `POST /ai/distill/harvest` (cron-able, our side) grounds it — green appears on the mesh from your real decisions, automatically. Full fleet contract: FLOCORE `docs/EMIT_CONTRACT.md`.
