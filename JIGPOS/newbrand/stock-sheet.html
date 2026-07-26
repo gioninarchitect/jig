@@ -281,6 +281,16 @@ function saveConfirm(title, detail){
 // ===== Approval (override code + note) — resolves to {code, note} or null =====
 let _apprResolve = null;
 function requireApproval(what){
+  // An authenticated APPROVER (owner / admin / manager) is already authorised by their
+  // login - the server accepts the change without an override code - so don't prompt them.
+  // Operators without an approver role still get the modal, so shop-floor control is intact.
+  try {
+    var APPROVER_ROLES = ['super_admin','owner','admin','branch_manager','inventory_manager','quality_manager','qa'];
+    var _p = JSON.parse(atob((token || '').split('.')[1]));
+    if (_p && APPROVER_ROLES.indexOf(_p.role) !== -1) {
+      return Promise.resolve({ code: '', note: (what || 'Change') + ' - approved by ' + (_p.email || _p.role) });
+    }
+  } catch (e) { /* fall through to the normal prompt */ }
   return new Promise(resolve => {
     _apprResolve = resolve;
     document.getElementById('apprWhat').textContent = what || 'Confirm this change';

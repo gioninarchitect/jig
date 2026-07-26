@@ -24,8 +24,8 @@ const State = {
 // -------------------------------------------------------------------
 const FLOAT_AMOUNT   = 0;     // no float by default — store keeps none (set per store if adopted)
 const VARIANCE_OK    = 5;     // ≤ R5 — green
-const VARIANCE_WARN  = 50;    // R5–R50 — amber
-                               // > R50  — red / manager required
+const VARIANCE_WARN  = 200;   // R5–R200 — amber
+                               // > R200 — red / note + owner review
 
 const DENOM_IDS = ['R200','R100','R50','R20','R10','R5','R2','R1','c50','c20','c10','c5'];
 
@@ -75,40 +75,37 @@ async function apiPost(path, body) {
     return data;
 }
 
-// In-page manager-approval modal for a cash variance over R50 (kiosk-safe — no window.prompt).
-// Resolves to { note, pin } or null if cancelled.
-function varianceOverride(prefillNote) {
+// In-page note prompt for a cash variance (kiosk-safe - no window.prompt).
+// Operator closes on her own login; a note is required to close. NO manager/admin PIN.
+// Resolves to the note string, or null if cancelled.
+function varianceNotePrompt(prefillNote, errMsg) {
     return new Promise(resolve => {
-        const old = document.getElementById('varOverrideModal'); if (old) old.remove();
+        const old = document.getElementById('varNoteModal'); if (old) old.remove();
         const el = document.createElement('div');
-        el.id = 'varOverrideModal';
+        el.id = 'varNoteModal';
         el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:100000;display:flex;align-items:center;justify-content:center;padding:20px;';
-        el.innerHTML = `<div style="background:#15130d;border:1px solid #C9A84C;border-radius:18px;max-width:400px;width:100%;padding:24px;font-family:'Inter',sans-serif;color:#F2ECDD;box-shadow:0 14px 50px rgba(0,0,0,.6);">
-            <div style="font-family:'Cinzel',serif;color:#C9A84C;font-size:1.2rem;margin-bottom:6px;">Manager approval needed</div>
-            <p style="color:#b8b1a0;font-size:.9rem;margin-bottom:16px;">The cash variance is over R50. Add a note and a manager / admin PIN to close the shift.</p>
-            <label style="font-size:.7rem;color:#9a9486;letter-spacing:1px;display:block;margin-bottom:5px;">CLOSING NOTE</label>
-            <textarea id="voNote" rows="2" style="width:100%;padding:11px;background:#1d1d1d;border:1px solid #2a2620;border-radius:10px;color:#fff;font-family:'Inter',sans-serif;margin-bottom:14px;resize:vertical;">${prefillNote || ''}</textarea>
-            <label style="font-size:.7rem;color:#9a9486;letter-spacing:1px;display:block;margin-bottom:5px;">MANAGER / ADMIN PIN</label>
-            <input id="voPin" type="password" inputmode="numeric" autocomplete="off" style="width:100%;padding:13px;background:#1d1d1d;border:1px solid #2a2620;border-radius:10px;color:#fff;letter-spacing:7px;font-size:1.25rem;text-align:center;">
-            <div id="voMsg" style="color:#DC2626;font-size:.8rem;min-height:15px;margin-top:8px;"></div>
-            <div style="display:flex;gap:10px;margin-top:14px;">
-                <button id="voCancel" style="flex:1;padding:13px;background:#262626;border:none;border-radius:11px;color:#fff;font-weight:700;cursor:pointer;">Cancel</button>
-                <button id="voOk" style="flex:2;padding:13px;background:#C9A84C;border:none;border-radius:11px;color:#1a1a1a;font-weight:800;cursor:pointer;">Approve &amp; Close</button>
+        el.innerHTML = `<div style="background:#15130d;border:1px solid #C9A84C;border-radius:18px;max-width:420px;width:100%;padding:24px;font-family:'Inter',sans-serif;color:#F2ECDD;box-shadow:0 14px 50px rgba(0,0,0,.6);">
+            <div style="font-family:'Cinzel',serif;color:#C9A84C;font-size:1.2rem;margin-bottom:6px;">Add a note to close</div>
+            <p style="color:#b8b1a0;font-size:.9rem;margin-bottom:16px;">There is a cash variance on this shift. Add a short note explaining it - this is sent to the owner for review. No PIN needed; the shift closes once the note is saved.</p>
+            <label style="font-size:.7rem;color:#9a9486;letter-spacing:1px;display:block;margin-bottom:5px;">VARIANCE NOTE</label>
+            <textarea id="vnNote" rows="3" placeholder="Explain the variance..." style="width:100%;padding:11px;background:#1d1d1d;border:1px solid #2a2620;border-radius:10px;color:#fff;font-family:'Inter',sans-serif;margin-bottom:6px;resize:vertical;">${prefillNote || ''}</textarea>
+            <div id="vnMsg" style="color:#DC2626;font-size:.8rem;min-height:15px;margin-top:4px;"></div>
+            <div style="display:flex;gap:10px;margin-top:12px;">
+                <button id="vnCancel" style="flex:1;padding:13px;background:#262626;border:none;border-radius:11px;color:#fff;font-weight:700;cursor:pointer;">Cancel</button>
+                <button id="vnOk" style="flex:2;padding:13px;background:#C9A84C;border:none;border-radius:11px;color:#1a1a1a;font-weight:800;cursor:pointer;">Save note &amp; close</button>
             </div>
         </div>`;
         document.body.appendChild(el);
-        setTimeout(() => { const n = document.getElementById('voNote'); if (n) n.focus(); }, 60);
+        if (errMsg) { const _m = document.getElementById('vnMsg'); if (_m) _m.textContent = errMsg; }
+        setTimeout(() => { const _f = document.getElementById('vnNote'); if (_f) _f.focus(); }, 60);
         const finish = (val) => { el.remove(); resolve(val); };
-        document.getElementById('voCancel').onclick = () => finish(null);
-        document.getElementById('voOk').onclick = () => {
-            const note = document.getElementById('voNote').value.trim();
-            const pin = document.getElementById('voPin').value.trim();
-            const msg = document.getElementById('voMsg');
-            if (!note) { msg.textContent = 'Enter a closing note'; return; }
-            if (!pin) { msg.textContent = 'Enter the manager / admin PIN'; return; }
-            finish({ note, pin });
+        document.getElementById('vnCancel').onclick = () => finish(null);
+        document.getElementById('vnOk').onclick = () => {
+            const note = document.getElementById('vnNote').value.trim();
+            const msg = document.getElementById('vnMsg');
+            if (!note) { msg.textContent = 'Add a note explaining the variance to close'; return; }
+            finish(note);
         };
-        document.getElementById('voPin').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('voOk').click(); });
     });
 }
 
@@ -279,29 +276,33 @@ async function step1Next() {
         const sessionId = State.sessionData?.session?._id || State.sessionData?._id;
         if (!sessionId) throw new Error('No active session found. Please start a POS session first.');
 
-        const closeReq = (approvalPin, notes) => apiPost('/pos/till/close', {
-            sessionId, denominations: denomPayload, closingNotes: notes || '', approvalPin: approvalPin || ''
+        const _cardEl = document.getElementById('cardCountedInput');
+        const _cardCounted = _cardEl && String(_cardEl.value).trim() !== '' ? Number(_cardEl.value) : null;
+        const closeReq = (notes) => apiPost('/pos/till/close', {
+            sessionId, denominations: denomPayload, closingNotes: notes || '',
+            cardCounted: _cardCounted
         });
         let data;
-        const note0 = document.getElementById('varianceNotes')?.value?.trim() || '';
+        let _note = document.getElementById('varianceNotes')?.value?.trim() || '';
         try {
-            data = await closeReq('', note0);
+            data = await closeReq(_note);
         } catch (err) {
-            // Variance over R50 — backend needs a manager/admin PIN + note. Use an IN-PAGE modal
-            // (window.prompt is suppressed in kiosk mode, which left Ray unable to type).
-            if ((err && err.requiresApproval) || /exceeds R50|manager\/admin PIN|approval/i.test(err?.message || '')) {
+            // Any real cash variance needs a note to close (no PIN). Prompt inline (kiosk-safe),
+            // re-submit with the note, and keep the operator here until it goes through.
+            if ((err && err.requiresNote) || /add a note|note explaining|variance to close/i.test(err?.message || '')) {
+                let _retryMsg = '';
                 while (true) {
-                    const ov = await varianceOverride(note0);
-                    if (!ov) { setLoading(btn, false); return; }   // cancelled — abort cleanly
-                    try { data = await closeReq(ov.pin, ov.note); break; }
+                    const n = await varianceNotePrompt(_note, _retryMsg);
+                    if (n == null) { setLoading(btn, false); return; }   // cancelled - abort cleanly
+                    _note = n;
+                    try { data = await closeReq(_note); break; }
                     catch (e2) {
-                        if (/invalid|PIN|approval|exceeds|note/i.test(e2?.message || '')) { showToast(e2.message || 'Invalid PIN — try again', 'error'); continue; }
+                        if ((e2 && e2.requiresNote) || /add a note|note explaining|variance to close/i.test(e2?.message || '')) { _retryMsg = e2.message || 'Add a note explaining the variance to close'; continue; }
                         throw e2;
                     }
                 }
             } else { throw err; }
         }
-
         State.closeData = data.session || data;
         populateStep2();
         goToStep(2);
@@ -335,6 +336,11 @@ function populateStep2() {
     setText('v2Variance',   (variance >= 0 ? '' : '− ') + 'R ' + Math.abs(variance).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
     setText('v2CashSales',  fmtZAR(totalCash));
     setText('v2Card',       fmtZAR(totalCard));
+    if (d.cardCounted != null) {
+        const cv = parseFloat(d.cardVariance || 0);
+        const cEl = document.getElementById('v2Card');
+        if (cEl) cEl.innerHTML = fmtZAR(totalCard) + ' <span style="font-size:.8em;color:' + (Math.abs(cv) < 0.01 ? '#22C55E' : '#F8C242') + '">(counted ' + fmtZAR(parseFloat(d.cardCounted)) + ' · ' + (cv === 0 ? 'balances' : (cv > 0 ? '+' : '−') + 'R' + Math.abs(cv).toFixed(2)) + ')</span>';
+    }
     setText('v2Eft',        fmtZAR(totalEFT));
     setText('v2TotalSales', fmtZAR(totalSales));
     setText('v2Transactions', txCount.toString());
@@ -361,7 +367,7 @@ function populateStep2() {
     } else {
         varRow.classList.add('state-alert');
         statusEl.className = 'variance-status show alert';
-        statusEl.innerHTML = '<i class="ph-siren"></i> Significant variance — manager approval required';
+        statusEl.innerHTML = '<i class="ph-siren"></i> Significant variance — add a note (owner is notified)';
         if (notesField) notesField.style.display = 'block';
     }
 }
@@ -692,3 +698,16 @@ const DayEnd = {
 // BOOT
 // -------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', initDayEnd);
+
+// Card reconciliation live helper (step 1)
+DayEnd.onCardInput = function () {
+    const sysCard = parseFloat((State.sessionData && State.sessionData.session && State.sessionData.session.totalCard) || State.sessionData?.totalCard || 0);
+    const sd = document.getElementById('cardSystemDisplay'); if (sd) sd.textContent = fmtZAR(sysCard);
+    const el = document.getElementById('cardCountedInput'); const vd = document.getElementById('cardVarianceDisplay');
+    if (!el || !vd) return;
+    if (String(el.value).trim() === '') { vd.textContent = ''; return; }
+    const v = (Number(el.value) || 0) - sysCard;
+    vd.textContent = (v === 0 ? '✓ balances' : (v > 0 ? '+' : '−') + 'R ' + Math.abs(v).toFixed(2));
+    vd.style.color = Math.abs(v) < 0.01 ? '#22C55E' : '#F8C242';
+};
+

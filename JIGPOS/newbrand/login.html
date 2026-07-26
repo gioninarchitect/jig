@@ -721,17 +721,12 @@
             const role = user?.role || 'user';
 
             switch(role) {
-                case 'super_admin':
                 case 'owner':
                     sessionStorage.setItem('adminToken', token);
                     window.location.href = 'owner-dashboard.html';
                     break;
                 case 'admin':
                 case 'branch_manager':
-                case 'pharmacy_admin':
-                case 'responsible_pharmacist':
-                case 'pharmacist':
-                case 'pharmacy_assistant':
                     sessionStorage.setItem('adminToken', token);
                     window.location.href = 'admin.html';
                     break;
@@ -824,5 +819,117 @@
             }
         });
     </script>
+<!-- ── Origin · branded install (A2HS) modal ─────────────────────────────────
+     Added 2026-07-21 for Ilse (owner) installing the POS on her Mac + Windows.
+     House rule: branded in-page modal only — never a native browser dialog.
+     No service-worker changes: uses the native install prompt when the browser
+     offers one, and falls back to per-platform steps when it does not.
+------------------------------------------------------------------------- -->
+<style>
+  #orgInstallBtn{position:fixed;right:18px;bottom:18px;z-index:9998;display:none;align-items:center;gap:8px;
+    padding:11px 16px;border:1px solid rgba(201,168,76,.45);border-radius:999px;cursor:pointer;
+    background:linear-gradient(135deg,#1a1a1a,#0A0A0A);color:#E8D5A3;font:600 13px/1 -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    box-shadow:0 6px 22px rgba(0,0,0,.5);transition:transform .15s,border-color .15s}
+  #orgInstallBtn:hover{transform:translateY(-1px);border-color:#C9A84C}
+  #orgInstallOv{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;
+    background:rgba(0,0,0,.78);backdrop-filter:blur(3px);padding:18px}
+  #orgInstallOv.show,#orgInstallBtn.show{display:flex}
+  .org-im{width:100%;max-width:430px;background:#0F0F0F;border:1px solid rgba(201,168,76,.35);border-radius:16px;
+    padding:24px;color:#F5F0E8;font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    box-shadow:0 24px 70px rgba(0,0,0,.65);max-height:92vh;overflow-y:auto}
+  .org-im h3{margin:14px 0 4px;font-size:19px;font-weight:800;letter-spacing:-.2px}
+  .org-im .sub{color:#A89F8C;font-size:12.5px;line-height:1.5;margin-bottom:16px}
+  .org-im .wm{font:800 13px/1 -apple-system,sans-serif;letter-spacing:3px;color:#C9A84C}
+  .org-im ol{margin:0;padding-left:17px;color:#d8d2c6;font-size:13px;line-height:1.75}
+  .org-im ol b{color:#E8D5A3}
+  .org-cta{width:100%;margin-top:18px;padding:13px;border:0;border-radius:11px;cursor:pointer;
+    background:linear-gradient(135deg,#8B6914 0%,#C9A84C 45%,#E8D5A3 100%);color:#0A0A0A;font:800 14px/1 inherit}
+  .org-x{width:100%;margin-top:9px;padding:11px;border:1px solid rgba(255,255,255,.14);border-radius:11px;
+    background:transparent;color:#A89F8C;font:600 13px/1 inherit;cursor:pointer}
+  .org-step{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:11px;padding:13px 15px}
+</style>
+
+<button id="orgInstallBtn" type="button" aria-label="Install Origin POS">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.2"
+       stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>
+  Install app
+</button>
+
+<div id="orgInstallOv" role="dialog" aria-modal="true" aria-labelledby="orgImTitle">
+  <div class="org-im">
+    <div class="wm">ORIGIN <span style="color:#5b5647">·</span> RETAIL POS</div>
+    <h3 id="orgImTitle">Install on this device</h3>
+    <div class="sub">Adds Origin POS to your device so it opens like a normal app — full screen, no address bar.</div>
+    <div class="org-step" id="orgImSteps"></div>
+    <button class="org-cta" id="orgImCta" type="button">Install now</button>
+    <button class="org-x" id="orgImClose" type="button">Not now</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var ov = document.getElementById('orgInstallOv'),
+      btn = document.getElementById('orgInstallBtn'),
+      steps = document.getElementById('orgImSteps'),
+      cta = document.getElementById('orgImCta'),
+      deferred = null;
+
+  // already installed? then never nag.
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+  var ua = navigator.userAgent, p;
+  if (/iPhone|iPad|iPod/i.test(ua)) p = 'ios';
+  else if (/Android/i.test(ua)) p = 'android';
+  else if (/Macintosh/i.test(ua) && /Safari/i.test(ua) && !/Chrome|Chromium|Edg/i.test(ua)) p = 'macsafari';
+  else p = 'desktop';   // Chrome / Edge on Windows or Mac
+
+  var GUIDE = {
+    ios:       ['Tap the <b>Share</b> button at the bottom of Safari.', 'Choose <b>Add to Home Screen</b>.', 'Tap <b>Add</b> — the Origin icon appears on your home screen.'],
+    android:   ['Open the <b>⋮ menu</b> (top right).', 'Choose <b>Install app</b> / <b>Add to Home screen</b>.', 'Confirm — the Origin icon appears on your home screen.'],
+    macsafari: ['In the Mac menu bar click <b>File</b>.', 'Choose <b>Add to Dock…</b>', 'Click <b>Add</b> — Origin POS sits in your Dock like an app.'],
+    desktop:   ['Click the <b>install icon</b> at the right of the address bar.', 'Or open the <b>⋮ menu</b> → <b>Install Origin POS</b>.', 'Confirm — it opens in its own window from your desktop / Start menu.']
+  };
+
+  function render(hasPrompt) {
+    // With a real prompt we lead with the button; otherwise show the manual route.
+    steps.innerHTML = hasPrompt
+      ? '<div style="font-size:13px;color:#d8d2c6;line-height:1.6">Click <b style="color:#E8D5A3">Install now</b> below and confirm. Origin POS will then open in its own window.</div>'
+      : '<ol>' + GUIDE[p].map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ol>';
+    cta.style.display = hasPrompt ? 'block' : 'none';
+  }
+
+  function open() { render(!!deferred); ov.classList.add('show'); }
+  function close() { ov.classList.remove('show'); try { localStorage.setItem('orgInstallDismissed', '1'); } catch (e) {} }
+
+  btn.addEventListener('click', open);
+  document.getElementById('orgImClose').addEventListener('click', close);
+  ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+
+  cta.addEventListener('click', function () {
+    if (!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.then(function () { deferred = null; close(); });
+  });
+
+  // Chrome/Edge fire this when the app is installable — capture it for our own CTA.
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();           // suppress the browser's own bar; we use the branded modal
+    deferred = e;
+    if (!standalone) btn.classList.add('show');
+  });
+
+  window.addEventListener('appinstalled', function () { btn.classList.remove('show'); close(); });
+
+  // Safari (and any browser with no prompt event) still needs a way in — show the
+  // launcher so the manual steps are always reachable.
+  if (!standalone) {
+    setTimeout(function () { if (!deferred) btn.classList.add('show'); }, 1200);
+    try {
+      if (!localStorage.getItem('orgInstallDismissed')) setTimeout(open, 2500);
+    } catch (e) {}
+  }
+})();
+</script>
+
 </body>
 </html>

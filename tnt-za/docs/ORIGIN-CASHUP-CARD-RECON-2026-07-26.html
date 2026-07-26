@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Origin POS — Card on Cash-up</title>
+<style>
+  @page { size: A4; margin: 15mm; }
+  * { -webkit-print-color-adjust:exact; print-color-adjust:exact; box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; color:#1f2933; font-size:11.5px; line-height:1.55; }
+  .head { display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:10px; border-bottom:2px solid #C9A84C; }
+  .mark { font-weight:800; letter-spacing:3px; color:#1f2933; font-size:16px; } .mark .g{color:#C9A84C;}
+  .mark small { display:block; letter-spacing:2px; color:#8a96a4; font-weight:600; font-size:8.5px; margin-top:3px; }
+  .meta { text-align:right; font-size:9.5px; color:#8a96a4; line-height:1.6; } .meta b{color:#1f2933;}
+  h1 { font-size:15px; margin:15px 0 3px; } .sub{color:#5b6b7a;font-size:11px;margin:0 0 12px;}
+  h2 { font-size:11px; letter-spacing:1px; text-transform:uppercase; color:#C9A84C; margin:15px 0 5px; padding-bottom:3px; border-bottom:1px solid #eef1f4; }
+  p{margin:5px 0;} b{color:#1f2933;}
+  ol{margin:4px 0 4px 18px;padding:0;} li{margin:3px 0;}
+  .who{display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#8B6914;background:#faf6ea;border:1px solid #ecdfb8;border-radius:5px;padding:1px 7px;margin-left:6px;vertical-align:middle;}
+  .card{background:#fafbfc;border:1px solid #e3e7eb;border-radius:8px;padding:11px 14px;margin:6px 0;}
+  .hi { background:#fbfcfd; border:1px solid #e3e7eb; border-left:3px solid #C9A84C; border-radius:6px; padding:9px 13px; margin:8px 0; } .hi b{color:#8B6914;}
+  .ex{font-family:"JetBrains Mono",monospace;font-size:10.5px;background:#0A0A0A;color:#F5F0E8;border-radius:7px;padding:10px 14px;margin:8px 0;}
+  .ex .g{color:#C9A84C;} .ex .a{color:#F8C242;} .ex .ok{color:#7Cc499;}
+  .foot{margin-top:14px;color:#aab4be;font-size:8.5px;border-top:1px solid #eef1f4;padding-top:8px;}
+</style></head><body>
+  <div class="head">
+    <div class="mark">ORIGIN <span class="g">·</span> RETAIL POS<small>CASH-UP &middot; CARD RECONCILIATION</small></div>
+    <div class="meta"><b>For:</b> Cashier &amp; Owner<br>26 July 2026</div>
+  </div>
+  <h1>The cash-up now reconciles the card machine too</h1>
+  <p class="sub">Until now the day-end only reconciled <b>cash</b> (count the drawer vs expected). The <b>card</b> figure was shown but never checked against the Speedpoint. Now you can balance the card machine against the till, the same way you balance cash.</p>
+
+  <h2>How to use it <span class="who">Cashier</span></h2>
+  <div class="card">
+    <ol>
+      <li>Do the cash count as normal (notes &amp; coins).</li>
+      <li>Below the cash total there's a new box: <b>Card machine (Speedpoint) — optional</b>. It shows the <b>system card sales</b> for the shift.</li>
+      <li>Pull the <b>Speedpoint end-of-day / batch total</b> off the card machine and type it into the box.</li>
+      <li>It shows the <b>difference live</b> — <b>✓ balances</b> if they match, or the amount out if not.</li>
+      <li>Press <b>Count Complete</b> and finish the cash-up as usual.</li>
+    </ol>
+  </div>
+  <div class="hi"><b>It's optional.</b> If you leave the card box blank, the cash-up works exactly as before — nothing changes and it will never stop you closing the till.</div>
+
+  <h2>What it controls <span class="who">Owner</span></h2>
+  <div class="card">
+    <p>When the cashier enters the Speedpoint total, the system compares it to the recorded card sales and stores a <b>card variance</b>:</p>
+    <ol>
+      <li>The card figure &amp; variance show on the <b>Variance</b> step and on the <b>Z-Report</b>.</li>
+      <li>If the card doesn't balance, the close is <b>flagged for owner review</b> and an email goes to <b>ray@ilcofarming.co.za</b> — exactly like a cash variance.</li>
+      <li>The <b>who / when / figures</b> are written to the audit trail.</li>
+    </ol>
+    <p style="margin-top:6px">This closes a real gap: card settlements that came up short (or a missed batch) would previously never have surfaced.</p>
+  </div>
+
+  <div class="ex">
+    Example — end of shift:<br>
+    &nbsp;&nbsp;System card sales &nbsp;= <span class="g">R 4,800.00</span><br>
+    &nbsp;&nbsp;Speedpoint batch &nbsp;&nbsp;= R 4,800.00 &nbsp;&rarr; <span class="ok">✓ balances</span><br>
+    &nbsp;&nbsp;Speedpoint batch &nbsp;&nbsp;= R 4,600.00 &nbsp;&rarr; <span class="a">−R 200.00 · flagged for owner review</span>
+  </div>
+
+  <div class="foot">Origin by ILCO Farming &middot; Retail POS &middot; Cash-up card reconciliation &middot; 26 July 2026 &middot; Optional, non-blocking; cash reconciliation unchanged.</div>
+</body></html>

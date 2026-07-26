@@ -285,6 +285,20 @@
                 </div>
             </div>
 
+            <!-- Card reconciliation (Speedpoint) — optional -->
+            <div class="denom-total-bar" style="flex-direction:column;align-items:stretch;gap:10px;margin-top:14px">
+                <span class="total-bar-label">CARD MACHINE (SPEEDPOINT) — optional</span>
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                    <span style="font-size:.8rem;color:#A89F8C">System card sales:</span>
+                    <span id="cardSystemDisplay" style="font-weight:700">R 0.00</span>
+                    <input id="cardCountedInput" type="number" step="0.01" inputmode="decimal" placeholder="Speedpoint batch total"
+                        oninput="DayEnd.onCardInput && DayEnd.onCardInput()"
+                        style="flex:1;min-width:150px;padding:10px 12px;border:1px solid rgba(201,168,76,.4);border-radius:10px;background:#141414;color:#F5F0E8;font-size:1rem">
+                    <span id="cardVarianceDisplay" style="font-weight:700"></span>
+                </div>
+                <span style="font-size:.72rem;color:#8a8270">Leave blank to skip. If it doesn't match, the close is flagged for owner review.</span>
+            </div>
+
             <div class="step-actions">
                 <button class="btn-primary" id="btnStep1Next" onclick="DayEnd.step1Next()">
                     Count Complete

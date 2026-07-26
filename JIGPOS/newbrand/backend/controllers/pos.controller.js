@@ -15,9 +15,9 @@ const VAT_RATE = config.business.vatRate;
 
 // A cart line's productId must be a Mongo ObjectId (24 hex). The POS grid can produce SYNTHETIC ids
 // for quick/pack lines (e.g. 'pack-3g-<id>', 'quick-preroll-<sku>') and stale cached tills can still
-// send gram composites ('<id>:30g'). Passing those into the Sale schema throws a Cast-to-ObjectId
-// ValidationError that 500s the WHOLE sale — the checkout blocker. Coerce to null so the sale still
-// records (money + receipt) and only the stock link is dropped for that line.
+// send gram composites ('<id>:30g'). Passing those straight into the Sale schema throws a Cast-to-
+// ObjectId ValidationError that 500s the WHOLE sale — a checkout blocker. Coerce to null so the sale
+// still records (money + receipt) and only the stock link is dropped for that line.
 const isObjectId = v => /^[a-f\d]{24}$/i.test(String(v || ''));
 
 // ============================================
@@ -36,7 +36,8 @@ exports.createSale = async (req, res) => {
       paymentReference,
       cardReference,
       paymentNotes,
-      proofOfPayment
+      proofOfPayment,
+      payments
     } = req.body;
 
     if (!branchId || !track || !items || items.length === 0) {
@@ -76,8 +77,25 @@ exports.createSale = async (req, res) => {
     const calculatedSubtotal = calculatedTotal / (1 + VAT_RATE);
     const calculatedTax = calculatedTotal - calculatedSubtotal;
 
-    if (paymentMethod) {
-      sale.payments.push({
+    // Normalize payment input — supports a single (paymentMethod, cardReference) OR a
+    // split-payment `payments[]` array (cash + card + eft). The array path used to be
+    // dropped entirely, so SPLIT sales saved as empty drafts: no payment, no stock
+    // deducted, R0 recorded — while the till showed "Sale Complete". This unifies both.
+    let incomingPayments = [];
+    if (Array.isArray(payments) && payments.length > 0) {
+      incomingPayments = payments
+        .filter(p => p && p.method && (p.amount === undefined || Number(p.amount) > 0))
+        .map(p => ({
+          method: p.method,
+          amount: Number(p.amount) || 0,
+          reference: p.reference || p.cardReference || p.paymentReference || null,
+          speedPointTransactionId: p.speedPointTransactionId || (p.method === 'card' ? (p.reference || null) : null),
+          status: p.method === 'eft' ? 'pending' : 'approved',
+          proofOfPayment: p.proofOfPayment || null,
+          processedAt: p.method !== 'eft' ? new Date() : null
+        }));
+    } else if (paymentMethod) {
+      incomingPayments = [{
         method: paymentMethod,
         amount: calculatedTotal,
         reference: cardReference || paymentReference,
@@ -85,13 +103,21 @@ exports.createSale = async (req, res) => {
         status: paymentMethod === 'eft' ? 'pending' : 'approved',
         proofOfPayment: proofOfPayment || null,
         processedAt: paymentMethod !== 'eft' ? new Date() : null
-      });
+      }];
+    }
+
+    const stockWarnings = [];
+    if (incomingPayments.length > 0) {
+      incomingPayments.forEach(p => sale.payments.push(p));
 
       if (paymentNotes) {
         sale.internalNotes = paymentNotes;
       }
 
-      if (paymentMethod !== 'eft') {
+      const hasPendingEft = incomingPayments.some(p => p.method === 'eft');
+
+      if (!hasPendingEft) {
+        // Fully settled (cash/card/instapay/voucher) → complete the sale + deduct stock.
         sale.paymentStatus = 'paid';
         sale.status = 'completed';
 
@@ -106,9 +132,9 @@ exports.createSale = async (req, res) => {
         for (const item of sale.items) {
           try {
             if (!item.productId) {
-              // Quick/pack or stale-cache line with no valid Product link — sale still records;
-              // surface for manual deduction on the stock sheet (also avoids a null .toString() NPE).
-              logger.warn('POS sale line not stock-linked — adjust on the stock sheet', { name: item.name });
+              // Quick/pack or stale-cache line with no valid Product link — sale still records,
+              // surface so it's deducted manually on the stock sheet (avoids silent stock drift).
+              stockWarnings.push(`${item.name}: not stock-linked — adjust on the stock sheet`);
               continue;
             }
             const inventory = inventoryMap.get(item.productId.toString());
@@ -121,14 +147,17 @@ exports.createSale = async (req, res) => {
               await Product.updateOne({ _id: item.productId }, { $inc: { 'inventory.quantity': -item.quantity } });
             }
           } catch (error) {
-            logger.error('POS inventory deduction error', { error: error.message, stack: error.stack });
+            // Do NOT fail the sale, but SURFACE it — silently swallowing this caused stock drift.
+            logger.error('POS inventory deduction error', { error: error.message, stack: error.stack, item: item.name });
+            stockWarnings.push(`${item.name}: ${error.message}`);
           }
         }
 
         sale.inventoryDeducted = true;
         sale.inventoryDeductedAt = new Date();
       } else {
-        sale.paymentStatus = 'pending';
+        // Any EFT component → awaits proof/approval before stock moves.
+        sale.paymentStatus = incomingPayments.some(p => p.method !== 'eft') ? 'partial' : 'pending';
         sale.status = 'pending_payment';
       }
     } else {
@@ -137,8 +166,8 @@ exports.createSale = async (req, res) => {
 
     await sale.save();
 
-    // Emit the completed sale to the FLOCORE event rail (fire-and-forget; no-op until env token set).
-    // payload.amount = NET goods (Σ qty×price), never tenders. Must NOT block the sale.
+    // Emit the completed sale to the FLOCORE event rail (fire-and-forget; no-op until FO provisions
+    // the tenant:ilco token). payload.amount = NET goods (Σ qty×price), never tenders. Must NOT block.
     if (sale.status === 'completed') {
       try { flocoreEmit.emitSale(sale); } catch (e) { /* never affects the sale */ }
     }
@@ -205,6 +234,7 @@ exports.createSale = async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'Sale created successfully',
+      stockWarnings,
       sale: {
         saleNumber: sale.saleNumber,
         _id: sale._id,
@@ -797,25 +827,86 @@ exports.closeTill = async (req, res) => {
     }
 
     
-    // Variance approval gate — over R50 needs a manager/admin PIN + note
+    // Cash-variance control (operator-note + owner-review model - NO manager PIN).
+    // Float is optional at open, so a hard PIN gate trapped solo operators. We document & review instead.
     const _dv = { r200:200, r100:100, r50:50, r20:20, r10:10, r5:5, r2:2, r1:1, c50:0.5, c20:0.2, c10:0.1, c5:0.05 };
     let _actual = 0;
     for (const _k in denominations) { const _v = _dv[String(_k).toLowerCase()]; if (_v) _actual += (Number(denominations[_k]) || 0) * _v; }
-    // Always recompute from the session's real figures — never trust a stale stored expectedCash.
-    const _expected = (tillSession.openingFloat || 0) + (tillSession.totalCash || 0) + (tillSession.totalCashIns || 0) - (tillSession.totalCashOuts || 0) - (tillSession.totalRefunds || 0);
+    // Always recompute expected from the session's real figures - never trust a stale stored expectedCash.
+    const _totalCashIns = (tillSession.cashIns || []).reduce((s, op) => s + (op.amount || 0), 0);
+    const _totalCashOuts = (tillSession.cashOuts || []).reduce((s, op) => s + (op.amount || 0), 0);
+    const _expected = (tillSession.openingFloat || 0) + (tillSession.totalCash || 0) + _totalCashIns - _totalCashOuts - (tillSession.totalRefunds || 0);
     const _variance = _actual - _expected;
-    if (Math.abs(_variance) > 50) {
-      const _MGR = ['owner','admin','super_admin','branch_manager'];
-      if (!_MGR.includes(req.user && req.user.role)) {
-        const _User = require('../modules/database/models/User');
-        const _appr = await _User.findOne({ permanentPin: String(req.body.approvalPin || ''), role: { $in: _MGR }, isActive: true });
-        if (!_appr) return res.status(403).json({ success: false, requiresApproval: true, message: 'Variance of R' + _variance.toFixed(2) + ' exceeds R50 — a manager/admin PIN is required to close.' });
-        if (!closingNotes || !String(closingNotes).trim()) return res.status(400).json({ success: false, message: 'A closing note is required when the variance exceeds R50.' });
-      }
+    const _hasVariance = Math.abs(_variance) > 0.009;
+    const _note = (closingNotes == null) ? '' : String(closingNotes).trim();
+    // Any real cash variance MUST carry a note. No PIN, no hard block once the note is present.
+    if (_hasVariance && !_note) {
+      return res.status(400).json({ success: false, requiresNote: true, message: 'Please add a note explaining the cash variance to close the shift.' });
     }
+    // Card reconciliation (optional): compare the Speedpoint batch total to system card sales.
+    // Additive — if no card figure is entered, behaviour is identical to before.
+    let _cardCounted = null, _cardVariance = 0, _hasCardVar = false;
+    const _cardRaw = req.body.cardCounted;
+    if (_cardRaw !== undefined && _cardRaw !== null && String(_cardRaw).trim() !== '') {
+      _cardCounted = Number(_cardRaw) || 0;
+      _cardVariance = _cardCounted - (tillSession.totalCard || 0);
+      _hasCardVar = Math.abs(_cardVariance) > 0.009;
+      tillSession.cardCounted = _cardCounted;
+      tillSession.cardVariance = _cardVariance;
+      tillSession.cardNote = (req.body.cardNote == null) ? '' : String(req.body.cardNote).trim();
+    }
+
     const _normDenom = {};
     for (const _dk in (denominations || {})) { _normDenom[String(_dk).toLowerCase()] = Number(denominations[_dk]) || 0; }
     await tillSession.closeSession(req.user.id, _normDenom, closingNotes);
+
+    // On any real cash OR card variance: flag for OWNER review + email ray@ilcofarming.co.za.
+    if (_hasVariance || _hasCardVar) {
+      try {
+        if (!tillSession.requiresApproval) { tillSession.requiresApproval = true; await tillSession.save(); }
+      } catch (flagErr) {
+        logger.warn('Could not flag till session for owner review (non-fatal):', flagErr.message);
+      }
+      // Email the owner. Reuse the existing emailService transport (same one used by the takings/Z-report email).
+      try {
+        let _opName = (req.user && req.user.username) || 'Operator';
+        try {
+          const _User = require('../modules/database/models/User');
+          const _op = await _User.findById(req.user.id).select('firstName lastName').lean();
+          if (_op) _opName = [(_op.firstName || ''), (_op.lastName || '')].join(' ').trim() || _opName;
+        } catch (_uErr) { /* name lookup must never block the close */ }
+        let _branchName = String(tillSession.branchId || '');
+        try {
+          const _br = await Branch.findById(tillSession.branchId).select('name').lean();
+          if (_br && _br.name) _branchName = _br.name;
+        } catch (_bErr) { /* branch lookup must never block the close */ }
+        const _role = (req.user && req.user.role) || 'unknown';
+        const _vAbs = Math.abs(tillSession.variance || _variance);
+        const _vSign = ((tillSession.variance || _variance) < 0) ? '-' : '+';
+        const _when = new Date(tillSession.closedAt || Date.now()).toLocaleString('en-ZA');
+        const _subj = 'Origin POS - cash variance on till close (R' + (tillSession.variance || _variance).toFixed(2) + ')';
+        const _html = '<div style="font-family:Arial,sans-serif;color:#1a1a1a">' +
+          '<h2 style="color:#C9A84C;margin-bottom:4px">Origin by ILCO - Cash variance on till close</h2>' +
+          '<p style="color:#555;margin-top:0">This close has been flagged for your review on the owner dashboard.</p>' +
+          '<table cellpadding="6" style="border-collapse:collapse;font-size:14px">' +
+          '<tr><td><b>Branch</b></td><td>' + _branchName + '</td></tr>' +
+          '<tr><td><b>Till</b></td><td>' + (tillSession.tillNumber || '-') + '</td></tr>' +
+          '<tr><td><b>Session</b></td><td>' + (tillSession.sessionNumber || '-') + '</td></tr>' +
+          '<tr><td><b>Operator</b></td><td>' + _opName + ' (' + _role + ')</td></tr>' +
+          '<tr><td><b>Expected cash</b></td><td>R' + (tillSession.expectedCash || _expected).toFixed(2) + '</td></tr>' +
+          '<tr><td><b>Counted cash</b></td><td>R' + (tillSession.actualCash || _actual).toFixed(2) + '</td></tr>' +
+          '<tr><td><b>Variance</b></td><td style="color:' + (_vSign === '-' ? '#DC2626' : '#15803d') + ';font-weight:700">' + _vSign + 'R' + _vAbs.toFixed(2) + '</td></tr>' +
+          (_hasCardVar ? ('<tr><td><b>Card (system)</b></td><td>R' + (tillSession.totalCard || 0).toFixed(2) + '</td></tr>' +
+            '<tr><td><b>Card (counted)</b></td><td>R' + (_cardCounted || 0).toFixed(2) + '</td></tr>' +
+            '<tr><td><b>Card variance</b></td><td style="font-weight:700">R' + _cardVariance.toFixed(2) + '</td></tr>') : '') +
+          '<tr><td valign="top"><b>Operator note</b></td><td>' + (_note || '(none)') + '</td></tr>' +
+          '<tr><td><b>Closed at</b></td><td>' + _when + '</td></tr>' +
+          '</table></div>';
+        await emailService.sendEmail({ to: 'ray@ilcofarming.co.za', subject: _subj, html: _html });
+      } catch (mailErr) {
+        logger.warn('Variance close email failed (non-fatal):', mailErr.message);
+      }
+    }
 
     // Notify owner dashboard of till closure
     try {
@@ -823,6 +914,8 @@ exports.closeTill = async (req, res) => {
         branchId: tillSession.branchId,
         sessionNumber: tillSession.sessionNumber,
         variance: tillSession.variance,
+        closingNotes: tillSession.closingNotes,
+        requiresApproval: tillSession.requiresApproval,
         totalSales: tillSession.totalSales,
         transactionCount: tillSession.transactionCount
       });
@@ -846,7 +939,10 @@ exports.closeTill = async (req, res) => {
         totalCash: tillSession.totalCash,
         totalCard: tillSession.totalCard,
         totalEFT: tillSession.totalEFT,
-        totalInstapay: tillSession.totalInstapay
+        totalInstapay: tillSession.totalInstapay,
+        cardCounted: tillSession.cardCounted,
+        cardVariance: tillSession.cardVariance,
+        cardNote: tillSession.cardNote
       }
     });
   } catch (error) {

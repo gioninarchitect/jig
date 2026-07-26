@@ -9,6 +9,20 @@ const APPROVE_ROLES = ['super_admin', 'owner', 'admin', 'branch_manager', 'inven
 
 module.exports.requireApprovalCode = async (req, res, next) => {
   try {
+    // An already-authenticated APPROVER (owner / admin / manager) does not need a separate
+    // override code - their login IS the authorisation. The audit then records the real
+    // person instead of a shared code. Operators WITHOUT an approver role (e.g. cashier)
+    // still require a code, so the two-person control on the shop floor is unchanged.
+    if (req.user && APPROVE_ROLES.includes(req.user.role)) {
+      req.approval = {
+        role: req.user.role,
+        label: req.user.role,
+        holder: req.user.email || req.user.username || req.user.role,
+        viaLogin: true,
+      };
+      return next();
+    }
+
     const code = String(req.body.approvalCode || '').trim();
     if (!code) return res.status(400).json({ success: false, message: 'Override code required' });
     const rec = await mongoose.connection.db.collection('approvalCodes').findOne({ code, active: { $ne: false } });

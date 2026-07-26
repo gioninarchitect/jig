@@ -75,6 +75,10 @@ const tillSessionSchema = new mongoose.Schema({
   totalCash: { type: Number, default: 0 },
   totalCard: { type: Number, default: 0 },
   totalEFT: { type: Number, default: 0 },
+  // Card reconciliation (Speedpoint batch vs system card sales) — optional at close.
+  cardCounted: { type: Number, default: null },
+  cardVariance: { type: Number, default: 0 },
+  cardNote: { type: String, default: '' },
   totalInstapay: { type: Number, default: 0 },
   totalRefunds: { type: Number, default: 0 },
   totalVoids: { type: Number, default: 0 },
