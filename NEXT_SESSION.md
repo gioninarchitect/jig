@@ -57,9 +57,9 @@ Server = ssh alias **`tr-api`** (root@154.66.197.199), hosts both + others. pm2:
 - **No Co-Authored-By** trailer. **Live POS = extreme vigilance** (broke the cash-up once this session via a JS ordering bug — caught in headless verify before handoff; fixed).
 
 ## Next 3 actions
-1. **Loraine Phase 3** (rooms + batch golden thread) — needs her Scouting/Defoliation fields + auto-deduct OK (asked in 16 Jul PDF). Build room shell + 2 rooms, prove, then roll — NOT big-bang.
-2. **Cheap FLOCORE wins:** nursery emit (6 KPIs → `/iot/readings`, token in hand); watch hub for the gate-collision fix (unblocks P0 reroute) + feeding machine-auth + SSO staff provisioning.
-3. **Optional hardening (Flo-gated):** gate the POS `123456` bypass; strip credentials from `NEXT-SESSION-POS.md`/`RECAP-2026-06-06.md`.
+1. **🔴 TRADE-READY (~2 weeks, top priority)** — prove the farm→pharmacy pipeline to SAHPRA + SAPC (Lane E in WAVES.md; plan `tnt-za/docs/ILCO-TRADE-READY-PLAN-2026-07-28.pdf`). **Start with the PROOF RUN (E0):** live DB has 0 batches / 0 COAs — walk one pilot batch harvest→batch→lab→COA→dispatch→pharmacy→Section-21 dispense. Blocked on pilot-batch source + a real lab result + specialist sign-off on all regulator copy.
+2. **Loraine Phase 3** (rooms + batch golden thread) — needs her Scouting/Defoliation fields + auto-deduct OK. NOTE: the batch golden thread directly supports the trade-ready pipeline demo.
+3. **Cheap FLOCORE wins / hardening (Flo-gated):** nursery emit; watch hub for gate-collision fix; POS `123456` bypass; strip creds from POS docs.
 
 ## Env names
 `FLOCORE_TOKEN` · `FLOCORE_URL` · `FLOCORE_SSO_ENABLED`(off) · `FLOCORE_BASIC_AUTH`(SSO only) · `ANTHROPIC_API_KEY`(still direct, pending reroute) · `DATABASE_URL` · `PORT`(6000) · POS `MONGODB_URI`.

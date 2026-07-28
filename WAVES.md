@@ -30,5 +30,16 @@ Last updated: 2026-07-26 · Branch `feat/flocore-sso-events`
 - [ ] **Nursery emit** — 6 KPIs → `/iot/readings` (token in hand; may hit same gate — probe first).
 - [!] **SSO flip** — needs FO to provision staff FLOCORE identities (loraine@/lou@/jen@/nm@/fm@/owners) + Flo's go.
 
+## LANE E — 🔴 TRADE-READY: prove the farm→pharmacy pipeline (SAHPRA + SAPC) · ~2 weeks
+Goal: demonstrate ONE batch flowing cultivation→processing→lab/COA→dispatch→pharmacy→Section-21 dispense, audit-clean, to the medicines regulator + pharmacy council. Live demo + compliance doc pack + on-site walk-through. Plan: `tnt-za/docs/ILCO-TRADE-READY-PLAN-2026-07-28.pdf`.
+- [!] **E0 — THE PROOF RUN (do first).** Live DB has **0 batches / 0 COAs** — pipeline never run end-to-end. Walk one pilot batch: harvest → batch → lab result → **COA** → dispatch → pharmacy receipt → Section-21 dispense; verify each stage writes the audit chain. **Blocked on:** pilot batch source (real stock vs documented dry-run) + a real lab result for the COA (decisions A/B).
+- [ ] **E1 — Section-21 dispense flow** verified front-to-back on the POS (patient/doctor/pharmacist vetting → gated order → dispense record).
+- [ ] **E2 — SOP gap fill** for the stages shown (only 3 SOPs live) so the demo's process steps have their SOP.
+- [ ] **E3 — Live demo script** (batch walk + audit reproduce + RBAC per-role view). Dry-run end-to-end.
+- [ ] **E4 — Compliance document pack** (SAHPRA section + SAPC section; capability→requirement map + pilot COA + audit extract). **Specialist-reviewed before issue.**
+- [ ] **E5 — On-site walk-through** route (farm + shop, system-in-context). Leverages Loraine Phase-3 rooms (parked).
+- [!] **E6 — Specialist sign-off** on ALL regulator-facing copy (medicines-law + pharmacy). Nothing goes to SAHPRA/SAPC without it. Also confirm: GMP application standing, pharmacy SAPC registration + pharmacist of record.
+**DoD:** one batch's COA + Section-21 dispense demonstrable live; doc pack specialist-signed; demo rehearsed; date locked.
+
 ## LANE D — quality debt
 - [ ] **Work-board audit (20 Jun)** open items: offline-UX "lies" + token-refresh (P0), .catch swallow + compliance-ticket dead-end (P1), optimistic updates (P2). Re-verify vs current code first (3+ weeks old).
