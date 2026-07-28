@@ -45,6 +45,11 @@ export async function generateCOA(batchId: string, data: { tenantId: string; use
     doc.fontSize(24).fillColor('#0D6B3D').text('Certificate of Analysis', { align: 'center' });
     doc.moveDown(0.5);
     doc.fontSize(10).fillColor('#666').text('TnT-ZA Cannabis Track & Trace', { align: 'center' });
+    if (batch.validationRun) {
+      doc.moveDown(0.3);
+      doc.fontSize(11).fillColor('#B91C1C')
+        .text('VALIDATION / PROOF RUN — NOT FOR RELEASE — lab values are sample data pending an accredited result', { align: 'center' });
+    }
     doc.moveDown(1);
 
     // Batch info

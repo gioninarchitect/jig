@@ -1241,6 +1241,10 @@ model Batch {
   status      BatchStatus @default(ACTIVE)
   coaStatus   COAStatus   @default(PENDING)
   totalWeight Float       @default(0)
+  // Golden thread: link back to the source harvest (E0 proof-run / batch golden thread)
+  harvestRequestId String?
+  // Marks a validation / proof-run batch — COA is watermarked NOT-FOR-RELEASE
+  validationRun    Boolean @default(false)
   parentBatchId String?
   parentBatch Batch?      @relation("BatchGenealogy", fields: [parentBatchId], references: [id])
   childBatches Batch[]    @relation("BatchGenealogy")
@@ -2060,6 +2064,8 @@ model HarvestRequest {
   status              String   @default("REQUESTED") // REQUESTED | APPROVED | DECLINED | COMPLETED
   checklistAnswers    Json?    // boolean[]
   dryingRoomAllocated String?
+  // Golden thread forward-link: the Batch materialised from this completed harvest (one per harvest)
+  batchId             String?
 
   // Potential yield — estimated before harvest
   expectedYieldPerPlantG Int?      // grams per plant, based on strain baseline × grower factor

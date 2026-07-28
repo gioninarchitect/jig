@@ -14,6 +14,17 @@ export async function create(req: AuthRequest, res: Response) {
   } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
 }
 
+export async function createFromHarvest(req: AuthRequest, res: Response) {
+  try {
+    const batch = await batchService.createBatchFromHarvest({
+      harvestRequestId: p(req.params.harvestRequestId),
+      tenantId: req.user!.tenantId, userId: req.user!.userId,
+      validationRun: req.body.validationRun === true || req.body.validationRun === 'true',
+    });
+    res.status(201).json({ success: true, batch });
+  } catch (err: any) { res.status(err.status || 500).json({ success: false, error: err.message }); }
+}
+
 export async function list(req: AuthRequest, res: Response) {
   try {
     const batches = await batchService.listBatches({

@@ -156,6 +156,78 @@ export async function createBatch(data: {
   return batch;
 }
 
+// ── HARVEST → BATCH (the golden-thread keystone) ──────────────────────────────
+// A COMPLETED HarvestRequest carries the real yield (actualYieldKg), strain, GH/bay
+// and QAM+HoC approvals. This materialises it into a Batch so it can flow downstream
+// (containers → lab → COA → dispatch). Idempotent: one Batch per harvest.
+export async function createBatchFromHarvest(data: {
+  harvestRequestId: string;
+  tenantId: string;
+  userId: string;
+  validationRun?: boolean;
+}) {
+  const hr = await prisma.harvestRequest.findFirst({
+    where: { id: data.harvestRequestId, tenantId: data.tenantId },
+  });
+  if (!hr) throw Object.assign(new Error('Harvest request not found'), { status: 404 });
+  if (hr.status !== 'COMPLETED') {
+    throw Object.assign(new Error(`Harvest must be COMPLETED to create a batch (currently ${hr.status})`), { status: 400 });
+  }
+  if (hr.batchId) {
+    const existing = await prisma.batch.findFirst({ where: { id: hr.batchId, tenantId: data.tenantId } });
+    if (existing) return existing; // idempotent — already materialised
+  }
+
+  // Resolve strain name (strainId may be a code or an id — try both, fall back to the batchNo prefix)
+  let strainName = '';
+  const strain = await prisma.strain.findFirst({
+    where: { tenantId: data.tenantId, OR: [{ id: hr.strainId }, { name: hr.strainId }] },
+    select: { name: true },
+  }).catch(() => null);
+  strainName = strain?.name || hr.batchNo.trim().split(/\s+/)[0] || 'Unknown';
+
+  const facility = await prisma.facility.findFirst({ where: { tenantId: data.tenantId }, select: { id: true } });
+  if (!facility) throw Object.assign(new Error('No facility for tenant'), { status: 400 });
+
+  const totalWeight = Number(hr.actualYieldKg || 0) * 1000; // kg → g
+
+  // Validation/proof batches get a VAL- prefix so they are unmistakable in the register.
+  const cleanNo = hr.batchNo.replace(/\s+/g, '');
+  const batchNumber = data.validationRun ? `VAL-${cleanNo}` : cleanNo;
+
+  const batch = await prisma.batch.create({
+    data: {
+      batchNumber,
+      strain: strainName,
+      status: BatchStatus.ACTIVE,
+      totalWeight,
+      tenantId: data.tenantId,
+      facilityId: facility.id,
+      harvestRequestId: hr.id,
+      validationRun: !!data.validationRun,
+    },
+  });
+
+  await prisma.harvestRequest.update({ where: { id: hr.id }, data: { batchId: batch.id } });
+
+  eventBus.emit('BATCH_CREATED', {
+    userId: data.userId, tenantId: data.tenantId,
+    entityType: 'Batch', entityId: batch.id,
+    batchId: batch.id, harvestRequestId: hr.id, totalWeight,
+    source: 'HARVEST', validationRun: !!data.validationRun,
+  });
+
+  await issueLabel({
+    labelType: 'BATCH', entityType: 'Batch', entityId: batch.id,
+    entityName: batch.batchNumber, batchId: batch.id,
+    tenantId: data.tenantId, userId: data.userId,
+  });
+
+  await ensureBatchCultivationRecord(batch.id, data.tenantId, data.userId);
+
+  return batch;
+}
+
 export async function listBatches(query: {
   tenantId: string;
   status?: string;

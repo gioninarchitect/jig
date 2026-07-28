@@ -17,6 +17,30 @@ export async function createManifest(data: {
   tenantId: string;
   userId: string;
 }) {
+  // LAB GATE: dispatch is blocked unless every batch on the manifest has a valid,
+  // released COA (SAHPRA expectation — no product leaves the facility un-tested).
+  // batchIds may carry either batch ids or batchNumbers (the UI accepts free text).
+  const ids = (data.batchIds || []).map(s => String(s).trim()).filter(Boolean);
+  if (!ids.length) throw Object.assign(new Error('At least one batch is required'), { status: 400 });
+  const batches = await prisma.batch.findMany({
+    where: { tenantId: data.tenantId, OR: [{ id: { in: ids } }, { batchNumber: { in: ids } }] },
+    include: { coas: { where: { valid: true }, select: { id: true } } },
+  });
+  const found = new Set<string>();
+  batches.forEach(b => { found.add(b.id); found.add(b.batchNumber); });
+  const unknown = ids.filter(x => !found.has(x));
+  const ungated = batches.filter(b => b.status !== 'RELEASED' || b.coas.length === 0)
+    .map(b => b.batchNumber);
+  if (unknown.length || ungated.length) {
+    const parts = [];
+    if (unknown.length) parts.push(`unknown batch(es): ${unknown.join(', ')}`);
+    if (ungated.length) parts.push(`no valid released COA: ${ungated.join(', ')}`);
+    throw Object.assign(
+      new Error(`Dispatch blocked — ${parts.join('; ')}. A batch must have a passed lab result and issued COA before it can be dispatched.`),
+      { status: 400 },
+    );
+  }
+
   const manifest = await prisma.transportManifest.create({
     data: {
       batchIds: data.batchIds,

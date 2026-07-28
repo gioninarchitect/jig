@@ -6,6 +6,7 @@ const router = Router();
 router.use(requireAuth);
 
 router.post('/', requireLevel(3), batch.create);
+router.post('/from-harvest/:harvestRequestId', requireLevel(3), batch.createFromHarvest);
 router.get('/', requireLevel(0), batch.list);
 router.get('/:id', requireLevel(0), batch.getById);
 router.post('/:id/bcr/sync', requireLevel(2), batch.syncBcr);

@@ -27,8 +27,10 @@ const READ_ONLY_AREAS: Record<string, string[]> = {
     // Cultivation quality signals
     '/api/baygrid', '/api/env-log', '/api/daily-checks', '/api/ipm-scouting',
     '/api/cleaning-schedule', '/api/mortality',
-    // Processing / product side
-    '/api/batches', '/api/containers', '/api/lab', '/api/coa', '/api/trim',
+    // Processing / product side. NOTE: /api/coa is intentionally NOT here —
+    // issuing the COA IS the QA sign-off act (see coa.routes requireRole +
+    // QASignOffPage). QA reviews lab data (view-only /api/lab) but signs the COA.
+    '/api/batches', '/api/containers', '/api/lab', '/api/trim',
   ],
 };
 
