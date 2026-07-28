@@ -3113,5 +3113,13 @@
     }
     </script>
     <script src="frontend/keyboard.js" defer></script>
+<script>
+  // PWA install-enabler: register the no-cache pass-through SW so Chrome/Edge offer one-click install.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/pos-a2hs-sw.js', { scope: '/' }).catch(function(){});
+    });
+  }
+</script>
 </body>
 </html>

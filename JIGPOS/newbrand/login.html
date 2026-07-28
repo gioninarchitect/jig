@@ -474,6 +474,9 @@
             .logo { width: 80px; height: 80px; }
         }
     </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#C9A84C">
+  <link rel="apple-touch-icon" href="/images/icon-192.png">
 </head>
 <body>
     <div class="toast-container" id="toastContainer"></div>
@@ -931,5 +934,13 @@
 })();
 </script>
 
+<script>
+  // PWA install-enabler: register the no-cache pass-through SW so Chrome/Edge offer one-click install.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/pos-a2hs-sw.js', { scope: '/' }).catch(function(){});
+    });
+  }
+</script>
 </body>
 </html>
