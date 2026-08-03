@@ -144,6 +144,23 @@
     </div>
   </div>
 </div>
+<!-- Transfer / move-to-category modal -->
+<div class="modal" id="tfModal">
+  <div class="card">
+    <h3>Move to category</h3>
+    <div class="body">
+      <div id="tfWhat" style="color:#cfc6ad;font-size:.9rem;margin-bottom:4px;"></div>
+      <label>MOVE TO<select id="tfCat" onchange="tfToggleNew()" style="padding:11px;border-radius:8px;background:#1a1712;color:#f0e9d6;border:1px solid #3a352b;font-size:1rem;"></select></label>
+      <label id="tfNewWrap" style="display:none;">NEW CATEGORY<input id="tfNew" placeholder="e.g. skincare" list="catList"></label>
+      <div id="tfMsg" style="color:var(--red);font-size:.8rem;min-height:14px;"></div>
+      <div style="color:#777;font-size:.7rem;">Only the category changes — price, stock and everything else stay exactly as they are. Recorded in the audit trail.</div>
+    </div>
+    <div class="foot">
+      <button class="btn btn-ghost" style="flex:1;" onclick="tfCancel()">Cancel</button>
+      <button class="btn btn-gold" style="flex:2;" onclick="tfDo()">Move product</button>
+    </div>
+  </div>
+</div>
 <!-- Approval (override) modal — manager/role code + note required for every change -->
 <div class="modal" id="apprModal">
   <div class="card">
@@ -312,6 +329,56 @@ function apprConfirm(){
 }
 function apprCancel(){ document.getElementById('apprModal').classList.remove('open'); const r=_apprResolve; _apprResolve=null; if(r) r(null); }
 
+// ===== Move product to another category (smart transfer) =====
+let _tfId = null;
+function transferOpen(id){
+  const p = PRODUCTS.find(x=>x._id===id); if(!p) return;
+  _tfId = id;
+  const cur = p.category || '';
+  // Dropdown is built live from existing categories, so new categories appear automatically.
+  const cats = [...new Set(PRODUCTS.map(x=>x.category).filter(Boolean))].sort().filter(c=>c!==cur);
+  const opts = cats.map(c=>`<option value="${c}">${c}</option>`).join('');
+  document.getElementById('tfCat').innerHTML = opts + '<option value="__new__">➕ New category…</option>';
+  document.getElementById('tfWhat').innerHTML = `Move <b>“${(p.name||'').replace(/"/g,'&quot;')}”</b> — now in <b style="color:var(--gold)">${cur||'uncategorised'}</b>`;
+  const nw = document.getElementById('tfNewWrap'); nw.style.display='none';
+  document.getElementById('tfNew').value='';
+  document.getElementById('tfMsg').textContent='';
+  tfToggleNew();
+  document.getElementById('tfModal').classList.add('open');
+}
+function tfToggleNew(){
+  const isNew = document.getElementById('tfCat').value==='__new__';
+  document.getElementById('tfNewWrap').style.display = isNew ? 'flex' : 'none';
+}
+function tfCancel(){ document.getElementById('tfModal').classList.remove('open'); _tfId=null; }
+async function tfDo(){
+  const id=_tfId; if(!id) return;
+  const p = PRODUCTS.find(x=>x._id===id); if(!p){ tfCancel(); return; }
+  let cat = document.getElementById('tfCat').value;
+  if(cat==='__new__') cat = document.getElementById('tfNew').value.trim().toLowerCase();
+  cat = (cat||'').trim().toLowerCase();
+  if(!cat){ document.getElementById('tfMsg').textContent='Pick or type a category'; return; }
+  if(cat===(p.category||'').toLowerCase()){ tfCancel(); return; }
+  const appr = await requireApproval(`Move “${p.name}” to category “${cat}”`);
+  if(!appr) return;
+  const body = { category: cat, approvalCode: appr.code, note: appr.note };
+  const r = await fetch(`${API}/products/${id}/manage`, { method:'PATCH', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body:JSON.stringify(body) });
+  const d = await r.json();
+  if(d.success && d.persisted){
+    const s = d.saved || {};
+    p.category = s.category ?? cat;
+    tfCancel();
+    saveConfirm(`“${p.name}” moved`, `Now in “${p.category}” — approved by ${d.approvedBy||'role'}`);
+    // Keep the category pickers current in case this introduced a brand-new category.
+    const all=[...new Set(PRODUCTS.map(x=>x.category).filter(Boolean))].sort();
+    document.getElementById('catList').innerHTML = all.map(c=>`<option value="${c}">`).join('');
+    document.getElementById('catFilter').innerHTML = '<option value="">All categories</option>' + all.map(c=>`<option>${c}</option>`).join('');
+    render();
+  } else {
+    document.getElementById('tfMsg').textContent = d.message||'Move failed — not saved';
+  }
+}
+
 // ===== Audit trail viewer =====
 async function openAudit(){
   document.getElementById('auditModal').classList.add('open');
@@ -411,6 +478,7 @@ function rowHtml(p){
     <td><div class="actcell" style="align-items:center;">
       <input type="checkbox" class="rowsel" title="Select" onchange="updateBulkBar()" style="width:18px;height:18px;accent-color:#DC2626;">
       <button class="save" onclick="save('${p._id}',this)">Save</button>
+      <button class="save" style="background:#2f6b4f;" onclick="transferOpen('${p._id}')" title="Move this product to another category">Move ▸</button>
       <button class="del" onclick="hide('${p._id}',this)">Hide</button>
       <button class="del" style="background:#7a1f1f;" onclick="delOne('${p._id}',this)" title="Delete permanently">Delete</button>
     </div></td>
