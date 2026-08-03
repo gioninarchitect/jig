@@ -173,16 +173,83 @@ function importDiff(rows, existingBySku) {
   return out;
 }
 
+async function loadExistingBySku(rows) {
+  const skus = [...new Set(rows.map(r => String(r && r.sku || '').trim()).filter(Boolean))];
+  const existing = skus.length ? await db().collection('products').find({ sku: { $in: skus } }).toArray() : [];
+  const bySku = {}; existing.forEach(p => { bySku[p.sku] = p; });
+  return bySku;
+}
+
 exports.importPreview = async (req, res) => {
   try {
     const rows = Array.isArray(req.body.rows) ? req.body.rows : [];
     if (!rows.length) return res.status(400).json({ success: false, message: 'No rows to preview' });
     if (rows.length > IMPORT_MAX_ROWS) return res.status(400).json({ success: false, message: `Too many rows (max ${IMPORT_MAX_ROWS})` });
-    const skus = [...new Set(rows.map(r => String(r && r.sku || '').trim()).filter(Boolean))];
-    const existing = skus.length ? await db().collection('products').find({ sku: { $in: skus } }).toArray() : [];
-    const bySku = {}; existing.forEach(p => { bySku[p.sku] = p; });
-    const preview = importDiff(rows, bySku);
+    const preview = importDiff(rows, await loadExistingBySku(rows));
     res.json({ success: true, preview });
   } catch (e) { logger.error('sm.importPreview', { error: e.message }); res.status(500).json({ success: false, message: 'Error building preview' }); }
+};
+
+// ── SPREADSHEET IMPORT — COMMIT (Phase 2b, THE WRITE STEP) ────────────────────
+// Re-runs the SAME diff (so it can never disagree with the preview the owner saw),
+// then applies: create -> insert + branch inventory; update -> $set ONLY the changed
+// fields; unchanged/error -> skip. Never deletes. Every change is audited.
+const norm = (v) => String(v == null ? '' : v).trim();
+const truthy = (v) => /^(y|yes|true|1|active|on)$/i.test(norm(v));
+exports.importCommit = async (req, res) => {
+  try {
+    const rows = Array.isArray(req.body.rows) ? req.body.rows : [];
+    if (!rows.length) return res.status(400).json({ success: false, message: 'No rows to import' });
+    if (rows.length > IMPORT_MAX_ROWS) return res.status(400).json({ success: false, message: `Too many rows (max ${IMPORT_MAX_ROWS})` });
+    const bySku = await loadExistingBySku(rows);
+    const diff = importDiff(rows, bySku);
+    const rowByLine = {}; rows.forEach((r, i) => { rowByLine[i + 2] = r; });
+    const now = new Date();
+    if (!req.body.note) req.body.note = 'Spreadsheet import';
+    let branches = [];
+    if (diff.create > 0) { try { branches = await db().collection('branches').find({ name: { $not: /online/i } }).toArray(); } catch (e) {} }
+    let created = 0, updated = 0, unchanged = 0, failed = 0; const errors = [];
+    for (const dr of diff.rows) {
+      const src = rowByLine[dr.line] || {};
+      try {
+        if (dr.action === 'create') {
+          const price = Number(src.price);
+          const qty = norm(src.stock) === '' ? 0 : (parseInt(src.stock, 10) || 0);
+          const slug = norm(src.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) + '-' + now.getTime();
+          const doc = {
+            name: norm(src.name), slug, sku: norm(src.sku), category: norm(src.category).toLowerCase(),
+            track: (norm(src.track) || 'lifestyle').toLowerCase(), brand: norm(src.brand), price,
+            size: norm(src.size), description: norm(src.description) || norm(src.name),
+            inventory: { quantity: qty }, status: 'active', isActive: norm(src.active) ? truthy(src.active) : true,
+            createdAt: now, updatedAt: now
+          };
+          const ins = await db().collection('products').insertOne(doc);
+          for (const b of branches) {
+            await db().collection('branchinventories').updateOne(
+              { branchId: b._id, productId: ins.insertedId },
+              { $setOnInsert: { branchId: b._id, productId: ins.insertedId, reserved: 0, lowStockThreshold: 10, reorderPoint: 20, reorderQuantity: 50, maxStock: 500, isActive: true, isAvailableForSale: true, isAvailable: true, recentMovements: [], createdAt: now, __v: 0 }, $set: { quantity: qty, updatedAt: now } },
+              { upsert: true }
+            );
+          }
+          await writeAudit(req, 'import-create', { _id: ins.insertedId, name: doc.name, category: doc.category }, [['created', '', `${doc.name} @ R${doc.price} · qty ${qty} (import)`]]);
+          created++;
+        } else if (dr.action === 'update') {
+          const ex = bySku[dr.sku]; if (!ex) { failed++; errors.push({ line: dr.line, sku: dr.sku, error: 'Product no longer exists' }); continue; }
+          const set = { updatedAt: now }; const changes = [];
+          (dr.changes || []).forEach(c => {
+            if (c.field === 'stock') { set['inventory.quantity'] = Number(c.to); changes.push(['quantity', c.from, Number(c.to)]); }
+            else if (c.field === 'active') { set.isActive = c.to === 'yes'; changes.push(['isActive', c.from, c.to]); }
+            else if (c.field === 'price') { set.price = Number(c.to); changes.push(['price', c.from, Number(c.to)]); }
+            else { set[c.field] = c.to; changes.push([c.field, c.from, c.to]); }
+          });
+          await db().collection('products').updateOne({ _id: ex._id }, { $set: set });
+          await writeAudit(req, 'import-update', ex, changes);
+          updated++;
+        } else if (dr.action === 'unchanged') { unchanged++; }
+        else { failed++; errors.push({ line: dr.line, sku: dr.sku, error: dr.error }); }
+      } catch (e) { failed++; errors.push({ line: dr.line, sku: dr.sku, error: e.message }); }
+    }
+    res.json({ success: true, persisted: true, created, updated, unchanged, failed, errors: errors.slice(0, 30), approvedBy: req.approval && req.approval.role });
+  } catch (e) { logger.error('sm.importCommit', { error: e.message }); res.status(500).json({ success: false, message: 'Error applying import' }); }
 };
 exports._importDiff = importDiff; // exported for offline unit test

@@ -71,6 +71,8 @@ router.get('/manage/list', authenticateToken, controller.manageList);
 router.get('/manage/audit', authenticateToken, sm.auditList);
 // Spreadsheet import — PREVIEW only (dry-run, writes nothing). Owner/admin.
 router.post('/manage/import/preview', authenticateToken, requireRole(['super_admin', 'owner', 'admin']), sm.importPreview);
+// Spreadsheet import — COMMIT (the write step; owner/admin; approval-gated + audited).
+router.post('/manage/import/commit', authenticateToken, requireRole(['super_admin', 'owner', 'admin']), requireApprovalCode, sm.importCommit);
 router.patch('/:id/manage', authenticateToken, requireApprovalCode, sm.manageProduct);
 router.post('/manage/create', authenticateToken, requireApprovalCode, sm.createProduct);
 router.delete('/:id/manage', authenticateToken, requireApprovalCode, sm.deleteProduct);

@@ -101,6 +101,8 @@
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="exportCsv()"><i class="fas"></i>⬇ CSV</button>
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="exportSample()" title="Download a blank spreadsheet template with one example row">⬇ Sample</button>
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="exportForEdit()" title="Export all products to edit in a spreadsheet (then re-import)">⬇ Export products</button>
+      <button class="btn btn-gold" style="padding:9px 13px;" onclick="importPick()" title="Import an edited spreadsheet — you preview every change before it is applied">⬆ Import</button>
+      <input type="file" id="impFile" accept=".csv,text/csv" style="display:none" onchange="importFile(event)">
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="bulkAdjust()">% Bulk price</button>
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="openAudit()">📋 Change log</button>
       <button class="btn btn-ghost" style="padding:9px 13px;" id="vatModeBtn" onclick="openVatMode()">VAT: …</button>
@@ -160,6 +162,22 @@
     <div class="foot">
       <button class="btn btn-ghost" style="flex:1;" onclick="tfCancel()">Cancel</button>
       <button class="btn btn-gold" style="flex:2;" onclick="tfDo()">Move product</button>
+    </div>
+  </div>
+</div>
+<!-- Import spreadsheet — preview / confirm modal -->
+<div class="modal" id="impModal">
+  <div class="card" style="max-width:660px;width:94%;">
+    <h3>Import spreadsheet — preview</h3>
+    <div class="body">
+      <div id="impSummary" style="font-size:.95rem;margin-bottom:8px;"></div>
+      <div id="impRows" style="max-height:44vh;overflow:auto;border:1px solid #2a2620;border-radius:8px;padding:4px 8px;background:#141210;"></div>
+      <div id="impMsg" style="color:#e0a94a;font-size:.8rem;min-height:14px;margin-top:6px;"></div>
+      <div style="color:#777;font-size:.7rem;">Nothing is changed until you press Confirm. Blank cells are ignored, existing products are never deleted, and every change is recorded in the audit trail.</div>
+    </div>
+    <div class="foot">
+      <button class="btn btn-ghost" style="flex:1;" onclick="importCancel()">Cancel</button>
+      <button class="btn btn-gold" style="flex:2;" id="impConfirmBtn" onclick="importConfirm()">Confirm import</button>
     </div>
   </div>
 </div>
@@ -281,7 +299,79 @@ function downloadCsv(filename, rows){
 function exportSample(){
   const example = ['SKIN-EXAMPLE-30','Example Product 30ml','BrandName','skincare','lifestyle','30ml','250.00','20','yes','Short description of the product'];
   downloadCsv('origin-product-template.csv', [CSV_COLS, example]);
-  toast('Sample template downloaded — fill it in and (soon) import it');
+  toast('Sample template downloaded — fill it in and import it');
+}
+
+// ===== Spreadsheet round-trip (Phase 2: import → preview → confirm) =====
+let _impRows = null;
+function importPick(){ const f=document.getElementById('impFile'); f.value=''; f.click(); }
+// Minimal RFC4180 CSV parser (handles quotes, commas, escaped "" and CRLF)
+function parseCSV(text){
+  text = text.replace(/^﻿/,'');
+  const rows=[]; let row=[], cur='', inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(inQ){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else inQ=false; } else cur+=c; }
+    else if(c==='"') inQ=true;
+    else if(c===','){ row.push(cur); cur=''; }
+    else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=''; }
+    else if(c==='\r'){ /* ignore */ }
+    else cur+=c;
+  }
+  if(cur!==''||row.length){ row.push(cur); rows.push(row); }
+  return rows.filter(r=>r.some(c=>String(c).trim()!==''));
+}
+async function importFile(ev){
+  const f = ev.target.files && ev.target.files[0]; if(!f) return;
+  let text; try{ text = await f.text(); }catch(e){ toast('Could not read the file'); return; }
+  const grid = parseCSV(text);
+  if(grid.length<2){ toast('The file has no data rows'); return; }
+  const hdr = grid[0].map(h=>String(h).trim().toLowerCase());
+  if(!hdr.includes('sku')){ toast('The file needs a "sku" column — start from ⬇ Sample or ⬇ Export products'); return; }
+  const rows = grid.slice(1).map(cells=>{ const o={}; hdr.forEach((h,idx)=>{ if(h) o[h]= cells[idx]!==undefined?cells[idx]:''; }); return o; });
+  _impRows = rows;
+  toast('Checking '+rows.length+' rows…');
+  try{
+    const r = await fetch(`${API}/products/manage/import/preview`, {method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},body:JSON.stringify({rows})});
+    const d = await r.json();
+    if(!d.success){ toast(d.message||'Preview failed'); return; }
+    renderImportPreview(d.preview);
+  }catch(e){ toast('Preview failed — check the connection'); }
+}
+function renderImportPreview(pv){
+  document.getElementById('impSummary').innerHTML =
+    `<b style="color:#22C55E">${pv.create} new</b> &nbsp;·&nbsp; <b style="color:var(--gold)">${pv.update} updated</b> &nbsp;·&nbsp; <span style="color:#888">${pv.unchanged} unchanged</span> &nbsp;·&nbsp; <b style="color:${pv.error?'#e0654a':'#888'}">${pv.error} error${pv.error!==1?'s':''}</b>`;
+  const shown = pv.rows.filter(r=>r.action!=='unchanged');
+  const esc=s=>String(s==null?'':s).replace(/</g,'&lt;');
+  const html = shown.map(r=>{
+    if(r.action==='error') return `<div style="padding:6px 2px;border-bottom:1px solid #2a2620;color:#e0917a;">⚠ line ${r.line} <b>${esc(r.sku)||'(no sku)'}</b> — ${esc(r.error)}</div>`;
+    if(r.action==='create') return `<div style="padding:6px 2px;border-bottom:1px solid #2a2620;"><b style="color:#22C55E">NEW</b> ${esc(r.sku)} — ${esc(r.name)} <span style="color:#888">(${esc(r.category)}, R${esc(r.price)})</span></div>`;
+    const ch=(r.changes||[]).map(c=>`${esc(c.field)}: <s style="color:#888">${esc(c.from)||'—'}</s> → <b style="color:var(--gold)">${esc(c.to)}</b>`).join(' &nbsp;·&nbsp; ');
+    return `<div style="padding:6px 2px;border-bottom:1px solid #2a2620;"><b style="color:var(--gold)">UPDATE</b> ${esc(r.sku)} — ${esc(r.name)}<div style="color:#bdb59f;font-size:.8rem;margin-top:2px;">${ch}</div></div>`;
+  }).join('');
+  document.getElementById('impRows').innerHTML = html || '<div style="color:#888;padding:12px;">Nothing to change — every row already matches what is in the system.</div>';
+  document.getElementById('impMsg').textContent = pv.error? `${pv.error} row(s) will be skipped — the rest can still import.` : '';
+  const willChange = pv.create + pv.update;
+  const btn=document.getElementById('impConfirmBtn');
+  btn.textContent = willChange? `Confirm import (${willChange})` : 'Nothing to import';
+  btn.disabled = !willChange; btn.style.opacity = willChange? '1':'.5';
+  document.getElementById('impModal').classList.add('open');
+}
+function importCancel(){ document.getElementById('impModal').classList.remove('open'); _impRows=null; }
+async function importConfirm(){
+  if(!_impRows) return;
+  const appr = await requireApproval('Import spreadsheet — apply the product changes shown');
+  if(!appr) return;
+  const btn=document.getElementById('impConfirmBtn'); btn.disabled=true; btn.textContent='Importing…';
+  try{
+    const r = await fetch(`${API}/products/manage/import/commit`, {method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},body:JSON.stringify({rows:_impRows, approvalCode:appr.code, note:appr.note})});
+    const d = await r.json();
+    if(d.success){
+      importCancel();
+      saveConfirm('Import complete', `${d.created} added · ${d.updated} updated · ${d.unchanged} unchanged${d.failed?` · ${d.failed} skipped`:''} — approved by ${d.approvedBy||'role'}`);
+      await load();
+    } else { document.getElementById('impMsg').textContent = d.message||'Import failed — nothing was changed'; btn.disabled=false; btn.textContent='Confirm import'; }
+  }catch(e){ document.getElementById('impMsg').textContent='Import failed — check the connection'; btn.disabled=false; btn.textContent='Confirm import'; }
 }
 function exportForEdit(){
   const rows = [CSV_COLS].concat((PRODUCTS||[]).map(productToCsvRow));
