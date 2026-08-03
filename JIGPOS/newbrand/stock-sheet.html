@@ -99,6 +99,8 @@
       <label class="stat"><input type="checkbox" id="showInactive" onchange="render()"> show hidden</label>
       <label class="stat"><input type="checkbox" id="lowOnly" onchange="render()"> low stock</label>
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="exportCsv()"><i class="fas"></i>⬇ CSV</button>
+      <button class="btn btn-ghost" style="padding:9px 13px;" onclick="exportSample()" title="Download a blank spreadsheet template with one example row">⬇ Sample</button>
+      <button class="btn btn-ghost" style="padding:9px 13px;" onclick="exportForEdit()" title="Export all products to edit in a spreadsheet (then re-import)">⬇ Export products</button>
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="bulkAdjust()">% Bulk price</button>
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="openAudit()">📋 Change log</button>
       <button class="btn btn-ghost" style="padding:9px 13px;" id="vatModeBtn" onclick="openVatMode()">VAT: …</button>
@@ -258,6 +260,34 @@ function exportCsv(){
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
   a.download = 'origin-stock-sheet.csv'; a.click();
+}
+
+// ===== Spreadsheet round-trip (Phase 1: export) =====
+// CANONICAL SCHEMA — the same columns Phase 2 import will read back. Keep in sync.
+//   sku (unique key) · name · brand · category · track(lifestyle|medical) · size · price · stock · active(yes|no) · description
+const CSV_COLS = ['sku','name','brand','category','track','size','price','stock','active','description'];
+function csvCell(v){ return '"' + String(v==null?'':v).replace(/"/g,'""') + '"'; }
+function productToCsvRow(p){
+  return [ p.sku||'', p.name||'', p.brand||'', p.category||'', (p.track||'lifestyle'),
+           p.size||'', (p.price??0), (p.inventory?.quantity??0), (p.isActive===false?'no':'yes'),
+           (p.description||'').replace(/\r?\n/g,' ') ];
+}
+function downloadCsv(filename, rows){
+  const csv = rows.map(r => r.map(csvCell).join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'})); // BOM = Excel opens it clean
+  a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+}
+function exportSample(){
+  const example = ['SKIN-EXAMPLE-30','Example Product 30ml','BrandName','skincare','lifestyle','30ml','250.00','20','yes','Short description of the product'];
+  downloadCsv('origin-product-template.csv', [CSV_COLS, example]);
+  toast('Sample template downloaded — fill it in and (soon) import it');
+}
+function exportForEdit(){
+  const rows = [CSV_COLS].concat((PRODUCTS||[]).map(productToCsvRow));
+  const d = new Date().toISOString().slice(0,10);
+  downloadCsv('origin-products-'+d+'.csv', rows);
+  toast((PRODUCTS||[]).length + ' products exported — edit in your spreadsheet');
 }
 
 async function bulkAdjust(){
