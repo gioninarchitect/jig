@@ -748,6 +748,9 @@ exports.openTill = async (req, res) => {
 
 exports.getActiveTill = async (req, res) => {
   try {
+    // Never cache till state — a stale cached response can show a "shift left open" banner
+    // long after the shift was actually closed/reopened. Always reflect the live DB.
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
     const { branchId, tillNumber } = req.query;
 
     if (!branchId || !tillNumber) {
