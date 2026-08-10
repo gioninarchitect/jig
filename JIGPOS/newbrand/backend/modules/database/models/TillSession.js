@@ -130,21 +130,26 @@ tillSessionSchema.pre('save', async function(next) {
   next();
 });
 
-// Method to calculate total denominations
+// Method to calculate total denominations.
+// Defensive: any missing/blank/undefined field counts as 0 so the total is ALWAYS a valid
+// number. Previously a missing denomination key made `undefined * value = NaN`, and saving
+// NaN into a Number field threw a 500 — which broke CLOSE SHIFT for any partial payload.
 tillSessionSchema.methods.calculateDenominationTotal = function() {
+  const d = this.denominations || {};
+  const n = (v) => Number(v) || 0;
   return (
-    (this.denominations.r200 * 200) +
-    (this.denominations.r100 * 100) +
-    (this.denominations.r50 * 50) +
-    (this.denominations.r20 * 20) +
-    (this.denominations.r10 * 10) +
-    (this.denominations.r5 * 5) +
-    (this.denominations.r2 * 2) +
-    (this.denominations.r1 * 1) +
-    (this.denominations.c50 * 0.50) +
-    (this.denominations.c20 * 0.20) +
-    (this.denominations.c10 * 0.10) +
-    (this.denominations.c5 * 0.05)
+    (n(d.r200) * 200) +
+    (n(d.r100) * 100) +
+    (n(d.r50) * 50) +
+    (n(d.r20) * 20) +
+    (n(d.r10) * 10) +
+    (n(d.r5) * 5) +
+    (n(d.r2) * 2) +
+    (n(d.r1) * 1) +
+    (n(d.c50) * 0.50) +
+    (n(d.c20) * 0.20) +
+    (n(d.c10) * 0.10) +
+    (n(d.c5) * 0.05)
   );
 };
 
