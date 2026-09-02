@@ -863,7 +863,7 @@ exports.closeTill = async (req, res) => {
     for (const _dk in (denominations || {})) { _normDenom[String(_dk).toLowerCase()] = Number(denominations[_dk]) || 0; }
     await tillSession.closeSession(req.user.id, _normDenom, closingNotes);
 
-    // On any real cash OR card variance: flag for OWNER review + email ray@ilcofarming.co.za.
+    // On any real cash OR card variance: flag for OWNER review + email ilse@ilcofarming.co.za.
     if (_hasVariance || _hasCardVar) {
       try {
         if (!tillSession.requiresApproval) { tillSession.requiresApproval = true; await tillSession.save(); }
@@ -905,7 +905,7 @@ exports.closeTill = async (req, res) => {
           '<tr><td valign="top"><b>Operator note</b></td><td>' + (_note || '(none)') + '</td></tr>' +
           '<tr><td><b>Closed at</b></td><td>' + _when + '</td></tr>' +
           '</table></div>';
-        await emailService.sendEmail({ to: 'ray@ilcofarming.co.za', subject: _subj, html: _html });
+        await emailService.sendEmail({ to: 'ilse@ilcofarming.co.za', subject: _subj, html: _html });
       } catch (mailErr) {
         logger.warn('Variance close email failed (non-fatal):', mailErr.message);
       }
