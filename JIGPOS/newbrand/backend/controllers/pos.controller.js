@@ -2174,7 +2174,7 @@ exports.emailZReport = async (req, res) => {
   try {
     const z = await _loadZ(req.params.sessionId);
     if (!z) return res.status(404).json({ success: false, message: 'Session not found' });
-    const recipients = (req.body && req.body.to && req.body.to.length) ? req.body.to : ['originbyilcofarming@gmail.com', 'florisolivier7@gmail.com'];
+    const recipients = (req.body && req.body.to && req.body.to.length) ? req.body.to : ['ilse@ilcofarming.co.za', 'florisolivier7@gmail.com'];
     const pdf = await zreport.buildPdf(z.session, z.sales, z.branchName);
     const csv = zreport.buildCsv(z.session, z.sales);
     const s = z.session;

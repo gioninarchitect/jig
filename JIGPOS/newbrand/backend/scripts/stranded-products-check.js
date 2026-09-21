@@ -48,7 +48,7 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/origin
 // (pos.controller.js emailDailyReport). Override with STRANDED_REPORT_TO.
 const OWNER_RECIPIENTS = (process.env.STRANDED_REPORT_TO
   ? process.env.STRANDED_REPORT_TO.split(',').map(s => s.trim()).filter(Boolean)
-  : ['originbyilcofarming@gmail.com', 'florisolivier7@gmail.com']);
+  : ['ilse@ilcofarming.co.za', 'florisolivier7@gmail.com']);
 
 // The "Origin Online" branch is the online sales CHANNEL, not a physical till.
 // (A) — hidden-from-till — only applies to physical trading branches, so we
