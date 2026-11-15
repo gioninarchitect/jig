@@ -1259,7 +1259,7 @@
             const perf = currentSupplier.performance || {};
 
             document.getElementById('totalOrders').textContent = perf.totalOrders || 0;
-            document.getElementById('pendingOrders').textContent = '0';
+            document.getElementById('pendingOrders').textContent = perf.pendingOrders || 0;
             document.getElementById('totalValue').textContent = `R${(perf.totalValue || 0).toLocaleString()}`;
             document.getElementById('rating').innerHTML = perf.rating
                 ? `${perf.rating.toFixed(1)} <span class="rating-stars"><i class="fas fa-star"></i></span>`

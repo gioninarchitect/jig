@@ -5,7 +5,7 @@
 
 // Global till session state
 let currentTillSession = null;
-const BRANCH_ID = '507f1f77bcf86cd799439011'; // TODO: Get from user session
+function getBranchId() { return sessionStorage.getItem('activeBranchId') || ''; }
 const TILL_NUMBER = 'TILL-01'; // TODO: Make configurable per terminal
 
 // Initialize till status on page load
@@ -17,7 +17,7 @@ async function initializeTillManagement() {
 async function checkActiveTillSession() {
     try {
         const token = sessionStorage.getItem('adminToken');
-        const response = await fetch(`${API_URL}/pos/till/active?branchId=${BRANCH_ID}&tillNumber=${TILL_NUMBER}`, {
+        const response = await fetch(`${API_URL}/pos/till/active?branchId=${getBranchId()}&tillNumber=${TILL_NUMBER}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -188,7 +188,7 @@ async function openTillSession() {
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
-                branchId: BRANCH_ID,
+                branchId: getBranchId(),
                 tillNumber,
                 openingFloat,
                 openingNotes
