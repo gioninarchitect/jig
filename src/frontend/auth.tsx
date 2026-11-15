@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Auth Context
+ * Origin by ILCO Farming - Auth Context
  *
  * Provides authentication state and OTP login flow to the React app.
  * Persists JWT token in localStorage, auto-validates on mount.
@@ -97,7 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { token, clientId } = await authApi.verifyOtp(email, code);
       storeAuth(token, clientId);
 
-      // Set authenticated immediately — don't block on /clients/me
+      // Set authenticated immediately, do not block on /clients/me
       setState({
         status: 'authenticated',
         client: { id: clientId, email } as ClientData,
@@ -112,7 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           isAdmin: isAdminEmail(client.email),
         }));
       }).catch(() => {
-        // Token works for verify but /me failed — keep authenticated
+        // Token works for verify but /me failed, keep authenticated
         console.warn('[Auth] Failed to fetch client profile, using minimal data');
       });
 

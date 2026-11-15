@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Origin — Stock Sheet</title>
+<title>Origin , Stock Sheet</title>
 <link rel="icon" type="image/png" href="images/origin-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -49,10 +49,10 @@
   .prodname{ font-weight:600; }
   .brand{ color:var(--grey); font-size:.7rem; text-transform:uppercase; letter-spacing:.5px; margin-top:4px; }
   .pergram{ color:var(--gold); font-size:.66rem; margin-top:3px; }
-  .actcell{ display:flex; gap:8px; justify-content:flex-end; }
-  .save{ background:var(--gold); color:#1a1a1a; border:none; border-radius:7px; padding:7px 12px; font-weight:700; cursor:pointer; font-size:.8rem; }
+  .actcell{ display:flex; gap:6px; justify-content:flex-end; flex-wrap:wrap; }
+  .save{ background:var(--gold); color:#1a1a1a; border:none; border-radius:7px; padding:6px 10px; font-weight:700; cursor:pointer; font-size:.76rem; white-space:nowrap; }
   .save.saved{ background:var(--green); color:#fff; }
-  .del{ background:transparent; border:1px solid var(--red); color:var(--red); border-radius:7px; padding:7px 10px; cursor:pointer; font-size:.78rem; }
+  .del{ background:transparent; border:1px solid var(--red); color:var(--red); border-radius:7px; padding:6px 9px; cursor:pointer; font-size:.74rem; white-space:nowrap; }
   .low{ color:var(--red); font-weight:700; }
   .loginmsg{ text-align:center; padding:60px 20px; color:var(--grey); }
   .loginmsg a{ color:var(--gold); }
@@ -82,7 +82,7 @@
   <div id="gate" class="loginmsg" style="display:none;">
     <div style="max-width:350px;margin:40px auto;text-align:left;background:#161616;border:1px solid #2a2a2a;border-radius:16px;padding:26px;">
       <div style="font-family:'Cinzel',serif;color:var(--gold);font-size:1.3rem;text-align:center;">Manager Login</div>
-      <div style="color:#888;text-align:center;font-size:.82rem;margin:4px 0 20px;">Stock Sheet — restricted access</div>
+      <div style="color:#888;text-align:center;font-size:.82rem;margin:4px 0 20px;">Stock Sheet , restricted access</div>
       <label style="font-size:.7rem;color:#888;letter-spacing:.5px;">EMAIL
         <input id="lgEmail" type="email" autocomplete="username" style="width:100%;padding:12px;margin:6px 0 14px;background:#1d1d1d;border:1px solid #2a2a2a;border-radius:9px;color:#fff;font-size:.95rem;"></label>
       <label style="font-size:.7rem;color:#888;letter-spacing:.5px;">PIN
@@ -101,7 +101,7 @@
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="exportCsv()"><i class="fas"></i>⬇ CSV</button>
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="exportSample()" title="Download a blank spreadsheet template with one example row">⬇ Sample</button>
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="exportForEdit()" title="Export all products to edit in a spreadsheet (then re-import)">⬇ Export products</button>
-      <button class="btn btn-gold" style="padding:9px 13px;" onclick="importPick()" title="Import an edited spreadsheet — you preview every change before it is applied">⬆ Import</button>
+      <button class="btn btn-gold" style="padding:9px 13px;" onclick="importPick()" title="Import an edited spreadsheet , you preview every change before it is applied">⬆ Import</button>
       <input type="file" id="impFile" accept=".csv,text/csv" style="display:none" onchange="importFile(event)">
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="bulkAdjust()">% Bulk price</button>
       <button class="btn btn-ghost" style="padding:9px 13px;" onclick="openAudit()">📋 Change log</button>
@@ -114,7 +114,7 @@
       <span class="stat" id="summary"></span>
     </div>
     <div class="colhead">
-      <div style="width:34%;padding-left:14px;">Product</div><div style="width:13%">Category</div><div style="width:9%">Size</div><div style="width:11%">Price (R)</div><div style="width:9%">Stock</div><div style="width:8%;text-align:center;">On POS</div><div style="width:16%"></div>
+      <div style="width:28%;padding-left:14px;">Product</div><div style="width:11%">Category</div><div style="width:7%">Size</div><div style="width:10%">Price (R)</div><div style="width:10%">Stock</div><div style="width:7%;text-align:center;">On POS</div><div style="width:27%"></div>
     </div>
     <div id="rows"></div>
   </div>
@@ -134,10 +134,10 @@
         <label>PRICE (R)<input id="aPrice" type="number" inputmode="decimal" placeholder="0.00"></label>
         <label>STOCK QTY<input id="aQty" type="number" inputmode="numeric" placeholder="0"></label>
       </div>
-      <label>BRAND (required) — links the product to its brand<input id="aBrand" placeholder="e.g. Lamelle" list="brandList" required></label>
+      <label>BRAND (required) , links the product to its brand<input id="aBrand" placeholder="e.g. Lamelle" list="brandList" required></label>
       <label style="flex-direction:row;align-items:center;gap:9px;cursor:pointer;color:#cfc6ad;">
         <input type="checkbox" id="aExVat" style="width:18px;height:18px;accent-color:var(--gold);" onchange="addExVatHint()">
-        <span>Price <b>excludes</b> VAT — add 15% to get the shelf price</span>
+        <span>Price <b>excludes</b> VAT , add 15% to get the shelf price</span>
       </label>
       <div id="exVatHint" style="color:#8a8472;font-size:.78rem;min-height:14px;"></div>
       <div id="addMsg" style="color:var(--red);font-size:.8rem;min-height:14px;"></div>
@@ -157,7 +157,7 @@
       <label>MOVE TO<select id="tfCat" onchange="tfToggleNew()" style="padding:11px;border-radius:8px;background:#1a1712;color:#f0e9d6;border:1px solid #3a352b;font-size:1rem;"></select></label>
       <label id="tfNewWrap" style="display:none;">NEW CATEGORY<input id="tfNew" placeholder="e.g. skincare" list="catList"></label>
       <div id="tfMsg" style="color:var(--red);font-size:.8rem;min-height:14px;"></div>
-      <div style="color:#777;font-size:.7rem;">Only the category changes — price, stock and everything else stay exactly as they are. Recorded in the audit trail.</div>
+      <div style="color:#777;font-size:.7rem;">Only the category changes , price, stock and everything else stay exactly as they are. Recorded in the audit trail.</div>
     </div>
     <div class="foot">
       <button class="btn btn-ghost" style="flex:1;" onclick="tfCancel()">Cancel</button>
@@ -165,10 +165,10 @@
     </div>
   </div>
 </div>
-<!-- Import spreadsheet — preview / confirm modal -->
+<!-- Import spreadsheet , preview / confirm modal -->
 <div class="modal" id="impModal">
   <div class="card" style="max-width:660px;width:94%;">
-    <h3>Import spreadsheet — preview</h3>
+    <h3>Import spreadsheet , preview</h3>
     <div class="body">
       <div id="impSummary" style="font-size:.95rem;margin-bottom:8px;"></div>
       <div id="impRows" style="max-height:44vh;overflow:auto;border:1px solid #2a2620;border-radius:8px;padding:4px 8px;background:#141210;"></div>
@@ -181,7 +181,24 @@
     </div>
   </div>
 </div>
-<!-- Approval (override) modal — manager/role code + note required for every change -->
+<!-- Receive delivery , ADDS newly arrived stock to the current count (never overwrites) -->
+<div class="modal" id="rcvModal">
+  <div class="card">
+    <h3>Receive stock</h3>
+    <div class="body">
+      <div id="rcvWhat" style="color:#cfc6ad;font-size:.9rem;margin-bottom:4px;"></div>
+      <label>HOW MANY ARRIVED?<input id="rcvQty" type="number" min="1" step="1" inputmode="numeric" autocomplete="off" placeholder="e.g. 10" style="font-size:1.25rem;text-align:right;font-weight:700;" oninput="rcvRecalc()" onkeydown="if(event.key==='Enter')receiveConfirm()"></label>
+      <div id="rcvPreview" style="color:var(--gold);font-size:1rem;font-weight:600;margin-top:6px;min-height:20px;"></div>
+      <div id="rcvMsg" style="color:var(--red);font-size:.8rem;min-height:14px;"></div>
+      <div style="color:#777;font-size:.7rem;">This ADDS to what is already on the system, it never replaces it. You enter the approval code next, and the delivery is written to the audit trail.</div>
+    </div>
+    <div class="foot">
+      <button class="btn btn-ghost" style="flex:1;" onclick="rcvCancel()">Cancel</button>
+      <button class="btn btn-gold" style="flex:2;" onclick="receiveConfirm()">Add to stock</button>
+    </div>
+  </div>
+</div>
+<!-- Approval (override) modal , manager/role code + note required for every change -->
 <div class="modal" id="apprModal">
   <div class="card">
     <h3>Approval required</h3>
@@ -202,7 +219,7 @@
 <!-- Audit trail modal -->
 <div class="modal" id="auditModal">
   <div class="card" style="max-width:680px;">
-    <h3>Change log — audit trail</h3>
+    <h3>Change log , audit trail</h3>
     <div class="body" style="max-height:60vh;overflow:auto;"><div id="auditRows" style="font-size:.85rem;"></div></div>
     <div class="foot"><button class="btn btn-ghost" style="flex:1;" onclick="document.getElementById('auditModal').classList.remove('open')">Close</button></div>
   </div>
@@ -215,11 +232,11 @@
       <div style="color:#cfc6ad;font-size:.9rem;margin-bottom:6px;">How are your product prices captured?</div>
       <label style="flex-direction:row;align-items:flex-start;gap:10px;cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:12px;">
         <input type="radio" name="vatmode" value="inclusive" style="margin-top:3px;accent-color:var(--gold);">
-        <span><b style="color:#e6e0d2;">VAT inclusive</b> <span style="color:#8a8472;">(recommended)</span><br><span style="color:#8a8472;font-size:.82rem;">Prices already include 15% VAT — the shelf price is what the customer pays. VAT is shown as the portion within it. Required by SA law for displayed retail prices.</span></span>
+        <span><b style="color:#e6e0d2;">VAT inclusive</b> <span style="color:#8a8472;">(recommended)</span><br><span style="color:#8a8472;font-size:.82rem;">Prices already include 15% VAT , the shelf price is what the customer pays. VAT is shown as the portion within it. Required by SA law for displayed retail prices.</span></span>
       </label>
       <label style="flex-direction:row;align-items:flex-start;gap:10px;cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px;">
         <input type="radio" name="vatmode" value="exclusive" style="margin-top:3px;accent-color:var(--gold);">
-        <span><b style="color:#e6e0d2;">Add VAT on top</b><br><span style="color:#8a8472;font-size:.82rem;">Prices exclude VAT — the till adds 15% at checkout. Only for a store that prices ex-VAT (e.g. pure wholesale).</span></span>
+        <span><b style="color:#e6e0d2;">Add VAT on top</b><br><span style="color:#8a8472;font-size:.82rem;">Prices exclude VAT , the till adds 15% at checkout. Only for a store that prices ex-VAT (e.g. pure wholesale).</span></span>
       </label>
       <div id="vatModalMsg" style="color:var(--amber,#F59E0B);font-size:.8rem;min-height:14px;margin-top:8px;"></div>
     </div>
@@ -265,7 +282,7 @@ async function doLogin(){
     token = d.token;
     document.getElementById('gate').style.display='none';
     load();
-  }catch(e){ msg.style.color='#DC2626'; msg.textContent='Login failed — try again'; }
+  }catch(e){ msg.style.color='#DC2626'; msg.textContent='Login failed , try again'; }
 }
 let PRODUCTS = [];
 let VISIBLE = [];
@@ -281,7 +298,7 @@ function exportCsv(){
 }
 
 // ===== Spreadsheet round-trip (Phase 1: export) =====
-// CANONICAL SCHEMA — the same columns Phase 2 import will read back. Keep in sync.
+// CANONICAL SCHEMA , the same columns Phase 2 import will read back. Keep in sync.
 //   sku (unique key) · name · brand · category · track(lifestyle|medical) · size · price · stock · active(yes|no) · description
 const CSV_COLS = ['sku','name','brand','category','track','size','price','stock','active','description'];
 function csvCell(v){ return '"' + String(v==null?'':v).replace(/"/g,'""') + '"'; }
@@ -299,7 +316,7 @@ function downloadCsv(filename, rows){
 function exportSample(){
   const example = ['SKIN-EXAMPLE-30','Example Product 30ml','BrandName','skincare','lifestyle','30ml','250.00','20','yes','Short description of the product'];
   downloadCsv('origin-product-template.csv', [CSV_COLS, example]);
-  toast('Sample template downloaded — fill it in and import it');
+  toast('Sample template downloaded , fill it in and import it');
 }
 
 // ===== Spreadsheet round-trip (Phase 2: import → preview → confirm) =====
@@ -327,7 +344,7 @@ async function importFile(ev){
   const grid = parseCSV(text);
   if(grid.length<2){ toast('The file has no data rows'); return; }
   const hdr = grid[0].map(h=>String(h).trim().toLowerCase());
-  if(!hdr.includes('sku')){ toast('The file needs a "sku" column — start from ⬇ Sample or ⬇ Export products'); return; }
+  if(!hdr.includes('sku')){ toast('The file needs a "sku" column , start from ⬇ Sample or ⬇ Export products'); return; }
   const rows = grid.slice(1).map(cells=>{ const o={}; hdr.forEach((h,idx)=>{ if(h) o[h]= cells[idx]!==undefined?cells[idx]:''; }); return o; });
   _impRows = rows;
   toast('Checking '+rows.length+' rows…');
@@ -336,7 +353,7 @@ async function importFile(ev){
     const d = await r.json();
     if(!d.success){ toast(d.message||'Preview failed'); return; }
     renderImportPreview(d.preview);
-  }catch(e){ toast('Preview failed — check the connection'); }
+  }catch(e){ toast('Preview failed , check the connection'); }
 }
 function renderImportPreview(pv){
   document.getElementById('impSummary').innerHTML =
@@ -344,13 +361,13 @@ function renderImportPreview(pv){
   const shown = pv.rows.filter(r=>r.action!=='unchanged');
   const esc=s=>String(s==null?'':s).replace(/</g,'&lt;');
   const html = shown.map(r=>{
-    if(r.action==='error') return `<div style="padding:6px 2px;border-bottom:1px solid #2a2620;color:#e0917a;">⚠ line ${r.line} <b>${esc(r.sku)||'(no sku)'}</b> — ${esc(r.error)}</div>`;
-    if(r.action==='create') return `<div style="padding:6px 2px;border-bottom:1px solid #2a2620;"><b style="color:#22C55E">NEW</b> ${esc(r.sku)} — ${esc(r.name)} <span style="color:#888">(${esc(r.category)}, R${esc(r.price)})</span></div>`;
-    const ch=(r.changes||[]).map(c=>`${esc(c.field)}: <s style="color:#888">${esc(c.from)||'—'}</s> → <b style="color:var(--gold)">${esc(c.to)}</b>`).join(' &nbsp;·&nbsp; ');
-    return `<div style="padding:6px 2px;border-bottom:1px solid #2a2620;"><b style="color:var(--gold)">UPDATE</b> ${esc(r.sku)} — ${esc(r.name)}<div style="color:#bdb59f;font-size:.8rem;margin-top:2px;">${ch}</div></div>`;
+    if(r.action==='error') return `<div style="padding:6px 2px;border-bottom:1px solid #2a2620;color:#e0917a;">⚠ line ${r.line} <b>${esc(r.sku)||'(no sku)'}</b> , ${esc(r.error)}</div>`;
+    if(r.action==='create') return `<div style="padding:6px 2px;border-bottom:1px solid #2a2620;"><b style="color:#22C55E">NEW</b> ${esc(r.sku)} , ${esc(r.name)} <span style="color:#888">(${esc(r.category)}, R${esc(r.price)})</span></div>`;
+    const ch=(r.changes||[]).map(c=>`${esc(c.field)}: <s style="color:#888">${esc(c.from)||','}</s> → <b style="color:var(--gold)">${esc(c.to)}</b>`).join(' &nbsp;·&nbsp; ');
+    return `<div style="padding:6px 2px;border-bottom:1px solid #2a2620;"><b style="color:var(--gold)">UPDATE</b> ${esc(r.sku)} , ${esc(r.name)}<div style="color:#bdb59f;font-size:.8rem;margin-top:2px;">${ch}</div></div>`;
   }).join('');
-  document.getElementById('impRows').innerHTML = html || '<div style="color:#888;padding:12px;">Nothing to change — every row already matches what is in the system.</div>';
-  document.getElementById('impMsg').textContent = pv.error? `${pv.error} row(s) will be skipped — the rest can still import.` : '';
+  document.getElementById('impRows').innerHTML = html || '<div style="color:#888;padding:12px;">Nothing to change , every row already matches what is in the system.</div>';
+  document.getElementById('impMsg').textContent = pv.error? `${pv.error} row(s) will be skipped , the rest can still import.` : '';
   const willChange = pv.create + pv.update;
   const btn=document.getElementById('impConfirmBtn');
   btn.textContent = willChange? `Confirm import (${willChange})` : 'Nothing to import';
@@ -360,7 +377,7 @@ function renderImportPreview(pv){
 function importCancel(){ document.getElementById('impModal').classList.remove('open'); _impRows=null; }
 async function importConfirm(){
   if(!_impRows) return;
-  const appr = await requireApproval('Import spreadsheet — apply the product changes shown');
+  const appr = await requireApproval('Import spreadsheet , apply the product changes shown');
   if(!appr) return;
   const btn=document.getElementById('impConfirmBtn'); btn.disabled=true; btn.textContent='Importing…';
   try{
@@ -368,16 +385,16 @@ async function importConfirm(){
     const d = await r.json();
     if(d.success){
       importCancel();
-      saveConfirm('Import complete', `${d.created} added · ${d.updated} updated · ${d.unchanged} unchanged${d.failed?` · ${d.failed} skipped`:''} — approved by ${d.approvedBy||'role'}`);
+      saveConfirm('Import complete', `${d.created} added · ${d.updated} updated · ${d.unchanged} unchanged${d.failed?` · ${d.failed} skipped`:''} , approved by ${d.approvedBy||'role'}`);
       await load();
-    } else { document.getElementById('impMsg').textContent = d.message||'Import failed — nothing was changed'; btn.disabled=false; btn.textContent='Confirm import'; }
-  }catch(e){ document.getElementById('impMsg').textContent='Import failed — check the connection'; btn.disabled=false; btn.textContent='Confirm import'; }
+    } else { document.getElementById('impMsg').textContent = d.message||'Import failed , nothing was changed'; btn.disabled=false; btn.textContent='Confirm import'; }
+  }catch(e){ document.getElementById('impMsg').textContent='Import failed , check the connection'; btn.disabled=false; btn.textContent='Confirm import'; }
 }
 function exportForEdit(){
   const rows = [CSV_COLS].concat((PRODUCTS||[]).map(productToCsvRow));
   const d = new Date().toISOString().slice(0,10);
   downloadCsv('origin-products-'+d+'.csv', rows);
-  toast((PRODUCTS||[]).length + ' products exported — edit in your spreadsheet');
+  toast((PRODUCTS||[]).length + ' products exported , edit in your spreadsheet');
 }
 
 async function bulkAdjust(){
@@ -415,7 +432,7 @@ function saveConfirm(title, detail){
   clearTimeout(window._scTimer); window._scTimer=setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translate(-50%,-50%) scale(.9)'; }, 2600);
 }
 
-// ===== Approval (override code + note) — resolves to {code, note} or null =====
+// ===== Approval (override code + note) , resolves to {code, note} or null =====
 let _apprResolve = null;
 function requireApproval(what){
   // An authenticated APPROVER (owner / admin / manager) is already authorised by their
@@ -451,6 +468,59 @@ function apprCancel(){ document.getElementById('apprModal').classList.remove('op
 
 // ===== Move product to another category (smart transfer) =====
 let _tfId = null;
+// ===== Receive delivery , add newly arrived stock to the current count (never overwrites) =====
+let _rcvId = null;
+function receiveOpen(id){
+  const p = PRODUCTS.find(x=>x._id===id); if(!p) return;
+  _rcvId = id;
+  const cur = p.inventory?.quantity ?? 0;
+  document.getElementById('rcvWhat').innerHTML = `<b>“${(p.name||'').replace(/"/g,'&quot;')}”</b> , on the system now: <b style="color:var(--gold)">${cur}</b>`;
+  document.getElementById('rcvQty').value = '';
+  document.getElementById('rcvPreview').textContent = '';
+  document.getElementById('rcvMsg').textContent = '';
+  document.getElementById('rcvModal').classList.add('open');
+  setTimeout(()=>{ const el=document.getElementById('rcvQty'); if(el) el.focus(); }, 60);
+}
+function rcvRecalc(){
+  const p = PRODUCTS.find(x=>x._id===_rcvId); if(!p) return;
+  const cur = p.inventory?.quantity ?? 0;
+  const n = parseInt(document.getElementById('rcvQty').value);
+  const pr = document.getElementById('rcvPreview');
+  if(!Number.isFinite(n) || n<=0){ pr.textContent=''; return; }
+  pr.textContent = `New stock on hand: ${cur} + ${n} = ${cur + n}`;
+}
+function rcvCancel(){ document.getElementById('rcvModal').classList.remove('open'); _rcvId=null; }
+async function receiveConfirm(){
+  const id = _rcvId; if(!id) return;
+  const p = PRODUCTS.find(x=>x._id===id); if(!p){ rcvCancel(); return; }
+  const cur = p.inventory?.quantity ?? 0;
+  const n = parseInt(document.getElementById('rcvQty').value);
+  const msg = document.getElementById('rcvMsg');
+  if(!Number.isFinite(n) || n<=0){ msg.textContent='Enter how many arrived (1 or more)'; return; }
+  const newQty = cur + n;
+  const appr = await requireApproval(`Receive ${n} of “${p.name}” (stock ${cur} to ${newQty})`);
+  if(!appr) return;
+  const note = (appr.note && appr.note.trim()) ? appr.note : `Received delivery: +${n} (was ${cur}, now ${newQty})`;
+  const body = { quantity: newQty, approvalCode: appr.code, note };
+  const r = await fetch(`${API}/products/${id}/manage`, { method:'PATCH', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body:JSON.stringify(body) });
+  let d; try { d = await r.json(); } catch(e){ msg.textContent='Connection error. Try again.'; return; }
+  if(d.success && d.persisted){
+    const s = d.saved || {};
+    const finalQty = (s.quantity ?? newQty);
+    p.inventory = { quantity: finalQty };
+    rcvCancel();
+    saveConfirm(`“${p.name}” , stock received`, `Added ${n} · now ${finalQty} on hand , approved by ${d.approvedBy||'role'}`);
+    render();
+  } else { msg.textContent = (d.message || 'Not saved, try again'); }
+}
+
+function promoFor(id){
+  var p=(PRODUCTS||[]).find(function(x){return x._id===id;});
+  if(!p){ return; }
+  if(window.OriginPromo){ window.OriginPromo.open({_id:p._id, name:p.name, price:p.price}); }
+  else { alert('Promo tool is still loading, try again in a moment.'); }
+}
+
 function transferOpen(id){
   const p = PRODUCTS.find(x=>x._id===id); if(!p) return;
   _tfId = id;
@@ -459,7 +529,7 @@ function transferOpen(id){
   const cats = [...new Set(PRODUCTS.map(x=>x.category).filter(Boolean))].sort().filter(c=>c!==cur);
   const opts = cats.map(c=>`<option value="${c}">${c}</option>`).join('');
   document.getElementById('tfCat').innerHTML = opts + '<option value="__new__">➕ New category…</option>';
-  document.getElementById('tfWhat').innerHTML = `Move <b>“${(p.name||'').replace(/"/g,'&quot;')}”</b> — now in <b style="color:var(--gold)">${cur||'uncategorised'}</b>`;
+  document.getElementById('tfWhat').innerHTML = `Move <b>“${(p.name||'').replace(/"/g,'&quot;')}”</b> , now in <b style="color:var(--gold)">${cur||'uncategorised'}</b>`;
   const nw = document.getElementById('tfNewWrap'); nw.style.display='none';
   document.getElementById('tfNew').value='';
   document.getElementById('tfMsg').textContent='';
@@ -488,14 +558,14 @@ async function tfDo(){
     const s = d.saved || {};
     p.category = s.category ?? cat;
     tfCancel();
-    saveConfirm(`“${p.name}” moved`, `Now in “${p.category}” — approved by ${d.approvedBy||'role'}`);
+    saveConfirm(`“${p.name}” moved`, `Now in “${p.category}” , approved by ${d.approvedBy||'role'}`);
     // Keep the category pickers current in case this introduced a brand-new category.
     const all=[...new Set(PRODUCTS.map(x=>x.category).filter(Boolean))].sort();
     document.getElementById('catList').innerHTML = all.map(c=>`<option value="${c}">`).join('');
     document.getElementById('catFilter').innerHTML = '<option value="">All categories</option>' + all.map(c=>`<option>${c}</option>`).join('');
     render();
   } else {
-    document.getElementById('tfMsg').textContent = d.message||'Move failed — not saved';
+    document.getElementById('tfMsg').textContent = d.message||'Move failed , not saved';
   }
 }
 
@@ -511,11 +581,11 @@ async function openAudit(){
     if(!rows.length){ el.innerHTML='<div style="color:#888;padding:14px;">No changes recorded yet.</div>'; return; }
     el.innerHTML = rows.map(a => {
       const when = new Date(a.at).toLocaleString('en-ZA',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-      const ch = (a.changes||[]).map(c=>`${c.field}: <s style="color:#888">${c.from??'—'}</s> → <b style="color:var(--gold)">${c.to??'—'}</b>`).join(' · ') || a.action;
+      const ch = (a.changes||[]).map(c=>`${c.field}: <s style="color:#888">${c.from??','}</s> → <b style="color:var(--gold)">${c.to??','}</b>`).join(' · ') || a.action;
       return `<div style="border-bottom:1px solid #2a2620;padding:9px 2px;">
         <div><b>${a.action.toUpperCase()}</b> · ${a.productName||''} <span style="color:#777;float:right;">${when}</span></div>
         <div style="color:#bdb59f;margin:3px 0;">${ch}</div>
-        <div style="color:#8a8472;font-size:.78rem;">approved by <b style="color:#cfc6ad">${a.approverLabel||a.approverRole||'—'}</b> · operator ${a.operatorEmail||'—'}${a.note?` · "${a.note}"`:''}</div>
+        <div style="color:#8a8472;font-size:.78rem;">approved by <b style="color:#cfc6ad">${a.approverLabel||a.approverRole||','}</b> · operator ${a.operatorEmail||','}${a.note?` · "${a.note}"`:''}</div>
       </div>`;
     }).join('');
   }catch(e){ el.innerHTML='<div style="color:var(--red);padding:14px;">Could not load audit trail.</div>'; }
@@ -559,7 +629,7 @@ function render(){
   const lowTotal = list.filter(p => (p.inventory?.quantity ?? 0) <= 5).length;
   document.getElementById('summary').textContent = `${list.length} items · ${cats.length} categories${lowTotal?` · ${lowTotal} low stock`:''}`;
   const autoOpen = !!q || cats.length === 1;
-  const COLS = '<colgroup><col style="width:34%"><col style="width:13%"><col style="width:9%"><col style="width:11%"><col style="width:9%"><col style="width:8%"><col style="width:16%"></colgroup>';
+  const COLS = '<colgroup><col style="width:28%"><col style="width:11%"><col style="width:7%"><col style="width:10%"><col style="width:10%"><col style="width:7%"><col style="width:27%"></colgroup>';
   document.getElementById('rows').innerHTML = cats.map(cat => {
     const items = groups[cat];
     const low = items.filter(p => (p.inventory?.quantity ?? 0) <= 5).length;
@@ -591,13 +661,15 @@ function rowHtml(p){
   return `<tr class="${p.isActive===false?'inactive':''}" data-id="${p._id}">
     <td><input class="name prodname" value="${(p.name||'').replace(/"/g,'&quot;')}"><div class="brand">${p.brand||p.sku||''}</div></td>
     <td><input class="catedit" value="${p.category||''}" list="catList"></td>
-    <td><input class="size" value="${p.size||''}" placeholder="${gram?'grams':'–'}"></td>
+    <td><input class="size" value="${p.size||''}" placeholder="${gram?'grams':'-'}"></td>
     <td><input class="price" type="number" step="0.01" value="${p.price??0}">${gram?'<div class="pergram">per gram</div>':''}</td>
     <td><input class="qty ${qty<=5?'low':''}" type="number" value="${qty}"></td>
     <td style="text-align:center;"><input type="checkbox" class="active" ${p.isActive===false?'':'checked'} style="width:20px;height:20px;accent-color:var(--gold);"></td>
     <td><div class="actcell" style="align-items:center;">
       <input type="checkbox" class="rowsel" title="Select" onchange="updateBulkBar()" style="width:18px;height:18px;accent-color:#DC2626;">
       <button class="save" onclick="save('${p._id}',this)">Save</button>
+      <button class="save" style="background:#166a46;" onclick="receiveOpen('${p._id}')" title="New delivery arrived? Add it to the count, no mental maths">+ Stock</button>
+      <button class="save" style="background:#8a6d12;" onclick="promoFor('${p._id}')" title="Create a promo discount voucher for this product">Promo</button>
       <button class="save" style="background:#2f6b4f;" onclick="transferOpen('${p._id}')" title="Move this product to another category">Move ▸</button>
       <button class="del" onclick="hide('${p._id}',this)">Hide</button>
       <button class="del" style="background:#7a1f1f;" onclick="delOne('${p._id}',this)" title="Delete permanently">Delete</button>
@@ -623,12 +695,12 @@ async function save(id, btn, appr){
   if(d.success && d.persisted){
     btn.textContent='Saved ✓'; btn.classList.add('saved'); setTimeout(()=>{btn.textContent='Save';btn.classList.remove('saved');},1500);
     const s = d.saved || {};
-    saveConfirm(`“${s.name||body.name}”`, `Price R${(s.price??body.price)} · Stock ${s.quantity??body.quantity}${s.isActive===false?' · hidden from POS':''} — approved by ${d.approvedBy||'role'}`);
+    saveConfirm(`“${s.name||body.name}”`, `Price R${(s.price??body.price)} · Stock ${s.quantity??body.quantity}${s.isActive===false?' · hidden from POS':''} , approved by ${d.approvedBy||'role'}`);
     // Reflect the DB-confirmed values back into the row + local cache
     const p=PRODUCTS.find(x=>x._id===id);
     if(p){ Object.assign(p,{name:s.name??body.name,category:s.category??body.category,size:s.size??body.size,price:s.price??body.price,isActive:s.isActive??body.isActive}); p.inventory={quantity:(s.quantity??body.quantity)}; }
     if(tr){ tr.querySelector('.price').value = s.price??body.price; tr.querySelector('.qty').value = s.quantity??body.quantity; }
-  } else { toast(d.message||'Save failed — not saved'); }
+  } else { toast(d.message||'Save failed , not saved'); }
   return d;
 }
 
@@ -642,15 +714,15 @@ async function hide(id, btn){
   if(d && d.success){ toast('Product hidden from POS'); const p=PRODUCTS.find(x=>x._id===id); if(p) p.isActive=false; render(); }
 }
 
-// ===== Delete (archive) — single + multi-select, gated by override code =====
+// ===== Delete (archive) , single + multi-select, gated by override code =====
 async function delOne(id, btn){
   const tr = btn.closest('tr');
   const nm = tr.querySelector('.name').value;
-  const appr = await requireApproval(`DELETE “${nm}” — removes it from the catalogue (kept in audit)`);
+  const appr = await requireApproval(`DELETE “${nm}” , removes it from the catalogue (kept in audit)`);
   if(!appr) return;
   const r = await fetch(`${API}/products/${id}/manage`, { method:'DELETE', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body:JSON.stringify({approvalCode:appr.code, note:appr.note}) });
   const d = await r.json();
-  if(d.success && d.persisted){ saveConfirm(`“${nm}” deleted`, `Removed from catalogue — approved by ${d.approvedBy||'role'}`);
+  if(d.success && d.persisted){ saveConfirm(`“${nm}” deleted`, `Removed from catalogue , approved by ${d.approvedBy||'role'}`);
     const p=PRODUCTS.find(x=>x._id===id); if(p) p.status='archived'; render(); updateBulkBar();
   } else { toast(d.message||'Delete failed'); }
 }
@@ -667,7 +739,7 @@ function clearSelection(){ document.querySelectorAll('.rowsel:checked').forEach(
 async function bulkDeleteSelected(){
   const ids = selectedIds();
   if(!ids.length) return;
-  const appr = await requireApproval(`DELETE ${ids.length} selected product${ids.length>1?'s':''} — removes them from the catalogue`);
+  const appr = await requireApproval(`DELETE ${ids.length} selected product${ids.length>1?'s':''} , removes them from the catalogue`);
   if(!appr) return;
   const r = await fetch(`${API}/products/manage/bulk-delete`, { method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`}, body:JSON.stringify({ids, approvalCode:appr.code, note:appr.note}) });
   const d = await r.json();
@@ -712,7 +784,7 @@ async function createProduct(){
   };
   const msg = document.getElementById('addMsg');
   if(!body.name || isNaN(body.price)){ msg.textContent='Name and price are required.'; return; }
-  if(!body.brand){ msg.textContent='Brand is required — pick or type the product’s brand so it links correctly.'; document.getElementById('aBrand').focus(); return; }
+  if(!body.brand){ msg.textContent='Brand is required , pick or type the product’s brand so it links correctly.'; document.getElementById('aBrand').focus(); return; }
   // Ex-VAT helper: convert the entered price to the inclusive shelf price so the catalogue stays uniform.
   if(document.getElementById('aExVat').checked){ body.price = Math.round(body.price * 1.15 * 100) / 100; }
   const appr = await requireApproval(`Add new product “${body.name}”`);
@@ -723,7 +795,7 @@ async function createProduct(){
   const d = await r.json();
   if(d.success && d.persisted){
     closeAdd(); const s=d.saved||{};
-    saveConfirm(`“${s.name||body.name}” added`, `Price R${s.price??body.price} · Stock ${s.quantity??body.quantity} — approved by ${d.approvedBy||'role'}`);
+    saveConfirm(`“${s.name||body.name}” added`, `Price R${s.price??body.price} · Stock ${s.quantity??body.quantity} , approved by ${d.approvedBy||'role'}`);
     const cat=(s.category||body.category||'').trim().toLowerCase();
     document.getElementById('search').value='';
     await load();                          // refetch so the new product is in PRODUCTS
@@ -736,5 +808,6 @@ vatBtnLabel();
 document.getElementById('aPrice').addEventListener('input', addExVatHint);
 if(!token){ document.getElementById('gate').style.display='block'; } else { load(); }
 </script>
+<script src="promo-widget.js"></script>
 </body>
 </html>

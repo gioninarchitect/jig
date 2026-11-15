@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Admin n8n Settings Page
+ * Origin by ILCO Farming - Admin n8n Settings Page
  *
  * Configure n8n workflow automation: enable/disable, webhook URL,
  * API key, and toggle individual workflows.
@@ -181,7 +181,7 @@ export default function AdminN8nPage() {
 
         <div className="space-y-4">
           <div>
-            <label className="mb-1 block text-xs font-medium text-puregro-gray-400">
+            <label className="mb-1 block text-xs font-medium text-pg-gray-400">
               n8n Webhook Base URL
             </label>
             <input
@@ -189,15 +189,15 @@ export default function AdminN8nPage() {
               value={webhookUrl}
               onChange={(e) => setWebhookUrl(e.target.value)}
               placeholder="https://your-instance.app.n8n.cloud/webhook"
-              className="w-full rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-white placeholder-puregro-gray-600 focus:border-pg-green/50 focus:outline-none"
+              className="w-full rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-white placeholder-pg-gray-600 focus:border-pg-green/50 focus:outline-none"
             />
-            <p className="mt-1 text-[11px] text-puregro-gray-600">
+            <p className="mt-1 text-[11px] text-pg-gray-600">
               Events are POSTed to: {webhookUrl || '...'}/event-type
             </p>
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-puregro-gray-400">
+            <label className="mb-1 block text-xs font-medium text-pg-gray-400">
               API Key {config?.apiKeySet && <span className="text-green-500">(set)</span>}
             </label>
             <div className="flex gap-2">
@@ -206,17 +206,17 @@ export default function AdminN8nPage() {
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder={config?.apiKeySet ? 'Enter new key to change' : 'Generate or enter an API key'}
-                className="flex-1 rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-white placeholder-puregro-gray-600 focus:border-pg-green/50 focus:outline-none"
+                className="flex-1 rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-white placeholder-pg-gray-600 focus:border-pg-green/50 focus:outline-none"
               />
               <button
                 onClick={() => setShowApiKey(!showApiKey)}
-                className="rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-xs text-puregro-gray-400 hover:bg-white/[0.08] hover:text-pg-white"
+                className="rounded-md border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-xs text-pg-gray-400 hover:bg-white/[0.08] hover:text-pg-white"
               >
                 {showApiKey ? 'Hide' : 'Show'}
               </button>
               <button
                 onClick={() => {
-                  const key = `puregro_${crypto.randomUUID().replace(/-/g, '').slice(0, 24)}`;
+                  const key = `origin_${crypto.randomUUID().replace(/-/g, '').slice(0, 24)}`;
                   setApiKey(key);
                   setShowApiKey(true);
                 }}
@@ -225,8 +225,8 @@ export default function AdminN8nPage() {
                 Generate
               </button>
             </div>
-            <p className="mt-1 text-[11px] text-puregro-gray-600">
-              n8n uses this key in the X-N8N-API-KEY header when calling PureGro data endpoints.
+            <p className="mt-1 text-[11px] text-pg-gray-600">
+              n8n uses this key in the X-N8N-API-KEY header when calling Origin data endpoints.
             </p>
           </div>
 
@@ -314,7 +314,7 @@ export default function AdminN8nPage() {
         <p className="mb-3 text-xs text-pg-gray-500">
           Use these endpoints in your n8n HTTP Request nodes. Add header: X-N8N-API-KEY
         </p>
-        <div className="space-y-1 font-mono text-xs text-puregro-gray-400">
+        <div className="space-y-1 font-mono text-xs text-pg-gray-400">
           <p>GET /api/v1/n8n/data/clients</p>
           <p>GET /api/v1/n8n/data/clients/:id</p>
           <p>GET /api/v1/n8n/data/orders/unpaid</p>

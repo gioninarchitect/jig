@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Admin Orders Page
+ * Origin by ILCO Farming - Admin Orders Page
  *
  * Admin order management dashboard with filters, quick actions
  * (confirm, ship, deliver), and POP review.
@@ -15,13 +15,13 @@ const STATUS_COLORS: Record<string, string> = {
   confirmed: 'bg-pg-green/15 text-pg-green-light border border-pg-green/25',
   processing: 'bg-blue-500/15 text-blue-400 border border-blue-500/25',
   shipped: 'bg-blue-500/15 text-blue-400 border border-blue-500/25',
-  delivered: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  delivered: 'bg-green-500/15 text-green-400 border border-green-500/25',
   cancelled: 'bg-red-500/15 text-red-400 border border-red-500/25',
 };
 
 const PAYMENT_COLORS: Record<string, string> = {
   pending: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
-  paid: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  paid: 'bg-green-500/15 text-green-400 border border-green-500/25',
   overdue: 'bg-red-500/15 text-red-400 border border-red-500/25',
   partial: 'bg-orange-500/15 text-orange-400 border border-orange-500/25',
 };
@@ -174,11 +174,11 @@ export default function AdminOrdersPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search orders or clients..."
-            className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-sm text-pg-gray-300 outline-none placeholder:text-puregro-gray-600 focus:border-pg-green/50"
+            className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 text-sm text-pg-gray-300 outline-none placeholder:text-pg-gray-600 focus:border-pg-green/50"
           />
           <button
             type="submit"
-            className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 font-heading text-[10px] font-medium uppercase tracking-wider text-puregro-gray-400 hover:bg-white/[0.08]"
+            className="rounded border border-white/[0.12] bg-white/[0.04] px-3 py-1.5 font-heading text-[10px] font-medium uppercase tracking-wider text-pg-gray-400 hover:bg-white/[0.08]"
           >
             Search
           </button>
@@ -207,7 +207,7 @@ export default function AdminOrdersPage() {
                     href={pop.filePath}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-heading text-[10px] font-medium uppercase tracking-wider text-puregro-gray-400 hover:bg-white/[0.08]"
+                    className="rounded border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-heading text-[10px] font-medium uppercase tracking-wider text-pg-gray-400 hover:bg-white/[0.08]"
                   >
                     View
                   </a>
@@ -255,13 +255,13 @@ export default function AdminOrdersPage() {
                       {order.id}
                     </Link>
                     {order.poNumber && (
-                      <p className="text-[10px] text-puregro-gray-600">{order.poNumber}</p>
+                      <p className="text-[10px] text-pg-gray-600">{order.poNumber}</p>
                     )}
                   </td>
                   <td className="px-3 py-3 text-pg-gray-300">
                     {order.clientName || order.clientId.slice(0, 8)}
                   </td>
-                  <td className="px-3 py-3 text-puregro-gray-400">{formatDate(order.createdAt)}</td>
+                  <td className="px-3 py-3 text-pg-gray-400">{formatDate(order.createdAt)}</td>
                   <td className="px-3 py-3">
                     <span className={`rounded px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider ${STATUS_COLORS[order.status] || 'bg-white/[0.06] text-pg-gray-500'}`}>
                       {order.status}
@@ -281,7 +281,7 @@ export default function AdminOrdersPage() {
                         <button
                           onClick={() => handleConfirm(order.id)}
                           disabled={actionLoading === order.id}
-                          className="rounded border border-puregro-green/25 bg-puregro-green/10 px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-green-400 transition-all hover:bg-puregro-green/20 disabled:opacity-50"
+                          className="rounded border border-green-500/25 bg-green-500/10 px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-green-400 transition-all hover:bg-green-500/20 disabled:opacity-50"
                         >
                           Confirm
                         </button>
@@ -298,14 +298,14 @@ export default function AdminOrdersPage() {
                         <button
                           onClick={() => handleDeliver(order.id)}
                           disabled={actionLoading === order.id}
-                          className="rounded border border-puregro-green/25 bg-puregro-green/10 px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-green-400 transition-all hover:bg-puregro-green/20 disabled:opacity-50"
+                          className="rounded border border-green-500/25 bg-green-500/10 px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-green-400 transition-all hover:bg-green-500/20 disabled:opacity-50"
                         >
                           Delivered
                         </button>
                       )}
                       <Link
                         to={`/orders/${order.id}`}
-                        className="rounded border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-puregro-gray-400 transition-all hover:bg-white/[0.08]"
+                        className="rounded border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-pg-gray-400 transition-all hover:bg-white/[0.08]"
                       >
                         View
                       </Link>
@@ -340,7 +340,7 @@ export default function AdminOrdersPage() {
                   value={courierName}
                   onChange={(e) => setCourierName(e.target.value)}
                   placeholder="e.g. The Courier Guy"
-                  className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-puregro-gray-600 focus:border-pg-green/50"
+                  className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-pg-gray-600 focus:border-pg-green/50"
                 />
               </div>
               <div>
@@ -352,14 +352,14 @@ export default function AdminOrdersPage() {
                   value={trackingNumber}
                   onChange={(e) => setTrackingNumber(e.target.value)}
                   placeholder="e.g. TCG123456789"
-                  className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-puregro-gray-600 focus:border-pg-green/50"
+                  className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-pg-gray-600 focus:border-pg-green/50"
                 />
               </div>
             </div>
             <div className="mt-4 flex justify-end gap-2">
               <button
                 onClick={() => setShipModal(null)}
-                className="rounded border border-white/[0.12] bg-white/[0.04] px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-puregro-gray-400 hover:bg-white/[0.08]"
+                className="rounded border border-white/[0.12] bg-white/[0.04] px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-pg-gray-400 hover:bg-white/[0.08]"
               >
                 Cancel
               </button>
@@ -425,7 +425,7 @@ export default function AdminOrdersPage() {
                 value={popNotes}
                 onChange={(e) => setPopNotes(e.target.value)}
                 rows={2}
-                className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-puregro-gray-600 focus:border-pg-green/50"
+                className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-pg-gray-600 focus:border-pg-green/50"
                 placeholder="e.g. Amount matches, reference confirmed"
               />
             </div>
@@ -433,7 +433,7 @@ export default function AdminOrdersPage() {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setPopReview(null)}
-                className="rounded border border-white/[0.12] bg-white/[0.04] px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-puregro-gray-400 hover:bg-white/[0.08]"
+                className="rounded border border-white/[0.12] bg-white/[0.04] px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-pg-gray-400 hover:bg-white/[0.08]"
               >
                 Cancel
               </button>
@@ -447,7 +447,7 @@ export default function AdminOrdersPage() {
               <button
                 onClick={() => handlePopReview('approved')}
                 disabled={actionLoading === popReview.id}
-                className="rounded border border-puregro-green/25 bg-puregro-green/15 px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-green-400 hover:bg-puregro-green/25 disabled:opacity-50"
+                className="rounded border border-green-500/25 bg-green-500/15 px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-green-400 hover:bg-green-500/25 disabled:opacity-50"
               >
                 Approve
               </button>

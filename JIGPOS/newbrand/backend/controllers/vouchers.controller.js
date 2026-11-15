@@ -1,5 +1,5 @@
 /**
- * Voucher Controller — Business logic for lifestyle/retail voucher system
+ * Voucher Controller , Business logic for lifestyle/retail voucher system
  *
  * CRITICAL: This voucher system is ONLY for lifestyle/retail products.
  * Section 21 medical cannabis products CANNOT receive discounts (illegal in South Africa).
@@ -9,6 +9,12 @@
  */
 const logger = require('../modules/logger');
 const Voucher = require('../modules/database/models/Voucher');
+let QRCode = null;
+try { QRCode = require('qrcode'); } catch (e) { /* QR optional; landing page still renders code text */ }
+
+// Who may create/manage vouchers. Owner (Ilse) login is the authorisation, no extra code.
+const MANAGE_ROLES = ['admin', 'super_admin', 'owner'];
+const canManage = (req) => req.user && MANAGE_ROLES.includes(req.user.role);
 
 // Validate voucher code before applying to cart (public)
 exports.validate = async (req, res) => {
@@ -57,8 +63,8 @@ exports.redeem = async (req, res) => {
 // List all vouchers (admin only)
 exports.getAll = async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ success: false, error: 'Admin access required' });
+    if (!canManage(req)) {
+      return res.status(403).json({ success: false, error: 'Owner or admin access required' });
     }
 
     const { status, page = 1, limit = 50, sort = '-createdAt' } = req.query;
@@ -87,21 +93,30 @@ exports.getAll = async (req, res) => {
   }
 };
 
-// Create new voucher (admin only)
+// Create new voucher (owner/admin). Phase 1 = promo vouchers only.
 exports.create = async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ success: false, error: 'Admin access required' });
+    if (!canManage(req)) {
+      return res.status(403).json({ success: false, error: 'Owner or admin access required' });
     }
 
     const {
       code, name, description, type, value, minPurchase, maxDiscount,
       startDate, expiryDate, redemptionLimit, maxRedemptions,
-      autoApplyTiers, applicableCategories, excludedCategories, internalNotes
+      autoApplyTiers, applicableCategories, excludedCategories,
+      applicableProducts, channel, internalNotes
     } = req.body;
 
     if (!name || !type || value === undefined || !expiryDate) {
       return res.status(400).json({ success: false, error: 'Name, type, value, and expiry date are required' });
+    }
+
+    // Unique, non-guessable public slug for the shareable promo link (retry on collision).
+    let publicSlug;
+    for (let i = 0; i < 5; i++) {
+      const candidate = Voucher.generateSlug();
+      const clash = await Voucher.exists({ publicSlug: candidate });
+      if (!clash) { publicSlug = candidate; break; }
     }
 
     const voucher = new Voucher({
@@ -109,18 +124,26 @@ exports.create = async (req, res) => {
       name, description, type, value, minPurchase, maxDiscount,
       startDate, expiryDate: new Date(expiryDate),
       redemptionLimit, maxRedemptions, autoApplyTiers,
-      applicableCategories, excludedCategories, internalNotes,
+      applicableCategories, excludedCategories,
+      applicableProducts: Array.isArray(applicableProducts) ? applicableProducts : [],
+      voucherClass: 'promo',
+      channel: channel || 'both',
+      publicSlug,
+      internalNotes,
       createdBy: req.user.id
     });
 
     await voucher.save();
+    logger.info(`Voucher created: ${voucher.code} (slug ${voucher.publicSlug}) by ${req.user.email || req.user.id}`);
 
     res.json({
       success: true,
       message: 'Voucher created successfully',
       voucher: {
         id: voucher._id, code: voucher.code, name: voucher.name,
-        type: voucher.type, value: voucher.value, expiryDate: voucher.expiryDate
+        type: voucher.type, value: voucher.value, expiryDate: voucher.expiryDate,
+        publicSlug: voucher.publicSlug,
+        applicableProducts: (voucher.applicableProducts || []).map(id => id.toString())
       }
     });
   } catch (error) {
@@ -132,11 +155,54 @@ exports.create = async (req, res) => {
   }
 };
 
+// Public: fetch a voucher by its shareable slug for the promo landing page.
+// Returns only display-safe fields (no internal notes, no redemption history).
+exports.getByPublicSlug = async (req, res) => {
+  try {
+    const voucher = await Voucher.findOne({ publicSlug: req.params.slug })
+      .populate('applicableProducts', 'name price');
+    if (!voucher) {
+      return res.status(404).json({ success: false, error: 'Voucher not found' });
+    }
+
+    const valid = voucher.isValid();
+
+    // QR encodes the voucher CODE so the cashier can scan it at the till.
+    let qrDataUrl = null;
+    if (QRCode) {
+      try {
+        qrDataUrl = await QRCode.toDataURL(voucher.code, { margin: 1, width: 260, color: { dark: '#0e0d0b', light: '#ffffff' } });
+      } catch (e) { qrDataUrl = null; }
+    }
+
+    res.json({
+      success: true,
+      voucher: {
+        code: voucher.code,
+        name: voucher.name,
+        description: voucher.description,
+        type: voucher.type,
+        value: voucher.value,
+        minPurchase: voucher.minPurchase,
+        expiryDate: voucher.expiryDate,
+        status: voucher.status,
+        active: valid.valid,
+        reason: valid.valid ? null : valid.reason,
+        products: (voucher.applicableProducts || []).map(p => ({ name: p.name, price: p.price })),
+        qrDataUrl
+      }
+    });
+  } catch (error) {
+    logger.error('Get voucher by slug error:', error);
+    res.status(500).json({ success: false, error: 'Error fetching voucher' });
+  }
+};
+
 // Update voucher (admin only)
 exports.update = async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ success: false, error: 'Admin access required' });
+    if (!canManage(req)) {
+      return res.status(403).json({ success: false, error: 'Owner or admin access required' });
     }
 
     const voucher = await Voucher.findById(req.params.id);
@@ -151,7 +217,8 @@ exports.update = async (req, res) => {
     const allowedUpdates = [
       'name', 'description', 'value', 'minPurchase', 'maxDiscount',
       'expiryDate', 'maxRedemptions', 'status', 'autoApplyTiers',
-      'applicableCategories', 'excludedCategories', 'internalNotes'
+      'applicableCategories', 'excludedCategories', 'applicableProducts',
+      'channel', 'internalNotes'
     ];
 
     allowedUpdates.forEach(field => {
@@ -170,8 +237,8 @@ exports.update = async (req, res) => {
 // Deactivate voucher (admin only, soft delete)
 exports.deactivate = async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ success: false, error: 'Admin access required' });
+    if (!canManage(req)) {
+      return res.status(403).json({ success: false, error: 'Owner or admin access required' });
     }
 
     const voucher = await Voucher.findById(req.params.id);
@@ -196,8 +263,8 @@ exports.deactivate = async (req, res) => {
 // Get voucher analytics (admin only)
 exports.getAnalytics = async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ success: false, error: 'Admin access required' });
+    if (!canManage(req)) {
+      return res.status(403).json({ success: false, error: 'Owner or admin access required' });
     }
 
     const voucher = await Voucher.findById(req.params.id)

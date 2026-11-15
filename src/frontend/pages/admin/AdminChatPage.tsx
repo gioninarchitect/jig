@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Admin Chat Bot Page
+ * Origin by ILCO Farming - Admin Chat Bot Page
  *
  * Manage Telegram bot settings, view linked users, setup webhook.
  */
@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { chat as chatApi, type ChatSettings, type ChatLinkedUser } from '../../api';
 
 const STATE_COLORS: Record<string, string> = {
-  linked: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  linked: 'bg-green-500/15 text-green-400 border border-green-500/25',
   pending_email: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
   pending_otp: 'bg-blue-500/15 text-blue-400 border border-blue-500/25',
 };
@@ -77,7 +77,7 @@ export default function AdminChatPage() {
       {/* Bot Status Card */}
       <div className="mb-6 rounded-lg border border-white/[0.08] bg-pg-dark p-5">
         <div className="flex items-center gap-3 mb-4">
-          <div className={`h-3 w-3 rounded-full ${settings?.configured ? 'bg-puregro-green' : 'bg-red-500'}`} />
+          <div className={`h-3 w-3 rounded-full ${settings?.configured ? 'bg-green-500' : 'bg-red-500'}`} />
           <h2 className="font-heading text-sm font-semibold uppercase tracking-wider text-pg-white">
             {settings?.configured ? 'Bot Active' : 'Not Configured'}
           </h2>
@@ -151,7 +151,7 @@ export default function AdminChatPage() {
               value={webhookUrl}
               onChange={(e) => setWebhookUrl(e.target.value)}
               placeholder="https://jig.cleva-ai.co.za/api/v1/chat/webhook/telegram"
-              className="flex-1 rounded border border-white/[0.12] bg-pg-black/50 px-3 py-2 text-sm text-pg-white placeholder-puregro-gray-600 focus:border-pg-green/50 focus:outline-none"
+              className="flex-1 rounded border border-white/[0.12] bg-pg-black/50 px-3 py-2 text-sm text-pg-white placeholder-pg-gray-600 focus:border-pg-green/50 focus:outline-none"
             />
             <button
               onClick={handleSetupWebhook}
@@ -201,7 +201,7 @@ export default function AdminChatPage() {
                 {users.map((u) => (
                   <tr key={u.id} className="border-b border-white/[0.04] hover:bg-white/[0.02]">
                     <td className="px-5 py-3">
-                      <span className="font-heading text-[11px] font-medium uppercase tracking-wider text-puregro-gray-400">
+                      <span className="font-heading text-[11px] font-medium uppercase tracking-wider text-pg-gray-400">
                         {u.platform}
                       </span>
                     </td>
@@ -223,7 +223,7 @@ export default function AdminChatPage() {
                         {u.linkState.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-5 py-3 text-sm text-puregro-gray-400">{u.messageCount}</td>
+                    <td className="px-5 py-3 text-sm text-pg-gray-400">{u.messageCount}</td>
                     <td className="px-5 py-3 text-sm text-pg-gray-500">
                       {u.lastMessageAt
                         ? new Date(u.lastMessageAt).toLocaleDateString('en-ZA')

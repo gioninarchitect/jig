@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Origin Promo Voucher</title>
+<style>
+  :root{ --gold:#C9A84C; --gold-b:#D4B86A; --dark:#0e0d0b; --dark2:#171613; --cream:#faf8f2; --muted:#9c9484; --line:#2c2820; }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; background:var(--dark); color:#f4efe4; max-width:100%; overflow-x:hidden;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  .serif{ font-family:Georgia,"Times New Roman",serif; }
+  .wrap{ min-height:100vh; width:100%; max-width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:24px 16px calc(24px + env(safe-area-inset-bottom)); gap:18px;
+    background-image:radial-gradient(90% 60% at 100% -10%, rgba(201,168,76,.18), transparent 55%),
+                     radial-gradient(70% 50% at -10% 110%, rgba(201,168,76,.10), transparent 55%); }
+  .brand{ text-align:center; }
+  .brand .mark{ font:800 20px/1 Georgia,serif; letter-spacing:5px; color:#fff; }
+  .brand .mark .g{ color:var(--gold); }
+  .brand .sub{ font:600 8px/1.5 system-ui; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-top:6px; }
+
+  .voucher{ width:100%; max-width:min(400px,100%); background:var(--dark2); border:1px solid var(--line); border-radius:18px; overflow:hidden;
+    background-image:radial-gradient(130% 90% at 0% 0%, rgba(201,168,76,.20), transparent 52%);
+    box-shadow:0 18px 50px rgba(0,0,0,.5); }
+  .vtop{ display:flex; flex-wrap:wrap; gap:6px; justify-content:space-between; align-items:center; padding:16px 20px 4px; }
+  .vtag{ font:700 8px/1 system-ui; letter-spacing:.18em; text-transform:uppercase; color:#241d08; background:var(--gold); padding:5px 10px; border-radius:20px; white-space:nowrap; }
+  .vexp{ font:600 8px/1.4 system-ui; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); white-space:nowrap; }
+  .vbody{ padding:8px 20px 4px; text-align:center; }
+  .amt{ font-family:Georgia,serif; font-weight:700; color:var(--gold-b); line-height:1; font-size:56px; margin:4px 0; }
+  .amt small{ font-size:22px; color:var(--muted); }
+  .on{ font-size:15px; color:#e9e2d0; margin:2px 0 4px; }
+  .desc{ font-size:12.5px; color:#b8b0a0; margin:6px 0 0; }
+  .min{ font-size:11px; color:var(--muted); margin-top:8px; }
+  .qrbox{ display:flex; flex-direction:column; align-items:center; gap:8px; padding:14px 20px 6px; }
+  .qrbox img{ width:190px; height:190px; border-radius:12px; background:#fff; padding:8px; }
+  .code{ font:700 20px/1 "Courier New",monospace; letter-spacing:3px; color:#fff; background:#000; border:1px dashed var(--gold); border-radius:10px; padding:10px 14px; }
+  .codelbl{ font:600 8px/1 system-ui; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+  .vfoot{ border-top:1px solid var(--line); margin-top:8px; padding:12px 20px 16px; text-align:center; }
+  .vfoot .redeem{ font-size:12px; color:#d9d2c1; } .vfoot .store{ font:600 9px/1.5 system-ui; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+  .wa{ display:inline-flex; align-items:center; justify-content:center; gap:8px; margin-top:4px; max-width:100%; background:#25D366; color:#04310f; font:700 14px/1 system-ui;
+    text-decoration:none; padding:14px 22px; border-radius:30px; }
+  .wa:active{ transform:translateY(1px); }
+  .state{ text-align:center; color:var(--muted); font-size:14px; padding:40px 20px; }
+  .expired{ color:#e2a17a; font-weight:700; font-size:13px; margin-top:6px; }
+  .hidden{ display:none; }
+</style></head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark">ORIGIN <span class="g">&middot;</span> ILCO</div>
+      <div class="sub">By ILCO Farming &middot; Potchefstroom</div>
+    </div>
+
+    <div id="loading" class="state">Loading your voucher...</div>
+    <div id="error" class="state hidden"></div>
+
+    <div id="card" class="voucher hidden">
+      <div class="vtop">
+        <span class="vtag">Promo Voucher</span>
+        <span class="vexp" id="exp"></span>
+      </div>
+      <div class="vbody">
+        <div class="amt" id="amt"></div>
+        <div class="on" id="on"></div>
+        <div class="desc" id="desc"></div>
+        <div class="min" id="min"></div>
+        <div class="expired hidden" id="inactive"></div>
+      </div>
+      <div class="qrbox">
+        <img id="qr" alt="Voucher QR code" class="hidden">
+        <div class="codelbl">Voucher code</div>
+        <div class="code" id="code"></div>
+      </div>
+      <div class="vfoot">
+        <div class="redeem">Show this code or QR at the Origin Potchefstroom till to redeem.</div>
+        <div class="store">Valid in store &middot; one discount per purchase</div>
+      </div>
+    </div>
+
+    <a id="wa" class="wa hidden" href="#">Share on WhatsApp</a>
+  </div>
+
+<script>
+(function(){
+  var API = window.location.protocol + '//' + window.location.host + '/pos/api/v1';
+  var params = new URLSearchParams(window.location.search);
+  var slug = params.get('v') || '';
+
+  var $ = function(id){ return document.getElementById(id); };
+  function show(el){ el.classList.remove('hidden'); }
+  function hide(el){ el.classList.add('hidden'); }
+  function fail(msg){ hide($('loading')); var e=$('error'); e.textContent = msg; show(e); }
+  function esc(s){ var d=document.createElement('div'); d.textContent = s==null?'':String(s); return d.innerHTML; }
+
+  if(!slug){ fail('This promo link is missing its voucher reference.'); return; }
+
+  fetch(API + '/vouchers/public/' + encodeURIComponent(slug))
+    .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+    .then(function(res){
+      if(!res.ok || !res.j || !res.j.success){ fail((res.j && res.j.error) || 'Voucher not found.'); return; }
+      var v = res.j.voucher;
+
+      var amt = v.type === 'fixed' ? ('R' + Number(v.value).toFixed(0)) : (Number(v.value) + '%');
+      $('amt').innerHTML = esc(amt) + ' <small>OFF</small>';
+
+      var prod = (v.products && v.products.length) ? v.products.map(function(p){ return p.name; }).join(', ') : '';
+      $('on').textContent = prod ? ('on ' + prod) : 'on your purchase';
+      $('desc').textContent = v.description || v.name || '';
+      $('min').textContent = (v.minPurchase && v.minPurchase > 0) ? ('Minimum spend R' + Number(v.minPurchase).toFixed(0)) : '';
+
+      if(v.expiryDate){
+        var d = new Date(v.expiryDate);
+        $('exp').textContent = 'Valid until ' + d.toLocaleDateString('en-ZA', {day:'numeric', month:'short', year:'numeric'});
+      }
+
+      $('code').textContent = v.code;
+      if(v.qrDataUrl){ var q=$('qr'); q.src = v.qrDataUrl; show(q); }
+
+      if(!v.active){
+        var inx = $('inactive');
+        inx.textContent = v.reason || 'This voucher is no longer active.';
+        show(inx);
+      }
+
+      hide($('loading')); show($('card'));
+
+      var shareText = amt + ' OFF ' + (prod ? ('on ' + prod + ' ') : '') + 'at Origin Potchefstroom. Show code ' + v.code + ' at the till. ' + window.location.href;
+      var wa = $('wa');
+      wa.href = 'https://wa.me/?text=' + encodeURIComponent(shareText);
+      show(wa);
+    })
+    .catch(function(){ fail('Could not load this voucher. Please check your connection and try again.'); });
+})();
+</script>
+</body></html>

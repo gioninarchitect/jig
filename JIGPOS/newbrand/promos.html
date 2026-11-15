@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Origin Promo Vouchers</title>
+<style>
+  :root{ --gold:#C9A84C; --gold-b:#D4B86A; --dark:#0e0d0b; --dark2:#171613; --ink:#1c1b18; --muted:#6f6a5f; --line:#e7e2d6; --cream:#faf8f2; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#f4f1ea; color:var(--ink); font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; font-size:14px; }
+  .top{ background:var(--dark); color:#f4efe4; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  .top .mark{ font:800 17px/1 Georgia,serif; letter-spacing:4px; } .top .mark .g{ color:var(--gold); }
+  .top .who{ font-size:12px; color:#9c9484; }
+  .wrap{ max-width:1000px; margin:0 auto; padding:18px 16px 60px; }
+  h2{ font-family:Georgia,serif; font-size:18px; margin:20px 0 6px; }
+  .sub{ color:var(--muted); font-size:13px; margin:0 0 10px; }
+  .card{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px; margin-top:10px; }
+  input,select{ width:100%; padding:11px 12px; border:1px solid #d8d2c4; border-radius:9px; font-size:14px; background:#fff; }
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:6px; background:var(--gold); color:#241d08; border:0; border-radius:9px; padding:9px 14px; font:700 13px/1 system-ui; cursor:pointer; white-space:nowrap; }
+  .btn:active{ transform:translateY(1px); }
+  .plist{ margin-top:12px; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .prow{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 14px; border-bottom:1px solid var(--line); }
+  .prow:last-child{ border-bottom:0; }
+  .prow:nth-child(even){ background:var(--cream); }
+  .prow .pn{ font-weight:600; } .prow .pp{ color:var(--muted); font-size:12px; margin-top:2px; }
+  .pill{ display:inline-block; font:700 10px/1 system-ui; letter-spacing:.08em; text-transform:uppercase; padding:4px 8px; border-radius:20px; }
+  .pill.active{ background:#e5f3ec; color:#137a52; border:1px solid #bfe0cf; }
+  .pill.inactive{ background:#f3e5e5; color:#a53a1a; border:1px solid #e0c3bf; }
+  .pill.expired{ background:#efe9da; color:#8a7a45; border:1px solid #ddd2b6; }
+  table{ width:100%; border-collapse:collapse; margin-top:6px; }
+  th{ text-align:left; font:700 10px/1 system-ui; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:8px; border-bottom:2px solid var(--ink); }
+  td{ padding:9px 8px; border-bottom:1px solid var(--line); font-size:13px; vertical-align:middle; }
+  .mono{ font-family:"Courier New",monospace; font-weight:700; letter-spacing:1px; }
+  .link{ color:#8a6d12; text-decoration:none; font-weight:600; cursor:pointer; }
+  .hint{ font-size:13px; color:var(--muted); }
+  .gate{ max-width:360px; margin:60px auto; }
+  .msg{ font-size:13px; margin-top:10px; min-height:18px; }
+</style></head>
+<body>
+  <div class="top">
+    <div class="mark">ORIGIN <span class="g">&middot;</span> ILCO</div>
+    <div class="who" id="who">Promo Vouchers</div>
+  </div>
+
+  <div class="wrap">
+    <!-- LOGIN GATE -->
+    <div id="gate" class="card gate" style="display:none;">
+      <h2 style="margin-top:0;">Sign in</h2>
+      <label class="hint">Email</label>
+      <input id="lgEmail" type="email" autocomplete="username" placeholder="you@ilcofarming.co.za" style="margin-top:5px;">
+      <label class="hint" style="margin-top:10px;display:block;">PIN</label>
+      <input id="lgPin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="PIN" style="margin-top:5px;">
+      <div style="margin-top:14px;"><button class="btn" onclick="doLogin()">Sign in</button></div>
+      <div id="lgMsg" class="msg"></div>
+    </div>
+
+    <!-- APP -->
+    <div id="app" style="display:none;">
+      <h2>Create a promo voucher</h2>
+      <p class="sub">Find a product, then tap <b>Create promo</b> next to it to set a custom discount and generate the voucher.</p>
+      <div class="card">
+        <input id="search" placeholder="Search products by name..." oninput="renderProducts()">
+        <div id="plist" class="plist"></div>
+        <div id="pmsg" class="hint" style="margin-top:10px;">Loading products...</div>
+      </div>
+
+      <h2>Your vouchers</h2>
+      <div class="card">
+        <div id="listMsg" class="hint">Loading...</div>
+        <table id="tbl" style="display:none;">
+          <thead><tr><th>Name</th><th>Code</th><th>Discount</th><th>Used</th><th>Expires</th><th>Status</th><th></th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<script src="promo-widget.js"></script>
+<script>
+  var API = (function(){
+    var h = window.location.host;
+    if(h.indexOf('localhost')>=0 || h.indexOf('127.0.0.1')>=0) return window.location.protocol+'//'+h+'/api/v1';
+    return window.location.protocol+'//'+h+'/pos/api/v1';
+  })();
+  var MANAGE_ROLES = ['owner','admin','super_admin','branch_manager'];
+  var token = sessionStorage.getItem('adminToken') || localStorage.getItem('token') || '';
+  var products = [];
+
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ var d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
+  function authHeaders(){ return { 'Content-Type':'application/json', 'Authorization':'Bearer '+token }; }
+  function promoLink(slug){ return window.location.protocol+'//'+window.location.host+'/promo.html?v='+slug; }
+
+  async function doLogin(){
+    var email=$('lgEmail').value.trim().toLowerCase(), pin=$('lgPin').value.trim(), msg=$('lgMsg');
+    if(!email||!pin){ msg.style.color='#DC2626'; msg.textContent='Enter email and PIN'; return; }
+    msg.style.color='#888'; msg.textContent='Signing in...';
+    try{
+      var r=await fetch(API+'/auth/otp/verify-pin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,pin})});
+      var d=await r.json();
+      if(!d.success||!d.token){ msg.style.color='#DC2626'; msg.textContent=d.message||'Invalid login'; return; }
+      if(!MANAGE_ROLES.includes(d.user&&d.user.role)){ msg.style.color='#DC2626'; msg.textContent='This account cannot manage vouchers.'; return; }
+      sessionStorage.setItem('adminToken',d.token); localStorage.setItem('token',d.token);
+      sessionStorage.setItem('user',JSON.stringify(d.user)); localStorage.setItem('user',JSON.stringify(d.user));
+      token=d.token; boot();
+    }catch(e){ msg.style.color='#DC2626'; msg.textContent='Login failed, try again'; }
+  }
+
+  async function loadProducts(){
+    try{
+      var r=await fetch(API+'/products/manage/list',{headers:authHeaders()});
+      var d=await r.json();
+      products = d.products || d.data || (Array.isArray(d)?d:[]);
+      renderProducts();
+    }catch(e){ $('pmsg').textContent='Could not load products.'; }
+  }
+
+  function renderProducts(){
+    var q=($('search')?$('search').value:'').trim().toLowerCase();
+    var rows = products.filter(function(p){ return !q || (p.name||'').toLowerCase().indexOf(q)>=0; });
+    var box=$('plist'); box.innerHTML='';
+    if(!rows.length){ $('pmsg').textContent = products.length? 'No products match.' : 'No products found.'; return; }
+    $('pmsg').textContent = rows.length+' product'+(rows.length>1?'s':'');
+    rows.slice(0,200).forEach(function(p){
+      var div=document.createElement('div'); div.className='prow';
+      div.innerHTML='<div><div class="pn">'+esc(p.name||'Unnamed')+'</div><div class="pp">'+(p.price!=null?('R'+p.price):'')+'</div></div>';
+      var b=document.createElement('button'); b.className='btn'; b.textContent='Create promo';
+      b.onclick=function(){ window.OriginPromo.open({ _id:p._id, name:p.name, price:p.price }); };
+      div.appendChild(b); box.appendChild(div);
+    });
+  }
+
+  // widget calls this after a voucher is created, so the list refreshes
+  window.onPromoCreated = function(){ loadList(); };
+
+  async function loadList(){
+    try{
+      var r=await fetch(API+'/vouchers?limit=100',{headers:authHeaders()});
+      var d=await r.json();
+      var rows=(d.vouchers||[]).filter(function(v){ return v.voucherClass!=='giftcard'; });
+      var tb=$('tbody'); tb.innerHTML='';
+      if(!rows.length){ $('listMsg').textContent='No vouchers yet.'; $('tbl').style.display='none'; return; }
+      $('listMsg').style.display='none'; $('tbl').style.display='table';
+      rows.forEach(function(v){
+        var disc = v.type==='fixed' ? ('R'+v.value) : (v.value+'%');
+        var used = v.redeemCount||0; var cap = v.maxRedemptions? ('/'+v.maxRedemptions):'';
+        var exp = v.expiryDate? new Date(v.expiryDate).toLocaleDateString('en-ZA',{day:'numeric',month:'short',year:'numeric'}):'';
+        var st = v.status||'active';
+        var pill = st==='active'?'active':(st==='expired'?'expired':'inactive');
+        var slug = v.publicSlug||'';
+        var tr=document.createElement('tr');
+        tr.innerHTML='<td>'+esc(v.name)+'</td>'+
+          '<td class="mono">'+esc(v.code)+'</td>'+
+          '<td>'+esc(disc)+'</td>'+
+          '<td>'+used+cap+'</td>'+
+          '<td>'+esc(exp)+'</td>'+
+          '<td><span class="pill '+pill+'">'+esc(st)+'</span></td>'+
+          '<td>'+(slug?('<a class="link" href="'+promoLink(slug)+'" target="_blank">link</a> '):'')+
+              (st==='active'?('<a class="link" onclick="deactivate(\''+v._id+'\')">deactivate</a>'):'')+'</td>';
+        tb.appendChild(tr);
+      });
+    }catch(e){ $('listMsg').textContent='Could not load vouchers.'; }
+  }
+
+  async function deactivate(id){
+    if(!confirm('Deactivate this voucher? It will stop working at the till and on its link.')) return;
+    try{
+      var r=await fetch(API+'/vouchers/'+id,{method:'DELETE',headers:authHeaders()});
+      var d=await r.json();
+      if(d.success){ loadList(); } else { alert(d.error||'Could not deactivate'); }
+    }catch(e){ alert('Deactivate failed'); }
+  }
+
+  function boot(){
+    $('gate').style.display='none'; $('app').style.display='block';
+    var u=null; try{ u=JSON.parse(localStorage.getItem('user')||'null'); }catch(e){}
+    if(u&&u.email) $('who').textContent=u.email;
+    loadProducts(); loadList();
+  }
+
+  if(!token){ $('gate').style.display='block'; } else { boot(); }
+</script>
+</body></html>

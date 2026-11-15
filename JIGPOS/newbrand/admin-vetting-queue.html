@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vetting Queue · Origin Admin</title>
+<style>
+  :root{
+    --gold:#C9A84C; --gold-deep:#8B6914; --gold-soft:#E8D5A3;
+    --bg:#0A0A0A; --panel:#141414; --panel-2:#1A1A1A; --line:#262626;
+    --ink:#FAFAFA; --muted:#9a9a9a; --ok:#22C55E; --bad:#ef4444; --warn:#d9a441;
+  }
+  *{box-sizing:border-box} html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  header{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px}
+  .wordmark{font-weight:800;letter-spacing:3px;color:var(--gold);font-size:13px}
+  .wordmark small{display:block;letter-spacing:2px;color:var(--muted);font-weight:600;font-size:9px}
+  h1{font-size:18px;margin:0;font-weight:600}
+  .wrap{max-width:1040px;margin:0 auto;padding:22px}
+  .tabs{display:flex;gap:8px;margin:8px 0 18px;flex-wrap:wrap}
+  .tab{background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;font-size:13px}
+  .tab.active{border-color:var(--gold);color:var(--gold)}
+  .tab .badge{display:inline-block;min-width:18px;text-align:center;background:var(--gold);color:#000;border-radius:999px;font-size:11px;font-weight:700;padding:0 6px;margin-left:6px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+  .card.hidden{display:none}
+  .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .who{font-weight:700;font-size:15px}
+  .pill{font-size:10px;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--gold-deep);color:var(--gold-soft);border-radius:6px;padding:2px 8px;margin-left:8px}
+  .meta{color:var(--muted);font-size:12px;margin-top:2px}
+  .docs{margin:12px 0;border-top:1px solid var(--line);padding-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+  .doc{font-size:12px} .doc .lbl{color:var(--muted)} .doc a{color:var(--gold)}
+  .doc .missing{color:var(--bad)} .doc .v-ok{color:var(--ok)} .doc .v-no{color:var(--warn)}
+  .actions{display:flex;gap:10px;margin-top:6px}
+  button.act{border:none;border-radius:8px;padding:9px 18px;font-weight:700;cursor:pointer;font-size:13px}
+  .approve{background:var(--gold);color:#000} .reject{background:transparent;border:1px solid var(--bad);color:var(--bad)}
+  .empty,.msg{color:var(--muted);text-align:center;padding:40px}
+  /* branded modal — never a native dialog */
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:50}
+  .modal-bg.show{display:flex}
+  .modal{background:var(--panel-2);border:1px solid var(--gold-deep);border-radius:14px;padding:22px;max-width:420px;width:92%}
+  .modal h3{margin:0 0 8px;color:var(--gold)}
+  .modal textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:8px;margin-top:8px;min-height:64px}
+  .modal .row{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--panel-2);border:1px solid var(--gold-deep);color:var(--ink);padding:10px 18px;border-radius:10px;display:none;z-index:60}
+</style>
+</head>
+<body>
+<header>
+  <div class="wordmark">ORIGIN<small>RETAIL ADMIN</small></div>
+  <h1>Vetting Queue</h1>
+</header>
+<div class="wrap">
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-f="all">All <span class="badge" id="c-all">0</span></button>
+    <button class="tab" data-f="doctor">Doctors / Pharmacists <span class="badge" id="c-doctor">0</span></button>
+    <button class="tab" data-f="supplier">Suppliers <span class="badge" id="c-supplier">0</span></button>
+    <button class="tab" data-f="patient">Patients (S21) <span class="badge" id="c-patient">0</span></button>
+  </div>
+  <div id="list"><div class="msg">Loading vetting queue…</div></div>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3 id="mTitle">Confirm</h3>
+    <div id="mBody"></div>
+    <textarea id="mReason" placeholder="Reason (required for rejection)…" style="display:none"></textarea>
+    <div class="row">
+      <button class="act reject" onclick="closeModal()">Cancel</button>
+      <button class="act approve" id="mConfirm">Confirm</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const TOKEN = localStorage.getItem('token') || sessionStorage.getItem('adminToken');
+const API = '/api/v1/admin/vetting';
+let QUEUE = [], FILTER = 'all', pending = null;
+
+if(!TOKEN){ location.href = '/login.html?next=/admin-vetting-queue.html'; }
+
+const h = (s)=> (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtDate = (d)=> d ? new Date(d).toLocaleDateString('en-ZA',{year:'numeric',month:'short',day:'numeric'}) : '—';
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.style.display='block'; setTimeout(()=>t.style.display='none',2600); }
+
+async function load(){
+  try{
+    const r = await fetch(API+'/pending',{headers:{Authorization:'Bearer '+TOKEN}});
+    if(r.status===401||r.status===403){ document.getElementById('list').innerHTML='<div class="msg">Access denied — admin sign-in required.</div>'; return; }
+    const d = await r.json();
+    QUEUE = d.queue||[];
+    const c = d.counts||{};
+    document.getElementById('c-all').textContent=c.total||0;
+    document.getElementById('c-doctor').textContent=c.doctor||0;
+    document.getElementById('c-supplier').textContent=c.supplier||0;
+    document.getElementById('c-patient').textContent=c.patient||0;
+    render();
+  }catch(e){ document.getElementById('list').innerHTML='<div class="msg">Failed to load: '+h(e.message)+'</div>'; }
+}
+
+function render(){
+  const rows = QUEUE.filter(x=>FILTER==='all'||x.party===FILTER);
+  const el = document.getElementById('list');
+  if(!rows.length){ el.innerHTML='<div class="empty">Nothing awaiting vetting'+(FILTER==='all'?'':' in this category')+'. ✓</div>'; return; }
+  el.innerHTML = rows.map(x=>{
+    const docs = (x.documents||[]).map(dc=>{
+      const val = dc.value
+        ? (String(dc.value).startsWith('http')||String(dc.value).startsWith('/')
+            ? `<a href="${h(dc.value)}" target="_blank" rel="noopener">view ↗</a>` : h(dc.value))
+        : '<span class="missing">missing</span>';
+      const vf = (dc.verified===true)?' <span class="v-ok">✓</span>':(dc.value&&dc.verified===false?' <span class="v-no">unverified</span>':'');
+      const exp = dc.expiryDate?` <span class="lbl">exp ${fmtDate(dc.expiryDate)}</span>`:'';
+      return `<div class="doc"><span class="lbl">${h(dc.label)}:</span> ${val}${vf}${exp}</div>`;
+    }).join('') || '<div class="doc lbl">No documents uploaded.</div>';
+    return `<div class="card">
+      <div class="top"><div>
+        <span class="who">${h(x.name||'—')}</span><span class="pill">${h(x.subType||x.party)}</span>
+        <div class="meta">${h(x.party)} · submitted ${fmtDate(x.submittedAt)}</div>
+      </div></div>
+      <div class="docs">${docs}</div>
+      <div class="actions">
+        <button class="act approve" onclick="ask('${x.party}','${x.id}','approve','${h(x.name)}')">Approve</button>
+        <button class="act reject" onclick="ask('${x.party}','${x.id}','reject','${h(x.name)}')">Reject</button>
+      </div></div>`;
+  }).join('');
+}
+
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('.tab'); if(!b)return;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); b.classList.add('active');
+  FILTER=b.dataset.f; render();
+});
+
+function ask(party,id,action,name){
+  pending={party,id,action};
+  document.getElementById('mTitle').textContent = action==='approve'?'Approve & vet':'Reject';
+  document.getElementById('mBody').innerHTML = `${action==='approve'?'Approve':'Reject'} <b>${h(name)}</b> (${h(party)})?`;
+  const ta=document.getElementById('mReason'); ta.style.display = action==='reject'?'block':'none'; ta.value='';
+  const btn=document.getElementById('mConfirm'); btn.textContent=action==='approve'?'Approve':'Reject';
+  btn.className='act '+(action==='approve'?'approve':'reject');
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeModal(){ document.getElementById('modalBg').classList.remove('show'); pending=null; }
+
+document.getElementById('mConfirm').addEventListener('click',async()=>{
+  if(!pending)return;
+  const reason=document.getElementById('mReason').value.trim();
+  if(pending.action==='reject' && !reason){ toast('A reason is required to reject.'); return; }
+  try{
+    const r=await fetch(`${API}/${pending.party}/${pending.id}/${pending.action}`,{
+      method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+TOKEN},
+      body:JSON.stringify({reason})});
+    const d=await r.json();
+    if(d.success){ toast(pending.action==='approve'?'Approved ✓':'Rejected'); closeModal(); load(); }
+    else { toast(d.message||'Action failed'); }
+  }catch(e){ toast('Error: '+e.message); }
+});
+
+load();
+</script>
+</body>
+</html>

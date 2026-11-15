@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Order Detail Page
+ * Origin by ILCO Farming - Order Detail Page
  *
  * Full order detail with status timeline, line items, delivery info,
  * PO/Invoice numbers, POP upload, and POP status list.
@@ -17,20 +17,20 @@ const STATUS_COLORS: Record<string, string> = {
   pending: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
   confirmed: 'bg-pg-green/15 text-pg-green-light border border-pg-green/25',
   shipped: 'bg-blue-500/15 text-blue-400 border border-blue-500/25',
-  delivered: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  delivered: 'bg-green-500/15 text-green-400 border border-green-500/25',
   cancelled: 'bg-red-500/15 text-red-400 border border-red-500/25',
 };
 
 const PAYMENT_COLORS: Record<string, string> = {
   pending: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
-  paid: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  paid: 'bg-green-500/15 text-green-400 border border-green-500/25',
   overdue: 'bg-red-500/15 text-red-400 border border-red-500/25',
   partial: 'bg-orange-500/15 text-orange-400 border border-orange-500/25',
 };
 
 const POP_COLORS: Record<string, string> = {
   pending: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
-  approved: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  approved: 'bg-green-500/15 text-green-400 border border-green-500/25',
   rejected: 'bg-red-500/15 text-red-400 border border-red-500/25',
 };
 
@@ -168,7 +168,7 @@ export default function OrderDetailPage() {
                       className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-bold transition-all ${
                         isCompleted
                           ? 'border-pg-green bg-pg-green/20 text-pg-green-light'
-                          : 'border-white/[0.12] bg-white/[0.04] text-puregro-gray-600'
+                          : 'border-white/[0.12] bg-white/[0.04] text-pg-gray-600'
                       } ${isCurrent ? 'ring-2 ring-pg-green/30 ring-offset-2 ring-offset-pg-dark' : ''}`}
                     >
                       {isCompleted ? (
@@ -179,11 +179,11 @@ export default function OrderDetailPage() {
                         i + 1
                       )}
                     </div>
-                    <p className={`mt-1.5 text-center font-heading text-[10px] font-semibold uppercase tracking-wider ${isCompleted ? 'text-pg-green-light' : 'text-puregro-gray-600'}`}>
+                    <p className={`mt-1.5 text-center font-heading text-[10px] font-semibold uppercase tracking-wider ${isCompleted ? 'text-pg-green-light' : 'text-pg-gray-600'}`}>
                       {step}
                     </p>
                     {timestamps[step] && (
-                      <p className="mt-0.5 text-center text-[10px] text-puregro-gray-600">
+                      <p className="mt-0.5 text-center text-[10px] text-pg-gray-600">
                         {formatDate(timestamps[step])}
                       </p>
                     )}
@@ -287,7 +287,7 @@ export default function OrderDetailPage() {
                   ref={fileRef}
                   type="file"
                   accept="image/jpeg,image/png,image/webp,application/pdf"
-                  className="mb-2 block w-full text-xs text-pg-gray-500 file:mr-2 file:rounded file:border file:border-white/[0.12] file:bg-white/[0.04] file:px-3 file:py-1.5 file:font-heading file:text-[10px] file:font-medium file:uppercase file:tracking-wider file:text-puregro-gray-400 hover:file:bg-white/[0.08]"
+                  className="mb-2 block w-full text-xs text-pg-gray-500 file:mr-2 file:rounded file:border file:border-white/[0.12] file:bg-white/[0.04] file:px-3 file:py-1.5 file:font-heading file:text-[10px] file:font-medium file:uppercase file:tracking-wider file:text-pg-gray-400 hover:file:bg-white/[0.08]"
                 />
                 {uploadError && <p className="mb-2 text-xs text-red-400">{uploadError}</p>}
                 <button
@@ -301,7 +301,7 @@ export default function OrderDetailPage() {
             )}
 
             {pops.length === 0 ? (
-              <p className="text-xs text-puregro-gray-600">No proof of payment uploaded yet.</p>
+              <p className="text-xs text-pg-gray-600">No proof of payment uploaded yet.</p>
             ) : (
               <div className="space-y-2">
                 {pops.map((pop) => (
@@ -319,7 +319,7 @@ export default function OrderDetailPage() {
                         {pop.status}
                       </span>
                     </div>
-                    <p className="mt-1 text-[10px] text-puregro-gray-600">
+                    <p className="mt-1 text-[10px] text-pg-gray-600">
                       {formatFileSize(pop.fileSize)} - {formatDate(pop.uploadedAt)}
                     </p>
                     {pop.adminNotes && (

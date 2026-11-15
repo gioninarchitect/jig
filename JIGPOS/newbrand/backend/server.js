@@ -531,7 +531,8 @@ app.get('/api/v1/products', async (req, res) => {
       try {
         const token = authHeader.split(' ')[1];
         const decoded = jwt.verify(token, config.auth.jwtSecret);
-        const staffRoles = ['admin', 'owner', 'manager', 'staff_manager', 'branch_assistant'];
+        const staffRoles = ['admin', 'owner', 'manager', 'staff_manager', 'branch_assistant',
+          'medical_head', 'referring_doctor', 'dr_assistant', 'pharmacist'];
         isStaff = staffRoles.includes(decoded.role);
       } catch (e) {
         // Token invalid or expired - treat as public
@@ -719,6 +720,11 @@ app.get('/dashboard', (req, res) => {
 
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, '../admin.html'));
+});
+
+// Unified admin vetting queue (doctors/pharmacists, suppliers, patients)
+app.get('/admin/vetting', (req, res) => {
+  res.sendFile(path.join(__dirname, '../admin-vetting-queue.html'));
 });
 
 app.get('/order', (req, res) => {

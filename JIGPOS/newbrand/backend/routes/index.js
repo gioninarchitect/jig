@@ -54,6 +54,9 @@ module.exports = function(app) {
   // Medical Service Providers (Section 21 partners)
   app.use('/api/v1/medical-providers', require('./medical-providers'));
 
+  // Unified Admin Vetting Queue — vet/approve the 3 regulated parties (doctors, suppliers, patients)
+  app.use('/api/v1/admin/vetting', require('./admin-vetting'));
+
   // React app parity routes
   app.use('/api/v1/compliance', require('./compliance'));
   app.use('/api/v1/supplier', require('./supplier-portal'));

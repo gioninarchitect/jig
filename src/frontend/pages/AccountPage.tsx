@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Account Page
+ * Origin by ILCO Farming - Account Page
  *
  * Shows client profile, tier info, and tier progression.
  */

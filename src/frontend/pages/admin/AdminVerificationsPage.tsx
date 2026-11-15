@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Admin Verifications Page
+ * Origin by ILCO Farming - Admin Verifications Page
  *
  * Review queue for client compliance documents.
  * Approve or reject with notes. Auto-activates clients when all required docs approved.
@@ -20,7 +20,7 @@ const DOC_TYPE_LABELS: Record<string, string> = {
 
 const STATUS_STYLES: Record<string, string> = {
   pending: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
-  approved: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  approved: 'bg-green-500/15 text-green-400 border border-green-500/25',
   rejected: 'bg-red-500/15 text-red-400 border border-red-500/25',
 };
 
@@ -95,7 +95,7 @@ export default function AdminVerificationsPage() {
         </div>
       ) : pendingDocs.length === 0 ? (
         <div className="rounded-lg border border-white/[0.06] bg-pg-dark p-8 text-center">
-          <svg className="mx-auto mb-3 h-10 w-10 text-puregro-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <svg className="mx-auto mb-3 h-10 w-10 text-pg-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
           <p className="text-sm text-pg-gray-500">No documents pending review.</p>
@@ -118,16 +118,16 @@ export default function AdminVerificationsPage() {
                 <tr key={doc.id} className="transition-colors hover:bg-white/[0.02]">
                   <td className="px-3 py-3">
                     <p className="font-medium text-pg-white">{doc.clientName}</p>
-                    <p className="text-[10px] text-puregro-gray-600">{doc.clientEmail}</p>
+                    <p className="text-[10px] text-pg-gray-600">{doc.clientEmail}</p>
                   </td>
                   <td className="px-3 py-3 text-pg-gray-300">
                     {DOC_TYPE_LABELS[doc.docType] || doc.docType}
                   </td>
                   <td className="px-3 py-3">
-                    <p className="text-xs text-puregro-gray-400">{doc.fileName}</p>
-                    <p className="text-[10px] text-puregro-gray-600">{formatFileSize(doc.fileSize)}</p>
+                    <p className="text-xs text-pg-gray-400">{doc.fileName}</p>
+                    <p className="text-[10px] text-pg-gray-600">{formatFileSize(doc.fileSize)}</p>
                   </td>
-                  <td className="px-3 py-3 text-puregro-gray-400">
+                  <td className="px-3 py-3 text-pg-gray-400">
                     {formatDate(doc.uploadedAt)}
                   </td>
                   <td className="px-3 py-3">
@@ -141,7 +141,7 @@ export default function AdminVerificationsPage() {
                         href={doc.filePath}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="rounded border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-puregro-gray-400 transition-all hover:bg-white/[0.08]"
+                        className="rounded border border-white/[0.12] bg-white/[0.04] px-2 py-1 font-heading text-[9px] font-semibold uppercase tracking-wider text-pg-gray-400 transition-all hover:bg-white/[0.08]"
                       >
                         View
                       </a>
@@ -208,7 +208,7 @@ export default function AdminVerificationsPage() {
                 value={adminNotes}
                 onChange={(e) => setAdminNotes(e.target.value)}
                 rows={2}
-                className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-puregro-gray-600 focus:border-pg-green/50"
+                className="w-full rounded border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-sm text-pg-gray-300 outline-none placeholder:text-pg-gray-600 focus:border-pg-green/50"
                 placeholder="e.g. Document verified, details match"
               />
             </div>
@@ -216,7 +216,7 @@ export default function AdminVerificationsPage() {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setReviewModal(null)}
-                className="rounded border border-white/[0.12] bg-white/[0.04] px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-puregro-gray-400 hover:bg-white/[0.08]"
+                className="rounded border border-white/[0.12] bg-white/[0.04] px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-pg-gray-400 hover:bg-white/[0.08]"
               >
                 Cancel
               </button>
@@ -230,7 +230,7 @@ export default function AdminVerificationsPage() {
               <button
                 onClick={() => handleReview('approved')}
                 disabled={actionLoading === reviewModal.id}
-                className="rounded border border-puregro-green/25 bg-puregro-green/15 px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-green-400 hover:bg-puregro-green/25 disabled:opacity-50"
+                className="rounded border border-green-500/25 bg-green-500/15 px-4 py-2 font-heading text-[11px] font-medium uppercase tracking-wider text-green-400 hover:bg-green-500/25 disabled:opacity-50"
               >
                 Approve
               </button>

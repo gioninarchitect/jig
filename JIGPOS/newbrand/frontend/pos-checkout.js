@@ -1,8 +1,102 @@
 // ===== POS CHECKOUT MODULE =====
 // Payment modal, payment methods, sale completion, split payments, receipts, invoices
 
+// ===== Promo voucher at the till =====
+// appliedVoucher = { code, discount } once a valid code is entered. The SERVER re-validates and is
+// authoritative on the discount; this only reflects it in the payment UI so the cashier collects the
+// right amount. The voucher code is passed to the sale; the backend distributes and records it.
+let appliedVoucher = null;
+
+function cartGrossTotal() { return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0); }
+function voucherDiscountValue() { return appliedVoucher ? (appliedVoucher.discount || 0) : 0; }
+// VAT-inclusive amount the customer actually pays after any voucher.
+function effectivePayTotal() { return Math.max(0, vatBreakdown(cartGrossTotal()).total - voucherDiscountValue()); }
+
+// Inject the voucher entry row into the payment modal once (keeps pos.html untouched).
+function ensureVoucherUI() {
+    if (document.getElementById('voucherRow')) return;
+    const totalEl = document.getElementById('paymentTotal');
+    if (!totalEl) return;
+    const anchor = totalEl.parentElement; // the Amount Due block
+    const div = document.createElement('div');
+    div.id = 'voucherRow';
+    div.style.margin = '0 0 14px';
+    div.innerHTML =
+        '<div style="display:flex;gap:8px;">' +
+          '<input id="voucherCodeInput" placeholder="Promo / voucher code" autocomplete="off" ' +
+          'style="flex:1;padding:10px 12px;border:1px solid #d8d2c4;border-radius:8px;text-transform:uppercase;font-size:14px;">' +
+          '<button type="button" onclick="applyVoucher()" ' +
+          'style="background:#0e0d0b;color:#fff;border:0;border-radius:8px;padding:0 16px;font-weight:700;cursor:pointer;">Apply</button>' +
+        '</div>' +
+        '<div id="voucherMsg" style="font-size:12px;margin-top:6px;min-height:16px;"></div>' +
+        '<div id="voucherApplied" style="display:none;font-size:13px;margin-top:2px;color:#137a52;"></div>';
+    anchor.parentNode.insertBefore(div, anchor.nextSibling);
+    const inp = document.getElementById('voucherCodeInput');
+    if (inp) inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); applyVoucher(); } });
+}
+
+function renderVoucherApplied() {
+    const a = document.getElementById('voucherApplied');
+    if (!a) return;
+    if (appliedVoucher) {
+        a.style.display = 'block';
+        a.innerHTML = 'Voucher <b>' + appliedVoucher.code + '</b> applied: -R' + (appliedVoucher.discount || 0).toFixed(2) +
+            ' <a onclick="removeVoucher()" style="color:#a53a1a;cursor:pointer;text-decoration:underline;">remove</a>';
+    } else {
+        a.style.display = 'none';
+        a.innerHTML = '';
+        const inp = document.getElementById('voucherCodeInput'); if (inp) inp.value = '';
+        const m = document.getElementById('voucherMsg'); if (m) m.textContent = '';
+    }
+}
+
+function refreshPaymentViews() {
+    updatePaymentTotal();
+    const cr = document.getElementById('cashReceived');
+    if (cr) cr.dispatchEvent(new Event('input'));
+    const sp = document.getElementById('splitPayment');
+    if (sp && sp.style.display !== 'none') renderSplitPayments();
+}
+
+async function applyVoucher() {
+    const inp = document.getElementById('voucherCodeInput');
+    const msg = document.getElementById('voucherMsg');
+    const code = (inp && inp.value || '').trim();
+    if (!code) { if (msg) { msg.style.color = '#DC2626'; msg.textContent = 'Enter a code'; } return; }
+    if (!cart.length) { if (msg) { msg.style.color = '#DC2626'; msg.textContent = 'Add items first'; } return; }
+    if (msg) { msg.style.color = '#888'; msg.textContent = 'Checking...'; }
+    const items = cart.map(i => ({ productId: i._id, category: i.category || null, unitPrice: i.price, quantity: i.quantity, requiresSection21: i.requiresSection21 === true }));
+    const total = vatBreakdown(cartGrossTotal()).total;
+    try {
+        const r = await fetch(`${API_URL}/vouchers/validate`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code, cartTotal: total, cartItems: items })
+        });
+        const d = await r.json();
+        if (!d.success) { if (msg) { msg.style.color = '#DC2626'; msg.textContent = d.error || 'Voucher not valid'; } return; }
+        const disc = d.voucher.discountAmount || 0;
+        if (disc <= 0) { if (msg) { msg.style.color = '#DC2626'; msg.textContent = 'No discount applies to this cart'; } return; }
+        appliedVoucher = { code: d.voucher.code, discount: disc };
+        if (msg) { msg.style.color = '#137a52'; msg.textContent = 'Applied: -R' + disc.toFixed(2); }
+        renderVoucherApplied();
+        refreshPaymentViews();
+    } catch (e) { if (msg) { msg.style.color = '#DC2626'; msg.textContent = 'Could not check voucher'; } }
+}
+
+function removeVoucher() {
+    appliedVoucher = null;
+    renderVoucherApplied();
+    refreshPaymentViews();
+}
+
 function openPaymentModal() {
+    // Gate the shift check UP FRONT , prompt to open today's shift BEFORE the
+    // payment screen opens, so it never reads as an 'unrelated error' mid-card-entry.
+    if (!ensureOpenShiftForSale()) return;
     document.getElementById('paymentModal').classList.add('active');
+    appliedVoucher = null;              // fresh voucher state per sale
+    ensureVoucherUI();
+    renderVoucherApplied();
     updatePaymentTotal();
     // Reset cash fields
     const cashInput = document.getElementById('cashReceived');
@@ -17,7 +111,7 @@ function closePaymentModal() {
 }
 
 function updatePaymentTotal() {
-    const total = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)).total;
+    const total = effectivePayTotal();
     document.getElementById('paymentTotal').textContent = `R ${total.toFixed(2)}`;
 }
 
@@ -100,7 +194,8 @@ function ensureOpenShiftForSale() {
 async function completeSale(paymentMethod, reference, paymentNotes = null) {
     if (!ensureOpenShiftForSale()) return;
     // VAT-INCLUSIVE: the cart total is the price charged; VAT is the portion within it.
-    const _b = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0));
+    // Apply any voucher discount to the amount charged, then take VAT as the portion within that.
+    const _b = vatBreakdown(effectivePayTotal());
     const total = _b.total, vat = _b.vat, subtotal = _b.net;
 
     // Get user's branch from session
@@ -123,6 +218,7 @@ async function completeSale(paymentMethod, reference, paymentNotes = null) {
         // Card (Speedpoint) specific fields
         cardReference: paymentMethod === 'card' ? reference : null,
         paymentNotes: paymentNotes,
+        voucherCode: appliedVoucher ? appliedVoucher.code : undefined,
         proofOfPayment: null // TODO: Handle proof upload for EFT
     };
 
@@ -135,8 +231,13 @@ async function completeSale(paymentMethod, reference, paymentNotes = null) {
         },
         body: JSON.stringify(saleData)
     })
-    .then(res => res.json())
+    .then(async res => ({ _status: res.status, ...(await res.json().catch(() => ({}))) }))
     .then(data => {
+        // Auth timed out mid-shift , say so plainly instead of a generic "error".
+        if (data._status === 401 || data._status === 403) {
+            showToast('Session expired', 'Your login timed out , please sign in again to ring up sales.', 'error');
+            return;
+        }
         if (data.success) {
             closePaymentModal();
 
@@ -170,8 +271,13 @@ async function completeSale(paymentMethod, reference, paymentNotes = null) {
             // Clear cart
             cart = [];
             updateCart();
+
+            // Surface any stock that couldn't be deducted (was silently swallowed → drift).
+            if (Array.isArray(data.stockWarnings) && data.stockWarnings.length) {
+                showToast('Stock not deducted', 'Sale saved, but stock could not be reduced for: ' + data.stockWarnings.join('; ') + '. Check the stock sheet.', 'warning');
+            }
         } else {
-            showToast('Sale Error', data.message, 'error');
+            showToast('Sale Error', data.message || 'Sale could not be completed.', 'error');
         }
     })
     .catch(error => {
@@ -180,14 +286,14 @@ async function completeSale(paymentMethod, reference, paymentNotes = null) {
     });
 }
 
-// Send a sale to the local print agent (127.0.0.1:9999) — silent ESC/POS print + drawer.
+// Send a sale to the local print agent (127.0.0.1:9999) , silent ESC/POS print + drawer.
 // Best-effort: if the agent isn't installed/running, fails quietly and the manual print button still works.
 function printSaleSlip(payload) {
     fetch('http://127.0.0.1:9999/print', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-    }).catch(() => { /* print agent not reachable — ignore */ });
+    }).catch(() => { /* print agent not reachable , ignore */ });
 }
 
 function downloadReceipt(saleId) {
@@ -277,7 +383,7 @@ function initSplitPayments() {
 }
 
 function renderSplitPayments() {
-    const total = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)).total;
+    const total = effectivePayTotal();
     const container = document.getElementById('splitPaymentContainer');
 
     if (!container) return;
@@ -347,7 +453,7 @@ function updateSplitAmount(index, amount) {
 
 async function completeSplitPayment() {
     if (!ensureOpenShiftForSale()) return;
-    const total = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)).total;
+    const total = effectivePayTotal();
     const paidAmount = splitPayments.reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0);
 
     if (paidAmount < total) {
@@ -355,7 +461,7 @@ async function completeSplitPayment() {
         return;
     }
 
-    const _bs = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0));
+    const _bs = vatBreakdown(effectivePayTotal());
     const subtotal = _bs.net, vat = _bs.vat;
 
     // Get user's branch from session
@@ -373,6 +479,7 @@ async function completeSplitPayment() {
             unitPrice: item.price
         })),
         customer: selectedCustomer?._id || null,
+        voucherCode: appliedVoucher ? appliedVoucher.code : undefined,
         orderType: 'walk-in',
         payments: splitPayments.filter(p => p.amount > 0).map(p => ({
             method: p.method,
@@ -392,8 +499,12 @@ async function completeSplitPayment() {
             body: JSON.stringify(saleData)
         });
 
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
 
+        if (res.status === 401 || res.status === 403) {
+            showToast('Session expired', 'Your login timed out , please sign in again to ring up sales.', 'error');
+            return;
+        }
         if (data.success) {
             closePaymentModal();
             currentCompletedSale = data.sale;
@@ -406,6 +517,10 @@ async function completeSplitPayment() {
             selectedCustomer = null;
             document.getElementById('selectedCustomerName').textContent = 'Walk-in Customer';
             updateCart();
+
+            if (Array.isArray(data.stockWarnings) && data.stockWarnings.length) {
+                showToast('Stock not deducted', 'Sale saved, but stock could not be reduced for: ' + data.stockWarnings.join('; ') + '. Check the stock sheet.', 'warning');
+            }
         } else {
             showToast('Sale Error', data.message || 'Failed to complete sale', 'error');
         }
@@ -423,7 +538,7 @@ function attachCashChangeListener() {
     if (cashInput) {
         cashInput.addEventListener('input', function() {
             const received = parseFloat(this.value) || 0;
-            const total = vatBreakdown(cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)).total;
+            const total = effectivePayTotal();
             const change = Math.max(0, received - total);
             document.getElementById('changeDue').textContent = `R ${change.toFixed(2)}`;
         });

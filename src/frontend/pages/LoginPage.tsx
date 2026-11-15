@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - OTP Login & Registration Page
+ * Origin by ILCO Farming - OTP Login & Registration Page
  *
  * Three modes:
  *   1. Login: Enter email -> request OTP -> verify & redirect
@@ -175,7 +175,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="mb-8 text-center">
-          <img src="/logo.png" alt="PureGro Premium Cannabis Care" className="mx-auto h-24 w-auto" />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Origin by ILCO Farming" className="mx-auto h-24 w-auto" />
           <p className="mt-3 font-heading text-[11px] font-medium uppercase tracking-[0.2em] text-pg-gray-500">
             Wholesale Portal
           </p>

@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - API Client
+ * Origin by ILCO Farming - API Client
  *
  * Typed fetch wrapper for all /api/v1 endpoints.
  * Automatically attaches JWT token from localStorage.
@@ -10,7 +10,7 @@ const API_BASE = '/api/v1';
 // ── Token Management ──────────────────────────────────────
 
 const TOKEN_KEY = 'pg_token';
-const CLIENT_KEY = 'puregro_client_id';
+const CLIENT_KEY = 'origin_b2b_client_id';
 
 export function getStoredToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);

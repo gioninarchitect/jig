@@ -136,6 +136,35 @@ const voucherSchema = new mongoose.Schema({
         type: String
     }],
 
+    // Product-specific targeting (phase 1 promo vouchers): discount applies only to these products.
+    applicableProducts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+    }],
+
+    // promo = retailer-issued discount (short expiry lawful). giftcard = paid stored value (CPA 3yr min, phase 2).
+    voucherClass: {
+        type: String,
+        enum: ['promo', 'giftcard'],
+        default: 'promo',
+        index: true
+    },
+
+    // Shareable public link token (the promo link). sparse so vouchers without a link omit it cleanly.
+    publicSlug: {
+        type: String,
+        unique: true,
+        sparse: true,
+        index: true,
+        trim: true
+    },
+
+    channel: {
+        type: String,
+        enum: ['instore', 'link', 'both'],
+        default: 'both'
+    },
+
     // Metadata
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
@@ -198,8 +227,12 @@ voucherSchema.methods.isValid = function() {
 voucherSchema.methods.canUserRedeem = function(userId) {
     // Check if once_per_customer
     if (this.redemptionLimit === 'once_per_customer') {
+        // Walk-in sale with no customer account: per-customer cannot be tracked, so allow.
+        if (!userId) {
+            return { canRedeem: true };
+        }
         const hasRedeemed = this.redemptionHistory.some(
-            redemption => redemption.userId.toString() === userId.toString()
+            redemption => redemption.userId && redemption.userId.toString() === userId.toString()
         );
 
         if (hasRedeemed) {
@@ -215,9 +248,36 @@ voucherSchema.methods.canUserRedeem = function(userId) {
     return { canRedeem: true };
 };
 
-// Method to calculate discount
-voucherSchema.methods.calculateDiscount = function(cartTotal) {
-    // Check minimum purchase
+// Compute the rand value of the cart the discount is allowed to apply to.
+// Product-scoped -> only matching line items. Category-scoped -> only matching categories.
+// Neither -> the whole cart. cartItems shape: {productId, category, unitPrice, quantity}.
+voucherSchema.methods.eligibleBase = function(cartTotal, cartItems) {
+    const items = Array.isArray(cartItems) ? cartItems : [];
+    const lineTotal = (it) => (Number(it.unitPrice) || 0) * (Number(it.quantity) || 0);
+
+    if (this.applicableProducts && this.applicableProducts.length > 0) {
+        const ids = this.applicableProducts.map(id => id.toString());
+        return items
+            .filter(it => it.productId && ids.includes(it.productId.toString()))
+            .reduce((sum, it) => sum + lineTotal(it), 0);
+    }
+
+    if (this.applicableCategories && this.applicableCategories.length > 0) {
+        const cats = this.applicableCategories.map(c => String(c).toLowerCase());
+        return items
+            .filter(it => it.category && cats.includes(String(it.category).toLowerCase()))
+            .reduce((sum, it) => sum + lineTotal(it), 0);
+    }
+
+    // Whole-order: fall back to cartTotal, or the summed lines if cartTotal missing.
+    if (cartTotal || cartTotal === 0) return cartTotal;
+    return items.reduce((sum, it) => sum + lineTotal(it), 0);
+};
+
+// Method to calculate discount. cartItems is optional; when the voucher is product/category
+// scoped the discount is computed against the eligible line items only, not the whole cart.
+voucherSchema.methods.calculateDiscount = function(cartTotal, cartItems) {
+    // Minimum purchase is checked against the WHOLE cart (a spend gate), per Old Khaki style.
     if (cartTotal < this.minPurchase) {
         return {
             discount: 0,
@@ -225,25 +285,30 @@ voucherSchema.methods.calculateDiscount = function(cartTotal) {
         };
     }
 
+    const base = this.eligibleBase(cartTotal, cartItems);
+
+    // Product/category scoped but nothing in the cart matches -> no discount, clear reason.
+    const isScoped = (this.applicableProducts && this.applicableProducts.length > 0) ||
+                     (this.applicableCategories && this.applicableCategories.length > 0);
+    if (isScoped && base <= 0) {
+        return { discount: 0, error: 'No items in the cart qualify for this voucher' };
+    }
+
     let discount = 0;
 
     switch (this.type) {
         case 'percentage':
-            discount = (cartTotal * this.value) / 100;
-
-            // Apply max discount cap if set
+            discount = (base * this.value) / 100;
             if (this.maxDiscount) {
                 discount = Math.min(discount, this.maxDiscount);
             }
-
-            // Cap at cart total (can't discount more than 100%)
-            discount = Math.min(discount, cartTotal);
+            discount = Math.min(discount, base);
             break;
 
         case 'fixed':
             discount = this.value;
-            // Cap at cart total
-            discount = Math.min(discount, cartTotal);
+            // A fixed discount can never exceed the eligible base (or the whole cart when unscoped).
+            discount = Math.min(discount, base);
             break;
 
         case 'free_shipping':
@@ -252,13 +317,12 @@ voucherSchema.methods.calculateDiscount = function(cartTotal) {
             break;
 
         case 'bogo':
-            // BOGO logic would need product-level implementation
-            // For now, this is a placeholder
+            // BOGO logic would need product-level implementation. Placeholder in phase 1.
             discount = 0;
             break;
     }
 
-    return { discount: Math.round(discount * 100) / 100 };
+    return { discount: Math.round(discount * 100) / 100, eligibleBase: Math.round(base * 100) / 100 };
 };
 
 // Method to redeem voucher
@@ -312,8 +376,8 @@ voucherSchema.statics.validateCode = async function(code, userId, cartTotal, car
         };
     }
 
-    // Calculate discount
-    const discountCalc = voucher.calculateDiscount(cartTotal);
+    // Calculate discount (product/category scoped against the eligible line items)
+    const discountCalc = voucher.calculateDiscount(cartTotal, cartItems);
 
     if (discountCalc.error) {
         return { success: false, error: discountCalc.error };
@@ -328,6 +392,9 @@ voucherSchema.statics.validateCode = async function(code, userId, cartTotal, car
             type: voucher.type,
             value: voucher.value,
             discountAmount: discountCalc.discount,
+            eligibleBase: discountCalc.eligibleBase,
+            applicableProducts: (voucher.applicableProducts || []).map(id => id.toString()),
+            applicableCategories: voucher.applicableCategories || [],
             description: voucher.description
         }
     };
@@ -341,6 +408,16 @@ voucherSchema.statics.generateCode = function(length = 8) {
         code += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return code;
+};
+
+// Static method to generate a non-guessable public link slug (larger space than the code).
+voucherSchema.statics.generateSlug = function(length = 12) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let slug = '';
+    for (let i = 0; i < length; i++) {
+        slug += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return slug;
 };
 
 module.exports = mongoose.model('Voucher', voucherSchema);

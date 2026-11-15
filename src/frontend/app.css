@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
-/* ── PureGro Design System v1 ────────────────────────── */
+/* ── Origin by ILCO Farming Design System v1 (gold on black) ─ */
 
 @theme {
-  /* Primary */
-  --color-pg-black: #0E0E0E;
+  /* Primary (brand gold remapped onto the pg token names) */
+  --color-pg-black: #0A0A0A;
   --color-pg-white: #FFFFFF;
-  --color-pg-green: #3FC041;
-  --color-pg-green-bright: #56D458;
+  --color-pg-green: #C9A84C;
+  --color-pg-green-bright: #D4B86A;
 
   /* Secondary */
-  --color-pg-green-muted: #2A8C2C;
-  --color-pg-gold: #F0A500;
-  --color-pg-dark: #1A1A1A;
+  --color-pg-green-muted: #8B6914;
+  --color-pg-gold: #D4B86A;
+  --color-pg-dark: #141414;
 
   /* Neutrals */
-  --color-pg-gray-900: #0E0E0E;
+  --color-pg-gray-900: #0A0A0A;
   --color-pg-gray-700: #333333;
   --color-pg-gray-500: #666666;
   --color-pg-gray-300: #CCCCCC;
@@ -29,26 +29,26 @@
 /* ── Gradient Utilities ─────────────────────────────────── */
 
 @utility bg-pg-gradient {
-  background: linear-gradient(135deg, #3FC041 0%, #56D458 40%, #F0A500 100%);
+  background: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 100%);
 }
 
 @utility text-pg-gradient {
-  background: linear-gradient(135deg, #3FC041 0%, #56D458 40%, #F0A500 100%);
+  background: linear-gradient(135deg, #8B6914 0%, #C9A84C 40%, #E8D5A3 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 @utility bg-pg-dark-gradient {
-  background: linear-gradient(180deg, #1A1A1A 0%, #0E0E0E 100%);
+  background: linear-gradient(180deg, #141414 0%, #0A0A0A 100%);
 }
 
 @utility shadow-pg-glow {
-  box-shadow: 0 8px 32px rgba(63, 192, 65, 0.2);
+  box-shadow: 0 8px 32px rgba(201, 168, 76, 0.2);
 }
 
 @utility shadow-pg-gold {
-  box-shadow: 0 8px 32px rgba(240, 165, 0, 0.15);
+  box-shadow: 0 8px 32px rgba(201, 168, 76, 0.15);
 }
 
 @utility border-pg-subtle {
@@ -56,7 +56,7 @@
 }
 
 @utility border-pg-hover {
-  border-color: rgba(63, 192, 65, 0.4);
+  border-color: rgba(201, 168, 76, 0.4);
 }
 
 /* ── Base Styles ─────────────────────────────────────────── */
@@ -67,16 +67,16 @@ body {
 
 /* Focus states */
 *:focus-visible {
-  outline: 2px solid #3FC041;
+  outline: 2px solid #C9A84C;
   outline-offset: 2px;
 }
 
 /* ── Churn Risk Badges (dark theme) ─────────────────────── */
 
 @utility badge-low {
-  background-color: rgba(63, 192, 65, 0.15);
-  color: #3FC041;
-  border: 1px solid rgba(63, 192, 65, 0.3);
+  background-color: rgba(74, 124, 63, 0.15);
+  color: #5E9950;
+  border: 1px solid rgba(74, 124, 63, 0.3);
 }
 
 @utility badge-medium {
@@ -118,17 +118,17 @@ body {
 }
 
 @utility tier-platinum {
-  background-color: rgba(63, 192, 65, 0.12);
-  color: #56D458;
-  border: 1px solid rgba(63, 192, 65, 0.35);
+  background-color: rgba(74, 124, 63, 0.12);
+  color: #5E9950;
+  border: 1px solid rgba(74, 124, 63, 0.35);
 }
 
 /* ── Status Badges (dark theme) ─────────────────────────── */
 
 @utility status-active {
-  background-color: rgba(63, 192, 65, 0.15);
-  color: #3FC041;
-  border: 1px solid rgba(63, 192, 65, 0.3);
+  background-color: rgba(74, 124, 63, 0.15);
+  color: #5E9950;
+  border: 1px solid rgba(74, 124, 63, 0.3);
 }
 
 @utility status-pending {

@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Orders Page
+ * Origin by ILCO Farming - Orders Page
  *
  * Displays the client's order history with status and payment info.
  */
@@ -14,13 +14,13 @@ const STATUS_COLORS: Record<string, string> = {
   pending: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
   confirmed: 'bg-pg-green/15 text-pg-green-light border border-pg-green/25',
   shipped: 'bg-blue-500/15 text-blue-400 border border-blue-500/25',
-  delivered: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  delivered: 'bg-green-500/15 text-green-400 border border-green-500/25',
   cancelled: 'bg-red-500/15 text-red-400 border border-red-500/25',
 };
 
 const PAYMENT_COLORS: Record<string, string> = {
   pending: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
-  paid: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  paid: 'bg-green-500/15 text-green-400 border border-green-500/25',
   overdue: 'bg-red-500/15 text-red-400 border border-red-500/25',
   partial: 'bg-orange-500/15 text-orange-400 border border-orange-500/25',
 };

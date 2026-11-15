@@ -1,5 +1,5 @@
 /**
- * Voucher Routes — Thin router, business logic in controllers/vouchers.controller.js
+ * Voucher Routes , Thin router, business logic in controllers/vouchers.controller.js
  *
  * CRITICAL: This voucher system is ONLY for lifestyle/retail products.
  * Section 21 medical cannabis products CANNOT receive discounts (illegal in South Africa).
@@ -14,6 +14,7 @@ const controller = require('../controllers/vouchers.controller');
 
 // Public routes
 router.post('/validate', controller.validate);
+router.get('/public/:slug', controller.getByPublicSlug);
 
 // Authenticated routes
 router.post('/redeem/:code', authenticateToken, controller.redeem);

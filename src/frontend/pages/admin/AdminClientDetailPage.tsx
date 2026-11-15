@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Admin Client Intelligence Detail
+ * Origin by ILCO Farming - Admin Client Intelligence Detail
  *
  * Full HEADCASE EVOLVE intelligence view for a single client.
  */
@@ -173,7 +173,7 @@ export default function AdminClientDetailPage() {
                           <div className="flex items-center gap-2">
                             <div className="h-2 w-16 overflow-hidden rounded-full bg-white/[0.06]">
                               <div
-                                className="h-full rounded-full bg-puregro-green"
+                                className="h-full rounded-full bg-green-500"
                                 style={{ width: `${p.confidence * 100}%` }}
                               />
                             </div>

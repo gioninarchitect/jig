@@ -24,6 +24,24 @@ async function writeAudit(req, action, product, changes) {
   } catch (e) { logger.error('writeAudit', { error: e.message }); }
 }
 
+// Keep the branch-scoped till in step with the stock sheet. The POS reads BranchInventory per branch,
+// but the sheet writes product-level inventory.quantity. Without this, a restock entered on the sheet
+// never reaches the till and the product looks out of stock. Mirror an absolute quantity onto every
+// physical (non-online) branch, same shape as createProduct. Idempotent; never throws into the caller.
+async function syncBranchQty(productId, qty, now) {
+  try {
+    const branches = await db().collection('branches').find({ name: { $not: /online/i } }).toArray();
+    const q = Number(qty) || 0;
+    for (const b of branches) {
+      await db().collection('branchinventories').updateOne(
+        { branchId: b._id, productId },
+        { $setOnInsert: { branchId: b._id, productId, reserved: 0, lowStockThreshold: 10, reorderPoint: 20, reorderQuantity: 50, maxStock: 500, isActive: true, isAvailableForSale: true, isAvailable: true, recentMovements: [], createdAt: now, __v: 0 }, $set: { quantity: q, updatedAt: now } },
+        { upsert: true }
+      );
+    }
+  } catch (e) { logger.error('sm.syncBranchQty', { error: e.message }); }
+}
+
 exports.manageProduct = async (req, res) => {
   try {
     const _id = oid(req.params.id);
@@ -40,6 +58,8 @@ exports.manageProduct = async (req, res) => {
     if (category != null && String(category).trim() && String(category).trim().toLowerCase() !== before.category) { set.category = String(category).trim().toLowerCase(); changes.push(['category', before.category, set.category]); }
     if (isActive != null && !!isActive !== (before.isActive !== false)) { set.isActive = !!isActive; changes.push(['isActive', before.isActive !== false, !!isActive]); }
     await db().collection('products').updateOne({ _id }, { $set: set });
+    // Propagate a quantity change to the branch-scoped till stock (createProduct does this on add).
+    if (Object.prototype.hasOwnProperty.call(set, 'inventory.quantity')) { await syncBranchQty(_id, set['inventory.quantity'], set.updatedAt); }
     await writeAudit(req, 'update', before, changes);
     // Read-after-write: confirm what is actually persisted in the DB and return it.
     const after = await db().collection('products').findOne({ _id });
@@ -125,7 +145,7 @@ exports.auditList = async (req, res) => {
   } catch (e) { logger.error('sm.auditList', { error: e.message }); res.status(500).json({ success: false, message: 'Error' }); }
 };
 
-// ── SPREADSHEET IMPORT — PREVIEW (Phase 2, DRY-RUN, WRITES NOTHING) ────────────
+// == SPREADSHEET IMPORT, PREVIEW (Phase 2, DRY-RUN, WRITES NOTHING) ==
 // Body: { rows: [{ sku,name,brand,category,track,size,price,stock,active,description }, ...] }
 // Matches each row to an existing product by SKU and computes what WOULD happen.
 // Rules: upsert by sku · non-destructive (blank cell = no change) · never deletes.
@@ -190,7 +210,7 @@ exports.importPreview = async (req, res) => {
   } catch (e) { logger.error('sm.importPreview', { error: e.message }); res.status(500).json({ success: false, message: 'Error building preview' }); }
 };
 
-// ── SPREADSHEET IMPORT — COMMIT (Phase 2b, THE WRITE STEP) ────────────────────
+// == SPREADSHEET IMPORT, COMMIT (Phase 2b, THE WRITE STEP) ==
 // Re-runs the SAME diff (so it can never disagree with the preview the owner saw),
 // then applies: create -> insert + branch inventory; update -> $set ONLY the changed
 // fields; unchanged/error -> skip. Never deletes. Every change is audited.
@@ -243,6 +263,8 @@ exports.importCommit = async (req, res) => {
             else { set[c.field] = c.to; changes.push([c.field, c.from, c.to]); }
           });
           await db().collection('products').updateOne({ _id: ex._id }, { $set: set });
+          // Propagate a stock change to the branch-scoped till stock (same as the import create path).
+          if (Object.prototype.hasOwnProperty.call(set, 'inventory.quantity')) { await syncBranchQty(ex._id, set['inventory.quantity'], now); }
           await writeAudit(req, 'import-update', ex, changes);
           updated++;
         } else if (dr.action === 'unchanged') { unchanged++; }

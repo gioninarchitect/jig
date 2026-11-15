@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - App Layout
+ * Origin by ILCO Farming - App Layout
  *
  * Responsive sidebar navigation + main content area.
  * Mobile: overlay drawer with backdrop.
@@ -122,7 +122,7 @@ export default function Layout() {
           <>
             <div className="mb-3">
               <p className="text-sm font-medium text-pg-white">
-                {client?.businessName || 'PureGro User'}
+                {client?.businessName || 'Origin User'}
               </p>
               <p className="text-xs text-pg-gray-500">{client?.email}</p>
               {isAdmin ? (
@@ -171,7 +171,7 @@ export default function Layout() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <img src="/logo.png" alt="PureGro" className="ml-2 h-9 w-auto" />
+        <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Origin by ILCO Farming" className="ml-2 h-9 w-auto" />
       </div>
 
       {/* Mobile sidebar overlay */}
@@ -188,7 +188,7 @@ export default function Layout() {
         >
           {/* Mobile header */}
           <div className="flex h-14 items-center justify-between border-b border-white/[0.06] px-3">
-            <img src="/logo.png" alt="PureGro" className="h-9 w-auto" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Origin by ILCO Farming" className="h-9 w-auto" />
             <button
               onClick={() => setMobileOpen(false)}
               className="flex h-10 w-10 items-center justify-center rounded-md text-pg-gray-500 transition-colors hover:bg-white/[0.06] hover:text-pg-white"
@@ -224,7 +224,7 @@ export default function Layout() {
             </svg>
           </button>
           {!desktopCollapsed && (
-            <img src="/logo.png" alt="PureGro Premium Cannabis Care" className="ml-2 h-12 w-auto" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Origin by ILCO Farming" className="ml-2 h-12 w-auto" />
           )}
         </div>
         {sidebarContent(desktopCollapsed)}

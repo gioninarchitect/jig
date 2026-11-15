@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Admin Supplier Management
+ * Origin by ILCO Farming - Admin Supplier Management
  *
  * Full supplier list with search, type/status filters, add supplier,
  * expandable detail with product catalog and purchase orders.

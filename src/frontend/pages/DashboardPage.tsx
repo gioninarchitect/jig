@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Dashboard
+ * Origin by ILCO Farming - Dashboard
  *
  * Admin: overview of client base, churn risks, recent interventions.
  * Client: personal summary, order stats, recommendations.
@@ -115,7 +115,7 @@ function ClientDashboard({ clientId }: { clientId: string }) {
 
       {!summary && (
         <p className="text-sm text-pg-gray-500">
-          Welcome to PureGro. Place your first order to see intelligence insights here.
+          Welcome to Origin. Place your first order to see intelligence insights here.
         </p>
       )}
     </div>

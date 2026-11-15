@@ -53,7 +53,12 @@ const userSchema = new mongoose.Schema({
       'dispatch_manager',     // Pick, verify, dispatch, courier handoff
       'branch_manager',       // Branch manager - branch operations, cashups, local staff
       'branch_assistant',      // POS/till operations
-      'supplier'              // Supplier portal access (cultivator, processor, distributor, etc.)
+      'supplier',             // Supplier portal access (cultivator, processor, distributor, etc.)
+      // ── Medical Services (Section 21 prescribing hierarchy) ──
+      'medical_head',         // Head of Medical Services — the prescribing doctor; holds Section-21 prescribing authority; oversees referring doctors
+      'referring_doctor',     // Doctor under the medical head — refers patients up; does NOT issue the Section-21 script
+      'dr_assistant',         // Doctor's assistant — patient intake/admin; no clinical/prescribing authority
+      'pharmacist'            // Retail dispensing pharmacist (distinct from the farm Responsible Pharmacist)
     ],
     default: 'user'
   },

@@ -1,4 +1,4 @@
-// POS Controller — Business logic extracted from routes/pos.js
+// POS Controller , Business logic extracted from routes/pos.js
 const logger = require('../modules/logger');
 const Sale = require('../modules/database/models/Sale');
 const BranchInventory = require('../modules/database/models/BranchInventory');
@@ -6,6 +6,7 @@ const TillSession = require('../modules/database/models/TillSession');
 const DailyCashup = require('../modules/database/models/DailyCashup');
 const Product = require('../modules/database/models/Product');
 const Branch = require('../modules/database/models/Branch');
+const Voucher = require('../modules/database/models/Voucher');
 const invoiceGenerator = require('../services/invoiceGenerator');
 const emailService = require('../services/emailService');
 const flocoreEmit = require('../services/flocoreEmit');
@@ -16,9 +17,12 @@ const VAT_RATE = config.business.vatRate;
 // A cart line's productId must be a Mongo ObjectId (24 hex). The POS grid can produce SYNTHETIC ids
 // for quick/pack lines (e.g. 'pack-3g-<id>', 'quick-preroll-<sku>') and stale cached tills can still
 // send gram composites ('<id>:30g'). Passing those straight into the Sale schema throws a Cast-to-
-// ObjectId ValidationError that 500s the WHOLE sale — a checkout blocker. Coerce to null so the sale
+// ObjectId ValidationError that 500s the WHOLE sale , a checkout blocker. Coerce to null so the sale
 // still records (money + receipt) and only the stock link is dropped for that line.
 const isObjectId = v => /^[a-f\d]{24}$/i.test(String(v || ''));
+
+// Pure, unit-tested helper (money path): spread a voucher discount across the eligible cart lines.
+const { distributeVoucherDiscount } = require('../services/voucherDiscount');
 
 // ============================================
 // SALE OPERATIONS
@@ -73,14 +77,44 @@ exports.createSale = async (req, res) => {
       }))
     });
 
-    const calculatedTotal = items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0); // VAT-inclusive
+    let calculatedTotal = items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0); // VAT-inclusive
     const calculatedSubtotal = calculatedTotal / (1 + VAT_RATE);
     const calculatedTax = calculatedTotal - calculatedSubtotal;
 
-    // Normalize payment input — supports a single (paymentMethod, cardReference) OR a
+    // ===== Promo voucher (optional) =====
+    // Server is authoritative: re-validate the code and compute the discount here, never trust a
+    // client-sent amount. Distribute it onto the matching sale lines so sale.totalAmount reflects it
+    // through the Sale pre-save math, and reduce calculatedTotal so the single-payment amount matches.
+    // Section-21 medical carts are refused inside validateCode. Redemption is recorded AFTER save.
+    let voucherApplied = null;
+    if (req.body.voucherCode) {
+      const voucherUserId = req.body.customerUserId || (customerInfo && customerInfo.userId) || null;
+      const vItems = items.map(it => ({
+        productId: isObjectId(it.productId) ? String(it.productId) : null,
+        category: it.category || null,
+        unitPrice: Number(it.unitPrice) || 0,
+        quantity: Number(it.quantity) || 0,
+        requiresSection21: it.requiresSection21 === true
+      }));
+      const validation = await Voucher.validateCode(req.body.voucherCode, voucherUserId, calculatedTotal, vItems);
+      if (!validation.success) {
+        return res.status(400).json({ success: false, message: validation.error || 'Voucher could not be applied' });
+      }
+      const disc = Math.round((validation.voucher.discountAmount || 0) * 100) / 100;
+      if (disc > 0) {
+        const per = distributeVoucherDiscount(vItems, disc, validation.voucher.applicableProducts, validation.voucher.applicableCategories);
+        sale.items.forEach((si, idx) => { si.discount = (si.discount || 0) + (per[idx] || 0); });
+        sale.totalDiscount = disc;
+        sale.internalNotes = (sale.internalNotes ? sale.internalNotes + ' | ' : '') + 'Voucher ' + validation.voucher.code + ' -R' + disc.toFixed(2);
+        calculatedTotal = Math.round((calculatedTotal - disc) * 100) / 100;
+        voucherApplied = { code: validation.voucher.code, discount: disc, userId: voucherUserId };
+      }
+    }
+
+    // Normalize payment input , supports a single (paymentMethod, cardReference) OR a
     // split-payment `payments[]` array (cash + card + eft). The array path used to be
     // dropped entirely, so SPLIT sales saved as empty drafts: no payment, no stock
-    // deducted, R0 recorded — while the till showed "Sale Complete". This unifies both.
+    // deducted, R0 recorded , while the till showed "Sale Complete". This unifies both.
     let incomingPayments = [];
     if (Array.isArray(payments) && payments.length > 0) {
       incomingPayments = payments
@@ -132,9 +166,9 @@ exports.createSale = async (req, res) => {
         for (const item of sale.items) {
           try {
             if (!item.productId) {
-              // Quick/pack or stale-cache line with no valid Product link — sale still records,
+              // Quick/pack or stale-cache line with no valid Product link , sale still records,
               // surface so it's deducted manually on the stock sheet (avoids silent stock drift).
-              stockWarnings.push(`${item.name}: not stock-linked — adjust on the stock sheet`);
+              stockWarnings.push(`${item.name}: not stock-linked , adjust on the stock sheet`);
               continue;
             }
             const inventory = inventoryMap.get(item.productId.toString());
@@ -147,7 +181,7 @@ exports.createSale = async (req, res) => {
               await Product.updateOne({ _id: item.productId }, { $inc: { 'inventory.quantity': -item.quantity } });
             }
           } catch (error) {
-            // Do NOT fail the sale, but SURFACE it — silently swallowing this caused stock drift.
+            // Do NOT fail the sale, but SURFACE it , silently swallowing this caused stock drift.
             logger.error('POS inventory deduction error', { error: error.message, stack: error.stack, item: item.name });
             stockWarnings.push(`${item.name}: ${error.message}`);
           }
@@ -165,6 +199,17 @@ exports.createSale = async (req, res) => {
     }
 
     await sale.save();
+
+    // Record the voucher redemption AFTER the sale is saved and completed. Best-effort: a failure
+    // here must never break a sale that already took the customer's money and deducted stock.
+    if (voucherApplied && sale.status === 'completed') {
+      try {
+        const vdoc = await Voucher.findOne({ code: voucherApplied.code.toUpperCase() });
+        if (vdoc) await vdoc.redeem(voucherApplied.userId, sale._id, voucherApplied.discount, sale.totalAmount);
+      } catch (e) {
+        logger.error('Voucher redeem after sale failed', { error: e.message, code: voucherApplied.code, sale: sale.saleNumber });
+      }
+    }
 
     // Emit the completed sale to the FLOCORE event rail (fire-and-forget; no-op until FO provisions
     // the tenant:ilco token). payload.amount = NET goods (Σ qty×price), never tenders. Must NOT block.
@@ -689,7 +734,7 @@ exports.openTill = async (req, res) => {
       const sessionDate = new Date(existingSession.openedAt);
       const isToday = sessionDate.toDateString() === new Date().toDateString();
       if (isToday) {
-        // Resume today's open session — never block the cashier
+        // Resume today's open session , never block the cashier
         return res.status(200).json({
           success: true,
           resumed: true,
@@ -704,7 +749,7 @@ exports.openTill = async (req, res) => {
           }
         });
       } else {
-        // Stale previous-day session — auto-close it and open fresh
+        // Stale previous-day session , auto-close it and open fresh
         existingSession.status = 'closed';
         existingSession.closedAt = new Date();
         existingSession.closingNotes = 'Auto-closed: stale session from previous day';
@@ -717,7 +762,7 @@ exports.openTill = async (req, res) => {
       branchId,
       tillNumber,
       openedBy: req.user.id,
-      openingFloat: (openingFloat != null ? Number(openingFloat) : 0),  // no float by default — set per store
+      openingFloat: (openingFloat != null ? Number(openingFloat) : 0),  // no float by default , set per store
       openingNotes: openingNotes || '',
       status: 'open'
     });
@@ -748,7 +793,7 @@ exports.openTill = async (req, res) => {
 
 exports.getActiveTill = async (req, res) => {
   try {
-    // Never cache till state — a stale cached response can show a "shift left open" banner
+    // Never cache till state , a stale cached response can show a "shift left open" banner
     // long after the shift was actually closed/reopened. Always reflect the live DB.
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
     const { branchId, tillNumber } = req.query;
@@ -847,7 +892,7 @@ exports.closeTill = async (req, res) => {
       return res.status(400).json({ success: false, requiresNote: true, message: 'Please add a note explaining the cash variance to close the shift.' });
     }
     // Card reconciliation (optional): compare the Speedpoint batch total to system card sales.
-    // Additive — if no card figure is entered, behaviour is identical to before.
+    // Additive , if no card figure is entered, behaviour is identical to before.
     let _cardCounted = null, _cardVariance = 0, _hasCardVar = false;
     const _cardRaw = req.body.cardCounted;
     if (_cardRaw !== undefined && _cardRaw !== null && String(_cardRaw).trim() !== '') {
@@ -2081,7 +2126,7 @@ async function _approverByPin(pin) {
 exports.quickVoid = async (req, res) => {
   try {
     const approver = await _approverByPin(req.body.pin);
-    if (!approver) return res.status(403).json({ success: false, message: 'Invalid admin PIN — not authorised' });
+    if (!approver) return res.status(403).json({ success: false, message: 'Invalid admin PIN , not authorised' });
     const sale = await Sale.findById(req.params.saleId);
     if (!sale) return res.status(404).json({ success: false, message: 'Sale not found' });
     if (sale.status === 'voided') return res.status(400).json({ success: false, message: 'Sale already voided' });
@@ -2113,7 +2158,7 @@ exports.quickVoid = async (req, res) => {
 exports.quickRefund = async (req, res) => {
   try {
     const approver = await _approverByPin(req.body.pin);
-    if (!approver) return res.status(403).json({ success: false, message: 'Invalid admin PIN — not authorised' });
+    if (!approver) return res.status(403).json({ success: false, message: 'Invalid admin PIN , not authorised' });
     const { reason, items, refundAmount } = req.body;
     const sale = await Sale.findById(req.params.saleId);
     if (!sale) return res.status(404).json({ success: false, message: 'Sale not found' });
@@ -2179,7 +2224,7 @@ exports.emailZReport = async (req, res) => {
     const csv = zreport.buildCsv(z.session, z.sales);
     const s = z.session;
     const when = new Date(s.closedAt || Date.now()).toLocaleString('en-ZA');
-    const html = '<div style="font-family:Arial,sans-serif"><h2 style="color:#C9A84C">Origin by ILCO — Day-End Z-Report</h2>' +
+    const html = '<div style="font-family:Arial,sans-serif"><h2 style="color:#C9A84C">Origin by ILCO , Day-End Z-Report</h2>' +
       '<p>' + z.branchName + ' · ' + when + '</p><table cellpadding="6" style="border-collapse:collapse">' +
       '<tr><td>Cash</td><td align="right">R' + (s.totalCash || 0).toFixed(2) + '</td></tr>' +
       '<tr><td>Card (Speedpoint)</td><td align="right">R' + (s.totalCard || 0).toFixed(2) + '</td></tr>' +
@@ -2193,7 +2238,7 @@ exports.emailZReport = async (req, res) => {
     const sn = s.sessionNumber || 'session';
     await emailService.sendEmail({
       to: recipients.join(','),
-      subject: 'Origin Day-End Z-Report — ' + z.branchName + ' — ' + new Date(s.closedAt || Date.now()).toLocaleDateString('en-ZA'),
+      subject: 'Origin Day-End Z-Report , ' + z.branchName + ' , ' + new Date(s.closedAt || Date.now()).toLocaleDateString('en-ZA'),
       html,
       attachments: [
         { filename: 'ZReport-' + sn + '.pdf', content: pdf },

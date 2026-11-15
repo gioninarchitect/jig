@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - App Router
+ * Origin by ILCO Farming - App Router
  *
  * Routes:
  *   /login          - OTP login

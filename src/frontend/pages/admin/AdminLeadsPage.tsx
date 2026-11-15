@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Admin Leads Page
+ * Origin by ILCO Farming - Admin Leads Page
  *
  * Lead pipeline with tier and status filters.
  */
@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { leads as leadsApi, type LeadData } from '../../api';
 
 const TIER_COLORS: Record<string, string> = {
-  A: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  A: 'bg-green-500/15 text-green-400 border border-green-500/25',
   B: 'bg-pg-green/15 text-pg-green-light border border-pg-green/25',
   C: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
   D: 'bg-white/[0.06] text-pg-gray-500 border border-white/[0.1]',
@@ -17,7 +17,7 @@ const TIER_COLORS: Record<string, string> = {
 const STATUS_COLORS: Record<string, string> = {
   new: 'bg-blue-500/15 text-blue-400 border border-blue-500/25',
   contacted: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
-  qualified: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  qualified: 'bg-green-500/15 text-green-400 border border-green-500/25',
   converted: 'bg-pg-gradient text-pg-white',
   lost: 'bg-red-500/15 text-red-400 border border-red-500/25',
 };

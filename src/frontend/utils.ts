@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Frontend Utilities
+ * Origin by ILCO Farming - Frontend Utilities
  */
 
 /**
@@ -21,7 +21,7 @@ export function formatRand(n: number | undefined | null): string {
 }
 
 /**
- * Safe number — returns 0 for undefined/null/NaN.
+ * Safe number: returns 0 for undefined/null/NaN.
  */
 export function safeNum(n: number | undefined | null): number {
   return typeof n === 'number' && !Number.isNaN(n) ? n : 0;

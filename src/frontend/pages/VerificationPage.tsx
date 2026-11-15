@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Client Verification Page
+ * Origin by ILCO Farming - Client Verification Page
  *
  * Checklist of required B2B compliance documents.
  * Clients upload docs here; status updates after admin review.
@@ -69,7 +69,7 @@ const DOC_TYPES: {
 
 const STATUS_STYLES: Record<string, string> = {
   pending: 'bg-pg-gold/15 text-amber-400 border border-pg-gold/25',
-  approved: 'bg-puregro-green/15 text-green-400 border border-puregro-green/25',
+  approved: 'bg-green-500/15 text-green-400 border border-green-500/25',
   rejected: 'bg-red-500/15 text-red-400 border border-red-500/25',
 };
 
@@ -149,7 +149,7 @@ export default function VerificationPage() {
 
       {/* Status banner */}
       {isVerified ? (
-        <div className="mb-6 rounded-lg border border-puregro-green/30 bg-puregro-green/10 px-5 py-4">
+        <div className="mb-6 rounded-lg border border-green-500/30 bg-green-500/10 px-5 py-4">
           <div className="flex items-center gap-3">
             <svg className="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -185,7 +185,7 @@ export default function VerificationPage() {
       {/* Progress bar */}
       <div className="mb-6">
         <div className="mb-2 flex items-center justify-between">
-          <span className="font-heading text-[11px] font-semibold uppercase tracking-[0.12em] text-puregro-gray-400">
+          <span className="font-heading text-[11px] font-semibold uppercase tracking-[0.12em] text-pg-gray-400">
             Progress
           </span>
           <span className="text-sm font-medium text-pg-gray-300">
@@ -220,7 +220,7 @@ export default function VerificationPage() {
                   {/* Icon */}
                   <div className={`mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
                     doc?.status === 'approved'
-                      ? 'bg-puregro-green/15 text-green-400'
+                      ? 'bg-green-500/15 text-green-400'
                       : doc?.status === 'rejected'
                         ? 'bg-red-500/15 text-red-400'
                         : doc?.status === 'pending'
@@ -251,10 +251,10 @@ export default function VerificationPage() {
                           <span className={`rounded px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider ${STATUS_STYLES[doc.status]}`}>
                             {doc.status === 'pending' ? 'Pending Review' : doc.status}
                           </span>
-                          <span className="text-xs text-puregro-gray-600">
+                          <span className="text-xs text-pg-gray-600">
                             {doc.fileName} ({formatFileSize(doc.fileSize)})
                           </span>
-                          <span className="text-xs text-puregro-gray-600">
+                          <span className="text-xs text-pg-gray-600">
                             {formatDate(doc.uploadedAt)}
                           </span>
                         </div>
@@ -285,7 +285,7 @@ export default function VerificationPage() {
                       }}
                     />
                     {doc?.status === 'approved' ? (
-                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-puregro-green/15">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-500/15">
                         <svg className="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
@@ -298,7 +298,7 @@ export default function VerificationPage() {
                           doc?.status === 'rejected'
                             ? 'border border-red-500/25 bg-red-500/10 text-red-400 hover:bg-red-500/20'
                             : doc?.status === 'pending'
-                              ? 'border border-white/[0.12] bg-white/[0.04] text-puregro-gray-400 hover:bg-white/[0.08]'
+                              ? 'border border-white/[0.12] bg-white/[0.04] text-pg-gray-400 hover:bg-white/[0.08]'
                               : 'bg-pg-green text-pg-white hover:bg-pg-green-light'
                         }`}
                       >

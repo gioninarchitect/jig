@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Invoice Page
+ * Origin by ILCO Farming - Invoice Page
  *
  * Print-optimized branded invoice with company details, line items,
  * VAT breakdown, and EFT banking details.
@@ -114,8 +114,8 @@ export default function InvoicePage() {
           {/* Header */}
           <div className="invoice-header mb-8 flex items-start justify-between rounded-lg bg-white/[0.04] p-6">
             <div>
-              <img src="/logo.png" alt="PureGro Premium Cannabis Care" className="invoice-logo h-14 w-auto" />
-              <p className="mt-2 text-sm text-puregro-gray-400">{company.name}</p>
+              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Origin by ILCO Farming" className="invoice-logo h-14 w-auto" />
+              <p className="mt-2 text-sm text-pg-gray-400">{company.name}</p>
               {company.registration && (
                 <p className="text-xs text-pg-gray-500">Reg: {company.registration}</p>
               )}
@@ -152,12 +152,12 @@ export default function InvoicePage() {
               <div className="rounded border border-white/[0.06] bg-white/[0.02] p-4">
                 <p className="text-sm font-medium text-pg-white">{client.companyName}</p>
                 {client.tradingName && client.tradingName !== client.companyName && (
-                  <p className="text-xs text-puregro-gray-400">t/a {client.tradingName}</p>
+                  <p className="text-xs text-pg-gray-400">t/a {client.tradingName}</p>
                 )}
                 {client.vatNumber && <p className="text-xs text-pg-gray-500">VAT: {client.vatNumber}</p>}
-                <p className="mt-1 text-xs text-puregro-gray-400">{client.contactPerson}</p>
-                <p className="text-xs text-puregro-gray-400">{client.email}</p>
-                <p className="text-xs text-puregro-gray-400">{client.phone}</p>
+                <p className="mt-1 text-xs text-pg-gray-400">{client.contactPerson}</p>
+                <p className="text-xs text-pg-gray-400">{client.email}</p>
+                <p className="text-xs text-pg-gray-400">{client.phone}</p>
                 <p className="mt-1 text-xs text-pg-gray-500">
                   {client.address.street}, {client.address.city}
                 </p>
@@ -246,7 +246,7 @@ export default function InvoicePage() {
 
           {/* Footer */}
           <div className="mt-6 border-t border-white/[0.06] pt-4 text-center">
-            <p className="text-xs text-puregro-gray-600">
+            <p className="text-xs text-pg-gray-600">
               Thank you for your business. Payment is due within the agreed terms.
             </p>
           </div>

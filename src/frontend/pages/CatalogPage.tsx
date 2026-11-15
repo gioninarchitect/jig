@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Product Catalog
+ * Origin by ILCO Farming - Product Catalog
  *
  * Browse products with category filter.
  * Client sees their tier-specific pricing.
@@ -159,7 +159,7 @@ export default function CatalogPage() {
       )}
 
       {orderSuccess && (
-        <div className="mb-6 rounded-lg border border-puregro-green/30 bg-puregro-green/10 px-4 py-3 text-sm text-green-400">
+        <div className="mb-6 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-400">
           {orderSuccess}
         </div>
       )}
@@ -368,7 +368,7 @@ function ProductCard({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-pg-dark/80 to-transparent" />
         <div className="absolute bottom-2 left-2 flex items-center gap-1.5">
-          <span className="rounded px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider bg-puregro-green/15 text-green-400 border border-puregro-green/25 backdrop-blur-sm">
+          <span className="rounded px-2 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-wider bg-green-500/15 text-green-400 border border-green-500/25 backdrop-blur-sm">
             {categoryLabel}
           </span>
           {product.subcategory && (

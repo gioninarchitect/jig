@@ -1,5 +1,5 @@
 /**
- * PureGro Premium Cannabis Care - Admin Client List
+ * Origin by ILCO Farming - Admin Client List
  *
  * Full client list with search, status filter, and churn risk indicators.
  */
